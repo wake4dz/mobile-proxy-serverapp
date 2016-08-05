@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Authentication {
     @POST
     @Consumes("application/json")
-    @Produces("application/json")
+    @Produces("application/*")
     public String getInfo(String jsonBody) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
         myJSONObj.put("message", "Hello World!");

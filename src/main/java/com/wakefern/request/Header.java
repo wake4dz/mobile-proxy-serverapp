@@ -1,8 +1,11 @@
 package com.wakefern.request;
+import com.wakefern.Constants;
 import org.json.JSONException;
 
 import com.ibm.json.java.JSONObject;
 import com.wakefern.authentication.Credentials;
+
+import java.io.IOException;
 
 /**
  * Created by brandyn.brosemer on 8/3/16.
@@ -10,27 +13,14 @@ import com.wakefern.authentication.Credentials;
 public class Header {
 	JSONObject jsonObject = null;
 
-	public Header(String emailAddress, String password){
-		try {
-			buildHeader( emailAddress, password);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void buildHeader(String emailAddress, String password) throws JSONException{
+	public String getInfo() throws Exception{
+		JSONObject headerJSON = new JSONObject();
 
-		Credentials credentials = new Credentials (emailAddress, password);
-	
-		JSONObject jObj = new JSONObject();
-		jObj.put("Email:", credentials.getEmailAddress());
-		jObj.put("Password", credentials.getPassword());
-		jObj.put("StoreGroupId", credentials.getStoreGroupId());
+		headerJSON.put(Constants.authHeaderType, Constants.headerJson);
+		headerJSON.put(Constants.authHeaderAccept, Constants.headerJson);
+		headerJSON.put(Constants.authHeaderToken, Constants.authHeaderToken);
 
-		this.jsonObject =  jObj;
+		return headerJSON.toString();
 	}
 
-	public JSONObject getJsonObject() {
-		return jsonObject;
-	}
 }

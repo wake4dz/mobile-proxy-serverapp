@@ -1,6 +1,4 @@
 package com.wakefern.global;
-import com.ibm.json.java.JSONObject;
-import com.wakefern.request.Header;
 
 public final class ApplicationConfig {
     public static final String baseURL 				= "https://api.shoprite.com/api/";
@@ -14,8 +12,6 @@ public final class ApplicationConfig {
 
         public static class Authentication{
             public static final String Authenticate = "/authorization/v5/authorization";
-            Header header = new Header(testUser, password);
-            JSONObject j = header.getJsonObject();
         }
 
     }

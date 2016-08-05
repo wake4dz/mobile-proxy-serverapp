@@ -3,9 +3,6 @@ import com.wakefern.Constants;
 import org.json.JSONException;
 
 import com.ibm.json.java.JSONObject;
-import com.wakefern.authentication.Credentials;
-
-import java.io.IOException;
 
 /**
  * Created by brandyn.brosemer on 8/3/16.

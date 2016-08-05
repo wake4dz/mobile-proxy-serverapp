@@ -21,7 +21,7 @@ public class Request {
 
 		    connection.setRequestProperty("Content-Length", 
 		        Integer.toString(urlParameters.getBytes().length));
-		    connection.setRequestProperty("Content-Language", "en-US");  
+		    connection.setRequestProperty("Content-Language", "en-US");
 
 		    connection.setUseCaches(false);
 		    connection.setDoOutput(true);

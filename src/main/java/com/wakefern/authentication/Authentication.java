@@ -15,11 +15,14 @@ public class Authentication {
     @Produces("application/*")
     public String getInfo(String jsonBody) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
-        myJSONObj.put("message", "Hello World!");
+        myJSONObj.put("message", jsonBody);
+        String path = "https://api.shoprite.com/api" + ApplicationConfig.Requests.Authentication.Authenticate;
+        myJSONObj.put("Request", Request.executePost(path, jsonBody));
+        
         return myJSONObj.toString();
     }
 
-    public void buildMWGRequest(String jsonBody, Header header) throws Exception{
+//    public String buildMWGRequest(String jsonBody, String header) throws Exception{
 //    	Body body = new Body();
 //        String modifiedJsonBody = body.buildBody(jsonBody);
 //    	String modifiedHeader = null;
@@ -31,7 +34,8 @@ public class Authentication {
 //				modifiedHeader = header.getInfo();
 //			}
 //		}
-		//return response
-		Request.executePost("/authorization/v5/authorization", jsonBody);	
-    }
+//		//return response
+//    	System.console().printf(jsonBody);
+//		return Request.executePost(ApplicationConfig.Requests.Authentication.Authenticate, jsonBody);	
+//    }
 }

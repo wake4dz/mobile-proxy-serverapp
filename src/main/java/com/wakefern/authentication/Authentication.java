@@ -5,6 +5,7 @@ import com.wakefern.global.*;
 import com.wakefern.request.*;
 
 import javax.ws.rs.*;
+
 import java.io.IOException;
 
 @Path(ApplicationConfig.Requests.Authentication.Authenticate)
@@ -19,17 +20,18 @@ public class Authentication {
     }
 
     public void buildMWGRequest(String jsonBody, Header header) throws Exception{
-    	Body body = new Body();
-        String modifiedJsonBody = body.buildBody(jsonBody);
-    	
-    	if(header != null){
-
-            if(true){//check for application/json
-                String newHeader = new Header().getInfo();
-            } else {
-
-            }
-        }
-    	
+//    	Body body = new Body();
+//        String modifiedJsonBody = body.buildBody(jsonBody);
+//    	String modifiedHeader = null;
+//		if (header != null) {
+//			if (true) {//TODO check for application/json
+//				modifiedHeader = new Header().getInfo();
+//			} else {
+//				// Second header option
+//				modifiedHeader = header.getInfo();
+//			}
+//		}
+		//return response
+		Request.executePost("/authorization/v5/authorization", jsonBody);	
     }
 }

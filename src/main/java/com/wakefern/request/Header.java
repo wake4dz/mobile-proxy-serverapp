@@ -1,6 +1,5 @@
 package com.wakefern.request;
 import com.wakefern.Constants;
-import org.json.JSONException;
 
 import com.ibm.json.java.JSONObject;
 

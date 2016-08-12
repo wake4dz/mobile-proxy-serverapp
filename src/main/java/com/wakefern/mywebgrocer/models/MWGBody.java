@@ -6,5 +6,8 @@ import com.wakefern.request.models.Body;
  * Created by brandyn.brosemer on 8/9/16.
  */
 public class MWGBody extends Body {
-
+	
+	public String authBody(String jsonBody){
+		return jsonBody;
+	}
 }

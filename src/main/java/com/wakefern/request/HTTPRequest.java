@@ -7,11 +7,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import com.wakefern.global.ApplicationConstants;
 
 public class HTTPRequest {
-	public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody, String requestHeaders) {
+	public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders) {
 		  HttpURLConnection connection = null;
 
 		  try {
@@ -27,12 +28,9 @@ public class HTTPRequest {
 			    connection.setDoOutput(true);
 			    connection.setDoInput(true);
 			    
-			    connection.addRequestProperty(ApplicationConstants.Requests.Header.contentAccept, 
-			    			ApplicationConstants.jsonResponseType);
-			    connection.addRequestProperty(ApplicationConstants.Requests.Header.contentType, 
-			    			ApplicationConstants.jsonAcceptType);
-			    connection.addRequestProperty(ApplicationConstants.Requests.Header.contentAuthorization,
-			    		ApplicationConstants.authToken);
+			    for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
+			    	connection.addRequestProperty(entry.getKey(), entry.getValue());
+			    }
     
 			    //Set JSON as body of request
 			    OutputStream oStream = connection.getOutputStream();

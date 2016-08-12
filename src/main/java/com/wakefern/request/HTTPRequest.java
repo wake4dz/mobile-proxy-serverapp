@@ -7,30 +7,20 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
-import com.wakefern.Constants;
-
-public class Request {
-	public static String executePost(String targetURL, String urlParameters) {
+public class HTTPRequest {
+	public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody, String requestHeaders) {
 		  HttpURLConnection connection = null;
 
 		  try {
 		    //Create connection
-		    URL url = new URL(targetURL);
+		    URL url = new URL(requestURL);
 		    connection = (HttpURLConnection) url.openConnection();
-		    byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-		    
-		    connection.setRequestProperty("Content-Language", "en-US");
 		    connection.setRequestMethod("POST");
-		    connection.setRequestProperty("Content-Type", 
-		        "application/x-www-form-urlencoded");
-		    connection.setRequestProperty("Content-Type", "application/json");
-		    
+
 		    if(urlParameters != null){
 		    	//Set Content length
-		    	connection.setRequestProperty("Content-Length", 
-				        Integer.toString(postData.length));
+		    	connection.setRequestProperty("Content-length", urlParameters.getBytes().length + "");
 			    connection.setUseCaches(false);
 			    connection.setDoOutput(true);
 			    connection.setDoInput(true);
@@ -41,7 +31,7 @@ public class Request {
     
 			    //Set JSON as body of request
 			    OutputStream oStream = connection.getOutputStream();
-			    oStream.write(postData);
+			    oStream.write(urlParameters.getBytes("UTF-8"));
 			    oStream.close();
 		    }    
 

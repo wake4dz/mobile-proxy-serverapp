@@ -1,5 +1,4 @@
 package com.wakefern.authentication;
-import com.wakefern.Constants;
 
 /**
  * Created by brandyn.brosemer on 8/3/16.

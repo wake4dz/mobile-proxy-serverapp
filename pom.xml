@@ -9,7 +9,7 @@
         <relativePath></relativePath>
     </parent>
 
-    <groupId>net.wasdev.wlp.sample</groupId>
+    <groupId>com.wakefern</groupId>
     <artifactId>ShopriteMobileApplication</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>

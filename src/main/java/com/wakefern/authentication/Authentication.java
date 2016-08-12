@@ -8,7 +8,7 @@ import javax.ws.rs.*;
 
 import java.io.IOException;
 
-@Path(ApplicationConfig.Requests.Authentication.Authenticate)
+@Path(ApplicationConstants.Requests.Authentication.Authenticate)
 public class Authentication {
     @POST
     @Consumes("application/json")
@@ -16,8 +16,8 @@ public class Authentication {
     public String getInfo(String jsonBody) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
         myJSONObj.put("message", jsonBody);
-        String path = "https://api.shoprite.com/api" + ApplicationConfig.Requests.Authentication.Authenticate;
-        myJSONObj.put("Request", Request.executePost(path, jsonBody));
+        String path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Authentication.Authenticate;
+        myJSONObj.put("HTTPRequest", HTTPRequest.executePost(path, jsonBody));
         
         return myJSONObj.toString();
     }
@@ -36,6 +36,6 @@ public class Authentication {
 //		}
 //		//return response
 //    	System.console().printf(jsonBody);
-//		return Request.executePost(ApplicationConfig.Requests.Authentication.Authenticate, jsonBody);	
+//		return HTTPRequest.executePost(ApplicationConstants.Requests.Authentication.Authenticate, jsonBody);
 //    }
 }

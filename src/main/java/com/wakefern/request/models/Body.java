@@ -1,4 +1,4 @@
-package com.wakefern.request;
+package com.wakefern.request.models;
 
 
 /**

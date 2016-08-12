@@ -16,13 +16,13 @@ public class Credentials {
     	
     	this.emailAddress = emailAddress;
         this.password = password;
-        this.storeGroupId = Constants.storeGroupId;
+        //this.storeGroupId = Constants.storeGroupId;
     }
     
     public Credentials(){
-    	this.authHeaderType = buildAuths(Constants.contentType, Constants.headerJson);
-        this.authHeaderAccept = buildAuths(Constants.contentAccept, Constants.authenticateAccept);
-        this.authHeaderToken = buildAuths(Constants.contentAuthorization, Constants.authToken);
+//    	this.authHeaderType = buildAuths(Constants.contentType, Constants.headerJson);
+//        this.authHeaderAccept = buildAuths(Constants.contentAccept, Constants.authenticateAccept);
+//        this.authHeaderToken = buildAuths(Constants.contentAuthorization, Constants.authToken);
     }
     
     public static String buildAuths (String a , String b){

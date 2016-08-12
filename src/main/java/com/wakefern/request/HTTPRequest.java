@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.wakefern.global.ApplicationConstants;
+
 public class HTTPRequest {
 	public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody, String requestHeaders) {
 		  HttpURLConnection connection = null;
@@ -18,20 +20,23 @@ public class HTTPRequest {
 		    connection = (HttpURLConnection) url.openConnection();
 		    connection.setRequestMethod("POST");
 
-		    if(urlParameters != null){
+		    if(requestBody != null){
 		    	//Set Content length
-		    	connection.setRequestProperty("Content-length", urlParameters.getBytes().length + "");
+		    	connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
 			    connection.setUseCaches(false);
 			    connection.setDoOutput(true);
 			    connection.setDoInput(true);
 			    
-			    connection.addRequestProperty(Constants.contentAccept, Constants.headerJson);
-			    connection.addRequestProperty(Constants.contentType, Constants.headerJson);
-			    connection.addRequestProperty(Constants.contentAuthorization, Constants.authToken);
+			    connection.addRequestProperty(ApplicationConstants.Requests.Header.contentAccept, 
+			    			ApplicationConstants.jsonResponseType);
+			    connection.addRequestProperty(ApplicationConstants.Requests.Header.contentType, 
+			    			ApplicationConstants.jsonAcceptType);
+			    connection.addRequestProperty(ApplicationConstants.Requests.Header.contentAuthorization,
+			    		ApplicationConstants.authToken);
     
 			    //Set JSON as body of request
 			    OutputStream oStream = connection.getOutputStream();
-			    oStream.write(urlParameters.getBytes("UTF-8"));
+			    oStream.write(requestBody.getBytes("UTF-8"));
 			    oStream.close();
 		    }    
 

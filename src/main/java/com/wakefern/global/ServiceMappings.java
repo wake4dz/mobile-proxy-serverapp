@@ -48,7 +48,8 @@ public class ServiceMappings {
 	private void sendRequest(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
 		header.authenticate();
 		setgenericHeader(header.getMap());
-		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+//		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+		setPath(ApplicationConstants.Requests.baseURLV1 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
 	}
 

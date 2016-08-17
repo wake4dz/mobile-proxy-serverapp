@@ -11,7 +11,7 @@ import javax.ws.rs.*;
 import java.io.IOException;
 import java.util.Map;
 
-@Path(ApplicationConstants.Requests.Authentication.Authenticate)
+@Path(ApplicationConstants.Requests.Authentication.Authenticatev1)
 public class Authentication extends BaseService{
 
     @POST
@@ -19,7 +19,8 @@ public class Authentication extends BaseService{
     @Produces("application/*")
     public String getInfo(String jsonBody) throws Exception, IOException {
 
-        this.path = ApplicationConstants.Requests.Authentication.Authenticate;
+        //this.path = ApplicationConstants.Requests.Authentication.Authenticate;
+        this.path = ApplicationConstants.Requests.Authentication.Authenticatev1;
 
         JSONObject myJSONObj = new JSONObject();
         myJSONObj.put("message", jsonBody);

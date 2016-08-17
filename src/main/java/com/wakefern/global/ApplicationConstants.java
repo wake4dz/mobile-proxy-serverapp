@@ -12,7 +12,7 @@ public final class ApplicationConstants {
     public static class Requests{
 
         public static String baseURLV5 = MWGApplicationConstants.baseURL;
-        public static String baseURLV1 = MWGApplicationConstants.baseURL;
+        public static String baseURLV1 = MWGApplicationConstants.baseURLv1;
 
 
         public static class Header{
@@ -23,6 +23,7 @@ public final class ApplicationConstants {
 
         public static class Authentication{
             public static final String Authenticate = MWGApplicationConstants.Requests.Authentication.Authenticate;
+            public static final String Authenticatev1 = MWGApplicationConstants.Requests.Authentication.AuthenticateV1;
         }
 
     }

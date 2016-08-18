@@ -34,6 +34,16 @@ public class MWGHeader extends Header {
 		setAllMaps(authMap);
 	}
 
+	public void authenticate(String token){
+		Map<String, String> authMap = new HashMap<>();
+
+		authMap.put(ApplicationConstants.Requests.Header.contentAccept, ApplicationConstants.jsonResponseType);
+		authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.jsonAcceptType);
+		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, token);
+
+		setAllMaps(authMap);
+	}
+
 
 
 

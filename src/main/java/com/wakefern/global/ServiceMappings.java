@@ -38,30 +38,28 @@ public class ServiceMappings {
 			MWGBody mwgBody = new MWGBody("");
 			sendRequest((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
 		}
-//		} else {
-//			Header header = new Header();
-//			Body body = new Body();
-//			sendRequest((BaseService) serviceObject, header, body);
-//		}
+	}
+
+	public void setMapping(Object serviceObject){
+		BaseService aService = (BaseService) serviceObject;
+		if (aService.serviceType instanceof MWGHeader) {
+			MWGHeader mwgHeader = new MWGHeader();
+			sendRequest(aService, mwgHeader);
+		}
 	}
 
 	private void sendRequest(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
 		header.authenticate();
 		setgenericHeader(header.getMap());
-//		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
-		setPath(ApplicationConstants.Requests.baseURLV1 + serviceObject.path);
+		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+//		setPath(ApplicationConstants.Requests.baseURLV1 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
 	}
 
-//	private void auth(MWGHeader mwgHeader, MWGBody mwgBody){
-//		mwgHeader.authenticate();
-//		setgenericHeader(mwgHeader.getMap());
-//		setPath(ApplicationConstants.Requests.baseURLV5 + ApplicationConstants.Requests.Authentication.Authenticate);
-//	}
-//
-//	private void auth(Header header, Body body){
-//		setPath(ApplicationConstants.Requests.baseURLV5 + ApplicationConstants.Requests.Authentication.Authenticate);
-//	}
-
+	private void sendRequest(BaseService serviceObject,MWGHeader header){
+		header.authenticate(serviceObject.token);
+		setgenericHeader(header.getMap());
+		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+	}
 	
 }

@@ -26,36 +26,14 @@ public class Categories extends BaseService {
     @GET
     @Produces("application/*")
     @Path("{storeId}")
-    public String getInfo(@PathParam("storeId") String storeId) throws Exception, IOException {
+    public String getInfo(@PathParam("storeId") String storeId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
 
         JSONObject myJSONObj = new JSONObject();
        // this.request = request;
         GetTokens getTokens = new GetTokens();
 
-//        //URL obj = new URL("https://shopritemobileapplication.mybluemix.net/api/product/v5/categories/store/C627119202/");
-//        URL obj = new URL("https://api.shoprite.com/api/product/v5/categories/store/C627119202/");
-//        URLConnection conn = obj.openConnection();
-//        Map<String, List<String>> map = conn.getHeaderFields();
-//
-//        System.out.println("Printing All Response Header for URL: " + obj.toString() + "\n");
-//        int i = 0;
-//        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-//            myJSONObj.put("Header" + i, entry.getKey());
-//            myJSONObj.put("Value" + i, entry.getValue());
-//            i++;
-//        }
 
-
-        Enumeration headerNames = this.request.getHeaderNames();
-        int i = 0;
-        while (headerNames.hasMoreElements()) {
-            String key = (String) headerNames.nextElement();
-            String value = request.getHeader(key);
-            myJSONObj.put("Header" + i, key);
-            myJSONObj.put("Value" + i, value);
-            i++;
-        }
 
         this.token = getTokens.getAuthToken(this);
         //String storeId = getTokens.getStoreId(this);
@@ -67,8 +45,8 @@ public class Categories extends BaseService {
         secondMapping.setMapping(this);
 
 //        //todo remove debugging
-//        myJSONObj.put("headerToken", this.token);
-//        myJSONObj.put("newPath", this.path);
+        myJSONObj.put("headerToken", authToken);
+        myJSONObj.put("storeId", storeId);
 
 //        myJSONObj.put("HTTPRequest: Categories", HTTPRequest.executePost("", secondMapping.getPath(), "", "",
 //                secondMapping.getgenericHeader()));

@@ -28,11 +28,11 @@ public class GetTokens {
 //        }
 //    }
 
-    public String getAuthToken(Object serviceObject){
-        BaseService aService = (BaseService) serviceObject;
-        //return aService.request.getHeader("Authorization");
-        return "d74d4557-4b53-e611-9e95-d89d6763b1d9";
-    }
+//    public String getAuthToken(Object serviceObject){
+//        BaseService aService = (BaseService) serviceObject;
+//        //return aService.request.getHeader("Authorization");
+//        return "d74d4557-4b53-e611-9e95-d89d6763b1d9";
+//    }
 
     /*
     public String getStoreId(Object serviceObject){

@@ -8,11 +8,6 @@ import com.wakefern.request.HTTPRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by zacpuste on 8/18/16.
@@ -27,32 +22,22 @@ public class Categories extends BaseService {
     @Produces("application/*")
     @Path("{storeId}")
     public String getInfo(@PathParam("storeId") String storeId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-
-
         JSONObject myJSONObj = new JSONObject();
-       // this.request = request;
-        GetTokens getTokens = new GetTokens();
 
-
-
-        this.token = getTokens.getAuthToken(this);
-        //String storeId = getTokens.getStoreId(this);
-
-        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + storeId;
-
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + "/" + storeId;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-//        //todo remove debugging
+        //todo remove debugging
         myJSONObj.put("headerToken", authToken);
         myJSONObj.put("storeId", storeId);
 
-//        myJSONObj.put("HTTPRequest: Categories", HTTPRequest.executePost("", secondMapping.getPath(), "", "",
-//                secondMapping.getgenericHeader()));
+        myJSONObj.put("HTTPRequest: Categories", HTTPRequest.executeGet( secondMapping.getPath(),
+                secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
-
     }
 
     public Categories(){

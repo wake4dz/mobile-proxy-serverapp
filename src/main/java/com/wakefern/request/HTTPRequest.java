@@ -27,16 +27,16 @@ public class HTTPRequest {
 			    connection.setUseCaches(false);
 			    connection.setDoOutput(true);
 			    connection.setDoInput(true);
-			    
+
 			    for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
 			    	connection.addRequestProperty(entry.getKey(), entry.getValue());
 			    }
-    
+
 			    //Set JSON as body of request
 			    OutputStream oStream = connection.getOutputStream();
 			    oStream.write(requestBody.getBytes("UTF-8"));
 			    oStream.close();
-		    }    
+		    }
 
 		    //Connect to the server
 		    connection.connect();
@@ -80,5 +80,63 @@ public class HTTPRequest {
 		        }
 		    }
 	    return null;
+	}
+
+	public static String executeGet(String requestURL, Map<String, String> requestHeaders){
+		HttpURLConnection connection = null;
+
+		try {
+			//Create connection
+			URL url = new URL(requestURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+
+			for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
+				connection.addRequestProperty(entry.getKey(), entry.getValue());
+			}
+
+
+			//Connect to the server
+			connection.connect();
+
+			int status = connection.getResponseCode();
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			switch(status){
+				case 200:
+				case 201:
+					sb.append(status);
+					while( (line = br.readLine()) != null ){
+						sb.append(line + "\r");
+					}
+					br.close();
+					break;
+				default:
+					sb.append(status);
+					while( (line = br.readLine()) != null ){
+						sb.append(line + "\r");
+					}
+					br.close();
+			}
+			//return body to auth
+			return sb.toString();
+
+		} catch (MalformedURLException ex) {
+			ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
+		} catch (IOException ex) {
+			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
+		} catch (Exception ex) {
+			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
+				}
+			}
+		}
+		return null;
 	}
 }

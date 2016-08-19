@@ -30,5 +30,9 @@ public final class ApplicationConstants {
             public static final String Subcategories = MWGApplicationConstants.Requests.Categories.SubCategories;
         }
 
+        public static class Circular{
+            public static final String Categories = MWGApplicationConstants.Requests.Circular.Categories;
+        }
+
     }
 }

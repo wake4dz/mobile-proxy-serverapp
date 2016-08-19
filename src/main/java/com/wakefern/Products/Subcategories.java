@@ -30,7 +30,7 @@ public class Subcategories extends BaseService{
         myJSONObj.put("headerToken", authToken);
         myJSONObj.put("storeId", storeId);
 
-        myJSONObj.put("HTTPRequest: Categories with Specials", HTTPRequest.executeGet( secondMapping.getPath(),
+        myJSONObj.put("HTTPRequest: Subcategories", HTTPRequest.executeGet( secondMapping.getPath(),
                 secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();

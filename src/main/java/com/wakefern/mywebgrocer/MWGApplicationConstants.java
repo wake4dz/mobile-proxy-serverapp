@@ -10,15 +10,19 @@ public class MWGApplicationConstants {
     public static final String storeGroupId			= "3601";
     public static final String storeId              = "C627119202";
 
-    public static class Requests{
-        public static class Authentication{
-            public static final String Authenticate     = "/authorization/v5/authorization";
-            public static final String AuthenticateV1   = "/authorization/authenticate";
+    public static class Requests {
+        public static class Authentication {
+            public static final String Authenticate = "/authorization/v5/authorization";
+            public static final String AuthenticateV1 = "/authorization/authenticate";
         }
 
-        public static class Categories{
+        public static class Categories {
             public static final String CategoriesFromStoreId = "/product/v5/categories/store";
             public static final String SubCategories = "/product/v5/category";
+        }
+
+        public static class Circular{
+            public static final String Categories = "/circulars/v5/chains";
         }
     }
 }

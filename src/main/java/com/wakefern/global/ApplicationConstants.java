@@ -9,6 +9,14 @@ public final class ApplicationConstants {
     public static final String jsonAcceptType		    = "application/json";
     public static final String authToken 				= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
 
+    public static class StringConstants{
+        public static final String backSlash = "/";
+        public static final String store = "/store";
+        public static final String categories = "/categories";
+        public static final String special = "/special";
+        public static final String ASDF = "/{categoryId}/store/{storeId}/categories";
+    }
+
     public static class Requests{
 
         public static String baseURLV5 = MWGApplicationConstants.baseURL;
@@ -34,5 +42,12 @@ public final class ApplicationConstants {
             public static final String Categories = MWGApplicationConstants.Requests.Circular.Categories;
         }
 
+    }
+
+    public static class RequestType{
+        public static final String HTTPRequest = "HTTPRequest: ";
+
+        public static final String Subcategories = "Subcategories";
+        public static final String SubcategoriesWithSpecials = "Subcategories with Specials";
     }
 }

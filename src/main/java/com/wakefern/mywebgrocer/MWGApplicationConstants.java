@@ -18,6 +18,7 @@ public class MWGApplicationConstants {
 
         public static class Categories{
             public static final String CategoriesFromStoreId = "/product/v5/categories/store";
+            public static final String SubCategories = "/product/v5/category";
         }
     }
 }

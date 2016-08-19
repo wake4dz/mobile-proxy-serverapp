@@ -27,6 +27,7 @@ public final class ApplicationConstants {
 
         public static class Categories{
             public static final String CategoriesFromStoreId = MWGApplicationConstants.Requests.Categories.CategoriesFromStoreId;
+            public static final String Subcategories = MWGApplicationConstants.Requests.Categories.SubCategories;
         }
 
     }

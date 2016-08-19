@@ -15,16 +15,16 @@ import java.io.IOException;
  */
 
 @Path(ApplicationConstants.Requests.Circular.Categories)
-public class CircularCategories extends BaseService{
+public class ActiveCirculars extends BaseService{
     @GET
     @Produces("application/*")
-    @Path("/{chainId}/stores/{storeId}/categories")
+    @Path("/{chainId}/stores/{storeId}/circulars")
     public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/categories";
+        this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/circulars";
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,13 +33,13 @@ public class CircularCategories extends BaseService{
         myJSONObj.put("headerToken", authToken);
         myJSONObj.put("storeId", storeId);
 
-        myJSONObj.put("HTTPRequest: Circular Categories", HTTPRequest.executeGet( secondMapping.getPath(),
+        myJSONObj.put("HTTPRequest: Circular Active Circulars", HTTPRequest.executeGet( secondMapping.getPath(),
                 secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
     }
 
-    public CircularCategories(){
+    public ActiveCirculars(){
         this.serviceType = new MWGHeader();
     }
 }

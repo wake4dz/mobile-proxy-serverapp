@@ -24,17 +24,17 @@ public class RetrieveCircular extends BaseService{
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/circulars/" + circularId;
+        //this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/circulars/" + circularId;
+        this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+                + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.circulars + ApplicationConstants.StringConstants.backSlash
+                + circularId;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        //todo remove debugging
-        myJSONObj.put("headerToken", authToken);
-        myJSONObj.put("storeId", storeId);
-
-        myJSONObj.put("HTTPRequest: Retrieve a Circular", HTTPRequest.executeGet( secondMapping.getPath(),
-                secondMapping.getgenericHeader()));
+        myJSONObj.put(ApplicationConstants.RequestType.HTTPRequest + ApplicationConstants.RequestType.RetrieveCategories,
+                HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
     }

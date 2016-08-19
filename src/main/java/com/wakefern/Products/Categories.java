@@ -22,17 +22,15 @@ public class Categories extends BaseService {
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + "/" + storeId;
+//        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + "/" + storeId;
+        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
+                 + storeId;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        //todo remove debugging
-        myJSONObj.put("headerToken", authToken);
-        myJSONObj.put("storeId", storeId);
-
-        myJSONObj.put("HTTPRequest: Categories", HTTPRequest.executeGet( secondMapping.getPath(),
-                secondMapping.getgenericHeader()));
+        myJSONObj.put(ApplicationConstants.RequestType.HTTPRequest + ApplicationConstants.RequestType.Categories,
+                HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
     }

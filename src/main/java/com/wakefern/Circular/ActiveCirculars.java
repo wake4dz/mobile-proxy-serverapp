@@ -24,17 +24,16 @@ public class ActiveCirculars extends BaseService{
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/circulars";
+        //this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/circulars";
+        this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+                + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.circulars;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        //todo remove debugging
-        myJSONObj.put("headerToken", authToken);
-        myJSONObj.put("storeId", storeId);
-
-        myJSONObj.put("HTTPRequest: Circular Active Circulars", HTTPRequest.executeGet( secondMapping.getPath(),
-                secondMapping.getgenericHeader()));
+        myJSONObj.put(ApplicationConstants.RequestType.HTTPRequest + ApplicationConstants.RequestType.ActiveCirculars,
+                HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
     }

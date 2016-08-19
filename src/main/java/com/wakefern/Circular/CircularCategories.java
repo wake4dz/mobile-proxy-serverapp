@@ -24,17 +24,16 @@ public class CircularCategories extends BaseService{
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/categories";
+        //this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/categories";
+        this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+                + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.categories;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        //todo remove debugging
-        myJSONObj.put("headerToken", authToken);
-        myJSONObj.put("storeId", storeId);
-
-        myJSONObj.put("HTTPRequest: Circular Categories", HTTPRequest.executeGet( secondMapping.getPath(),
-                secondMapping.getgenericHeader()));
+        myJSONObj.put(ApplicationConstants.RequestType.HTTPRequest + ApplicationConstants.RequestType.CircularCategories,
+                HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
     }

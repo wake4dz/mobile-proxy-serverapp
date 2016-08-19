@@ -22,17 +22,14 @@ public class CategoriesWithSpecials extends BaseService {
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + "/" + storeId + "/special";
-
+        //this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + "/" + storeId + "/special";
+        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.special;
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        //todo remove debugging
-        myJSONObj.put("headerToken", authToken);
-        myJSONObj.put("storeId", storeId);
-
-        myJSONObj.put("HTTPRequest: Categories with Specials", HTTPRequest.executeGet( secondMapping.getPath(),
-                secondMapping.getgenericHeader()));
+        myJSONObj.put(ApplicationConstants.RequestType.HTTPRequest + ApplicationConstants.RequestType.CategoriesWithSpecials,
+                HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
     }

@@ -11,9 +11,13 @@ public final class ApplicationConstants {
 
     public static class StringConstants{
         public static final String backSlash = "/";
-        public static final String store = "/store";
         public static final String categories = "/categories";
+        public static final String circulars = "/circulars";
         public static final String special = "/special";
+        public static final String store = "/store";
+        public static final String stores = "/stores";
+
+
         public static final String ASDF = "/{categoryId}/store/{storeId}/categories";
     }
 
@@ -47,7 +51,13 @@ public final class ApplicationConstants {
     public static class RequestType{
         public static final String HTTPRequest = "HTTPRequest: ";
 
+        public static final String Categories = "Categories";
+        public static final String CategoriesWithSpecials = "Categories with Specials";
         public static final String Subcategories = "Subcategories";
         public static final String SubcategoriesWithSpecials = "Subcategories with Specials";
+        public static final String CircularCategories = "Circular Categories";
+        public static final String RetrieveCategories = "Retrieve Categories";
+        public static final String ActiveCirculars = "Active Circulars";
+
     }
 }

@@ -24,5 +24,10 @@ public class MWGApplicationConstants {
         public static class Circular{
             public static final String Categories = "/circulars/v5/chains";
         }
+
+        public static class Checkout {
+            public static final String Checkout = "/checkout/v5/fulfillments/store";
+        }
+
     }
 }

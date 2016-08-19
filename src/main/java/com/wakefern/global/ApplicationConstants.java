@@ -46,6 +46,10 @@ public final class ApplicationConstants {
             public static final String Categories = MWGApplicationConstants.Requests.Circular.Categories;
         }
 
+        public static class Checkout{
+            public static final String Checkout = MWGApplicationConstants.Requests.Checkout.Checkout;
+        }
+
     }
 
     public static class RequestType{

@@ -9,20 +9,20 @@ import javax.ws.rs.*;
 import java.io.IOException;
 
 /**
- * Created by zacpuste on 8/18/16.
+ * Created by zacpuste on 8/19/16.
  */
 
 @Path(ApplicationConstants.Requests.Categories.CategoriesFromStoreId)
-public class Categories extends BaseService {
+public class CategoriesWithSpecials extends BaseService {
 
     @GET
     @Produces("application/*")
-    @Path("{storeId}")
+    @Path("{storeId}/special")
     public String getInfo(@PathParam("storeId") String storeId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + "/" + storeId;
+        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + "/" + storeId + "/special";
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -31,13 +31,15 @@ public class Categories extends BaseService {
         myJSONObj.put("headerToken", authToken);
         myJSONObj.put("storeId", storeId);
 
-        myJSONObj.put("HTTPRequest: Categories", HTTPRequest.executeGet( secondMapping.getPath(),
+        myJSONObj.put("HTTPRequest: Categories with Specials", HTTPRequest.executeGet( secondMapping.getPath(),
                 secondMapping.getgenericHeader()));
 
         return myJSONObj.toString();
     }
 
-    public Categories(){
+    public CategoriesWithSpecials(){
         this.serviceType = new MWGHeader();
     }
 }
+
+

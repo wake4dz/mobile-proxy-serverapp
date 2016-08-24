@@ -55,7 +55,8 @@ public final class ApplicationConstants {
 
         public static class Checkout{
             public static final String Checkout = MWGApplicationConstants.Requests.Checkout.Checkout;
-            public static final String UserDelivery = MWGApplicationConstants.Requests.Checkout.UserDelivery;
+            public static final String Payments = MWGApplicationConstants.Requests.Checkout.Payments;
+            public static final String UserCheckout = MWGApplicationConstants.Requests.Checkout.UserCheckout;
         }
 
     }

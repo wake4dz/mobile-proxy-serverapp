@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 
 @Path(ApplicationConstants.Requests.Checkout.Checkout)
-public class StoreFulfillmentSpecialDate extends BaseService{
+public class StoreFulfillmentPickupDate extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{storeId}/pickup/dates")
@@ -32,7 +32,7 @@ public class StoreFulfillmentSpecialDate extends BaseService{
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
 
     }
-    public StoreFulfillmentSpecialDate(){
+    public StoreFulfillmentPickupDate(){
             this.serviceType = new MWGHeader();
         }
 }

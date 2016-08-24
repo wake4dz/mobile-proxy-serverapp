@@ -11,30 +11,28 @@ import javax.ws.rs.*;
 import java.io.IOException;
 
 /**
- * Created by zacpuste on 8/19/16.
+ * Created by zacpuste on 8/24/16.
  */
 
 @Path(ApplicationConstants.Requests.Checkout.Checkout)
-public class StoreFulfillment extends BaseService {
+public class StoreFulfillmentSpecialDate extends BaseService{
     @GET
     @Produces("application/*")
-    @Path("/{storeId}")
+    @Path("/{storeId}/pickup/dates")
     public String getInfo(@PathParam("storeId") String storeId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash + storeId;
+        this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.dates;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        myJSONObj.put(ApplicationConstants.RequestType.HTTPRequest + ApplicationConstants.RequestType.CheckoutFulfillment,
-                HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
+        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
 
-        return myJSONObj.toString();
     }
-
-    public StoreFulfillment(){
-        this.serviceType = new MWGHeader();
-    }
+    public StoreFulfillmentSpecialDate(){
+            this.serviceType = new MWGHeader();
+        }
 }

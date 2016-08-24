@@ -27,7 +27,6 @@ public class Search extends BaseService{
         this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.items;
-        //this.path = ApplicationConstants.Requests.Circular.Categories+ "/" + chainId + "/stores/" + storeId + "/items";
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);

@@ -21,6 +21,7 @@ public final class ApplicationConstants {
         public static final String special = "/special";
         public static final String store = "/store";
         public static final String stores = "/stores";
+        public static final String times = "/times";
 
 
         public static final String ASDF = "/{categoryId}/store/{storeId}/categories";

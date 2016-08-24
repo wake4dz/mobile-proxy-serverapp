@@ -27,6 +27,7 @@ public class MWGApplicationConstants {
 
         public static class Checkout {
             public static final String Checkout = "/checkout/v5/fulfillments/store";
+            public static final String UserDelivery = "/checkout/v5/user";
         }
 
     }

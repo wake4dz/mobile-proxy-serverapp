@@ -10,6 +10,7 @@ public final class ApplicationConstants {
     public static final String authToken 				= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
 
     public static class StringConstants{
+        public static final String address = "/address";
         public static final String all = "/all";
         public static final String backSlash = "/";
         public static final String categories = "/categories";
@@ -54,6 +55,7 @@ public final class ApplicationConstants {
 
         public static class Checkout{
             public static final String Checkout = MWGApplicationConstants.Requests.Checkout.Checkout;
+            public static final String UserDelivery = MWGApplicationConstants.Requests.Checkout.UserDelivery;
         }
 
     }

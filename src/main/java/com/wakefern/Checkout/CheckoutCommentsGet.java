@@ -14,10 +14,10 @@ import java.io.IOException;
  * Created by zacpuste on 8/24/16.
  */
 @Path(ApplicationConstants.Requests.Checkout.UserCheckout)
-public class Checkout extends BaseService {
+public class CheckoutCommentsGet extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/store/{storeId}")
+    @Path("/{userId}/store/{storeId}/comments")
     public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
@@ -25,7 +25,7 @@ public class Checkout extends BaseService {
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                 + userId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId;
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.comments;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,7 +33,7 @@ public class Checkout extends BaseService {
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
 
     }
-    public Checkout(){
+    public CheckoutCommentsGet(){
         this.serviceType = new MWGHeader();
     }
 }

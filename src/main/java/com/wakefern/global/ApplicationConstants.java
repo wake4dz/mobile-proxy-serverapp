@@ -13,8 +13,10 @@ public final class ApplicationConstants {
         public static final String address = "/address";
         public static final String all = "/all";
         public static final String backSlash = "/";
+        public static final String billing = "/billing";
         public static final String categories = "/categories";
         public static final String circulars = "/circulars";
+        public static final String comments = "/comments";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
         public static final String items = "/items";

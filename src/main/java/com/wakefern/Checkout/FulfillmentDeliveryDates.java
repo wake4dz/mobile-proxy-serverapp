@@ -13,19 +13,20 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 8/24/16.
  */
-@Path(ApplicationConstants.Requests.Checkout.UserDelivery)
-public class FufillmentDelivery extends BaseService {
+
+@Path(ApplicationConstants.Requests.Checkout.Checkout)
+public class FulfillmentDeliveryDates extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/store/{storeId}/address/delivery")
-    public String getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
+    @Path("/{storeId}/delivery/{zipCode}/dates")
+    public String getInfo(@PathParam("storeId") String storeId, @PathParam("zipCode") String zipCode,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.UserDelivery + ApplicationConstants.StringConstants.backSlash
-                + userId + ApplicationConstants.StringConstants.store + ApplicationConstants.StringConstants.backSlash
-                + storeId + ApplicationConstants.StringConstants.address + ApplicationConstants.StringConstants.delivery;
+        this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.backSlash
+                + zipCode + ApplicationConstants.StringConstants.dates;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,7 +34,7 @@ public class FufillmentDelivery extends BaseService {
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
 
     }
-    public FufillmentDelivery(){
+    public FulfillmentDeliveryDates(){
         this.serviceType = new MWGHeader();
     }
 }

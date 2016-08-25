@@ -66,6 +66,10 @@ public final class ApplicationConstants {
             public static final String UserCheckout = MWGApplicationConstants.Requests.Checkout.UserCheckout;
         }
 
+        public static final class Cart{
+            public static final String CartAuth = MWGApplicationConstants.Requests.Cart.CartAuth;
+            public static final String CartUser = MWGApplicationConstants.Requests.Cart.CartUser;
+        }
     }
 
     public static class RequestType{

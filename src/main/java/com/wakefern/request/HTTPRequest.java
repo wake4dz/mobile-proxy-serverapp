@@ -271,4 +271,47 @@ public class HTTPRequest {
 		}
 		return null;
 	}
+
+	public static String executeDelete(String requestURL, Map<String, String> requestHeaders){
+		HttpURLConnection connection = null;
+
+		try {
+			//Create connection
+			URL url = new URL(requestURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("DELETE");
+
+			for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
+				connection.addRequestProperty(entry.getKey(), entry.getValue());
+			}
+
+			//Connect to the server
+			connection.connect();
+
+			int status = connection.getResponseCode();
+			switch(status){
+				case 200:
+				case 201:
+				case 204:
+					return status + " Success";
+				default:
+					return status + " Failed to delete";
+			}
+		} catch (MalformedURLException ex) {
+			ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
+		} catch (IOException ex) {
+			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
+		} catch (Exception ex) {
+			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
+				}
+			}
+		}
+		return null;
+	}
 }

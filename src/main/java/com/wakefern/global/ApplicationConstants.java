@@ -28,6 +28,7 @@ public final class ApplicationConstants {
         public static final String store = "/store";
         public static final String stores = "/stores";
         public static final String subscription = "/subscription";
+        public static final String substitutions = "/substitutions";
         public static final String times = "/times";
 
 

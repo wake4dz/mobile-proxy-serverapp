@@ -35,5 +35,9 @@ public class MWGApplicationConstants {
             public static final String CartAuth = "/cart/v5/user/authenticated";
             public static final String CartUser = "/cart/v5/user";
         }
+
+        public static class Shop{
+            public static final String ShopStore = "/shop/v5/shop/store";
+        }
     }
 }

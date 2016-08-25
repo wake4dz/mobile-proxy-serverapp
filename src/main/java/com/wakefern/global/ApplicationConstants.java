@@ -17,15 +17,18 @@ public final class ApplicationConstants {
         public static final String categories = "/categories";
         public static final String circulars = "/circulars";
         public static final String comments = "/comments";
+        public static final String contact = "/contact";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
         public static final String fulfillments = "/fulfillments";
         public static final String guest = "/guest";
         public static final String item = "/item";
         public static final String items = "/items";
+        public static final String messages = "/messages";
         public static final String pickup = "/pickup";
         public static final String promocode = "/promocode";
         public static final String review = "/review";
+        public static final String settings = "/settings";
         public static final String special = "/special";
         public static final String store = "/store";
         public static final String stores = "/stores";
@@ -72,6 +75,10 @@ public final class ApplicationConstants {
             public static final String CartAuth = MWGApplicationConstants.Requests.Cart.CartAuth;
             public static final String CartUser = MWGApplicationConstants.Requests.Cart.CartUser;
         }
+
+        public static final class Shop{
+            public static final String ShopStore = MWGApplicationConstants.Requests.Shop.ShopStore;
+        }
     }
 
     public static class RequestType{
@@ -84,6 +91,7 @@ public final class ApplicationConstants {
         public static final String CheckoutFulfillmentSpecial = "Checkout Fufillment Special";
         public static final String CircularCategories = "Circular Categories";
         public static final String CircularSearch = "Circular Search";
+        public static final String CustFeedback = "Customer Feedback Messages";
         public static final String RetrieveCategories = "Retrieve Categories";
         public static final String Subcategories = "Subcategories";
         public static final String SubcategoriesWithSpecials = "Subcategories with Specials";

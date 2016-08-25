@@ -24,6 +24,7 @@ public final class ApplicationConstants {
         public static final String guest = "/guest";
         public static final String item = "/item";
         public static final String items = "/items";
+        public static final String lists = "/lists";
         public static final String messages = "/messages";
         public static final String pickup = "/pickup";
         public static final String promocode = "/promocode";
@@ -35,7 +36,7 @@ public final class ApplicationConstants {
         public static final String subscription = "/subscription";
         public static final String substitutions = "/substitutions";
         public static final String times = "/times";
-
+        public static final String users = "/users";
 
         public static final String ASDF = "/{categoryId}/store/{storeId}/categories";
     }
@@ -81,7 +82,7 @@ public final class ApplicationConstants {
             public static final String ShopUser = MWGApplicationConstants.Requests.Shop.ShopUser;
         }
 
-        public static final class shoppingLists{
+        public static final class ShoppingLists{
             public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
         }
     }

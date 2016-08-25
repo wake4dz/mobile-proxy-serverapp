@@ -19,6 +19,8 @@ public final class ApplicationConstants {
         public static final String comments = "/comments";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
+        public static final String fulfillments = "/fulfillments";
+        public static final String guest = "/guest";
         public static final String items = "/items";
         public static final String pickup = "/pickup";
         public static final String special = "/special";

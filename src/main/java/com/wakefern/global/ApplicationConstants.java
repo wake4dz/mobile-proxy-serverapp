@@ -23,9 +23,11 @@ public final class ApplicationConstants {
         public static final String guest = "/guest";
         public static final String items = "/items";
         public static final String pickup = "/pickup";
+        public static final String promocode = "/promocode";
         public static final String special = "/special";
         public static final String store = "/store";
         public static final String stores = "/stores";
+        public static final String subscription = "/subscription";
         public static final String times = "/times";
 
 

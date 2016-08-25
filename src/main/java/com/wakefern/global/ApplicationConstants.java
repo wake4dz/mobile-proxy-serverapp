@@ -78,6 +78,11 @@ public final class ApplicationConstants {
 
         public static final class Shop{
             public static final String ShopStore = MWGApplicationConstants.Requests.Shop.ShopStore;
+            public static final String ShopUser = MWGApplicationConstants.Requests.Shop.ShopUser;
+        }
+
+        public static final class shoppingLists{
+            public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
         }
     }
 

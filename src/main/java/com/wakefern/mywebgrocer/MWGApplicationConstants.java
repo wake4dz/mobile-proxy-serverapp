@@ -38,6 +38,11 @@ public class MWGApplicationConstants {
 
         public static class Shop{
             public static final String ShopStore = "/shop/v5/shop/store";
+            public static final String ShopUser = "/shop/v5/shop/user";
+        }
+
+        public static class ShoppingLists{
+            public static final String slChains = "/shoppinglist/v5/chains";
         }
     }
 }

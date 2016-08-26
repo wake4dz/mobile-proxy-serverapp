@@ -20,6 +20,7 @@ public final class ApplicationConstants {
         public static final String contact = "/contact";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
+        public static final String featured = "/featured";
         public static final String fulfillments = "/fulfillments";
         public static final String guest = "/guest";
         public static final String item = "/item";
@@ -30,6 +31,7 @@ public final class ApplicationConstants {
         public static final String pickup = "/pickup";
         public static final String promocode = "/promocode";
         public static final String review = "/review";
+        public static final String search = "/search";
         public static final String settings = "/settings";
         public static final String sku = "/sku";
         public static final String special = "/special";
@@ -65,6 +67,7 @@ public final class ApplicationConstants {
             public static final String Subcategories = MWGApplicationConstants.Requests.Categories.SubCategories;
             public static final String ProductId = MWGApplicationConstants.Requests.Categories.ProductId;
             public static final String ProductStore = MWGApplicationConstants.Requests.Categories.ProductStore;
+            public static final String ProductCategory = MWGApplicationConstants.Requests.Categories.ProductCategory;
         }
 
         public static class Circular{

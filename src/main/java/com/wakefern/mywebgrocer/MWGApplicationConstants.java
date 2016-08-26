@@ -20,7 +20,8 @@ public class MWGApplicationConstants {
             public static final String CategoriesFromStoreId = "/product/v5/categories/store";
             public static final String SubCategories = "/product/v5/category";
             public static final String ProductId = "/product/v5/product";
-            public static final String ProductStore = "/product/v5/product/store";
+            public static final String ProductStore = "/product/v5/products/store";
+            public static final String ProductCategory = "/product/v5/products/category";
         }
 
         public static class Circular{

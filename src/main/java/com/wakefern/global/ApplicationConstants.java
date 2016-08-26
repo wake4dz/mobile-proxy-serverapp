@@ -84,6 +84,7 @@ public final class ApplicationConstants {
 
         public static final class ShoppingLists{
             public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
+            public static final String slUser = MWGApplicationConstants.Requests.ShoppingLists.slUser;
         }
     }
 

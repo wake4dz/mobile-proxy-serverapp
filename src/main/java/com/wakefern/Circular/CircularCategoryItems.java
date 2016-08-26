@@ -10,14 +10,13 @@ import javax.ws.rs.*;
 import java.io.IOException;
 
 /**
- * Created by zacpuste on 8/19/16.
+ * Created by zacpuste on 8/26/16.
  */
-
 @Path(ApplicationConstants.Requests.Circular.Categories)
-public class CircularCategory extends BaseService{
+public class CircularCategoryItems extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{chainId}/stores/{storeId}/categories/{categoryId}")
+    @Path("/{chainId}/stores/{storeId}/categories/{categoryId}/items")
     public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("categoryId") String categoryId,
                           @HeaderParam("Authorization") String authToken)throws Exception, IOException {
 
@@ -25,7 +24,7 @@ public class CircularCategory extends BaseService{
         this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.backSlash
-                + categoryId;
+                + categoryId + ApplicationConstants.StringConstants.items;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -34,7 +33,7 @@ public class CircularCategory extends BaseService{
                 secondMapping.getgenericHeader());
     }
 
-    public CircularCategory(){
+    public CircularCategoryItems(){
         this.serviceType = new MWGHeader();
     }
 }

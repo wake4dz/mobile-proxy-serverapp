@@ -39,6 +39,7 @@ public final class ApplicationConstants {
         public static final String stores = "/stores";
         public static final String subscription = "/subscription";
         public static final String substitutions = "/substitutions";
+        public static final String suggest = "/suggest";
         public static final String times = "/times";
         public static final String users = "/users";
         public static final String variations = "/variations";

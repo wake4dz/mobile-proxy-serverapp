@@ -17,6 +17,10 @@ import java.io.IOException;
 public class UserListPut extends BaseService {
     @PUT
     @Produces("application/*")
+    /**
+     * JSON for put:
+     * {"Name": "TestList"}
+     */
     @Path("/{chainId}/users/{userId}/lists/{listId}")
     public String getInfo(@PathParam("chainId") String chainId, @PathParam("userId") String userId, @PathParam("listId") String listId,
                           @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {

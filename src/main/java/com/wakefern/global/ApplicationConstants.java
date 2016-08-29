@@ -16,6 +16,7 @@ public final class ApplicationConstants {
         public static final String backSlash = "/";
         public static final String billing = "/billing";
         public static final String categories = "/categories";
+        public static final String category = "/category";
         public static final String circulars = "/circulars";
         public static final String comments = "/comments";
         public static final String contact = "/contact";
@@ -31,6 +32,8 @@ public final class ApplicationConstants {
         public static final String nutrition = "/nutrition";
         public static final String pickup = "/pickup";
         public static final String promocode = "/promocode";
+        public static final String queryParam = "?q=";
+        public static final String questionmark = "?";
         public static final String review = "/review";
         public static final String search = "/search";
         public static final String settings = "/settings";
@@ -44,8 +47,6 @@ public final class ApplicationConstants {
         public static final String times = "/times";
         public static final String users = "/users";
         public static final String variations = "/variations";
-
-        public static final String ASDF = "/{categoryId}/store/{storeId}/categories";
     }
 
     public static class Requests{

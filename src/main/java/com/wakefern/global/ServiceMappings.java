@@ -7,6 +7,7 @@ import java.util.Map;
 public class ServiceMappings {
 
 	private String path;
+	private String servicePath;
 	private String genericBody;
 	private Map<String, String> genericHeader;
 
@@ -31,6 +32,13 @@ public class ServiceMappings {
 		this.path = path;
 	}
 
+	public String getServicePath() {
+		return servicePath;
+	}
+	public void setServicePath(String servicePath) {
+		this.servicePath = servicePath;
+	}
+
 	public void setMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.serviceType instanceof MWGHeader) {
@@ -48,6 +56,15 @@ public class ServiceMappings {
 		}
 	}
 
+	public void setServiceMapping(Object serviceObject, String jsonBody) {
+		BaseService aService = (BaseService) serviceObject;
+		if (aService.serviceType instanceof MWGHeader) {
+			MWGHeader mwgHeader = new MWGHeader();
+			MWGBody mwgBody = new MWGBody("");
+			sendServiceMapping((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
+		}
+	}
+
 	public void setPutMapping(Object serviceObject, String jsonBody){
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.serviceType instanceof MWGHeader) {
@@ -61,7 +78,6 @@ public class ServiceMappings {
 		header.authenticate();
 		setgenericHeader(header.getMap());
 		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
-//		setPath(ApplicationConstants.Requests.baseURLV1 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
 	}
 
@@ -69,6 +85,13 @@ public class ServiceMappings {
 		header.authenticate(serviceObject.token);
 		setgenericHeader(header.getMap());
 		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+	}
+
+	private void sendServiceMapping(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
+		header.serviceAuth(serviceObject.token);
+		setgenericHeader(header.getMap());
+		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
+		setGenericBody(body.Body(jsonBody));
 	}
 
 	private void sendPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){

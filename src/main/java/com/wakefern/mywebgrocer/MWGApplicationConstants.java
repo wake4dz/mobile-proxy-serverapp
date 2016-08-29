@@ -6,6 +6,7 @@ package com.wakefern.mywebgrocer;
 public class MWGApplicationConstants {
     public static final String baseURL              = "https://api.shoprite.com/api";
     public static final String baseURLv1            = "https://api.shoprite.com/api/v1";
+    public static final String serviceURLv1         = "https://service.shoprite.com";
     public static final String authToken			= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
     public static final String storeGroupId			= "3601";
     public static final String storeId              = "C627119202";
@@ -47,6 +48,10 @@ public class MWGApplicationConstants {
         public static class ShoppingLists{
             public static final String slChains = "/shoppinglist/v5/chains";
             public static final String slUser = "/shoppinglist/v5/user";
+        }
+
+        public static class Recipes{
+            public static final String RecipeChain = "/recipes/v1/chain";
         }
     }
 }

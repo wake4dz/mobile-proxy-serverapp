@@ -7,6 +7,7 @@ public final class ApplicationConstants {
     public static final String password				    = "fuzzy2345";
     public static final String jsonResponseType		    = "application/json";
     public static final String jsonAcceptType		    = "application/json";
+    public static final String xmlAcceptType          = "text/xml";
     public static final String authToken 				= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
 
     public static class StringConstants{
@@ -51,6 +52,7 @@ public final class ApplicationConstants {
 
         public static String baseURLV5 = MWGApplicationConstants.baseURL;
         public static String baseURLV1 = MWGApplicationConstants.baseURLv1;
+        public static String serviceURLV1 =  MWGApplicationConstants.serviceURLv1;
 
         public static class Header{
             public static final String contentType	= "Content-Type";
@@ -94,6 +96,10 @@ public final class ApplicationConstants {
         public static final class ShoppingLists{
             public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
             public static final String slUser = MWGApplicationConstants.Requests.ShoppingLists.slUser;
+        }
+
+        public static final class Recipes{
+            public static final String RecipeChain = MWGApplicationConstants.Requests.Recipes.RecipeChain;
         }
     }
 

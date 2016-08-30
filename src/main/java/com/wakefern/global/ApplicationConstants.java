@@ -22,6 +22,7 @@ public final class ApplicationConstants {
         public static final String contact = "/contact";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
+        public static final String email = "/email";
         public static final String featured = "/featured";
         public static final String fulfillments = "/fulfillments";
         public static final String guest = "/guest";

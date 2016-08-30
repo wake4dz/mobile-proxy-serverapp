@@ -33,7 +33,7 @@ public final class ApplicationConstants {
         public static final String pickup = "/pickup";
         public static final String promocode = "/promocode";
         public static final String queryParam = "?q=";
-        public static final String questionmark = "?";
+        public static final String recipe = "/recipe";
         public static final String review = "/review";
         public static final String search = "/search";
         public static final String settings = "/settings";

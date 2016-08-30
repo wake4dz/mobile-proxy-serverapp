@@ -43,6 +43,12 @@
         </dependency>
 
     <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20160212</version>
+    </dependency>
+
+    <dependency>
 	    <groupId>com.ibm.tools.target</groupId>
 	    <artifactId>was-liberty</artifactId>
 	    <version>8.5.x.1</version>

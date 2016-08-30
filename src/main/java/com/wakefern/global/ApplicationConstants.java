@@ -7,8 +7,9 @@ public final class ApplicationConstants {
     public static final String password				    = "fuzzy2345";
     public static final String jsonResponseType		    = "application/json";
     public static final String jsonAcceptType		    = "application/json";
-    public static final String xmlAcceptType          = "text/xml";
+    public static final String xmlAcceptType            = "text/xml";
     public static final String authToken 				= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
+    public static final int xmlTabAmount                = 4;
 
     public static class StringConstants{
         public static final String address = "/address";

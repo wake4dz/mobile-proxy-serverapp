@@ -46,7 +46,6 @@ public class FeaturedRecipes extends BaseService {
     }
 
     public String extractId(String featuredReturn, String chainId, String authToken){
-        ArrayList<String> retval = new ArrayList<>();
         //Pattern matches any set of numbers between <Id></Id>
         Pattern pattern = Pattern.compile("<Id>([^abc]*)</Id>");
         Matcher matcher = pattern.matcher(featuredReturn);

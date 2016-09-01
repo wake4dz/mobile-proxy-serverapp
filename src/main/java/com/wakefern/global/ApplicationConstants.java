@@ -48,6 +48,8 @@ public final class ApplicationConstants {
         public static final String substitutions = "/substitutions";
         public static final String suggest = "/suggest";
         public static final String times = "/times";
+        public static final String toCart = "/to/cart";
+        public static final String user = "/user";
         public static final String users = "/users";
         public static final String variations = "/variations";
     }
@@ -86,6 +88,7 @@ public final class ApplicationConstants {
             public static final String Payments = MWGApplicationConstants.Requests.Checkout.Payments;
             public static final String UserCheckout = MWGApplicationConstants.Requests.Checkout.UserCheckout;
             public static final String UserOrder = MWGApplicationConstants.Requests.Checkout.UserOrder;
+            public static final String Order = MWGApplicationConstants.Requests.Checkout.Order;
         }
 
         public static final class Cart{

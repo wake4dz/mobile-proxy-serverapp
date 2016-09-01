@@ -19,6 +19,10 @@ public class ShoppingListsPost extends BaseService {
     @Consumes("application/json")
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}")
+    /**
+     * JSON Format:
+     * {"Name": "List Name"}
+     */
     public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                           @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
 

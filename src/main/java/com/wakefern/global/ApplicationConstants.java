@@ -126,4 +126,11 @@ public final class ApplicationConstants {
         public static final String Subcategories = "Subcategories";
         public static final String SubcategoriesWithSpecials = "Subcategories with Specials";
     }
+
+    public static class MapVariables{
+        public static final String contentType = "Content-type";
+        public static final String requestType = "text/xml";
+        public static final String auth = "Authorization";
+        public static final String authToken = "2433581F-B723-4FCD-BAFF-006791F48027";
+    }
 }

@@ -2,6 +2,7 @@ package com.wakefern.global;
 
 import com.wakefern.mywebgrocer.models.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceMappings {
@@ -89,7 +90,8 @@ public class ServiceMappings {
 
 	private void sendServiceMapping(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
 		header.serviceAuth(serviceObject.token);
-		setgenericHeader(header.getMap());
+		//setgenericHeader(header.getMap());
+		setgenericHeader(v1Map());
 		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
 	}
@@ -99,6 +101,13 @@ public class ServiceMappings {
 		setgenericHeader(header.getMap());
 		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
+	}
+
+	private Map<String, String> v1Map(){
+		Map<String, String> map = new HashMap<>();
+		map.put(ApplicationConstants.MapVariables.contentType, ApplicationConstants.MapVariables.requestType);
+		map.put(ApplicationConstants.MapVariables.auth, ApplicationConstants.MapVariables.authToken);
+		return map;
 	}
 	
 }

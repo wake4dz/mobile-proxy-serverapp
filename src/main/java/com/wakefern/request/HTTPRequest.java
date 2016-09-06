@@ -48,14 +48,14 @@ public class HTTPRequest {
 		    switch(status){
 			    case 200:
 			    case 201:	
-				    sb.append(status);
+				    //sb.append(status);
 			    	while( (line = br.readLine()) != null ){
 			    		sb.append(line + "\r");
 			    	}
 			    	br.close();
 			    	break;
 		    	default:
-		    		sb.append(status);
+		    		//sb.append(status);
 			    	while( (line = br.readLine()) != null ){
 			    		sb.append(line + "\r");
 			    	}
@@ -118,7 +118,7 @@ public class HTTPRequest {
 			switch(status){
 				case 200:
 				case 201:
-					sb.append(status);
+					//sb.append(status);
 					int read;
 					char[] chars = new char[1024];
 					while( (read = br.read(chars)) != -1 ){
@@ -127,7 +127,7 @@ public class HTTPRequest {
 					br.close();
 					break;
 				default:
-					sb.append(status);
+					//sb.append(status);
 					while( (line = br.readLine()) != null ){
 						sb.append(line + "\r");
 					}
@@ -190,7 +190,7 @@ public class HTTPRequest {
 			switch(status){
 				case 200:
 				case 201:
-					sb.append(status);
+					//sb.append(status);
 					int read;
 					char[] chars = new char[1024];
 					while( (read = br.read(chars)) != -1 ){
@@ -199,7 +199,7 @@ public class HTTPRequest {
 					br.close();
 					break;
 				default:
-					sb.append(status);
+					//sb.append(status);
 					while( (line = br.readLine()) != null ){
 						sb.append(line + "\r");
 					}
@@ -256,7 +256,7 @@ public class HTTPRequest {
 					br.close();
 					break;
 				default:
-					sb.append(status);
+					//sb.append(status);
 					while( (line = br.readLine()) != null ){
 						sb.append(line + "\r");
 					}
@@ -307,7 +307,7 @@ public class HTTPRequest {
 			switch(status){
 				case 200:
 				case 201:
-					sb.append(status);
+					//sb.append(status);
 					int read;
 					char[] chars = new char[1024];
 					while( (read = br.read(chars)) != -1 ){
@@ -316,7 +316,7 @@ public class HTTPRequest {
 					br.close();
 					break;
 				default:
-					sb.append(status);
+					//sb.append(status);
 					while( (line = br.readLine()) != null ){
 						sb.append(line + "\r");
 					}

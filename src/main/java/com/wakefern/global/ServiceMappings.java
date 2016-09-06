@@ -40,6 +40,7 @@ public class ServiceMappings {
 		this.servicePath = servicePath;
 	}
 
+	//Used for v5 authorization
 	public void setMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.serviceType instanceof MWGHeader) {
@@ -49,6 +50,7 @@ public class ServiceMappings {
 		}
 	}
 
+	//Used for GET and DELETE
 	public void setMapping(Object serviceObject){
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.serviceType instanceof MWGHeader) {
@@ -57,6 +59,7 @@ public class ServiceMappings {
 		}
 	}
 
+	//Used for v1 calls
 	public void setServiceMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.serviceType instanceof MWGHeader) {
@@ -66,6 +69,7 @@ public class ServiceMappings {
 		}
 	}
 
+	//User for all PUT and POST methods
 	public void setPutMapping(Object serviceObject, String jsonBody){
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.serviceType instanceof MWGHeader) {

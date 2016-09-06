@@ -12,377 +12,415 @@ import java.util.Map;
 import com.wakefern.global.ApplicationConstants;
 
 public class HTTPRequest {
-	public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders) {
-		  HttpURLConnection connection = null;
+    public static String executePost(String requestType, String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders) {
+        HttpURLConnection connection = null;
 
-		  try {
-		    //Create connection
-		    URL url = new URL(requestURL);
-		    connection = (HttpURLConnection) url.openConnection();
-		    connection.setRequestMethod("POST");
+        try {
+            //Create connection
+            URL url = new URL(requestURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
 
-		    if(requestBody != null){
-		    	//Set Content length
-		    	connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
-			    connection.setUseCaches(false);
-			    connection.setDoOutput(true);
-			    connection.setDoInput(true);
+            if (requestBody != null) {
+                //Set Content length
+                connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
+                connection.setUseCaches(false);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
 
-			    for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-			    	connection.addRequestProperty(entry.getKey(), entry.getValue());
-			    }
+                for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+                    connection.addRequestProperty(entry.getKey(), entry.getValue());
+                }
 
-			    //Set JSON as body of request
-			    OutputStream oStream = connection.getOutputStream();
-			    oStream.write(requestBody.getBytes("UTF-8"));
-			    oStream.close();
-		    }
+                //Set JSON as body of request
+                OutputStream oStream = connection.getOutputStream();
+                oStream.write(requestBody.getBytes("UTF-8"));
+                oStream.close();
+            }
 
-		    //Connect to the server
-		    connection.connect();
-		    
-		    int status = connection.getResponseCode();
-		    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	    	StringBuilder sb = new StringBuilder();	
-	    	String line;
-		    switch(status){
-			    case 200:
-			    case 201:	
-				    //sb.append(status);
-			    	while( (line = br.readLine()) != null ){
-			    		sb.append(line + "\r");
-			    	}
-			    	br.close();
-			    	break;
-		    	default:
-		    		//sb.append(status);
-			    	while( (line = br.readLine()) != null ){
-			    		sb.append(line + "\r");
-			    	}
-		    		br.close();
-		    }
-		    //return body to auth
-	    	return sb.toString();
-	    	
-		  } catch (MalformedURLException ex) {
-		        ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
-		    } catch (IOException ex) {
-		    	ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		    } catch (Exception ex) {
-		    	ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		    } finally {
-		        if (connection != null) {
-		            try {
-		                connection.disconnect();
-		            } catch (Exception ex) {
-		            	ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		            }
-		        }
-		    }
-	    return null;
-	}
+            //Connect to the server
+            connection.connect();
 
-	public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders) {
-		HttpURLConnection connection = null;
+            int status = connection.getResponseCode();
+            String statusText = connection.getResponseMessage();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            if (statusText != null) {
+                sb.append(status + " " + statusText + "\r");
+            } else {
+                sb.append(status + "\r");
+            }
+            sb.append(read(sb, br));
+            br.close();
+            //return body to auth
+            return sb.toString();
 
-		try {
-			//Create connection
-			URL url = new URL(requestURL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("POST");
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    return ex.getMessage();
+                }
+            }
+        }
+    }
 
-			if(requestBody != null){
-				//Set Content length
-				connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
-				connection.setUseCaches(false);
-				connection.setDoOutput(true);
-				connection.setDoInput(true);
+    public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders) {
+        HttpURLConnection connection = null;
 
-				for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-					connection.addRequestProperty(entry.getKey(), entry.getValue());
-				}
+        try {
+            //Create connection
+            URL url = new URL(requestURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
 
-				//Set JSON as body of request
-				OutputStream oStream = connection.getOutputStream();
-				oStream.write(requestBody.getBytes("UTF-8"));
-				oStream.close();
-			}
+            if (requestBody != null) {
+                //Set Content length
+                connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
+                connection.setUseCaches(false);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
 
-			//Connect to the server
-			connection.connect();
+                for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+                    connection.addRequestProperty(entry.getKey(), entry.getValue());
+                }
 
-			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line;
-			switch(status){
-				case 200:
-				case 201:
-					//sb.append(status);
-					int read;
-					char[] chars = new char[1024];
-					while( (read = br.read(chars)) != -1 ){
-						sb.append(chars, 0, read);
-					}
-					br.close();
-					break;
-				default:
-					//sb.append(status);
-					while( (line = br.readLine()) != null ){
-						sb.append(line + "\r");
-					}
-					br.close();
-			}
-			//return body to auth
-			return sb.toString();
+                //Set JSON as body of request
+                OutputStream oStream = connection.getOutputStream();
+                oStream.write(requestBody.getBytes("UTF-8"));
+                oStream.close();
+            }
 
-		} catch (MalformedURLException ex) {
-			ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (IOException ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (Exception ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} finally {
-			if (connection != null) {
-				try {
-					connection.disconnect();
-				} catch (Exception ex) {
-					ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-				}
-			}
-		}
-		return null;
-	}
+            //Connect to the server
+            connection.connect();
 
-	public static String executePut(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders) {
-		HttpURLConnection connection = null;
+            int status = connection.getResponseCode();
+            String statusText = connection.getResponseMessage();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            switch (status) {
+                case 200:
+                case 201:
+                case 204:
+                case 206:
+                case 400:
+                case 401:
+                case 403:
+                case 405:
+                case 409:
+                case 415:
+                case 424:
+                    sb.append(status + " " + statusText + "\r");
+                    sb.append(readJson(sb, br));
+                    br.close();
+                    break;
+                default:
+                    sb.append(status + "\r");
+                    sb.append(read(sb, br));
+                    br.close();
+            }
+            //return body to auth
+            return sb.toString();
 
-		try {
-			//Create connection
-			URL url = new URL(requestURL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("PUT");
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    return ex.getMessage();
+                }
+            }
+        }
+    }
 
-			if(requestBody != null){
-				//Set Content length
-				connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
-				connection.setUseCaches(false);
-				connection.setDoOutput(true);
-				connection.setDoInput(true);
+    public static String executePut(String requestType, String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders) {
+        HttpURLConnection connection = null;
 
-				for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-					connection.addRequestProperty(entry.getKey(), entry.getValue());
-				}
+        try {
+            //Create connection
+            URL url = new URL(requestURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
 
-				//Set JSON as body of request
-				OutputStream oStream = connection.getOutputStream();
-				oStream.write(requestBody.getBytes("UTF-8"));
-				oStream.close();
-			}
+            if (requestBody != null) {
+                //Set Content length
+                connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
+                connection.setUseCaches(false);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
 
-			//Connect to the server
-			connection.connect();
+                for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+                    connection.addRequestProperty(entry.getKey(), entry.getValue());
+                }
 
-			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line;
-			switch(status){
-				case 200:
-				case 201:
-					//sb.append(status);
-					int read;
-					char[] chars = new char[1024];
-					while( (read = br.read(chars)) != -1 ){
-						sb.append(chars, 0, read);
-					}
-					br.close();
-					break;
-				default:
-					//sb.append(status);
-					while( (line = br.readLine()) != null ){
-						sb.append(line + "\r");
-					}
-					br.close();
-			}
-			//return body to auth
-			return sb.toString();
+                //Set JSON as body of request
+                OutputStream oStream = connection.getOutputStream();
+                oStream.write(requestBody.getBytes("UTF-8"));
+                oStream.close();
+            }
 
-		} catch (MalformedURLException ex) {
-			ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (IOException ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (Exception ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} finally {
-			if (connection != null) {
-				try {
-					connection.disconnect();
-				} catch (Exception ex) {
-					ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-				}
-			}
-		}
-		return null;
-	}
+            //Connect to the server
+            connection.connect();
 
-	public static String executeGet(String requestURL, Map<String, String> requestHeaders){
-		HttpURLConnection connection = null;
+            int status = connection.getResponseCode();
+            String statusText = connection.getResponseMessage();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            switch (status) {
+                case 200:
+                case 201:
+                case 204:
+                case 206:
+                case 400:
+                case 401:
+                case 403:
+                case 405:
+                case 409:
+                case 415:
+                case 424:
+                    sb.append(status + " " + statusText + "\r");
+                    sb.append(readJson(sb, br));
+                    br.close();
+                    break;
+                default:
+                    sb.append(status + "\r");
+                    sb.append(read(sb, br));
+                    br.close();
+                    br.close();
+            }
+            //return body to auth
+            return sb.toString();
 
-		try {
-			//Create connection
-			URL url = new URL(requestURL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    return ex.getMessage();
+                }
+            }
+        }
+    }
 
-			for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-				connection.addRequestProperty(entry.getKey(), entry.getValue());
-			}
+    public static String executeGet(String requestURL, Map<String, String> requestHeaders) {
+        HttpURLConnection connection = null;
 
+        try {
+            //Create connection
+            URL url = new URL(requestURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-			//Connect to the server
-			connection.connect();
+            for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+                connection.addRequestProperty(entry.getKey(), entry.getValue());
+            }
 
-			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line;
-			switch(status){
-				case 200:
-				case 201:
-					while( (line = br.readLine()) != null ){
-						sb.append(line + "\r");
-					}
-					br.close();
-					break;
-				default:
-					//sb.append(status);
-					while( (line = br.readLine()) != null ){
-						sb.append(line + "\r");
-					}
-					br.close();
-			}
-			//return body to auth
-			return sb.toString();
+            //Connect to the server
+            connection.connect();
 
-		} catch (MalformedURLException ex) {
-			ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (IOException ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (Exception ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} finally {
-			if (connection != null) {
-				try {
-					connection.disconnect();
-				} catch (Exception ex) {
-					ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-				}
-			}
-		}
-		return null;
-	}
+            int status = connection.getResponseCode();
+            String statusText = connection.getResponseMessage();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
 
-	public static String executeGetJSON(String requestURL, Map<String, String> requestHeaders){
-		HttpURLConnection connection = null;
+            if (statusText != null) {
+                sb.append(status + " " + statusText + "\r");
+            } else {
+                sb.append(status + "\r");
+            }
+            sb.append(read(sb, br));
+            br.close();
 
-		try {
-			//Create connection
-			URL url = new URL(requestURL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
+            //return body to auth
+            return sb.toString();
 
-			for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-				connection.addRequestProperty(entry.getKey(), entry.getValue());
-			}
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    return ex.getMessage();
+                }
+            }
+        }
+    }
 
+    public static String executeGetJSON(String requestURL, Map<String, String> requestHeaders) {
+        HttpURLConnection connection = null;
 
-			//Connect to the server
-			connection.connect();
+        try {
+            //Create connection
+            URL url = new URL(requestURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line;
-			switch(status){
-				case 200:
-				case 201:
-					//sb.append(status);
-					int read;
-					char[] chars = new char[1024];
-					while( (read = br.read(chars)) != -1 ){
-						sb.append(chars, 0, read);
-					}
-					br.close();
-					break;
-				default:
-					//sb.append(status);
-					while( (line = br.readLine()) != null ){
-						sb.append(line + "\r");
-					}
-					br.close();
-			}
-			//return body to auth
-			return sb.toString();
+            for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+                connection.addRequestProperty(entry.getKey(), entry.getValue());
+            }
 
-		} catch (MalformedURLException ex) {
-			ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (IOException ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (Exception ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} finally {
-			if (connection != null) {
-				try {
-					connection.disconnect();
-				} catch (Exception ex) {
-					ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-				}
-			}
-		}
-		return null;
-	}
+            //Connect to the server
+            connection.connect();
 
-	public static String executeDelete(String requestURL, Map<String, String> requestHeaders){
-		HttpURLConnection connection = null;
+            int status = connection.getResponseCode();
+            String statusText = connection.getResponseMessage();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            switch (status) {
+                case 200:
+                case 201:
+                case 204:
+                case 206:
+                case 400:
+                case 401:
+                case 403:
+                case 405:
+                case 409:
+                case 415:
+                case 424:
+                    sb.append(status + " " + statusText + "\r");
+                    sb.append(readJson(sb, br));
+                    br.close();
+                    break;
+                default:
+                    sb.append(status + "\r");
+                    sb.append(read(sb, br));
+                    br.close();
+                    br.close();
+            }
+            //return body to auth
+            return sb.toString();
 
-		try {
-			//Create connection
-			URL url = new URL(requestURL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("DELETE");
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    return ex.getMessage();
+                }
+            }
+        }
+    }
 
-			for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-				connection.addRequestProperty(entry.getKey(), entry.getValue());
-			}
+    public static String executeDelete(String requestURL, Map<String, String> requestHeaders) {
+        HttpURLConnection connection = null;
 
-			//Connect to the server
-			connection.connect();
+        try {
+            //Create connection
+            URL url = new URL(requestURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
 
-			int status = connection.getResponseCode();
-			switch(status){
-				case 200:
-				case 201:
-				case 204:
-					return status + " Success";
-				default:
-					return status + " Failed to delete";
-			}
-		} catch (MalformedURLException ex) {
-			ex.printStackTrace();//("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (IOException ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} catch (Exception ex) {
-			ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-		} finally {
-			if (connection != null) {
-				try {
-					connection.disconnect();
-				} catch (Exception ex) {
-					ex.printStackTrace();//Log.e("HTTP Client", "Error in http connection" + ex.toString());
-				}
-			}
-		}
-		return null;
-	}
+            for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+                connection.addRequestProperty(entry.getKey(), entry.getValue());
+            }
+
+            //Connect to the server
+            connection.connect();
+
+            int status = connection.getResponseCode();
+            String statusText = connection.getResponseMessage();
+            switch (status) {
+                case 200:
+                case 201:
+                case 204:
+                case 206:
+                case 400:
+                case 401:
+                case 403:
+                case 405:
+                case 409:
+                case 415:
+                case 424:
+                    return status + " " + statusText;
+                default:
+                    return status + " Failed to delete";
+            }
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    return ex.getMessage();
+                }
+            }
+        }
+    }
+
+    public static StringBuilder read(StringBuilder sb, BufferedReader br) throws IOException {
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line + "\r");
+        }
+        return sb;
+    }
+
+    public static StringBuilder readJson(StringBuilder sb, BufferedReader br) throws IOException {
+        int read;
+        char[] chars = new char[1024];
+        while ((read = br.read(chars)) != -1) {
+            sb.append(chars, 0, read);
+        }
+        return sb;
+    }
 }

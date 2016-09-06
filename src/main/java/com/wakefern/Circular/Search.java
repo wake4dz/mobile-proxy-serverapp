@@ -1,6 +1,5 @@
 package com.wakefern.Circular;
 
-import com.ibm.json.java.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
@@ -21,8 +20,6 @@ public class Search extends BaseService{
     @Path("/{chainId}/stores/{storeId}/items")
     public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        JSONObject myJSONObj = new JSONObject();
-
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
@@ -31,10 +28,7 @@ public class Search extends BaseService{
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        myJSONObj.put(ApplicationConstants.RequestType.HTTPRequest + ApplicationConstants.RequestType.CircularSearch,
-                HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
-
-        return myJSONObj.toString();
+        return HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader());
     }
 
     public Search(){

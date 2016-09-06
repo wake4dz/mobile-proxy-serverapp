@@ -50,6 +50,13 @@ public class ServiceMappings {
 		}
 	}
 
+	private void sendRequest(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
+		header.authenticate();
+		setgenericHeader(header.getMap());
+		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+		setGenericBody(body.Body(jsonBody));
+	}
+
 	//Used for GET and DELETE
 	public void setMapping(Object serviceObject){
 		BaseService aService = (BaseService) serviceObject;
@@ -59,14 +66,10 @@ public class ServiceMappings {
 		}
 	}
 
-	//Used for v1 calls
-	public void setServiceMapping(Object serviceObject, String jsonBody) {
-		BaseService aService = (BaseService) serviceObject;
-		if (aService.serviceType instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
-			MWGBody mwgBody = new MWGBody("");
-			sendServiceMapping((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
-		}
+	private void sendRequest(BaseService serviceObject,MWGHeader header){
+		header.authenticate(serviceObject.token);
+		setgenericHeader(header.getMap());
+		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
 	}
 
 	//User for all PUT and POST methods
@@ -79,17 +82,21 @@ public class ServiceMappings {
 		}
 	}
 
-	private void sendRequest(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
-		header.authenticate();
+	private void sendPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
+		header.authenticate(serviceObject.token);
 		setgenericHeader(header.getMap());
 		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
 	}
 
-	private void sendRequest(BaseService serviceObject,MWGHeader header){
-		header.authenticate(serviceObject.token);
-		setgenericHeader(header.getMap());
-		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+	//Used for v1 calls
+	public void setServiceMapping(Object serviceObject, String jsonBody) {
+		BaseService aService = (BaseService) serviceObject;
+		if (aService.serviceType instanceof MWGHeader) {
+			MWGHeader mwgHeader = new MWGHeader();
+			MWGBody mwgBody = new MWGBody("");
+			sendServiceMapping((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
+		}
 	}
 
 	private void sendServiceMapping(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
@@ -97,13 +104,6 @@ public class ServiceMappings {
 		//setgenericHeader(header.getMap());
 		setgenericHeader(v1Map());
 		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
-		setGenericBody(body.Body(jsonBody));
-	}
-
-	private void sendPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
-		header.authenticate(serviceObject.token);
-		setgenericHeader(header.getMap());
-		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
 	}
 

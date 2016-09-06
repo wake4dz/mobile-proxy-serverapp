@@ -1,6 +1,5 @@
 package com.wakefern.Cart;
 
-import com.ibm.json.java.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
@@ -20,8 +19,6 @@ public class CartGet extends BaseService {
     @Path("/{userId}/store/{storeId}")
     public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        JSONObject myJSONObj = new JSONObject();
-
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
@@ -30,7 +27,7 @@ public class CartGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
 
     }
     public CartGet(){

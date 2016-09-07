@@ -45,11 +45,11 @@ public class HTTPRequest {
             String statusText = connection.getResponseMessage();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder sb = new StringBuilder();
-            if (statusText != null) {
-                sb.append(status + " " + statusText + "\r");
-            } else {
-                sb.append(status + "\r");
-            }
+//            if (statusText != null) {
+//                sb.append(status + " " + statusText + "\r");
+//            } else {
+//                sb.append(status + "\r");
+//            }
             sb.append(read(sb, br));
             br.close();
             //return body to auth
@@ -121,7 +121,7 @@ public class HTTPRequest {
                 case 409:
                 case 415:
                 case 424:
-                    sb.append(status + " " + statusText + "\r");
+                    //sb.append(status + " " + statusText + "\r");
                     sb.append(readJson(sb, br));
                     br.close();
                     break;
@@ -199,7 +199,7 @@ public class HTTPRequest {
                 case 409:
                 case 415:
                 case 424:
-                    sb.append(status + " " + statusText + "\r");
+                    //sb.append(status + " " + statusText + "\r");
                     sb.append(readJson(sb, br));
                     br.close();
                     break;
@@ -249,16 +249,18 @@ public class HTTPRequest {
             //Connect to the server
             connection.connect();
 
+            System.out.print("Headers: \r");
+            System.out.print(connection.getHeaderFields());
             int status = connection.getResponseCode();
             String statusText = connection.getResponseMessage();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder sb = new StringBuilder();
 
-            if (statusText != null) {
-                sb.append(status + " " + statusText + "\r");
-            } else {
-                sb.append(status + "\r");
-            }
+//            if (statusText != null) {
+//                sb.append(status + " " + statusText + "\r");
+//            } else {
+//                sb.append(status + "\r");
+//            }
             sb.append(read(sb, br));
             br.close();
 
@@ -269,8 +271,10 @@ public class HTTPRequest {
             ex.printStackTrace();
             return ex.getMessage();
         } catch (IOException ex) {
+            System.out.print("Headers: \r ");
+            System.out.print(connection.getHeaderFields());
             ex.printStackTrace();
-            return ex.getMessage();
+            return ex.getMessage() + " " + connection.getHeaderFields();
         } catch (Exception ex) {
             ex.printStackTrace();
             return ex.getMessage();
@@ -318,7 +322,7 @@ public class HTTPRequest {
                 case 409:
                 case 415:
                 case 424:
-                    sb.append(status + " " + statusText + "\r");
+                    //sb.append(status + " " + statusText + "\r");
                     sb.append(readJson(sb, br));
                     br.close();
                     break;

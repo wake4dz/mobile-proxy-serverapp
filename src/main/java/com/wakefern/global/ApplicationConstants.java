@@ -117,4 +117,15 @@ public final class ApplicationConstants {
         public static final String auth = "Authorization";
         public static final String authToken = "2433581F-B723-4FCD-BAFF-006791F48027";
     }
+
+    public static class recipeSearch{
+        public static final String recipes = "Recipes";
+        public static final String recipeSummary = "RecipeSummary";
+        public static final String description = "Description";
+        public static final String name = "Name";
+        public static final String category = "Category";
+        public static final String categories = "Categories";
+        public static final String subCategories = "Subcategories";
+        public static final String id = "Id";
+    }
 }

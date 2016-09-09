@@ -30,6 +30,7 @@ public final class ApplicationConstants {
         public static final String guest = "/guest";
         public static final String item = "/item";
         public static final String items = "/items";
+        public static final String list = "/list";
         public static final String lists = "/lists";
         public static final String messages = "/messages";
         public static final String nutrition = "/nutrition";
@@ -104,6 +105,7 @@ public final class ApplicationConstants {
         public static final class ShoppingLists{
             public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
             public static final String slUser = MWGApplicationConstants.Requests.ShoppingLists.slUser;
+            public static final String slItemsUser = MWGApplicationConstants.Requests.ShoppingLists.slItemsUser;
         }
 
         public static final class Recipes{
@@ -127,5 +129,10 @@ public final class ApplicationConstants {
         public static final String categories = "Categories";
         public static final String subCategories = "Subcategories";
         public static final String id = "Id";
+    }
+
+    public static class shoppingListItemPost{
+        public static final String contentType = "application/vnd.mywebgrocer.grocery-list+json";
+        public static final String contentAccept = "*/*";
     }
 }

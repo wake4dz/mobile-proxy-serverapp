@@ -12,18 +12,18 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 9/9/16.
  */
-@Path(ApplicationConstants.Requests.ShoppingLists.slChains)
+@Path(ApplicationConstants.Requests.ShoppingLists.slItemsUser)
 public class ShoppingListItemsGet extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{chainId}/users/{userId}/lists/{listId}/items")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("userId") String userId, @PathParam("listId") String listId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    @Path("/{userId}/store/{storeId}/lists/{listId}/items")
+    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId ,@PathParam("listId") String listId,
+                          @QueryParam("q") String q, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.ShoppingLists.slChains
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
-                + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.items;
+        this.path = ApplicationConstants.Requests.ShoppingLists.slItemsUser
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
+                + ApplicationConstants.StringConstants.backSlash + listId + q;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);

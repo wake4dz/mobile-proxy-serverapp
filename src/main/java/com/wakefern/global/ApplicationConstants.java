@@ -23,6 +23,7 @@ public final class ApplicationConstants {
         public static final String contact = "/contact";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
+        public static final String duplicate = "/duplicate";
         public static final String email = "/email";
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
@@ -41,6 +42,7 @@ public final class ApplicationConstants {
         public static final String review = "/review";
         public static final String search = "/search";
         public static final String settings = "/settings";
+        public static final String skip = "&skip=";
         public static final String sku = "/sku";
         public static final String special = "/special";
         public static final String store = "/store";
@@ -48,6 +50,7 @@ public final class ApplicationConstants {
         public static final String subscription = "/subscription";
         public static final String substitutions = "/substitutions";
         public static final String suggest = "/suggest";
+        public static final String take = "?take=";
         public static final String times = "/times";
         public static final String toCart = "/to/cart";
         public static final String user = "/user";

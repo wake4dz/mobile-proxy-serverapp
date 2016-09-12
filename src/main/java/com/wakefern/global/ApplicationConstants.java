@@ -29,19 +29,25 @@ public final class ApplicationConstants {
         public static final String fulfillment = "/fulfillment";
         public static final String fulfillments = "/fulfillments";
         public static final String guest = "/guest";
+        public static final String id1 = "?id1=";
+        public static final String id2 = "&id2=";
         public static final String item = "/item";
         public static final String items = "/items";
         public static final String list = "/list";
         public static final String lists = "/lists";
         public static final String messages = "/messages";
         public static final String nutrition = "/nutrition";
+        public static final String page = "/page";
         public static final String pickup = "/pickup";
+        public static final String postalCode = "/postalCode";
         public static final String promocode = "/promocode";
         public static final String queryParam = "?q=";
+        public static final String radius = "/radius";
         public static final String recipe = "/recipe";
         public static final String review = "/review";
         public static final String search = "/search";
         public static final String settings = "/settings";
+        public static final String size = "/size";
         public static final String skip = "&skip=";
         public static final String sku = "/sku";
         public static final String special = "/special";
@@ -53,6 +59,7 @@ public final class ApplicationConstants {
         public static final String take = "?take=";
         public static final String times = "/times";
         public static final String toCart = "/to/cart";
+        public static final String unit = "/unit";
         public static final String user = "/user";
         public static final String users = "/users";
         public static final String variations = "/variations";
@@ -113,6 +120,10 @@ public final class ApplicationConstants {
 
         public static final class Recipes{
             public static final String RecipeChain = MWGApplicationConstants.Requests.Recipes.RecipeChain;
+        }
+
+        public static final class Planning{
+            public static final String StoreLocator = MWGApplicationConstants.Requests.Planning.StoreLocator;
         }
     }
 

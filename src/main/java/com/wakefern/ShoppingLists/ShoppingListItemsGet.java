@@ -16,19 +16,20 @@ import java.io.IOException;
 public class ShoppingListItemsGet extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/store/{storeId}/lists/{listId}/items")
+    @Path("/{userId}/store/{storeId}/list/{listId}")
     public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId ,@PathParam("listId") String listId,
-                          @QueryParam("q") String q, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                          @QueryParam("take") String take, @QueryParam("skip") String skip, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         this.path = ApplicationConstants.Requests.ShoppingLists.slItemsUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
-                + ApplicationConstants.StringConstants.backSlash + listId + q;
+                + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
+                + take + ApplicationConstants.StringConstants.skip + skip;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
 
     }
     public ShoppingListItemsGet(){

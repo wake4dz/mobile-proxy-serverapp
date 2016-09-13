@@ -50,10 +50,15 @@ public class MWGApplicationConstants {
         public static class ShoppingLists{
             public static final String slChains = "/shoppinglist/v5/chains";
             public static final String slUser = "/shoppinglist/v5/user";
+            public static final String slItemsUser = "/shoppinglist/v5/items/user";
         }
 
         public static class Recipes{
             public static final String RecipeChain = "/recipes/v1/chain";
+        }
+
+        public static class Planning{
+            public static final String StoreLocator = "/storelocator/v1/chain";
         }
     }
 }

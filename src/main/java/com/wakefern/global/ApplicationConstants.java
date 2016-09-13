@@ -58,32 +58,44 @@ public final class ApplicationConstants {
         public static final String contact = "/contact";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
+        public static final String duplicate = "/duplicate";
         public static final String email = "/email";
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
         public static final String fulfillments = "/fulfillments";
         public static final String guest = "/guest";
+        public static final String id1 = "?id1=";
+        public static final String id2 = "&id2=";
         public static final String item = "/item";
         public static final String items = "/items";
+        public static final String list = "/list";
         public static final String lists = "/lists";
         public static final String messages = "/messages";
         public static final String nutrition = "/nutrition";
+        public static final String page = "/page";
         public static final String pickup = "/pickup";
+        public static final String postalCode = "/postalCode";
         public static final String promocode = "/promocode";
         public static final String queryParam = "?q=";
+        public static final String radius = "/radius";
         public static final String recipe = "/recipe";
         public static final String review = "/review";
         public static final String search = "/search";
         public static final String settings = "/settings";
+        public static final String size = "/size";
+        public static final String skip = "&skip=";
         public static final String sku = "/sku";
         public static final String special = "/special";
         public static final String store = "/store";
         public static final String stores = "/stores";
+        public static final String storeid = "/storeid";
         public static final String subscription = "/subscription";
         public static final String substitutions = "/substitutions";
         public static final String suggest = "/suggest";
+        public static final String take = "?take=";
         public static final String times = "/times";
         public static final String toCart = "/to/cart";
+        public static final String unit = "/unit";
         public static final String user = "/user";
         public static final String users = "/users";
         public static final String variations = "/variations";
@@ -140,6 +152,7 @@ public final class ApplicationConstants {
         public static final class ShoppingLists{
             public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
             public static final String slUser = MWGApplicationConstants.Requests.ShoppingLists.slUser;
+            public static final String slItemsUser = MWGApplicationConstants.Requests.ShoppingLists.slItemsUser;
         }
 
         public static final class Recipes{
@@ -149,6 +162,10 @@ public final class ApplicationConstants {
         public static final class Coupons{
             public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
             public static final String BaseCouponURL = WakefernApplicationConstants.Requests.Coupons.baseURL;
+        }
+
+        public static final class Planning{
+            public static final String StoreLocator = MWGApplicationConstants.Requests.Planning.StoreLocator;
         }
     }
 
@@ -168,5 +185,10 @@ public final class ApplicationConstants {
         public static final String categories = "Categories";
         public static final String subCategories = "Subcategories";
         public static final String id = "Id";
+    }
+
+    public static class shoppingListItemPost{
+        public static final String contentType = "application/vnd.mywebgrocer.grocery-list+json";
+        public static final String contentAccept = "*/*";
     }
 }

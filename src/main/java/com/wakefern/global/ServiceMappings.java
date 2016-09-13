@@ -89,6 +89,24 @@ public class ServiceMappings {
 		setGenericBody(body.Body(jsonBody));
 	}
 
+	public void setAllHeadersPutMapping(Object serviceObject, String jsonBody){
+		BaseService aService = (BaseService) serviceObject;
+		if (aService.serviceType instanceof MWGHeader) {
+			MWGHeader mwgHeader = new MWGHeader();
+			MWGBody mwgBody = new MWGBody("");
+			sendAllHeadersPutRequest(aService, mwgHeader, mwgBody, jsonBody);
+		}
+	}
+
+
+	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
+		header.authenticate(serviceObject.token, ApplicationConstants.shoppingListItemPost.contentType,
+				ApplicationConstants.shoppingListItemPost.contentAccept);
+		setgenericHeader(header.getMap());
+		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+		setGenericBody(body.Body(jsonBody));
+	}
+
 	//Used for v1 calls
 	public void setServiceMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
@@ -113,5 +131,4 @@ public class ServiceMappings {
 		map.put(ApplicationConstants.MapVariables.auth, ApplicationConstants.MapVariables.authToken);
 		return map;
 	}
-	
 }

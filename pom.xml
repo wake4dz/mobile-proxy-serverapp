@@ -43,12 +43,28 @@
         </dependency>
 
     <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20160212</version>
+    </dependency>
+
+    <dependency>
 	    <groupId>com.ibm.tools.target</groupId>
 	    <artifactId>was-liberty</artifactId>
 	    <version>8.5.x.1</version>
 	    <type>pom</type>
 	    <scope>provided</scope>
   </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.1</version>
+        </dependency>
     </dependencies>
     
     <repositories>

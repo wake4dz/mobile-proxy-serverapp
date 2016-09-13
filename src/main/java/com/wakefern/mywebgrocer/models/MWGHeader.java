@@ -51,9 +51,4 @@ public class MWGHeader extends Header {
 
 		setAllMaps(authMap);
 	}
-
-
-
-
-
 }

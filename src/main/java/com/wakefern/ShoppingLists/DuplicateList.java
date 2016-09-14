@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +41,7 @@ public class DuplicateList extends BaseService {
 
         //Create second List
         ShoppingListsPost shoppingListsPost = new ShoppingListsPost();
-        String jsonToPass = "{\"Name\": \"" + name + "\"}";
+        String jsonToPass = "{\"Name\": \"" + URLDecoder.decode(name , "UTF-8") + "\"}";
         String newListJson = shoppingListsPost.getInfo(userId, storeId, authToken, jsonToPass);
 
         ShoppingListItemsPost shoppingListItemsPost = new ShoppingListItemsPost();

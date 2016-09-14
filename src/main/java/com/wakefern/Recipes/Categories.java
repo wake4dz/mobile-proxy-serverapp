@@ -30,22 +30,18 @@ public class Categories extends BaseService {
 
         matchedObjects = new JSONObject();
 
-        if(q == null || q == "") {
-            this.path = ApplicationConstants.Requests.Recipes.RecipeChain
-                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories;
-        } else {
-            this.path = ApplicationConstants.Requests.Recipes.RecipeChain
-                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
-                    + ApplicationConstants.StringConstants.queryParam + q;
-        }
+
+        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
+                + ApplicationConstants.StringConstants.queryParam + q;
+
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
 
         String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
         XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
         Set<Integer> ids = getSubcategories(subCategoryJson.convert(subCategoryXml));
-
-        q = "BBQ"; //todo remove hardcoding of query
+        
         for(Integer id: ids) {
             System.out.print(id);
             RecipesByCategory recipesByCategory = new RecipesByCategory();

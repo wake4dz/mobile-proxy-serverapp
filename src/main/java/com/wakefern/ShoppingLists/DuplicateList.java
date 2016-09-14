@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class DuplicateList extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/store/{storeId}/duplicate") //todo determine path
+    @Path("/{userId}/store/{storeId}/duplicate")
     public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                           @QueryParam("id1") String id1, @QueryParam("name") String name,
                           @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
@@ -44,6 +44,7 @@ public class DuplicateList extends BaseService {
         String jsonToPass = "{\"Name\": \"" + URLDecoder.decode(name , "UTF-8") + "\"}";
         String newListJson = shoppingListsPost.getInfo(userId, storeId, authToken, jsonToPass);
 
+        //Duplicate first list into the second list
         ShoppingListItemsPost shoppingListItemsPost = new ShoppingListItemsPost();
         return shoppingListItemsPost.getInfo(userId, storeId, newListId(newListJson), authToken, firstList);
     }

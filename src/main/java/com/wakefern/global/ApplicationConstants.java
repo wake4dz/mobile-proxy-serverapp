@@ -1,8 +1,15 @@
 package com.wakefern.global;
 
+import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public final class ApplicationConstants {
+
+
     public static final String testUser				    = "bbrosemer@gmail.com";
     public static final String password				    = "fuzzy2345";
     public static final String jsonResponseType		    = "application/json";
@@ -10,6 +17,34 @@ public final class ApplicationConstants {
     public static final String xmlAcceptType            = "text/xml";
     public static final String authToken 				= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
     public static final int xmlTabAmount                = 4;
+
+
+    public static class AuthorizationTokens{
+        public static class ApplicationTokenMapping{
+            public static final String appQATokenName          = "App-QA-Token";
+            public static final String appQAToken              = "U2mf35557JFo7LqPB]0#k9(Q{&%-!@";
+
+            public static final String mwgV5TokenName          = "mwgProdToken";
+        }
+
+
+        public static class MWGAuthorizationTokens{
+
+        }
+
+        public static class WakefernAuthorizationTokens{
+
+        }
+
+        public static class ApplciationAuthorizationTokens{
+            public static final Map<String,String> tokenMap;
+            static{
+                Map<String,String> aMap = new HashMap<>();
+                aMap.put(ApplicationTokenMapping.appQATokenName,ApplicationTokenMapping.appQAToken);
+                tokenMap = Collections.unmodifiableMap(aMap);
+            }
+        }
+    }
 
     public static class StringConstants{
         public static final String address = "/address";
@@ -64,6 +99,7 @@ public final class ApplicationConstants {
         public static final String user = "/user";
         public static final String users = "/users";
         public static final String variations = "/variations";
+
     }
 
     public static class Requests{
@@ -122,6 +158,11 @@ public final class ApplicationConstants {
 
         public static final class Recipes{
             public static final String RecipeChain = MWGApplicationConstants.Requests.Recipes.RecipeChain;
+        }
+
+        public static final class Coupons{
+            public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
+            public static final String BaseCouponURL = WakefernApplicationConstants.Requests.Coupons.baseURL;
         }
 
         public static final class Planning{

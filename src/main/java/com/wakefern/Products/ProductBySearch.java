@@ -18,14 +18,13 @@ public class ProductBySearch extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{storeId}/search")
-    public String getInfo(@PathParam("storeId") String storeId,  @QueryParam("q") String q,
+    public String getInfo(@PathParam("storeId") String storeId,  @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search
                 + ApplicationConstants.StringConstants.queryParam + q + ApplicationConstants.StringConstants.takeAmp
-                + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
-                + ApplicationConstants.StringConstants.zero;
+                + take + ApplicationConstants.StringConstants.skip + skip;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);

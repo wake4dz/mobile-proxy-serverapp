@@ -27,9 +27,8 @@ public class Categories extends BaseService {
     public String getInfo(@PathParam("chainId") String chainId, @QueryParam("q") String q,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
-
         matchedObjects = new JSONObject();
-
+        q = q.toLowerCase();
 
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
@@ -41,7 +40,7 @@ public class Categories extends BaseService {
         String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
         XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
         Set<Integer> ids = getSubcategories(subCategoryJson.convert(subCategoryXml));
-        
+
         for(Integer id: ids) {
             System.out.print(id);
             RecipesByCategory recipesByCategory = new RecipesByCategory();
@@ -52,8 +51,8 @@ public class Categories extends BaseService {
             matchedObjects = searchJSON(json, q, matchedObjects);
         }
 
-        System.out.print("Before toString");
-        return matchedObjects.toString();
+        JSONObject retval = new JSONObject("{ Total at root: " + matchedObjects.length() + "}");
+        return retval + matchedObjects.toString();
     }
 
     public Categories(){
@@ -69,10 +68,7 @@ public class Categories extends BaseService {
                 String description = jsonRecipe.getString(ApplicationConstants.recipeSearch.description);
                 String name = jsonRecipe.getString(ApplicationConstants.recipeSearch.name);
 
-                System.out.print(name + " " + description);
-
-                if(description.contains(query) || name.contains(query) ){
-                    System.out.print("Match");
+                if(description.toLowerCase().contains(query) || name.toLowerCase().contains(query) ){
                     matchedObjects.append(name, jsonRecipe);
                 }
             }

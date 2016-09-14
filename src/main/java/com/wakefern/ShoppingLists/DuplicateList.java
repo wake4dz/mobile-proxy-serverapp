@@ -2,6 +2,7 @@ package com.wakefern.ShoppingLists;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
@@ -42,11 +43,23 @@ public class DuplicateList extends BaseService {
         //Create second List
         ShoppingListsPost shoppingListsPost = new ShoppingListsPost();
         String jsonToPass = "{\"Name\": \"" + URLDecoder.decode(name , "UTF-8") + "\"}";
-        String newListJson = shoppingListsPost.getInfo(userId, storeId, authToken, jsonToPass);
+        String newListJson;
+        try {
+            newListJson = shoppingListsPost.getInfo(userId, storeId, authToken, jsonToPass);
+            if(newListJson == null){
+                IOException e = new IOException("Duplicate List Name");
+                throw e;
+            }
+        } catch (Exception e){
+            return ExceptionHandler.ExceptionMessage(e);
+        }
+
+        String newListId = newListId(newListJson);
+        JSONObject retval = new JSONObject("{ Id: " + newListId + "}");
 
         //Duplicate first list into the second list
         ShoppingListItemsPost shoppingListItemsPost = new ShoppingListItemsPost();
-        return shoppingListItemsPost.getInfo(userId, storeId, newListId(newListJson), authToken, firstList);
+        return retval + shoppingListItemsPost.getInfo(userId, storeId, newListId, authToken, firstList);
     }
     public DuplicateList(){
         this.serviceType = new MWGHeader();

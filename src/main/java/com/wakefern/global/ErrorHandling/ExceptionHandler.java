@@ -7,4 +7,7 @@ public class ExceptionHandler {
     public static Exception Exception(Exception e){
         return e;
     }
+    public static String ExceptionMessage(Exception e){
+        return e.getMessage();
+    }
 }

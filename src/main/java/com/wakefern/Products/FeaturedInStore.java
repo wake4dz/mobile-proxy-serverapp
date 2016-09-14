@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 8/25/16.
  */
-@Path(ApplicationConstants.Requests.Categories.ProductStore)
+@Path(ApplicationConstants.Requests.Categories.ProductsStore)
 public class FeaturedInStore extends BaseService {
     @GET
     @Produces("application/*")
@@ -21,7 +21,7 @@ public class FeaturedInStore extends BaseService {
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductStore
+        this.path = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured;
 
         ServiceMappings secondMapping = new ServiceMappings();

@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 8/25/16.
  */
-@Path(ApplicationConstants.Requests.Categories.ProductStore)
+@Path(ApplicationConstants.Requests.Categories.ProductsStore)
 public class ProductBySearch extends BaseService {
     @GET
     @Produces("application/*")
@@ -23,7 +23,7 @@ public class ProductBySearch extends BaseService {
         JSONObject myJSONObj = new JSONObject();
 
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductStore
+        this.path = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search;
 
         ServiceMappings secondMapping = new ServiceMappings();

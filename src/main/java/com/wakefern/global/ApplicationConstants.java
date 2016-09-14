@@ -88,6 +88,7 @@ public final class ApplicationConstants {
             public static final String Subcategories = MWGApplicationConstants.Requests.Categories.SubCategories;
             public static final String ProductId = MWGApplicationConstants.Requests.Categories.ProductId;
             public static final String ProductStore = MWGApplicationConstants.Requests.Categories.ProductStore;
+            public static final String ProductsStore = MWGApplicationConstants.Requests.Categories.ProductsStore;
             public static final String ProductCategory = MWGApplicationConstants.Requests.Categories.ProductCategory;
         }
 

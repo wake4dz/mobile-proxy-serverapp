@@ -74,6 +74,7 @@ public final class ApplicationConstants {
         public static final String name = "&name=";
         public static final String nutrition = "/nutrition";
         public static final String page = "/page";
+        public static final String pages = "/pages";
         public static final String pickup = "/pickup";
         public static final String postalCode = "/postalCode";
         public static final String promocode = "/promocode";

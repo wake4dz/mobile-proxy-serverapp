@@ -19,30 +19,25 @@ import java.util.regex.Pattern;
 public class DuplicateList extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/store/{storeId}/chain/{chainId}/duplicate") //todo determine path
-    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("chainId") String chainId, @QueryParam("q") String q,
+    @Path("/{userId}/store/{storeId}/duplicate") //todo determine path
+    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                          @QueryParam("id1") String id1, @QueryParam("id2") String id2,
                           @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         this.token = authToken;
         this.path = ApplicationConstants.Requests.ShoppingLists.slUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.duplicate;
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.duplicate
+                + ApplicationConstants.StringConstants.id1 + id1 + ApplicationConstants.StringConstants.id2 + id2;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        /**
-         *  Assumption query is of format ?q=id1&id2
-         */
-        //Split on &
-        String firstId = q.substring(0, 36);
-        String secondId = q.substring(38, q.length());
-
-        //Get items from first list
+        //Get items from first list - max and min hardcoded for take and skip respectively
         ShoppingListItemsGet shoppingListItemsGet = new ShoppingListItemsGet();
-        String firstList = shoppingListItemsGet.getInfo(chainId, userId, firstId, authToken);
+        String firstList = shoppingListItemsGet.getInfo(userId, storeId, id1, "9999", "0", authToken);
 
         ShoppingListItemsPost shoppingListItemsPost = new ShoppingListItemsPost();
-        return shoppingListItemsPost.getInfo(userId, storeId, secondId, authToken, firstList);
+        return shoppingListItemsPost.getInfo(userId, storeId, id2, authToken, firstList);
     }
     public DuplicateList(){
         this.serviceType = new MWGHeader();

@@ -64,13 +64,14 @@ public final class ApplicationConstants {
         public static final String fulfillment = "/fulfillment";
         public static final String fulfillments = "/fulfillments";
         public static final String guest = "/guest";
+        public static final String Id = "Id";
         public static final String id1 = "?id1=";
-        public static final String id2 = "&id2=";
         public static final String item = "/item";
         public static final String items = "/items";
         public static final String list = "/list";
         public static final String lists = "/lists";
         public static final String messages = "/messages";
+        public static final String name = "&name=";
         public static final String nutrition = "/nutrition";
         public static final String page = "/page";
         public static final String pickup = "/pickup";

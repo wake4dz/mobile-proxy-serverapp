@@ -18,18 +18,19 @@ public class ProductBySearch extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{storeId}/search")
-    public String getInfo(@PathParam("storeId") String storeId,
+    public String getInfo(@PathParam("storeId") String storeId,  @QueryParam("q") String q,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        JSONObject myJSONObj = new JSONObject();
-
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.ProductsStore
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search;
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search
+                + ApplicationConstants.StringConstants.queryParam + q + ApplicationConstants.StringConstants.takeAmp
+                + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
+                + ApplicationConstants.StringConstants.zero;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
 
     }
     public ProductBySearch(){

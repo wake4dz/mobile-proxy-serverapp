@@ -94,13 +94,15 @@ public final class ApplicationConstants {
         public static final String substitutions = "/substitutions";
         public static final String suggest = "/suggest";
         public static final String take = "?take=";
+        public static final String takeAmp = "&take=";
         public static final String times = "/times";
         public static final String toCart = "/to/cart";
+        public static final String twenty = "20";
         public static final String unit = "/unit";
         public static final String user = "/user";
         public static final String users = "/users";
         public static final String variations = "/variations";
-
+        public static final String zero = "0";
     }
 
     public static class Requests{

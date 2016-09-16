@@ -70,6 +70,7 @@ public final class ApplicationConstants {
         public static final String items = "/items";
         public static final String list = "/list";
         public static final String lists = "/lists";
+        public static final String mergeFrom = "/merge-from";
         public static final String messages = "/messages";
         public static final String name = "&name=";
         public static final String nutrition = "/nutrition";

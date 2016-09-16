@@ -23,7 +23,8 @@ public class ProductsInCategory extends BaseService {
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.ProductCategory
                 + ApplicationConstants.StringConstants.backSlash + categoryId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId;
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.take
+                + ApplicationConstants.StringConstants.twenty;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);

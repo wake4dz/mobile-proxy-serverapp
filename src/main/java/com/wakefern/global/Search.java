@@ -20,16 +20,12 @@ public class Search extends BaseService{
         intTake -= finalLoop;
         intTake /= 20;
 
-        System.out.print("Take: " + Integer.toString(intTake));
-        System.out.print("Skip: " + Integer.toString(initSkip));
         String[] jsonArray = new String[intTake + 2];
         for(int i = 0; i < intTake; i++){
             System.out.print("In Loop");
             this.path = partialUrl + ApplicationConstants.StringConstants.takeAmp
                     + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * i) + initSkip);
-
-            System.out.print("\r" + this.path);
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);
@@ -42,8 +38,6 @@ public class Search extends BaseService{
             this.path = partialUrl + ApplicationConstants.StringConstants.takeAmp
                     + Integer.toString(finalLoop) + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * intTake) + initSkip);
-
-            System.out.print("\r" + this.path );
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);

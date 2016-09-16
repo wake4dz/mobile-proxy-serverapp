@@ -3,7 +3,7 @@ package com.wakefern.Products;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.Search;
-import com.wakefern.mywebgrocer.models.MWGHeader;
+import org.json.JSONArray;
 
 import javax.ws.rs.*;
 import java.io.IOException;
@@ -25,9 +25,14 @@ public class ProductBySearch extends BaseService {
                 + ApplicationConstants.StringConstants.queryParam + q;
 
         Search search = new Search();
-        return search.search(partialUrl, take, skip, authToken);
-    }
-    public ProductBySearch(){
-        this.serviceType = new MWGHeader();
+        String retval = search.search(partialUrl, take, skip, authToken);
+        JSONArray jsonArray = new JSONArray(retval);
+        int itemCount = jsonArray.getJSONObject(0).getInt("ItemCount");
+
+        if(itemCount == 0){
+            return "{}";
+        } else {
+            return retval;
+        }
     }
 }

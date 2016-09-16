@@ -2,7 +2,6 @@ package com.wakefern.global;
 
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -20,9 +19,8 @@ public class Search extends BaseService{
         intTake -= finalLoop;
         intTake /= 20;
 
-        String[] jsonArray = new String[intTake + 2];
+        String[] jsonArray = new String[intTake + 1];
         for(int i = 0; i < intTake; i++){
-            System.out.print("In Loop");
             this.path = partialUrl + ApplicationConstants.StringConstants.takeAmp
                     + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * i) + initSkip);
@@ -43,7 +41,7 @@ public class Search extends BaseService{
             secondMapping.setMapping(this);
 
             String result = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
-            jsonArray[intTake + 1] = result;
+            jsonArray[intTake] = result;
         }
         return Arrays.deepToString(jsonArray);
     }

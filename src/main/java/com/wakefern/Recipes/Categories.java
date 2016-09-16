@@ -25,9 +25,20 @@ public class Categories extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/categories")
-    public String getInfo(@PathParam("chainId") String chainId, @QueryParam("q") String q,
+    public String getInfo(@PathParam("chainId") String chainId, @DefaultValue("") @QueryParam("q") String q,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
+        if(q == ""){
+            this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories;
+
+            ServiceMappings secondMapping = new ServiceMappings();
+            secondMapping.setServiceMapping(this, null);
+
+            String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
+            return subCategoryJson.convert(subCategoryXml);
+        }
         matchedObjects = new JSONObject();
         q = q.toLowerCase();
 

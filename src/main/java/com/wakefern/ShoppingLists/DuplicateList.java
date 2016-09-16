@@ -51,7 +51,8 @@ public class DuplicateList extends BaseService {
                 throw e;
             }
         } catch (Exception e){
-            return ExceptionHandler.ExceptionMessage(e);
+            JSONObject jsonObject = new JSONObject("{ Error: " + ExceptionHandler.ExceptionMessage(e) + "}");
+            return jsonObject.toString();
         }
 
         String newListId = newListId(newListJson);

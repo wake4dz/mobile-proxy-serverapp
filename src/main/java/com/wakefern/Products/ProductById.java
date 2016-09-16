@@ -19,15 +19,11 @@ public class ProductById extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{productId}/store/{storeId}")
-    public String getInfo(@PathParam("productId") String productId, @PathParam("storeId") String storeId, @QueryParam("circularId") String circId,
+    public String getInfo(@PathParam("productId") String productId, @PathParam("storeId") String storeId, @DefaultValue("") @QueryParam("circularId") String circId,
                           @QueryParam("page") String page, @QueryParam("product") String product, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
 
-        System.out.print("productId" + productId);
-        System.out.print("CircularId" + circId);
-
-        if(circId != null || !circId.isEmpty() ){
-            System.out.print("Why");
+        if(circId != ""){
             this.path = ApplicationConstants.Requests.Circular.Categories +
                     ApplicationConstants.StringConstants.backSlash + "FBFB1313" + ApplicationConstants.StringConstants.stores
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
@@ -38,7 +34,6 @@ public class ProductById extends BaseService {
             PageItemId pageItemId = new PageItemId();
             return pageItemId.getInfo("FBFB1313", storeId, circId, page, product, authToken);
         } else {
-            System.out.print("More confused");
             this.path = ApplicationConstants.Requests.Categories.ProductId
                     + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId;

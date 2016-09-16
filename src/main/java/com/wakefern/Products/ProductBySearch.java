@@ -1,11 +1,9 @@
 package com.wakefern.Products;
 
-import com.ibm.json.java.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
+import com.wakefern.global.Search;
 import com.wakefern.mywebgrocer.models.MWGHeader;
-import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
 import java.io.IOException;
@@ -21,16 +19,13 @@ public class ProductBySearch extends BaseService {
     public String getInfo(@PathParam("storeId") String storeId,  @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductsStore
+
+        String partialUrl = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search
-                + ApplicationConstants.StringConstants.queryParam + q + ApplicationConstants.StringConstants.takeAmp
-                + take + ApplicationConstants.StringConstants.skip + skip;
+                + ApplicationConstants.StringConstants.queryParam + q;
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
-
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
-
+        Search search = new Search();
+        return search.search(partialUrl, take, skip, authToken);
     }
     public ProductBySearch(){
         this.serviceType = new MWGHeader();

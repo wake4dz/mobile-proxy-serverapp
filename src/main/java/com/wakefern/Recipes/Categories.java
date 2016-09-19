@@ -24,25 +24,29 @@ public class Categories extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/categories")
-    public String getInfo(@PathParam("chainId") String chainId, @QueryParam("q") String q,
+    public String getInfo(@PathParam("chainId") String chainId, @QueryParam("q") String q, @DefaultValue("")@QueryParam("category") String category,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         matchedObjects = new JSONObject();
+        Set<Integer> ids = new HashSet<>();
         q = q.toLowerCase();
 
-        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
-                + ApplicationConstants.StringConstants.queryParam + q;
+        if(category == "") {
+            this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
+                    + ApplicationConstants.StringConstants.queryParam + q;
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+            ServiceMappings secondMapping = new ServiceMappings();
+            secondMapping.setServiceMapping(this, null);
 
-        String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-        XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
-        Set<Integer> ids = getSubcategories(subCategoryJson.convert(subCategoryXml));
+            String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
+            ids = getSubcategories(subCategoryJson.convert(subCategoryXml));
+        } else {
+            ids.add(Integer.parseInt(category));
+        }
 
         for(Integer id: ids) {
-            System.out.print(id);
             RecipesByCategory recipesByCategory = new RecipesByCategory();
             String extractedXml = recipesByCategory.getInfo(chainId, Integer.toString(id), authToken);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();

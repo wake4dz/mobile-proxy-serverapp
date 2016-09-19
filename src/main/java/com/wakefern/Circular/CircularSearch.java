@@ -2,9 +2,7 @@ package com.wakefern.Circular;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
-import com.wakefern.mywebgrocer.models.MWGHeader;
-import com.wakefern.request.HTTPRequest;
+import com.wakefern.global.Search;
 
 import javax.ws.rs.*;
 import java.io.IOException;
@@ -14,24 +12,19 @@ import java.io.IOException;
  */
 
 @Path(ApplicationConstants.Requests.Circular.Categories)
-public class Search extends BaseService{
+public class CircularSearch extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/items")
     public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
+                          @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+        String partialUrl = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
-                + storeId + ApplicationConstants.StringConstants.items;
+                + storeId + ApplicationConstants.StringConstants.items + ApplicationConstants.StringConstants.queryParam + q;
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
-
-        return HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader());
-    }
-
-    public Search(){
-        this.serviceType = new MWGHeader();
+        Search search = new Search();
+        return search.search(partialUrl, take, skip, authToken);
     }
 }

@@ -1,5 +1,6 @@
 package com.wakefern.global;
 
+import com.wakefern.Wakefern.Models.WakefernHeader;
 import com.wakefern.mywebgrocer.models.*;
 
 import java.util.HashMap;
@@ -130,5 +131,20 @@ public class ServiceMappings {
 		map.put(ApplicationConstants.MapVariables.contentType, ApplicationConstants.MapVariables.requestType);
 		map.put(ApplicationConstants.MapVariables.auth, ApplicationConstants.MapVariables.authToken);
 		return map;
+	}
+
+	//Used for coupon api
+	public void setCouponMapping(Object serviceObject){
+		BaseService aService = (BaseService) serviceObject;
+		if (aService.serviceType instanceof WakefernHeader){
+			WakefernHeader wakefernHeader = new WakefernHeader();
+			sendCouponMapping((BaseService) serviceObject, wakefernHeader);
+		}
+	}
+
+	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
+		wakefernHeader.cuponAuth();
+		setgenericHeader(wakefernHeader.getMap());
+		setPath(serviceObject.path);
 	}
 }

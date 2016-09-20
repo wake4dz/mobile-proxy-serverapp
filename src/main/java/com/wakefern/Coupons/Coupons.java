@@ -1,15 +1,18 @@
 package com.wakefern.Coupons;
 
+import com.wakefern.Circular.CircularCategory;
 import com.wakefern.Wakefern.Models.WakefernHeader;
 import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.ServiceMappings;
+import com.wakefern.request.HTTPRequest;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.io.IOException;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
@@ -17,23 +20,69 @@ import javax.ws.rs.Produces;
 
 @Path(ApplicationConstants.Requests.Coupons.GetCoupons)
 public class Coupons extends BaseService {
-
+    public JSONObject matchedObjects;
     @GET
     @Produces("application/*")
-    public String getInfo(@PathParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam){
-        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons;
-        if(!ApplicationUtils.isEmpty(ppcParam)){
-            if(ppcParam.equalsIgnoreCase(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)){
-                //Get all metadata
+    public String getInfo(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
+                  @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
+                  @DefaultValue("") @QueryParam("query") String query,
+                  @DefaultValue("") @QueryParam("category") String category )
+                  throws Exception, IOException {
+        matchedObjects = new JSONObject();
+        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
+                    + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
 
-            }else{
-                //Create query with hash on the necessary tokens to be displayed
-            }
-        }else{
-            //Throw error as the PPC # / parameter should not be empty
+        //Execute Post
+        ServiceMappings serviceMappings = new ServiceMappings();
+        serviceMappings.setCouponMapping(this);
+
+        String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+
+        if(query == ""){
+            return coupons;
         }
-        return "";
+
+        search(coupons, query, category);
+        return matchedObjects.toString();
+        //return coupons;
     }
 
     public Coupons () {this.serviceType = new WakefernHeader();}
+
+    private JSONObject search(String coupons, String query, String category){
+//        CircularCategory circularCategory = new CircularCategory();
+//        circularCategory.getInfo("FBFB1313", storeId, category, auth);
+//        getCategoryNameFromId();
+//        category = category.toLowerCase();
+        query = query.toLowerCase();
+
+        JSONArray jsonArray = new JSONArray(coupons);
+
+        for(Object coupon: jsonArray){
+            JSONObject currentCoupon = (JSONObject) coupon;
+
+            //If category case check category now, if not a match continue
+            if(category != ""){
+                System.out.print("category loop");
+                if(currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.category).toLowerCase() != category)
+                    continue;
+            }
+
+            String brandName = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.brandName);
+            String shortDescription = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.shortDescription);
+            String longDescription = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.longDescription);
+            String requirementDescription = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.requirementDescription);
+
+            if(brandName.toLowerCase().contains(query) || shortDescription.toLowerCase().contains(query)
+                    || longDescription.toLowerCase().contains(query) || requirementDescription.toLowerCase().contains(query)){
+                matchedObjects.append("", currentCoupon);
+            }
+
+        }
+        return matchedObjects;
+    }
+
+    private String getCategoryNameFromId(){
+        return "";
+    }
 }

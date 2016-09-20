@@ -1,5 +1,6 @@
 package com.wakefern.Wakefern.Models;
 
+import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.request.models.Header;
 
@@ -48,6 +49,14 @@ public class WakefernHeader extends Header {
         Map<String, String> authMap = new HashMap<>();
         authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.xmlAcceptType);
         authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, token);
+
+        setAllMaps(authMap);
+    }
+
+    public void cuponAuth(){
+        Map<String, String> authMap = new HashMap<>();
+        authMap.put(WakefernApplicationConstants.Requests.Coupons.Headers.CouponAuthenticationTokenHeader,
+                WakefernApplicationConstants.Requests.Coupons.Headers.CouponAuthenticationToken);
 
         setAllMaps(authMap);
     }

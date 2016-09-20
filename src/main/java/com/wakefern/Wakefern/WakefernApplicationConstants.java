@@ -19,6 +19,15 @@ public class WakefernApplicationConstants {
                 public static final String Metadata = "/getCouponMetadata";
                 public static final String PPC = "ppc_number";
                 public static final String PPC_All = "all";
+                public static final String PPCQuery = "?ppc_number=";
+            }
+
+            public static class Search{
+                public static final String brandName = "brand_name";
+                public static final String category = "Category";
+                public static final String longDescription = "long_description";
+                public static final String shortDescription = "short_description";
+                public static final String requirementDescription = "requirement_description";
             }
 
         }

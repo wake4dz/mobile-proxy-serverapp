@@ -25,8 +25,7 @@ public class Coupons extends BaseService {
     @Produces("application/*")
     public String getInfo(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
                   @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
-                  @DefaultValue("") @QueryParam("query") String query,
-                  @DefaultValue("") @QueryParam("category") String category )
+                  @DefaultValue("") @QueryParam("query") String query)
                   throws Exception, IOException {
         matchedObjects = new JSONObject();
         this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
@@ -42,31 +41,19 @@ public class Coupons extends BaseService {
             return coupons;
         }
 
-        search(coupons, query, category);
+        search(coupons, query);
         return matchedObjects.toString();
-        //return coupons;
     }
 
     public Coupons () {this.serviceType = new WakefernHeader();}
 
-    private JSONObject search(String coupons, String query, String category){
-//        CircularCategory circularCategory = new CircularCategory();
-//        circularCategory.getInfo("FBFB1313", storeId, category, auth);
-//        getCategoryNameFromId();
-//        category = category.toLowerCase();
+    private JSONObject search(String coupons, String query){
         query = query.toLowerCase();
 
         JSONArray jsonArray = new JSONArray(coupons);
 
         for(Object coupon: jsonArray){
             JSONObject currentCoupon = (JSONObject) coupon;
-
-            //If category case check category now, if not a match continue
-            if(category != ""){
-                System.out.print("category loop");
-                if(currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.category).toLowerCase() != category)
-                    continue;
-            }
 
             String brandName = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.brandName);
             String shortDescription = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.shortDescription);
@@ -77,12 +64,7 @@ public class Coupons extends BaseService {
                     || longDescription.toLowerCase().contains(query) || requirementDescription.toLowerCase().contains(query)){
                 matchedObjects.append("", currentCoupon);
             }
-
         }
         return matchedObjects;
-    }
-
-    private String getCategoryNameFromId(){
-        return "";
     }
 }

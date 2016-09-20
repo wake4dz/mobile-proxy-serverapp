@@ -1,9 +1,9 @@
 package com.wakefern.Recipes;
 
-import com.wakefern.Caching.WakefernCacheControl;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.global.XMLtoJSONConverter;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -26,20 +26,14 @@ public class RecipesByCategory extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category
                 + ApplicationConstants.StringConstants.backSlash + subCategoryId;
 
-        //Get Cached Response If available
-        String cachedResponse = WakefernCacheControl.getCachedRequest(this.path);
-        if(cachedResponse!=null){
-            return cachedResponse;
-        }
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
 
         String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
 
-        WakefernCacheControl.cacheRequest(this.path,response);
-
-        return response;
+        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+        return xmLtoJSONConverter.convert(response);
     }
 
     public RecipesByCategory(){

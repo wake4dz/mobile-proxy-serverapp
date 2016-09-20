@@ -15,6 +15,10 @@ public class WakefernApplicationConstants {
                 public static final String CouponAuthenticationTokenHeader  = "X-ZUMO-APPLICATION";
             }
 
+            public static class ListId{
+                public static final String CouponId = "/getCouponIDListBySR";
+            }
+
             public static class Metadata{
                 public static final String Metadata = "/getCouponMetadata";
                 public static final String PPC = "ppc_number";

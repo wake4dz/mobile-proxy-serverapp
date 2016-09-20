@@ -168,6 +168,7 @@ public final class ApplicationConstants {
 
         public static final class Coupons{
             public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
+            public static final String GetCouponId = WakefernApplicationConstants.Requests.Coupons.ListId.CouponId;
             public static final String BaseCouponURL = WakefernApplicationConstants.Requests.Coupons.baseURL;
         }
 

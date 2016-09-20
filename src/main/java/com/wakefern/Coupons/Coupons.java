@@ -1,10 +1,8 @@
 package com.wakefern.Coupons;
 
-import com.wakefern.Circular.CircularCategory;
 import com.wakefern.Wakefern.Models.WakefernHeader;
 import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.request.HTTPRequest;

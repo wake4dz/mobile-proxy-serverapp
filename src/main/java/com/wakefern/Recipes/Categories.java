@@ -64,10 +64,7 @@ public class Categories extends BaseService {
 
         for(Integer id: ids) {
             RecipesByCategory recipesByCategory = new RecipesByCategory();
-            String extractedXml = recipesByCategory.getInfo(chainId, Integer.toString(id), authToken);
-            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-
-            String json = xmLtoJSONConverter.convert(extractedXml);
+            String json = recipesByCategory.getInfo(chainId, Integer.toString(id), authToken);
             matchedObjects = searchJSON(json, q, matchedObjects);
         }
 

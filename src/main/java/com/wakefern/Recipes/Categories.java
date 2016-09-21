@@ -20,7 +20,6 @@ import java.util.*;
  */
 @Path(ApplicationConstants.Requests.Recipes.RecipeChain)
 public class Categories extends BaseService {
-    public JSONObject matchedObjects;
     public JSONArray matchedObjects2;
     @GET
     @Produces("application/*")
@@ -42,7 +41,7 @@ public class Categories extends BaseService {
             XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
             return subCategoryJson.convert(subCategoryXml);
         }
-        matchedObjects = new JSONObject();
+        JSONObject matchedObjects = new JSONObject();
         matchedObjects2 = new JSONArray();
         Set<Integer> ids = new HashSet<>();
         q = q.toLowerCase();
@@ -67,11 +66,12 @@ public class Categories extends BaseService {
         for(Integer id: ids) {
             RecipesByCategory recipesByCategory = new RecipesByCategory();
             String json = recipesByCategory.getInfo(chainId, Integer.toString(id), authToken);
-            matchedObjects = searchJSON(json, q, matchedObjects, matchedObjects2);
+            matchedObjects2 = searchJSON(json, q, matchedObjects2);
         }
 
         int length = matchedObjects2.length();
-        matchedObjects.append( "Total at root",length);
+        matchedObjects.put( "Total at root", length);
+        matchedObjects.put( "Recipes", matchedObjects2);
         return matchedObjects.toString();
     }
 
@@ -79,8 +79,7 @@ public class Categories extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    public JSONObject searchJSON(String jsonString, String query, JSONObject matchedObjects, JSONArray matchedObjects2) throws JSONException{
-        int counter = 0;
+    public JSONArray searchJSON(String jsonString, String query, JSONArray matchedObjects2) throws JSONException{
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONObject(ApplicationConstants.recipeSearch.recipes).getJSONArray(ApplicationConstants.recipeSearch.recipeSummary);
         try{
@@ -90,15 +89,13 @@ public class Categories extends BaseService {
                 String name = jsonRecipe.getString(ApplicationConstants.recipeSearch.name);
 
                 if(description.toLowerCase().contains(query) || name.toLowerCase().contains(query) ){
-                    matchedObjects2.put(counter, jsonRecipe);
-                    counter++;
+                    matchedObjects2.put(matchedObjects2.length(), jsonRecipe);
                 }
             }
         } catch (JSONException e){
             System.out.print("Failed to iterate Recipes");
         }
-        matchedObjects.append("recipe array", matchedObjects2);
-        return matchedObjects;
+        return matchedObjects2;
     }
 
     public Set<Integer> getSubcategories(String jsonString){

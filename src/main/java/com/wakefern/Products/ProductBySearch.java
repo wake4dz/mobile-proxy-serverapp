@@ -56,18 +56,18 @@ public class ProductBySearch extends BaseService {
         JSONObject zeroth = jsonArray.getJSONObject(0);
         JSONObject retval = new JSONObject();
 
-        retval.append(ApplicationConstants.ProductSearch.activeFilters, zeroth.getJSONArray(ApplicationConstants.ProductSearch.activeFilters));
-        retval.append(ApplicationConstants.ProductSearch.recentFilters, zeroth.getJSONArray(ApplicationConstants.ProductSearch.recentFilters));
-        retval.append(ApplicationConstants.ProductSearch.facets, facets);
-        retval.append(ApplicationConstants.ProductSearch.sortLinks, zeroth.getJSONArray(ApplicationConstants.ProductSearch.sortLinks));
-        retval.append(ApplicationConstants.ProductSearch.pages, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pages));
-        retval.append(ApplicationConstants.ProductSearch.pageLinks, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pageLinks));
-        retval.append(ApplicationConstants.ProductSearch.items, items);
-        retval.append(ApplicationConstants.ProductSearch.skip, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.skip)));
-        retval.append(ApplicationConstants.ProductSearch.take, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.take)));
-        retval.append(ApplicationConstants.ProductSearch.totalQuantity, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.totalQuantity)));
-        retval.append(ApplicationConstants.ProductSearch.itemCount, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.itemCount)));
-        retval.append(ApplicationConstants.ProductSearch.links, zeroth.getJSONArray(ApplicationConstants.ProductSearch.links));
+        retval.put(ApplicationConstants.ProductSearch.activeFilters, zeroth.getJSONArray(ApplicationConstants.ProductSearch.activeFilters));
+        retval.put(ApplicationConstants.ProductSearch.recentFilters, zeroth.getJSONArray(ApplicationConstants.ProductSearch.recentFilters));
+        retval.put(ApplicationConstants.ProductSearch.facets, facets);
+        retval.put(ApplicationConstants.ProductSearch.sortLinks, zeroth.getJSONArray(ApplicationConstants.ProductSearch.sortLinks));
+        retval.put(ApplicationConstants.ProductSearch.pages, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pages));
+        retval.put(ApplicationConstants.ProductSearch.pageLinks, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pageLinks));
+        retval.put(ApplicationConstants.ProductSearch.items, items);
+        retval.put(ApplicationConstants.ProductSearch.skip, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.skip)));
+        retval.put(ApplicationConstants.ProductSearch.take, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.take)));
+        retval.put(ApplicationConstants.ProductSearch.totalQuantity, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.totalQuantity)));
+        retval.put(ApplicationConstants.ProductSearch.itemCount, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.itemCount)));
+        retval.put(ApplicationConstants.ProductSearch.links, zeroth.getJSONArray(ApplicationConstants.ProductSearch.links));
 
 
         return retval.toString();

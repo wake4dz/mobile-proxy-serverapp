@@ -199,4 +199,19 @@ public final class ApplicationConstants {
         public static final String contentType = "application/vnd.mywebgrocer.grocery-list+json";
         public static final String contentAccept = "*/*";
     }
+
+    public static class ProductSearch{
+        public static final String items = "Items";
+        public static final String facets = "Facets";
+        public static final String itemCount = "ItemCount";
+        public static final String activeFilters = "ActiveFilters";
+        public static final String recentFilters = "RecentFilters";
+        public static final String sortLinks = "SortLinks";
+        public static final String pages = "Pages";
+        public static final String pageLinks = "PageLinks";
+        public static final String skip = "Skip";
+        public static final String take = "Take";
+        public static final String totalQuantity = "TotalQuantity";
+        public static final String links = "Links";
+    }
 }

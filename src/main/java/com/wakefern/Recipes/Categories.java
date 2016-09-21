@@ -68,8 +68,9 @@ public class Categories extends BaseService {
             matchedObjects = searchJSON(json, q, matchedObjects);
         }
 
-        JSONObject retval = new JSONObject("{ Total at root: " + matchedObjects.length() + "}");
-        return retval + matchedObjects.toString();
+        int length = matchedObjects.length();
+        matchedObjects.append( "Total at root",length);
+        return matchedObjects.toString();
     }
 
     public Categories(){

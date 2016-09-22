@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class Search extends BaseService{
 
-    public String search(String partialUrl, String take, String skip, String authToken){
+    public String search(String partialUrl, String take, String skip, String fq, String sort, String authToken){
         this.token = authToken;
 
         int intTake = Integer.parseInt(take);
@@ -23,7 +23,17 @@ public class Search extends BaseService{
         for(int i = 0; i < intTake; i++){
             this.path = partialUrl + ApplicationConstants.StringConstants.takeAmp
                     + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
-                    + String.valueOf((20 * i) + initSkip);
+                    + String.valueOf((20 * i) + initSkip );
+
+            if(sort != ""){
+                this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
+            }
+
+            if(fq != ""){
+                this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+            }
+
+            System.out.print("Path: " + this.path);
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);
@@ -36,6 +46,16 @@ public class Search extends BaseService{
             this.path = partialUrl + ApplicationConstants.StringConstants.takeAmp
                     + Integer.toString(finalLoop) + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * intTake) + initSkip);
+
+            if(sort != ""){
+                this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
+            }
+
+            if(fq != ""){
+                this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+            }
+
+            System.out.print("Final Path: " + this.path);
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);

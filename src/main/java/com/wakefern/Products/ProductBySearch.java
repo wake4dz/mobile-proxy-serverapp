@@ -20,6 +20,7 @@ public class ProductBySearch extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/search")
     public String getInfo(@PathParam("storeId") String storeId, @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
+                          @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
 
@@ -43,7 +44,14 @@ public class ProductBySearch extends BaseService {
         }
 
         Search search = new Search();
-        String json = search.search(partialUrl, take, skip, authToken);
+        String json = search.search(partialUrl, take, skip, fq, sort, authToken);
+
+        System.out.print("JSON: " + json);
+
+        if((json.equals("[null]") || json.equals(null)) && fq != ""){
+            JSONObject jsonObject = new JSONObject();
+            return jsonObject.put("Error", "No filter match for given take").toString();
+        }
 
         JSONArray jsonArray = new JSONArray(json);
         return formatResponse(jsonArray, take, skip, isMore);
@@ -51,7 +59,7 @@ public class ProductBySearch extends BaseService {
 
     private int calcMaxTake(String partialUrl, String authToken){
         Search search = new Search();
-        String json = search.search(partialUrl, "1", "0", authToken);
+        String json = search.search(partialUrl, "1", "0", "", "", authToken);
 
         JSONArray jsonArray = new JSONArray(json);
         return jsonArray.getJSONObject(0).getInt(ApplicationConstants.ProductSearch.itemCount);

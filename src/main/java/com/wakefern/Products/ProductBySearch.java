@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * Created by zacpuste on 8/25/16.
@@ -23,6 +25,13 @@ public class ProductBySearch extends BaseService {
                           @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
+        try {
+            if(q != "") {
+                q = URLEncoder.encode(q, "UTF-8");
+            }
+        } catch (Exception e){
+
+        }
 
         String partialUrl = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search
@@ -46,11 +55,9 @@ public class ProductBySearch extends BaseService {
         Search search = new Search();
         String json = search.search(partialUrl, take, skip, fq, sort, authToken);
 
-        System.out.print("JSON: " + json);
-
         if((json.equals("[null]") || json.equals(null)) && fq != ""){
             JSONObject jsonObject = new JSONObject();
-            return jsonObject.put("Error", "No filter match for given take").toString();
+            return jsonObject.put("No filter match for given take", 400).toString();
         }
 
         JSONArray jsonArray = new JSONArray(json);

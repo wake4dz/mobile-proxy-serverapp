@@ -3,6 +3,7 @@ package com.wakefern.global;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 /**
@@ -18,6 +19,16 @@ public class Search extends BaseService{
         int finalLoop = intTake % 20;
         intTake -= finalLoop;
         intTake /= 20;
+        try {
+            if(fq != "") {
+                fq = URLEncoder.encode(fq, "UTF-8");
+            }
+            if(sort != ""){
+                sort = URLEncoder.encode(sort, "UTF-8");
+            }
+        } catch (Exception e){
+
+        }
 
         String[] jsonArray = new String[intTake + 1];
         for(int i = 0; i < intTake; i++){
@@ -32,8 +43,6 @@ public class Search extends BaseService{
             if(fq != ""){
                 this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
             }
-
-            System.out.print("Path: " + this.path);
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);
@@ -54,8 +63,6 @@ public class Search extends BaseService{
             if(fq != ""){
                 this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
             }
-
-            System.out.print("Final Path: " + this.path);
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);

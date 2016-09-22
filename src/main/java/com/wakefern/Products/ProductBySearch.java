@@ -2,8 +2,10 @@ package com.wakefern.Products;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.global.Search;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -25,31 +27,53 @@ public class ProductBySearch extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search
                 + ApplicationConstants.StringConstants.queryParam + q;
 
+        int maxTake = calcMaxTake(partialUrl, authToken);
+        int currentTake = Integer.parseInt(take);
+        boolean isMore = true;
+
+        if(maxTake == 0){
+            JSONObject jsonObject = new JSONObject();
+            return jsonObject.put("Error", "No items returned for search parameter").toString();
+        }
+
+        if(currentTake > maxTake){
+            System.out.print("Modified Take Param");
+            take = String.valueOf(maxTake);
+            isMore = false;
+        }
+
         Search search = new Search();
         String json = search.search(partialUrl, take, skip, authToken);
-        JSONArray jsonArray = new JSONArray(json);
-        int itemCount = jsonArray.getJSONObject(0).getInt(ApplicationConstants.ProductSearch.itemCount);
 
-        if(itemCount == 0){
-            return "{}";
-        } else {
-            return formatResponse(jsonArray);
-        }
+        JSONArray jsonArray = new JSONArray(json);
+        return formatResponse(jsonArray, take, skip, isMore);
     }
 
-    private String formatResponse(JSONArray jsonArray){
+    private int calcMaxTake(String partialUrl, String authToken){
+        Search search = new Search();
+        String json = search.search(partialUrl, "1", "0", authToken);
+
+        JSONArray jsonArray = new JSONArray(json);
+        return jsonArray.getJSONObject(0).getInt(ApplicationConstants.ProductSearch.itemCount);
+    }
+
+    private String formatResponse(JSONArray jsonArray, String take, String skip, boolean isMore){
         JSONArray items = new JSONArray();
         JSONArray facets = new JSONArray();
         for(Object match: jsonArray){
-            JSONObject currentMatch = (JSONObject) match;
+            try {
+                JSONObject currentMatch = (JSONObject) match;
 
-            JSONArray item = currentMatch.getJSONArray(ApplicationConstants.ProductSearch.items);
-            for(int j = 0; j < item.length(); j++){
-                items.put(item.getJSONObject(j));
-            }
-            JSONArray facet = currentMatch.getJSONArray(ApplicationConstants.ProductSearch.facets);
-            for(int j = 0; j < facet.length(); j++){
-                facets.put(facet.getJSONObject(j));
+                JSONArray item = currentMatch.getJSONArray(ApplicationConstants.ProductSearch.items);
+                for (int j = 0; j < item.length(); j++) {
+                    items.put(item.getJSONObject(j));
+                }
+                JSONArray facet = currentMatch.getJSONArray(ApplicationConstants.ProductSearch.facets);
+                for (int j = 0; j < facet.length(); j++) {
+                    facets.put(facet.getJSONObject(j));
+                }
+            } catch (Exception e) {
+                System.out.print(ExceptionHandler.ExceptionMessage(e));
             }
         }
 
@@ -63,12 +87,12 @@ public class ProductBySearch extends BaseService {
         retval.put(ApplicationConstants.ProductSearch.pages, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pages));
         retval.put(ApplicationConstants.ProductSearch.pageLinks, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pageLinks));
         retval.put(ApplicationConstants.ProductSearch.items, items);
-        retval.put(ApplicationConstants.ProductSearch.skip, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.skip)));
-        retval.put(ApplicationConstants.ProductSearch.take, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.take)));
+        retval.put(ApplicationConstants.ProductSearch.skip, skip);
+        retval.put(ApplicationConstants.ProductSearch.take, take);
         retval.put(ApplicationConstants.ProductSearch.totalQuantity, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.totalQuantity)));
         retval.put(ApplicationConstants.ProductSearch.itemCount, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.itemCount)));
         retval.put(ApplicationConstants.ProductSearch.links, zeroth.getJSONArray(ApplicationConstants.ProductSearch.links));
-
+        retval.put(ApplicationConstants.ProductSearch.moreAvailiable, isMore);
 
         return retval.toString();
     }

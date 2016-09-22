@@ -213,5 +213,6 @@ public final class ApplicationConstants {
         public static final String take = "Take";
         public static final String totalQuantity = "TotalQuantity";
         public static final String links = "Links";
+        public static final String moreAvailiable = "MoreAvailiable";
     }
 }

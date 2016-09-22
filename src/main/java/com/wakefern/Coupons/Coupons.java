@@ -39,13 +39,15 @@ public class Coupons extends BaseService {
             return coupons;
         }
 
-        search(coupons, query);
+        JSONArray matchedObjects2 = new JSONArray();
+        matchedObjects2 = search(coupons, query, matchedObjects2);
+        matchedObjects.put("Coupons", matchedObjects2);
         return matchedObjects.toString();
     }
 
     public Coupons () {this.serviceType = new WakefernHeader();}
 
-    private JSONObject search(String coupons, String query){
+    private JSONArray search(String coupons, String query, JSONArray matchedObjects2){
         query = query.toLowerCase();
 
         JSONArray jsonArray = new JSONArray(coupons);
@@ -60,9 +62,9 @@ public class Coupons extends BaseService {
 
             if(brandName.toLowerCase().contains(query) || shortDescription.toLowerCase().contains(query)
                     || longDescription.toLowerCase().contains(query) || requirementDescription.toLowerCase().contains(query)){
-                matchedObjects.append("", currentCoupon);
+                matchedObjects2.put(matchedObjects2.length(), currentCoupon);
             }
         }
-        return matchedObjects;
+        return matchedObjects2;
     }
 }

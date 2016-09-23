@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
@@ -25,6 +27,7 @@ public class Coupons extends BaseService {
                   @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                   @DefaultValue("") @QueryParam("query") String query)
                   throws Exception, IOException {
+
         matchedObjects = new JSONObject();
         this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
                     + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
@@ -40,14 +43,12 @@ public class Coupons extends BaseService {
         }
 
         JSONArray matchedObjects2 = new JSONArray();
-        matchedObjects2 = search(coupons, query, matchedObjects2);
-        matchedObjects.put("Coupons", matchedObjects2);
-        return matchedObjects.toString();
+        return search(coupons, query, matchedObjects2).toString();
     }
 
     public Coupons () {this.serviceType = new WakefernHeader();}
 
-    private JSONArray search(String coupons, String query, JSONArray matchedObjects2){
+    private JSONObject search(String coupons, String query, JSONArray matchedObjects2){
         query = query.toLowerCase();
 
         JSONArray jsonArray = new JSONArray(coupons);
@@ -65,6 +66,34 @@ public class Coupons extends BaseService {
                 matchedObjects2.put(matchedObjects2.length(), currentCoupon);
             }
         }
-        return matchedObjects2;
+        return sortCouponsByCategory(matchedObjects2);
+    }
+
+    private JSONObject sortCouponsByCategory( JSONArray matchedObjects2 ){
+        Set<String> categoryIds = new HashSet<>();
+        JSONObject jsonObject = new JSONObject();
+
+        for (Object coupon: matchedObjects2){
+            JSONObject currentCoupon = (JSONObject) coupon;
+            categoryIds.add(currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.category));
+        }
+
+        JSONArray retval = new JSONArray();
+        for(String id: categoryIds){
+            System.out.print("id: " + id);
+            JSONObject formatting = new JSONObject();
+            JSONArray currentId = new JSONArray();
+            for(Object coupon: matchedObjects2){
+                JSONObject currentCoupon = (JSONObject) coupon;
+                String category = (currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.category));
+                if(category.equals(id)) {
+                    currentId.put(currentId.length(), currentCoupon);
+                }
+            }
+            formatting.put("Name", id);
+            formatting.put("Items", currentId);
+            retval.put(retval.length(), formatting);
+        }
+        return jsonObject.put("CouponCategories", retval);
     }
 }

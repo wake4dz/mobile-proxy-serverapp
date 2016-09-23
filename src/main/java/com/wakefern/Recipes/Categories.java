@@ -68,10 +68,8 @@ public class Categories extends BaseService {
             String json = recipesByCategory.getInfo(chainId, Integer.toString(id), authToken);
             matchedObjects2 = searchJSON(json, q, matchedObjects2);
         }
-
-        int length = matchedObjects2.length();
-        matchedObjects.put( "Total at root", length);
-        matchedObjects.put( "Recipes", matchedObjects2);
+        matchedObjects = sortRecipesByCategory(matchedObjects2);
+        matchedObjects.put( "totalRecipes", totalRecipes(matchedObjects));
         return matchedObjects.toString();
     }
 
@@ -115,7 +113,73 @@ public class Categories extends BaseService {
         } catch (JSONException e) {
             System.out.print("Failed to iterate Categories");
         }
-        System.out.print(retval);
+        return retval;
+    }
+
+    private JSONObject sortRecipesByCategory( JSONArray matchedObjects2 ){
+        Set<Integer> recipeIds = new HashSet<>();
+        JSONObject jsonObject = new JSONObject();
+
+        for (Object recipe: matchedObjects2){
+            JSONObject currentRecipes = (JSONObject) recipe;
+            try {
+                JSONArray categories = currentRecipes.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONArray(
+                        ApplicationConstants.recipeSearch.category);
+                for (Object category : categories) {
+                    JSONObject currentCategory = (JSONObject) category;
+                    recipeIds.add(currentCategory.getInt(ApplicationConstants.recipeSearch.id));
+                }
+            } catch (Exception e){
+                JSONObject categories = currentRecipes.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONObject(
+                        ApplicationConstants.recipeSearch.category);
+                recipeIds.add(categories.getInt(ApplicationConstants.recipeSearch.id));
+            }
+        }
+
+        JSONArray retval = new JSONArray();
+        for(Integer id: recipeIds){
+            JSONObject formatting = new JSONObject();
+            JSONArray currentId = new JSONArray();
+            String idName = "";
+            for(Object recipe: matchedObjects2) {
+                JSONObject currentRecipe = (JSONObject) recipe;
+                try {
+                    JSONArray categories = currentRecipe.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONArray(
+                            ApplicationConstants.recipeSearch.category);
+                    for (Object category : categories) {
+                        JSONObject currentCategory = (JSONObject) category;
+                        int thisId = currentCategory.getInt(ApplicationConstants.recipeSearch.id);
+                        if (thisId == id) {
+                            currentId.put(currentId.length(), currentRecipe);
+                            idName = currentCategory.getString("Name");
+                        }
+                    }
+                } catch (Exception e){
+                    JSONObject categories = currentRecipe.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONObject(
+                            ApplicationConstants.recipeSearch.category);
+                    int thisId = categories.getInt(ApplicationConstants.recipeSearch.id);
+                    if (thisId == id) {
+                        currentId.put(currentId.length(), currentRecipe);
+                        idName = categories.getString("Name");
+                    }
+
+                }
+            }
+            formatting.put("Name", idName);
+            formatting.put("Items", currentId);
+            formatting.put("Id", id);
+            retval.put(retval.length(), formatting);
+        }
+        return jsonObject.put("RecipeCategories", retval);
+    }
+
+    private int totalRecipes(JSONObject matchedObjects){
+        int retval = 0;
+        JSONArray jsonArray = matchedObjects.getJSONArray("RecipeCategories");
+        for(Object category: jsonArray){
+            JSONObject currentCategory = (JSONObject) category;
+            retval += currentCategory.getJSONArray("Items").length();
+        }
         return retval;
     }
 }

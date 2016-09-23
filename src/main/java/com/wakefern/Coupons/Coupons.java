@@ -80,7 +80,6 @@ public class Coupons extends BaseService {
 
         JSONArray retval = new JSONArray();
         for(String id: categoryIds){
-            System.out.print("id: " + id);
             JSONObject formatting = new JSONObject();
             JSONArray currentId = new JSONArray();
             for(Object coupon: matchedObjects2){

@@ -63,6 +63,7 @@ public final class ApplicationConstants {
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
         public static final String fulfillments = "/fulfillments";
+        public static final String fq = "&fq=";
         public static final String guest = "/guest";
         public static final String Id = "Id";
         public static final String id1 = "?id1=";
@@ -89,6 +90,7 @@ public final class ApplicationConstants {
         public static final String size = "/size";
         public static final String skip = "&skip=";
         public static final String sku = "/sku";
+        public static final String sort = "&sort=";
         public static final String special = "/special";
         public static final String store = "/store";
         public static final String stores = "/stores";
@@ -214,6 +216,7 @@ public final class ApplicationConstants {
         public static final String take = "Take";
         public static final String totalQuantity = "TotalQuantity";
         public static final String links = "Links";
+        public static final String moreAvailiable = "MoreAvailiable";
     }
     
     public static class Lists{

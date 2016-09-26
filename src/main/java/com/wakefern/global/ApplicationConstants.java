@@ -160,6 +160,7 @@ public final class ApplicationConstants {
             public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
             public static final String slUser = MWGApplicationConstants.Requests.ShoppingLists.slUser;
             public static final String slItemsUser = MWGApplicationConstants.Requests.ShoppingLists.slItemsUser;
+            public static final String slGenericList = MWGApplicationConstants.Requests.ShoppingLists.slGeneric;
         }
 
         public static final class Recipes{
@@ -213,5 +214,84 @@ public final class ApplicationConstants {
         public static final String take = "Take";
         public static final String totalQuantity = "TotalQuantity";
         public static final String links = "Links";
+    }
+    
+    public static class Lists{
+        private static final String favoriteString      = "favorites";
+        private static final String favoriteRecipes     = "favoriteRecipes";
+        private static final String recentSearches      = "recentSearches";
+        private static final String recipeIngredients   = "recipeIngredients";
+        private static final String preferredStore      = "preferredStore";
+        private static final String cart                = "cart";
+        private static final String notes               = "notes";
+        private static final String itemPref            = "itemPreferences";
+
+
+
+        public static String getListType(String value){
+            switch (value){
+                case favoriteString:
+                    return Favorites.getValue();
+                case favoriteRecipes:
+                    return RecipesFavorites.getValue();
+                case recentSearches:
+                    return RecentSearches.getValue();
+                case recipeIngredients:
+                    return RecipesIngredients.getValue();
+                case preferredStore:
+                    return Store.getValue();
+                case cart:
+                    return Cart.getValue();
+                case notes:
+                    return GlobalNotes.getValue();
+                case itemPref:
+                    return ItemPref.getValue();
+                default:
+                    return value;
+            }
+        }
+
+        public static class Favorites {
+            public static String getValue() {
+                return "My Favorites";
+            }
+        }
+
+        public static class RecipesFavorites {
+            public static String getValue() {
+                return "Favorite Recipes";
+            }
+        }
+
+        public static class RecipesIngredients {
+            public static String getValue() {
+                return "Recipe Ingreidents";
+            }
+        }
+
+        public static class Store {
+            public static String getValue() {
+                return "Preferred Store";
+            }
+        }
+
+        public static class RecentSearches{
+            public static String getValue() {
+                return "Recent Searches";
+            }
+        }
+
+        public static class GlobalNotes{
+            public static String getValue(){return "Default";}
+        }
+
+        public static class Cart{
+            public static String getValue(){return "MwgCart";}
+        }
+
+        public static class ItemPref{
+            public static String getValue(){return "Item Preferences";}
+        }
+
     }
 }

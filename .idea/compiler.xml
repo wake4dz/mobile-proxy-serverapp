@@ -22,12 +22,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="shopritemobileapplication" />
         <module name="ShopriteMobileApplication" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="shopritemobileapplication" target="1.7" />
       <module name="ShopriteMobileApplication" target="1.7" />
     </bytecodeTargetLevel>
   </component>

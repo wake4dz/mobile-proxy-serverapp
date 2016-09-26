@@ -29,7 +29,14 @@ public class ShoppingListItemsGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
+
+        String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
+                + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
+                + take + ApplicationConstants.StringConstants.skip + skip;
+
+        return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader());
 
     }
     public ShoppingListItemsGet(){

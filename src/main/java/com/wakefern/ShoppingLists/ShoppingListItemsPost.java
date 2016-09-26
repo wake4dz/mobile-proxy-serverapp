@@ -39,8 +39,12 @@ public class ShoppingListItemsPost extends BaseService {
 
         ServiceMappings mapping = new ServiceMappings();
         mapping.setAllHeadersPutMapping(this, jsonBody);
-
-        return (HTTPRequest.executePostJSON(mapping.getPath(), mapping.getGenericBody(), mapping.getgenericHeader()));
+        //
+        String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
+                + ApplicationConstants.StringConstants.backSlash + listId;
+        return (HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader()));
     }
 
     public ShoppingListItemsPost(){

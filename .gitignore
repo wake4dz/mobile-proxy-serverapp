@@ -78,3 +78,4 @@ shopritemobileapplication.iml
 .idea/libraries/Maven__org_apache_geronimo_specs_geronimo_ws_metadata_2_0_spec_1_1_3.xml
 .idea/libraries/Maven__org_osgi_org_osgi_compendium_4_2_0.xml
 .idea/libraries/Maven__org_osgi_org_osgi_core_4_3_1.xml
+/.apt_generated/

@@ -52,6 +52,7 @@ public class MWGApplicationConstants {
             public static final String slChains = "/shoppinglist/v5/chains";
             public static final String slUser = "/shoppinglist/v5/user";
             public static final String slItemsUser = "/shoppinglist/v5/items/user";
+            public static final String slGeneric = "/shoppinglist/v5/generic";
         }
 
         public static class Recipes{

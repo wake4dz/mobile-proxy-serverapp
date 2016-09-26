@@ -1,6 +1,10 @@
 package com.wakefern.Lists;
 
 import com.wakefern.ShoppingLists.ShoppingListItemsGet;
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.BaseService;
+import com.wakefern.global.ServiceMappings;
+import com.wakefern.request.HTTPRequest;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -9,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by brandyn.brosemer on 9/23/16.
  */
-public class DeleteItemFromList {
+public class DeleteItemFromList extends BaseService {
     @DELETE
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
@@ -18,11 +22,22 @@ public class DeleteItemFromList {
         JSONObject requestBody = new JSONObject(jsonBody);
         String requestId = requestBody.getString("ItemKey");
 
+        this.token = authToken;
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+
+
         String listId = ListHelpers.getListId(listName,userId,authToken);
         ShoppingListItemsGet list = new ShoppingListItemsGet();
         String returnString =  list.getInfo(userId,storeId,listId,"9999","0",authToken);
         String itemId = ListHelpers.getItemId(returnString,requestId);
-        return itemId;
+
+        this.path =  "https://shop.shoprite.com/api/shoppinglist/v5/chains/" + "" + "/users/"+userId+"/lists/"+listId+"/items/"+ itemId;
+
+        return HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader());
+
     }
 
 }

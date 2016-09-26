@@ -22,7 +22,7 @@ public class DeleteItemFromList {
         ShoppingListItemsGet list = new ShoppingListItemsGet();
         String returnString =  list.getInfo(userId,storeId,listId,"9999","0",authToken);
         String itemId = ListHelpers.getItemId(returnString,requestId);
-
+        return itemId;
     }
 
 }

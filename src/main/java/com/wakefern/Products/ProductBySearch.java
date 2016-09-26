@@ -43,7 +43,9 @@ public class ProductBySearch extends BaseService {
 
         if(maxTake == 0){
             JSONObject jsonObject = new JSONObject();
-            return jsonObject.put("Error", "No items returned for search parameter").toString();
+            jsonObject.put("Status", 400);
+            jsonObject.put("Message", "No results for search parameter");
+            return jsonObject.toString();
         }
 
         if(currentTake > maxTake){
@@ -57,7 +59,9 @@ public class ProductBySearch extends BaseService {
 
         if((json.equals("[null]") || json.equals(null)) && fq != ""){
             JSONObject jsonObject = new JSONObject();
-            return jsonObject.put("No filter match for given take", 400).toString();
+            jsonObject.put("Status", 400);
+            jsonObject.put("Message", "No results for for take");
+            return jsonObject.toString();
         }
 
         JSONArray jsonArray = new JSONArray(json);

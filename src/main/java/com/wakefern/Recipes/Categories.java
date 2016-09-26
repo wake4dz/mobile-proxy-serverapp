@@ -68,7 +68,7 @@ public class Categories extends BaseService {
             String json = recipesByCategory.getInfo(chainId, Integer.toString(id), authToken);
             matchedObjects2 = searchJSON(json, q, matchedObjects2);
         }
-        matchedObjects = sortRecipesByCategory(matchedObjects2);
+        matchedObjects = sortRecipesByCategory(matchedObjects2, category);
         matchedObjects.put( "totalRecipes", totalRecipes(matchedObjects));
         return matchedObjects.toString();
     }
@@ -116,7 +116,7 @@ public class Categories extends BaseService {
         return retval;
     }
 
-    private JSONObject sortRecipesByCategory( JSONArray matchedObjects2 ){
+    private JSONObject sortRecipesByCategory( JSONArray matchedObjects2, String categoryQuery ){
         Set<Integer> recipeIds = new HashSet<>();
         JSONObject jsonObject = new JSONObject();
 
@@ -127,12 +127,26 @@ public class Categories extends BaseService {
                         ApplicationConstants.recipeSearch.category);
                 for (Object category : categories) {
                     JSONObject currentCategory = (JSONObject) category;
-                    recipeIds.add(currentCategory.getInt(ApplicationConstants.recipeSearch.id));
+                    if(categoryQuery == "") {
+                        recipeIds.add(currentCategory.getInt(ApplicationConstants.recipeSearch.id));
+                    } else {
+                        int categoryQueryInt = Integer.parseInt(categoryQuery);
+                        if(currentCategory.getInt(ApplicationConstants.recipeSearch.id) == categoryQueryInt){
+                            recipeIds.add(currentCategory.getInt(ApplicationConstants.recipeSearch.id));
+                        }
+                    }
                 }
             } catch (Exception e){
                 JSONObject categories = currentRecipes.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONObject(
                         ApplicationConstants.recipeSearch.category);
-                recipeIds.add(categories.getInt(ApplicationConstants.recipeSearch.id));
+                if(categoryQuery == "") {
+                    recipeIds.add(categories.getInt(ApplicationConstants.recipeSearch.id));
+                } else {
+                    int categoryQueryInt = Integer.parseInt(categoryQuery);
+                    if(categories.getInt(ApplicationConstants.recipeSearch.id) == categoryQueryInt){
+                        recipeIds.add(categories.getInt(ApplicationConstants.recipeSearch.id));
+                    }
+                }
             }
         }
 

@@ -3,6 +3,7 @@ package com.wakefern.Recipes;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.global.XMLtoJSONConverter;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -28,7 +29,9 @@ public class RecipeDetails extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
 
-        return HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+        return xmLtoJSONConverter.convert(xml);
     }
 
     public RecipeDetails(){

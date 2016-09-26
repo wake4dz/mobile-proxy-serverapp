@@ -6,11 +6,16 @@ import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +27,7 @@ public class FeaturedRecipes extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/featured")
-    public String getInfo(@PathParam("chainId") String chainId, @QueryParam("q") String q,
+    public String getInfo(@PathParam("chainId") String chainId, @DefaultValue("")@QueryParam("q") String q,
             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
 
@@ -33,38 +38,44 @@ public class FeaturedRecipes extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
 
-        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-
-        String extractedXml = extractId(featuredReturn, chainId, authToken);
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String featuredReturnJson = xmLtoJSONConverter.convert(xml);
 
-        return xmLtoJSONConverter.convert(extractedXml);
+        JSONObject matchedObject = extractId(featuredReturnJson, chainId, authToken);
+        return matchedObject.toString();
     }
 
     public FeaturedRecipes(){
         this.serviceType = new MWGHeader();
     }
 
-    public String extractId(String featuredReturn, String chainId, String authToken){
-        //Pattern matches any set of numbers between <Id></Id>
-        Pattern pattern = Pattern.compile("<Id>([^abc]*)</Id>");
-        Matcher matcher = pattern.matcher(featuredReturn);
-        StringBuffer sb = new StringBuffer();
-        while (matcher.find()){
+    public JSONObject extractId(String featuredReturnJson, String chainId, String authToken){
+        JSONObject jsonObject = new JSONObject(featuredReturnJson);
+        JSONObject jsonObject1 = jsonObject.getJSONObject("FeaturedRecipeSummaries");
+        JSONArray jsonArray = jsonObject1.getJSONArray("FeaturedRecipeSummary");
+        JSONArray retval = new JSONArray();
+        Set<Integer> ids = new HashSet<>();
+        try {
+            for (Object featuredRecipe : jsonArray) {
+                JSONObject currentRecipe = (JSONObject) featuredRecipe;
+                ids.add(currentRecipe.getInt("Id"));
+            }
+        }catch (Exception e){
+            System.out.print("Error");
+        }
+        for(int id: ids){
             try {
-                //Create new recipe detail call
                 RecipeDetails recipeDetails = new RecipeDetails();
-                //Save match to use in recipe detail call
-                String temp = matcher.group(0).substring(4, matcher.group().length() - 5);
-                //matcher does support append, so replace match with match and recipe detail
-                matcher.appendReplacement(sb, matcher.group(0) + recipeDetails.getInfo(chainId, temp, authToken));
+                String json = recipeDetails.getInfo(chainId, String.valueOf(id), authToken);
+                retval.put(retval.length(), json);
             } catch (Exception e){
-                System.out.print(matcher.group(0).substring(4, matcher.group().length() - 5) + "Failed");
+                System.out.print("Error in id set");
             }
         }
-        //Append any data after final match
-        matcher.appendTail(sb);
-        return sb.toString();
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("FeaturedRecipeSummary", retval);
+        return jsonObject2;
     }
 }
 

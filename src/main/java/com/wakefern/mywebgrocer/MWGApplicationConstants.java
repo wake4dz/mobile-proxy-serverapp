@@ -57,6 +57,7 @@ public class MWGApplicationConstants {
 
         public static class Recipes{
             public static final String RecipeChain = "/recipes/v1/chain";
+            public static final String UpdateProfile = "/user/v1/id";
         }
 
         public static class Planning{

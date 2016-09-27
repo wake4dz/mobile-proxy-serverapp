@@ -99,7 +99,6 @@ public class ServiceMappings {
 		}
 	}
 
-
 	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
 		header.authenticate(serviceObject.token, ApplicationConstants.shoppingListItemPost.contentType,
 				ApplicationConstants.shoppingListItemPost.contentAccept);
@@ -108,7 +107,7 @@ public class ServiceMappings {
 		setGenericBody(body.Body(jsonBody));
 	}
 
-	//Used for v1 calls
+	//Used for v1 calls with Hardcoded authToken
 	public void setServiceMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.serviceType instanceof MWGHeader) {
@@ -120,7 +119,6 @@ public class ServiceMappings {
 
 	private void sendServiceMapping(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
 		header.serviceAuth(serviceObject.token);
-		//setgenericHeader(header.getMap());
 		setgenericHeader(v1Map());
 		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
@@ -131,6 +129,23 @@ public class ServiceMappings {
 		map.put(ApplicationConstants.MapVariables.contentType, ApplicationConstants.MapVariables.requestType);
 		map.put(ApplicationConstants.MapVariables.auth, ApplicationConstants.MapVariables.authToken);
 		return map;
+	}
+
+	//v1 calls with passed in authToken
+	public void setServiceMappingv1(Object serviceObject, String jsonBody) {
+		BaseService aService = (BaseService) serviceObject;
+		if (aService.serviceType instanceof MWGHeader) {
+			MWGHeader mwgHeader = new MWGHeader();
+			MWGBody mwgBody = new MWGBody("");
+			sendServiceMappingv1((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
+		}
+	}
+
+	private void sendServiceMappingv1(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
+		header.v1Authentication(serviceObject.token);
+		setgenericHeader(header.getMap());
+		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
+		setGenericBody(body.Body(jsonBody));
 	}
 
 	//Used for coupon api

@@ -60,11 +60,13 @@ public final class ApplicationConstants {
         public static final String delivery = "/delivery";
         public static final String duplicate = "/duplicate";
         public static final String email = "/email";
+        public static final String emailParam = "?email=";
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
         public static final String fulfillments = "/fulfillments";
         public static final String fq = "&fq=";
         public static final String guest = "/guest";
+        public static final String id = "id";
         public static final String Id = "Id";
         public static final String id1 = "?id1=";
         public static final String item = "/item";
@@ -167,11 +169,14 @@ public final class ApplicationConstants {
 
         public static final class Recipes{
             public static final String RecipeChain = MWGApplicationConstants.Requests.Recipes.RecipeChain;
+            public static final String UpdateProfile = MWGApplicationConstants.Requests.Recipes.UpdateProfile;
         }
 
         public static final class Coupons{
             public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
             public static final String GetCouponId = WakefernApplicationConstants.Requests.Coupons.ListId.CouponId;
+            public static final String GetCouponIdByPPC = WakefernApplicationConstants.Requests.Coupons.ListId.CouponByPPC;
+            public static final String CouponAddPPC = WakefernApplicationConstants.Requests.Coupons.ListId.CouponAddPPC;
             public static final String BaseCouponURL = WakefernApplicationConstants.Requests.Coupons.baseURL;
         }
 

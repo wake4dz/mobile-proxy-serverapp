@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 @Path(ApplicationConstants.Requests.Recipes.RecipeChain)
 public class RecipesByCategory extends BaseService {
-    @GET
+    @PUT
     @Produces("application/*")
     @Path("/{chainId}/category/{subCategoryId}")
     public String getInfo(@PathParam("chainId") String chainId, @PathParam("subCategoryId") String subCategoryId,

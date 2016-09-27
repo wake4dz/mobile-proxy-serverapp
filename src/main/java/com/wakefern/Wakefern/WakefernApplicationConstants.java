@@ -17,6 +17,8 @@ public class WakefernApplicationConstants {
 
             public static class ListId{
                 public static final String CouponId = "/getCouponIDListBySR";
+                public static final String CouponByPPC = "/getCouponIDListByPPC";
+                public static final String CouponAddPPC = "/addCouponToPPC";
             }
 
             public static class Metadata{
@@ -24,6 +26,8 @@ public class WakefernApplicationConstants {
                 public static final String PPC = "ppc_number";
                 public static final String PPC_All = "all";
                 public static final String PPCQuery = "?ppc_number=";
+                public static final String CouponId = "coupon_id";
+                public static final String CouponParam = "&coupon_id=";
             }
 
             public static class Search{

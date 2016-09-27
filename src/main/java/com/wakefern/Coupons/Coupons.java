@@ -93,6 +93,17 @@ public class Coupons extends BaseService {
             formatting.put("Items", currentId);
             retval.put(retval.length(), formatting);
         }
-        return jsonObject.put("CouponCategories", retval);
+        jsonObject.put("CouponCategories", retval);
+        jsonObject.put("totalCoupons", totalCoupons(retval));
+        return jsonObject;
+    }
+
+    private int totalCoupons(JSONArray jsonArray){
+        int retval = 0;
+        for(Object category: jsonArray){
+            JSONObject currentCategory = (JSONObject) category;
+            retval += currentCategory.getJSONArray("Items").length();
+        }
+        return retval;
     }
 }

@@ -18,9 +18,11 @@ public class GetItemsInList {
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
     public String getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
-                          @HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("9999") @QueryParam("take") String take,@DefaultValue("0") @QueryParam("skip") String skip, String jsonBody) throws Exception, IOException {
+                          @HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId,@DefaultValue("9999") @QueryParam("take") String take,@DefaultValue("0") @QueryParam("skip") String skip, String jsonBody) throws Exception, IOException {
 
-        String listId = ListHelpers.getListId(listName,userId,authToken);
+        if(listId.isEmpty()) {
+            listId = ListHelpers.getListId(listName, userId, authToken);
+        }
         ShoppingListItemsGet list = new ShoppingListItemsGet();
         return list.getInfo(userId,storeId,listId,take,skip,authToken);
 

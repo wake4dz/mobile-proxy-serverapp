@@ -238,7 +238,7 @@ public final class ApplicationConstants {
         private static final String recentSearches      = "recentSearches";
         private static final String recipeIngredients   = "recipeIngredients";
         private static final String preferredStore      = "preferredStore";
-        private static final String cart                = "cart";
+        public static final String cart                = "cart";
         private static final String notes               = "notes";
         private static final String itemPref            = "itemPreferences";
 

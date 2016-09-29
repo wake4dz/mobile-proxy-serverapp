@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 @Path(ApplicationConstants.Requests.Recipes.RecipeChain)
 public class RecipesByCategory extends BaseService {
-    @PUT
+    @GET
     @Produces("application/*")
     @Path("/{chainId}/category/{subCategoryId}")
     public String getInfo(@PathParam("chainId") String chainId, @PathParam("subCategoryId") String subCategoryId,
@@ -25,7 +25,6 @@ public class RecipesByCategory extends BaseService {
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category
                 + ApplicationConstants.StringConstants.backSlash + subCategoryId;
-
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
@@ -40,4 +39,3 @@ public class RecipesByCategory extends BaseService {
         this.serviceType = new MWGHeader();
     }
 }
-

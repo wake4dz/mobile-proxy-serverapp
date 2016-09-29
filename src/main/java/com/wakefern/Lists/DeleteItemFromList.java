@@ -31,7 +31,7 @@ public class DeleteItemFromList extends BaseService {
 
 
         if(listId.isEmpty()) {
-            listId = ListHelpers.getListId(listName, userId, authToken);
+            listId = ListHelpers.getListId(listName, userId, authToken, storeId);
         }
         ShoppingListItemsGet list = new ShoppingListItemsGet();
         String returnString =  list.getInfo(userId,storeId,listId,"9999","0",authToken);

@@ -35,7 +35,7 @@ public class AddItemToList extends BaseService {
 
         GenericListItem createItem = new ObjectMapper().readValue(jsonBody,GenericListItem.class);
         if(listId.isEmpty()) {
-            listId = ListHelpers.getListId(listName, userId, authToken);
+            listId = ListHelpers.getListId(listName, userId, authToken, storeId);
         }
 
         this.addItem(createItem,listId,storeId,userId,authToken);

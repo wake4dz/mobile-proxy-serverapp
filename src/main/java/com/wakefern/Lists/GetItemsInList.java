@@ -21,7 +21,7 @@ public class GetItemsInList {
                           @HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId,@DefaultValue("9999") @QueryParam("take") String take,@DefaultValue("0") @QueryParam("skip") String skip, String jsonBody) throws Exception, IOException {
 
         if(listId.isEmpty()) {
-            listId = ListHelpers.getListId(listName, userId, authToken);
+            listId = ListHelpers.getListId(listName, userId, authToken, storeId);
         }
         ShoppingListItemsGet list = new ShoppingListItemsGet();
         return list.getInfo(userId,storeId,listId,take,skip,authToken);

@@ -42,7 +42,8 @@ public class FeaturedRecipes extends BaseService {
         String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
         String featuredReturnJson = xmLtoJSONConverter.convert(xml);
 
-        JSONObject matchedObject = extractId(featuredReturnJson, chainId, authToken);
+        JSONObject matchedObject = new JSONObject();
+        matchedObject.put(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummary, extractId(featuredReturnJson, chainId, authToken));
         return matchedObject.toString();
     }
 
@@ -50,16 +51,16 @@ public class FeaturedRecipes extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    public JSONObject extractId(String featuredReturnJson, String chainId, String authToken){
+    public JSONArray extractId(String featuredReturnJson, String chainId, String authToken){
         JSONObject jsonObject = new JSONObject(featuredReturnJson);
-        JSONObject jsonObject1 = jsonObject.getJSONObject("FeaturedRecipeSummaries");
-        JSONArray jsonArray = jsonObject1.getJSONArray("FeaturedRecipeSummary");
+        JSONObject jsonObject1 = jsonObject.getJSONObject(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummaries);
+        JSONArray jsonArray = jsonObject1.getJSONArray(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummary);
         JSONArray retval = new JSONArray();
         Set<Integer> ids = new HashSet<>();
         try {
             for (Object featuredRecipe : jsonArray) {
                 JSONObject currentRecipe = (JSONObject) featuredRecipe;
-                ids.add(currentRecipe.getInt("Id"));
+                ids.add(currentRecipe.getInt(ApplicationConstants.StringConstants.Id));
             }
         }catch (Exception e){
             System.out.print("Error");
@@ -68,14 +69,15 @@ public class FeaturedRecipes extends BaseService {
             try {
                 RecipeDetails recipeDetails = new RecipeDetails();
                 String json = recipeDetails.getInfo(chainId, String.valueOf(id), authToken);
-                retval.put(retval.length(), json);
+
+                return retval.put(retval.length(), json);
             } catch (Exception e){
                 System.out.print("Error in id set");
             }
         }
-        JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("FeaturedRecipeSummary", retval);
-        return jsonObject2;
+//        JSONObject jsonObject2 = new JSONObject();
+//        jsonObject2.put(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummary, retval);
+        return retval;
     }
 }
 

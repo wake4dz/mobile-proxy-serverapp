@@ -201,6 +201,9 @@ public final class ApplicationConstants {
         public static final String categories = "Categories";
         public static final String subCategories = "Subcategories";
         public static final String id = "Id";
+        public static final String totalRecipes = "totalRecipes";
+        public static final String items = "Items";
+        public static final String RecipeCategories = "RecipeCategories";
     }
 
     public static class shoppingListItemPost{
@@ -222,6 +225,11 @@ public final class ApplicationConstants {
         public static final String totalQuantity = "TotalQuantity";
         public static final String links = "Links";
         public static final String moreAvailiable = "MoreAvailiable";
+    }
+
+    public static class FeaturedRecipes{
+        public static final String FeaturedRecipeSummaries = "FeaturedRecipeSummaries";
+        public static final String FeaturedRecipeSummary = "FeaturedRecipeSummary";
     }
     
     public static class Lists{

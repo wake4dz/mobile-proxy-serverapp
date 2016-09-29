@@ -69,7 +69,7 @@ public class Categories extends BaseService {
             matchedObjects2 = searchJSON(json, q, matchedObjects2);
         }
         matchedObjects = sortRecipesByCategory(matchedObjects2, category);
-        matchedObjects.put( "totalRecipes", totalRecipes(matchedObjects));
+        matchedObjects.put( ApplicationConstants.recipeSearch.totalRecipes, totalRecipes(matchedObjects));
         return matchedObjects.toString();
     }
 
@@ -165,7 +165,7 @@ public class Categories extends BaseService {
                         int thisId = currentCategory.getInt(ApplicationConstants.recipeSearch.id);
                         if (thisId == id) {
                             currentId.put(currentId.length(), currentRecipe);
-                            idName = currentCategory.getString("Name");
+                            idName = currentCategory.getString(ApplicationConstants.recipeSearch.name);
                         }
                     }
                 } catch (Exception e){
@@ -174,25 +174,25 @@ public class Categories extends BaseService {
                     int thisId = categories.getInt(ApplicationConstants.recipeSearch.id);
                     if (thisId == id) {
                         currentId.put(currentId.length(), currentRecipe);
-                        idName = categories.getString("Name");
+                        idName = categories.getString(ApplicationConstants.recipeSearch.name);
                     }
 
                 }
             }
-            formatting.put("Name", idName);
-            formatting.put("Items", currentId);
-            formatting.put("Id", id);
+            formatting.put(ApplicationConstants.recipeSearch.name, idName);
+            formatting.put(ApplicationConstants.recipeSearch.items, currentId);
+            formatting.put(ApplicationConstants.recipeSearch.id, id);
             retval.put(retval.length(), formatting);
         }
-        return jsonObject.put("RecipeCategories", retval);
+        return jsonObject.put(ApplicationConstants.recipeSearch.RecipeCategories, retval);
     }
 
     private int totalRecipes(JSONObject matchedObjects){
         int retval = 0;
-        JSONArray jsonArray = matchedObjects.getJSONArray("RecipeCategories");
+        JSONArray jsonArray = matchedObjects.getJSONArray(ApplicationConstants.recipeSearch.RecipeCategories);
         for(Object category: jsonArray){
             JSONObject currentCategory = (JSONObject) category;
-            retval += currentCategory.getJSONArray("Items").length();
+            retval += currentCategory.getJSONArray(ApplicationConstants.recipeSearch.items).length();
         }
         return retval;
     }

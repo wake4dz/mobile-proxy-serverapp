@@ -46,7 +46,7 @@ public class DeleteItemFromList extends BaseService {
             String returnString = cartList.getInfo(userId,storeId,authToken);
             String itemId = ListHelpers.getItemId(returnString, requestId);
             ItemDelete deleteItem = new ItemDelete();
-            deleteItem.getInfo(userId,storeId,itemId,authToken);
+            return deleteItem.getInfo(userId,storeId,itemId,authToken);
         }
     }
 

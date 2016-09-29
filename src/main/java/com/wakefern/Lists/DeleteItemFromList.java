@@ -1,5 +1,7 @@
 package com.wakefern.Lists;
 
+import com.wakefern.Cart.CartGet;
+import com.wakefern.Cart.ItemDelete;
 import com.wakefern.ShoppingLists.ShoppingListItemsGet;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -33,13 +35,19 @@ public class DeleteItemFromList extends BaseService {
         if(listId.isEmpty()) {
             listId = ListHelpers.getListId(listName, userId, authToken);
         }
-        ShoppingListItemsGet list = new ShoppingListItemsGet();
-        String returnString =  list.getInfo(userId,storeId,listId,"9999","0",authToken);
-        String itemId = ListHelpers.getItemId(returnString,requestId);
-
-        this.path =  "https://shop.shoprite.com/api/shoppinglist/v5/chains/" + "FBFBF139" + "/users/"+userId+"/lists/"+listId+"/items/"+ itemId;
-
-        return HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader());
+        if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
+            ShoppingListItemsGet list = new ShoppingListItemsGet();
+            String returnString = list.getInfo(userId, storeId, listId, "9999", "0", authToken);
+            String itemId = ListHelpers.getItemId(returnString, requestId);
+            this.path = "https://shop.shoprite.com/api/shoppinglist/v5/chains/" + "FBFBF139" + "/users/" + userId + "/lists/" + listId + "/items/" + itemId;
+            return HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader());
+        }else{
+            CartGet cartList = new CartGet();
+            String returnString = cartList.getInfo(userId,storeId,authToken);
+            String itemId = ListHelpers.getItemId(returnString, requestId);
+            ItemDelete deleteItem = new ItemDelete();
+            deleteItem.getInfo(userId,storeId,itemId,authToken);
+        }
     }
 
     public DeleteItemFromList() { this.serviceType = new MWGHeader(); }

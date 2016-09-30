@@ -54,6 +54,7 @@ public final class ApplicationConstants {
         public static final String categories = "/categories";
         public static final String category = "/category";
         public static final String circulars = "/circulars";
+        public static final String chainid = "/chainid";
         public static final String comments = "/comments";
         public static final String contact = "/contact";
         public static final String dates = "/dates";

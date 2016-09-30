@@ -47,7 +47,8 @@ public final class ListHelpers {
     	if(listName.isEmpty()){
             return "Error string empty";
         }
-        
+        listName = ApplicationConstants.Lists.getListType(listName);
+        System.out.println("List name :: " + listName);
         String userLists = ListHelpers.getUsersLists("FBFB139", userId, authToken);
         JSONArray userJson = new JSONArray(userLists);
         

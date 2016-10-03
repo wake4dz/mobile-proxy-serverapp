@@ -48,6 +48,12 @@ public class ProductBySearch extends BaseService {
             return jsonObject.toString();
         }
 
+        if(maxTake == -1){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Status", 401);
+            jsonObject.put("Message", "Bad authorization token");
+            return jsonObject.toString();
+        }
         if(currentTake > maxTake){
             System.out.print("Modified Take Param");
             take = String.valueOf(maxTake);
@@ -72,6 +78,9 @@ public class ProductBySearch extends BaseService {
         Search search = new Search();
         String json = search.search(partialUrl, "1", "0", "", "", authToken);
 
+        if(json.contains("401 for URL")){
+            return -1;
+        }
         JSONArray jsonArray = new JSONArray(json);
         return jsonArray.getJSONObject(0).getInt(ApplicationConstants.ProductSearch.itemCount);
     }

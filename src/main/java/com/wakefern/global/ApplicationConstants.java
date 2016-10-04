@@ -153,6 +153,7 @@ public final class ApplicationConstants {
             public static final String UserOrder = MWGApplicationConstants.Requests.Checkout.UserOrder;
             public static final String Order = MWGApplicationConstants.Requests.Checkout.Order;
             public static final String Users = MWGApplicationConstants.Requests.Checkout.Users;
+            public static final String User = MWGApplicationConstants.Requests.Checkout.User;
         }
 
         public static final class Cart{

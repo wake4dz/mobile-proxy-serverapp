@@ -25,7 +25,7 @@ public class CircularSearch extends BaseService{
                 + storeId + ApplicationConstants.StringConstants.items + ApplicationConstants.StringConstants.queryParam + q;
 
         Search search = new Search();
-        //return search.search(partialUrl, take, skip, authToken);
-        return "Needs fixed";
+        return search.search(partialUrl, take, skip, "", "", authToken);
+//      todo can currently take more than max need to modify max take
     }
 }

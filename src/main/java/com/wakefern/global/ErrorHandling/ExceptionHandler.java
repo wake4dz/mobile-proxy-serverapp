@@ -15,7 +15,7 @@ public class ExceptionHandler {
     }
     public static String ExceptionMessageJson(Exception e){
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(ApplicationConstants.ErrorMessage, e.getLocalizedMessage());
+        jsonObject.put(ApplicationConstants.ErrorMessage, e.getMessage());
         return jsonObject.toString();
     }
 }

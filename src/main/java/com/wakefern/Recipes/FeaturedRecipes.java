@@ -6,16 +6,11 @@ import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,8 +22,8 @@ public class FeaturedRecipes extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/featured")
-    public String getInfo(@PathParam("chainId") String chainId, @DefaultValue("")@QueryParam("q") String q,
-            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public String getInfo(@PathParam("chainId") String chainId, @QueryParam("q") String q,
+                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
 
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
@@ -38,46 +33,37 @@ public class FeaturedRecipes extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
 
-        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-        String featuredReturnJson = xmLtoJSONConverter.convert(xml);
+        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
 
-        JSONObject matchedObject = new JSONObject();
-        matchedObject.put(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummary, extractId(featuredReturnJson, chainId, authToken));
-        return matchedObject.toString();
+        String extractedXml = extractId(featuredReturn, chainId, authToken);
+        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+
+        return xmLtoJSONConverter.convert(extractedXml);
     }
 
     public FeaturedRecipes(){
         this.serviceType = new MWGHeader();
     }
 
-    public JSONArray extractId(String featuredReturnJson, String chainId, String authToken){
-        JSONObject jsonObject = new JSONObject(featuredReturnJson);
-        JSONObject jsonObject1 = jsonObject.getJSONObject(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummaries);
-        JSONArray jsonArray = jsonObject1.getJSONArray(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummary);
-        JSONArray retval = new JSONArray();
-        Set<Integer> ids = new HashSet<>();
-        try {
-            for (Object featuredRecipe : jsonArray) {
-                JSONObject currentRecipe = (JSONObject) featuredRecipe;
-                ids.add(currentRecipe.getInt(ApplicationConstants.StringConstants.Id));
-            }
-        }catch (Exception e){
-            System.out.print("Error");
-        }
-        for(int id: ids){
+    public String extractId(String featuredReturn, String chainId, String authToken){
+        //Pattern matches any set of numbers between <Id></Id>
+        Pattern pattern = Pattern.compile("<Id>([^abc]*)</Id>");
+        Matcher matcher = pattern.matcher(featuredReturn);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()){
             try {
-                RecipeDetails recipeDetails = new RecipeDetails();
-                String json = recipeDetails.getInfo(chainId, String.valueOf(id), authToken);
-
-                return retval.put(retval.length(), json);
+                //Create new recipe detail call
+                RecipeDetailsXml recipeDetails = new RecipeDetailsXml();
+                //Save match to use in recipe detail call
+                String temp = matcher.group(0).substring(4, matcher.group().length() - 5);
+                //matcher does support append, so replace match with match and recipe detail
+                matcher.appendReplacement(sb, matcher.group(0) + recipeDetails.getInfo(chainId, temp, authToken));
             } catch (Exception e){
-                System.out.print("Error in id set");
+                System.out.print(matcher.group(0).substring(4, matcher.group().length() - 5) + "Failed");
             }
         }
-//        JSONObject jsonObject2 = new JSONObject();
-//        jsonObject2.put(ApplicationConstants.FeaturedRecipes.FeaturedRecipeSummary, retval);
-        return retval;
+        //Append any data after final match
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 }
-

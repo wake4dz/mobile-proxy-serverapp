@@ -34,7 +34,7 @@ public class AuthorizationAuthenticate extends BaseService {
             json = (HTTPRequest.executePostJSON(mapping.getPath(), mapping.getGenericBody(), mapping.getgenericHeader()));
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
-            return exceptionHandler.ExceptionMessage(e);
+            return exceptionHandler.ExceptionMessageJson(e);
         }
 
         //run regular v5 authentication
@@ -44,7 +44,7 @@ public class AuthorizationAuthenticate extends BaseService {
             v5 = authentication.getInfo(jsonBody);
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
-            return exceptionHandler.ExceptionMessage(e);
+            return exceptionHandler.ExceptionMessageJson(e);
         }
 
 

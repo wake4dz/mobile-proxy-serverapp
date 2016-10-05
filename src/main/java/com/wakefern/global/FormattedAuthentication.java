@@ -52,7 +52,7 @@ public class FormattedAuthentication {
             }
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
-            System.out.print(exceptionHandler.ExceptionMessage(e));
+            System.out.print(exceptionHandler.ExceptionMessageJson(e));
         }
         return retval;
     }

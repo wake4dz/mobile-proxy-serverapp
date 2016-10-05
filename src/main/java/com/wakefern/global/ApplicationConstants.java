@@ -17,6 +17,7 @@ public final class ApplicationConstants {
     public static final String xmlAcceptType            = "text/xml";
     public static final String authToken 				= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
     public static final int xmlTabAmount                = 4;
+    public static final String ErrorMessage             = "ErrorMessage";
 
 
     public static class AuthorizationTokens{

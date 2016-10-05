@@ -49,6 +49,7 @@ public final class ApplicationConstants {
     public static class StringConstants{
         public static final String address = "/address";
         public static final String all = "/all";
+        public static final String authenticate = "/authenticate";
         public static final String backSlash = "/";
         public static final String billing = "/billing";
         public static final String categories = "/categories";
@@ -236,6 +237,30 @@ public final class ApplicationConstants {
     public static class FeaturedRecipes{
         public static final String FeaturedRecipeSummaries = "FeaturedRecipeSummaries";
         public static final String FeaturedRecipeSummary = "FeaturedRecipeSummary";
+    }
+
+    public static class FormattedAuthentication{
+        public static final String AuthPlanning = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
+        public static final String ChainId = "139";
+        public static final String Email = "Email";
+        public static final String FirstName = "FirstName";
+        public static final String FSN = "FSN";
+        public static final String Id = "Id";
+        public static final String LastName = "LastName";
+        public static final String Name = "Name";
+        public static final String PlanningToken = "PlanningToken";
+        public static final String PPC = "PPC";
+        public static final String PreferredStore = "PreferredStore";
+        public static final String PseudoStoreId = "PseudoStoreId";
+        public static final String Section = "Section";
+        public static final String Sections = "Sections";
+        public static final String Store = "Store";
+        public static final String StoreId = "StoreId";
+        public static final String StoreName = "StoreName";
+        public static final String Token = "Token";
+        public static final String User = "User";
+        public static final String UserId = "UserId";
+        public static final String UserToken = "UserToken";
     }
     
     public static class Lists{

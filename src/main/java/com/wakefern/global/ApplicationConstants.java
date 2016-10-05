@@ -54,7 +54,9 @@ public final class ApplicationConstants {
         public static final String categories = "/categories";
         public static final String category = "/category";
         public static final String circulars = "/circulars";
+        public static final String circularItem = "/circular-item";
         public static final String chainid = "/chainid";
+        public static final String changedOrder = "/changed/order";
         public static final String comments = "/comments";
         public static final String contact = "/contact";
         public static final String dates = "/dates";
@@ -87,6 +89,7 @@ public final class ApplicationConstants {
         public static final String queryParam = "?q=";
         public static final String radius = "/radius";
         public static final String recipe = "/recipe";
+        public static final String referFriend = "/refer/friend";
         public static final String review = "/review";
         public static final String search = "/search";
         public static final String settings = "/settings";
@@ -149,6 +152,8 @@ public final class ApplicationConstants {
             public static final String UserCheckout = MWGApplicationConstants.Requests.Checkout.UserCheckout;
             public static final String UserOrder = MWGApplicationConstants.Requests.Checkout.UserOrder;
             public static final String Order = MWGApplicationConstants.Requests.Checkout.Order;
+            public static final String Users = MWGApplicationConstants.Requests.Checkout.Users;
+            public static final String User = MWGApplicationConstants.Requests.Checkout.User;
         }
 
         public static final class Cart{

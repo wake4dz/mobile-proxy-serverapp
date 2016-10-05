@@ -16,7 +16,7 @@ import java.io.IOException;
 public class GetProfile extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/chainid{chainId}")
+    @Path("/{userId}/chainid/{chainId}")
     public String getInfo(@PathParam("userId") String userId, @PathParam("chainId") String chainId, @QueryParam("email") String email,
                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;

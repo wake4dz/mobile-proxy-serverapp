@@ -64,6 +64,7 @@ public class MWGApplicationConstants {
 
         public static class Planning{
             public static final String StoreLocator = "/storelocator/v1/chain";
+            public static final String ShoppingListUser = "/shoppinglists/v1/user/";
         }
     }
 }

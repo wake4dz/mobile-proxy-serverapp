@@ -57,17 +57,33 @@ public class Categories extends BaseService {
 
             String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
             XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
-            ids = getSubcategories(subCategoryJson.convert(subCategoryXml));
+            String parsedJson = subCategoryJson.convert(subCategoryXml);
+
+            //Make sure there are categories to search, if not return error json back
+            try{
+                JSONObject jsonObject = new JSONObject(parsedJson);
+                JSONArray jsonArray = jsonObject.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONArray(ApplicationConstants.recipeSearch.category);
+                ids = getSubcategories(jsonArray);
+            } catch (Exception e) {
+                JSONArray emptyArray = new JSONArray(); //Used to format like a sucessful response, but just with an empty array
+                matchedObjects.put(ApplicationConstants.recipeSearch.RecipeCategories, emptyArray);
+                matchedObjects.put(ApplicationConstants.recipeSearch.totalRecipes, 0);
+                return matchedObjects.toString();
+            }
+
             //All query parameter case
         } else {
             ids.add(Integer.parseInt(category));
         }
 
+        //Get every recipe for each id
         for(Integer id: ids) {
             RecipesByCategory recipesByCategory = new RecipesByCategory();
             String json = recipesByCategory.getInfo(chainId, Integer.toString(id), authToken);
             matchedObjects2 = searchJSON(json, q, matchedObjects2);
         }
+
+        //Format resonse
         matchedObjects = sortRecipesByCategory(matchedObjects2, category);
         matchedObjects.put( ApplicationConstants.recipeSearch.totalRecipes, totalRecipes(matchedObjects));
         return matchedObjects.toString();
@@ -96,11 +112,10 @@ public class Categories extends BaseService {
         return matchedObjects2;
     }
 
-    public Set<Integer> getSubcategories(String jsonString){
+    public Set<Integer> getSubcategories(JSONArray jsonArray){
         Set<Integer> retval = new HashSet<>();
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONArray jsonArray = jsonObject.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONArray(ApplicationConstants.recipeSearch.category);
         try {
+            //Search JSONArray for subcategory ids
             for (Object category : jsonArray) {
                 JSONObject subcategory = (JSONObject) category;
                 JSONArray idCategories = subcategory.getJSONObject(ApplicationConstants.recipeSearch.subCategories).getJSONArray(ApplicationConstants.recipeSearch.category);
@@ -123,13 +138,14 @@ public class Categories extends BaseService {
         for (Object recipe: matchedObjects2){
             JSONObject currentRecipes = (JSONObject) recipe;
             try {
+                //JSON is of array type
                 JSONArray categories = currentRecipes.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONArray(
                         ApplicationConstants.recipeSearch.category);
                 for (Object category : categories) {
                     JSONObject currentCategory = (JSONObject) category;
-                    if(categoryQuery == "") {
+                    if(categoryQuery == "") { //No query, just add id
                         recipeIds.add(currentCategory.getInt(ApplicationConstants.recipeSearch.id));
-                    } else {
+                    } else { //Has query verify that it is a valid id
                         int categoryQueryInt = Integer.parseInt(categoryQuery);
                         if(currentCategory.getInt(ApplicationConstants.recipeSearch.id) == categoryQueryInt){
                             recipeIds.add(currentCategory.getInt(ApplicationConstants.recipeSearch.id));
@@ -137,11 +153,12 @@ public class Categories extends BaseService {
                     }
                 }
             } catch (Exception e){
+                //JSON is of object type
                 JSONObject categories = currentRecipes.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONObject(
                         ApplicationConstants.recipeSearch.category);
-                if(categoryQuery == "") {
+                if(categoryQuery == "") { //No query, just add id
                     recipeIds.add(categories.getInt(ApplicationConstants.recipeSearch.id));
-                } else {
+                } else { //Has query verify that it is a valid id
                     int categoryQueryInt = Integer.parseInt(categoryQuery);
                     if(categories.getInt(ApplicationConstants.recipeSearch.id) == categoryQueryInt){
                         recipeIds.add(categories.getInt(ApplicationConstants.recipeSearch.id));
@@ -158,6 +175,7 @@ public class Categories extends BaseService {
             for(Object recipe: matchedObjects2) {
                 JSONObject currentRecipe = (JSONObject) recipe;
                 try {
+                    //JSON is of array type
                     JSONArray categories = currentRecipe.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONArray(
                             ApplicationConstants.recipeSearch.category);
                     for (Object category : categories) {
@@ -169,6 +187,7 @@ public class Categories extends BaseService {
                         }
                     }
                 } catch (Exception e){
+                    //JSON is of object type
                     JSONObject categories = currentRecipe.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONObject(
                             ApplicationConstants.recipeSearch.category);
                     int thisId = categories.getInt(ApplicationConstants.recipeSearch.id);
@@ -179,6 +198,7 @@ public class Categories extends BaseService {
 
                 }
             }
+            //Format recipe then add to array
             formatting.put(ApplicationConstants.recipeSearch.name, idName);
             formatting.put(ApplicationConstants.recipeSearch.items, currentId);
             formatting.put(ApplicationConstants.recipeSearch.id, id);
@@ -187,6 +207,7 @@ public class Categories extends BaseService {
         return jsonObject.put(ApplicationConstants.recipeSearch.RecipeCategories, retval);
     }
 
+    //Counts items in response
     private int totalRecipes(JSONObject matchedObjects){
         int retval = 0;
         JSONArray jsonArray = matchedObjects.getJSONArray(ApplicationConstants.recipeSearch.RecipeCategories);

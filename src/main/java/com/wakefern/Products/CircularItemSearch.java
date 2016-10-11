@@ -31,8 +31,6 @@ public class CircularItemSearch extends BaseService {
         secondMapping.setMapping(this);
 
         return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
-//        Search search = new Search();
-//        return search.search(partialUrl, take, skip, "", "", authToken);
     }
 
     public CircularItemSearch() {

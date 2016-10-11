@@ -31,8 +31,14 @@ public class AddItemToList extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
     public String getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
-                          @HeaderParam("Authorization") String authToken,@DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId, String jsonBody) throws Exception, IOException {
+                          @HeaderParam("Authorization") String authToken,@DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId,@DefaultValue("") @QueryParam("update") String update, String jsonBody) throws Exception, IOException {
 
+    	if(!update.isEmpty()){
+    		DeleteItemFromList updateItem = new DeleteItemFromList();
+    		updateItem.getInfo(storeId, userId, listId, authToken, listName, "", update, jsonBody);
+    		return null;
+    	}
+    	
         GenericListItem createItem = new ObjectMapper().readValue(jsonBody,GenericListItem.class);
         if(listId.isEmpty()) {
             listId = ListHelpers.getListId(listName, userId, authToken, storeId);

@@ -313,7 +313,7 @@ public final class ApplicationConstants {
 
         public static class RecipesIngredients {
             public static String getValue() {
-                return "Recipe Ingreidents";
+                return "Recipe Ingredients";
             }
         }
 

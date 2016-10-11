@@ -2,15 +2,19 @@ package com.wakefern.Lists;
 
 import com.wakefern.Cart.CartGet;
 import com.wakefern.Cart.ItemDelete;
+import com.wakefern.Cart.ItemPut;
 import com.wakefern.ShoppingLists.ShoppingListItemsGet;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+
 import java.io.IOException;
 
 /**
@@ -21,11 +25,16 @@ public class DeleteItemFromList extends BaseService {
     @DELETE
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
-    public String getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId, @DefaultValue("") @QueryParam("listId") String listId,
-                          @HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("false") @QueryParam("deleteAll") String deleteAll, String jsonBody) throws Exception, IOException {
+    public Response getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId, @DefaultValue("") @QueryParam("listId") String listId,
+                          @HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("false") @QueryParam("deleteAll") String deleteAll,@DefaultValue("") @QueryParam("update") String update, String jsonBody){
         JSONObject requestBody = new JSONObject(jsonBody);
         String requestId = requestBody.getString("ItemKey");
-
+        String itemId = null;
+        try{
+        	itemId = requestBody.getString("ItemId");
+        }catch(Exception e){
+        	itemId = null;
+        }
         this.token = authToken;
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -33,20 +42,73 @@ public class DeleteItemFromList extends BaseService {
 
 
         if(listId.isEmpty()) {
-            listId = ListHelpers.getListId(listName, userId, authToken, storeId);
+            try {
+				listId = ListHelpers.getListId(listName, userId, authToken, storeId);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e);
+			}
         }
         if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
-            ShoppingListItemsGet list = new ShoppingListItemsGet();
-            String returnString = list.getInfo(userId, storeId, listId, "9999", "0", authToken);
-            String itemId = ListHelpers.getItemId(returnString, requestId);
-            this.path = "https://shop.shoprite.com/api/shoppinglist/v5/chains/" + "FBFBF139" + "/users/" + userId + "/lists/" + listId + "/items/" + itemId;
-            return HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader());
+        	if(itemId.isEmpty()){
+        		//If the item ID is passed in the request body 
+                ShoppingListItemsGet list = new ShoppingListItemsGet();
+                String returnString = null;
+    			try {
+    				returnString = list.getInfo(userId, storeId, listId, "9999", "0", authToken);
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				return this.createErrorResponse(e);
+    			} catch (Exception e) {
+    				// TODO Auto-generated catch block
+    				return this.createErrorResponse(e);
+    			}
+    			itemId = ListHelpers.getItemId(returnString, requestId);
+        	}
+            this.path = "https://shop.shoprite.com/api/shoppinglist/v5/chains/" + "FBFB139" + "/users/" + userId + "/lists/" + listId + "/items/" + itemId;
+            System.out.println("DELETE + Update ITEM :: " + this.path);
+            if(update.isEmpty()){
+            	HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader());
+                return this.createValidDelete();
+            }else{
+            	//Update the item with a PUT 
+            	HTTPRequest.executePut("", this.path, "", jsonBody, secondMapping.getgenericHeader());
+                return this.createDefaultResponse();
+            }
         }else{
-            CartGet cartList = new CartGet();
-            String returnString = cartList.getInfo(userId,storeId,authToken);
-            String itemId = ListHelpers.getItemId(returnString, requestId);
-            ItemDelete deleteItem = new ItemDelete();
-            return deleteItem.getInfo(userId,storeId,itemId,authToken);
+        	if(itemId.isEmpty()){
+                CartGet cartList = new CartGet();
+                String returnString = null;
+    			try {
+    				returnString = cartList.getInfo(userId,storeId,authToken);
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				return this.createErrorResponse(e);
+    			} catch (Exception e) {
+    				// TODO Auto-generated catch block
+    				return this.createErrorResponse(e);
+    			}
+                itemId = ListHelpers.getItemId(returnString, requestId);
+        	}
+            try {
+            	if(update.isEmpty()){
+            		ItemDelete deleteItem = new ItemDelete();
+            		deleteItem.getInfo(userId,storeId,itemId,authToken);
+	            	return this.createValidDelete();
+            	}else{
+            		//Update item in cart 
+            		ItemPut itemPut = new ItemPut();
+            		itemPut.getInfo(userId, storeId, itemId, authToken, jsonBody);
+            		return this.createDefaultResponse();
+            	}
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e);
+			}
         }
     }
 

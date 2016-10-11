@@ -1,8 +1,11 @@
 package com.wakefern.global;
 
+import java.io.IOException;
+
 import com.wakefern.Planning.StoreDetails;
 import com.wakefern.Recipes.GetProfile;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
+
 import org.json.JSONObject;
 
 /**
@@ -12,7 +15,7 @@ public class FormattedAuthentication {
     private String pseudoStore;
     private String storeName;
 
-    public JSONObject formatAuth(String json, String email, String chainId, String planningAuth, String v5){
+    public JSONObject formatAuth(String json, String email, String chainId, String planningAuth, String v5) throws IOException, Exception{
         JSONObject retval = new JSONObject();
         JSONObject jsonObject = new JSONObject(json);
         String token = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Token);
@@ -23,7 +26,7 @@ public class FormattedAuthentication {
         retval.put(ApplicationConstants.FormattedAuthentication.UserId, userId);
 
         GetProfile getProfile = new GetProfile();
-        try {
+ 
             String xml = getProfile.getInfo(userId, chainId, email, planningAuth);
 
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
@@ -50,10 +53,7 @@ public class FormattedAuthentication {
                 Object keyvalue = jsonObject1.get(keyStr);
                 retval.put(keyStr, keyvalue);
             }
-        } catch (Exception e){
-            ExceptionHandler exceptionHandler = new ExceptionHandler();
-            System.out.print(exceptionHandler.ExceptionMessageJson(e));
-        }
+        
         return retval;
     }
 

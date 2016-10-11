@@ -7,9 +7,12 @@ import com.wakefern.global.FormattedAuthentication;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+
 import java.io.IOException;
 
 /**
@@ -21,20 +24,21 @@ public class AuthorizationAuthenticate extends BaseService {
     @Consumes("application/json")
     @Produces("application/*")
     @Path("/authenticate")
-    public String getInfo(@HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
+    public Response getInfo(@HeaderParam("Authorization") String authToken, String jsonBody){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
-
+        ////this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
+        this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
+        
         JSONObject messageJson = new JSONObject(jsonBody);
         ServiceMappings mapping = new ServiceMappings();
+        //Todo mappings are messed up @zach
         mapping.setPutMapping(this, jsonBody);
 
         String json;
         try {
-            json = (HTTPRequest.executePostJSON(mapping.getPath(), mapping.getGenericBody(), mapping.getgenericHeader()));
+            json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader()));
         } catch (Exception e){
-            ExceptionHandler exceptionHandler = new ExceptionHandler();
-            return exceptionHandler.ExceptionMessageJson(e);
+            return this.createErrorResponse(e);
         }
 
         //run regular v5 authentication
@@ -43,18 +47,19 @@ public class AuthorizationAuthenticate extends BaseService {
             Authentication authentication = new Authentication();
             v5 = authentication.getInfo(jsonBody);
         } catch (Exception e){
-            ExceptionHandler exceptionHandler = new ExceptionHandler();
-            return exceptionHandler.ExceptionMessageJson(e);
+            return this.createErrorResponse(e);
         }
 
+        System.out.println("Response :: " + json);
 
         FormattedAuthentication formattedAuthentication = new FormattedAuthentication();
-        return formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
-                ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning,
-                v5).toString();
+        try {
+			return Response.status(200).entity(formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
+			        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning,
+			        v5).toString()).build();
+		} catch (Exception e) {
+            return this.createErrorResponse(e);
+		}
     }
 
-    public AuthorizationAuthenticate(){
-        this.serviceType = new MWGHeader();
-    }
 }

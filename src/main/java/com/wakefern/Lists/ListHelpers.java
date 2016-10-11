@@ -16,7 +16,7 @@ import java.io.IOException;
  * Created by brandyn.brosemer on 9/23/16.
  */
 public final class ListHelpers {
-
+//
     static String getUserList(JSONArray jsonArray, String listName){
         try{
             for (int i = 0, size = jsonArray.length(); i < size; i++)

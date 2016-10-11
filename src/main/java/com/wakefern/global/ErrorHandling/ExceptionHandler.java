@@ -13,7 +13,7 @@ public class ExceptionHandler {
     public static String ExceptionMessage(Exception e){
         return e.getMessage();
     }
-    public static String ExceptionMessageJson(Exception e){
+    public String exceptionMessageJson(Exception e){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ApplicationConstants.ErrorMessage, e.getMessage());
         return jsonObject.toString();

@@ -25,7 +25,7 @@ public class ComparePastPurchasesCircular extends BaseService {
         this.token = authToken;
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, this.token);
+        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
         return getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
     }
 

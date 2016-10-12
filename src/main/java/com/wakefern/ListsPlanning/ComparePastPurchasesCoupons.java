@@ -30,7 +30,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
         Set<String> couponIds = getCouponIds(couponList);
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, this.token);
+        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
         return getPurchaseIds(pastPurchases, couponIds, skip, take).toString();
     }
 
@@ -58,12 +58,6 @@ public class ComparePastPurchasesCoupons extends BaseService {
             JSONObject currentListItem = (JSONObject) listItem;
             String sku = currentListItem.getJSONObject(ApplicationConstants.Planning.Product)
                     .getString(ApplicationConstants.Planning.SKU);
-// todo remove testing code
-//            if(matches == 0){
-//                sku = "20756000000";
-//            } else if(matches == 1){
-//                sku = "20756000001";
-//            }
 
             for(String couponId: coupons) {
                 if (sku.contains(couponId)) {
@@ -72,12 +66,6 @@ public class ComparePastPurchasesCoupons extends BaseService {
                 }
             }
         }
-        //todo remove testcase
-//        for(String couponId: coupons) {
-//            if ("207560000000".contains(couponId)) {
-//                retval.append( "Matches", "TestSuccess");
-//            }
-//        }
 
         //Should only be reached is matches < take
         return retval;
@@ -96,10 +84,6 @@ public class ComparePastPurchasesCoupons extends BaseService {
                 retval.add(upc);
             }
         }
-        //todo remove testcase
-//        retval.add("20756000000");
-//        retval.add("20756000001");
-//        retval.add("20756000002");
         return retval;
     }
 }

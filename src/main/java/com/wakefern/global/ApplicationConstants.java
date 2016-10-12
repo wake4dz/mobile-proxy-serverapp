@@ -346,6 +346,8 @@ public final class ApplicationConstants {
     }
 
     public static class Planning{
+        public static final String Coupons = "Coupons";
+        public static final String DateModified = "DateModified";
         public static final String Id = "Id";
         public static final String Matches = "Matches";
         public static final String MyPastPurchases = "My Past Purchases";
@@ -353,6 +355,7 @@ public final class ApplicationConstants {
         public static final String PastPurchasesError = "Failed to find 'My Past Purchases'";
         public static final String Product = "Product";
         public static final String requirement_upc = "requirement_upcs";
+        public static final String Rewards = "Rewards";
         public static final String Sale = "Sale";
         public static final String ShoppingList = "ShoppingList";
         public static final String ShoppingLists = "ShoppingLists";

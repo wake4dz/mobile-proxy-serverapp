@@ -70,36 +70,41 @@ public class GetPastPurchases extends BaseService {
         JSONObject retval = new JSONObject();
         JSONObject shoppingListItem = new JSONObject();
 
-        //Get shopping list array
-        Object jsonObject = new JSONObject(list).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
-        JSONArray jsonArray = (JSONArray) jsonObject;
+        try {//Try is to catch one item in list case
+            //Get shopping list array
+            Object jsonObject = new JSONObject(list).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
+            JSONArray jsonArray = (JSONArray) jsonObject;
 
-        for(Object listItem: jsonArray) {
-            JSONObject currentListItem = (JSONObject) listItem;
+            for (Object listItem : jsonArray) {
+                JSONObject currentListItem = (JSONObject) listItem;
 
-            //Handle any necessary skipping
-            if (skipCount < skipInt) {
-                skipCount++;
-                continue;
+                //Handle any necessary skipping
+                if (skipCount < skipInt) {
+                    skipCount++;
+                    continue;
+                }
+
+                //Hit take limit, return matches
+                if (matches == takeInt) {
+                    JSONObject shoppingListItems = new JSONObject();
+                    //shoppingList.setShoppingListItems(shoppingListItems.append(ApplicationConstants.Planning.ShoppingListItems, shoppingListItem));
+                    shoppingListItems.put(ApplicationConstants.Planning.Id, shoppingList.getId());
+                    shoppingListItems.put(ApplicationConstants.Planning.DateModified, shoppingList.getDateModified());
+                    shoppingListItems.put(ApplicationConstants.Planning.Name, shoppingList.getName());
+                    shoppingListItems.put(ApplicationConstants.Planning.Rewards, shoppingList.getRewards());
+                    shoppingListItems.put(ApplicationConstants.Planning.Coupons, shoppingList.getCoupons());
+                    shoppingListItems.put(ApplicationConstants.Planning.ShoppingListItems, shoppingListItem);
+                    retval.put(ApplicationConstants.Planning.ShoppingList, shoppingListItems);
+                    return retval;
+                }
+
+                shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
+                matches++;
             }
-
-            //Hit take limit, return matches
-            if (matches == takeInt) {
-                JSONObject shoppingListItems = new JSONObject();
-                //shoppingList.setShoppingListItems(shoppingListItems.append(ApplicationConstants.Planning.ShoppingListItems, shoppingListItem));
-                shoppingListItems.put(ApplicationConstants.Planning.Id, shoppingList.getId());
-                shoppingListItems.put(ApplicationConstants.Planning.DateModified, shoppingList.getDateModified());
-                shoppingListItems.put(ApplicationConstants.Planning.Name, shoppingList.getName());
-                shoppingListItems.put(ApplicationConstants.Planning.Rewards, shoppingList.getRewards());
-                shoppingListItems.put(ApplicationConstants.Planning.Coupons, shoppingList.getCoupons());
-                shoppingListItems.put(ApplicationConstants.Planning.ShoppingListItems, shoppingListItem);
-                retval.put(ApplicationConstants.Planning.ShoppingList, shoppingListItems);
-                return retval;
-            }
-
-            shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
-            matches++;
+        } catch (Exception e) { //There is only one item in the list, just return it back
+            JSONObject temp = new JSONObject(list);
+            return temp;
         }
         //Should only be reached if matches < take
         JSONObject shoppingListItems = new JSONObject();
@@ -131,8 +136,6 @@ public class GetPastPurchases extends BaseService {
         String name;
         JSONObject rewards;
         JSONObject coupons;
-        JSONObject shoppingListItems;
-
 
         public String getId() {
             return id;
@@ -172,14 +175,6 @@ public class GetPastPurchases extends BaseService {
 
         public void setCoupons(JSONObject coupons) {
             this.coupons = coupons;
-        }
-
-        public JSONObject getShoppingListItems() {
-            return shoppingListItems;
-        }
-
-        public void setShoppingListItems(JSONObject shoppingListItems) {
-            this.shoppingListItems = shoppingListItems;
         }
     }
 }

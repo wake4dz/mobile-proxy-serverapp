@@ -42,27 +42,39 @@ public class ComparePastPurchasesCoupons extends BaseService {
         int matches = 0;
         int skips = 0;
         JSONObject retval = new JSONObject();
-        Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
-        JSONArray jsonArray = (JSONArray) jsonObject;
-        for(Object listItem: jsonArray){
-            if(skips < Integer.parseInt(skip)){
-                skips++;
-                continue;
+        try {//Assume multiple items in past purchases, exception if there is only one
+            Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
+            JSONArray jsonArray = (JSONArray) jsonObject;
+            for (Object listItem : jsonArray) {
+                if (skips < Integer.parseInt(skip)) {
+                    skips++;
+                    continue;
+                }
+
+                if (matches == Integer.parseInt(take)) {
+                    return retval;
+                }
+
+                JSONObject currentListItem = (JSONObject) listItem;
+                String sku = currentListItem.getJSONObject(ApplicationConstants.Planning.Product)
+                        .getString(ApplicationConstants.Planning.SKU);
+
+                for (String couponId : coupons) {
+                    if (sku.contains(couponId)) {
+                        retval.append(ApplicationConstants.Planning.Matches, currentListItem);
+                        matches++;
+                    }
+                }
             }
-
-            if(matches == Integer.parseInt(take)){
-                return retval;
-            }
-
-            JSONObject currentListItem = (JSONObject) listItem;
-            String sku = currentListItem.getJSONObject(ApplicationConstants.Planning.Product)
-                    .getString(ApplicationConstants.Planning.SKU);
-
-            for(String couponId: coupons) {
-                if (sku.contains(couponId)) {
-                    retval.append( ApplicationConstants.Planning.Matches, currentListItem);
-                    matches++;
+        } catch (Exception e){ //There is only one item in the past purchases list
+            JSONObject singleObj = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem);
+            String singleSku = singleObj.getJSONObject(ApplicationConstants.Planning.Product).getString(ApplicationConstants.Planning.SKU);
+            for (String couponId : coupons) {
+                if (singleSku.contains(couponId)) {
+                    retval.append(ApplicationConstants.Planning.Matches, singleObj);
+                    return retval;
                 }
             }
         }

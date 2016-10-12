@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -17,14 +18,22 @@ public class ItemGet extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/item/{itemId}")
-    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("itemId") String itemId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("itemId") String itemId,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResposne(userId, storeId, itemId, authToken);
 
-        this.path = ApplicationConstants.Requests.Cart.CartUser
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item
-                + ApplicationConstants.StringConstants.backSlash + itemId;
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        try {
+            return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String storeId, String itemId, String authToken) throws Exception, IOException {
+        prepareResposne(userId, storeId, itemId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -34,5 +43,13 @@ public class ItemGet extends BaseService {
 
     public ItemGet(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResposne(String userId, String storeId, String itemId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Cart.CartUser
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item
+                + ApplicationConstants.StringConstants.backSlash + itemId;
     }
 }

@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -17,21 +18,39 @@ public class CheckoutFulfillmentDelete extends BaseService {
     @DELETE
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/fulfillment")
-    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.UserCheckout
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment;
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResposne(userId, storeId, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        try{
+            HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader());
+            return this.createValidDelete();
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String storeId, String authToken) throws Exception, IOException {
+        prepareResposne(userId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
         return HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader());
-
     }
+
     public CheckoutFulfillmentDelete(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResposne(String userId, String storeId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Checkout.UserCheckout
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment;
     }
 }
 

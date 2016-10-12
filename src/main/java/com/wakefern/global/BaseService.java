@@ -1,9 +1,6 @@
 package com.wakefern.global;
 
-import com.ibm.json.java.JSONObject;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 /**
@@ -12,7 +9,6 @@ import javax.ws.rs.core.Response;
 public class BaseService {
     public Object serviceType = null;
     public String path = null;
-    //public HttpServletRequest request = null;
     public String token = null;
     
     public Response createErrorResponse(Exception e){
@@ -30,5 +26,9 @@ public class BaseService {
     
     public Response createDefaultResponse(){
     	return Response.status(500).build();
+    }
+
+    public Response createResponse(int status){
+        return Response.status(status).build();
     }
 }

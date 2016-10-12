@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -44,12 +45,22 @@ public class CheckoutFulfillmentPut extends BaseService {
     @PUT
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/fulfillment")
-    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                          @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.UserCheckout
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment;
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                            @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
+        prepareResposne(userId, storeId, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setPutMapping(this, jsonBody);
+
+        try {
+            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String storeId, String authToken, String jsonBody) throws Exception, IOException {
+        prepareResposne(userId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -59,5 +70,12 @@ public class CheckoutFulfillmentPut extends BaseService {
 
     public CheckoutFulfillmentPut(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResposne(String userId, String storeId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Checkout.UserCheckout
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment;
     }
 }

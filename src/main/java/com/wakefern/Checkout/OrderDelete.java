@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -17,21 +18,39 @@ public class OrderDelete extends BaseService {
     @DELETE
     @Produces("application/*")
     @Path("/{orderId}/user/{userId}")
-    public String getInfo( @PathParam("orderId") String orderId, @PathParam("userId") String userId,
-                           @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.Order
-                + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
-                + ApplicationConstants.StringConstants.backSlash + userId;
+    public Response getInfoResponse(@PathParam("orderId") String orderId, @PathParam("userId") String userId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(orderId, userId, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        try {
+            HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader());
+            return this.createValidDelete();
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String orderId, String userId, String authToken) throws Exception, IOException {
+        prepareResponse(orderId, userId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
         return HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader());
-
     }
+
     public OrderDelete(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String orderId, String userId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Checkout.Order
+                + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
+                + ApplicationConstants.StringConstants.backSlash + userId;
     }
 }
 

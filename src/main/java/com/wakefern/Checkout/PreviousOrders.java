@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -17,23 +18,38 @@ public class PreviousOrders extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}")
-    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.UserOrder
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId;
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(userId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-
-        System.out.print("Path: " + secondMapping.getPath());
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
-
+        try {
+            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
     }
+
+    public String getInfo(String userId, String storeId, String authToken) throws Exception, IOException {
+        prepareResponse(userId, storeId, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
+    }
+
     public PreviousOrders(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String userId, String storeId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Checkout.UserOrder
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId;
     }
 }
 

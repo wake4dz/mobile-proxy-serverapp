@@ -25,8 +25,11 @@ public class ComparePastPurchasesCircular extends BaseService {
         this.token = authToken;
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, this.token);
-        return getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
+        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
+        String retval = getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
+        retval = retval.replaceAll("\r", "");
+        retval = retval.replaceAll("\\\"", "\"");
+        return retval;
     }
 
     public ComparePastPurchasesCircular() {
@@ -36,14 +39,25 @@ public class ComparePastPurchasesCircular extends BaseService {
     private JSONObject getPurchaseIds(String pastPurchases, String storeId, String auth, String take, String skip)throws Exception{
         JSONObject retval = new JSONObject();
         SortedSet<Integer> ids = new TreeSet<Integer>();
-        Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
-        JSONArray jsonArray = (JSONArray) jsonObject;
-        for(Object listItem: jsonArray){
-            JSONObject currentListItem = (JSONObject) listItem;
-            ids.add(currentListItem.getJSONObject(ApplicationConstants.Planning.Product).getInt(ApplicationConstants.Planning.Id));
+        try {//Assume multiple items in past purchases, exception if there is only one
+            Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
+            JSONArray jsonArray = (JSONArray) jsonObject;
+            for(Object listItem: jsonArray){ //get all of the ids from past purchases
+                JSONObject currentListItem = (JSONObject) listItem;
+                ids.add(currentListItem.getJSONObject(ApplicationConstants.Planning.Product).getInt(ApplicationConstants.Planning.Id));
+            }
+        } catch (Exception e){//There is only one item in the past purchases list
+            int singleId = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem)
+                    .getJSONObject(ApplicationConstants.Planning.Product).getInt(ApplicationConstants.Planning.Id);
+            ProductById productById = new ProductById();
+            String json = productById.getInfo(String.valueOf(singleId), storeId, "", "", "", auth);
+            retval.put(ApplicationConstants.Planning.Matches, json);
+            return retval;
         }
 
+        //Page over any skips
         Iterator it = ids.iterator();
         for(int j = 0; j < Integer.parseInt(skip); j++){
             it.next();
@@ -57,11 +71,11 @@ public class ComparePastPurchasesCircular extends BaseService {
 
             int currentid = (int) it.next();
             String id = String.valueOf(currentid);
-            //todo remove test String id = "862795";
 
             ProductById productById = new ProductById();
             String json = productById.getInfo(id, storeId, "", "", "", auth);
 
+            //Verify that a new item is on sale
             Object isSale = new JSONObject(json).get(ApplicationConstants.Planning.Sale);
             if (isSale != null){
                 retval.append(ApplicationConstants.Planning.Matches, json);

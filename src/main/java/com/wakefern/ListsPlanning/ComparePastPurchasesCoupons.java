@@ -30,7 +30,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
         Set<String> couponIds = getCouponIds(couponList);
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, this.token);
+        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
         return getPurchaseIds(pastPurchases, couponIds, skip, take).toString();
     }
 
@@ -42,42 +42,42 @@ public class ComparePastPurchasesCoupons extends BaseService {
         int matches = 0;
         int skips = 0;
         JSONObject retval = new JSONObject();
-        Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
-        JSONArray jsonArray = (JSONArray) jsonObject;
-        for(Object listItem: jsonArray){
-            if(skips < Integer.parseInt(skip)){
-                skips++;
-                continue;
+        try {//Assume multiple items in past purchases, exception if there is only one
+            Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
+            JSONArray jsonArray = (JSONArray) jsonObject;
+            for (Object listItem : jsonArray) {
+                if (skips < Integer.parseInt(skip)) {
+                    skips++;
+                    continue;
+                }
+
+                if (matches == Integer.parseInt(take)) {
+                    return retval;
+                }
+
+                JSONObject currentListItem = (JSONObject) listItem;
+                String sku = currentListItem.getJSONObject(ApplicationConstants.Planning.Product)
+                        .getString(ApplicationConstants.Planning.SKU);
+
+                for (String couponId : coupons) {
+                    if (sku.contains(couponId)) {
+                        retval.append(ApplicationConstants.Planning.Matches, currentListItem);
+                        matches++;
+                    }
+                }
             }
-
-            if(matches == Integer.parseInt(take)){
-                return retval;
-            }
-
-            JSONObject currentListItem = (JSONObject) listItem;
-            String sku = currentListItem.getJSONObject(ApplicationConstants.Planning.Product)
-                    .getString(ApplicationConstants.Planning.SKU);
-// todo remove testing code
-//            if(matches == 0){
-//                sku = "20756000000";
-//            } else if(matches == 1){
-//                sku = "20756000001";
-//            }
-
-            for(String couponId: coupons) {
-                if (sku.contains(couponId)) {
-                    retval.append( ApplicationConstants.Planning.Matches, currentListItem);
-                    matches++;
+        } catch (Exception e){ //There is only one item in the past purchases list
+            JSONObject singleObj = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem);
+            String singleSku = singleObj.getJSONObject(ApplicationConstants.Planning.Product).getString(ApplicationConstants.Planning.SKU);
+            for (String couponId : coupons) {
+                if (singleSku.contains(couponId)) {
+                    retval.append(ApplicationConstants.Planning.Matches, singleObj);
+                    return retval;
                 }
             }
         }
-        //todo remove testcase
-//        for(String couponId: coupons) {
-//            if ("207560000000".contains(couponId)) {
-//                retval.append( "Matches", "TestSuccess");
-//            }
-//        }
 
         //Should only be reached is matches < take
         return retval;
@@ -96,10 +96,6 @@ public class ComparePastPurchasesCoupons extends BaseService {
                 retval.add(upc);
             }
         }
-        //todo remove testcase
-//        retval.add("20756000000");
-//        retval.add("20756000001");
-//        retval.add("20756000002");
         return retval;
     }
 }

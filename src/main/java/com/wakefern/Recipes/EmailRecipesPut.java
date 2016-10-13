@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -27,21 +28,37 @@ public class EmailRecipesPut extends BaseService {
      </Recipe>
      */
     @Path("/{chainId}/recipe/{recipeId}/email")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("recipeId") String recipeId,
-                          @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("recipeId") String recipeId,
+                            @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
+        prepareResponse(chainId, recipeId, authToken);
 
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.recipe
-                + ApplicationConstants.StringConstants.backSlash + recipeId + ApplicationConstants.StringConstants.email;
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMapping(this, jsonBody);
+
+        try {
+            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String recipeId,String authToken, String jsonBody) throws Exception, IOException {
+        prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, jsonBody);
 
         return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
-
     }
+
     public EmailRecipesPut(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String chainId, String recipeId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.recipe
+                + ApplicationConstants.StringConstants.backSlash + recipeId + ApplicationConstants.StringConstants.email;
     }
 }

@@ -8,6 +8,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -19,22 +20,37 @@ public class CircularsAll extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/all")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories+ ApplicationConstants.StringConstants.backSlash +
-                chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
-                + storeId + ApplicationConstants.StringConstants.circulars + ApplicationConstants.StringConstants.all;
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(),
-                secondMapping.getgenericHeader());
+        try {
+            return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String storeId, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
     }
 
     public CircularsAll(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String chainId, String storeId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Circular.Categories+ ApplicationConstants.StringConstants.backSlash +
+                chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.circulars + ApplicationConstants.StringConstants.all;
     }
 }

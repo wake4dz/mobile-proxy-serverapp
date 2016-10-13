@@ -8,6 +8,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,26 @@ public class FeaturedRecipes extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/featured")
-    public String getInfo(@PathParam("chainId") String chainId, @QueryParam("q") String q,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @QueryParam("q") String q,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, q, authToken);
 
-        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.featured
-                + ApplicationConstants.StringConstants.queryParam + q;
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMapping(this, null);
+
+        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+
+        try {
+            String extractedXml = extractId(featuredReturn, chainId, authToken);
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return this.createValidResponse(xmLtoJSONConverter.convert(extractedXml));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String q, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, q, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
@@ -37,7 +51,6 @@ public class FeaturedRecipes extends BaseService {
 
         String extractedXml = extractId(featuredReturn, chainId, authToken);
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-
         return xmLtoJSONConverter.convert(extractedXml);
     }
 
@@ -65,5 +78,12 @@ public class FeaturedRecipes extends BaseService {
         //Append any data after final match
         matcher.appendTail(sb);
         return sb.toString();
+    }
+
+    private void prepareResponse(String chainId, String q, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.featured
+                + ApplicationConstants.StringConstants.queryParam + q;
     }
 }

@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -17,15 +18,22 @@ public class PageItems extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/{circularId}/pages/{pageId}/items")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId, @PathParam("pageId") String pageId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId, @PathParam("pageId") String pageId,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, circularId, pageId, authToken);
 
-        this.path = ApplicationConstants.Requests.Circular.Categories
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
-                + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.pages
-                + ApplicationConstants.StringConstants.backSlash + pageId + ApplicationConstants.StringConstants.items;
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        try {
+            return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader()));
+        } catch (Exception e) {
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String storeId, String circularId, String pageId, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, circularId, pageId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -35,5 +43,14 @@ public class PageItems extends BaseService {
 
     public PageItems(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String chainId, String storeId, String circularId, String pageId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Circular.Categories
+                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
+                + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.pages
+                + ApplicationConstants.StringConstants.backSlash + pageId + ApplicationConstants.StringConstants.items;
     }
 }

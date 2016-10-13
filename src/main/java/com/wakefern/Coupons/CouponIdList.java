@@ -9,6 +9,7 @@ import com.wakefern.request.HTTPRequest;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -20,12 +21,25 @@ public class CouponIdList extends BaseService {
 
     @GET
     @Produces("application/*")
-    public String getInfo(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
-                          @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam)
-                          throws Exception, IOException {
+    public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
+                                    @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam) throws Exception, IOException {
         matchedObjects = new JSONObject();
-        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCouponId
-                + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
+        prepareResponse(ppcParam);
+
+        //Execute Post
+        ServiceMappings serviceMappings = new ServiceMappings();
+        serviceMappings.setCouponMapping(this);
+
+        try {
+            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String ppcParam) throws Exception, IOException {
+        matchedObjects = new JSONObject();
+        prepareResponse(ppcParam);
 
         //Execute Post
         ServiceMappings serviceMappings = new ServiceMappings();
@@ -35,4 +49,9 @@ public class CouponIdList extends BaseService {
     }
 
     public CouponIdList() {     this.serviceType = new WakefernHeader();    }
+
+    private void prepareResponse(String ppcParam){
+        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCouponId
+                + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
+    }
 }

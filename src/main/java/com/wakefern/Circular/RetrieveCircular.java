@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -18,13 +19,22 @@ public class RetrieveCircular extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/{circularId}")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,@PathParam("circularId") String circularId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
-                + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
-                + storeId + ApplicationConstants.StringConstants.circulars + ApplicationConstants.StringConstants.backSlash
-                + circularId;
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, circularId, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        try {
+            return this.createValidResponse(HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String storeId, String circularId, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, circularId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -34,5 +44,13 @@ public class RetrieveCircular extends BaseService{
 
     public RetrieveCircular(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String chainId, String storeId, String circularId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+                + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
+                + storeId + ApplicationConstants.StringConstants.circulars + ApplicationConstants.StringConstants.backSlash
+                + circularId;
     }
 }

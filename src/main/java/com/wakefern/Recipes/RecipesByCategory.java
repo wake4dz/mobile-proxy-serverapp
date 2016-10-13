@@ -8,6 +8,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -18,24 +19,41 @@ public class RecipesByCategory extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/category/{subCategoryId}")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("subCategoryId") String subCategoryId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("subCategoryId") String subCategoryId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, subCategoryId, authToken);
 
-        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category
-                + ApplicationConstants.StringConstants.backSlash + subCategoryId;
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMapping(this, null);
+
+        try {
+            String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return this.createValidResponse(xmLtoJSONConverter.convert(response));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String subCategoryId, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, subCategoryId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMapping(this, null);
 
         String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
         return xmLtoJSONConverter.convert(response);
     }
 
     public RecipesByCategory(){
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String chainId, String subCategoryId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category
+                + ApplicationConstants.StringConstants.backSlash + subCategoryId;
     }
 }

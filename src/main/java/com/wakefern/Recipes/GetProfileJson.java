@@ -8,6 +8,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -18,13 +19,25 @@ public class GetProfileJson extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/chainid/{chainId}/json")
-    public String getInfo(@PathParam("userId") String userId, @PathParam("chainId") String chainId, @QueryParam("email") String email,
-    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("chainId") String chainId, @QueryParam("email") String email,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(userId, chainId, email, authToken);
 
-        this.path = ApplicationConstants.Requests.Recipes.UpdateProfile
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.chainid
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.emailParam + email;
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMappingv1(this, null);
+
+        try {
+            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            xml = xml.replaceAll("</User>", "<ChainId>" + chainId + "</ChainId></User>");
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return this.createValidResponse(xmLtoJSONConverter.convert(xml));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String chainId, String email, String authToken) throws Exception, IOException {
+        prepareResponse(userId, chainId, email, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
@@ -37,5 +50,12 @@ public class GetProfileJson extends BaseService {
 
     public GetProfileJson() {
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String userId, String chainId, String email, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Recipes.UpdateProfile
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.chainid
+                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.emailParam + email;
     }
 }

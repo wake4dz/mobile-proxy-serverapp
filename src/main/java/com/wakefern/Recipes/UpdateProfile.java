@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,10 +20,32 @@ public class UpdateProfile extends BaseService {
     @PUT
     @Produces("application/*")
     @Path("/{userId}")
-    public String getInfo(@PathParam("userId") String userId, @QueryParam("email") String email, @QueryParam("chainId") String chainId, @QueryParam("storeId") String storeId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("userId") String userId, @QueryParam("email") String email, @QueryParam("chainId") String chainId, @QueryParam("storeId") String storeId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        try {
+            String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
+            ServiceMappings secondMapping = new ServiceMappings();
+            secondMapping.setServiceMappingv1(this, jsonBody);
+            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
 
+    public String getInfo(String userId, String email, String chainId, String storeId, String authToken) throws Exception, IOException {
+
+        String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMappingv1(this, jsonBody);
+        return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+    }
+
+    public UpdateProfile(){
+        this.serviceType = new MWGHeader();
+    }
+
+    private String prepareResponse(String userId, String email, String chainId, String storeId, String authToken) throws Exception{
+        this.token = authToken;
         GetProfile getProfile = new GetProfile();
         String jsonBody = getProfile.getInfo(userId, chainId, email, authToken);
         Pattern pattern = Pattern.compile("(<PreferredStore><Id>.*</Id></PreferredStore>)");
@@ -33,14 +56,6 @@ public class UpdateProfile extends BaseService {
 
         this.path = ApplicationConstants.Requests.Recipes.UpdateProfile
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.emailParam + email;
-
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMappingv1(this, jsonBody);
-
-        return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
-    }
-
-    public UpdateProfile(){
-        this.serviceType = new MWGHeader();
+        return jsonBody;
     }
 }

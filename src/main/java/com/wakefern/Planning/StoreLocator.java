@@ -8,6 +8,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -18,11 +19,40 @@ public class StoreLocator extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/postalCode/{zip}/radius/{radius}/unit/{units}/page/{pageNum}/size/{sizeNum}")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("zip") String zip, @PathParam("radius") String rad,
-                          @PathParam("units") String units, @PathParam("pageNum") String pageNum, @PathParam("sizeNum") String sizeNum,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("zip") String zip, @PathParam("radius") String rad,
+                            @PathParam("units") String units, @PathParam("pageNum") String pageNum, @PathParam("sizeNum") String sizeNum,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, zip, rad, units, pageNum, sizeNum, authToken);
 
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMapping(this, null);
+
+        try {
+            String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return this.createValidResponse(xmLtoJSONConverter.convert(xmlRequest));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String zip, String rad, String units, String pageNum, String sizeNum, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, zip, rad, units, pageNum, sizeNum, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMapping(this, null);
+
+        String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+        return xmLtoJSONConverter.convert(xmlRequest);
+    }
+
+    public StoreLocator(){
+        this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String chainId, String zip, String rad, String units, String pageNum, String sizeNum, String authToken){
+        this.token = authToken;
         this.path = ApplicationConstants.Requests.Planning.StoreLocator
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.postalCode
                 + ApplicationConstants.StringConstants.backSlash + zip + ApplicationConstants.StringConstants.radius
@@ -30,18 +60,6 @@ public class StoreLocator extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + units + ApplicationConstants.StringConstants.page
                 + ApplicationConstants.StringConstants.backSlash + pageNum + ApplicationConstants.StringConstants.size
                 + ApplicationConstants.StringConstants.backSlash + sizeNum;
-
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
-
-        String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-
-        return xmLtoJSONConverter.convert(xmlRequest);
-    }
-
-    public StoreLocator(){
-        this.serviceType = new MWGHeader();
     }
 }
 

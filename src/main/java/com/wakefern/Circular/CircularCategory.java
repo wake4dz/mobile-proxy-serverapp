@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -18,23 +19,38 @@ public class CircularCategory extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/categories/{categoryId}")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("categoryId") String categoryId,
-                          @HeaderParam("Authorization") String authToken)throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("categoryId") String categoryId,
+                            @HeaderParam("Authorization") String authToken)throws Exception, IOException {
+        prepareRespone(chainId, storeId, categoryId, authToken);
 
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        try {
+            return this.createValidResponse(HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader()));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String chainId, String storeId, String categoryId, String authToken)throws Exception, IOException {
+        prepareRespone(chainId, storeId, categoryId, authToken);
+
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setMapping(this);
+
+        return HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader());
+    }
+
+    public CircularCategory(){
+        this.serviceType = new MWGHeader();
+    }
+
+    private void prepareRespone(String chainId, String storeId, String categoryId, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.backSlash
                 + categoryId;
-
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
-
-        return HTTPRequest.executeGetJSON( secondMapping.getPath(),
-                secondMapping.getgenericHeader());
-    }
-
-    public CircularCategory(){
-        this.serviceType = new MWGHeader();
     }
 }

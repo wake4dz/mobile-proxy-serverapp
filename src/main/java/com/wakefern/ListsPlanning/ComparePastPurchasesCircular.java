@@ -4,6 +4,7 @@ import com.wakefern.Products.ProductById;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,10 +27,7 @@ public class ComparePastPurchasesCircular extends BaseService {
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
         String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
-        String retval = getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
-        retval = retval.replaceAll("\r", "");
-        retval = retval.replaceAll("\\\"", "\"");
-        return retval;
+        return getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
     }
 
     public ComparePastPurchasesCircular() {
@@ -53,7 +51,8 @@ public class ComparePastPurchasesCircular extends BaseService {
                     .getJSONObject(ApplicationConstants.Planning.Product).getInt(ApplicationConstants.Planning.Id);
             ProductById productById = new ProductById();
             String json = productById.getInfo(String.valueOf(singleId), storeId, "", "", "", auth);
-            retval.put(ApplicationConstants.Planning.Matches, json);
+            JSONObject jsonObject = new JSONObject(json);
+            retval.put(ApplicationConstants.Planning.Matches, jsonObject);
             return retval;
         }
 
@@ -74,15 +73,25 @@ public class ComparePastPurchasesCircular extends BaseService {
 
             ProductById productById = new ProductById();
             String json = productById.getInfo(id, storeId, "", "", "", auth);
-
             //Verify that a new item is on sale
             Object isSale = new JSONObject(json).get(ApplicationConstants.Planning.Sale);
             if (isSale != null){
-                retval.append(ApplicationConstants.Planning.Matches, json);
+                JSONObject jsonObject = new JSONObject(json);
+                retval.append(ApplicationConstants.Planning.Matches, jsonObject);
                 matches++;
             }
         }
         //Should only be reached is matches < take
         return retval;
+    }
+
+    String json;
+
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
     }
 }

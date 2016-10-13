@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,9 +24,9 @@ public class Coupons extends BaseService {
     public JSONObject matchedObjects;
     @GET
     @Produces("application/*")
-    public String getInfo(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
+    public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
                   @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
-                  @DefaultValue("") @QueryParam("query") String query)
+                            @DefaultValue("") @QueryParam("query") String query)
                   throws Exception, IOException {
 
         matchedObjects = new JSONObject();
@@ -36,14 +37,18 @@ public class Coupons extends BaseService {
         ServiceMappings serviceMappings = new ServiceMappings();
         serviceMappings.setCouponMapping(this);
 
-        String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+        try {
+            String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
 
-        if(query == ""){
-            return coupons;
+            if (query == "") {
+                return this.createValidResponse(coupons);
+            }
+
+            JSONArray matchedObjects2 = new JSONArray();
+            return this.createValidResponse(search(coupons, query, matchedObjects2).toString());
+        } catch (Exception e){
+            return this.createErrorResponse(e);
         }
-
-        JSONArray matchedObjects2 = new JSONArray();
-        return search(coupons, query, matchedObjects2).toString();
     }
 
     public Coupons () {this.serviceType = new WakefernHeader();}

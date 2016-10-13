@@ -9,9 +9,9 @@ import java.util.Arrays;
 /**
  * Created by zacpuste on 9/16/16.
  */
-public class Search extends BaseService{
+public class Search extends BaseService {
 
-    public String search(String partialUrl, String take, String skip, String fq, String sort, String authToken){
+    public String search(String partialUrl, String take, String skip, String fq, String sort, String authToken) throws Exception {
         this.token = authToken;
 
         int intTake = Integer.parseInt(take);

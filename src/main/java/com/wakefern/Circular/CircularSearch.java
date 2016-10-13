@@ -5,6 +5,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.Search;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -16,16 +17,20 @@ public class CircularSearch extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/items")
-    public String getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
-                          @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
+                            @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         String partialUrl = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.items + ApplicationConstants.StringConstants.queryParam + q;
 
         Search search = new Search();
-        return search.search(partialUrl, take, skip, "", "", authToken);
+        try {
+            return this.createValidResponse(search.search(partialUrl, take, skip, "", "", authToken));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
 //      todo can currently take more than max need to modify max take
     }
 }

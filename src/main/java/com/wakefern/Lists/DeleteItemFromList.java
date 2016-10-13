@@ -68,12 +68,20 @@ public class DeleteItemFromList extends BaseService {
             this.path = "https://shop.shoprite.com/api/shoppinglist/v5/chains/" + "FBFB139" + "/users/" + userId + "/lists/" + listId + "/items/" + itemId;
             System.out.println("DELETE + Update ITEM :: " + this.path);
             if(update.isEmpty()){
-            	HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader());
-                return this.createValidDelete();
+				try {
+					HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader());
+					return this.createValidDelete();
+				} catch (Exception e){
+					return this.createErrorResponse(e);
+				}
             }else{
-            	//Update the item with a PUT 
-            	HTTPRequest.executePut("", this.path, "", jsonBody, secondMapping.getgenericHeader());
-                return this.createDefaultResponse();
+            	//Update the item with a PUT
+				try {
+					HTTPRequest.executePut("", this.path, "", jsonBody, secondMapping.getgenericHeader());
+					return this.createDefaultResponse();
+				} catch (Exception e){
+					return this.createErrorResponse(e);
+				}
             }
         }else{
         	if(itemId.isEmpty()){
@@ -110,6 +118,8 @@ public class DeleteItemFromList extends BaseService {
 				return this.createErrorResponse(e);
 			}
         }
+
+
     }
 
     public DeleteItemFromList() { this.serviceType = new MWGHeader(); }

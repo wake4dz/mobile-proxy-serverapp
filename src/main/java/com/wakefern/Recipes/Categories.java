@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 import java.io.IOException;
 import java.util.*;
@@ -24,22 +25,26 @@ public class Categories extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/categories")
-    public String getInfo(@PathParam("chainId") String chainId, @DefaultValue("") @QueryParam("q") String q,
-                          @DefaultValue("") @QueryParam("category") String category,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @DefaultValue("") @QueryParam("q") String q,
+                            @DefaultValue("") @QueryParam("category") String category,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         
         //No query parameter case
         if(q == ""){
-            this.path = ApplicationConstants.Requests.Recipes.RecipeChain
-                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories;
+            try {
+                this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                        + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories;
 
-            ServiceMappings secondMapping = new ServiceMappings();
-            secondMapping.setServiceMapping(this, null);
+                ServiceMappings secondMapping = new ServiceMappings();
+                secondMapping.setServiceMapping(this, null);
 
-            String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-            XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
-            return subCategoryJson.convert(subCategoryXml);
+                String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+                XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
+                return this.createValidResponse(subCategoryJson.convert(subCategoryXml));
+            } catch (Exception e){
+                return this.createErrorResponse(e);
+            }
         }
         JSONObject matchedObjects = new JSONObject();
         matchedObjects2 = new JSONArray();
@@ -55,9 +60,13 @@ public class Categories extends BaseService {
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setServiceMapping(this, null);
 
-            String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-            XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
-            ids = getSubcategories(subCategoryJson.convert(subCategoryXml));
+            try {
+                String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+                XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
+                ids = getSubcategories(subCategoryJson.convert(subCategoryXml));
+            } catch (Exception e){
+                return this.createErrorResponse(e);
+            }
             //All query parameter case
         } else {
             ids.add(Integer.parseInt(category));
@@ -70,7 +79,7 @@ public class Categories extends BaseService {
         }
         matchedObjects = sortRecipesByCategory(matchedObjects2, category);
         matchedObjects.put( ApplicationConstants.recipeSearch.totalRecipes, totalRecipes(matchedObjects));
-        return matchedObjects.toString();
+        return this.createValidResponse(matchedObjects.toString());
     }
 
     public Categories(){

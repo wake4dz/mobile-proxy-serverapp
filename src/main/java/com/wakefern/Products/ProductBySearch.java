@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -21,16 +22,17 @@ public class ProductBySearch extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{storeId}/search")
-    public String getInfo(@PathParam("storeId") String storeId, @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
-                          @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("storeId") String storeId, @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
+                            @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         try {
             if(q != "") {
                 q = URLEncoder.encode(q, "UTF-8");
             }
         } catch (Exception e){
-
+                Exception ex = new Exception("Invalid encoding scheme, please use UTF-8");
+                return this.createErrorResponse(ex);
         }
 
         String partialUrl = ApplicationConstants.Requests.Categories.ProductsStore
@@ -42,20 +44,15 @@ public class ProductBySearch extends BaseService {
         boolean isMore = true;
 
         if(maxTake == 0){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Status", 400);
-            jsonObject.put("Message", "No results for search parameter");
-            return jsonObject.toString();
+            Exception e = new Exception("No results for search parameter");
+            return this.createErrorResponse(e);
         }
 
         if(maxTake == -1){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Status", 401);
-            jsonObject.put("Message", "Bad authorization token");
-            return jsonObject.toString();
+            Exception e = new Exception("Bad authorization token");
+            return this.createErrorResponse(e);
         }
         if(currentTake > maxTake){
-            System.out.print("Modified Take Param");
             take = String.valueOf(maxTake);
             isMore = false;
         }
@@ -64,25 +61,30 @@ public class ProductBySearch extends BaseService {
         String json = search.search(partialUrl, take, skip, fq, sort, authToken);
 
         if((json.equals("[null]") || json.equals(null)) && fq != ""){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Status", 400);
-            jsonObject.put("Message", "No results for for take");
-            return jsonObject.toString();
+            Exception e = new Exception("No results for for take");
+            return this.createErrorResponse(e);
         }
 
         JSONArray jsonArray = new JSONArray(json);
-        return formatResponse(jsonArray, take, skip, isMore);
+        try {
+            return this.createValidResponse(formatResponse(jsonArray, take, skip, isMore));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
     }
 
-    private int calcMaxTake(String partialUrl, String authToken){
+    private int calcMaxTake(String partialUrl, String authToken) throws Exception{
         Search search = new Search();
-        String json = search.search(partialUrl, "1", "0", "", "", authToken);
-
-        if(json.contains("401 for URL")){
-            return -1;
+        try {
+            String json = search.search(partialUrl, "1", "0", "", "", authToken);
+            if (json.contains("401 for URL")) {
+                return -1;
+            }
+            JSONArray jsonArray = new JSONArray(json);
+            return jsonArray.getJSONObject(0).getInt(ApplicationConstants.ProductSearch.itemCount);
+        } catch (Exception e){
+            throw e;
         }
-        JSONArray jsonArray = new JSONArray(json);
-        return jsonArray.getJSONObject(0).getInt(ApplicationConstants.ProductSearch.itemCount);
     }
 
     private String formatResponse(JSONArray jsonArray, String take, String skip, boolean isMore){

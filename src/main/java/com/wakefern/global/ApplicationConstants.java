@@ -243,6 +243,7 @@ public final class ApplicationConstants {
     }
 
     public static class FormattedAuthentication{
+        public static final String AdSessionGuid = "AdSessionGuid";
         public static final String AuthPlanning = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
         public static final String ChainId = "139";
         public static final String Email = "Email";

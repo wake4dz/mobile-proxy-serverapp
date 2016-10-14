@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -18,8 +19,24 @@ public class GetPastPurchases extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/pastPurchases")
-    public String getInfo(@PathParam("userId") String userId, @DefaultValue("100") @QueryParam("take") String take,
-                          @DefaultValue("0") @QueryParam("skip") String skip, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("userId") String userId, @DefaultValue("100") @QueryParam("take") String take,
+                            @DefaultValue("0") @QueryParam("skip") String skip, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        this.token = authToken;
+
+        GetUserLists getUserLists = new GetUserLists();
+        String userListsJson = getUserLists.getInfo(userId, this.token);
+
+        try {
+            String pastPurchases = getPast(userListsJson);
+            GetListById getListById = new GetListById();
+            String list = getListById.getInfo(userId, pastPurchases, this.token);
+            return this.createValidResponse(paging(list, take, skip).toString());
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String take, String skip, String authToken) throws Exception, IOException {
         this.token = authToken;
 
         GetUserLists getUserLists = new GetUserLists();
@@ -32,7 +49,7 @@ public class GetPastPurchases extends BaseService {
             return paging(list, take, skip).toString();
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
-            return exceptionHandler.ExceptionMessageJson(e);
+            return exceptionHandler.exceptionMessageJson(e);
         }
     }
 

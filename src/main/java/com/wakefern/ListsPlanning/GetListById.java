@@ -12,6 +12,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
@@ -22,13 +23,24 @@ public class GetListById extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/list/{listId}")
-    public String getInfo(@PathParam("userId") String userId, @PathParam("listId") String listId,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("listId") String listId,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(userId, listId, authToken);
 
-        this.path = ApplicationConstants.Requests.Planning.ShoppingListUser
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
-                + ApplicationConstants.StringConstants.backSlash + listId;
+        ServiceMappings secondMapping = new ServiceMappings();
+        secondMapping.setServiceMappingv1(this, null);
+
+        try {
+            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return this.createValidResponse(xmLtoJSONConverter.convert(xml));
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String listId, String authToken) throws Exception, IOException {
+        prepareResponse(userId, listId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
@@ -40,5 +52,12 @@ public class GetListById extends BaseService {
 
     public GetListById() {
         this.serviceType = new MWGHeader();
+    }
+
+    private void prepareResponse(String userId, String listId, String authToken){
+        this.token = authToken;
+        this.path = ApplicationConstants.Requests.Planning.ShoppingListUser
+                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
+                + ApplicationConstants.StringConstants.backSlash + listId;
     }
 }

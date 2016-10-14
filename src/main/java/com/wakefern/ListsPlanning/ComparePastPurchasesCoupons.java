@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +22,24 @@ public class ComparePastPurchasesCoupons extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/pastPurchasesCoupons")
-    public String getInfo(@PathParam("userId") String userId, @QueryParam("take") String take, @QueryParam("skip") String skip,
-                          @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("userId") String userId, @QueryParam("take") String take, @QueryParam("skip") String skip,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        this.token = authToken;
+
+        Coupons coupons = new Coupons();
+        String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC, "");
+        Set<String> couponIds = getCouponIds(couponList);
+
+        try {
+            GetPastPurchases getPastPurchases = new GetPastPurchases();
+            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
+            return this.createValidResponse(getPurchaseIds(pastPurchases, couponIds, skip, take).toString());
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String take, String skip, String authToken) throws Exception, IOException {
         this.token = authToken;
 
         Coupons coupons = new Coupons();

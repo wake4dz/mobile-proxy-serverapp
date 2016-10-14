@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.*;
 
@@ -19,9 +20,21 @@ public class ComparePastPurchasesCircular extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/pastPurchasesCircular")
-    public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                          @QueryParam("take") String take, @QueryParam("skip") String skip,
-                          @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                            @QueryParam("take") String take, @QueryParam("skip") String skip,
+                            @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
+        this.token = authToken;
+
+        try {
+            GetPastPurchases getPastPurchases = new GetPastPurchases();
+            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
+            return this.createValidResponse(getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString());
+        } catch (Exception e){
+            return this.createErrorResponse(e);
+        }
+    }
+
+    public String getInfo(String userId, String storeId, String take, String skip, String authToken, String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();

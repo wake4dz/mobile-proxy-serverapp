@@ -51,6 +51,27 @@ public class Coupons extends BaseService {
         }
     }
 
+    public String getInfo( String ppcParam,  String query)
+            throws Exception, IOException {
+
+        matchedObjects = new JSONObject();
+        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
+                + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
+
+        //Execute Post
+        ServiceMappings serviceMappings = new ServiceMappings();
+        serviceMappings.setCouponMapping(this);
+
+        String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+
+        if (query == "") {
+            return coupons;
+        }
+
+        JSONArray matchedObjects2 = new JSONArray();
+        return search(coupons, query, matchedObjects2).toString();
+    }
+
     public Coupons () {this.serviceType = new WakefernHeader();}
 
     private JSONObject search(String coupons, String query, JSONArray matchedObjects2){

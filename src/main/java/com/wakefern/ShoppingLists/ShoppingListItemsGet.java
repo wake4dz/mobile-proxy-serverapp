@@ -21,24 +21,24 @@ public class ShoppingListItemsGet extends BaseService {
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId , @PathParam("listId") String listId,
                             @QueryParam("take") String take, @QueryParam("skip") String skip, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
-        prepareResponse(userId, storeId, listId, take, skip, authToken);
+        String path = prepareResponse(userId, storeId, listId, take, skip, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader()));
+        return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader()));
     }
 
     public String getInfo(String userId, String storeId , String listId, String take, String skip, String authToken) throws Exception, IOException {
-        prepareResponse(userId, storeId, listId, take, skip, authToken);
+        String path = prepareResponse(userId, storeId, listId, take, skip, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader());
     }
 
-    public void prepareResponse(String userId, String storeId, String listId, String take, String skip, String authToken){
+    public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String authToken){
         this.token = authToken;
 
         this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
@@ -46,6 +46,8 @@ public class ShoppingListItemsGet extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
                 + take + ApplicationConstants.StringConstants.skip + skip;
+
+        return path;
     }
 
     public ShoppingListItemsGet(){

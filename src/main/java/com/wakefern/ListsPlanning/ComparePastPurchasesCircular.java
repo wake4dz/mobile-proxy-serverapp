@@ -22,8 +22,9 @@ public class ComparePastPurchasesCircular extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/pastPurchasesCircular")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                            @QueryParam("take") String take, @QueryParam("skip") String skip, @DefaultValue("") @QueryParam("category") String category,
-                            @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
+                                    @DefaultValue("9999")@QueryParam("take") String take, @DefaultValue("0") @QueryParam("skip") String skip,
+                                    @DefaultValue("") @QueryParam("category") String category, @HeaderParam("Authorization") String authToken,
+                                    @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         try {
@@ -83,30 +84,40 @@ public class ComparePastPurchasesCircular extends BaseService {
 
         //Page over any skips
         Iterator it = ids.iterator();
+
+        //todo remove testing
+        System.out.print("id size:: " + ids.size());
+
         for(int j = 0; j < Integer.parseInt(skip); j++){
             it.next();
         }
-
+        System.out.print("PPC-A");
         int matches = 0;
-        while (it.hasNext()){
-            if(matches >= Integer.parseInt(take)){
-                return retval;
-            }
+        try {
+            while (it.hasNext()) {
+                System.out.print("PPC-I");
+                if (matches >= Integer.parseInt(take)) {
+                    return retval;
+                }
 
-            int currentid = (int) it.next();
-            String id = String.valueOf(currentid);
+                int currentid = (int) it.next();
+                String id = String.valueOf(currentid);
 
-            ProductById productById = new ProductById();
-            String json = productById.getInfo(id, storeId, "", "", "", auth);
-            //Verify that a new item is on sale
-            Object isSale = new JSONObject(json).get(ApplicationConstants.Planning.Sale);
-            if (isSale != null){
-                JSONObject jsonObject = new JSONObject(json);
-                retval.append(ApplicationConstants.Planning.Matches, jsonObject);
-                matches++;
+                ProductById productById = new ProductById();
+                String json = productById.getInfo(id, storeId, "", "", "", auth);
+                //Verify that a new item is on sale
+                Object isSale = new JSONObject(json).get(ApplicationConstants.Planning.Sale);
+                if (isSale != null) {
+                    JSONObject jsonObject = new JSONObject(json);
+                    retval.append(ApplicationConstants.Planning.Matches, jsonObject);
+                    matches++;
+                }
             }
+        } catch (Exception e) { //todo fix this iterator is off by 1?
+            //Should only be reached is matches < take
+            System.out.print("PPC-B");
+            return retval;
         }
-        //Should only be reached is matches < take
         return retval;
     }
 

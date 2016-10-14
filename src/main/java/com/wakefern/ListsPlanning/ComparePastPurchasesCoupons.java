@@ -22,8 +22,9 @@ public class ComparePastPurchasesCoupons extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/pastPurchasesCoupons")
-    public Response getInfoResponse(@PathParam("userId") String userId, @QueryParam("take") String take, @QueryParam("skip") String skip,
-                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public Response getInfoResponse(@PathParam("userId") String userId, @DefaultValue("9999") @QueryParam("take") String take,
+                                    @DefaultValue("0") @QueryParam("skip") String skip,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
 
         Coupons coupons = new Coupons();
@@ -100,7 +101,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
         return retval;
     }
 
-    private Set<String> getCouponIds(String couponList){
+    public Set<String> getCouponIds(String couponList){
         Set<String> retval = new HashSet<>();
         JSONArray jsonArray = new JSONArray(couponList);
         for(Object coupon: jsonArray) {

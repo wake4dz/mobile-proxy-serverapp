@@ -53,7 +53,7 @@ public class ProductById extends BaseService {
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);
 
-            return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
+            return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
         }
     }
 

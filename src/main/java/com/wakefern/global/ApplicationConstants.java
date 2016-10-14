@@ -85,6 +85,7 @@ public final class ApplicationConstants {
         public static final String nutrition = "/nutrition";
         public static final String page = "/page";
         public static final String pages = "/pages";
+        public static final String pastPurchases = "/pastPurchases";
         public static final String pickup = "/pickup";
         public static final String postalCode = "/postalCode";
         public static final String promocode = "/promocode";
@@ -190,6 +191,7 @@ public final class ApplicationConstants {
 
         public static final class Planning{
             public static final String StoreLocator = MWGApplicationConstants.Requests.Planning.StoreLocator;
+            public static final String ShoppingListUser = MWGApplicationConstants.Requests.Planning.ShoppingListUser;
         }
     }
 
@@ -241,6 +243,7 @@ public final class ApplicationConstants {
     }
 
     public static class FormattedAuthentication{
+        public static final String AdSessionGuid = "AdSessionGuid";
         public static final String AuthPlanning = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
         public static final String ChainId = "139";
         public static final String Email = "Email";
@@ -341,5 +344,24 @@ public final class ApplicationConstants {
             public static String getValue(){return "Item Preferences";}
         }
 
+    }
+
+    public static class Planning{
+        public static final String Coupons = "Coupons";
+        public static final String DateModified = "DateModified";
+        public static final String Id = "Id";
+        public static final String Matches = "Matches";
+        public static final String MyPastPurchases = "My Past Purchases";
+        public static final String Name = "Name";
+        public static final String PastPurchasesError = "Failed to find 'My Past Purchases'";
+        public static final String Product = "Product";
+        public static final String requirement_upc = "requirement_upcs";
+        public static final String Rewards = "Rewards";
+        public static final String Sale = "Sale";
+        public static final String ShoppingList = "ShoppingList";
+        public static final String ShoppingLists = "ShoppingLists";
+        public static final String ShoppingListItem = "ShoppingListItem";
+        public static final String ShoppingListItems = "ShoppingListItems";
+        public static final String SKU = "SKU";
     }
 }

@@ -110,6 +110,8 @@ public class Categories extends BaseService {
 
                 String name = "";
                 String description = "";
+
+                //Make sure that description is of type string
                 try{
                     description = descriptionObj.toString();
                 } catch (Exception e){
@@ -118,6 +120,7 @@ public class Categories extends BaseService {
                     description = "";
                 }
 
+                //Make sure that name is of type string
                 try{
                     name = nameObj.toString();
                 } catch (Exception e){

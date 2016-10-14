@@ -2,6 +2,7 @@ package com.wakefern.Recipes;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -98,21 +99,39 @@ public class Categories extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    public JSONArray searchJSON(String jsonString, String query, JSONArray matchedObjects2) throws JSONException{
+    public JSONArray searchJSON(String jsonString, String query, JSONArray matchedObjects2) throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONObject(ApplicationConstants.recipeSearch.recipes).getJSONArray(ApplicationConstants.recipeSearch.recipeSummary);
         try{
             for(Object recipe: jsonArray){
                 JSONObject jsonRecipe = (JSONObject) recipe;
-                String description = jsonRecipe.getString(ApplicationConstants.recipeSearch.description);
-                String name = jsonRecipe.getString(ApplicationConstants.recipeSearch.name);
+                Object descriptionObj = jsonRecipe.get(ApplicationConstants.recipeSearch.description);
+                Object nameObj = jsonRecipe.get(ApplicationConstants.recipeSearch.name);
+
+                String name = "";
+                String description = "";
+                try{
+                    description = descriptionObj.toString();
+                } catch (Exception e){
+                    ExceptionHandler exceptionHandler = new ExceptionHandler();
+                    System.out.print(exceptionHandler.exceptionMessageJson(e));
+                    description = "";
+                }
+
+                try{
+                    name = nameObj.toString();
+                } catch (Exception e){
+                    ExceptionHandler exceptionHandler = new ExceptionHandler();
+                    System.out.print(exceptionHandler.exceptionMessageJson(e));
+                    name = "";
+                }
 
                 if(description.toLowerCase().contains(query) || name.toLowerCase().contains(query) ){
                     matchedObjects2.put(matchedObjects2.length(), jsonRecipe);
                 }
             }
         } catch (JSONException e){
-            System.out.print("Failed to iterate Recipes");
+            System.out.print("Failed to iterate Recipes" + e.getMessage());
         }
         return matchedObjects2;
     }

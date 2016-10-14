@@ -20,23 +20,25 @@ public class GetPastPurchases extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/pastPurchases")
     public Response getInfoResponse(@PathParam("userId") String userId, @DefaultValue("100") @QueryParam("take") String take,
-                            @DefaultValue("0") @QueryParam("skip") String skip, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                            @DefaultValue("0") @QueryParam("skip") String skip, @DefaultValue("") @QueryParam("category") String category,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
 
         GetUserLists getUserLists = new GetUserLists();
         String userListsJson = getUserLists.getInfo(userId, this.token);
 
+
         try {
             String pastPurchases = getPast(userListsJson);
             GetListById getListById = new GetListById();
             String list = getListById.getInfo(userId, pastPurchases, this.token);
-            return this.createValidResponse(paging(list, take, skip).toString());
+            return this.createValidResponse(paging(list, take, skip, category).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String userId, String take, String skip, String authToken) throws Exception, IOException {
+    public String getInfo(String userId, String take, String skip, String category, String authToken) throws Exception, IOException {
         this.token = authToken;
 
         GetUserLists getUserLists = new GetUserLists();
@@ -46,7 +48,7 @@ public class GetPastPurchases extends BaseService {
             String pastPurchases = getPast(userListsJson);
             GetListById getListById = new GetListById();
             String list = getListById.getInfo(userId, pastPurchases, this.token);
-            return paging(list, take, skip).toString();
+            return paging(list, take, skip, category).toString();
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
             return exceptionHandler.exceptionMessageJson(e);
@@ -72,7 +74,7 @@ public class GetPastPurchases extends BaseService {
         throw new Exception(ApplicationConstants.Planning.PastPurchasesError);
     }
 
-    private JSONObject paging(String list, String take, String skip){
+    private JSONObject paging(String list, String take, String skip, String category){
         //Declare Object structure
         ShoppingList shoppingList = new ShoppingList();
         shoppingList = setNonItemData(shoppingList, list);
@@ -116,8 +118,17 @@ public class GetPastPurchases extends BaseService {
                     return retval;
                 }
 
-                shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
-                matches++;
+                if(category == "") {
+                    shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
+                    matches++;
+                } else {
+                    int categoryNum = Integer.parseInt(category);
+                    int categoryId = currentListItem.getInt(ApplicationConstants.Planning.CategoryId);
+                    if(categoryNum == categoryId){
+                        shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
+                        matches++;
+                    }
+                }
             }
         } catch (Exception e) { //There is only one item in the list, just return it back
             JSONObject temp = new JSONObject(list);

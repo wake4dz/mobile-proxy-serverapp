@@ -3,6 +3,7 @@ package com.wakefern.ListsPlanning;
 import com.wakefern.Products.ProductById;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,24 +22,30 @@ public class ComparePastPurchasesCircular extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/pastPurchasesCircular")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                            @QueryParam("take") String take, @QueryParam("skip") String skip,
+                            @QueryParam("take") String take, @QueryParam("skip") String skip, @DefaultValue("") @QueryParam("category") String category,
                             @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
-            return this.createValidResponse(getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString());
+            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", category, this.token);
+            String retval = "";
+            try {
+                retval = getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
+            } catch (Exception ex){
+                return this.createValidResponse(ex.getMessage());
+            }
+            return this.createValidResponse(retval);
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String userId, String storeId, String take, String skip, String authToken, String authToken2) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, String category, String authToken, String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
+        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", category, this.token);
         return getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
     }
 
@@ -46,7 +53,7 @@ public class ComparePastPurchasesCircular extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private JSONObject getPurchaseIds(String pastPurchases, String storeId, String auth, String take, String skip)throws Exception{
+    private JSONObject getPurchaseIds(String pastPurchases, String storeId, String auth, String take, String skip)throws Exception {
         JSONObject retval = new JSONObject();
         SortedSet<Integer> ids = new TreeSet<Integer>();
         try {//Assume multiple items in past purchases, exception if there is only one
@@ -58,14 +65,20 @@ public class ComparePastPurchasesCircular extends BaseService {
                 ids.add(currentListItem.getJSONObject(ApplicationConstants.Planning.Product).getInt(ApplicationConstants.Planning.Id));
             }
         } catch (Exception e){//There is only one item in the past purchases list
-            int singleId = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem)
-                    .getJSONObject(ApplicationConstants.Planning.Product).getInt(ApplicationConstants.Planning.Id);
-            ProductById productById = new ProductById();
-            String json = productById.getInfo(String.valueOf(singleId), storeId, "", "", "", auth);
-            JSONObject jsonObject = new JSONObject(json);
-            retval.put(ApplicationConstants.Planning.Matches, jsonObject);
-            return retval;
+            try {
+                int singleId = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                        .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem)
+                        .getJSONObject(ApplicationConstants.Planning.Product).getInt(ApplicationConstants.Planning.Id);
+                ProductById productById = new ProductById();
+                String json = productById.getInfo(String.valueOf(singleId), storeId, "", "", "", auth);
+                JSONObject jsonObject = new JSONObject(json);
+                retval.put(ApplicationConstants.Planning.Matches, jsonObject);
+                return retval;
+            } catch (Exception ex){//ShoppingListItem doesn't exist, all results have been filtered out
+                ex = new Exception(ApplicationConstants.Planning.CategoryErrorMessage);
+                ExceptionHandler exceptionHandler = new ExceptionHandler();
+                throw exceptionHandler.Exception(ex);
+            }
         }
 
         //Page over any skips

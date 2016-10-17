@@ -347,8 +347,10 @@ public final class ApplicationConstants {
     }
 
     public static class Planning{
+        public static final String CategoryId = "CategoryId";
         public static final String Coupons = "Coupons";
         public static final String DateModified = "DateModified";
+        public static final String CategoryErrorMessage = "All purchases have been filtered out";
         public static final String Id = "Id";
         public static final String Matches = "Matches";
         public static final String MyPastPurchases = "My Past Purchases";

@@ -32,7 +32,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
+            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", "", this.token);
             return this.createValidResponse(getPurchaseIds(pastPurchases, couponIds, skip, take).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
@@ -47,7 +47,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
         Set<String> couponIds = getCouponIds(couponList);
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", this.token);
+        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", "", this.token);
         return getPurchaseIds(pastPurchases, couponIds, skip, take).toString();
     }
 

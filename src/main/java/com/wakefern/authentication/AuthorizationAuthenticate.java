@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 10/5/16.
@@ -26,21 +27,18 @@ public class AuthorizationAuthenticate extends BaseService {
     @Path("/authenticate")
     public Response getInfo(@HeaderParam("Authorization") String authToken, String jsonBody){
         this.token = authToken;
-        ////this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
+        //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
         this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
-        
+
         JSONObject messageJson = new JSONObject(jsonBody);
         ServiceMappings mapping = new ServiceMappings();
-        //Todo mappings are messed up @zach
         mapping.setPutMapping(this, jsonBody);
-
         String json;
         try {
             json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader()));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
-
         //run regular v5 authentication
         String v5;
         try {
@@ -49,8 +47,6 @@ public class AuthorizationAuthenticate extends BaseService {
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
-
-        System.out.println("Response :: " + json);
 
         FormattedAuthentication formattedAuthentication = new FormattedAuthentication();
         try {
@@ -62,4 +58,7 @@ public class AuthorizationAuthenticate extends BaseService {
 		}
     }
 
+    public AuthorizationAuthenticate() {
+        this.serviceType = new MWGHeader();
+    }
 }

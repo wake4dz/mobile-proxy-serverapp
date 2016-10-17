@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,31 +21,25 @@ public class ComparePastPurchasesBoth extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/pastPurchasesBoth")
-    public String getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                                     @DefaultValue("9999") @QueryParam("take") String take, @DefaultValue("0") @QueryParam("skip") String skip,
                                     @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken;
 
-//        try {
-            System.out.print("A");
+        try{
             ComparePastPurchasesCircular comparePastPurchasesCircular = new ComparePastPurchasesCircular();
             String onSale = comparePastPurchasesCircular.getInfo(userId, storeId, take, skip, "", authToken, authToken2);
-            System.out.print("B");
+
             Coupons coupons = new Coupons();
             String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All, "");
-            System.out.print("C");
+
             ComparePastPurchasesCoupons comparePastPurchasesCoupons = new ComparePastPurchasesCoupons();
             Set<String> ids = comparePastPurchasesCoupons.getCouponIds(couponList);
-//            return this.createValidResponse(getPurchaseIds(onSale, ids, skip, take).toString());
-            return getPurchaseIds(onSale, ids, skip, take).toString();
-//        } catch (Exception e) {
-//            return this.createErrorResponse(e);
-//        }
+            return this.createValidResponse(getPurchaseIds(onSale, ids, skip, take).toString());
+        } catch (Exception e) {
+            return this.createErrorResponse(e);
+        }
     }
-
-//    public String getInfo(String userId, String storeId, String take, String skip, String authToken, String authToken2) throws Exception, IOException {
-//
-//    }
 
     public ComparePastPurchasesBoth() {
         this.serviceType = new MWGHeader();
@@ -57,12 +50,8 @@ public class ComparePastPurchasesBoth extends BaseService {
         int skips = 0;
         JSONObject retval = new JSONObject();
         try {//Assume multiple items in compare circular, exception if there is only one
-
-            Object obj = pastPurchases;
-            JSONArray jsonArray = new JSONArray(obj);
-//            Object jsonObject = new JSONObject(pastPurchases).get("Matches");
-//            JSONArray jsonArray = new JSONArray(jsonObject);
-            System.out.print("D:: ");
+            JSONObject jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.Circular);
+            JSONArray jsonArray = jsonObject.getJSONArray(ApplicationConstants.Planning.Matches);
             for (Object listItem : jsonArray) {
                 if (skips < Integer.parseInt(skip)) {
                     skips++;
@@ -73,10 +62,8 @@ public class ComparePastPurchasesBoth extends BaseService {
                     return retval;
                 }
 
-                System.out.print("F");
                 JSONObject currentListItem = (JSONObject) listItem;
-                String sku = currentListItem.getString(ApplicationConstants.Planning.SKU);
-                System.out.print("G");
+                String sku = currentListItem.getString(ApplicationConstants.Planning.Sku);
 
                 for (String couponId : coupons) {
                     if (sku.contains(couponId)) {
@@ -86,10 +73,9 @@ public class ComparePastPurchasesBoth extends BaseService {
                 }
             }
         } catch (Exception e){ //There is only one item in the compare circular list
-            System.out.print("E::" + e.getMessage());
-            Object toConvert = new JSONObject(pastPurchases).get("Matches");
+            Object toConvert = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.Circular).get(ApplicationConstants.Planning.Matches);
             JSONObject singleObj = (JSONObject) toConvert;
-            String singleSku = singleObj.getString(ApplicationConstants.Planning.SKU);
+            String singleSku = singleObj.getString(ApplicationConstants.Planning.Sku);
             for (String couponId : coupons) {
                 if (singleSku.contains(couponId)) {
                     retval.append(ApplicationConstants.Planning.Matches, singleObj);

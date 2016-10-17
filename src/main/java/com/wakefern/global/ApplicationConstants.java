@@ -350,6 +350,7 @@ public final class ApplicationConstants {
         public static final String CategoryId = "CategoryId";
         public static final String Coupons = "Coupons";
         public static final String DateModified = "DateModified";
+        public static final String Circular = "Circular";
         public static final String CategoryErrorMessage = "All purchases have been filtered out";
         public static final String Id = "Id";
         public static final String Matches = "Matches";
@@ -365,5 +366,6 @@ public final class ApplicationConstants {
         public static final String ShoppingListItem = "ShoppingListItem";
         public static final String ShoppingListItems = "ShoppingListItems";
         public static final String SKU = "SKU";
+        public static final String Sku = "Sku";
     }
 }

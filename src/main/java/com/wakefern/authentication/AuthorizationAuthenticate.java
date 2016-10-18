@@ -30,32 +30,44 @@ public class AuthorizationAuthenticate extends BaseService {
         //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
         this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
 
-        JSONObject messageJson = new JSONObject(jsonBody);
-        ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, jsonBody);
-        String json;
         try {
-            json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader()));
-        } catch (Exception e){
-            return this.createErrorResponse(e);
-        }
-        //run regular v5 authentication
-        String v5;
-        try {
-            Authentication authentication = new Authentication();
-            v5 = authentication.getInfo(jsonBody);
-        } catch (Exception e){
-            return this.createErrorResponse(e);
-        }
+            JSONObject messageJson = new JSONObject(jsonBody);
+            //Test to see if there is user data, if not get thrown to guest auth
+            messageJson.get("Email");
+            ServiceMappings mapping = new ServiceMappings();
+            mapping.setPutMapping(this, jsonBody);
+            String json;
+            try {
+                json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader()));
+            } catch (Exception e) {
+                return this.createErrorResponse(e);
+            }
+            //run regular v5 authentication
+            String v5;
+            try {
+                Authentication authentication = new Authentication();
+                v5 = authentication.getInfo(jsonBody);
+            } catch (Exception e) {
+                return this.createErrorResponse(e);
+            }
 
-        FormattedAuthentication formattedAuthentication = new FormattedAuthentication();
-        try {
-			return Response.status(200).entity(formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
-			        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning,
-			        v5).toString()).build();
-		} catch (Exception e) {
-            return this.createErrorResponse(e);
-		}
+            FormattedAuthentication formattedAuthentication = new FormattedAuthentication();
+            try {
+                return Response.status(200).entity(formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
+                        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning,
+                        v5).toString()).build();
+            } catch (Exception e) {
+                return this.createErrorResponse(e);
+            }
+        } catch (Exception ex){
+            //Invalid JSON return guest credentials
+            try {
+                Authentication authentication = new Authentication();
+                return this.createValidResponse(authentication.getInfo("{}"));//{} is the jsonbody that triggers a guest authtoken
+            } catch (Exception e){
+                return this.createErrorResponse(e);
+            }
+        }
     }
 
     public AuthorizationAuthenticate() {

@@ -1,5 +1,6 @@
 package com.wakefern.ListsPlanning;
 
+import com.wakefern.Lists.GetItemsInList;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
@@ -18,37 +19,41 @@ import java.io.IOException;
 public class GetPastPurchases extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/pastPurchases")
-    public Response getInfoResponse(@PathParam("userId") String userId, @DefaultValue("100") @QueryParam("take") String take,
+    @Path("/{userId}/store/{storeId}/pastPurchases")
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @DefaultValue("100") @QueryParam("take") String take,
                             @DefaultValue("0") @QueryParam("skip") String skip, @DefaultValue("") @QueryParam("category") String category,
-                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+                            @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
+        this.token = authToken2;
+        ShoppingList shoppingList = new ShoppingList();
 
         GetUserLists getUserLists = new GetUserLists();
-        String userListsJson = getUserLists.getInfo(userId, this.token);
-
+        String userListsJson = getUserLists.getInfo(userId, authToken);
 
         try {
             String pastPurchases = getPast(userListsJson);
-            GetListById getListById = new GetListById();
-            String list = getListById.getInfo(userId, pastPurchases, this.token);
-            return this.createValidResponse(paging(list, take, skip, category).toString());
+            shoppingList.setId(pastPurchases);
+            GetItemsInList getItemsInList = new GetItemsInList();
+            String list = getItemsInList.getInfo(storeId, userId, authToken2, "", pastPurchases, "9999", "0", "");
+            return this.createValidResponse(paging(list, take, skip, category, shoppingList).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String userId, String take, String skip, String category, String authToken) throws Exception, IOException {
-        this.token = authToken;
+    public String getInfo(String userId, String storeId, String take, String skip, String category, String authToken, String authToken2) throws Exception, IOException {
+        this.token = authToken2;
+        ShoppingList shoppingList = new ShoppingList();
 
         GetUserLists getUserLists = new GetUserLists();
-        String userListsJson = getUserLists.getInfo(userId, this.token);
+        String userListsJson = getUserLists.getInfo(userId, authToken);
 
         try {
             String pastPurchases = getPast(userListsJson);
-            GetListById getListById = new GetListById();
-            String list = getListById.getInfo(userId, pastPurchases, this.token);
-            return paging(list, take, skip, category).toString();
+            GetItemsInList getItemsInList = new GetItemsInList();
+            String list = getItemsInList.getInfo(storeId, userId, authToken2, "", pastPurchases, "9999", "0", "");
+//            GetListById getListById = new GetListById();
+//            String list = getListById.getInfo(userId, pastPurchases, this.token);
+            return paging(list, take, skip, category, shoppingList).toString();
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
             return exceptionHandler.exceptionMessageJson(e);
@@ -74,10 +79,9 @@ public class GetPastPurchases extends BaseService {
         throw new Exception(ApplicationConstants.Planning.PastPurchasesError);
     }
 
-    private JSONObject paging(String list, String take, String skip, String category){
+    private JSONObject paging(String list, String take, String skip, String category, ShoppingList shoppingList){
         //Declare Object structure
-        ShoppingList shoppingList = new ShoppingList();
-        shoppingList = setNonItemData(shoppingList, list);
+        shoppingList.setName(ApplicationConstants.Planning.MyPastPurchases);
 
         //Declare paging items
         Integer skipCount = 0;
@@ -91,8 +95,7 @@ public class GetPastPurchases extends BaseService {
 
         try {//Try is to catch one item in list case
             //Get shopping list array
-            Object jsonObject = new JSONObject(list).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
+            Object jsonObject = new JSONObject(list).get(ApplicationConstants.Planning.Items);
             JSONArray jsonArray = (JSONArray) jsonObject;
 
             for (Object listItem : jsonArray) {
@@ -107,12 +110,8 @@ public class GetPastPurchases extends BaseService {
                 //Hit take limit, return matches
                 if (matches == takeInt) {
                     JSONObject shoppingListItems = new JSONObject();
-                    //shoppingList.setShoppingListItems(shoppingListItems.append(ApplicationConstants.Planning.ShoppingListItems, shoppingListItem));
                     shoppingListItems.put(ApplicationConstants.Planning.Id, shoppingList.getId());
-                    shoppingListItems.put(ApplicationConstants.Planning.DateModified, shoppingList.getDateModified());
                     shoppingListItems.put(ApplicationConstants.Planning.Name, shoppingList.getName());
-                    shoppingListItems.put(ApplicationConstants.Planning.Rewards, shoppingList.getRewards());
-                    shoppingListItems.put(ApplicationConstants.Planning.Coupons, shoppingList.getCoupons());
                     shoppingListItems.put(ApplicationConstants.Planning.ShoppingListItems, shoppingListItem);
                     retval.put(ApplicationConstants.Planning.ShoppingList, shoppingListItems);
                     return retval;
@@ -122,9 +121,8 @@ public class GetPastPurchases extends BaseService {
                     shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
                     matches++;
                 } else {
-                    int categoryNum = Integer.parseInt(category);
-                    int categoryId = currentListItem.getInt(ApplicationConstants.Planning.CategoryId);
-                    if(categoryNum == categoryId){
+                    String categoryId = currentListItem.getString(ApplicationConstants.Planning.Category);
+                    if(category.contains(categoryId)){
                         shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
                         matches++;
                     }
@@ -137,25 +135,10 @@ public class GetPastPurchases extends BaseService {
         //Should only be reached if matches < take
         JSONObject shoppingListItems = new JSONObject();
         shoppingListItems.put(ApplicationConstants.Planning.Id, shoppingList.getId());
-        shoppingListItems.put(ApplicationConstants.Planning.DateModified, shoppingList.getDateModified());
         shoppingListItems.put(ApplicationConstants.Planning.Name, shoppingList.getName());
-        shoppingListItems.put(ApplicationConstants.Planning.Rewards, shoppingList.getRewards());
-        shoppingListItems.put(ApplicationConstants.Planning.Coupons, shoppingList.getCoupons());
         shoppingListItems.put(ApplicationConstants.Planning.ShoppingListItems, shoppingListItem);
         retval.put(ApplicationConstants.Planning.ShoppingList, shoppingListItems);
         return retval;
-    }
-
-    private ShoppingList setNonItemData(ShoppingList shoppingList, String list){
-        JSONObject jsonObject = new JSONObject(list).getJSONObject(ApplicationConstants.Planning.ShoppingList);
-
-        shoppingList.setId(jsonObject.getString(ApplicationConstants.Planning.Id));
-        shoppingList.setDateModified(jsonObject.getString(ApplicationConstants.Planning.DateModified));
-        shoppingList.setName(jsonObject.getString(ApplicationConstants.Planning.Name));
-        shoppingList.setRewards(jsonObject.getJSONObject(ApplicationConstants.Planning.Rewards));
-        shoppingList.setCoupons(jsonObject.getJSONObject(ApplicationConstants.Planning.Coupons));
-
-        return shoppingList;
     }
 
     public class ShoppingList{

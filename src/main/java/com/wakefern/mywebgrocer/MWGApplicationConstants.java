@@ -66,5 +66,11 @@ public class MWGApplicationConstants {
             public static final String StoreLocator = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";
         }
+
+        public static class Wakefern{
+            public static final String ItemLocator = "/itemlocator/item/location";
+            public static final String ItemLocatorAuth = "/wfctoken/auth/gentoken";
+            public static final String ItemLocatorJson = "/itemlocator/item/location/json";
+        }
     }
 }

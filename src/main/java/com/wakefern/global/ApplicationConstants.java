@@ -193,6 +193,12 @@ public final class ApplicationConstants {
             public static final String StoreLocator = MWGApplicationConstants.Requests.Planning.StoreLocator;
             public static final String ShoppingListUser = MWGApplicationConstants.Requests.Planning.ShoppingListUser;
         }
+
+        public static final class Wakefern{
+            public static final String ItemLocator = MWGApplicationConstants.Requests.Wakefern.ItemLocator;
+            public static final String ItemLocatorAuth = MWGApplicationConstants.Requests.Wakefern.ItemLocatorAuth;
+            public static final String ItemLocatorJson = MWGApplicationConstants.Requests.Wakefern.ItemLocatorJson;
+        }
     }
 
     public static class MapVariables{

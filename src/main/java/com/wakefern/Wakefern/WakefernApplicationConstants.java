@@ -4,6 +4,13 @@ package com.wakefern.Wakefern;
  * Created by brandyn.brosemer on 9/13/16.
  */
 public class WakefernApplicationConstants {
+	
+	public static class Statica{
+		public static final String userName = "statica3492";
+		public static final String password = "efadafb2c0b0f730";
+		public static final String host = "sl-ams-01-guido.statica.io";
+		public static final String port = "9293";
+	}
 
     public static class Requests {
         public static class Coupons {

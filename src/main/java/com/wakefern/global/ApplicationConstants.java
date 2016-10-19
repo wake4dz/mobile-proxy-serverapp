@@ -86,6 +86,7 @@ public final class ApplicationConstants {
         public static final String page = "/page";
         public static final String pages = "/pages";
         public static final String pastPurchases = "/pastPurchases";
+        public static final String payment = "/payment";
         public static final String pickup = "/pickup";
         public static final String postalCode = "/postalCode";
         public static final String promocode = "/promocode";
@@ -369,5 +370,33 @@ public final class ApplicationConstants {
         public static final String ShoppingListItems = "ShoppingListItems";
         public static final String SKU = "SKU";
         public static final String Sku = "Sku";
+    }
+
+    public static class Payment{
+        public static final String AllowsMultiple = "AllowsMultiple";
+        public static final String Amount = "Amount";
+        public static final String AmountLabel = "AmountLabel";
+        public static final String CancelCallbackUri = "CancelCallbackUri";
+        public static final String CancelCallbackURL = "/checkout/ProcessPayment?authorized=False";
+        public static final String CardNumber = "CardNumber";
+        public static final String CardNumberLabel = "CardNumberLabel";
+        public static final String FulfillmentType = "FulfillmentType";
+        public static final String HardCodedId = "59";
+        public static final String Id = "Id";
+        public static final String Image = "Image";
+        public static final String IsVendor = "IsVendor";
+        public static final String Items = "Items";
+        public static final String MaximumLength = "MaximumLength";
+        public static final String MinimumLength = "MinimumLength";
+        public static final String Name = "Name";
+        public static final String PayMethodTooltipUri = "PayMethodTooltipUri";
+        public static final String PaymentMethods = "PaymentMethods";
+        public static final String PaymentMethodMessage = "PaymentMethodMessage";
+        public static final String PrimaryOption = "PrimaryOption";
+        public static final String RequiresAmount = "RequiresAmount";
+        public static final String RequiredNumeric = "RequiredNumeric";
+        public static final String RequiresCardNumber = "RequiresCardNumber";
+        public static final String SuccessCallbackUri = "SuccessCallbackUri";
+        public static final String SuccessCallbackURL = "/checkout/ProcessPayment?authorized=True";
     }
 }

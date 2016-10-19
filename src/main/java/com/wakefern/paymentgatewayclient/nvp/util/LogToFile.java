@@ -56,39 +56,38 @@ public class LogToFile {
 		String return_msg = "LogToFile.log():" ;
 
 		try {
-			resourceBundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME);
+			//resourceBundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME);
 			
 		} catch (Exception ex) {
-			File resFile = new File("/wake/ofc/resources/shared");
-			URI uri = resFile.toURI();
-			URL url = null;
-			try {
-				url = uri.toURL();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			URL[] urls = { url };
-			ClassLoader loader = new URLClassLoader(urls);
-			resourceBundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, Locale.getDefault(), loader);
+			//File resFile = new File("/wake/ofc/resources/shared");
+//			URI uri = resFile.toURI();
+//			URL url = null;
+//			try {
+//				url = uri.toURL();
+//			} catch (MalformedURLException e) {
+//				e.printStackTrace();
+//			}
+//			URL[] urls = { url };
+//			ClassLoader loader = new URLClassLoader(urls);
+			//resourceBundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, Locale.getDefault(), loader);
 		}
-		logDir = resourceBundle.getString("LogToFilePath").trim();
-		String filename = logDir.trim() + aFileName.trim();		
+		//logDir = resourceBundle.getString("LogToFilePath").trim();
+		//String filename = logDir.trim() + aFileName.trim();		
 
 		try {
 			// today's date
 			final java.text.DateFormat today = new java.text.SimpleDateFormat("MMddyyyy");
 		
 			// filename contains today's date
-			filename = logDir.trim() + today.format(new Date()) + aFileName + ".log";
+			//filename = logDir.trim() + today.format(new Date()) + aFileName + ".log";
 					 
 			// new log file
-			final File f = new File(filename);
-			final FileOutputStream fos = new FileOutputStream (f, true );
-			final PrintWriter pw = new PrintWriter ( fos , true );
+//			final File f = new File(filename);
+//			final FileOutputStream fos = new FileOutputStream (f, true );
+//			final PrintWriter pw = new PrintWriter ( fos , true );
 		
 			final java.text.DateFormat timestamp = new java.text.SimpleDateFormat("HH:mm:ss:SSS");
-			pw.println ( timestamp.format(new Date()) + ":" + message );
-				pw.close();
+			System.out.println ( timestamp.format(new Date()) + ":" + message );
 			return_msg  = null ;
 			
 		} catch ( final Exception e ) {
@@ -96,7 +95,7 @@ public class LogToFile {
 			return_msg += e.getMessage();
 		}
 		
-		return return_msg;
+		return "";
 	}                                      
 
 }

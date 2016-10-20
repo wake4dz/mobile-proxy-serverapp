@@ -125,6 +125,8 @@ public final class ApplicationConstants {
         public static String baseURLV5 = MWGApplicationConstants.baseURL;
         public static String baseURLV1 = MWGApplicationConstants.baseURLv1;
         public static String serviceURLV1 =  MWGApplicationConstants.serviceURLv1;
+        public static String buildErrorJsonOpen = "{\"ErrorMessage\":\"";
+        public static String buildErrorJsonClose = "\"}";
 
         public static class Header{
             public static final String contentType	= "Content-Type";

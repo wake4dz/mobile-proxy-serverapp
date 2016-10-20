@@ -13,7 +13,15 @@ public class BaseService {
     
     public Response createErrorResponse(Exception e){
         ExceptionHandler exceptionHandler = new ExceptionHandler();
-        return Response.status(500).entity(exceptionHandler.exceptionMessageJson(e)).build();
+        try {
+            String[] array = e.getMessage().split(",");
+            String buildError = ApplicationConstants.Requests.buildErrorJsonOpen + array[1]
+                    + ApplicationConstants.Requests.buildErrorJsonClose;
+
+            return Response.status(Integer.parseInt(array[0])).entity(buildError).build();
+        } catch (Exception stringError) {
+            return Response.status(500).entity(exceptionHandler.exceptionMessageJson(e)).build();
+        }
     }
     
     public Response createValidResponse(String jsonResponse){

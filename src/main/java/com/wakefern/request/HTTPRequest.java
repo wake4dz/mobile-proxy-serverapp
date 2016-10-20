@@ -223,10 +223,11 @@ public class HTTPRequest {
         try {
             connection = createConnection(requestURL,requestHeaders,requestParameters,requestMethod);
             int responseCode = connection.getResponseCode();
-            if(responseCode != 200 || responseCode != 201 || responseCode != 204 || responseCode != 205 || responseCode != 206){
+            if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
+                return buildResponse(connection);
+            } else {
                 throw new Exception(responseCode + "," + connection.getResponseMessage());
             }
-            return buildResponse(connection);
         } catch (IOException e) {
             throw e;
         } catch (URISyntaxException e) {

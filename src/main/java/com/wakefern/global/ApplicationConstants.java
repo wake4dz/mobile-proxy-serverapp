@@ -19,7 +19,6 @@ public final class ApplicationConstants {
     public static final int xmlTabAmount                = 4;
     public static final String ErrorMessage             = "ErrorMessage";
 
-
     public static class AuthorizationTokens{
         public static class ApplicationTokenMapping{
             public static final String appQATokenName          = "App-QA-Token";
@@ -66,6 +65,7 @@ public final class ApplicationConstants {
         public static final String duplicate = "/duplicate";
         public static final String email = "/email";
         public static final String emailParam = "?email=";
+        public static final String fakeJson = "{\"Test\":\"Test\"}";
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
         public static final String fulfillments = "/fulfillments";

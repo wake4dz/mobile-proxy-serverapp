@@ -182,6 +182,10 @@ public final class ApplicationConstants {
             public static final String UpdateProfile = MWGApplicationConstants.Requests.Recipes.UpdateProfile;
         }
 
+        public static final class Registration{
+            public static final String UserRegistration = MWGApplicationConstants.Requests.Registration.UserRegistration;
+        }
+
         public static final class Coupons{
             public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
             public static final String GetCouponId = WakefernApplicationConstants.Requests.Coupons.ListId.CouponId;

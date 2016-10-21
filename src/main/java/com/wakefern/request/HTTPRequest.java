@@ -115,6 +115,7 @@ public class HTTPRequest {
             switch(status){
                 case 200:
                 case 201:
+                case 204:
                     //sb.append(status);
                     int read;
                     char[] chars = new char[1024];

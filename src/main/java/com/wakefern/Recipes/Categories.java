@@ -48,7 +48,7 @@ public class Categories extends BaseService {
                             + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories;
 
                     ServiceMappings secondMapping = new ServiceMappings();
-                    secondMapping.setServiceMapping(this, null);
+                    secondMapping.setServiceMappingv1(this, null);
 
                     String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
                     XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
@@ -67,7 +67,7 @@ public class Categories extends BaseService {
                         + ApplicationConstants.StringConstants.queryParam + q;
 
                 ServiceMappings secondMapping = new ServiceMappings();
-                secondMapping.setServiceMapping(this, null);
+                secondMapping.setServiceMappingv1(this, null);
 
                 String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
                 XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();

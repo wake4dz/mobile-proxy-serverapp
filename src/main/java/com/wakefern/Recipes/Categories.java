@@ -91,9 +91,9 @@ public class Categories extends BaseService {
             }
         }
         
-        if(!listName.isEmpty()&&!storeId.isEmpty()&&!userId.isEmpty()&&!authUser.isEmpty()){
+        if(!listName.isEmpty()&&!storeId.isEmpty()&&!userId.isEmpty()&&!authToken.isEmpty()){
             GetItemsInList getItemsInList = new GetItemsInList();
-            String list = getItemsInList.getInfo(storeId, userId, authUser, listName, "", "9999", "0", "");
+            String list = getItemsInList.getInfo(storeId, userId, authToken, listName, "", "9999", "0", "");
             JSONObject listItems = new JSONObject(list);
             JSONArray items = listItems.getJSONArray(ApplicationConstants.recipeSearch.items);
             JSONArray response = new JSONArray();

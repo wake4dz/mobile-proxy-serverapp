@@ -30,14 +30,13 @@ public class FormattedAuthentication {
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             JSONObject xmlJson = new JSONObject(xmLtoJSONConverter.convert(xml)).getJSONObject(ApplicationConstants.FormattedAuthentication.User);
 
-            String storeId = Integer.toString(xmlJson.getJSONObject(ApplicationConstants.FormattedAuthentication.PreferredStore)
-                    .getInt(ApplicationConstants.FormattedAuthentication.Id));
+            String storeId = (xmlJson.getJSONObject(ApplicationConstants.FormattedAuthentication.PreferredStore)
+                    .get(ApplicationConstants.FormattedAuthentication.Id)).toString();
             String ppc = xmlJson.get(ApplicationConstants.FormattedAuthentication.FSN).toString();
 
             //Save user info
             retval.put(ApplicationConstants.FormattedAuthentication.FirstName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.FirstName));
             retval.put(ApplicationConstants.FormattedAuthentication.LastName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.LastName));
-            retval.put(ApplicationConstants.FormattedAuthentication.StoreId, storeId);
             retval.put(ApplicationConstants.FormattedAuthentication.PPC, ppc);
 
             //Get store info
@@ -46,6 +45,7 @@ public class FormattedAuthentication {
             searchStores(storesJson);
 
             //Save store info
+            retval.put(ApplicationConstants.FormattedAuthentication.StoreId, storeId);
             retval.put(ApplicationConstants.FormattedAuthentication.PseudoStoreId, getPseudoStore());
             retval.put(ApplicationConstants.FormattedAuthentication.StoreName, getStoreName());
 

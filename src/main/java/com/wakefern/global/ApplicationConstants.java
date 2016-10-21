@@ -227,6 +227,10 @@ public final class ApplicationConstants {
         public static final String totalRecipes = "totalRecipes";
         public static final String items = "Items";
         public static final String RecipeCategories = "RecipeCategories";
+        public static final String Note = "Note";
+        public static final String ListError = "listName or storeId is empty in the query";
+        public static final String RecipeError = "Failed to iterate Recipes";
+        public static final String CategoryError = "Failed to iterate Categories";
     }
 
     public static class shoppingListItemPost{

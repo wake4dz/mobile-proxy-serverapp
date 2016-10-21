@@ -9,6 +9,7 @@ import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
 import java.io.IOException;
 
 /**
@@ -35,15 +36,20 @@ public class RecipeDetails extends BaseService {
         }
     }
 
-    public String getInfo(String chainId, String recipeId, String authToken) throws Exception, IOException {
+    public String getInfo(String chainId, String recipeId, String authToken) throws IOException {
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
-        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-        return xmLtoJSONConverter.convert(xml);
+        String xml;
+		try {
+			xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return xmLtoJSONConverter.convert(xml);
+		} catch (Exception e) {
+			return "";
+		}
     }
 
     public RecipeDetails(){

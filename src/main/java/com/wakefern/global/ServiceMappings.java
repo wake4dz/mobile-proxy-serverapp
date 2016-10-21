@@ -108,28 +108,28 @@ public class ServiceMappings {
 	}
 
 	//Used for v1 calls with Hardcoded authToken
-	public void setServiceMapping(Object serviceObject, String jsonBody) {
-		BaseService aService = (BaseService) serviceObject;
-		if (aService.serviceType instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
-			MWGBody mwgBody = new MWGBody("");
-			sendServiceMapping((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
-		}
-	}
-
-	private void sendServiceMapping(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
-		header.serviceAuth(serviceObject.token);
-		setgenericHeader(v1Map());
-		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
-		setGenericBody(body.Body(jsonBody));
-	}
-
-	private Map<String, String> v1Map(){
-		Map<String, String> map = new HashMap<>();
-		map.put(ApplicationConstants.MapVariables.contentType, ApplicationConstants.MapVariables.requestType);
-		map.put(ApplicationConstants.MapVariables.auth, ApplicationConstants.MapVariables.authToken);
-		return map;
-	}
+//	public void setServiceMapping(Object serviceObject, String jsonBody) {
+//		BaseService aService = (BaseService) serviceObject;
+//		if (aService.serviceType instanceof MWGHeader) {
+//			MWGHeader mwgHeader = new MWGHeader();
+//			MWGBody mwgBody = new MWGBody("");
+//			sendServiceMapping((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
+//		}
+//	}
+//
+//	private void sendServiceMapping(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
+//		header.serviceAuth(serviceObject.token);
+//		setgenericHeader(v1Map());
+//		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
+//		setGenericBody(body.Body(jsonBody));
+//	}
+//
+//	private Map<String, String> v1Map(){
+//		Map<String, String> map = new HashMap<>();
+//		map.put(ApplicationConstants.MapVariables.contentType, ApplicationConstants.MapVariables.requestType);
+//		map.put(ApplicationConstants.MapVariables.auth, ApplicationConstants.MapVariables.authToken);
+//		return map;
+//	}
 
 	//v1 calls with passed in authToken
 	public void setServiceMappingv1(Object serviceObject, String jsonBody) {

@@ -32,7 +32,7 @@ public class FormattedAuthentication {
 
             String storeId = Integer.toString(xmlJson.getJSONObject(ApplicationConstants.FormattedAuthentication.PreferredStore)
                     .getInt(ApplicationConstants.FormattedAuthentication.Id));
-            String ppc = Integer.toString(xmlJson.getInt(ApplicationConstants.FormattedAuthentication.FSN));
+            String ppc = xmlJson.get(ApplicationConstants.FormattedAuthentication.FSN).toString();
 
             //Save user info
             retval.put(ApplicationConstants.FormattedAuthentication.FirstName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.FirstName));

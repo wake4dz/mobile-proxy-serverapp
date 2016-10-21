@@ -28,7 +28,7 @@ public class FeaturedRecipes extends BaseService {
         prepareResponse(chainId, q, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
 
@@ -45,7 +45,7 @@ public class FeaturedRecipes extends BaseService {
         prepareResponse(chainId, q, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
 

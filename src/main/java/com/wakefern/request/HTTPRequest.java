@@ -48,6 +48,7 @@ public class HTTPRequest {
             switch(status){
                 case 200:
                 case 201:
+                case 204:
                     //sb.append(status);
                     while( (line = br.readLine()) != null ){
                         sb.append(line + "\r");
@@ -56,10 +57,7 @@ public class HTTPRequest {
                     break;
                 default:
                     //sb.append(status);
-                    while( (line = br.readLine()) != null ){
-                        sb.append(line + "\r");
-                    }
-                    br.close();
+                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
             }
             //return body to auth
             return sb.toString();
@@ -127,10 +125,7 @@ public class HTTPRequest {
                     break;
                 default:
                     //sb.append(status);
-                    while( (line = br.readLine()) != null ){
-                        sb.append(line + "\r");
-                    }
-                    br.close();
+                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
             }
             //return body to auth
             return sb.toString();
@@ -188,6 +183,7 @@ public class HTTPRequest {
             switch(status){
                 case 200:
                 case 201:
+                case 204:
                     //sb.append(status);
                     int read;
                     char[] chars = new char[1024];
@@ -197,11 +193,7 @@ public class HTTPRequest {
                     br.close();
                     break;
                 default:
-                    //sb.append(status);
-                    while( (line = br.readLine()) != null ){
-                        sb.append(line + "\r");
-                    }
-                    br.close();
+                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
             }
             //return body to auth
             return sb.toString();
@@ -232,7 +224,12 @@ public class HTTPRequest {
         HttpURLConnection connection = null;
         try {
             connection = createConnection(requestURL,requestHeaders,requestParameters,requestMethod);
-            return buildResponse(connection);
+            int responseCode = connection.getResponseCode();
+            if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
+                return buildResponse(connection);
+            } else {
+                throw new Exception(responseCode + "," + connection.getResponseMessage());
+            }
         } catch (IOException e) {
             throw e;
         } catch (URISyntaxException e) {
@@ -275,8 +272,7 @@ public class HTTPRequest {
                 case 204:
                     return status + " Success";
                 default:
-                    Exception e = new Exception("Non-20x response");
-                    throw e;
+                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
             }
         } catch (MalformedURLException ex) {
             throw ex;

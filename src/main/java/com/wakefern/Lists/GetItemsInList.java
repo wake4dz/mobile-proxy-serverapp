@@ -22,7 +22,7 @@ public class GetItemsInList extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
-    public Response getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
+    public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
                           @HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId,@DefaultValue("9999") @QueryParam("take") String take,@DefaultValue("0") @QueryParam("skip") String skip, String jsonBody){
 
         if(listId.isEmpty()) {
@@ -57,4 +57,39 @@ public class GetItemsInList extends BaseService {
 			}
         }
     }
+
+	public String getInfo(String storeId, String userId, String authToken, String listName, String listId, String take, String skip, String jsonBody) {
+
+		if(listId.isEmpty()) {
+			try {
+				listId = ListHelpers.getListId(listName, userId, authToken, storeId);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e).toString();
+			}
+		}
+		ShoppingListItemsGet list = new ShoppingListItemsGet();
+		if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
+			try {
+				return list.getInfo(userId, storeId, listId, take, skip, authToken);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e).toString();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e).toString();
+			}
+		}else{
+			CartGet cartList = new CartGet();
+			try {
+				return cartList.getInfo(userId,storeId,authToken);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e).toString();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				return this.createErrorResponse(e).toString();
+			}
+		}
+	}
 }

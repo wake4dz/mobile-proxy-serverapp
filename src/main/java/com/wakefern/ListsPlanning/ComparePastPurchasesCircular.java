@@ -29,7 +29,7 @@ public class ComparePastPurchasesCircular extends BaseService {
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", category, this.token);
+            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, this.token, authToken2);
             String retval = "";
             try {
                 retval = getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
@@ -46,7 +46,7 @@ public class ComparePastPurchasesCircular extends BaseService {
         this.token = authToken;
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", category, this.token);
+        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, this.token, authToken2);
         //Need to pad String response type to allow ComparePastPurchasesBoth to access the array
         JSONObject matches = getPurchaseIds(pastPurchases, storeId, authToken2, take, skip);
         JSONObject retval = new JSONObject();
@@ -62,19 +62,19 @@ public class ComparePastPurchasesCircular extends BaseService {
         JSONObject retval = new JSONObject();
         SortedSet<String> ids = new TreeSet<String>();
         try {//Assume multiple items in past purchases, exception if there is only one
-            Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
-            JSONArray jsonArray = (JSONArray) jsonObject;
+            JSONObject jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems);
+            JSONArray jsonArray = jsonObject.getJSONArray(ApplicationConstants.Planning.ShoppingListItem);
             for(Object listItem: jsonArray){ //get all of the ids from past purchases
                 JSONObject currentListItem = (JSONObject) listItem;
-                String sku = currentListItem.getJSONObject(ApplicationConstants.Planning.Product).getString(ApplicationConstants.Planning.SKU);
+                String sku = currentListItem.getString(ApplicationConstants.Planning.Sku);
                 ids.add(sku);
             }
         } catch (Exception e){//There is only one item in the past purchases list
             try {
                 String singleSku = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
                         .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem)
-                        .getJSONObject(ApplicationConstants.Planning.Product).getString(ApplicationConstants.Planning.SKU);
+                        .getString(ApplicationConstants.Planning.Sku);
                 ProductBySku productBySku = new ProductBySku();
                 String json = productBySku.getInfo(storeId, singleSku, auth);
                 JSONObject jsonObject = new JSONObject(json);

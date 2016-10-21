@@ -62,6 +62,10 @@ public class MWGApplicationConstants {
             public static final String UpdateProfile = "/user/v1/id";
         }
 
+        public static class Registration{
+            public static final String UserRegistration = "/user/v1/registration";
+        }
+
         public static class Planning{
             public static final String StoreLocator = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";

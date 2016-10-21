@@ -30,9 +30,9 @@ public class Categories extends BaseService {
     @Produces("application/*")
     @Path("/{chainId}/categories")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @DefaultValue("") @QueryParam("q") String q, @DefaultValue("") @QueryParam("listName") String listName,
-    		@DefaultValue("") @QueryParam("storeId") String storeId,
-    		@DefaultValue("") @QueryParam("authUser") String authUser,
-    		@DefaultValue("") @QueryParam("userId") String userId,
+                                    @DefaultValue("") @QueryParam("storeId") String storeId,
+                                    @DefaultValue("") @QueryParam("authUser") String authUser,
+                                    @DefaultValue("") @QueryParam("userId") String userId,
                                     @DefaultValue("") @QueryParam("category") String category,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
@@ -95,15 +95,15 @@ public class Categories extends BaseService {
             GetItemsInList getItemsInList = new GetItemsInList();
             String list = getItemsInList.getInfo(storeId, userId, authUser, listName, "", "9999", "0", "");
             JSONObject listItems = new JSONObject(list);
-            JSONArray items = listItems.getJSONArray("Items");
+            JSONArray items = listItems.getJSONArray(ApplicationConstants.recipeSearch.items);
             JSONArray response = new JSONArray();
             String responseString = "";
             for (int i = 0, size = items.length(); i < size; i++){
             	JSONObject item = (JSONObject) items.get(i);
-            	String note = item.getString("Note");
+            	String note = item.getString(ApplicationConstants.recipeSearch.Note);
             	URI uri = new URI(note);
             	String[] segments = uri.getPath().split("/");
-            	String idStr = segments[segments.length-1];
+            	String idStr = segments[segments.length - 1];
             	
             	RecipeDetails recipeDetails = new RecipeDetails();
             	String details = recipeDetails.getInfo(chainId, idStr, "");
@@ -115,7 +115,7 @@ public class Categories extends BaseService {
 
             return this.createValidResponse(response.toString());
         }else if(ids.isEmpty()){
-        	return this.createErrorResponse(new Exception("listName or storeId is empty in the query" + this.toString()));
+        	return this.createErrorResponse(new Exception(ApplicationConstants.recipeSearch.ListError + this.toString()));
         }
         
         //Get every recipe for each id
@@ -170,7 +170,7 @@ public class Categories extends BaseService {
                 }
             }
         } catch (JSONException e){
-            System.out.print("Failed to iterate Recipes" + e.getMessage());
+            System.out.print(ApplicationConstants.recipeSearch.RecipeError + e.getMessage());
         }
         return matchedObjects2;
     }
@@ -189,7 +189,7 @@ public class Categories extends BaseService {
                 }
             }
         } catch (JSONException e) {
-            System.out.print("Failed to iterate Categories");
+            System.out.print(ApplicationConstants.recipeSearch.CategoryError);
         }
         return retval;
     }

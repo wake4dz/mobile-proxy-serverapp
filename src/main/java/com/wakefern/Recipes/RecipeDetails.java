@@ -45,12 +45,11 @@ public class RecipeDetails extends BaseService {
         String xml;
 		try {
 			xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return xmLtoJSONConverter.convert(xml);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			return "";
 		}
-        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-        return xmLtoJSONConverter.convert(xml);
     }
 
     public RecipeDetails(){

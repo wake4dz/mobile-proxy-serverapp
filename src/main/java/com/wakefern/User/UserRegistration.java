@@ -3,6 +3,7 @@ package com.wakefern.User;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.global.XMLtoJSONConverter;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -62,7 +63,9 @@ public class UserRegistration extends BaseService {
             String path = prepareResponse(authToken);
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setServiceMappingv1(this, jsonBody);
-            return this.createValidResponse(HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+            String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+            return this.createValidResponse(xmLtoJSONConverter.convert(xml));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -73,7 +76,9 @@ public class UserRegistration extends BaseService {
         String path = prepareResponse(authToken);
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, jsonBody);
-        return HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+        String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
+        return xmLtoJSONConverter.convert(xml);
     }
 
     private String prepareResponse(String authToken) throws Exception{

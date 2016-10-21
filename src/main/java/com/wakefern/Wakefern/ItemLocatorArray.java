@@ -9,6 +9,8 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 10/18/16.
@@ -20,14 +22,16 @@ public class ItemLocatorArray extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/{upc}")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("upc") String upc,
-                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        String path = "http://devsrv86a.wakefern.com/api" + prepareResponse(storeId, upc, authToken);
+                                    @HeaderParam("Authentication") String authToken) throws Exception, IOException {
+        Map<String, String> wkfn = new HashMap<>();
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocator
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.backSlash + upc;
+        wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
+        wkfn.put("Authentication", authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(path, secondMapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -35,12 +39,5 @@ public class ItemLocatorArray extends BaseService {
 
     public ItemLocatorArray(){
         this.serviceType = new MWGHeader();
-    }
-
-    private String prepareResponse(String storeId, String upc, String authToken){
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Wakefern.ItemLocator
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.backSlash + upc;
-        return this.path;
     }
 }

@@ -31,6 +31,20 @@ public class WakefernAuth extends BaseService {
             return this.createErrorResponse(e);
         }
     }
+    
+    public String getInfo(@HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        Map<String, String> wkfn = new HashMap<>();
+
+        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocatorAuth;
+        wkfn.put(ApplicationConstants.Requests.Header.contentType, "text/plain");
+        wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
+        try {
+            return HTTPRequest.executeGet(path, wkfn);
+        } catch (Exception e){
+            return null;
+        }
+    }
 
     public WakefernAuth(){
         this.serviceType = new MWGHeader();

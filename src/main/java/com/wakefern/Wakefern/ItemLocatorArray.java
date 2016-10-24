@@ -35,6 +35,26 @@ public class ItemLocatorArray extends BaseService {
             return this.createErrorResponse(e);
         }
     }
+    
+    public String getInfo(@PathParam("storeId") String storeId, @PathParam("upc") String upc,
+            @HeaderParam("Authentication") String authToken) throws Exception, IOException {
+    		Map<String, String> wkfn = new HashMap<>();
+
+    		String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocator
+    				+ ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.backSlash + upc;
+    		wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
+    		wkfn.put("Authentication", authToken);
+
+    		try {
+    			return HTTPRequest.executeGet(path, wkfn);
+    		} catch (Exception e){
+    			return null;
+    		}
+    }
+    
+    
+    
+    
 
     public ItemLocatorArray(){
         this.serviceType = new MWGHeader();

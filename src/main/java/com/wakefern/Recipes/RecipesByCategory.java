@@ -24,7 +24,7 @@ public class RecipesByCategory extends BaseService {
         prepareResponse(chainId, subCategoryId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         try {
             String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
@@ -39,7 +39,7 @@ public class RecipesByCategory extends BaseService {
         prepareResponse(chainId, subCategoryId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();

@@ -23,7 +23,7 @@ public class RecipeDetailsXml extends BaseService {
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         try {
             return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader()));
@@ -36,7 +36,7 @@ public class RecipeDetailsXml extends BaseService {
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         return HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
     }

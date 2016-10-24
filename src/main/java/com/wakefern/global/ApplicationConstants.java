@@ -19,7 +19,6 @@ public final class ApplicationConstants {
     public static final int xmlTabAmount                = 4;
     public static final String ErrorMessage             = "ErrorMessage";
 
-
     public static class AuthorizationTokens{
         public static class ApplicationTokenMapping{
             public static final String appQATokenName          = "App-QA-Token";
@@ -66,6 +65,7 @@ public final class ApplicationConstants {
         public static final String duplicate = "/duplicate";
         public static final String email = "/email";
         public static final String emailParam = "?email=";
+        public static final String fakeJson = "{\"Test\":\"Test\"}";
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
         public static final String fulfillments = "/fulfillments";
@@ -86,6 +86,7 @@ public final class ApplicationConstants {
         public static final String page = "/page";
         public static final String pages = "/pages";
         public static final String pastPurchases = "/pastPurchases";
+        public static final String payment = "/payment";
         public static final String pickup = "/pickup";
         public static final String postalCode = "/postalCode";
         public static final String promocode = "/promocode";
@@ -124,6 +125,8 @@ public final class ApplicationConstants {
         public static String baseURLV5 = MWGApplicationConstants.baseURL;
         public static String baseURLV1 = MWGApplicationConstants.baseURLv1;
         public static String serviceURLV1 =  MWGApplicationConstants.serviceURLv1;
+        public static String buildErrorJsonOpen = "{\"ErrorMessage\":\"";
+        public static String buildErrorJsonClose = "\"}";
 
         public static class Header{
             public static final String contentType	= "Content-Type";
@@ -181,6 +184,10 @@ public final class ApplicationConstants {
             public static final String UpdateProfile = MWGApplicationConstants.Requests.Recipes.UpdateProfile;
         }
 
+        public static final class Registration{
+            public static final String UserRegistration = MWGApplicationConstants.Requests.Registration.UserRegistration;
+        }
+
         public static final class Coupons{
             public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
             public static final String GetCouponId = WakefernApplicationConstants.Requests.Coupons.ListId.CouponId;
@@ -220,6 +227,10 @@ public final class ApplicationConstants {
         public static final String totalRecipes = "totalRecipes";
         public static final String items = "Items";
         public static final String RecipeCategories = "RecipeCategories";
+        public static final String Note = "Note";
+        public static final String ListError = "listName or storeId is empty in the query";
+        public static final String RecipeError = "Failed to iterate Recipes";
+        public static final String CategoryError = "Failed to iterate Categories";
     }
 
     public static class shoppingListItemPost{
@@ -353,12 +364,14 @@ public final class ApplicationConstants {
     }
 
     public static class Planning{
+        public static final String Category = "Category";
         public static final String CategoryId = "CategoryId";
         public static final String Coupons = "Coupons";
         public static final String DateModified = "DateModified";
         public static final String Circular = "Circular";
         public static final String CategoryErrorMessage = "All purchases have been filtered out";
         public static final String Id = "Id";
+        public static final String Items = "Items";
         public static final String Matches = "Matches";
         public static final String MyPastPurchases = "My Past Purchases";
         public static final String Name = "Name";
@@ -373,5 +386,33 @@ public final class ApplicationConstants {
         public static final String ShoppingListItems = "ShoppingListItems";
         public static final String SKU = "SKU";
         public static final String Sku = "Sku";
+    }
+
+    public static class Payment{
+        public static final String AllowsMultiple = "AllowsMultiple";
+        public static final String Amount = "Amount";
+        public static final String AmountLabel = "AmountLabel";
+        public static final String CancelCallbackUri = "CancelCallbackUri";
+        public static final String CancelCallbackURL = "/checkout/ProcessPayment?authorized=False";
+        public static final String CardNumber = "CardNumber";
+        public static final String CardNumberLabel = "CardNumberLabel";
+        public static final String FulfillmentType = "FulfillmentType";
+        public static final String HardCodedId = "59";
+        public static final String Id = "Id";
+        public static final String Image = "Image";
+        public static final String IsVendor = "IsVendor";
+        public static final String Items = "Items";
+        public static final String MaximumLength = "MaximumLength";
+        public static final String MinimumLength = "MinimumLength";
+        public static final String Name = "Name";
+        public static final String PayMethodTooltipUri = "PayMethodTooltipUri";
+        public static final String PaymentMethods = "PaymentMethods";
+        public static final String PaymentMethodMessage = "PaymentMethodMessage";
+        public static final String PrimaryOption = "PrimaryOption";
+        public static final String RequiresAmount = "RequiresAmount";
+        public static final String RequiredNumeric = "RequiredNumeric";
+        public static final String RequiresCardNumber = "RequiresCardNumber";
+        public static final String SuccessCallbackUri = "SuccessCallbackUri";
+        public static final String SuccessCallbackURL = "/checkout/ProcessPayment?authorized=True";
     }
 }

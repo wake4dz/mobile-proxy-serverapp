@@ -42,37 +42,38 @@ public class CheckoutDeliveryAddressPut extends BaseService {
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, authToken);
+        String path = prepareResponse(userId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
     public String getInfo(String userId, String storeId, String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, authToken);
+        String path = prepareResponse(userId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
 
-        return HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+        return HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
     }
 
     public CheckoutDeliveryAddressPut(){
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String userId, String storeId, String authToken){
+    private String prepareResponse(String userId, String storeId, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+        this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                 + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                 + ApplicationConstants.StringConstants.delivery;
+        return path;
     }
 }
 

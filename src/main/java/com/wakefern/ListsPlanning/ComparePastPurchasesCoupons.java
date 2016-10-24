@@ -21,10 +21,10 @@ import java.util.Set;
 public class ComparePastPurchasesCoupons extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/pastPurchasesCoupons")
-    public Response getInfoResponse(@PathParam("userId") String userId, @DefaultValue("9999") @QueryParam("take") String take,
+    @Path("/{userId}/store/{storeId}/pastPurchasesCoupons")
+    public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @DefaultValue("9999") @QueryParam("take") String take,
                                     @DefaultValue("0") @QueryParam("skip") String skip,
-                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                                    @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         Coupons coupons = new Coupons();
@@ -33,14 +33,14 @@ public class ComparePastPurchasesCoupons extends BaseService {
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", "", this.token);
+            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", this.token, authToken2);
             return this.createValidResponse(getPurchaseIds(pastPurchases, couponIds, skip, take).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String userId, String take, String skip, String authToken) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, String authToken, String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         Coupons coupons = new Coupons();
@@ -48,7 +48,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
         Set<String> couponIds = getCouponIds(couponList);
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, "9999", "0", "", this.token);
+        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", this.token, authToken2);
         return getPurchaseIds(pastPurchases, couponIds, skip, take).toString();
     }
 
@@ -61,9 +61,9 @@ public class ComparePastPurchasesCoupons extends BaseService {
         int skips = 0;
         JSONObject retval = new JSONObject();
         try {//Assume multiple items in past purchases, exception if there is only one
-            Object jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
-                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).get(ApplicationConstants.Planning.ShoppingListItem);
-            JSONArray jsonArray = (JSONArray) jsonObject;
+            JSONObject jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
+                    .getJSONObject(ApplicationConstants.Planning.ShoppingListItems);
+            JSONArray jsonArray = jsonObject.getJSONArray(ApplicationConstants.Planning.ShoppingListItem);
             for (Object listItem : jsonArray) {
                 if (skips < Integer.parseInt(skip)) {
                     skips++;
@@ -75,8 +75,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
                 }
 
                 JSONObject currentListItem = (JSONObject) listItem;
-                String sku = currentListItem.getJSONObject(ApplicationConstants.Planning.Product)
-                        .getString(ApplicationConstants.Planning.SKU);
+                String sku = currentListItem.getString(ApplicationConstants.Planning.Sku);
 
                 for (String couponId : coupons) {
                     if (sku.contains(couponId)) {
@@ -86,9 +85,10 @@ public class ComparePastPurchasesCoupons extends BaseService {
                 }
             }
         } catch (Exception e){ //There is only one item in the past purchases list
+            System.out.print("Error:: " + e.getMessage());
             JSONObject singleObj = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
                     .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem);
-            String singleSku = singleObj.getJSONObject(ApplicationConstants.Planning.Product).getString(ApplicationConstants.Planning.SKU);
+            String singleSku = singleObj.getString(ApplicationConstants.Planning.Sku);
             for (String couponId : coupons) {
                 if (singleSku.contains(couponId)) {
                     retval.append(ApplicationConstants.Planning.Matches, singleObj);

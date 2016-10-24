@@ -30,24 +30,14 @@ public class FormattedAuthentication {
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             JSONObject xmlJson = new JSONObject(xmLtoJSONConverter.convert(xml)).getJSONObject(ApplicationConstants.FormattedAuthentication.User);
 
-            String storeId = Integer.toString(xmlJson.getJSONObject(ApplicationConstants.FormattedAuthentication.PreferredStore)
-                    .getInt(ApplicationConstants.FormattedAuthentication.Id));
-            String ppc = Integer.toString(xmlJson.getInt(ApplicationConstants.FormattedAuthentication.FSN));
+            String storeId = (xmlJson.getJSONObject(ApplicationConstants.FormattedAuthentication.PreferredStore)
+                    .get(ApplicationConstants.FormattedAuthentication.Id)).toString();
+            String ppc = xmlJson.get(ApplicationConstants.FormattedAuthentication.FSN).toString();
 
             //Save user info
             retval.put(ApplicationConstants.FormattedAuthentication.FirstName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.FirstName));
             retval.put(ApplicationConstants.FormattedAuthentication.LastName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.LastName));
-            retval.put(ApplicationConstants.FormattedAuthentication.StoreId, storeId);
             retval.put(ApplicationConstants.FormattedAuthentication.PPC, ppc);
-
-            //Get store info
-            StoreDetails storeDetails = new StoreDetails();
-            String storesJson = storeDetails.getInfo(chainId, storeId, planningAuth);
-            searchStores(storesJson);
-
-            //Save store info
-            retval.put(ApplicationConstants.FormattedAuthentication.PseudoStoreId, getPseudoStore());
-            retval.put(ApplicationConstants.FormattedAuthentication.StoreName, getStoreName());
 
             //Get /v5/authorization and find AdSessionGuid
             JSONObject jsonObject1 = new JSONObject(v5);
@@ -58,6 +48,16 @@ public class FormattedAuthentication {
                     retval.put(keyStr, keyvalue);
                 }
             }
+
+            //Get store info
+            StoreDetails storeDetails = new StoreDetails();
+            String storesJson = storeDetails.getInfo(chainId, storeId, planningAuth);
+            searchStores(storesJson);
+
+            //Save store info
+            retval.put(ApplicationConstants.FormattedAuthentication.StoreId, storeId);
+            retval.put(ApplicationConstants.FormattedAuthentication.PseudoStoreId, getPseudoStore());
+            retval.put(ApplicationConstants.FormattedAuthentication.StoreName, getStoreName());
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
             System.out.print(exceptionHandler.exceptionMessageJson(e));

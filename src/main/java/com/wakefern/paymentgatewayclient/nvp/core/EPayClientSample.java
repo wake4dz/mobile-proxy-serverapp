@@ -5,17 +5,22 @@ package com.wakefern.paymentgatewayclient.nvp.core;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import com.wakefern.paymentgatewayclient.nvp.request.Request;
 import com.wakefern.paymentgatewayclient.nvp.domain.Constants;
 import com.wakefern.paymentgatewayclient.nvp.profile.Profile;
 import com.wakefern.paymentgatewayclient.nvp.util.LogToFile;
+import com.wakefern.statica.StaticaProxyAuthenticator;
 
 /**
  * This EPayClientSample class can be used as the main program which sends requests and 
@@ -231,6 +236,36 @@ public final class EPayClientSample implements Serializable {
 									+ ": Invalid or no response was returned from the NVP end-point call.");
         }
     }
+    
+//    public String getResponse(StaticaProxyAuthenticator proxy, String urlToRead) {
+//        String result = "";
+//        try {
+//           URL url = new URL(urlToRead);
+//           HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//           conn.setRequestProperty("Proxy-Authorization", "Basic " + proxy.getEncodedAuth());
+//           conn.setRequestProperty("Accept-Encoding", "gzip");
+//           Authenticator.setDefault(proxy.getAuth());
+//           conn.setRequestMethod("POST");
+//           InputStream is = conn.getInputStream();
+//           if(conn.getContentEncoding()!=null && conn.getContentEncoding().equalsIgnoreCase("gzip")){
+//             is = new GZIPInputStream(is);
+//           }
+//           byte[] buffer = new byte[1024];
+//           int len;
+//           ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//           while (-1 != (len = is.read(buffer))) {
+//             bos.write(buffer, 0, len);
+//           }           
+//           result = new String(bos.toByteArray());
+//           is.close();
+//        } catch (IOException e) {
+//           e.printStackTrace();
+//        } catch (Exception e) {
+//           e.printStackTrace();
+//        }
+//        return result;
+//     }    
+    
 
     /**
      * Function to redirect the user to the URL which is the Payment Page. If Request has
@@ -250,7 +285,7 @@ public final class EPayClientSample implements Serializable {
         							+ ": There is no response from the NVP call.");
             return null;
         }
-
+        System.out.println("Response String :: " + response.toString());
         String epaywebURL = "";
         String ack   = response.get("ACK");
         String token = response.get("TOKEN");

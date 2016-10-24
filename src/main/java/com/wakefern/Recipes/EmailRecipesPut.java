@@ -33,7 +33,7 @@ public class EmailRecipesPut extends BaseService {
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, jsonBody);
+        secondMapping.setServiceMappingv1(this, jsonBody);
 
         try {
             return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
@@ -46,7 +46,7 @@ public class EmailRecipesPut extends BaseService {
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, jsonBody);
+        secondMapping.setServiceMappingv1(this, jsonBody);
 
         return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
     }

@@ -18,19 +18,18 @@ import java.util.Map;
 public class CircularPages extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{userId}/stores/{storeId}/circulars/{circId}/pages")
-    public Response getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("circId") String circId,
+    @Path("/{chainId}/stores/{storeId}/circulars/{circId}/pages")
+    public Response getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circId") String circId,
                             @DefaultValue("0") @QueryParam("skip") String skip, @DefaultValue("9999") @QueryParam("take") String take,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.stores
+        String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Circular.Categories
+                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
                 + ApplicationConstants.StringConstants.backSlash + circId + ApplicationConstants.StringConstants.pages
                 + ApplicationConstants.StringConstants.take + take + ApplicationConstants.StringConstants.skip + skip;
 
         MWGHeader mwgHeader = new MWGHeader();
-        mwgHeader.authenticate(this.token, "application/vnd.mywebgrocer.circular-pages-full+json", "application/vnd.mywebgrocer.circular-pages-full+json");
+        mwgHeader.authenticate(authToken, "application/vnd.mywebgrocer.circular-pages-full+json", "application/vnd.mywebgrocer.circular-pages-full+json");
 
         try {
             return this.createValidResponse(HTTPRequest.executeGetJSON(path, mwgHeader.getMap()));

@@ -24,7 +24,7 @@ public class StoreDetails extends BaseService {
         prepareResponse(chainId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         try {
             String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
@@ -39,7 +39,7 @@ public class StoreDetails extends BaseService {
         prepareResponse(chainId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMapping(this, null);
+        secondMapping.setServiceMappingv1(this, null);
 
         String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();

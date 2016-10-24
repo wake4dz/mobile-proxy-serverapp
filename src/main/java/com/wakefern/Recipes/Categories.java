@@ -31,9 +31,9 @@ public class Categories extends BaseService {
     @Path("/{chainId}/categories")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @DefaultValue("") @QueryParam("q") String q, @DefaultValue("") @QueryParam("listName") String listName,
                                     @DefaultValue("") @QueryParam("storeId") String storeId,
-                                    @DefaultValue("") @QueryParam("authUser") String authUser,
                                     @DefaultValue("") @QueryParam("userId") String userId,
                                     @DefaultValue("") @QueryParam("category") String category,
+                                    @HeaderParam("AuthorizationV5User") String authUser,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         Set<Integer> ids = new HashSet<>();

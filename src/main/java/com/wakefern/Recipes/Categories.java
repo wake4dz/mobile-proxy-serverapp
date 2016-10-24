@@ -107,7 +107,7 @@ public class Categories extends BaseService {
             	String idStr = segments[segments.length - 1];
             	
             	RecipeDetails recipeDetails = new RecipeDetails();
-            	String details = recipeDetails.getInfo(chainId, idStr, "");
+            	String details = recipeDetails.getInfo(chainId, idStr, authToken);
                 System.out.println("Details Items :: " + details);
             	if(!details.isEmpty()){
             		JSONObject newDetails = new JSONObject(details);

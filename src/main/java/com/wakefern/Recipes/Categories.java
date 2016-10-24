@@ -29,11 +29,13 @@ public class Categories extends BaseService {
     @GET
     @Produces("application/*")
     @Path("/{chainId}/categories")
-    public Response getInfoResponse(@PathParam("chainId") String chainId, @DefaultValue("") @QueryParam("q") String q, @DefaultValue("") @QueryParam("listName") String listName,
+    public Response getInfoResponse(@PathParam("chainId") String chainId, 
+    								@DefaultValue("") @QueryParam("q") String q,
+    								@DefaultValue("") @QueryParam("listName") String listName,
                                     @DefaultValue("") @QueryParam("storeId") String storeId,
+                                    @DefaultValue("") @HeaderParam("AuthorizationV5User") String authUser,
                                     @DefaultValue("") @QueryParam("userId") String userId,
                                     @DefaultValue("") @QueryParam("category") String category,
-                                    @HeaderParam("AuthorizationV5User") String authUser,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         Set<Integer> ids = new HashSet<>();
@@ -89,7 +91,7 @@ public class Categories extends BaseService {
             } else {
                 ids.add(Integer.parseInt(category));
             }
-        }
+        }///////
         
         if(!listName.isEmpty()&&!storeId.isEmpty()&&!userId.isEmpty()&&!authUser.isEmpty()){
             GetItemsInList getItemsInList = new GetItemsInList();
@@ -102,15 +104,19 @@ public class Categories extends BaseService {
             for (int i = 0, size = items.length(); i < size; i++){
             	JSONObject item = (JSONObject) items.get(i);
             	String note = item.getString(ApplicationConstants.recipeSearch.Note);
+            	
+            	String itemId = item.getString("Id");
+            	
+            	
             	URI uri = new URI(note);
             	String[] segments = uri.getPath().split("/");
             	String idStr = segments[segments.length - 1];
-            	
             	RecipeDetails recipeDetails = new RecipeDetails();
             	String details = recipeDetails.getInfo(chainId, idStr, authToken);
                 System.out.println("Details Items :: " + details);
             	if(!details.isEmpty()){
             		JSONObject newDetails = new JSONObject(details);
+            		newDetails.put("FavoriteId", itemId);
             		response.put(newDetails);
             	}
             }

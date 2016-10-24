@@ -12,31 +12,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by zacpuste on 10/18/16.
+ * Created by zacpuste on 10/24/16.
  */
-
 @Path(ApplicationConstants.Requests.Wakefern.ItemLocator)
-public class ItemLocatorArray extends BaseService {
-    @GET
+public class ItemLocatorArrayPost extends BaseService {
+
+    @POST
+    @Consumes("application/json")
     @Produces("application/*")
-    @Path("/{storeId}/{upc}")
-    public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("upc") String upc,
-                                    @HeaderParam("Authentication") String authToken) throws Exception, IOException {
+    /**
+     * JSON Format:
+     {
+         "store":255,
+         "upc":"4133112025,4133112402,4133112406"
+     }
+     */
+    public Response getInfoResponse(@HeaderParam("Authentication") String authToken, String jsonBody) throws Exception, IOException {
+
         Map<String, String> wkfn = new HashMap<>();
 
-        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocator
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.backSlash + upc;
+        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocator;
         wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
         wkfn.put("Authentication", authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn));
-        } catch (Exception e){
+            return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, wkfn));
+        } catch (Exception e) {
             return this.createErrorResponse(e);
         }
     }
 
-    public ItemLocatorArray(){
+    public ItemLocatorArrayPost(){
         this.serviceType = new MWGHeader();
     }
 }

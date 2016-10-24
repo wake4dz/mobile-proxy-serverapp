@@ -50,6 +50,7 @@ public final class ListHelpers {
         listName = ApplicationConstants.Lists.getListType(listName);
         System.out.println("List name :: " + listName);
         String userLists = ListHelpers.getUsersLists("FBFB139", userId, authToken);
+        System.out.println("User lists ::" + userLists);
         JSONArray userJson = new JSONArray(userLists);
         
         String listId = ListHelpers.getUserList(userJson, ApplicationConstants.Lists.getListType(listName));

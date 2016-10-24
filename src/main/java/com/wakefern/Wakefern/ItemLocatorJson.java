@@ -2,13 +2,14 @@ package com.wakefern.Wakefern;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 10/18/16.
@@ -19,14 +20,16 @@ public class ItemLocatorJson extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/{upc}")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("upc") String upc,
-                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(storeId, upc, authToken);
+                                    @HeaderParam("Authentication") String authToken) throws Exception, IOException {
+        Map<String, String> wkfn = new HashMap<>();
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocatorJson
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.backSlash + upc;
+        wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
+        wkfn.put("Authentication", authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -34,11 +37,5 @@ public class ItemLocatorJson extends BaseService {
 
     public ItemLocatorJson(){
         this.serviceType = new MWGHeader();
-    }
-
-    private void prepareResponse(String storeId, String upc, String authToken){
-        this.token = authToken;
-        this.path = ApplicationConstants.Requests.Wakefern.ItemLocatorJson
-                + ApplicationConstants.StringConstants.backSlash + storeId + upc;
     }
 }

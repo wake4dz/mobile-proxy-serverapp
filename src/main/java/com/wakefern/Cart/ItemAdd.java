@@ -29,8 +29,9 @@ public class ItemAdd extends BaseService {
 
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                                    @QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, authToken);
+        prepareResponse(userId, storeId, isMember, authToken);
         String path = ApplicationConstants.Requests.baseURLV5  + this.path;
 
         MWGHeader mwgHeader = new MWGHeader();
@@ -43,8 +44,8 @@ public class ItemAdd extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, authToken);
+    public String getInfo(String userId, String storeId, String isMember, String authToken, String jsonBody) throws Exception, IOException {
+        prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
         mapping.setAllHeadersPutMapping(this, jsonBody);
@@ -56,10 +57,16 @@ public class ItemAdd extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    public void prepareResponse(String userId, String storeId, String authToken){
+    public void prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Cart.CartUser
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

@@ -74,6 +74,8 @@ public final class ApplicationConstants {
         public static final String id = "id";
         public static final String Id = "Id";
         public static final String id1 = "?id1=";
+        public static final String isMember = "?isMember";
+        public static final String isMemberAmp = "&isMember";
         public static final String item = "/item";
         public static final String itemCount = "ItemCount";
         public static final String items = "/items";

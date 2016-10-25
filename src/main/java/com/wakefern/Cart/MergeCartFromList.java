@@ -21,9 +21,10 @@ public class MergeCartFromList extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/merge-from/list/{listId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("listId") String listId,
+                                    @QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         String jsonBody = ApplicationConstants.StringConstants.fakeJson;
-        String path = prepareResponse(userId, storeId, listId, authToken);
+        String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         MWGHeader mwgHeader = new MWGHeader();
         mwgHeader.authenticate(this.token, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
@@ -35,9 +36,9 @@ public class MergeCartFromList extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String listId, String authToken) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String listId, String isMember, String authToken) throws Exception, IOException {
         String jsonBody = ApplicationConstants.StringConstants.fakeJson;
-        String path = prepareResponse(userId, storeId, listId, authToken);
+        String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         MWGHeader mwgHeader = new MWGHeader();
         mwgHeader.authenticate(this.token, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
@@ -49,12 +50,19 @@ public class MergeCartFromList extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private String prepareResponse(String userId, String storeId, String listId, String authToken){
+    private String prepareResponse(String userId, String storeId, String listId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.baseURLV5 +  ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.mergeFrom
                 + ApplicationConstants.StringConstants.list + ApplicationConstants.StringConstants.backSlash + listId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.baseURLV5 +  ApplicationConstants.Requests.Cart.CartUser
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.mergeFrom
+                    + ApplicationConstants.StringConstants.list + ApplicationConstants.StringConstants.backSlash + listId
+                    + ApplicationConstants.StringConstants.isMember;
+        }
         return this.path;
     }
 }

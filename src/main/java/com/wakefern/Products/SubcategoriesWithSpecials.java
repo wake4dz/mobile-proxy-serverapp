@@ -19,8 +19,10 @@ public class SubcategoriesWithSpecials extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{categoryId}/store/{storeId}/categories/special")
-    public Response getInfoResponse(@PathParam("categoryId") String categoryId, @PathParam("storeId") String storeId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(categoryId, storeId, authToken);
+    public Response getInfoResponse(@PathParam("categoryId") String categoryId, @PathParam("storeId") String storeId,
+                                    @QueryParam("isMember") String isMember,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(categoryId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +34,8 @@ public class SubcategoriesWithSpecials extends BaseService{
         }
     }
 
-    public String getInfo(String categoryId, String storeId, String authToken) throws Exception, IOException {
-        prepareResponse(categoryId, storeId, authToken);
+    public String getInfo(String categoryId, String storeId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(categoryId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,10 +47,16 @@ public class SubcategoriesWithSpecials extends BaseService{
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String categoryId, String storeId, String authToken){
+    private void prepareResponse(String categoryId, String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.Subcategories + ApplicationConstants.StringConstants.backSlash
                 + categoryId + ApplicationConstants.StringConstants.store + ApplicationConstants.StringConstants.backSlash + storeId
                 + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.special;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Categories.Subcategories + ApplicationConstants.StringConstants.backSlash
+                    + categoryId + ApplicationConstants.StringConstants.store + ApplicationConstants.StringConstants.backSlash + storeId
+                    + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.special
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

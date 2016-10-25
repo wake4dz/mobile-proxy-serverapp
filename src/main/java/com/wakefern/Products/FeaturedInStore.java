@@ -19,8 +19,9 @@ public class FeaturedInStore extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/featured")
     public Response getInfoResponse(@PathParam("storeId") String storeId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(storeId, authToken);
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +33,8 @@ public class FeaturedInStore extends BaseService {
         }
     }
 
-    public String getInfo(String storeId, String authToken) throws Exception, IOException {
-        prepareResponse(storeId, authToken);
+    public String getInfo(String storeId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,9 +46,14 @@ public class FeaturedInStore extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String storeId, String authToken){
+    private void prepareResponse(String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Categories.ProductsStore
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

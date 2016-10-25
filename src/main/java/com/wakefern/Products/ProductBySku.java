@@ -64,16 +64,14 @@ public class ProductBySku extends BaseService {
 
     private JSONObject formatAisle(String skuData, String shortStoreId) throws Exception {
         JSONObject jsonObject = new JSONObject(skuData);
-        String aisle = jsonObject.getString("Aisle");
+        String aisle = jsonObject.getString(ApplicationConstants.AisleItemLocator.Aisle);
         if(aisle == null || aisle == ""){
             return jsonObject;
         }
         WakefernAuth wakefernAuth = new WakefernAuth();
-        String authString = wakefernAuth.getInfo("eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9");
-        System.out.println("Auth String :: " + authString);
+        String authString = wakefernAuth.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);
         if(!authString.isEmpty()){
-            String responseString = "";
-            String sku = jsonObject.getString("Sku");
+            String sku = jsonObject.getString(ApplicationConstants.AisleItemLocator.Sku);
             sku = sku.substring(0, sku.length()-1);
             ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
             String itemLocation = itemLocatorArray.getInfo(shortStoreId, sku, authString);
@@ -81,40 +79,32 @@ public class ProductBySku extends BaseService {
                 JSONArray jsonArray = new JSONArray(itemLocation);
                 for (int i = 0, size = jsonArray.length(); i < size; i++){
                     JSONObject locationItems = (JSONObject)jsonArray.get(i);
-                    JSONArray locations = locationItems.getJSONArray("item_locations");
+                    JSONArray locations = locationItems.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
                     //Iterate through these too - inner excluded UPCs
                     for(int z = 0, sizez = locations.length(); z<sizez;z++) {
-
                         JSONObject aItem = (JSONObject) locations.get(z);
-                        System.out.println(z + " aItem ::" + aItem);
-                        Long itemNum = aItem.getLong("upc_13_num");
+                        Long itemNum = aItem.getLong(ApplicationConstants.AisleItemLocator.upc_13_num);
                         String itemString = itemNum.toString();
-                        System.out.println(z + " String itemNum ::" + itemString);
-                        System.out.println(z + " item sku ::" + sku);
                         if (sku.contains(itemString)) {
-                            System.out.println(z + " Contains ::");
-                            if (aItem.has("area_desc")) {
-                                jsonObject.put("Aisle", aItem.get("area_desc"));
+                            if (aItem.has(ApplicationConstants.AisleItemLocator.area_desc)) {
+                                jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
                                 return jsonObject;
                             } else {
-                                jsonObject.put("Aisle", "Other");
+                                jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
                                 break;
                             }
                         } else if (z + 1 == locations.length()) {
-                            jsonObject.put("Aisle", "Other");
+                            jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
                         }
                     }
 
                 }
-                System.out.println("Made it to end");
                 return jsonObject;
             }catch(Exception e){
                 //Error casting
-                System.out.println("Cast Error :: " + e.getMessage());
                 throw e;
             }
         }
-        System.out.println("Bad auth string :: ");
         return jsonObject;
     }
 }

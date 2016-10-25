@@ -19,8 +19,9 @@ public class PageItems extends BaseService {
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/{circularId}/pages/{pageId}/items")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId, @PathParam("pageId") String pageId,
+                                    @QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(chainId, storeId, circularId, pageId, authToken);
+        prepareResponse(chainId, storeId, circularId, pageId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +33,8 @@ public class PageItems extends BaseService {
         }
     }
 
-    public String getInfo(String chainId, String storeId, String circularId, String pageId, String authToken) throws Exception, IOException {
-        prepareResponse(chainId, storeId, circularId, pageId, authToken);
+    public String getInfo(String chainId, String storeId, String circularId, String isMember, String pageId, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, circularId, pageId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,12 +46,20 @@ public class PageItems extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String chainId, String storeId, String circularId, String pageId, String authToken){
+    private void prepareResponse(String chainId, String storeId, String circularId, String pageId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Circular.Categories
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
                 + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.pages
                 + ApplicationConstants.StringConstants.backSlash + pageId + ApplicationConstants.StringConstants.items;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Circular.Categories
+                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
+                    + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.pages
+                    + ApplicationConstants.StringConstants.backSlash + pageId + ApplicationConstants.StringConstants.items
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

@@ -20,8 +20,9 @@ public class RetrieveCircular extends BaseService{
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/{circularId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(chainId, storeId, circularId, authToken);
+        prepareResponse(chainId, storeId, circularId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,8 +34,8 @@ public class RetrieveCircular extends BaseService{
         }
     }
 
-    public String getInfo(String chainId, String storeId, String circularId, String authToken) throws Exception, IOException {
-        prepareResponse(chainId, storeId, circularId, authToken);
+    public String getInfo(String chainId, String storeId, String circularId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, circularId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -46,11 +47,17 @@ public class RetrieveCircular extends BaseService{
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String chainId, String storeId, String circularId, String authToken){
+    private void prepareResponse(String chainId, String storeId, String circularId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.circulars + ApplicationConstants.StringConstants.backSlash
                 + circularId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+                    + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
+                    + storeId + ApplicationConstants.StringConstants.circulars + ApplicationConstants.StringConstants.backSlash
+                    + circularId + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

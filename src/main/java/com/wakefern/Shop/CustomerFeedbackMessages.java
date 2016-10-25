@@ -21,8 +21,9 @@ public class CustomerFeedbackMessages extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/contact/messages")
     public Response getInfoResponse(@PathParam("storeId") String storeId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(storeId, authToken);
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
         mapping.setPutMapping(this, jsonBody);
@@ -34,8 +35,8 @@ public class CustomerFeedbackMessages extends BaseService {
         }
     }
 
-    public String getInfo(String storeId, String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(storeId, authToken);
+    public String getInfo(String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
         mapping.setPutMapping(this, jsonBody);
@@ -47,11 +48,16 @@ public class CustomerFeedbackMessages extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String storeId, String authToken){
+    private void prepareResponse(String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Shop.ShopStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.contact
                 + ApplicationConstants.StringConstants.messages;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Shop.ShopStore
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.contact
+                    + ApplicationConstants.StringConstants.messages + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }
 

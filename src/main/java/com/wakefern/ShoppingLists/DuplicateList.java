@@ -26,12 +26,16 @@ public class DuplicateList extends BaseService {
     @Path("/{userId}/store/{storeId}/duplicate")
     public String getInfo(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                           @QueryParam("id1") String id1, @QueryParam("name") String name,
+                          @QueryParam("isMember") String isMember,
                           @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         this.token = authToken;
         this.path = ApplicationConstants.Requests.ShoppingLists.slUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.duplicate
                 + ApplicationConstants.StringConstants.id1 + id1 + ApplicationConstants.StringConstants.name + name;
+        if(!isMember.isEmpty()){
+            this.path += ApplicationConstants.StringConstants.isMemberAmp;
+        }
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);

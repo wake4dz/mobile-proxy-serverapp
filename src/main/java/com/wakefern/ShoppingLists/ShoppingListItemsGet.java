@@ -19,9 +19,11 @@ public class ShoppingListItemsGet extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/list/{listId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId , @PathParam("listId") String listId,
-                            @QueryParam("take") String take, @QueryParam("skip") String skip, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                                    @QueryParam("take") String take, @QueryParam("skip") String skip,
+                                    @QueryParam("isMember") String isMember,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
-        String path = prepareResponse(userId, storeId, listId, take, skip, authToken);
+        String path = prepareResponse(userId, storeId, listId, take, skip, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -29,8 +31,8 @@ public class ShoppingListItemsGet extends BaseService {
         return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader()));
     }
 
-    public String getInfo(String userId, String storeId , String listId, String take, String skip, String authToken) throws Exception, IOException {
-        String path = prepareResponse(userId, storeId, listId, take, skip, authToken);
+    public String getInfo(String userId, String storeId , String listId, String take, String skip, String isMember, String authToken) throws Exception, IOException {
+        String path = prepareResponse(userId, storeId, listId, take, skip, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -38,7 +40,7 @@ public class ShoppingListItemsGet extends BaseService {
         return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader());
     }
 
-    public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String authToken){
+    public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String isMember, String authToken){
         this.token = authToken;
 
         this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
@@ -46,7 +48,13 @@ public class ShoppingListItemsGet extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
                 + take + ApplicationConstants.StringConstants.skip + skip;
-
+        if(!isMember.isEmpty()){
+            this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
+                    + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
+                    + take + ApplicationConstants.StringConstants.skip + skip + ApplicationConstants.StringConstants.isMemberAmp;
+        }
         return path;
     }
 

@@ -19,8 +19,9 @@ public class UserListGet extends BaseService {
     @Produces("application/*")
     @Path("/{chainId}/users/{userId}/lists/{listId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("userId") String userId, @PathParam("listId") String listId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(chainId, userId, listId, authToken);
+        prepareResponse(chainId, userId, listId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +33,8 @@ public class UserListGet extends BaseService {
         }
     }
 
-    public String getInfo(String chainId, String userId, String listId, String authToken) throws Exception, IOException {
-        prepareResponse(chainId, userId, listId, authToken);
+    public String getInfo(String chainId, String userId, String listId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, userId, listId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,11 +46,17 @@ public class UserListGet extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String chainId, String userId, String listId, String authToken){
+    private void prepareResponse(String chainId, String userId, String listId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.ShoppingLists.slChains
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
                 + ApplicationConstants.StringConstants.backSlash + listId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.ShoppingLists.slChains
+                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
+                    + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

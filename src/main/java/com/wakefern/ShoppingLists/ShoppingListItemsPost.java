@@ -30,8 +30,9 @@ public class ShoppingListItemsPost extends BaseService {
      }
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("listId") String listId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        String path = prepareResponse(userId, storeId, listId, authToken);
+        String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
         mapping.setAllHeadersPutMapping(this, jsonBody);
@@ -43,8 +44,8 @@ public class ShoppingListItemsPost extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String listId, String authToken, String jsonBody) throws Exception, IOException {
-        String path = prepareResponse(userId, storeId, listId, authToken);
+    public String getInfo(String userId, String storeId, String listId, String isMember, String authToken, String jsonBody) throws Exception, IOException {
+        String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
         mapping.setAllHeadersPutMapping(this, jsonBody);
@@ -56,7 +57,7 @@ public class ShoppingListItemsPost extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private String prepareResponse(String userId, String storeId, String listId, String authToken){
+    private String prepareResponse(String userId, String storeId, String listId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.ShoppingLists.slItemsUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
@@ -66,6 +67,13 @@ public class ShoppingListItemsPost extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId;
+
+        if(isMember.isEmpty()){
+            path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
+                    + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.isMember;
+        }
         return path;
     }
 }

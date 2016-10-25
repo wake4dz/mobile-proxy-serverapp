@@ -23,16 +23,16 @@ public class ProductBySearch extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/search")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
-                            @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
-                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                                    @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         try {
             if(q != "") {
                 q = URLEncoder.encode(q, "UTF-8");
             }
         } catch (Exception e){
-                Exception ex = new Exception("Invalid encoding scheme, please use UTF-8");
-                return this.createErrorResponse(ex);
+            Exception ex = new Exception("Invalid encoding scheme, please use UTF-8");
+            return this.createErrorResponse(ex);
         }
 
         String partialUrl = ApplicationConstants.Requests.Categories.ProductsStore
@@ -45,7 +45,13 @@ public class ProductBySearch extends BaseService {
 
         if(maxTake == 0){
             Exception e = new Exception("No results for search parameter");
-            return this.createErrorResponse(e);
+            JSONObject matchedObjects = new JSONObject();
+            JSONArray emptyArray = new JSONArray(); //Used to format like a sucessful response, but just with an empty array
+            matchedObjects.put(ApplicationConstants.ProductSearch.items, emptyArray);
+            matchedObjects.put(ApplicationConstants.ProductSearch.itemCount, 0);
+            matchedObjects.put(ApplicationConstants.ProductSearch.totalQuantity, 0);
+            return this.createValidResponse(matchedObjects.toString());
+            //return this.createErrorResponse(e);
         }
 
         if(maxTake == -1){

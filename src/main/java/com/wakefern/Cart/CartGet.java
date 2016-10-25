@@ -52,7 +52,7 @@ public class CartGet extends BaseService {
         		    	//Get the items in the array and make a comma separated string of them as well trim the first and last digit 
         		    	JSONObject item = (JSONObject) items.get(i);
                     	
-                    	String itemId = item.getString(ApplicationConstants.AisleItemLocator.Sku);
+                    	String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
                     	String sku = this.updateUPC(itemId);
                     	responseString += sku + ",";
         		    }
@@ -73,7 +73,7 @@ public class CartGet extends BaseService {
                     		    	JSONObject item = (JSONObject) items.get(j);
                     		    	Long itemNum = aItem.getLong(ApplicationConstants.AisleItemLocator.upc_13_num);
                     		    	String itemString = itemNum.toString();
-                                	if(item.getString(ApplicationConstants.AisleItemLocator.Sku).contains(itemString)){
+                                	if(item.get(ApplicationConstants.AisleItemLocator.Sku).toString().contains(itemString)){
                                 		if(aItem.has(ApplicationConstants.AisleItemLocator.area_desc)){
                                 			item.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
                                     		break;

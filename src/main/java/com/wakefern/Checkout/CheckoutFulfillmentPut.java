@@ -46,8 +46,9 @@ public class CheckoutFulfillmentPut extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/fulfillment")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        prepareResposne(userId, storeId, authToken);
+        prepareResposne(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -59,8 +60,8 @@ public class CheckoutFulfillmentPut extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String authToken, String jsonBody) throws Exception, IOException {
-        prepareResposne(userId, storeId, authToken);
+    public String getInfo(String userId, String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
+        prepareResposne(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -72,10 +73,16 @@ public class CheckoutFulfillmentPut extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResposne(String userId, String storeId, String authToken){
+    private void prepareResposne(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.UserCheckout
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Checkout.UserCheckout
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

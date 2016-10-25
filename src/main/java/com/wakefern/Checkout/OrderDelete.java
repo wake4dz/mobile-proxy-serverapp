@@ -19,8 +19,9 @@ public class OrderDelete extends BaseService {
     @Produces("application/*")
     @Path("/{orderId}/user/{userId}")
     public Response getInfoResponse(@PathParam("orderId") String orderId, @PathParam("userId") String userId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(orderId, userId, authToken);
+        prepareResponse(orderId, userId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,8 +34,8 @@ public class OrderDelete extends BaseService {
         }
     }
 
-    public String getInfo(String orderId, String userId, String authToken) throws Exception, IOException {
-        prepareResponse(orderId, userId, authToken);
+    public String getInfo(String orderId, String userId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(orderId, userId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -46,11 +47,16 @@ public class OrderDelete extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String orderId, String userId, String authToken){
+    private void prepareResponse(String orderId, String userId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.Order
                 + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
                 + ApplicationConstants.StringConstants.backSlash + userId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Checkout.Order
+                    + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }
 

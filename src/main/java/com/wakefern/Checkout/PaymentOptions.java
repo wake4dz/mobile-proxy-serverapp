@@ -19,8 +19,9 @@ public class PaymentOptions extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/{fulfillmentType}")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("fulfillmentType") String fulfillmentType,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(storeId, fulfillmentType, authToken);
+        prepareResponse(storeId, fulfillmentType, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +33,8 @@ public class PaymentOptions extends BaseService {
         }
     }
 
-    public String getInfo(String storeId, String fulfillmentType, String authToken) throws Exception, IOException {
-        prepareResponse(storeId, fulfillmentType, authToken);
+    public String getInfo(String storeId, String fulfillmentType, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(storeId, fulfillmentType, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,9 +46,14 @@ public class PaymentOptions extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String storeId, String fulfillmentType, String authToken){
+    private void prepareResponse(String storeId, String fulfillmentType, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.Payments + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.backSlash + fulfillmentType;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Checkout.Payments + ApplicationConstants.StringConstants.backSlash
+                    + storeId + ApplicationConstants.StringConstants.backSlash + fulfillmentType
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

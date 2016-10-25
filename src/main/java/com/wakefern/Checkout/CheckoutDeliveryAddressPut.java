@@ -41,8 +41,9 @@ public class CheckoutDeliveryAddressPut extends BaseService {
      }
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        String path = prepareResponse(userId, storeId, authToken);
+        String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -54,8 +55,8 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String authToken, String jsonBody) throws Exception, IOException {
-        String path = prepareResponse(userId, storeId, authToken);
+    public String getInfo(String userId, String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
+        String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -67,12 +68,18 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private String prepareResponse(String userId, String storeId, String authToken){
+    private String prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                 + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                 + ApplicationConstants.StringConstants.delivery;
+        if(!isMember.isEmpty()){
+            this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+                    + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
+                    + ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.isMember;
+        }
         return path;
     }
 }

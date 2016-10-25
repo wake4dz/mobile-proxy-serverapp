@@ -19,8 +19,9 @@ public class CheckoutCommentsPut extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/comments")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, authToken);
+        prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -32,8 +33,8 @@ public class CheckoutCommentsPut extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, authToken);
+    public String getInfo(String userId, String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
+        prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -45,10 +46,16 @@ public class CheckoutCommentsPut extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String userId, String storeId, String authToken){
+    private void prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                 + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.comments;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+                    + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.comments
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

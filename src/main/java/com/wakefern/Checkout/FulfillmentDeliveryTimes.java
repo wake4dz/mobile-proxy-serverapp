@@ -19,8 +19,9 @@ public class FulfillmentDeliveryTimes extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/delivery/{zipCode}/times")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("zipCode") String zipCode,
+                                    @QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(storeId, zipCode, authToken);
+        prepareResponse(storeId, zipCode, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +33,8 @@ public class FulfillmentDeliveryTimes extends BaseService {
         }
     }
 
-    public String getInfo(String storeId, String zipCode, String authToken) throws Exception, IOException {
-        prepareResponse(storeId, zipCode, authToken);
+    public String getInfo(String storeId, String zipCode, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(storeId, zipCode, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,10 +46,15 @@ public class FulfillmentDeliveryTimes extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String storeId, String zipCode, String authToken){
+    private void prepareResponse(String storeId, String zipCode, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                 + storeId +  ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.backSlash
                 + zipCode + ApplicationConstants.StringConstants.times;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+                    + storeId +  ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.backSlash
+                    + zipCode + ApplicationConstants.StringConstants.times + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

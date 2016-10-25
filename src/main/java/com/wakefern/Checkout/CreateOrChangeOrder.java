@@ -26,8 +26,8 @@ public class CreateOrChangeOrder extends BaseService {
      * @throws IOException
      */
     @POST
-    @Consumes("application/json")
-    @Produces("application/*")
+    @Consumes("*/*")
+    @Produces("*/*")
     @Path("/{userId}/store/{storeId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
@@ -37,7 +37,7 @@ public class CreateOrChangeOrder extends BaseService {
         mapping.setPutMapping(this, jsonBody);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePostJSON(mapping.getPath(), mapping.getGenericBody(), mapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executePostJSON(mapping.getPath(), "", mapping.getgenericHeader()));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

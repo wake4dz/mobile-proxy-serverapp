@@ -64,10 +64,18 @@ public class FormattedAuthentication {
         }
         return retval;
     }
+    //
 
     private void searchStores(String stores){
         JSONObject jsonObject = new JSONObject(stores).getJSONObject(ApplicationConstants.FormattedAuthentication.Store);
-        setPseudoStore(jsonObject.getString(ApplicationConstants.FormattedAuthentication.PseudoStoreId));
+        try{
+            setPseudoStore(jsonObject.getString(ApplicationConstants.FormattedAuthentication.PseudoStoreId));
+        }catch(Exception e){
+        	System.out.println("Into int ::" + e.getMessage());
+        	Long aLong =  jsonObject.getLong(ApplicationConstants.FormattedAuthentication.PseudoStoreId);
+        	System.out.println("Int value :: " + aLong.toString());
+            setPseudoStore(aLong.toString());
+        }
         Object store = jsonObject.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections)
                 .getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
         JSONObject currentStore = (JSONObject) store;

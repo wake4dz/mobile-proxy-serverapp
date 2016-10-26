@@ -42,6 +42,20 @@ public class ItemLocatorArrayPost extends BaseService {
         }
     }
 
+    public String getInfo(String authToken, String jsonBody) throws Exception, IOException{
+        Map<String, String> wkfn = new HashMap<>();
+
+        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocator;
+        wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
+        wkfn.put("Authentication", authToken);
+
+        try {
+            return HTTPRequest.executePostJSON(path, jsonBody, wkfn);
+        } catch (Exception e) {
+         throw e;
+        }
+    }
+
     public ItemLocatorArrayPost(){
         this.serviceType = new MWGHeader();
     }

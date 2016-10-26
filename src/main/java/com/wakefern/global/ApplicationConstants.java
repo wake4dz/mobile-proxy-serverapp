@@ -421,6 +421,9 @@ public final class ApplicationConstants {
         public static final String area_desc = "area_desc";
         public static final String Items = "Items";
         public static final String item_locations = "item_locations";
+        public static final String jsonOpen = "{ \"store\": ";
+        public static final String jsonMiddle = ",\"upc\": \"";
+        public static final String jsonClose = "\"}";
         public static final String Other = "Other";
         public static final String Sku = "Sku";
         public static final String upc_13_num = "upc_13_num";

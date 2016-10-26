@@ -81,10 +81,9 @@ public class ProductBySku extends BaseService {
                     JSONObject locationItems = (JSONObject)jsonArray.get(i);
                     JSONArray locations = locationItems.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
                     //Iterate through these too - inner excluded UPCs
-                    for(int z = 0, sizez = locations.length(); z<sizez;z++) {
+                    for(int z = 0, sizez = locations.length(); z <sizez;z++) {
                         JSONObject aItem = (JSONObject) locations.get(z);
-                        Long itemNum = aItem.getLong(ApplicationConstants.AisleItemLocator.upc_13_num);
-                        String itemString = itemNum.toString();
+                        String itemString = aItem.get(ApplicationConstants.AisleItemLocator.upc_13_num).toString();
                         if (sku.contains(itemString)) {
                             if (aItem.has(ApplicationConstants.AisleItemLocator.area_desc)) {
                                 jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));

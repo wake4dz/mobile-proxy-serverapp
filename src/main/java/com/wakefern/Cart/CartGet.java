@@ -1,6 +1,7 @@
 package com.wakefern.Cart;
 
 import com.wakefern.Wakefern.ItemLocatorArray;
+import com.wakefern.Wakefern.ItemLocatorArrayPost;
 import com.wakefern.Wakefern.WakefernAuth;
 import com.wakefern.global.ApplicationConstants;
 
@@ -42,6 +43,8 @@ public class CartGet extends BaseService {
         	}
         	JSONObject cart = new JSONObject(cartResp);
         	JSONArray items = (JSONArray)cart.get(ApplicationConstants.AisleItemLocator.Items);
+			JSONObject searchAble = new JSONObject();
+			JSONObject retval = new JSONObject();
         	if(!items.isNull(0)){
         		WakefernAuth auth = new WakefernAuth();
         		String authString = auth.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);
@@ -54,11 +57,20 @@ public class CartGet extends BaseService {
                     	
                     	String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
                     	String sku = this.updateUPC(itemId);
-                    	responseString += sku + ",";
+						if(sku.matches("[0-9]+")) {
+							responseString += sku + ",";
+							searchAble.append(ApplicationConstants.AisleItemLocator.Items, item);
+						} else {
+							retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+						}
         		    }
+					items = (JSONArray)searchAble.get(ApplicationConstants.AisleItemLocator.Items);
         	    	responseString = responseString.substring(0,responseString.length()-1);
-        			ItemLocatorArray itemLocate = new ItemLocatorArray();
-        			String itemLocations = itemLocate.getInfo(shortStoreId, responseString, authString);
+					String jsonBody = ApplicationConstants.AisleItemLocator.jsonOpen + shortStoreId
+							+ ApplicationConstants.AisleItemLocator.jsonMiddle + responseString
+							+ ApplicationConstants.AisleItemLocator.jsonClose;
+					ItemLocatorArrayPost itemLocatorArrayPost = new ItemLocatorArrayPost();
+					String itemLocations = itemLocatorArrayPost.getInfo(authString, jsonBody);
         			try{
         				JSONArray array = new JSONArray(itemLocations);
             		    for (int i = 0, size = array.length(); i < size; i++){
@@ -71,8 +83,7 @@ public class CartGet extends BaseService {
                 		    	for (int j = 0, sizej = items.length(); j < sizej; j++){
                     		    	//Get the items in the array and make a comma separated string of them as well trim the first and last digit 
                     		    	JSONObject item = (JSONObject) items.get(j);
-                    		    	Long itemNum = aItem.getLong(ApplicationConstants.AisleItemLocator.upc_13_num);
-                    		    	String itemString = itemNum.toString();
+									String itemString = aItem.get(ApplicationConstants.AisleItemLocator.upc_13_num).toString();
                                 	if(item.get(ApplicationConstants.AisleItemLocator.Sku).toString().contains(itemString)){
                                 		if(aItem.has(ApplicationConstants.AisleItemLocator.area_desc)){
                                 			item.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
@@ -84,10 +95,11 @@ public class CartGet extends BaseService {
                                 	} else if(j+1 == sizej){
                                 		item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
                                 	}
+									retval.append(ApplicationConstants.AisleItemLocator.Items, item);
                     		    }
             				}
             		    }
-                        return this.createValidResponse(cart.toString());
+						return this.createValidResponse(retval.toString());
         			}catch(Exception e){
         				//Error casting
                         return this.createValidResponse(cartResp);

@@ -19,7 +19,7 @@ public class CategoriesWithSpecials extends BaseService {
     @Produces("application/*")
     @Path("{storeId}/special")
     public Response getInfoResponse(@PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, isMember, authToken);
 

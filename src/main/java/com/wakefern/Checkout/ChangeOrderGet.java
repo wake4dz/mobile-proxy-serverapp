@@ -19,7 +19,7 @@ public class ChangeOrderGet extends BaseService {
     @Produces("application/*")
     @Path("/{orderId}/user/{userId}/store/{storeId}/to/cart")
     public Response getInfoResponse(@PathParam("orderId") String orderId, @PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(orderId, userId, storeId, isMember, authToken);
 

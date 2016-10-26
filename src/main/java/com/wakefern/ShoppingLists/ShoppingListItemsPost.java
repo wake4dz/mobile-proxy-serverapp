@@ -30,7 +30,7 @@ public class ShoppingListItemsPost extends BaseService {
      }
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("listId") String listId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 

@@ -19,7 +19,7 @@ public class NutritionBySku extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/sku/{skuId}/nutrition")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("skuId") String skuId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, skuId, isMember, authToken);
 

@@ -20,7 +20,7 @@ public class CircularCategory extends BaseService{
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/categories/{categoryId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("categoryId") String categoryId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken)throws Exception, IOException {
         prepareRespone(chainId, storeId, categoryId, isMember, authToken);
 

@@ -20,7 +20,7 @@ public class ActiveCirculars extends BaseService{
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(chainId, storeId, isMember, authToken);
 

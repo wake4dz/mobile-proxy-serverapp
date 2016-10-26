@@ -19,7 +19,7 @@ public class ItemDelete extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/item/{itemId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("itemId") String itemId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(userId, storeId, itemId, isMember, authToken);
 

@@ -19,7 +19,7 @@ public class CircularSearch extends BaseService{
     @Path("/{chainId}/stores/{storeId}/items")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
                             @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
-                            @QueryParam("isMember") String isMember,
+                            @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         String partialUrl = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash

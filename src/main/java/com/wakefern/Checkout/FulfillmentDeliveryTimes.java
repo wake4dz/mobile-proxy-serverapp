@@ -19,7 +19,7 @@ public class FulfillmentDeliveryTimes extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/delivery/{zipCode}/times")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("zipCode") String zipCode,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, zipCode, isMember, authToken);
 

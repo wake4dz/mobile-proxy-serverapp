@@ -32,10 +32,10 @@ public final class ListHelpers {
         return null;
     }
 
-    static String getUsersLists(String chainId,String userId,String authToken){
+    static String getUsersLists(String chainId,String userId,String isMember, String authToken){
         ShoppingListsGet shopList = new ShoppingListsGet();
         try {
-            String json = shopList.getInfo(chainId, userId, authToken);
+            String json = shopList.getInfo(chainId, userId, isMember, authToken);
             return json;
         } catch (Exception e) {
             ExceptionHandler.Exception(e);
@@ -43,13 +43,13 @@ public final class ListHelpers {
         }
     }
 
-    static String getListId(String listName,String userId,String authToken, String storeId) throws IOException {
+    static String getListId(String listName,String userId,String isMember, String authToken, String storeId) throws IOException {
     	if(listName.isEmpty()){
             return "Error string empty";
         }
         listName = ApplicationConstants.Lists.getListType(listName);
         System.out.println("List name :: " + listName);
-        String userLists = ListHelpers.getUsersLists("FBFB139", userId, authToken);
+        String userLists = ListHelpers.getUsersLists("FBFB139", userId, isMember, authToken);
         System.out.println("User lists ::" + userLists);
         JSONArray userJson = new JSONArray(userLists);
         
@@ -58,7 +58,7 @@ public final class ListHelpers {
         	ShoppingListsPost createList = new ShoppingListsPost();
         	listName = "{'Name': '" + listName + "'}";
         	try {
-				listId = createList.getInfo(userId, storeId, authToken, listName);
+				listId = createList.getInfo(userId, storeId, isMember,authToken, listName);
 				JSONObject jObj = new JSONObject(listId);
 				listId = jObj.getString("Id");
 			} catch (Exception e) {

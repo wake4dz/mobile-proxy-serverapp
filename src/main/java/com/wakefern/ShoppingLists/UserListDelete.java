@@ -19,7 +19,7 @@ public class UserListDelete extends BaseService {
     @Produces("application/*")
     @Path("/{chainId}/users/{userId}/lists/{listId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("userId") String userId, @PathParam("listId") String listId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(chainId, userId, listId, isMember, authToken);
 

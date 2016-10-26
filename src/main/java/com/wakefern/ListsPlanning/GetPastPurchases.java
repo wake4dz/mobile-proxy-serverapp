@@ -22,35 +22,36 @@ public class GetPastPurchases extends BaseService {
     @Path("/{userId}/store/{storeId}/pastPurchases")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @DefaultValue("100") @QueryParam("take") String take,
                             @DefaultValue("0") @QueryParam("skip") String skip, @DefaultValue("") @QueryParam("category") String category,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken2;
         ShoppingList shoppingList = new ShoppingList();
 
         GetUserLists getUserLists = new GetUserLists();
-        String userListsJson = getUserLists.getInfo(userId, authToken);
+        String userListsJson = getUserLists.getInfo(userId, isMember, authToken);
 
         try {
             String pastPurchases = getPast(userListsJson);
             shoppingList.setId(pastPurchases);
             GetItemsInList getItemsInList = new GetItemsInList();
-            String list = getItemsInList.getInfo(storeId, userId, authToken2, "", pastPurchases, "9999", "0", "");
+            String list = getItemsInList.getInfo(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0", "");
             return this.createValidResponse(paging(list, take, skip, category, shoppingList).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String userId, String storeId, String take, String skip, String category, String authToken, String authToken2) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, String category, String isMember, String authToken, String authToken2) throws Exception, IOException {
         this.token = authToken2;
         ShoppingList shoppingList = new ShoppingList();
 
         GetUserLists getUserLists = new GetUserLists();
-        String userListsJson = getUserLists.getInfo(userId, authToken);
+        String userListsJson = getUserLists.getInfo(userId, isMember, authToken);
 
         try {
             String pastPurchases = getPast(userListsJson);
             GetItemsInList getItemsInList = new GetItemsInList();
-            String list = getItemsInList.getInfo(storeId, userId, authToken2, "", pastPurchases, "9999", "0", "");
+            String list = getItemsInList.getInfo(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0", "");
 //            GetListById getListById = new GetListById();
 //            String list = getListById.getInfo(userId, pastPurchases, this.token);
             return paging(list, take, skip, category, shoppingList).toString();

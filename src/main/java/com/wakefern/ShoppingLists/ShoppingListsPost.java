@@ -25,7 +25,7 @@ public class ShoppingListsPost extends BaseService {
      * {"Name": "List Name"}
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
@@ -39,7 +39,7 @@ public class ShoppingListsPost extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String isMember, String authToken, String jsonBody) throws Exception, IOException {
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();

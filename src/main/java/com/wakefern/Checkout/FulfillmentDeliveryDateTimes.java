@@ -21,7 +21,7 @@ public class FulfillmentDeliveryDateTimes extends BaseService {
     @Path("/{storeId}/delivery/{zipCode}/{year}/{month}/{day}/times")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("zipCode") String zipCode,
                             @PathParam("year") String year, @PathParam("month") String month, @PathParam("day") String day,
-                            @QueryParam("isMember") String isMember,
+                            @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, zipCode, year, month, day, isMember, authToken);
 

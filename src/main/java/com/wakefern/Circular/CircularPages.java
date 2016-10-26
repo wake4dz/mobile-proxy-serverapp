@@ -21,7 +21,7 @@ public class CircularPages extends BaseService {
     @Path("/{chainId}/stores/{storeId}/circulars/{circId}/pages")
     public Response getInfo(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circId") String circId,
                             @DefaultValue("0") @QueryParam("skip") String skip, @DefaultValue("9999") @QueryParam("take") String take,
-                            @QueryParam("isMember") String isMember,
+                            @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Circular.Categories
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores

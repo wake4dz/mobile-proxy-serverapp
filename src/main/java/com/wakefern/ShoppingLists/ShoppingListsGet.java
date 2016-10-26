@@ -19,7 +19,7 @@ public class ShoppingListsGet extends BaseService {
     @Produces("application/*")
     @Path("/{chainId}/users/{userId}/lists")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("userId") String userId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(chainId, userId, isMember, authToken);
 

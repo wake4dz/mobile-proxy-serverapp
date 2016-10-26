@@ -24,7 +24,7 @@ public class ProductBySearch extends BaseService {
     @Path("/{storeId}/search")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
                             @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
-                            @QueryParam("isMember") String isMember,
+                            @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         try {

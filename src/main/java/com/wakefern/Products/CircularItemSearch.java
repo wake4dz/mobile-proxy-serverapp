@@ -21,7 +21,7 @@ public class CircularItemSearch extends BaseService {
     @Path("/{storeId}/circular-item/{circularId}")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("circularId") String circularId,
                             @DefaultValue("9999") @QueryParam("take") String take, @DefaultValue("0") @QueryParam("skip") String skip,
-                            @QueryParam("isMember") String isMember,
+                            @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, circularId, take, skip, isMember, authToken);
 

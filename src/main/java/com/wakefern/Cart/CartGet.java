@@ -27,7 +27,7 @@ public class CartGet extends BaseService {
     @Path("/{userId}/store/{storeId}")
     public Response getInfoResponse(@PathParam("userId") String userId,
     		@PathParam("storeId") String storeId,
-			@QueryParam("isMember") String isMember,
+			@DefaultValue("")@QueryParam("isMember") String isMember,
             @HeaderParam("Authorization") String authToken,
             @DefaultValue("") @QueryParam("shortStoreId") String shortStoreId) throws Exception, IOException {
         prepareResponse(userId, storeId, isMember, authToken);

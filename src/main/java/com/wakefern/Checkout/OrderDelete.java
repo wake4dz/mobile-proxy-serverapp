@@ -19,7 +19,7 @@ public class OrderDelete extends BaseService {
     @Produces("application/*")
     @Path("/{orderId}/user/{userId}")
     public Response getInfoResponse(@PathParam("orderId") String orderId, @PathParam("userId") String userId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(orderId, userId, isMember, authToken);
 

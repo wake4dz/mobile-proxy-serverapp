@@ -19,7 +19,7 @@ public class ProductVariationsById extends BaseService {
     @Produces("application/*")
     @Path("/{productId}/store/{storeId}/all/variations")
     public Response getInfoResponse(@PathParam("productId") String productId, @PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(productId, storeId, isMember, authToken);
 

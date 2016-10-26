@@ -21,7 +21,7 @@ public class MergeCartFromList extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/merge-from/list/{listId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("listId") String listId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         String jsonBody = ApplicationConstants.StringConstants.fakeJson;
         String path = prepareResponse(userId, storeId, listId, isMember, authToken);

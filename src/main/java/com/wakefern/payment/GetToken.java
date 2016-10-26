@@ -51,7 +51,7 @@ public class GetToken extends BaseService {
 	 *
 	 */
 	public Response getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
-							@QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+							@DefaultValue("")@QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 		ArrayList<String> Items = new ArrayList<>();
 		ArrayList<Map> PaymentMethods = new ArrayList<>();
 		JSONObject retval = new JSONObject();

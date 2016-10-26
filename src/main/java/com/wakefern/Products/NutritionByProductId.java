@@ -19,7 +19,7 @@ public class NutritionByProductId extends BaseService {
     @Produces("application/*")
     @Path("/{productId}/store/{storeId}/nutrition")
     public Response getInfoResponse(@PathParam("productId") String productId, @PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(productId, storeId, isMember, authToken);
 

@@ -22,7 +22,7 @@ public class ProductById extends BaseService {
     @Path("/{productId}/store/{storeId}")
     public Response getInfoResponse(@PathParam("productId") String productId, @PathParam("storeId") String storeId, @DefaultValue("") @QueryParam("circularId") String circId,
                             @QueryParam("page") String page, @QueryParam("circularItemId") String circularItemId,
-                            @QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                            @DefaultValue("")@QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         if(circId != ""){
             prepareEmpty(storeId, circId, page, circularItemId, isMember, authToken);
 

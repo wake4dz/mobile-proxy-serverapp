@@ -29,7 +29,7 @@ public class ItemPut extends BaseService {
      * 24b51a30-d56a-e611-8708-d89d6763b1d9
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("itemId") String itemId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         prepareResponse(userId, storeId, itemId, isMember, authToken);
 

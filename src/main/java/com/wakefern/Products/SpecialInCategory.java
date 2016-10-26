@@ -19,7 +19,7 @@ public class SpecialInCategory extends BaseService {
     @Produces("application/*")
     @Path("/{categoryId}/store/{storeId}/special")
     public Response getInfoResponse(@PathParam("categoryId") String categoryId, @PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(categoryId, storeId, isMember, authToken);
 

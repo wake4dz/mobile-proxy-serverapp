@@ -24,6 +24,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
     @Path("/{userId}/store/{storeId}/pastPurchasesCoupons")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @DefaultValue("9999") @QueryParam("take") String take,
                                     @DefaultValue("0") @QueryParam("skip") String skip,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken;
 
@@ -33,14 +34,14 @@ public class ComparePastPurchasesCoupons extends BaseService {
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", this.token, authToken2);
+            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", isMember, this.token, authToken2);
             return this.createValidResponse(getPurchaseIds(pastPurchases, couponIds, skip, take).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String userId, String storeId, String take, String skip, String authToken, String authToken2) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, String isMember, String authToken, String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         Coupons coupons = new Coupons();
@@ -48,7 +49,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
         Set<String> couponIds = getCouponIds(couponList);
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", this.token, authToken2);
+        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", isMember, this.token, authToken2);
         return getPurchaseIds(pastPurchases, couponIds, skip, take).toString();
     }
 

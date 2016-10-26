@@ -19,7 +19,7 @@ public class PaymentOptions extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/{fulfillmentType}")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("fulfillmentType") String fulfillmentType,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, fulfillmentType, isMember, authToken);
 

@@ -20,7 +20,7 @@ public class RetrieveCircular extends BaseService{
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/{circularId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(chainId, storeId, circularId, isMember, authToken);
 

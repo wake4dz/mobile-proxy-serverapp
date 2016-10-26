@@ -29,7 +29,7 @@ public class ItemAdd extends BaseService {
 
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         prepareResponse(userId, storeId, isMember, authToken);
         String path = ApplicationConstants.Requests.baseURLV5  + this.path;

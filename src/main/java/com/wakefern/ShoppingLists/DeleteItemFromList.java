@@ -20,7 +20,7 @@ public class DeleteItemFromList extends BaseService {
     @Path("/{chainId}/users/{userId}/lists/{listId}/items/{listItemId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("userId") String userId,
                                     @PathParam("listId") String listId, @PathParam("listItemId") String listItemId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(chainId, userId, listId, listItemId, isMember, authToken);
 

@@ -19,7 +19,7 @@ public class PageItems extends BaseService {
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/{circularId}/pages/{pageId}/items")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId, @PathParam("pageId") String pageId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(chainId, storeId, circularId, pageId, isMember, authToken);
 

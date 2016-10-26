@@ -20,7 +20,7 @@ public class StoreFulfillmentPickupDateTimes extends BaseService{
     @Produces("application/*")
     @Path("/{storeId}/pickup/{year}/{month}/{day}/times")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("year") String year, @PathParam("month") String month, @PathParam("day") String day,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, year, month, day, isMember, authToken);
 

@@ -21,7 +21,7 @@ public class CustomerFeedbackMessages extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/contact/messages")
     public Response getInfoResponse(@PathParam("storeId") String storeId,
-                                    @QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         prepareResponse(storeId, isMember, authToken);
 

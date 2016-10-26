@@ -46,7 +46,12 @@ public class ProductBySearch extends BaseService {
 
         if(maxTake == 0){
             Exception e = new Exception("No results for search parameter");
-            return this.createErrorResponse(e);
+            JSONObject matchedObjects = new JSONObject();
+            JSONArray emptyArray = new JSONArray(); //Used to format like a successful response, but just with an empty array
+            matchedObjects.put(ApplicationConstants.ProductSearch.items, emptyArray);
+            matchedObjects.put(ApplicationConstants.ProductSearch.itemCount, 0);
+            matchedObjects.put(ApplicationConstants.ProductSearch.totalQuantity, 0);
+            return this.createValidResponse(matchedObjects.toString());
         }
 
         if(maxTake == -1){

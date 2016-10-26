@@ -1,6 +1,7 @@
 package com.wakefern.Cart;
 
 import com.wakefern.Wakefern.ItemLocatorArray;
+import com.wakefern.Wakefern.ItemLocatorArrayPost;
 import com.wakefern.Wakefern.WakefernAuth;
 import com.wakefern.global.ApplicationConstants;
 
@@ -41,72 +42,70 @@ public class CartGet extends BaseService {
         	if(shortStoreId.isEmpty()){
                 return this.createValidResponse(cartResp);
         	}
-        	System.out.println("Cart Resp :: " + cartResp);
         	JSONObject cart = new JSONObject(cartResp);
-        	JSONArray items = (JSONArray)cart.get("Items");
+        	JSONArray items = (JSONArray)cart.get(ApplicationConstants.AisleItemLocator.Items);
+			JSONObject searchAble = new JSONObject();
+			JSONObject retval = new JSONObject();
         	if(!items.isNull(0)){
         		WakefernAuth auth = new WakefernAuth();
-        		String authString = auth.getInfo("eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9");
-        		System.out.println("Auth String :: " + authString);
+        		String authString = auth.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);
         		if(!authString.isEmpty()){
         			//return without AISLE Data
         			String responseString = "";
-    	        	System.out.println("Creating response string");
         			for (int i = 0, size = items.length(); i < size; i++){
         		    	//Get the items in the array and make a comma separated string of them as well trim the first and last digit 
         		    	JSONObject item = (JSONObject) items.get(i);
                     	
-                    	String itemId = item.getString("Sku");
+                    	String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
                     	String sku = this.updateUPC(itemId);
-                    	responseString += sku + ",";
+						if(sku.matches("[0-9]+")) {
+							responseString += sku + ",";
+							searchAble.append(ApplicationConstants.AisleItemLocator.Items, item);
+						} else {
+							retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+						}
         		    }
+					items = (JSONArray)searchAble.get(ApplicationConstants.AisleItemLocator.Items);
         	    	responseString = responseString.substring(0,responseString.length()-1);
-    	        	System.out.println("Response string :: " + responseString);
-        			ItemLocatorArray itemLocate = new ItemLocatorArray();
-        			String itemLocations = itemLocate.getInfo(shortStoreId, responseString, authString);
-    	        	System.out.println("Item Locations :: " + itemLocations);
+					String jsonBody = ApplicationConstants.AisleItemLocator.jsonOpen + shortStoreId
+							+ ApplicationConstants.AisleItemLocator.jsonMiddle + responseString
+							+ ApplicationConstants.AisleItemLocator.jsonClose;
+					ItemLocatorArrayPost itemLocatorArrayPost = new ItemLocatorArrayPost();
+					String itemLocations = itemLocatorArrayPost.getInfo(authString, jsonBody);
         			try{
         				JSONArray array = new JSONArray(itemLocations);
             		    for (int i = 0, size = array.length(); i < size; i++){
             				JSONObject locationItems = (JSONObject)array.get(i);
-            				JSONArray locations = locationItems.getJSONArray("item_locations");
+            				JSONArray locations = locationItems.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
             				
             				//Iterate through these too - inner excluded UPCs 
             				for(int z = 0, sizez = locations.length(); z<sizez;z++){
-            				
             					JSONObject aItem = (JSONObject) locations.get(z);
                 		    	for (int j = 0, sizej = items.length(); j < sizej; j++){
                     		    	//Get the items in the array and make a comma separated string of them as well trim the first and last digit 
                     		    	JSONObject item = (JSONObject) items.get(j);
-                    		    	Long itemNum = aItem.getLong("upc_13_num");
-                    		    	String itemString = itemNum.toString();
-                    		    	System.out.println("String itemNum ::" + itemString + " :: item sku ::" + item.get("Sku"));
-                                	if(item.getString("Sku").contains(itemString)){
-                                		if(aItem.has("area_desc")){
-                                			item.put("Aisle", aItem.get("area_desc"));
+									String itemString = aItem.get(ApplicationConstants.AisleItemLocator.upc_13_num).toString();
+                                	if(item.get(ApplicationConstants.AisleItemLocator.Sku).toString().contains(itemString)){
+                                		if(aItem.has(ApplicationConstants.AisleItemLocator.area_desc)){
+                                			item.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
                                     		break;
-                                		}else{
-                                    		item.put("Aisle", "Other");
+                                		} else{
+                                    		item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
                                     		break;
                                     	}
-                                	}else if(j+1 == sizej){
-                                		item.put("Aisle", "Other");
+                                	} else if(j+1 == sizej){
+                                		item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
                                 	}
+									retval.append(ApplicationConstants.AisleItemLocator.Items, item);
                     		    }
-            		    	
             				}
-            		    	
-            		    	
             		    }
-            		    System.out.println("Made it to end");
-                        return this.createValidResponse(cart.toString());
+						return this.createValidResponse(retval.toString());
         			}catch(Exception e){
-        				//Error casting 
-        	        	System.out.println("Cast Error :: " + e.getMessage());
+        				//Error casting
                         return this.createValidResponse(cartResp);
         			}
         		}
-	        	System.out.println("Bad auth string :: ");
                 return this.createValidResponse(cart.toString());	
         	}else{
         		//Return without anything 

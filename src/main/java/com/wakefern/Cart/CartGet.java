@@ -46,6 +46,16 @@ public class CartGet extends BaseService {
         	JSONArray items = (JSONArray)cart.get(ApplicationConstants.AisleItemLocator.Items);
 			JSONObject searchAble = new JSONObject();
 			JSONObject retval = new JSONObject();
+
+			//Set up retval with all non-items data
+			for(Object key: cart.keySet()){
+				String keyStr = (String)key;
+				if(!keyStr.equals(ApplicationConstants.AisleItemLocator.Items)) {
+					Object keyvalue = cart.get(keyStr);
+					retval.put(keyStr, keyvalue);
+				}
+			}
+
         	if(!items.isNull(0)){
         		WakefernAuth auth = new WakefernAuth();
         		String authString = auth.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);

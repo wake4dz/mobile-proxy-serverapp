@@ -19,8 +19,10 @@ public class StoreFulfillmentPickupDate extends BaseService{
     @GET
     @Produces("application/*")
     @Path("/{storeId}/pickup/dates")
-    public Response getInfoResponse(@PathParam("storeId") String storeId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(storeId, authToken);
+    public Response getInfoResponse(@PathParam("storeId") String storeId,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +34,8 @@ public class StoreFulfillmentPickupDate extends BaseService{
         }
     }
 
-    public String getInfo(String storeId, String authToken) throws Exception, IOException {
-        prepareResponse(storeId, authToken);
+    public String getInfo(String storeId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,9 +47,14 @@ public class StoreFulfillmentPickupDate extends BaseService{
             this.serviceType = new MWGHeader();
         }
 
-    private void prepareResponse(String storeId, String authToken){
+    private void prepareResponse(String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.dates;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+                    + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.dates
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

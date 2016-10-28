@@ -29,8 +29,9 @@ public class ItemPut extends BaseService {
      * 24b51a30-d56a-e611-8708-d89d6763b1d9
      */
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("itemId") String itemId,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, itemId, authToken);
+        prepareResponse(userId, storeId, itemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -42,8 +43,8 @@ public class ItemPut extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String itemId, String authToken, String jsonBody) throws Exception, IOException {
-        prepareResponse(userId, storeId, itemId, authToken);
+    public String getInfo(String userId, String storeId, String itemId, String isMember, String authToken, String jsonBody) throws Exception, IOException {
+        prepareResponse(userId, storeId, itemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
@@ -55,11 +56,17 @@ public class ItemPut extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String userId, String storeId, String itemId, String authToken){
+    private void prepareResponse(String userId, String storeId, String itemId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item
                 + ApplicationConstants.StringConstants.backSlash + itemId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Cart.CartUser
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item
+                    + ApplicationConstants.StringConstants.backSlash + itemId;
+        }
     }
 }

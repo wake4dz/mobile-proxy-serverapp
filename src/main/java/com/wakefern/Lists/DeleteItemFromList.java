@@ -26,7 +26,8 @@ public class DeleteItemFromList extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
     public Response getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId, @DefaultValue("") @QueryParam("listId") String listId,
-                          @HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("false") @QueryParam("deleteAll") String deleteAll,@DefaultValue("") @QueryParam("update") String update, String jsonBody){
+							@DefaultValue("")@QueryParam("isMember") String isMember,
+                          	@HeaderParam("Authorization") String authToken, @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("false") @QueryParam("deleteAll") String deleteAll,@DefaultValue("") @QueryParam("update") String update, String jsonBody){
         JSONObject requestBody = new JSONObject(jsonBody);
         String requestId = requestBody.getString("ItemKey");
         String itemId = null;
@@ -43,7 +44,7 @@ public class DeleteItemFromList extends BaseService {
 
         if(listId.isEmpty()) {
             try {
-				listId = ListHelpers.getListId(listName, userId, authToken, storeId);
+				listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				return this.createErrorResponse(e);
@@ -55,7 +56,7 @@ public class DeleteItemFromList extends BaseService {
                 ShoppingListItemsGet list = new ShoppingListItemsGet();
                 String returnString = null;
     			try {
-    				returnString = list.getInfo(userId, storeId, listId, "9999", "0", authToken);
+    				returnString = list.getInfo(userId, storeId, listId, "9999", "0", isMember, authToken);
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				return this.createErrorResponse(e);
@@ -88,7 +89,7 @@ public class DeleteItemFromList extends BaseService {
                 CartGet cartList = new CartGet();
                 String returnString = null;
     			try {
-    				returnString = cartList.getInfo(userId,storeId,authToken);
+    				returnString = cartList.getInfo(userId,storeId,isMember,authToken);
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				return this.createErrorResponse(e);
@@ -101,12 +102,12 @@ public class DeleteItemFromList extends BaseService {
             try {
             	if(update.isEmpty()){
             		ItemDelete deleteItem = new ItemDelete();
-            		deleteItem.getInfo(userId,storeId,itemId,authToken);
+            		deleteItem.getInfo(userId,storeId,itemId,isMember,authToken);
 	            	return this.createValidDelete();
             	}else{
             		//Update item in cart 
             		ItemPut itemPut = new ItemPut();
-            		itemPut.getInfo(userId, storeId, itemId, authToken, jsonBody);
+            		itemPut.getInfo(userId, storeId, itemId, authToken, isMember, jsonBody);
             		return this.createDefaultResponse();
             	}
 

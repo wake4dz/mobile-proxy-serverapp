@@ -19,6 +19,7 @@ public class CircularSearch extends BaseService{
     @Path("/{chainId}/stores/{storeId}/items")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
                             @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
+                            @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         String partialUrl = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
@@ -27,7 +28,7 @@ public class CircularSearch extends BaseService{
 
         Search search = new Search();
         try {
-            return this.createValidResponse(search.search(partialUrl, take, skip, "", "", authToken));
+            return this.createValidResponse(search.search(partialUrl, take, skip, "", "", isMember, authToken));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

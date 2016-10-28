@@ -19,8 +19,9 @@ public class ProductVariationsById extends BaseService {
     @Produces("application/*")
     @Path("/{productId}/store/{storeId}/all/variations")
     public Response getInfoResponse(@PathParam("productId") String productId, @PathParam("storeId") String storeId,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(productId, storeId, authToken);
+        prepareResponse(productId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -32,8 +33,8 @@ public class ProductVariationsById extends BaseService {
         }
     }
 
-    public String getInfo(String productId, String storeId, String authToken) throws Exception, IOException {
-        prepareResponse(productId, storeId, authToken);
+    public String getInfo(String productId, String storeId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(productId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -45,11 +46,17 @@ public class ProductVariationsById extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String productId, String storeId, String authToken){
+    private void prepareResponse(String productId, String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.ProductId
                 + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.all
                 + ApplicationConstants.StringConstants.variations;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Categories.ProductId
+                    + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.all
+                    + ApplicationConstants.StringConstants.variations + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

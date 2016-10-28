@@ -18,9 +18,11 @@ public class DeleteItemFromList extends BaseService {
     @DELETE
     @Produces("application/*")
     @Path("/{chainId}/users/{userId}/lists/{listId}/items/{listItemId}")
-    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("userId") String userId, @PathParam("listId") String listId,
-                                    @PathParam("listItemId") String listItemId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(chainId, userId, listId, listItemId, authToken);
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("userId") String userId,
+                                    @PathParam("listId") String listId, @PathParam("listItemId") String listItemId,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, userId, listId, listItemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,8 +35,8 @@ public class DeleteItemFromList extends BaseService {
         }
     }
 
-    public String getInfo(String chainId, String userId, String listId, String listItemId, String authToken) throws Exception, IOException {
-        prepareResponse(chainId, userId, listId, listItemId, authToken);
+    public String getInfo(String chainId, String userId, String listId, String listItemId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, userId, listId, listItemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -46,12 +48,20 @@ public class DeleteItemFromList extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    public void prepareResponse(String chainId, String userId, String listId, String listItemId, String authToken){
+    public void prepareResponse(String chainId, String userId, String listId, String listItemId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.ShoppingLists.slChains
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
                 + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.items
                 + ApplicationConstants.StringConstants.backSlash + listItemId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.ShoppingLists.slChains
+                    + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
+                    + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.items
+                    + ApplicationConstants.StringConstants.backSlash + listItemId
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

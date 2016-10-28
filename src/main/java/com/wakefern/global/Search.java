@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public class Search extends BaseService {
 
-    public String search(String partialUrl, String take, String skip, String fq, String sort, String authToken) throws Exception {
+    public String search(String partialUrl, String take, String skip, String fq, String sort, String isMember, String authToken) throws Exception {
         this.token = authToken;
 
         int intTake = Integer.parseInt(take);
@@ -44,6 +44,10 @@ public class Search extends BaseService {
                 this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
             }
 
+            if(!isMember.isEmpty()){
+                this.path += ApplicationConstants.StringConstants.isMemberAmp;
+            }
+
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);
 
@@ -62,6 +66,10 @@ public class Search extends BaseService {
 
             if(fq != ""){
                 this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+            }
+
+            if(!isMember.isEmpty()){
+                this.path += ApplicationConstants.StringConstants.isMemberAmp;
             }
 
             ServiceMappings secondMapping = new ServiceMappings();

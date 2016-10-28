@@ -31,22 +31,23 @@ public class AddItemToList extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
     public String getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
+                          @DefaultValue("")@QueryParam("isMember") String isMember,
                           @HeaderParam("Authorization") String authToken,@DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId,@DefaultValue("") @QueryParam("update") String update, String jsonBody) throws Exception, IOException {
 
     	if(!update.isEmpty()){
     		DeleteItemFromList updateItem = new DeleteItemFromList();
-    		updateItem.getInfo(storeId, userId, listId, authToken, listName, "", update, jsonBody);
+    		updateItem.getInfo(storeId, userId, listId, isMember, authToken, listName, "", update, jsonBody);
     		return null;
     	}
     	
         GenericListItem createItem = new ObjectMapper().readValue(jsonBody,GenericListItem.class);
         if(listId.isEmpty()) {
-            listId = ListHelpers.getListId(listName, userId, authToken, storeId);
+            listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);
         }
         System.out.println("List ID ::" + listId);
         //this.addItem(createItem,listId,storeId,userId,authToken);
 
-        return this.addItem(createItem,listId,storeId,userId,authToken);
+        return this.addItem(createItem,listId,storeId,userId,isMember,authToken);
     }
 
     public AddItemToList(){this.serviceType = new MWGHeader();}
@@ -62,14 +63,14 @@ getInfo(@PathParam("chainId") String chainId, @PathParam("userId") String userId
 
      */
 
-    private String addItem(GenericListItem item,String listId,String storeId,String userId,String authToken) throws Exception {
+    private String addItem(GenericListItem item,String listId,String storeId,String userId,String isMember,String authToken) throws Exception {
         ShoppingListItemsPost listPost = new ShoppingListItemsPost();
         JSONObject jsonItem = new JSONObject(new ObjectMapper().writeValueAsString(item));
         List itemList = new LinkedList();
         itemList.add(jsonItem);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("Items",itemList);
-        return listPost.getInfo(userId,storeId,listId,authToken,jsonObject.toString());
+        return listPost.getInfo(userId,storeId,listId,isMember,authToken,jsonObject.toString());
     }
 
 }

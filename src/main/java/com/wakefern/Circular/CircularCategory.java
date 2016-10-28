@@ -20,8 +20,9 @@ public class CircularCategory extends BaseService{
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/categories/{categoryId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("categoryId") String categoryId,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken)throws Exception, IOException {
-        prepareRespone(chainId, storeId, categoryId, authToken);
+        prepareRespone(chainId, storeId, categoryId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,8 +34,8 @@ public class CircularCategory extends BaseService{
         }
     }
 
-    public String getInfo(String chainId, String storeId, String categoryId, String authToken)throws Exception, IOException {
-        prepareRespone(chainId, storeId, categoryId, authToken);
+    public String getInfo(String chainId, String storeId, String categoryId, String isMember, String authToken)throws Exception, IOException {
+        prepareRespone(chainId, storeId, categoryId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -46,11 +47,17 @@ public class CircularCategory extends BaseService{
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareRespone(String chainId, String storeId, String categoryId, String authToken){
+    private void prepareRespone(String chainId, String storeId, String categoryId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.backSlash
                 + categoryId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+                    + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
+                    + storeId + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.backSlash
+                    + categoryId + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

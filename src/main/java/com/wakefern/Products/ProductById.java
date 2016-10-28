@@ -21,14 +21,15 @@ public class ProductById extends BaseService {
     @Produces("application/*")
     @Path("/{productId}/store/{storeId}")
     public Response getInfoResponse(@PathParam("productId") String productId, @PathParam("storeId") String storeId, @DefaultValue("") @QueryParam("circularId") String circId,
-                            @QueryParam("page") String page, @QueryParam("circularItemId") String circularItemId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                            @QueryParam("page") String page, @QueryParam("circularItemId") String circularItemId,
+                            @DefaultValue("")@QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         if(circId != ""){
-            prepareEmpty(storeId, circId, page, circularItemId, authToken);
+            prepareEmpty(storeId, circId, page, circularItemId, isMember, authToken);
 
             PageItemId pageItemId = new PageItemId();
-            return this.createValidResponse(pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, authToken));
+            return this.createValidResponse(pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, isMember, authToken));
         } else {
-            prepareCirc(productId, storeId, authToken);
+            prepareCirc(productId, storeId, isMember, authToken);
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);
@@ -41,14 +42,14 @@ public class ProductById extends BaseService {
         }
     }
 
-    public String getInfo(String productId, String storeId, String circId, String page, String circularItemId, String authToken) throws Exception, IOException {
+    public String getInfo(String productId, String storeId, String circId, String page, String circularItemId, String isMember, String authToken) throws Exception, IOException {
         if(circId != ""){
-            prepareEmpty(storeId, circId, page, circularItemId, authToken);
+            prepareEmpty(storeId, circId, page, circularItemId, isMember, authToken);
 
             PageItemId pageItemId = new PageItemId();
-            return pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, authToken);
+            return pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, isMember, authToken);
         } else {
-            prepareCirc(productId, storeId, authToken);
+            prepareCirc(productId, storeId, isMember, authToken);
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setMapping(this);
@@ -61,7 +62,7 @@ public class ProductById extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareEmpty(String storeId, String circId, String page, String circularItemId, String authToken){
+    private void prepareEmpty(String storeId, String circId, String page, String circularItemId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Circular.Categories +
                 ApplicationConstants.StringConstants.backSlash + "FBFB1313" + ApplicationConstants.StringConstants.stores
@@ -69,12 +70,26 @@ public class ProductById extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + circId + ApplicationConstants.StringConstants.pages
                 + ApplicationConstants.StringConstants.backSlash + page + ApplicationConstants.StringConstants.items
                 + ApplicationConstants.StringConstants.backSlash + circularItemId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Circular.Categories +
+                    ApplicationConstants.StringConstants.backSlash + "FBFB1313" + ApplicationConstants.StringConstants.stores
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
+                    + ApplicationConstants.StringConstants.backSlash + circId + ApplicationConstants.StringConstants.pages
+                    + ApplicationConstants.StringConstants.backSlash + page + ApplicationConstants.StringConstants.items
+                    + ApplicationConstants.StringConstants.backSlash + circularItemId
+                    + ApplicationConstants.StringConstants.isMemberAmp;
+        }
     }
 
-    private void prepareCirc(String productId, String storeId, String authToken){
+    private void prepareCirc(String productId, String storeId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.ProductId
                 + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Categories.ProductId
+                    + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

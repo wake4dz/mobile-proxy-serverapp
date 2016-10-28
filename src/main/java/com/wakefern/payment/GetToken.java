@@ -5,11 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import com.wakefern.global.ApplicationConstants;
@@ -54,7 +50,8 @@ public class GetToken extends BaseService {
 	 * {"PaymentMethods":[{"Id":"59","Name":"","PaymentMethodMessage":"","PayMethodTooltipUri":"","PrimaryOption":true,"AllowsMultiple":false,"RequiresCardNumber":false,"RequiredNumeric":false,"MinimumLength":0,"MaximumLength":0,"RequiresAmount":false,"CardNumber":null,"Amount":null,"Image":null,"IsVendor":true,"SuccessCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=True","CancelCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=False","CardNumberLabel":null,"AmountLabel":null,"Items":[],"FulfillmentType":""}]}
 	 *
 	 */
-	public Response getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+	public Response getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
+							@DefaultValue("")@QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 		ArrayList<String> Items = new ArrayList<>();
 		ArrayList<Map> PaymentMethods = new ArrayList<>();
 		JSONObject retval = new JSONObject();
@@ -72,6 +69,11 @@ public class GetToken extends BaseService {
 		String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
 				+ ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
 				+ ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.payment;
+
+		if(!isMember.isEmpty()){
+			path += ApplicationConstants.StringConstants.isMember;
+		}
+
 		retval.put(ApplicationConstants.Payment.PaymentMethods, PaymentMethods);
 
 		ServiceMappings secondMapping = new ServiceMappings();

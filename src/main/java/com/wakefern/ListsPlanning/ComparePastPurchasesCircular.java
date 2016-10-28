@@ -23,16 +23,17 @@ public class ComparePastPurchasesCircular extends BaseService {
     @Path("/{userId}/store/{storeId}/pastPurchasesCircular")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                                     @DefaultValue("9999")@QueryParam("take") String take, @DefaultValue("0") @QueryParam("skip") String skip,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @DefaultValue("") @QueryParam("category") String category, @HeaderParam("Authorization") String authToken,
                                     @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, this.token, authToken2);
+            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, isMember, this.token, authToken2);
             String retval = "";
             try {
-                retval = getPurchaseIds(pastPurchases, storeId, authToken2, take, skip).toString();
+                retval = getPurchaseIds(pastPurchases, storeId, isMember, authToken2, take, skip).toString();
             } catch (Exception ex){
                 return this.createValidResponse(ex.getMessage());
             }
@@ -42,13 +43,13 @@ public class ComparePastPurchasesCircular extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String take, String skip, String category, String authToken, String authToken2) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, String category, String isMember, String authToken, String authToken2) throws Exception, IOException {
         this.token = authToken;
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, this.token, authToken2);
+        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, isMember, this.token, authToken2);
         //Need to pad String response type to allow ComparePastPurchasesBoth to access the array
-        JSONObject matches = getPurchaseIds(pastPurchases, storeId, authToken2, take, skip);
+        JSONObject matches = getPurchaseIds(pastPurchases, storeId, isMember, authToken2, take, skip);
         JSONObject retval = new JSONObject();
         retval.put(ApplicationConstants.Planning.Circular, matches);
         return retval.toString();
@@ -58,7 +59,7 @@ public class ComparePastPurchasesCircular extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private JSONObject getPurchaseIds(String pastPurchases, String storeId, String auth, String take, String skip)throws Exception {
+    private JSONObject getPurchaseIds(String pastPurchases, String storeId, String isMember, String auth, String take, String skip)throws Exception {
         JSONObject retval = new JSONObject();
         SortedSet<String> ids = new TreeSet<String>();
         try {//Assume multiple items in past purchases, exception if there is only one
@@ -76,7 +77,7 @@ public class ComparePastPurchasesCircular extends BaseService {
                         .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem)
                         .getString(ApplicationConstants.Planning.Sku);
                 ProductBySku productBySku = new ProductBySku();
-                String json = productBySku.getInfo(storeId, singleSku, auth);
+                String json = productBySku.getInfo(storeId, singleSku, isMember, auth);
                 JSONObject jsonObject = new JSONObject(json);
                 retval.put(ApplicationConstants.Planning.Matches, jsonObject);
                 return retval;
@@ -106,7 +107,7 @@ public class ComparePastPurchasesCircular extends BaseService {
                     String sku = it.next().toString();
 
                     ProductBySku productBySku = new ProductBySku();
-                    String json = productBySku.getInfo(storeId, sku, auth);
+                    String json = productBySku.getInfo(storeId, sku, isMember, auth);
 
                     //Verify that a new item is on sale
                     Object isSale = new JSONObject(json).get(ApplicationConstants.Planning.Sale);

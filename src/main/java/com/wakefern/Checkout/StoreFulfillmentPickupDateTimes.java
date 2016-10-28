@@ -20,8 +20,9 @@ public class StoreFulfillmentPickupDateTimes extends BaseService{
     @Produces("application/*")
     @Path("/{storeId}/pickup/{year}/{month}/{day}/times")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("year") String year, @PathParam("month") String month, @PathParam("day") String day,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(storeId, year, month, day, authToken);
+        prepareResponse(storeId, year, month, day, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,8 +34,8 @@ public class StoreFulfillmentPickupDateTimes extends BaseService{
         }
     }
 
-    public String getInfo(String storeId, String year, String month, String day, String authToken) throws Exception, IOException {
-        prepareResponse(storeId, year, month, day, authToken);
+    public String getInfo(String storeId, String year, String month, String day, String isMember,  String authToken) throws Exception, IOException {
+        prepareResponse(storeId, year, month, day, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -46,11 +47,18 @@ public class StoreFulfillmentPickupDateTimes extends BaseService{
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String storeId, String year, String month, String day, String authToken){
+    private void prepareResponse(String storeId, String year, String month, String day, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.backSlash
                 + year + ApplicationConstants.StringConstants.backSlash + month
                 + ApplicationConstants.StringConstants.backSlash + day + ApplicationConstants.StringConstants.times;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+                    + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.backSlash
+                    + year + ApplicationConstants.StringConstants.backSlash + month
+                    + ApplicationConstants.StringConstants.backSlash + day + ApplicationConstants.StringConstants.times
+                    + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

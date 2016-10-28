@@ -24,8 +24,9 @@ public class GetListById extends BaseService {
     @Produces("application/*")
     @Path("/{userId}/list/{listId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("listId") String listId,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(userId, listId, authToken);
+        prepareResponse(userId, listId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
@@ -39,8 +40,8 @@ public class GetListById extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String listId, String authToken) throws Exception, IOException {
-        prepareResponse(userId, listId, authToken);
+    public String getInfo(String userId, String listId, String isMember,  String authToken) throws Exception, IOException {
+        prepareResponse(userId, listId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
@@ -54,10 +55,15 @@ public class GetListById extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String userId, String listId, String authToken){
+    private void prepareResponse(String userId, String listId, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Planning.ShoppingListUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId;
+        if(!isMember.isEmpty()){
+            this.path = ApplicationConstants.Requests.Planning.ShoppingListUser
+                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
+                    + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.isMember;
+        }
     }
 }

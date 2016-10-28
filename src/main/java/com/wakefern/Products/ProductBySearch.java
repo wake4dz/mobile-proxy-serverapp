@@ -23,35 +23,35 @@ public class ProductBySearch extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/search")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @QueryParam("q") String q, @QueryParam("take") String take, @QueryParam("skip") String skip,
-                                    @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
-                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+                            @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
+                            @DefaultValue("")@QueryParam("isMember") String isMember,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         try {
             if(q != "") {
                 q = URLEncoder.encode(q, "UTF-8");
             }
         } catch (Exception e){
-            Exception ex = new Exception("Invalid encoding scheme, please use UTF-8");
-            return this.createErrorResponse(ex);
+                Exception ex = new Exception("Invalid encoding scheme, please use UTF-8");
+                return this.createErrorResponse(ex);
         }
 
         String partialUrl = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.search
                 + ApplicationConstants.StringConstants.queryParam + q;
 
-        int maxTake = calcMaxTake(partialUrl, authToken);
+        int maxTake = calcMaxTake(partialUrl, isMember, authToken);
         int currentTake = Integer.parseInt(take);
         boolean isMore = true;
 
         if(maxTake == 0){
             Exception e = new Exception("No results for search parameter");
             JSONObject matchedObjects = new JSONObject();
-            JSONArray emptyArray = new JSONArray(); //Used to format like a sucessful response, but just with an empty array
+            JSONArray emptyArray = new JSONArray(); //Used to format like a successful response, but just with an empty array
             matchedObjects.put(ApplicationConstants.ProductSearch.items, emptyArray);
             matchedObjects.put(ApplicationConstants.ProductSearch.itemCount, 0);
             matchedObjects.put(ApplicationConstants.ProductSearch.totalQuantity, 0);
             return this.createValidResponse(matchedObjects.toString());
-            //return this.createErrorResponse(e);
         }
 
         if(maxTake == -1){
@@ -64,7 +64,7 @@ public class ProductBySearch extends BaseService {
         }
 
         Search search = new Search();
-        String json = search.search(partialUrl, take, skip, fq, sort, authToken);
+        String json = search.search(partialUrl, take, skip, fq, sort, isMember, authToken);
 
         if((json.equals("[null]") || json.equals(null)) && fq != ""){
             Exception e = new Exception("No results for for take");
@@ -79,10 +79,10 @@ public class ProductBySearch extends BaseService {
         }
     }
 
-    private int calcMaxTake(String partialUrl, String authToken) throws Exception{
+    private int calcMaxTake(String partialUrl, String isMember, String authToken) throws Exception{
         Search search = new Search();
         try {
-            String json = search.search(partialUrl, "1", "0", "", "", authToken);
+            String json = search.search(partialUrl, "1", "0", "", "", isMember, authToken);
             if (json.contains("401 for URL")) {
                 return -1;
             }

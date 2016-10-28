@@ -53,7 +53,7 @@ public class CartGet extends BaseService {
         			//return without AISLE Data
         			String responseString = "";
         			for (int i = 0, size = items.length(); i < size; i++){
-        		    	//Get the items in the array and make a comma separated string of them as well trim the first and last digit 
+        		    	//Get the items in the array and make a comma separated string of them as well trim the first and last digit
         		    	JSONObject item = (JSONObject) items.get(i);
                     	
                     	String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
@@ -62,6 +62,7 @@ public class CartGet extends BaseService {
 							responseString += sku + ",";
 							searchAble.append(ApplicationConstants.AisleItemLocator.Items, item);
 						} else {
+							item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
 							retval.append(ApplicationConstants.AisleItemLocator.Items, item);
 						}
         		    }
@@ -74,31 +75,34 @@ public class CartGet extends BaseService {
 					String itemLocations = itemLocatorArrayPost.getInfo(authString, jsonBody);
         			try{
         				JSONArray array = new JSONArray(itemLocations);
-            		    for (int i = 0, size = array.length(); i < size; i++){
-            				JSONObject locationItems = (JSONObject)array.get(i);
+            		    for (Object locationItem: array){
+            				JSONObject locationItems = (JSONObject) locationItem;
+							String checkWf = locationItems.getString(ApplicationConstants.AisleItemLocator.wf_area_desc);
+							if(checkWf.equals(ApplicationConstants.AisleItemLocator.notFound)){
+								JSONArray locations = locationItems.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
+								for(Object upc: locations){
+									JSONObject currentUpc = (JSONObject) upc;
+									String itemString = currentUpc.get(ApplicationConstants.AisleItemLocator.upc_13_num).toString();
+									for(int i = 0; i < items.length(); i++){
+										JSONObject item = (JSONObject) items.get(i);
+										if(item.get(ApplicationConstants.AisleItemLocator.Sku).toString().contains(itemString)){
+											item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+											retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+											//Ran out of items, just return the cart
+											if(items.length() - 1 == 0){
+												return this.createValidResponse(retval.toString());
+											} else {
+												//Remove item so its no longer iterated over
+												items.remove(i);
+											}
+										}
+									}
+								}
+								continue;
+							}
             				JSONArray locations = locationItems.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
-            				
-            				//Iterate through these too - inner excluded UPCs 
-            				for(int z = 0, sizez = locations.length(); z<sizez;z++){
-            					JSONObject aItem = (JSONObject) locations.get(z);
-                		    	for (int j = 0, sizej = items.length(); j < sizej; j++){
-                    		    	//Get the items in the array and make a comma separated string of them as well trim the first and last digit 
-                    		    	JSONObject item = (JSONObject) items.get(j);
-									String itemString = aItem.get(ApplicationConstants.AisleItemLocator.upc_13_num).toString();
-                                	if(item.get(ApplicationConstants.AisleItemLocator.Sku).toString().contains(itemString)){
-                                		if(aItem.has(ApplicationConstants.AisleItemLocator.area_desc)){
-                                			item.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
-                                    		break;
-                                		} else{
-                                    		item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
-                                    		break;
-                                    	}
-                                	} else if(j+1 == sizej){
-                                		item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
-                                	}
-									retval.append(ApplicationConstants.AisleItemLocator.Items, item);
-                    		    }
-            				}
+							//In separate loop to handle the case of multiple aisles for one product
+            				innerLoop(locations, items, retval);
             		    }
 						return this.createValidResponse(retval.toString());
         			}catch(Exception e){
@@ -147,4 +151,29 @@ public class CartGet extends BaseService {
     public CartGet(){
         this.serviceType = new MWGHeader();
     }
+
+    private void innerLoop(JSONArray locations, JSONArray items, JSONObject retval){
+		//Iterate through these too - inner excluded UPCs
+		for(int z = 0, sizez = locations.length(); z<sizez;z++){
+			JSONObject aItem = (JSONObject) locations.get(z);
+			for (int j = 0, sizej = items.length(); j < sizej; j++){
+				//Get the items in the array and make a comma separated string of them as well trim the first and last digit
+				JSONObject item = (JSONObject) items.get(j);
+				String itemString = aItem.get(ApplicationConstants.AisleItemLocator.upc_13_num).toString();
+				if(item.get(ApplicationConstants.AisleItemLocator.Sku).toString().contains(itemString)){
+					if(aItem.has(ApplicationConstants.AisleItemLocator.area_desc)){
+						item.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
+						retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+						return;
+					} else{
+						item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+						break;
+					}
+				} else if(j+1 == sizej){
+					item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+				}
+				retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+			}
+		}
+	}
 }

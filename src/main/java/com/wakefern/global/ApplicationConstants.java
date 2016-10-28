@@ -424,9 +424,11 @@ public final class ApplicationConstants {
         public static final String jsonOpen = "{ \"store\": ";
         public static final String jsonMiddle = ",\"upc\": \"";
         public static final String jsonClose = "\"}";
+        public static final String notFound = "not found";
         public static final String Other = "Other";
         public static final String Sku = "Sku";
         public static final String upc_13_num = "upc_13_num";
+        public static final String wf_area_desc = "wf_area_desc";
         public static final String WakefernAuth = "eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9";
     }
 }

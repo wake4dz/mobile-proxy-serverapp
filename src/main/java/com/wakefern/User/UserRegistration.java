@@ -59,10 +59,6 @@ public class UserRegistration extends BaseService {
      </User>
      */
     public Response getInfoResponse(@HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
-
         try {
             String path = prepareResponse(authToken);
             ServiceMappings secondMapping = new ServiceMappings();
@@ -76,10 +72,6 @@ public class UserRegistration extends BaseService {
     }
 
     public String getInfo(String jsonBody, String authToken) throws Exception, IOException {
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
-
         String path = prepareResponse(authToken);
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, jsonBody);
@@ -89,7 +81,10 @@ public class UserRegistration extends BaseService {
     }
 
     private String prepareResponse(String authToken) throws Exception{
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         return this.path = "https://service.shoprite.com" + ApplicationConstants.Requests.Registration.UserRegistration;
     }
 

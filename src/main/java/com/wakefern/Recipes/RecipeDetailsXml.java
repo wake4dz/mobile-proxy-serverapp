@@ -20,10 +20,6 @@ public class RecipeDetailsXml extends BaseService {
     @Path("/{chainId}/recipe/{recipeId}/xml")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("recipeId") String recipeId,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
-
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -37,10 +33,6 @@ public class RecipeDetailsXml extends BaseService {
     }
 
     public String getInfo(String chainId, String recipeId, String authToken) throws Exception, IOException {
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
-
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -54,7 +46,10 @@ public class RecipeDetailsXml extends BaseService {
     }
 
     private void prepareResponse(String chainId, String recipeId, String authToken){
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.recipe
                 + ApplicationConstants.StringConstants.backSlash + recipeId;

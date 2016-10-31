@@ -21,10 +21,6 @@ public class RecipesByCategory extends BaseService {
     @Path("/{chainId}/category/{subCategoryId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("subCategoryId") String subCategoryId,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
-
         prepareResponse(chainId, subCategoryId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -40,10 +36,6 @@ public class RecipesByCategory extends BaseService {
     }
 
     public String getInfo(String chainId, String subCategoryId, String authToken) throws Exception, IOException {
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
-
         prepareResponse(chainId, subCategoryId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -59,7 +51,10 @@ public class RecipesByCategory extends BaseService {
     }
 
     private void prepareResponse(String chainId, String subCategoryId, String authToken){
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category
                 + ApplicationConstants.StringConstants.backSlash + subCategoryId;

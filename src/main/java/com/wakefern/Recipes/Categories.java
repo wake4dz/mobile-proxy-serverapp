@@ -37,11 +37,9 @@ public class Categories extends BaseService {
                                     @DefaultValue("") @QueryParam("userId") String userId,
                                     @DefaultValue("") @QueryParam("category") String category,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }
-
-        this.token = authToken;
         Set<Integer> ids = new HashSet<>();
         JSONObject matchedObjects = new JSONObject();
 
@@ -95,7 +93,7 @@ public class Categories extends BaseService {
             } else {
                 ids.add(Integer.parseInt(category));
             }
-        }///////
+        }
         
         if(!listName.isEmpty()&&!storeId.isEmpty()&&!userId.isEmpty()&&!authUser.isEmpty()){
             GetItemsInList getItemsInList = new GetItemsInList();

@@ -19,9 +19,10 @@ public class ProductsInCategory extends BaseService {
     @Produces("application/*")
     @Path("/{categoryId}/store/{storeId}")
     public Response getInfoResponse(@PathParam("categoryId") String categoryId, @PathParam("storeId") String storeId,
+                                    @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(categoryId, storeId, isMember, authToken);
+        prepareResponse(categoryId, storeId, fq, sort, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -33,8 +34,8 @@ public class ProductsInCategory extends BaseService {
         }
     }
 
-    public String getInfo(String categoryId, String storeId, String isMember, String authToken) throws Exception, IOException {
-        prepareResponse(categoryId, storeId, isMember, authToken);
+    public String getInfo(String categoryId, String storeId, String fq, String sort, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(categoryId, storeId, fq, sort, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -46,17 +47,23 @@ public class ProductsInCategory extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String categoryId, String storeId, String isMember, String authToken){
+    private void prepareResponse(String categoryId, String storeId, String fq, String sort, String isMember, String authToken){
         this.token = authToken;
         this.path = ApplicationConstants.Requests.Categories.ProductCategory
                 + ApplicationConstants.StringConstants.backSlash + categoryId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.take
                 + ApplicationConstants.StringConstants.twenty;
+
+        if(sort != ""){
+            this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
+        }
+
+        if(fq != ""){
+            this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+        }
+
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Categories.ProductCategory
-                    + ApplicationConstants.StringConstants.backSlash + categoryId + ApplicationConstants.StringConstants.store
-                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.take
-                    + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.isMember;
+            this.path = this.path + ApplicationConstants.StringConstants.isMember;
         }
     }
 }

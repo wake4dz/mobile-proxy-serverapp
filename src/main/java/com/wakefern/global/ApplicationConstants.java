@@ -62,6 +62,7 @@ public final class ApplicationConstants {
         public static final String contact = "/contact";
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
+        public static final String distrcit = "/district";
         public static final String duplicate = "/duplicate";
         public static final String email = "/email";
         public static final String emailParam = "?email=";
@@ -129,6 +130,7 @@ public final class ApplicationConstants {
         public static String serviceURLV1 =  MWGApplicationConstants.serviceURLv1;
         public static String buildErrorJsonOpen = "{\"ErrorMessage\":\"";
         public static String buildErrorJsonClose = "\"}";
+        public static String forbiddenError = "Session is not valid";
 
         public static class Header{
             public static final String contentType	= "Content-Type";

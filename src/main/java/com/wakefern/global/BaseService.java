@@ -15,8 +15,15 @@ public class BaseService {
         ExceptionHandler exceptionHandler = new ExceptionHandler();
         try {
             String[] array = e.getMessage().split(",");
-            String buildError = ApplicationConstants.Requests.buildErrorJsonOpen + array[1]
-                    + ApplicationConstants.Requests.buildErrorJsonClose;
+
+            String buildError;
+            if(Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403){
+                buildError = ApplicationConstants.Requests.buildErrorJsonOpen + ApplicationConstants.Requests.forbiddenError
+                        + ApplicationConstants.Requests.buildErrorJsonClose;
+            } else {
+                 buildError = ApplicationConstants.Requests.buildErrorJsonOpen + array[1]
+                        + ApplicationConstants.Requests.buildErrorJsonClose;
+            }
 
             return Response.status(Integer.parseInt(array[0])).entity(buildError).build();
         } catch (Exception stringError) {

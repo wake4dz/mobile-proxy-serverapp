@@ -25,6 +25,10 @@ public class FeaturedRecipes extends BaseService {
     @Path("/{chainId}/featured")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @QueryParam("q") String q,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, q, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -42,6 +46,10 @@ public class FeaturedRecipes extends BaseService {
     }
 
     public String getInfo(String chainId, String q, String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, q, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

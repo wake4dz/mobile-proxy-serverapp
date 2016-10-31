@@ -21,6 +21,10 @@ public class StoreDetails extends BaseService {
     @Path("/{chainId}/storeid/{storeId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -36,6 +40,10 @@ public class StoreDetails extends BaseService {
     }
 
     public String getInfo(String chainId, String storeId, String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

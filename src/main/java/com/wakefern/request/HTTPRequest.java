@@ -1,10 +1,9 @@
 package com.wakefern.request;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
@@ -229,6 +228,36 @@ public class HTTPRequest {
             if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
                 return buildResponse(connection);
             } else {
+                System.out.print("Response " + buildResponse(connection));
+                System.out.print("Connection URL " + connection.getURL());
+                System.out.print("Response Message " + connection.getResponseMessage());
+                //System.out.print("Request Method " + connection.getReq);
+//                for(Map.Entry<String, List<String>> entry: connection.getRequestProperties().entrySet()){
+//                        System.out.print(entry.getKey().toString() + ": " + entry.getValue().toString());
+//                }
+
+                System.out.print("A");
+//                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                StringBuilder sb = new StringBuilder();
+//                String line;
+//                while ((line = br.readLine()) != null) {
+//                    sb.append(line + "\r");
+//                }
+//                br.close();
+//                System.out.print("Input Stream " + line);
+//                System.out.print("B");
+
+
+                BufferedReader br2 = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                StringBuilder sb2 = new StringBuilder();
+                String line2;
+                while ((line2 = br2.readLine()) != null) {
+                    sb2.append(line2 + "\r");
+                }
+                br2.close();
+                System.out.print("Error Stream " + line2);
+                System.out.print("C");
+
                 throw new Exception(responseCode + "," + connection.getResponseMessage());
             }
         } catch (IOException e) {

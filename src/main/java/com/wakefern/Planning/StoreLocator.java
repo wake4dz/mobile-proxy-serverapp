@@ -22,6 +22,10 @@ public class StoreLocator extends BaseService {
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("zip") String zip, @PathParam("radius") String rad,
                             @PathParam("units") String units, @PathParam("pageNum") String pageNum, @PathParam("sizeNum") String sizeNum,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, zip, rad, units, pageNum, sizeNum, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -37,6 +41,10 @@ public class StoreLocator extends BaseService {
     }
 
     public String getInfo(String chainId, String zip, String rad, String units, String pageNum, String sizeNum, String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, zip, rad, units, pageNum, sizeNum, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

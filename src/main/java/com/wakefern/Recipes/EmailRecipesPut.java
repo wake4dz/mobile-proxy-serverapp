@@ -30,6 +30,10 @@ public class EmailRecipesPut extends BaseService {
     @Path("/{chainId}/recipe/{recipeId}/email")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("recipeId") String recipeId,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -43,6 +47,10 @@ public class EmailRecipesPut extends BaseService {
     }
 
     public String getInfo(String chainId, String recipeId,String authToken, String jsonBody) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(chainId, recipeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

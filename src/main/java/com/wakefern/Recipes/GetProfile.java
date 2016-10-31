@@ -20,6 +20,10 @@ public class GetProfile extends BaseService {
     @Path("/{userId}/chainid/{chainId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("chainId") String chainId, @QueryParam("email") String email,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(userId, chainId, email, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -35,6 +39,10 @@ public class GetProfile extends BaseService {
     }
 
     public String getInfo(String userId, String chainId, String email, String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         prepareResponse(userId, chainId, email, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

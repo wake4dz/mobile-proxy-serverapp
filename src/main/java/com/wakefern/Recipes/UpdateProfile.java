@@ -22,6 +22,10 @@ public class UpdateProfile extends BaseService {
     @Path("/{userId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @QueryParam("email") String email, @QueryParam("chainId") String chainId, @QueryParam("storeId") String storeId,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         try {
             String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
             ServiceMappings secondMapping = new ServiceMappings();
@@ -33,6 +37,9 @@ public class UpdateProfile extends BaseService {
     }
 
     public String getInfo(String userId, String email, String chainId, String storeId, String authToken) throws Exception, IOException {
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
 
         String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
         ServiceMappings secondMapping = new ServiceMappings();

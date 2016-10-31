@@ -26,6 +26,10 @@ public class AuthorizationAuthenticate extends BaseService {
     @Produces("application/*")
     @Path("/authenticate")
     public Response getInfo(@HeaderParam("Authorization") String authToken, String jsonBody){
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.authenticationToken;
+        }
+
         this.token = authToken;
         //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
         this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";

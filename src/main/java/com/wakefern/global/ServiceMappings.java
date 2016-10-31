@@ -134,7 +134,7 @@ public class ServiceMappings {
 	}
 
 	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
-		wakefernHeader.cuponAuth();
+		wakefernHeader.cuponAuth(serviceObject.token);
 		setgenericHeader(wakefernHeader.getMap());
 		setPath(serviceObject.path);
 	}

@@ -21,8 +21,12 @@ public class CouponIdListByPPC extends BaseService {
 
     @GET
     @Produces("application/*")
-    public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam)
-            throws Exception, IOException {
+    public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }
+
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam);
 
@@ -37,7 +41,11 @@ public class CouponIdListByPPC extends BaseService {
         }
     }
 
-    public String getInfo(String ppcParam) throws Exception, IOException {
+    public String getInfo(String ppcParam, String authToken) throws Exception, IOException {
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }
+
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam);
 

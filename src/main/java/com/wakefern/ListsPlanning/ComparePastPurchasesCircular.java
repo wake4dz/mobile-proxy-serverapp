@@ -26,11 +26,14 @@ public class ComparePastPurchasesCircular extends BaseService {
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @DefaultValue("") @QueryParam("category") String category, @HeaderParam("Authorization") String authToken,
                                     @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
-        this.token = authToken;
+        /**
+         * AuthToken == Rosetta Token
+         * AuthToken2 == User Token
+        */
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, isMember, this.token, authToken2);
+            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, isMember, authToken, authToken2);
             String retval = "";
             try {
                 retval = getPurchaseIds(pastPurchases, storeId, isMember, authToken2, take, skip).toString();
@@ -44,10 +47,8 @@ public class ComparePastPurchasesCircular extends BaseService {
     }
 
     public String getInfo(String userId, String storeId, String take, String skip, String category, String isMember, String authToken, String authToken2) throws Exception, IOException {
-        this.token = authToken;
-
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, isMember, this.token, authToken2);
+        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, isMember, authToken, authToken2);
         //Need to pad String response type to allow ComparePastPurchasesBoth to access the array
         JSONObject matches = getPurchaseIds(pastPurchases, storeId, isMember, authToken2, take, skip);
         JSONObject retval = new JSONObject();

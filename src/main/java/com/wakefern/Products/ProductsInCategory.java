@@ -114,10 +114,10 @@ public class ProductsInCategory extends BaseService {
         retval.put(ApplicationConstants.ProductSearch.pages, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pages));
         retval.put(ApplicationConstants.ProductSearch.pageLinks, zeroth.getJSONArray(ApplicationConstants.ProductSearch.pageLinks));
         retval.put(ApplicationConstants.ProductSearch.items, items);
-        retval.put(ApplicationConstants.ProductSearch.skip, skip);
-        retval.put(ApplicationConstants.ProductSearch.take, take);
-        retval.put(ApplicationConstants.ProductSearch.totalQuantity, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.totalQuantity)));
-        retval.put(ApplicationConstants.ProductSearch.itemCount, Integer.toString(zeroth.getInt(ApplicationConstants.ProductSearch.itemCount)));
+        retval.put(ApplicationConstants.ProductSearch.skip, Integer.parseInt(skip));
+        retval.put(ApplicationConstants.ProductSearch.take, Integer.parseInt(take));
+        retval.put(ApplicationConstants.ProductSearch.totalQuantity, (zeroth.getInt(ApplicationConstants.ProductSearch.totalQuantity)));
+        retval.put(ApplicationConstants.ProductSearch.itemCount, (zeroth.getInt(ApplicationConstants.ProductSearch.itemCount)));
         retval.put(ApplicationConstants.ProductSearch.links, zeroth.getJSONArray(ApplicationConstants.ProductSearch.links));
         retval.put(ApplicationConstants.ProductSearch.moreAvailiable, this.isMore);
 

@@ -29,7 +29,7 @@ public class ItemLocatorJson extends BaseService {
         wkfn.put("Authentication", authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn));
+            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

@@ -80,7 +80,7 @@ public class GetToken extends BaseService {
 		secondMapping.setPutMapping(this, retval.toString());
 
 		try {
-			return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+			return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
 		} catch (Exception e) {
 			return this.createErrorResponse(e);
 		}

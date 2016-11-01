@@ -38,7 +38,8 @@ public class CartGet extends BaseService {
 
         try{
             //return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader()));
-        	String cartResp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
+        	String cartResp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+
         	if(shortStoreId.isEmpty()){
                 return this.createValidResponse(cartResp);
         	}
@@ -143,7 +144,7 @@ public class CartGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
     public void prepareResponse(String userId, String storeId, String isMember,  String authToken){

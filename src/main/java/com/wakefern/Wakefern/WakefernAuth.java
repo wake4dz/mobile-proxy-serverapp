@@ -2,14 +2,21 @@ package com.wakefern.Wakefern;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.ErrorHandling.ResponseHandler;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.wakefern.request.HTTPRequest.appendUri;
 
 /**
  * Created by zacpuste on 10/18/16.
@@ -26,7 +33,7 @@ public class WakefernAuth extends BaseService {
         wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn));
+            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 10));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -40,7 +47,7 @@ public class WakefernAuth extends BaseService {
         wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return HTTPRequest.executeGet(path, wkfn);
+            return HTTPRequest.executeGet(path, wkfn, 10);
         } catch (Exception e){
             return null;
         }

@@ -30,7 +30,7 @@ public class MergeCartFromList extends BaseService {
         mwgHeader.authenticate(this.token, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap()));
+            return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -43,7 +43,7 @@ public class MergeCartFromList extends BaseService {
         MWGHeader mwgHeader = new MWGHeader();
         mwgHeader.authenticate(this.token, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
 
-        return (HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap()));
+        return (HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap(), 0));
     }
 
     public MergeCartFromList(){

@@ -70,7 +70,7 @@ public class DeleteItemFromList extends BaseService {
             System.out.println("DELETE + Update ITEM :: " + this.path);
             if(update.isEmpty()){
 				try {
-					HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader());
+					HTTPRequest.executeDelete(this.path, secondMapping.getgenericHeader(), 0);
 					return this.createValidDelete();
 				} catch (Exception e){
 					return this.createErrorResponse(e);
@@ -78,7 +78,7 @@ public class DeleteItemFromList extends BaseService {
             }else{
             	//Update the item with a PUT
 				try {
-					HTTPRequest.executePut("", this.path, "", jsonBody, secondMapping.getgenericHeader());
+					HTTPRequest.executePut("", this.path, "", jsonBody, secondMapping.getgenericHeader(), 0);
 					return this.createDefaultResponse();
 				} catch (Exception e){
 					return this.createErrorResponse(e);

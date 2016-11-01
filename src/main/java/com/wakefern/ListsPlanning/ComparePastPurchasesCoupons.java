@@ -26,15 +26,18 @@ public class ComparePastPurchasesCoupons extends BaseService {
                                     @DefaultValue("0") @QueryParam("skip") String skip,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
-        this.token = authToken;
+        /**
+         * AuthToken == Rosetta Token
+         * AuthToken2 == User Token
+         */
 
         Coupons coupons = new Coupons();
-        String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC, "");
+        String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC, "", authToken);
         Set<String> couponIds = getCouponIds(couponList);
 
         try {
             GetPastPurchases getPastPurchases = new GetPastPurchases();
-            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", isMember, this.token, authToken2);
+            String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", isMember, authToken, authToken2);
             return this.createValidResponse(getPurchaseIds(pastPurchases, couponIds, skip, take).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
@@ -42,14 +45,12 @@ public class ComparePastPurchasesCoupons extends BaseService {
     }
 
     public String getInfo(String userId, String storeId, String take, String skip, String isMember, String authToken, String authToken2) throws Exception, IOException {
-        this.token = authToken;
-
         Coupons coupons = new Coupons();
-        String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC, "");
+        String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC, "", authToken);
         Set<String> couponIds = getCouponIds(couponList);
 
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", isMember, this.token, authToken2);
+        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", "", isMember, authToken, authToken2);
         return getPurchaseIds(pastPurchases, couponIds, skip, take).toString();
     }
 

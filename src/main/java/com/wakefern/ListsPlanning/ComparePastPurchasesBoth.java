@@ -25,14 +25,17 @@ public class ComparePastPurchasesBoth extends BaseService {
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @DefaultValue("9999") @QueryParam("take") String take, @DefaultValue("0") @QueryParam("skip") String skip,
                                     @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
-        this.token = authToken;
-
+        /**
+         * AuthToken == Rosetta Token
+         * AuthToken2 == User Token
+         */
+        
         try{
             ComparePastPurchasesCircular comparePastPurchasesCircular = new ComparePastPurchasesCircular();
             String onSale = comparePastPurchasesCircular.getInfo(userId, storeId, take, skip, "", isMember, authToken, authToken2);
 
             Coupons coupons = new Coupons();
-            String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All, "");
+            String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All, "", authToken);
 
             ComparePastPurchasesCoupons comparePastPurchasesCoupons = new ComparePastPurchasesCoupons();
             Set<String> ids = comparePastPurchasesCoupons.getCouponIds(couponList);

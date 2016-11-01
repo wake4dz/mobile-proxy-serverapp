@@ -30,7 +30,7 @@ public class FeaturedRecipes extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
 
         try {
             String extractedXml = extractId(featuredReturn, chainId, authToken);
@@ -47,7 +47,7 @@ public class FeaturedRecipes extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
 
         String extractedXml = extractId(featuredReturn, chainId, authToken);
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
@@ -81,7 +81,10 @@ public class FeaturedRecipes extends BaseService {
     }
 
     private void prepareResponse(String chainId, String q, String authToken){
-        this.token = authToken;
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.featured
                 + ApplicationConstants.StringConstants.queryParam + q;

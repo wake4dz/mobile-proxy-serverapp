@@ -22,7 +22,12 @@ public class CouponIdList extends BaseService {
     @GET
     @Produces("application/*")
     public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
-                                    @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam) throws Exception, IOException {
+                                    @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }
+
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam);
 
@@ -31,13 +36,17 @@ public class CouponIdList extends BaseService {
         serviceMappings.setCouponMapping(this);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String ppcParam) throws Exception, IOException {
+    public String getInfo(String ppcParam, String authToken) throws Exception, IOException {
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }
+
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam);
 
@@ -45,7 +54,7 @@ public class CouponIdList extends BaseService {
         ServiceMappings serviceMappings = new ServiceMappings();
         serviceMappings.setCouponMapping(this);
 
-        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
     }
 
     public CouponIdList() {     this.serviceType = new WakefernHeader();    }

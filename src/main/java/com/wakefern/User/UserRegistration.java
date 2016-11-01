@@ -63,7 +63,7 @@ public class UserRegistration extends BaseService {
             String path = prepareResponse(authToken);
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setServiceMappingv1(this, jsonBody);
-            String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+            String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             return this.createValidResponse(xmLtoJSONConverter.convert(xml));
         } catch (Exception e){
@@ -72,17 +72,19 @@ public class UserRegistration extends BaseService {
     }
 
     public String getInfo(String jsonBody, String authToken) throws Exception, IOException {
-
         String path = prepareResponse(authToken);
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, jsonBody);
-        String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+        String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
         return xmLtoJSONConverter.convert(xml);
     }
 
     private String prepareResponse(String authToken) throws Exception{
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         return this.path = "https://service.shoprite.com" + ApplicationConstants.Requests.Registration.UserRegistration;
     }
 

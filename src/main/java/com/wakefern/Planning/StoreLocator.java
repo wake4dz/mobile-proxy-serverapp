@@ -28,7 +28,7 @@ public class StoreLocator extends BaseService {
         secondMapping.setServiceMappingv1(this, null);
 
         try {
-            String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             return this.createValidResponse(xmLtoJSONConverter.convert(xmlRequest));
         } catch (Exception e){
@@ -42,7 +42,7 @@ public class StoreLocator extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
         return xmLtoJSONConverter.convert(xmlRequest);
     }
@@ -52,7 +52,10 @@ public class StoreLocator extends BaseService {
     }
 
     private void prepareResponse(String chainId, String zip, String rad, String units, String pageNum, String sizeNum, String authToken){
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Planning.StoreLocator
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.postalCode
                 + ApplicationConstants.StringConstants.backSlash + zip + ApplicationConstants.StringConstants.radius

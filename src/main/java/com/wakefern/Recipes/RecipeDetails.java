@@ -28,7 +28,7 @@ public class RecipeDetails extends BaseService {
         secondMapping.setServiceMappingv1(this, null);
 
         try {
-            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             return this.createValidResponse(xmLtoJSONConverter.convert(xml));
         } catch (Exception e){
@@ -44,7 +44,7 @@ public class RecipeDetails extends BaseService {
 
         String xml;
 		try {
-			xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+			xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             return xmLtoJSONConverter.convert(xml);
 		} catch (Exception e) {
@@ -57,7 +57,10 @@ public class RecipeDetails extends BaseService {
     }
 
     private void prepareResponse(String chainId, String recipeId, String authToken){
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.recipe
                 + ApplicationConstants.StringConstants.backSlash + recipeId;

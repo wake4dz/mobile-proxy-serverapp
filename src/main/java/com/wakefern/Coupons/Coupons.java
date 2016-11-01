@@ -25,9 +25,12 @@ public class Coupons extends BaseService {
     @GET
     @Produces("application/*")
     public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
-                  @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
-                            @DefaultValue("") @QueryParam("query") String query)
-                  throws Exception, IOException {
+                                    @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
+                                    @DefaultValue("") @QueryParam("query") String query,
+                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }
 
         matchedObjects = new JSONObject();
         this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
@@ -38,7 +41,7 @@ public class Coupons extends BaseService {
         serviceMappings.setCouponMapping(this);
 
         try {
-            String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+            String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
             if (query == "") {
                 return this.createValidResponse(coupons);
@@ -51,8 +54,10 @@ public class Coupons extends BaseService {
         }
     }
 
-    public String getInfo( String ppcParam,  String query)
-            throws Exception, IOException {
+    public String getInfo(String ppcParam,  String query, String authToken) throws Exception, IOException {
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }
 
         matchedObjects = new JSONObject();
         this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
@@ -62,7 +67,7 @@ public class Coupons extends BaseService {
         ServiceMappings serviceMappings = new ServiceMappings();
         serviceMappings.setCouponMapping(this);
 
-        String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+        String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
         if (query == "") {
             return coupons;

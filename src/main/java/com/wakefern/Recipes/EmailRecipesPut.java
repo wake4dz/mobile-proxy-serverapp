@@ -36,7 +36,7 @@ public class EmailRecipesPut extends BaseService {
         secondMapping.setServiceMappingv1(this, jsonBody);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -48,7 +48,7 @@ public class EmailRecipesPut extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, jsonBody);
 
-        return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+        return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
     }
 
     public EmailRecipesPut(){
@@ -56,7 +56,10 @@ public class EmailRecipesPut extends BaseService {
     }
 
     private void prepareResponse(String chainId, String recipeId, String authToken){
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.recipe
                 + ApplicationConstants.StringConstants.backSlash + recipeId + ApplicationConstants.StringConstants.email;

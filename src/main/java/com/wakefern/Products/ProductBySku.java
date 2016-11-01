@@ -32,7 +32,7 @@ public class ProductBySku extends BaseService {
         secondMapping.setMapping(this);
 
         try {
-            String skuData = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
+            String skuData = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
             if(shortStoreId.isEmpty()){
                 return this.createValidResponse(skuData);
             }
@@ -49,7 +49,7 @@ public class ProductBySku extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
     public ProductBySku(){

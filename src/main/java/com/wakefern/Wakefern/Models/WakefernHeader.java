@@ -53,10 +53,10 @@ public class WakefernHeader extends Header {
         setAllMaps(authMap);
     }
 
-    public void cuponAuth(){
+    public void cuponAuth(String token){
         Map<String, String> authMap = new HashMap<>();
         authMap.put(WakefernApplicationConstants.Requests.Coupons.Headers.CouponAuthenticationTokenHeader,
-                WakefernApplicationConstants.Requests.Coupons.Headers.CouponAuthenticationToken);
+                token);
 
         setAllMaps(authMap);
     }

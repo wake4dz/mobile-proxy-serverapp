@@ -27,7 +27,7 @@ public class RecipesByCategory extends BaseService {
         secondMapping.setServiceMappingv1(this, null);
 
         try {
-            String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             return this.createValidResponse(xmLtoJSONConverter.convert(response));
         } catch (Exception e){
@@ -41,7 +41,7 @@ public class RecipesByCategory extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String response = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
         return xmLtoJSONConverter.convert(response);
     }
@@ -51,7 +51,10 @@ public class RecipesByCategory extends BaseService {
     }
 
     private void prepareResponse(String chainId, String subCategoryId, String authToken){
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category
                 + ApplicationConstants.StringConstants.backSlash + subCategoryId;

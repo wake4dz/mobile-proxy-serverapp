@@ -26,18 +26,17 @@ public class UpdateProfile extends BaseService {
             String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setServiceMappingv1(this, jsonBody);
-            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
     public String getInfo(String userId, String email, String chainId, String storeId, String authToken) throws Exception, IOException {
-
         String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, jsonBody);
-        return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+        return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
     }
 
     public UpdateProfile(){
@@ -45,7 +44,10 @@ public class UpdateProfile extends BaseService {
     }
 
     private String prepareResponse(String userId, String email, String chainId, String storeId, String authToken) throws Exception{
-        this.token = authToken;
+        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         GetProfile getProfile = new GetProfile();
         String jsonBody = getProfile.getInfo(userId, chainId, email, authToken);
         Pattern pattern = Pattern.compile("(<PreferredStore><Id>.*</Id></PreferredStore>)");

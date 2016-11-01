@@ -26,7 +26,7 @@ public class GetProfile extends BaseService {
         secondMapping.setServiceMappingv1(this, null);
 
         try {
-            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             String formatted = xml.replaceAll("</User>", "<ChainId>" + chainId + "</ChainId></User>");
             return this.createValidResponse(formatted);
         } catch (Exception e){
@@ -40,7 +40,7 @@ public class GetProfile extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
         return xml.replaceAll("</User>", "<ChainId>" + chainId + "</ChainId></User>");
     }
 
@@ -49,7 +49,10 @@ public class GetProfile extends BaseService {
     }
 
     private void prepareResponse(String userId, String chainId, String email, String authToken){
-        this.token = authToken;
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+            this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
         this.path = ApplicationConstants.Requests.Recipes.UpdateProfile
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.chainid
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.emailParam + email;

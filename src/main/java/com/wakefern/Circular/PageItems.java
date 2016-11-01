@@ -27,7 +27,7 @@ public class PageItems extends BaseService {
         secondMapping.setMapping(this);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
         } catch (Exception e) {
             return this.createErrorResponse(e);
         }
@@ -39,7 +39,7 @@ public class PageItems extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
     public PageItems(){

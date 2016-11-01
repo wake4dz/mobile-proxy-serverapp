@@ -40,10 +40,7 @@ public class CartGet extends BaseService {
             //return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader()));
         	String cartResp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader());
 
-			//// TODO: 11/1/16 Remove once MWG ItemLocator is working
-			shortStoreId = "Broken";
-
-        	if(shortStoreId.isEmpty() || shortStoreId.equals("Broken")){
+        	if(shortStoreId.isEmpty()){
                 return this.createValidResponse(cartResp);
         	}
         	JSONObject cart = new JSONObject(cartResp);

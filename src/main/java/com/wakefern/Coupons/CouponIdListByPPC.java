@@ -31,7 +31,7 @@ public class CouponIdListByPPC extends BaseService {
         serviceMappings.setCouponMapping(this);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -45,7 +45,7 @@ public class CouponIdListByPPC extends BaseService {
         ServiceMappings serviceMappings = new ServiceMappings();
         serviceMappings.setCouponMapping(this);
 
-        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
     }
 
     public CouponIdListByPPC() {     this.serviceType = new WakefernHeader();    }

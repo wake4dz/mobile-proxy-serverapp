@@ -37,7 +37,7 @@ public class CircularPages extends BaseService {
         mwgHeader.authenticate(authToken, "application/vnd.mywebgrocer.circular-pages-full+json", "application/vnd.mywebgrocer.circular-pages-full+json");
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGetJSON(path, mwgHeader.getMap()));
+            return this.createValidResponse(HTTPRequest.executeGetJSON(path, mwgHeader.getMap(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

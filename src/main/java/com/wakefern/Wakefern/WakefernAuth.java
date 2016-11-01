@@ -33,7 +33,7 @@ public class WakefernAuth extends BaseService {
         wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(executeGet(path, wkfn));
+            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 10));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -47,7 +47,7 @@ public class WakefernAuth extends BaseService {
         wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return executeGet(path, wkfn);
+            return HTTPRequest.executeGet(path, wkfn, 10);
         } catch (Exception e){
             return null;
         }
@@ -55,66 +55,5 @@ public class WakefernAuth extends BaseService {
 
     public WakefernAuth(){
         this.serviceType = new MWGHeader();
-    }
-
-    public static String executeGet(String requestURL, Map<String, String> requestHeaders) throws Exception{
-        return executeRequest(requestURL,requestHeaders,null,"GET");
-    }
-
-    public static String executeRequest(String requestURL,Map<String,String> requestHeaders,Map<String,String>
-            requestParameters,String requestMethod) throws Exception{
-        HttpURLConnection connection = null;
-        try {
-            connection = createConnection(requestURL,requestHeaders,requestParameters,requestMethod);
-            int responseCode = connection.getResponseCode();
-            if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
-                return buildResponse(connection);
-            } else {
-                throw new Exception(responseCode + "," + connection.getResponseMessage());
-            }
-        } catch (IOException e) {
-            throw e;
-        } catch (URISyntaxException e) {
-            throw e;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception ex) {
-                    throw ex;
-                }
-            }
-        }
-    }
-
-    private static HttpURLConnection createConnection(String requestURL,Map<String,String> requestHeaders,Map<String,String> requestParameters,String requestMethod) throws IOException, URISyntaxException {
-        HttpURLConnection connection = null;
-        URI uri = new URI(requestURL);
-        if(requestParameters!=null) {
-            for (Map.Entry<String, String> entry : requestParameters.entrySet()) {
-                uri = appendUri(uri.toString(), entry.getKey() + "=" + entry.getValue());
-            }
-        }
-
-        URL url = uri.toURL();
-        connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod(requestMethod);
-        connection.setConnectTimeout(10000);
-
-
-        if(requestHeaders != null) {
-            for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
-                connection.addRequestProperty(entry.getKey(), entry.getValue());
-            }
-        }
-
-        //Connect to the server
-        connection.connect();
-
-        return connection;
-    }
-
-    private static String buildResponse(HttpURLConnection connection){
-        return ResponseHandler.Response(connection);
     }
 }

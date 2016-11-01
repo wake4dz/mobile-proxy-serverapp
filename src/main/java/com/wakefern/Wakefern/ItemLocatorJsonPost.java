@@ -36,7 +36,7 @@ public class ItemLocatorJsonPost extends BaseService {
         wkfn.put("Authentication", authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, wkfn));
+            return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, wkfn, 0));
         } catch (Exception e) {
             return this.createErrorResponse(e);
         }

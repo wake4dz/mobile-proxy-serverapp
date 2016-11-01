@@ -38,7 +38,7 @@ public class ShoppingListItemsPost extends BaseService {
         mapping.setAllHeadersPutMapping(this, jsonBody);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -50,7 +50,7 @@ public class ShoppingListItemsPost extends BaseService {
         ServiceMappings mapping = new ServiceMappings();
         mapping.setAllHeadersPutMapping(this, jsonBody);
 
-        return (HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader()));
+        return (HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader(), 0));
     }
 
     public ShoppingListItemsPost(){

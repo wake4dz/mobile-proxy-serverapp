@@ -38,7 +38,7 @@ public class Coupons extends BaseService {
         serviceMappings.setCouponMapping(this);
 
         try {
-            String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+            String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
             if (query == "") {
                 return this.createValidResponse(coupons);
@@ -62,7 +62,7 @@ public class Coupons extends BaseService {
         ServiceMappings serviceMappings = new ServiceMappings();
         serviceMappings.setCouponMapping(this);
 
-        String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader());
+        String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
         if (query == "") {
             return coupons;

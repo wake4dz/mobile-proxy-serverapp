@@ -38,7 +38,7 @@ public class AuthorizationAuthenticate extends BaseService {
             mapping.setPutMapping(this, jsonBody);
             String json;
             try {
-                json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader()));
+                json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader(), 0));
             } catch (Exception e) {
                 return this.createErrorResponse(e);
             }

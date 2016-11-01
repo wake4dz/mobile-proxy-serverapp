@@ -12,7 +12,8 @@ import com.wakefern.global.ErrorHandling.ResponseHandler;
 
 
 public class HTTPRequest {
-    public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders) throws Exception{
+    public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody,
+                                     Map<String, String> requestHeaders, int timeOut) throws Exception{
         HttpURLConnection connection = null;
 
         try {
@@ -27,6 +28,7 @@ public class HTTPRequest {
                 connection.setUseCaches(false);
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
+                connection.setConnectTimeout(timeOut);
 
                 for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -79,7 +81,7 @@ public class HTTPRequest {
         }
     }
 
-    public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception{
+    public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeOut) throws Exception{
         HttpURLConnection connection = null;
 
         try {
@@ -94,6 +96,7 @@ public class HTTPRequest {
                 connection.setUseCaches(false);
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
+                connection.setConnectTimeout(timeOut);
 
                 for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -148,7 +151,8 @@ public class HTTPRequest {
         }
     }
 
-    public static String executePut(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders) throws Exception {
+    public static String executePut(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders
+            , int timeOut) throws Exception {
         HttpURLConnection connection = null;
 
         try {
@@ -163,6 +167,7 @@ public class HTTPRequest {
                 connection.setUseCaches(false);
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
+                connection.setConnectTimeout(timeOut);
 
                 for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -216,15 +221,15 @@ public class HTTPRequest {
         }
     }
 
-    public static String executeGet(String requestURL, Map<String, String> requestHeaders) throws Exception{
-        return executeRequest(requestURL,requestHeaders,null,"GET");
+    public static String executeGet(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception{
+        return executeRequest(requestURL,requestHeaders,null,"GET", timeOut);
     }
 
     public static String executeRequest(String requestURL,Map<String,String> requestHeaders,Map<String,String>
-            requestParameters,String requestMethod) throws Exception{
+            requestParameters,String requestMethod, int timeOut) throws Exception{
         HttpURLConnection connection = null;
         try {
-            connection = createConnection(requestURL,requestHeaders,requestParameters,requestMethod);
+            connection = createConnection(requestURL,requestHeaders,requestParameters,requestMethod, timeOut);
             int responseCode = connection.getResponseCode();
             if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
                 return buildResponse(connection);
@@ -246,11 +251,11 @@ public class HTTPRequest {
         }
     }
 
-    public static String executeGetJSON(String requestURL, Map<String, String> requestHeaders) throws Exception{
-        return executeRequest(requestURL,requestHeaders,null,"GET");
+    public static String executeGetJSON(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception{
+        return executeRequest(requestURL,requestHeaders,null,"GET", timeOut);
     }
 
-    public static String executeDelete(String requestURL, Map<String, String> requestHeaders) throws Exception {
+    public static String executeDelete(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception {
         HttpURLConnection connection = null;
 
         try {
@@ -258,6 +263,7 @@ public class HTTPRequest {
             URL url = new URL(requestURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("DELETE");
+            connection.setConnectTimeout(timeOut);
 
             for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                 connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -295,7 +301,7 @@ public class HTTPRequest {
     Private Method Section --
  */
 
-    private static HttpURLConnection createConnection(String requestURL,Map<String,String> requestHeaders,Map<String,String> requestParameters,String requestMethod) throws IOException, URISyntaxException {
+    private static HttpURLConnection createConnection(String requestURL,Map<String,String> requestHeaders,Map<String,String> requestParameters, String requestMethod, int timeOut) throws IOException, URISyntaxException {
         HttpURLConnection connection = null;
         URI uri = new URI(requestURL);
         if(requestParameters!=null) {
@@ -307,6 +313,7 @@ public class HTTPRequest {
         URL url = uri.toURL();
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(requestMethod);
+        connection.setConnectTimeout(timeOut);
 
 
         if(requestHeaders != null) {

@@ -30,7 +30,7 @@ public class FeaturedRecipes extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
 
         try {
             String extractedXml = extractId(featuredReturn, chainId, authToken);
@@ -47,7 +47,7 @@ public class FeaturedRecipes extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String featuredReturn =  HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
 
         String extractedXml = extractId(featuredReturn, chainId, authToken);
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();

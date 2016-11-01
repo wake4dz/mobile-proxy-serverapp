@@ -26,7 +26,7 @@ public class GetProfile extends BaseService {
         secondMapping.setServiceMappingv1(this, null);
 
         try {
-            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+            String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             String formatted = xml.replaceAll("</User>", "<ChainId>" + chainId + "</ChainId></User>");
             return this.createValidResponse(formatted);
         } catch (Exception e){
@@ -40,7 +40,7 @@ public class GetProfile extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        String xml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
         return xml.replaceAll("</User>", "<ChainId>" + chainId + "</ChainId></User>");
     }
 

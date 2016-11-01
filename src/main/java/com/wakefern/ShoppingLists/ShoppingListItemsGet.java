@@ -28,7 +28,7 @@ public class ShoppingListItemsGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader()));
+        return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0));
     }
 
     public String getInfo(String userId, String storeId , String listId, String take, String skip, String isMember, String authToken) throws Exception, IOException {
@@ -37,7 +37,7 @@ public class ShoppingListItemsGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader());
+        return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
     }
 
     public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String isMember, String authToken){

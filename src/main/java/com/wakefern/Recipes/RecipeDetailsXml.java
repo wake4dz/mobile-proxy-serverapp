@@ -26,7 +26,7 @@ public class RecipeDetailsXml extends BaseService {
         secondMapping.setServiceMappingv1(this, null);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader()));
+            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -38,7 +38,7 @@ public class RecipeDetailsXml extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
 
-        return HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader());
+        return HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
     }
 
     public RecipeDetailsXml(){

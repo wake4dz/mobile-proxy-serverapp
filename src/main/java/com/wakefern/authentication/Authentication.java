@@ -21,7 +21,7 @@ public class Authentication extends BaseService{
 
         try {
             return this.createValidResponse(HTTPRequest.executePost("", mapping.getPath(), "", mapping.getGenericBody(),
-                    mapping.getgenericHeader()));
+                    mapping.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -34,7 +34,7 @@ public class Authentication extends BaseService{
         mapping.setMapping(this, jsonBody);
         
         return HTTPRequest.executePost("", mapping.getPath(), "", mapping.getGenericBody(),
-                mapping.getgenericHeader());
+                mapping.getgenericHeader(), 0);
     }
 
     public void prepareResponse(){

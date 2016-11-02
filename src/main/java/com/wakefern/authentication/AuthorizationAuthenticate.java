@@ -26,11 +26,9 @@ public class AuthorizationAuthenticate extends BaseService {
     @Produces("application/*")
     @Path("/authenticate")
     public Response getInfo(@HeaderParam("Authorization") String authToken, String jsonBody){
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.authenticationToken;
         }
-
-        this.token = authToken;
         //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
         this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
 
@@ -41,6 +39,7 @@ public class AuthorizationAuthenticate extends BaseService {
             ServiceMappings mapping = new ServiceMappings();
             mapping.setPutMapping(this, jsonBody);
             String json;
+            
             try {
                 json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader(), 0));
             } catch (Exception e) {
@@ -56,9 +55,10 @@ public class AuthorizationAuthenticate extends BaseService {
             }
 
             FormattedAuthentication formattedAuthentication = new FormattedAuthentication();
+
             try {
                 return Response.status(200).entity(formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
-                        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning,
+                        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.Requests.Tokens.RosettaToken,
                         v5).toString()).build();
             } catch (Exception e) {
                 return this.createErrorResponse(e);

@@ -81,7 +81,7 @@ public class FeaturedRecipes extends BaseService {
     }
 
     private void prepareResponse(String chainId, String q, String authToken){
-        if(this.token.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }
 

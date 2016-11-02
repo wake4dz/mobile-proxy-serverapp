@@ -63,12 +63,14 @@ public final class ApplicationConstants {
         public static final String dates = "/dates";
         public static final String delivery = "/delivery";
         public static final String distrcit = "/district";
+        public static final String DistrictJSON = "District";
         public static final String duplicate = "/duplicate";
         public static final String email = "/email";
         public static final String emailParam = "?email=";
         public static final String fakeJson = "{\"Test\":\"Test\"}";
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
+        public static final String FulfillmentJSON = "Fulfillment";
         public static final String fulfillments = "/fulfillments";
         public static final String fq = "&fq=";
         public static final String guest = "/guest";

@@ -5,6 +5,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -19,6 +20,7 @@ public class FulfillmentDeliveryTimes extends BaseService {
     @Produces("application/*")
     @Path("/{storeId}/delivery/{zipCode}/times")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("zipCode") String zipCode,
+                                    @DefaultValue("")@QueryParam("districtId") String distId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, zipCode, isMember, authToken);
@@ -27,7 +29,14 @@ public class FulfillmentDeliveryTimes extends BaseService {
         secondMapping.setMapping(this);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+            if(distId.isEmpty()) {
+                return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+            } else {
+                String regular = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+                DistrictDeliveryTimes districtDeliveryTimes = new DistrictDeliveryTimes();
+                String district = districtDeliveryTimes.getInfo(storeId, zipCode, distId, isMember, authToken);
+                return this.createValidResponse(format(regular, district));
+            }
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -56,5 +65,14 @@ public class FulfillmentDeliveryTimes extends BaseService {
                     + storeId +  ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.backSlash
                     + zipCode + ApplicationConstants.StringConstants.times + ApplicationConstants.StringConstants.isMember;
         }
+    }
+
+    private String format(String regular, String district){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject regularJSON = new JSONObject(regular);
+        JSONObject districtJSON = new JSONObject(district);
+        jsonObject.put(ApplicationConstants.StringConstants.FulfillmentJSON, regularJSON);
+        jsonObject.put(ApplicationConstants.StringConstants.DistrictJSON, districtJSON);
+        return jsonObject.toString();
     }
 }

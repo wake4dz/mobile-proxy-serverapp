@@ -33,11 +33,9 @@ public class FulfillmentDeliveryDates extends BaseService {
             if(distId.isEmpty()) {
                 return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
             } else {
-                System.out.print("districtId::" + distId);
                 String regular = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
                 DistrictDeliveryDate districtDeliveryDate = new DistrictDeliveryDate();
                 String district = districtDeliveryDate.getInfo(storeId, zipCode, distId, isMember, authToken);
-
                 return this.createValidResponse(format(regular, district));
             }
         } catch (Exception e){

@@ -6,10 +6,12 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.request.HTTPRequest;
+
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
 import java.io.IOException;
 
 /**
@@ -24,10 +26,14 @@ public class CouponIdList extends BaseService {
     public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
                                     @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+        try{
+    	if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }else{
-        	this.token = authToken;
+        	this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }
+        }catch(Exception e){
+        	this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }
 
         matchedObjects = new JSONObject();

@@ -32,10 +32,10 @@ public class Coupons extends BaseService {
     	if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }else{
-        	this.token = authToken;
+        	this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }
         }catch(Exception e){
-        	this.token = authToken;
+        	this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }
 
         matchedObjects = new JSONObject();

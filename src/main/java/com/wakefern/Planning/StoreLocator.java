@@ -55,7 +55,7 @@ public class StoreLocator extends BaseService {
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }else{
-        	this.token = authToken;
+        	this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }
 
         this.path = ApplicationConstants.Requests.Planning.StoreLocator

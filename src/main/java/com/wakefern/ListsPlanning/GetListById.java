@@ -59,7 +59,7 @@ public class GetListById extends BaseService {
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }else{
-        	this.token = authToken;
+        	this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }
         
 

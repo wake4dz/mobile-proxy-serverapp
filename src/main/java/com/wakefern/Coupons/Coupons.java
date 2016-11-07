@@ -29,11 +29,11 @@ public class Coupons extends BaseService {
                                     @DefaultValue("") @QueryParam("query") String query,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         try{
-    	if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }else{
-        	this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }
+            if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }else{
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }
         }catch(Exception e){
         	this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }
@@ -61,10 +61,14 @@ public class Coupons extends BaseService {
     }
 
     public String getInfo(String ppcParam,  String query, String authToken) throws Exception, IOException {
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+        try{
+            if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }else{
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }
+        }catch(Exception e){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }else{
-        	this.token = authToken;
         }
 
         matchedObjects = new JSONObject();

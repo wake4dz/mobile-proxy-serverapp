@@ -26,13 +26,13 @@ public class CouponIdListByPPC extends BaseService {
     public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         try{
-    	if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }else{
-        	this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }
+            if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }else{
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }
         }catch(Exception e){
-        	this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }
 
         matchedObjects = new JSONObject();
@@ -50,10 +50,14 @@ public class CouponIdListByPPC extends BaseService {
     }
 
     public String getInfo(String ppcParam, String authToken) throws Exception, IOException {
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+        try{
+            if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }else{
+                this.token = ApplicationConstants.Requests.Tokens.couponToken;
+            }
+        }catch(Exception e){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }else{
-        	this.token = authToken;
         }
 
         matchedObjects = new JSONObject();

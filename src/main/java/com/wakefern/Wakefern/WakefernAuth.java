@@ -33,7 +33,7 @@ public class WakefernAuth extends BaseService {
         wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 10));
+            return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 10000));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -47,7 +47,7 @@ public class WakefernAuth extends BaseService {
         wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return HTTPRequest.executeGet(path, wkfn, 10);
+            return HTTPRequest.executeGet(path, wkfn, 10000);
         } catch (Exception e){
             return null;
         }

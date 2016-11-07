@@ -39,6 +39,8 @@ public class Categories extends BaseService {
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }else{
+        	this.token = authToken;
         }
         Set<Integer> ids = new HashSet<>();
         JSONObject matchedObjects = new JSONObject();

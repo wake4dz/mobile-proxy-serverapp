@@ -54,6 +54,8 @@ public class StoreLocator extends BaseService {
     private void prepareResponse(String chainId, String zip, String rad, String units, String pageNum, String sizeNum, String authToken){
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }else{
+        	this.token = authToken;
         }
 
         this.path = ApplicationConstants.Requests.Planning.StoreLocator

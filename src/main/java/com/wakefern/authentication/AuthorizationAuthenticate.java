@@ -28,6 +28,8 @@ public class AuthorizationAuthenticate extends BaseService {
     public Response getInfo(@HeaderParam("Authorization") String authToken, String jsonBody){
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.authenticationToken;
+        }else{
+        	this.token = authToken;
         }
         //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
         this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
@@ -58,7 +60,7 @@ public class AuthorizationAuthenticate extends BaseService {
 
             try {
                 return Response.status(200).entity(formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
-                        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.Requests.Tokens.RosettaToken,
+                        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning,
                         v5).toString()).build();
             } catch (Exception e) {
                 return this.createErrorResponse(e);

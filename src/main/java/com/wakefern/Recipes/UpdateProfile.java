@@ -46,6 +46,8 @@ public class UpdateProfile extends BaseService {
     private String prepareResponse(String userId, String email, String chainId, String storeId, String authToken) throws Exception{
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }else{
+        	this.token = authToken;
         }
 
         GetProfile getProfile = new GetProfile();

@@ -28,8 +28,14 @@ public class Coupons extends BaseService {
                                     @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                                     @DefaultValue("") @QueryParam("query") String query,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
+        try{
+    	if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }else{
+        	this.token = authToken;
+        }
+        }catch(Exception e){
+        	this.token = authToken;
         }
 
         matchedObjects = new JSONObject();
@@ -57,6 +63,8 @@ public class Coupons extends BaseService {
     public String getInfo(String ppcParam,  String query, String authToken) throws Exception, IOException {
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }else{
+        	this.token = authToken;
         }
 
         matchedObjects = new JSONObject();

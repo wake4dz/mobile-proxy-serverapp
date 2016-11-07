@@ -26,6 +26,8 @@ public class CouponAddToPPC extends BaseService {
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }else{
+        	this.token = authToken;
         }
 
         matchedObjects = new JSONObject();
@@ -45,6 +47,8 @@ public class CouponAddToPPC extends BaseService {
     public String getInfo(String ppcParam, String couponId, String authToken) throws Exception, IOException {
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
+        }else{
+        	this.token = authToken;
         }
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam, couponId);

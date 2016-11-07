@@ -70,7 +70,10 @@ public class ComparePastPurchasesCircular extends BaseService {
             for(Object listItem: jsonArray){ //get all of the ids from past purchases
                 JSONObject currentListItem = (JSONObject) listItem;
                 String sku = currentListItem.getString(ApplicationConstants.Planning.Sku);
-                ids.add(sku);
+                Boolean IsAvailable = currentListItem.getBoolean("IsAvailable");
+                if(IsAvailable){
+                	ids.add(sku);
+                }
             }
         } catch (Exception e){//There is only one item in the past purchases list
             try {

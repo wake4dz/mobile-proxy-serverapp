@@ -9,6 +9,8 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 8/24/16.
@@ -23,11 +25,13 @@ public class PaymentOptions extends BaseService {
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         prepareResponse(storeId, fulfillmentType, isMember, authToken);
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        Map<String, String> pickup = new HashMap<>();
+        String path = "https://shop.shoprite.com/api" + this.path;
+        pickup.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.payments-v2+json");
+        pickup.put("Authorization", authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executeGet(path, pickup, 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -36,10 +40,12 @@ public class PaymentOptions extends BaseService {
     public String getInfo(String storeId, String fulfillmentType, String isMember, String authToken) throws Exception, IOException {
         prepareResponse(storeId, fulfillmentType, isMember, authToken);
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        Map<String, String> pickup = new HashMap<>();
+        String path = "https://shop.shoprite.com/api" + this.path;
+        pickup.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.payments-v2+json");
+        pickup.put("Authorization", authToken);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        return HTTPRequest.executeGet(path, pickup, 0);
     }
 
     public PaymentOptions(){

@@ -123,18 +123,19 @@ public class CartGet extends BaseService {
 									for (int i = 0; i < items.length(); i++) {
 										JSONObject item = (JSONObject) items
 												.get(i);
+										if(item.getBoolean("IsAvailable")){
+
 										if (item.get(
 												ApplicationConstants.AisleItemLocator.Sku)
 												.toString()
 												.contains(itemString)) {
-											if(item.getBoolean("IsAvailable")){
 												item.put(
 														ApplicationConstants.AisleItemLocator.Aisle,
 														ApplicationConstants.AisleItemLocator.Other);
 												retval.append(
 														ApplicationConstants.AisleItemLocator.Items,
 														item);
-											}
+											
 											// Ran out of items, just return the
 											// cart
 											if (items.length() - 1 == 0) {
@@ -147,6 +148,7 @@ public class CartGet extends BaseService {
 												items.remove(i);
 											}
 										}
+									}
 									}
 								}
 								continue;
@@ -220,30 +222,34 @@ public class CartGet extends BaseService {
 				// Get the items in the array and make a comma separated string
 				// of them as well trim the first and last digit
 				JSONObject item = (JSONObject) items.get(j);
-				String itemString = aItem.get(
-						ApplicationConstants.AisleItemLocator.upc_13_num)
-						.toString();
-				if (item.get(ApplicationConstants.AisleItemLocator.Sku)
-						.toString().contains(itemString)) {
-					if (aItem
-							.has(ApplicationConstants.AisleItemLocator.area_desc)) {
-						item.put(
-								ApplicationConstants.AisleItemLocator.Aisle,
-								aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
-						retval.append(
-								ApplicationConstants.AisleItemLocator.Items,
-								item);
-						return;
-					} else {
+				if(item.getBoolean("IsAvailable")){
+
+					String itemString = aItem.get(
+							ApplicationConstants.AisleItemLocator.upc_13_num)
+							.toString();
+					if (item.get(ApplicationConstants.AisleItemLocator.Sku)
+							.toString().contains(itemString)) {
+						if (aItem
+								.has(ApplicationConstants.AisleItemLocator.area_desc)) {
+							item.put(
+									ApplicationConstants.AisleItemLocator.Aisle,
+									aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
+							retval.append(
+									ApplicationConstants.AisleItemLocator.Items,
+									item);
+							return;
+						} else {
+							item.put(ApplicationConstants.AisleItemLocator.Aisle,
+									ApplicationConstants.AisleItemLocator.Other);
+							break;
+						}
+						
+					} else if (j + 1 == sizej) {
 						item.put(ApplicationConstants.AisleItemLocator.Aisle,
 								ApplicationConstants.AisleItemLocator.Other);
-						break;
 					}
-				} else if (j + 1 == sizej) {
-					item.put(ApplicationConstants.AisleItemLocator.Aisle,
-							ApplicationConstants.AisleItemLocator.Other);
+					retval.append(ApplicationConstants.AisleItemLocator.Items, item);
 				}
-				retval.append(ApplicationConstants.AisleItemLocator.Items, item);
 			}
 		}
 	}

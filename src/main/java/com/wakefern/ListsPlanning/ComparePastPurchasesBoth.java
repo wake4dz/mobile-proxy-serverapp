@@ -27,12 +27,12 @@ public class ComparePastPurchasesBoth extends BaseService {
                                     @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         /**
          * AuthToken == Rosetta Token
-         * AuthToken2 == User Token
+         * AuthToken2 == User Token//
          */
         
         try{
             ComparePastPurchasesCircular comparePastPurchasesCircular = new ComparePastPurchasesCircular();
-            String onSale = comparePastPurchasesCircular.getInfo(userId, storeId, take, skip, "", isMember, authToken, authToken2);
+            String onSale = comparePastPurchasesCircular.getInfoFilter(userId, storeId, take, skip, "", isMember, authToken, authToken2,"&fq=Days%3a30");
 
             Coupons coupons = new Coupons();
             String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All, "", authToken);

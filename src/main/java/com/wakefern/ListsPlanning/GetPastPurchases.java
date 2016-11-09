@@ -40,8 +40,16 @@ public class GetPastPurchases extends BaseService {
             return this.createErrorResponse(e);
         }
     }
+    
+    //fq=Days%3a30
 
-    public String getInfo(String userId, String storeId, String take, String skip, String category, String isMember, String authToken, String authToken2) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, String category, 
+    		String isMember, String authToken, String authToken2) throws Exception, IOException {
+        return this.getInfoFilter(userId,storeId,take,skip,category,isMember,authToken,authToken2,null);
+    }
+    
+    public String getInfoFilter(String userId, String storeId, String take, String skip, String category, 
+    		String isMember, String authToken, String authToken2,String filter) throws Exception, IOException {
         this.token = authToken2;
         ShoppingList shoppingList = new ShoppingList();
 
@@ -51,7 +59,7 @@ public class GetPastPurchases extends BaseService {
         try {
             String pastPurchases = getPast(userListsJson);
             GetItemsInList getItemsInList = new GetItemsInList();
-            String list = getItemsInList.getInfo(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0", "");
+            String list = getItemsInList.getInfoFilter(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0", "",filter);
             return paging(list, take, skip, category, shoppingList).toString();
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();

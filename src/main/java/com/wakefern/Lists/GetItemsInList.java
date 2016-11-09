@@ -60,8 +60,14 @@ public class GetItemsInList extends BaseService {
 			}
         }
     }
+    
+    public String getInfo(String storeId, String userId, String isMember, String authToken, 
+			String listName, String listId, String take, String skip, String jsonBody) {
+    	return this.getInfoFilter(storeId, userId, isMember, authToken, listName, listId, take, skip, jsonBody,null);
+    }
 
-	public String getInfo(String storeId, String userId, String isMember, String authToken, String listName, String listId, String take, String skip, String jsonBody) {
+	public String getInfoFilter(String storeId, String userId, String isMember, String authToken, 
+			String listName, String listId, String take, String skip, String jsonBody,String filter) {
 
 		if(listId.isEmpty()) {
 			try {
@@ -74,7 +80,12 @@ public class GetItemsInList extends BaseService {
 		ShoppingListItemsGet list = new ShoppingListItemsGet();
 		if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
 			try {
-				return list.getInfo(userId, storeId, listId, take, skip, isMember, authToken);
+				if(filter.isEmpty()){
+					return list.getInfo(userId, storeId, listId, take, skip, isMember, authToken);
+				}else{
+					return list.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken,filter);
+					
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				return this.createErrorResponse(e).toString();

@@ -32,7 +32,17 @@ public class ShoppingListItemsGet extends BaseService {
     }
 
     public String getInfo(String userId, String storeId , String listId, String take, String skip, String isMember, String authToken) throws Exception, IOException {
-        String path = prepareResponse(userId, storeId, listId, take, skip, isMember, authToken);
+        return this.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken, null);
+    }
+    
+    public String getInfoFilter(String userId, String storeId , String listId, String take, 
+    		String skip, String isMember, String authToken,String filter) throws Exception, IOException {
+    	String path = prepareResponse(userId, storeId, listId, take, skip, isMember, authToken);
+
+    	if(!filter.isEmpty()){
+    		path += filter;
+    		System.out.println("Filter With Path :: " + path);
+    	}
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);

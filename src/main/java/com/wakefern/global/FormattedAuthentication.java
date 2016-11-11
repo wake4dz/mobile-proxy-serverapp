@@ -1,6 +1,7 @@
 package com.wakefern.global;
 
 import com.wakefern.Planning.StoreDetails;
+import com.wakefern.Planning.StoreLocator;
 import com.wakefern.Recipes.GetProfile;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 public class FormattedAuthentication {
     private String pseudoStore;
     private String storeName;
+    private String externalId;
 
     public JSONObject formatAuth(String json, String email, String chainId, String planningAuth, String v5){
         JSONObject retval = new JSONObject();
@@ -58,6 +60,7 @@ public class FormattedAuthentication {
             retval.put(ApplicationConstants.FormattedAuthentication.StoreId, storeId);
             retval.put(ApplicationConstants.FormattedAuthentication.PseudoStoreId, getPseudoStore());
             retval.put(ApplicationConstants.FormattedAuthentication.StoreName, getStoreName());
+            retval.put(ApplicationConstants.FormattedAuthentication.ExternalStoreId, getExternalId());
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
             System.out.print(exceptionHandler.exceptionMessageJson(e));
@@ -69,6 +72,7 @@ public class FormattedAuthentication {
     private void searchStores(String stores){
         JSONObject jsonObject = new JSONObject(stores).getJSONObject(ApplicationConstants.FormattedAuthentication.Store);
         try{
+            setExternalId(jsonObject.get(ApplicationConstants.FormattedAuthentication.ExternalStoreId).toString());
             setPseudoStore(jsonObject.getString(ApplicationConstants.FormattedAuthentication.PseudoStoreId));
         }catch(Exception e){
         	System.out.println("Into int ::" + e.getMessage());
@@ -94,5 +98,12 @@ public class FormattedAuthentication {
     }
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 }

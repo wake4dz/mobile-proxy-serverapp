@@ -277,6 +277,7 @@ public final class ApplicationConstants {
         public static final String AuthPlanning = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
         public static final String ChainId = "139";
         public static final String Email = "Email";
+        public static final String ExternalStoreId = "ExternalStoreId";
         public static final String FirstName = "FirstName";
         public static final String FSN = "FSN";
         public static final String Id = "Id";

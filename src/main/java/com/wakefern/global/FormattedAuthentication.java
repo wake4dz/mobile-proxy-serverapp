@@ -1,8 +1,10 @@
 package com.wakefern.global;
 
 import com.wakefern.Planning.StoreDetails;
+import com.wakefern.Planning.StoreLocator;
 import com.wakefern.Recipes.GetProfile;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -11,6 +13,11 @@ import org.json.JSONObject;
 public class FormattedAuthentication {
     private String pseudoStore;
     private String storeName;
+    private String externalId;
+    private Boolean fromHome;
+    private String sisterId;
+    private String sisterPseudo;
+    private String sisterName;
 
     public JSONObject formatAuth(String json, String email, String chainId, String planningAuth, String v5){
         JSONObject retval = new JSONObject();
@@ -52,12 +59,20 @@ public class FormattedAuthentication {
             //Get store info
             StoreDetails storeDetails = new StoreDetails();
             String storesJson = storeDetails.getInfo(chainId, storeId, planningAuth);
-            searchStores(storesJson);
+            searchStores(storesJson, chainId, planningAuth);
 
             //Save store info
             retval.put(ApplicationConstants.FormattedAuthentication.StoreId, storeId);
             retval.put(ApplicationConstants.FormattedAuthentication.PseudoStoreId, getPseudoStore());
             retval.put(ApplicationConstants.FormattedAuthentication.StoreName, getStoreName());
+            retval.put(ApplicationConstants.FormattedAuthentication.ExternalStoreId, getExternalId());
+            retval.put(ApplicationConstants.FormattedAuthentication.ShopriteFromHome, getFromHome());
+
+            if(getSisterId() != null) {
+                retval.put(ApplicationConstants.FormattedAuthentication.SisterStoreId, getSisterId());
+                retval.put(ApplicationConstants.FormattedAuthentication.SisterStoreName, getSisterName());
+                retval.put(ApplicationConstants.FormattedAuthentication.SisterStorePseudoStoreId, getSisterPseudo());
+            }
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
             System.out.print(exceptionHandler.exceptionMessageJson(e));
@@ -66,9 +81,10 @@ public class FormattedAuthentication {
     }
     //
 
-    private void searchStores(String stores){
+    private void searchStores(String stores, String chainId, String planningAuth){
         JSONObject jsonObject = new JSONObject(stores).getJSONObject(ApplicationConstants.FormattedAuthentication.Store);
         try{
+            setExternalId(jsonObject.get(ApplicationConstants.FormattedAuthentication.ExternalStoreId).toString());
             setPseudoStore(jsonObject.getString(ApplicationConstants.FormattedAuthentication.PseudoStoreId));
         }catch(Exception e){
         	System.out.println("Into int ::" + e.getMessage());
@@ -80,6 +96,44 @@ public class FormattedAuthentication {
                 .getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
         JSONObject currentStore = (JSONObject) store;
         setStoreName(currentStore.getString(ApplicationConstants.FormattedAuthentication.Name));
+
+        Object services = jsonObject.getJSONObject(ApplicationConstants.FormattedAuthentication.MwgServices)
+                .get(ApplicationConstants.FormattedAuthentication.MyWebGrocerService);
+        JSONArray jsonArray = (JSONArray) services;
+
+        //Initialize from home to be false
+        setFromHome(false);
+        setSisterId(null);
+        
+        for(Object service: jsonArray){
+            JSONObject currentService = (JSONObject) service;
+            String serviceName = currentService.get(ApplicationConstants.FormattedAuthentication.ServiceName).toString();
+            if(serviceName.equals(ApplicationConstants.FormattedAuthentication.Shop2GroPickup)
+                    || serviceName.equals(ApplicationConstants.FormattedAuthentication.Shop2GroDelivery)){
+                setFromHome(true);
+            }
+            else if(serviceName.equals(ApplicationConstants.FormattedAuthentication.S2GSisterStore)){
+                String uri = currentService.get(ApplicationConstants.FormattedAuthentication.Uri).toString();
+                String[] query = uri.split("strid=");
+                String id = query[1].substring(query[1].length() - 3, query[1].length());
+
+                try {
+                    StoreDetails storeDetails = new StoreDetails();
+                    String storesJson = storeDetails.getInfo(chainId, id, planningAuth);
+
+                    JSONObject jsonObject1 = new JSONObject(storesJson).getJSONObject(ApplicationConstants.FormattedAuthentication.Store);
+                    setSisterPseudo(jsonObject1.get(ApplicationConstants.FormattedAuthentication.PseudoStoreId).toString());
+                    setSisterId(jsonObject1.get(ApplicationConstants.FormattedAuthentication.StoreId).toString());
+
+                    Object store1 = jsonObject1.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections)
+                            .getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
+                    JSONObject currentStore1 = (JSONObject) store1;
+                    setSisterName(currentStore1.getString(ApplicationConstants.FormattedAuthentication.Name));
+                } catch (Exception e) {
+                    System.out.print("Error:: " + e.getMessage());
+                }
+            }
+        }
     }
 
     public String getPseudoStore() {
@@ -94,5 +148,40 @@ public class FormattedAuthentication {
     }
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public Boolean getFromHome() {
+        return fromHome;
+    }
+    public void setFromHome(Boolean fromHome) {
+        this.fromHome = fromHome;
+    }
+
+    public String getSisterId() {
+        return sisterId;
+    }
+    public void setSisterId(String sisterId) {
+        this.sisterId = sisterId;
+    }
+
+    public String getSisterPseudo() {
+        return sisterPseudo;
+    }
+    public void setSisterPseudo(String sisterPseudo) {
+        this.sisterPseudo = sisterPseudo;
+    }
+
+    public String getSisterName() {
+        return sisterName;
+    }
+    public void setSisterName(String sisterName) {
+        this.sisterName = sisterName;
     }
 }

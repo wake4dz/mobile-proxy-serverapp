@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +28,7 @@ public class ProductsInCategory extends BaseService {
     @Path("/{categoryId}/store/{storeId}")
     public Response getInfoResponse(@PathParam("categoryId") String categoryId, @PathParam("storeId") String storeId,
                                     @QueryParam("take") String take, @QueryParam("skip") String skip,
-                                    @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
+                                    @DefaultValue("")@QueryParam("fq") final List<String> fqList, @DefaultValue("")@QueryParam("sort") String sort,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         try {
@@ -56,9 +57,9 @@ public class ProductsInCategory extends BaseService {
                 this.setMore(true);
             }
 
-            String json = search(partialUrl, take, skip, fq, sort, isMember, authToken);
+            String json = search(partialUrl, take, skip, fqList, sort, isMember, authToken);
 
-            if((json.equals("[null]") || json.equals(null)) && fq != ""){
+            if((json.equals("[null]") || json.equals(null)) && fqList != null){
                 Exception e = new Exception("No results for for take");
                 return this.createErrorResponse(e);
             }
@@ -72,7 +73,7 @@ public class ProductsInCategory extends BaseService {
 
     private int calcMaxTake(String partialUrl, String isMember, String authToken) throws Exception{
         try {
-            String json = search(partialUrl, "1", "0", "", "", isMember, authToken);
+            String json = search(partialUrl, "1", "0", null, "", isMember, authToken);
             JSONArray jsonArray = new JSONArray(json);
             return jsonArray.getJSONObject(0).getInt(ApplicationConstants.ProductSearch.itemCount);
         } catch (Exception e){
@@ -124,7 +125,7 @@ public class ProductsInCategory extends BaseService {
         return retval.toString();
     }
 
-    private String search(String partialUrl, String take, String skip, String fq, String sort, String isMember, String authToken) throws Exception{
+    private String search(String partialUrl, String take, String skip, List<String> fqList, String sort, String isMember, String authToken) throws Exception{
         this.token = authToken;
         int intTake = Integer.parseInt(take);
         int initSkip = Integer.parseInt(skip);
@@ -151,9 +152,11 @@ public class ProductsInCategory extends BaseService {
                 this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
             }
 
-            if(fq != ""){
-                fq = URLEncoder.encode(fq, "UTF-8");
-                this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+            if(fqList != null) {
+                for (String query : fqList){
+                    query = URLEncoder.encode(query, "UTF-8");
+                   this.path = this.path + ApplicationConstants.StringConstants.fq + query;
+                }
             }
 
             if(!isMember.isEmpty()){
@@ -177,9 +180,11 @@ public class ProductsInCategory extends BaseService {
                 this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
             }
 
-            if(fq != ""){
-                fq = URLEncoder.encode(fq, "UTF-8");
-                this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+            if(fqList != null) {
+                for (String query : fqList){
+                    query = URLEncoder.encode(query, "UTF-8");
+                    this.path = this.path + ApplicationConstants.StringConstants.fq + query;
+                }
             }
 
             if(!isMember.isEmpty()){

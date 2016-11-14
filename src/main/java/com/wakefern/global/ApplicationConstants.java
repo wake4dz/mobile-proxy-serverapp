@@ -54,6 +54,8 @@ public final class ApplicationConstants {
         public static final String billing = "/billing";
         public static final String categories = "/categories";
         public static final String category = "/category";
+        public static final String city = "/city";
+        public static final String cities = "/cities";
         public static final String circulars = "/circulars";
         public static final String circularItem = "/circular-item";
         public static final String chainid = "/chainid";
@@ -98,6 +100,8 @@ public final class ApplicationConstants {
         public static final String queryParam = "?q=";
         public static final String radius = "/radius";
         public static final String recipe = "/recipe";
+        public static final String region = "/region";
+        public static final String regions = "/regions";
         public static final String referFriend = "/refer/friend";
         public static final String review = "/review";
         public static final String search = "/search";

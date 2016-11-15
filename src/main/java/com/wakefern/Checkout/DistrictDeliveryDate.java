@@ -27,7 +27,7 @@ public class DistrictDeliveryDate extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        System.out.print("Path:: " + path);
+        //System.out.print("Path:: " + path);
 
         try {
             return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));

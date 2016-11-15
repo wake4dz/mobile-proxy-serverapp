@@ -70,7 +70,7 @@ public class ComparePastPurchasesCircular extends BaseService {
         JSONObject retval = new JSONObject();
         SortedSet<String> ids = new TreeSet<String>();
         try {//Assume multiple items in past purchases, exception if there is only one
-        	System.out.println("Response Purchases :: " + pastPurchases);
+        	//System.out.println("Response Purchases :: " + pastPurchases);
             JSONObject jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
                     .getJSONObject(ApplicationConstants.Planning.ShoppingListItems);
             JSONArray jsonArray = jsonObject.getJSONArray(ApplicationConstants.Planning.ShoppingListItem);
@@ -128,7 +128,7 @@ public class ComparePastPurchasesCircular extends BaseService {
                         matches++;
                     }
                 } catch (Exception e){
-                    System.out.print("Invalid SKU " + e.getMessage());
+                    //System.out.print("Invalid SKU " + e.getMessage());
                     continue;
                 }
             }

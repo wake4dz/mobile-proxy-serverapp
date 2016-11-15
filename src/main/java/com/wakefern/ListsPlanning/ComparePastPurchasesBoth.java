@@ -32,7 +32,7 @@ public class ComparePastPurchasesBoth extends BaseService {
         
         try{
             ComparePastPurchasesCircular comparePastPurchasesCircular = new ComparePastPurchasesCircular();
-            String onSale = comparePastPurchasesCircular.getInfoFilter(userId, storeId, take, skip, "", isMember, authToken, authToken2,"&fq=Days%3a30");
+            String onSale = comparePastPurchasesCircular.getInfoFilter(userId, storeId, take, skip, "", isMember, authToken, authToken2,"Days:60");
 
             Coupons coupons = new Coupons();
             String couponList = coupons.getInfo(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All, "", authToken);

@@ -100,7 +100,7 @@ public class ProductsInCategory extends BaseService {
                     facets.put(facet.getJSONObject(j));
                 }
             } catch (Exception e) {
-                System.out.print(ExceptionHandler.ExceptionMessage(e));
+                //System.out.print(ExceptionHandler.ExceptionMessage(e));
             }
         }
 

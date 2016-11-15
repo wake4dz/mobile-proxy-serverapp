@@ -233,15 +233,15 @@ public class HTTPRequest {
             if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
                 return buildResponse(connection);
             } else {
-                System.out.print("Response " + buildResponse(connection));
-                System.out.print("Connection URL " + connection.getURL());
-                System.out.print("Response Message " + connection.getResponseMessage());
-                //System.out.print("Request Method " + connection.getReq);
+                //System.out.print("Response " + buildResponse(connection));
+                //System.out.print("Connection URL " + connection.getURL());
+                //System.out.print("Response Message " + connection.getResponseMessage());
+                ////System.out.print("Request Method " + connection.getReq);
 //                for(Map.Entry<String, List<String>> entry: connection.getRequestProperties().entrySet()){
-//                        System.out.print(entry.getKey().toString() + ": " + entry.getValue().toString());
+//                        //System.out.print(entry.getKey().toString() + ": " + entry.getValue().toString());
 //                }
 
-                System.out.print("A");
+                //System.out.print("A");
 //                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 //                StringBuilder sb = new StringBuilder();
 //                String line;
@@ -249,8 +249,8 @@ public class HTTPRequest {
 //                    sb.append(line + "\r");
 //                }
 //                br.close();
-//                System.out.print("Input Stream " + line);
-//                System.out.print("B");
+//                //System.out.print("Input Stream " + line);
+//                //System.out.print("B");
 
 
                 BufferedReader br2 = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -260,8 +260,8 @@ public class HTTPRequest {
                     sb2.append(line2 + "\r");
                 }
                 br2.close();
-                System.out.print("Error Stream " + line2);
-                System.out.print("C");
+                //System.out.print("Error Stream " + line2);
+                //System.out.print("C");
 
                 throw new Exception(responseCode + "," + connection.getResponseMessage());
             }

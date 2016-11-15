@@ -65,10 +65,10 @@ public class GetItemsInList extends BaseService {
 			String listName, String listId, String take, String skip, String jsonBody) {
     	return this.getInfoFilter(storeId, userId, isMember, authToken, listName, listId, take, skip, jsonBody,null);
     }
-
+//
 	public String getInfoFilter(String storeId, String userId, String isMember, String authToken, 
 			String listName, String listId, String take, String skip, String jsonBody,String filter) {
-
+		//System.out.println("Item List :: Store ID :: " + storeId + ":: User ID ::" + userId + ":: isMemeber ::" + isMember + ":: Auth Token ::" + authToken + ":: List Name ::" + listName  + ":: List Id ::" + listId + ":: Take ::" + take + ":: Skip ::" + skip + ":: JSON Body ::" + jsonBody + ":: Filter ::" + filter);
 		if(listId.isEmpty()) {
 			try {
 				listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);

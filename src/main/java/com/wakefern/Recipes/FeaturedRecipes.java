@@ -72,7 +72,7 @@ public class FeaturedRecipes extends BaseService {
                 //matcher does support append, so replace match with match and recipe detail
                 matcher.appendReplacement(sb, matcher.group(0) + recipeDetails.getInfo(chainId, temp, authToken));
             } catch (Exception e){
-                System.out.print(matcher.group(0).substring(4, matcher.group().length() - 5) + "Failed");
+                //System.out.print(matcher.group(0).substring(4, matcher.group().length() - 5) + "Failed");
             }
         }
         //Append any data after final match

@@ -8,9 +8,12 @@ import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
+ *
  * Created by zacpuste on 9/9/16.
  */
 @Path(ApplicationConstants.Requests.ShoppingLists.slItemsUser)
@@ -32,21 +35,25 @@ public class ShoppingListItemsGet extends BaseService {
     }
 
     public String getInfo(String userId, String storeId , String listId, String take, String skip, String isMember, String authToken) throws Exception, IOException {
-        return this.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken, null);
+        return this.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken, "");
     }
     
     public String getInfoFilter(String userId, String storeId , String listId, String take, 
     		String skip, String isMember, String authToken,String filter) throws Exception, IOException {
     	String path = prepareResponse(userId, storeId, listId, take, skip, isMember, authToken);
-
+    	//Fix filter 
     	if(!filter.isEmpty()){
-    		path += filter;
-    		System.out.println("Filter With Path :: " + path);
+    		path += "&fq=" + URLEncoder.encode(filter, "UTF-8");;
+    		//System.out.println("Filter With Path :: " + path);
+    	}else{
+    		//System.out.println("No Filter With Path :: " + path);
+
     	}
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
-
+        String returnString = HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
+        //System.out.println("Purchase response ::" + returnString);
         return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
     }
 

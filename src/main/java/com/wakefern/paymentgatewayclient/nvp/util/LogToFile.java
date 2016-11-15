@@ -87,11 +87,11 @@ public class LogToFile {
 //			final PrintWriter pw = new PrintWriter ( fos , true );
 		
 			final java.text.DateFormat timestamp = new java.text.SimpleDateFormat("HH:mm:ss:SSS");
-			System.out.println ( timestamp.format(new Date()) + ":" + message );
+			//System.out.println ( timestamp.format(new Date()) + ":" + message );
 			return_msg  = null ;
 			
 		} catch ( final Exception e ) {
-			System.out.println("Error on LogToFile: " + e.getMessage() );
+			//System.out.println("Error on LogToFile: " + e.getMessage() );
 			return_msg += e.getMessage();
 		}
 		

@@ -100,7 +100,7 @@ public class Categories extends BaseService {
         if(!listName.isEmpty()&&!storeId.isEmpty()&&!userId.isEmpty()&&!authUser.isEmpty()){
             GetItemsInList getItemsInList = new GetItemsInList();
             String list = getItemsInList.getInfo(storeId, userId, "", authUser, listName, "", "9999", "0", "");
-            System.out.println("List Items :: " + list);
+            //System.out.println("List Items :: " + list);
             JSONObject listItems = new JSONObject(list);
             JSONArray items = listItems.getJSONArray(ApplicationConstants.recipeSearch.items);
             JSONArray response = new JSONArray();
@@ -117,7 +117,7 @@ public class Categories extends BaseService {
             	String idStr = segments[segments.length - 1];
             	RecipeDetails recipeDetails = new RecipeDetails();
             	String details = recipeDetails.getInfo(chainId, idStr, authToken);
-                System.out.println("Details Items :: " + details);
+                //System.out.println("Details Items :: " + details);
             	if(!details.isEmpty()){
             		JSONObject newDetails = new JSONObject(details);
             		newDetails.put("FavoriteId", itemId);
@@ -164,7 +164,7 @@ public class Categories extends BaseService {
                     description = descriptionObj.toString();
                 } catch (Exception e){
                     ExceptionHandler exceptionHandler = new ExceptionHandler();
-                    System.out.print(exceptionHandler.exceptionMessageJson(e));
+                    //System.out.print(exceptionHandler.exceptionMessageJson(e));
                     description = "";
                 }
 
@@ -173,7 +173,7 @@ public class Categories extends BaseService {
                     name = nameObj.toString();
                 } catch (Exception e){
                     ExceptionHandler exceptionHandler = new ExceptionHandler();
-                    System.out.print(exceptionHandler.exceptionMessageJson(e));
+                    //System.out.print(exceptionHandler.exceptionMessageJson(e));
                     name = "";
                 }
 
@@ -182,7 +182,7 @@ public class Categories extends BaseService {
                 }
             }
         } catch (JSONException e){
-            System.out.print(ApplicationConstants.recipeSearch.RecipeError + e.getMessage());
+            //System.out.print(ApplicationConstants.recipeSearch.RecipeError + e.getMessage());
         }
         return matchedObjects2;
     }
@@ -201,7 +201,7 @@ public class Categories extends BaseService {
                 }
             }
         } catch (JSONException e) {
-            System.out.print(ApplicationConstants.recipeSearch.CategoryError);
+            //System.out.print(ApplicationConstants.recipeSearch.CategoryError);
         }
         return retval;
     }

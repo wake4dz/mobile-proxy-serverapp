@@ -22,7 +22,7 @@ public class GetPastPurchases extends BaseService {
     @Path("/{userId}/store/{storeId}/pastPurchases")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @DefaultValue("100") @QueryParam("take") String take,
                                     @DefaultValue("0") @QueryParam("skip") String skip, @DefaultValue("") @QueryParam("category") String category,
-                                    @DefaultValue("")@QueryParam("isMember") String isMember,
+                                    @DefaultValue("")@QueryParam("isMember") String isMember,@DefaultValue("Days:0") @QueryParam("fq") String filter,
                                     @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
         this.token = authToken2; //User Auth
         ShoppingList shoppingList = new ShoppingList();
@@ -34,14 +34,22 @@ public class GetPastPurchases extends BaseService {
             String pastPurchases = getPast(userListsJson);
             shoppingList.setId(pastPurchases);
             GetItemsInList getItemsInList = new GetItemsInList();
-            String list = getItemsInList.getInfo(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0", "");
+            String list = getItemsInList.getInfoFilter(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0","", filter);
             return this.createValidResponse(paging(list, take, skip, category, shoppingList).toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
+    
+    //fq=Days%3a30
 
-    public String getInfo(String userId, String storeId, String take, String skip, String category, String isMember, String authToken, String authToken2) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, String category, 
+    		String isMember, String authToken, String authToken2) throws Exception, IOException {
+        return this.getInfoFilter(userId,storeId,take,skip,category,isMember,authToken,authToken2,null);
+    }
+    
+    public String getInfoFilter(String userId, String storeId, String take, String skip, String category, 
+    		String isMember, String authToken, String authToken2,String filter) throws Exception, IOException {
         this.token = authToken2;
         ShoppingList shoppingList = new ShoppingList();
 
@@ -51,7 +59,7 @@ public class GetPastPurchases extends BaseService {
         try {
             String pastPurchases = getPast(userListsJson);
             GetItemsInList getItemsInList = new GetItemsInList();
-            String list = getItemsInList.getInfo(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0", "");
+            String list = getItemsInList.getInfoFilter(storeId, userId, isMember, authToken2, "", pastPurchases, "9999", "0", "",filter);
             return paging(list, take, skip, category, shoppingList).toString();
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
@@ -67,8 +75,9 @@ public class GetPastPurchases extends BaseService {
         Object jsonObject = new JSONObject(userListJson).getJSONObject(ApplicationConstants.Planning.ShoppingLists)
                 .get(ApplicationConstants.Planning.ShoppingList);
         JSONArray jsonArray = (JSONArray) jsonObject;
-        for(Object list: jsonArray){
-            JSONObject currentList = (JSONObject) list;
+        jsonArray.length();
+        for(int i = 0;i<jsonArray.length();i++){
+            JSONObject currentList = (JSONObject) jsonArray.get(i);
             if(currentList.get(ApplicationConstants.Planning.Name).equals(ApplicationConstants.Planning.MyPastPurchases)){
                 return currentList.getString(ApplicationConstants.Planning.Id);
             }
@@ -97,8 +106,8 @@ public class GetPastPurchases extends BaseService {
             Object jsonObject = new JSONObject(list).get(ApplicationConstants.Planning.Items);
             JSONArray jsonArray = (JSONArray) jsonObject;
 
-            for (Object listItem : jsonArray) {
-                JSONObject currentListItem = (JSONObject) listItem;
+            for(int i = 0;i<jsonArray.length();i++){
+                JSONObject currentListItem = (JSONObject) jsonArray.get(i);
 
                 //Handle any necessary skipping
                 if (skipCount < skipInt) {

@@ -87,7 +87,7 @@ public class ComparePastPurchasesCoupons extends BaseService {
                 }
             }
         } catch (Exception e){ //There is only one item in the past purchases list
-            System.out.print("Error:: " + e.getMessage());
+            //System.out.print("Error:: " + e.getMessage());
             JSONObject singleObj = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
                     .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem);
             String singleSku = singleObj.getString(ApplicationConstants.Planning.Sku);

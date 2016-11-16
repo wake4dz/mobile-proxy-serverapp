@@ -57,6 +57,7 @@ public class CheckoutBillingAddressPut extends BaseService {
         } catch (Exception e){
             jsonObject.put("LastName", "_");
         }
+
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -74,6 +75,18 @@ public class CheckoutBillingAddressPut extends BaseService {
     }
 
     public String getInfo(String userId, String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
+        JSONObject jsonObject = new JSONObject(jsonBody);
+        try{
+            jsonObject.getString("FirstName");
+        } catch (Exception e){
+            jsonObject.put("FirstName", "_");
+        }
+        try{
+            jsonObject.getString("LastName");
+        } catch (Exception e){
+            jsonObject.put("LastName", "_");
+        }
+
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

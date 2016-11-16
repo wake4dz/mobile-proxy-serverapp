@@ -34,19 +34,7 @@ public class CheckoutBillingAddressGet extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            String response = HTTPRequest.executeGet(secondMapping.getPath(), map, 0);
-            JSONObject jsonObject = new JSONObject(response);
-            try{
-                jsonObject.getString("FirstName");
-            } catch (Exception e){
-                jsonObject.put("FirstName", "_");
-            }
-            try{
-                jsonObject.getString("LastName");
-            } catch (Exception e){
-                jsonObject.put("LastName", "_");
-            }
-            return this.createValidResponse(jsonObject.toString());
+            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), map, 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

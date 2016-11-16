@@ -75,7 +75,7 @@ public class FormattedAuthentication {
             }
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
-            System.out.print(exceptionHandler.exceptionMessageJson(e));
+            //System.out.print(exceptionHandler.exceptionMessageJson(e));
         }
         return retval;
     }
@@ -87,9 +87,9 @@ public class FormattedAuthentication {
             setExternalId(jsonObject.get(ApplicationConstants.FormattedAuthentication.ExternalStoreId).toString());
             setPseudoStore(jsonObject.getString(ApplicationConstants.FormattedAuthentication.PseudoStoreId));
         }catch(Exception e){
-        	System.out.println("Into int ::" + e.getMessage());
+        	//System.out.println("Into int ::" + e.getMessage());
         	Long aLong =  jsonObject.getLong(ApplicationConstants.FormattedAuthentication.PseudoStoreId);
-        	System.out.println("Int value :: " + aLong.toString());
+        	//System.out.println("Int value :: " + aLong.toString());
             setPseudoStore(aLong.toString());
         }
         Object store = jsonObject.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections)
@@ -130,7 +130,7 @@ public class FormattedAuthentication {
                     JSONObject currentStore1 = (JSONObject) store1;
                     setSisterName(currentStore1.getString(ApplicationConstants.FormattedAuthentication.Name));
                 } catch (Exception e) {
-                    System.out.print("Error:: " + e.getMessage());
+                    //System.out.print("Error:: " + e.getMessage());
                 }
             }
         }

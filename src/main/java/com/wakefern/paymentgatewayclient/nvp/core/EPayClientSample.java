@@ -285,7 +285,7 @@ public final class EPayClientSample implements Serializable {
         							+ ": There is no response from the NVP call.");
             return null;
         }
-        System.out.println("Response String :: " + response.toString());
+        //System.out.println("Response String :: " + response.toString());
         String epaywebURL = "";
         String ack   = response.get("ACK");
         String token = response.get("TOKEN");

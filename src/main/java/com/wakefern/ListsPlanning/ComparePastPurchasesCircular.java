@@ -46,9 +46,15 @@ public class ComparePastPurchasesCircular extends BaseService {
         }
     }
 
-    public String getInfo(String userId, String storeId, String take, String skip, String category, String isMember, String authToken, String authToken2) throws Exception, IOException {
+    public String getInfo(String userId, String storeId, String take, String skip, 
+    		String category, String isMember, String authToken, String authToken2) throws Exception, IOException {
+    	return this.getInfoFilter(userId, storeId, take, skip, category, isMember, authToken, authToken2, null);
+    }
+    
+    public String getInfoFilter(String userId, String storeId, String take, String skip, 
+    		String category, String isMember, String authToken, String authToken2,String filter) throws Exception, IOException {
         GetPastPurchases getPastPurchases = new GetPastPurchases();
-        String pastPurchases = getPastPurchases.getInfo(userId, storeId, "9999", "0", category, isMember, authToken, authToken2);
+        String pastPurchases = getPastPurchases.getInfoFilter(userId, storeId, "9999", "0", category, isMember, authToken, authToken2,filter);
         //Need to pad String response type to allow ComparePastPurchasesBoth to access the array
         JSONObject matches = getPurchaseIds(pastPurchases, storeId, isMember, authToken2, take, skip);
         JSONObject retval = new JSONObject();
@@ -64,6 +70,7 @@ public class ComparePastPurchasesCircular extends BaseService {
         JSONObject retval = new JSONObject();
         SortedSet<String> ids = new TreeSet<String>();
         try {//Assume multiple items in past purchases, exception if there is only one
+        	//System.out.println("Response Purchases :: " + pastPurchases);
             JSONObject jsonObject = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
                     .getJSONObject(ApplicationConstants.Planning.ShoppingListItems);
             JSONArray jsonArray = jsonObject.getJSONArray(ApplicationConstants.Planning.ShoppingListItem);
@@ -121,7 +128,7 @@ public class ComparePastPurchasesCircular extends BaseService {
                         matches++;
                     }
                 } catch (Exception e){
-                    System.out.print("Invalid SKU " + e.getMessage());
+                    //System.out.print("Invalid SKU " + e.getMessage());
                     continue;
                 }
             }

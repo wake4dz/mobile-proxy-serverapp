@@ -38,7 +38,7 @@ public class GetTokens {
     public String getStoreId(Object serviceObject){
         BaseService aService = (BaseService) serviceObject;
         String url = aService.request.getRequestURL().toString();
-        System.out.println("Testing :: " + aService.request.getPathInfo());
+        //System.out.println("Testing :: " + aService.request.getPathInfo());
         /**
          * Pattern matches:
          * Group 0:

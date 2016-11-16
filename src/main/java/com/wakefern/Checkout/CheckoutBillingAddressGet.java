@@ -5,6 +5,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -27,7 +28,19 @@ public class CheckoutBillingAddressGet extends BaseService {
         secondMapping.setMapping(this);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+            String response = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+            JSONObject jsonObject = new JSONObject(response);
+            try{
+                jsonObject.getString("FirstName");
+            } catch (Exception e){
+                jsonObject.put("FirstName", "_");
+            }
+            try{
+                jsonObject.getString("LastName");
+            } catch (Exception e){
+                jsonObject.put("LastName", "_");
+            }
+            return this.createValidResponse(jsonObject.toString());
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

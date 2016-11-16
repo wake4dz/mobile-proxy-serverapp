@@ -1,11 +1,11 @@
 package com.wakefern.Checkout;
 
-import com.ibm.json.java.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -45,6 +45,17 @@ public class CheckoutBillingAddressPut extends BaseService {
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
+        JSONObject jsonObject = new JSONObject(jsonBody);
+        try{
+            jsonObject.getString("FirstName");
+        } catch (Exception e){
+            jsonObject.put("FirstName", "_");
+        }
+        try{
+            jsonObject.getString("LastName");
+        } catch (Exception e){
+            jsonObject.put("LastName", "_");
+        }
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

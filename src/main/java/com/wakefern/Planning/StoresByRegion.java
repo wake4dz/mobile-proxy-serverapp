@@ -10,6 +10,7 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * Created by zacpuste on 11/14/16.
@@ -22,6 +23,7 @@ public class StoresByRegion extends BaseService {
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("regionId") String regionId,
                                     @PathParam("pageNumber") String pageNumber, @PathParam("pageSize") String pageSize,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        regionId = URLEncoder.encode(regionId, "UTF-8");
         prepareResponse(chainId, regionId, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -38,6 +40,7 @@ public class StoresByRegion extends BaseService {
 
     public String getInfo(String chainId, String regionId, String pageNumber, String pageSize, String authToken)
             throws Exception, IOException {
+        regionId = URLEncoder.encode(regionId, "UTF-8");
         prepareResponse(chainId, regionId, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

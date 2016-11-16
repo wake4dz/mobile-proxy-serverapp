@@ -5,10 +5,13 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 8/24/16.
@@ -26,8 +29,12 @@ public class CheckoutBillingAddressGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.address+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), map, 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -39,7 +46,11 @@ public class CheckoutBillingAddressGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.address+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
+        return HTTPRequest.executeGet(secondMapping.getPath(), map, 0);
     }
 
     public CheckoutBillingAddressGet(){

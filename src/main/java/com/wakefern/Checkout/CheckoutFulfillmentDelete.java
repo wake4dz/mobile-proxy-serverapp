@@ -9,6 +9,8 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 8/24/16.
@@ -26,8 +28,12 @@ public class CheckoutFulfillmentDelete extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.checkout-results+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
         try{
-            HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+            HTTPRequest.executeDelete(secondMapping.getPath(), map, 0);
             return this.createValidDelete();
         } catch (Exception e){
             return this.createErrorResponse(e);
@@ -40,7 +46,11 @@ public class CheckoutFulfillmentDelete extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.checkout-results+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
+        return HTTPRequest.executeDelete(secondMapping.getPath(), map, 0);
     }
 
     public CheckoutFulfillmentDelete(){

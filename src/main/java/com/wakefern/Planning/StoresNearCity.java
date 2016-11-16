@@ -10,6 +10,7 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * Created by zacpuste on 11/14/16.
@@ -24,6 +25,9 @@ public class StoresNearCity extends BaseService {
                                     @PathParam("units") String units, @PathParam("pageNumber") String pageNumber,
                                     @PathParam("pageSize") String pageSize,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        city = URLEncoder.encode(city, "UTF-8");
+        city = city.replaceAll("\\+", "%20");
+        regionId = URLEncoder.encode(regionId, "UTF-8");
         prepareResponse(chainId, regionId, city, radius,units, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -40,6 +44,8 @@ public class StoresNearCity extends BaseService {
 
     public String getInfo(String chainId, String regionId, String city, String radius, String units, String pageNumber,
                           String pageSize, String authToken) throws Exception, IOException {
+        city = URLEncoder.encode(city, "UTF-8");
+        regionId = URLEncoder.encode(regionId, "UTF-8");
         prepareResponse(chainId, regionId, city, radius, units, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -70,5 +76,7 @@ public class StoresNearCity extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + units + ApplicationConstants.StringConstants.page
                 + ApplicationConstants.StringConstants.backSlash + pageNumber + ApplicationConstants.StringConstants.size
                 + ApplicationConstants.StringConstants.backSlash + pageSize;
+
+        System.out.print("Path:: " + this.path);
     }
 }

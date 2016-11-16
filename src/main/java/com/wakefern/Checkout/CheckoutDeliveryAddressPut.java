@@ -9,6 +9,8 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 8/24/16.
@@ -48,8 +50,12 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
 
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.delivery-info+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -61,7 +67,11 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
 
-        return HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.delivery-info+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
+        return HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
     }
 
     public CheckoutDeliveryAddressPut(){

@@ -20,7 +20,7 @@ import java.util.Map;
 public class CheckoutBillingAddressPut extends BaseService {
     @PUT
     @Produces("application/*")
-    /**
+    /***
      * {
      * Format for passed in json
      "FirstName": "Brandyn",
@@ -47,32 +47,36 @@ public class CheckoutBillingAddressPut extends BaseService {
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         JSONObject jsonObject = new JSONObject(jsonBody);
-        try{
-            jsonObject.getString("FirstName");
-        } catch (Exception e){
-            jsonObject.put("FirstName", "_");
+        System.out.println(jsonObject.toString());
+        if(jsonObject.getString("FirstName").isEmpty()){
+        	jsonObject.put("FirstName", "_");
         }
-        try{
-            jsonObject.getString("LastName");
-        } catch (Exception e){
-            jsonObject.put("LastName", "_");
+        
+        if(jsonObject.getString("LastName").isEmpty()){
+        	jsonObject.put("LastName", "_");
         }
-
+        
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        System.out.println("JSON OBJ ::" + jsonObject.toString());
+        System.out.println("JSON STR ::" + jsonBody);
 
-        Map<String, String> map = new HashMap();
-        map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.address+json");
-        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+        secondMapping.setPutMapping(this, jsonObject.toString());
+
+        //Map<String, String> map = new HashMap();
+        //map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.address+json");
+        //map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0));
+            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
+            //return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
+    
+
 
     public String getInfo(String userId, String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
         JSONObject jsonObject = new JSONObject(jsonBody);

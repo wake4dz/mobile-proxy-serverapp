@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zacpuste on 8/24/16.
@@ -27,8 +29,12 @@ public class CheckoutBillingAddressGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.address+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
         try {
-            String response = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+            String response = HTTPRequest.executeGet(secondMapping.getPath(), map, 0);
             JSONObject jsonObject = new JSONObject(response);
             try{
                 jsonObject.getString("FirstName");
@@ -52,7 +58,11 @@ public class CheckoutBillingAddressGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.address+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
+        return HTTPRequest.executeGet(secondMapping.getPath(), map, 0);
     }
 
     public CheckoutBillingAddressGet(){

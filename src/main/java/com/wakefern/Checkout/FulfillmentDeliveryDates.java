@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  ** Created by zacpuste on 8/24/16.
@@ -29,9 +31,13 @@ public class FulfillmentDeliveryDates extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.fulfillment-dates+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
         try {
             if(distId.isEmpty()) {
-                return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+                return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), map, 0));
             } else {
                 String regular = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
                 DistrictDeliveryDate districtDeliveryDate = new DistrictDeliveryDate();
@@ -49,7 +55,11 @@ public class FulfillmentDeliveryDates extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.fulfillment-dates+json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+
+        return HTTPRequest.executeGet(secondMapping.getPath(), map, 0);
     }
 
     public FulfillmentDeliveryDates(){

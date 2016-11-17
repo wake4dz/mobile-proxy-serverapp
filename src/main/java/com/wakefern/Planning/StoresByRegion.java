@@ -24,6 +24,7 @@ public class StoresByRegion extends BaseService {
                                     @PathParam("pageNumber") String pageNumber, @PathParam("pageSize") String pageSize,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         regionId = URLEncoder.encode(regionId, "UTF-8");
+        regionId = regionId.replaceAll("\\+", "%20");
         prepareResponse(chainId, regionId, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -41,6 +42,7 @@ public class StoresByRegion extends BaseService {
     public String getInfo(String chainId, String regionId, String pageNumber, String pageSize, String authToken)
             throws Exception, IOException {
         regionId = URLEncoder.encode(regionId, "UTF-8");
+        regionId = regionId.replaceAll("\\+", "%20");
         prepareResponse(chainId, regionId, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

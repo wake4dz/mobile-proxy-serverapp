@@ -28,6 +28,7 @@ public class StoresNearCity extends BaseService {
         city = URLEncoder.encode(city, "UTF-8");
         city = city.replaceAll("\\+", "%20");
         regionId = URLEncoder.encode(regionId, "UTF-8");
+        regionId = regionId.replaceAll("\\+", "%20");
         prepareResponse(chainId, regionId, city, radius,units, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -45,7 +46,9 @@ public class StoresNearCity extends BaseService {
     public String getInfo(String chainId, String regionId, String city, String radius, String units, String pageNumber,
                           String pageSize, String authToken) throws Exception, IOException {
         city = URLEncoder.encode(city, "UTF-8");
+        city = city.replaceAll("\\+", "%20");
         regionId = URLEncoder.encode(regionId, "UTF-8");
+        regionId = regionId.replaceAll("\\+", "%20");
         prepareResponse(chainId, regionId, city, radius, units, pageNumber, pageSize, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

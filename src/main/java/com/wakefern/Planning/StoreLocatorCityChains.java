@@ -23,6 +23,7 @@ public class StoreLocatorCityChains extends BaseService {
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("regionId") String regionId,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         regionId = URLEncoder.encode(regionId, "UTF-8");
+        regionId = regionId.replaceAll("\\+", "%20");
         prepareResponse(chainId, regionId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -39,6 +40,7 @@ public class StoreLocatorCityChains extends BaseService {
 
     public String getInfo(String chainId, String regionId, String authToken) throws Exception, IOException {
         regionId = URLEncoder.encode(regionId, "UTF-8");
+        regionId = regionId.replaceAll("\\+", "%20");
         prepareResponse(chainId, regionId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();

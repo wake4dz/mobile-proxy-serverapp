@@ -253,13 +253,14 @@ public class HTTPRequest {
 //                //System.out.print("B");
 
 
-                BufferedReader br2 = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-                StringBuilder sb2 = new StringBuilder();
-                String line2;
-                while ((line2 = br2.readLine()) != null) {
-                    sb2.append(line2 + "\r");
-                }
-                br2.close();
+//                BufferedReader br2 = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+//                StringBuilder sb2 = new StringBuilder();
+//                String line2;
+//                while ((line2 = br2.readLine()) != null) {
+//                    sb2.append(line2 + "\r");
+//                }
+//                br2.close();
+
                 //System.out.print("Error Stream " + line2);
                 //System.out.print("C");
 

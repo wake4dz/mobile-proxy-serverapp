@@ -20,7 +20,7 @@ import java.util.Map;
 public class CheckoutBillingAddressPut extends BaseService {
     @PUT
     @Produces("application/*")
-    /***
+    /*****
      * {
      * Format for passed in json
      "FirstName": "Brandyn",
@@ -56,21 +56,23 @@ public class CheckoutBillingAddressPut extends BaseService {
         	jsonObject.put("LastName", "_");
         }
         
+        ServiceMappings secondMapping = new ServiceMappings();
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        System.out.println("JSON OBJ ::" + jsonObject.toString());
-        System.out.println("JSON STR ::" + jsonBody);
+        System.out.println("JSON Address :: Billing OBJ ::" + jsonObject.toString());
 
         secondMapping.setPutMapping(this, jsonObject.toString());
 
-        //Map<String, String> map = new HashMap();
-        //map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.address+json");
-        //map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+        
+       
+
+        Map<String, String> map = new HashMap();
+        map.put(ApplicationConstants.Requests.Header.contentType, "application/json");
+        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
-            //return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0));
+            //return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

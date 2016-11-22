@@ -1,6 +1,5 @@
 package com.wakefern.request.models;
 
-import com.ibm.json.java.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;

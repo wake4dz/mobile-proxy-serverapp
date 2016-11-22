@@ -22,7 +22,7 @@ import java.util.*;
 
 /**
  * Created by zacpuste on 8/29/16.
- */
+ **/
 @Path(ApplicationConstants.Requests.Recipes.RecipeChain)
 public class Categories extends BaseService {
     public JSONArray matchedObjects2;
@@ -40,7 +40,7 @@ public class Categories extends BaseService {
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }else{
-        	this.token = authToken;
+        	this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }
         Set<Integer> ids = new HashSet<>();
         JSONObject matchedObjects = new JSONObject();
@@ -100,7 +100,7 @@ public class Categories extends BaseService {
         if(!listName.isEmpty()&&!storeId.isEmpty()&&!userId.isEmpty()&&!authUser.isEmpty()){
             GetItemsInList getItemsInList = new GetItemsInList();
             String list = getItemsInList.getInfo(storeId, userId, "", authUser, listName, "", "9999", "0", "");
-            //System.out.println("List Items :: " + list);
+            System.out.println("List Items :: " + list);
             JSONObject listItems = new JSONObject(list);
             JSONArray items = listItems.getJSONArray(ApplicationConstants.recipeSearch.items);
             JSONArray response = new JSONArray();

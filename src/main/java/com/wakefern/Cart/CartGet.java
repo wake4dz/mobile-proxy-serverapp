@@ -1,22 +1,26 @@
 package com.wakefern.Cart;
 
-import com.wakefern.Wakefern.ItemLocatorArray;
+import java.io.IOException;
+
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import org.json.*;
+
 import com.wakefern.Wakefern.ItemLocatorArrayPost;
 import com.wakefern.Wakefern.WakefernAuth;
 import com.wakefern.global.ApplicationConstants;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-
-import java.io.IOException;
 
 /**
  * Created by zacpuste on 8/25/16.

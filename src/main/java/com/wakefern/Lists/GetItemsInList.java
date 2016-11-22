@@ -63,7 +63,7 @@ public class GetItemsInList extends BaseService {
     
     public String getInfo(String storeId, String userId, String isMember, String authToken, 
 			String listName, String listId, String take, String skip, String jsonBody) {
-    	return this.getInfoFilter(storeId, userId, isMember, authToken, listName, listId, take, skip, jsonBody,null);
+    	return this.getInfoFilter(storeId, userId, isMember, authToken, listName, listId, take, skip, jsonBody,"");
     }
 //
 	public String getInfoFilter(String storeId, String userId, String isMember, String authToken, 

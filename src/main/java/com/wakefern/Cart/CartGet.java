@@ -106,6 +106,7 @@ public class CartGet extends BaseService {
 					String itemLocations = itemLocatorArrayPost.getInfo(
 							authString, jsonBody);
 					try {
+						JSONArray locationAgg = new JSONArray();
 						JSONArray array = new JSONArray(itemLocations);
 						for (Object locationItem : array) {
 							JSONObject locationItems = (JSONObject) locationItem;
@@ -153,12 +154,12 @@ public class CartGet extends BaseService {
 								}
 								continue;
 							}
-							JSONArray locations = locationItems
-									.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
-							// In separate loop to handle the case of multiple
-							// aisles for one product
-							innerLoop(locations, items, retval);
+							locationAgg.put(locationItems
+									.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations));
 						}
+						// In separate loop to handle the case of multiple
+						// aisles for one product
+						innerLoop(locationAgg, items, retval);
 						return this.createValidResponse(retval.toString());
 					} catch (Exception e) {
 						// Error casting
@@ -213,41 +214,44 @@ public class CartGet extends BaseService {
 		this.serviceType = new MWGHeader();
 	}
 
-	private void innerLoop(JSONArray locations, JSONArray items,
+	private void innerLoop(JSONArray locationsArray, JSONArray items,
 			JSONObject retval) {
 		// Iterate through these too - inner excluded UPCs
-		for (int z = 0, sizez = locations.length(); z < sizez; z++) {
-			JSONObject aItem = (JSONObject) locations.get(z);
-			for (int j = 0, sizej = items.length(); j < sizej; j++) {
-				// Get the items in the array and make a comma separated string
-				// of them as well trim the first and last digit
-				JSONObject item = (JSONObject) items.get(j);
-				if(item.getBoolean("IsAvailable")){
-
-					String itemString = aItem.get(
-							ApplicationConstants.AisleItemLocator.upc_13_num)
-							.toString();
-					if (item.get(ApplicationConstants.AisleItemLocator.Sku)
-							.toString().contains(itemString)) {
-						if (aItem
-								.has(ApplicationConstants.AisleItemLocator.area_desc)) {
-							item.put(
-									ApplicationConstants.AisleItemLocator.Aisle,
-									aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
-							retval.append(
-									ApplicationConstants.AisleItemLocator.Items,
-									item);
-							return;
-						} else {
-							item.put(ApplicationConstants.AisleItemLocator.Aisle,
-									ApplicationConstants.AisleItemLocator.Other);
-							break;
+		System.out.println(items.toString());
+		for (int j = 0, sizej = items.length(); j < sizej; j++) {
+			JSONObject item = (JSONObject) items.get(j);
+			if(item.getBoolean("IsAvailable")){
+				Boolean itemAdded = false;
+				for(int y = 0; y < locationsArray.length() && !itemAdded; y++){
+					JSONArray locations = locationsArray.getJSONArray(y);
+					System.out.println(locations.toString());
+					for (int z = 0, sizez = locations.length(); z < sizez; z++) {
+						JSONObject aItem = (JSONObject) locations.get(z);
+						// Get the items in the array and make a comma separated string
+						// of them as well trim the first and last digit
+		
+						String itemString = aItem.get(
+								ApplicationConstants.AisleItemLocator.upc_13_num)
+								.toString();
+						if (item.get(ApplicationConstants.AisleItemLocator.Sku)
+								.toString().contains(itemString)) {
+							if (aItem
+									.has(ApplicationConstants.AisleItemLocator.area_desc)) {
+								item.put(
+										ApplicationConstants.AisleItemLocator.Aisle,
+										aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
+								retval.append(
+										ApplicationConstants.AisleItemLocator.Items,
+										item);
+								itemAdded = true;
+								break;
+							}
 						}
-						
-					} else if (j + 1 == sizej) {
-						item.put(ApplicationConstants.AisleItemLocator.Aisle,
-								ApplicationConstants.AisleItemLocator.Other);
 					}
+				}
+				if(!itemAdded){
+					item.put(ApplicationConstants.AisleItemLocator.Aisle,
+							ApplicationConstants.AisleItemLocator.Other);
 					retval.append(ApplicationConstants.AisleItemLocator.Items, item);
 				}
 			}

@@ -115,8 +115,7 @@ public class FormattedAuthentication {
             else if(serviceName.equals(ApplicationConstants.FormattedAuthentication.S2GSisterStore)){
                 String uri = currentService.get(ApplicationConstants.FormattedAuthentication.Uri).toString();
                 String[] query = uri.split("strid=");
-                String id = query[1].substring(5, query[1].length());
-
+                String id = query[1].substring(4, query[1].length());
                 try {
                     StoreDetails storeDetails = new StoreDetails();
                     String storesJson = storeDetails.getInfo(chainId, id, planningAuth);

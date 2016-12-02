@@ -105,6 +105,7 @@ public final class ApplicationConstants {
         public static final String referFriend = "/refer/friend";
         public static final String review = "/review";
         public static final String search = "/search";
+        public static final String sessid = "/sessid";
         public static final String settings = "/settings";
         public static final String size = "/size";
         public static final String skip = "&skip=";
@@ -222,6 +223,16 @@ public final class ApplicationConstants {
             public static final String ItemLocator = MWGApplicationConstants.Requests.Wakefern.ItemLocator;
             public static final String ItemLocatorAuth = MWGApplicationConstants.Requests.Wakefern.ItemLocatorAuth;
             public static final String ItemLocatorJson = MWGApplicationConstants.Requests.Wakefern.ItemLocatorJson;
+        }
+
+        public static class Recommendations{
+        	public static final String ProductRecommendations = MWGApplicationConstants.Requests.Recommendations.ProductRecommendations;
+        	public static final String BaseRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseURL;
+        }
+        
+        public static class Rewards{
+        	public static final String Points = MWGApplicationConstants.Requests.Rewards.Points;
+        	public static final String BasePointsURL = MWGApplicationConstants.Requests.Rewards.baseURL;
         }
     }
 

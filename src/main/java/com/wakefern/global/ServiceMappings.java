@@ -67,10 +67,24 @@ public class ServiceMappings {
 		}
 	}
 
+	public void setMappingWithURL(Object serviceObject, String baseURL){
+		BaseService aService = (BaseService) serviceObject;
+		if (aService.serviceType instanceof MWGHeader) {
+			MWGHeader mwgHeader = new MWGHeader();
+			sendRequestWithURL(aService, mwgHeader, baseURL);
+		}
+	}
+
 	private void sendRequest(BaseService serviceObject,MWGHeader header){
 		header.authenticate(serviceObject.token);
 		setgenericHeader(header.getMap());
 		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+	}
+
+	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
+		header.authenticate(serviceObject.token);
+		setgenericHeader(header.getMap());
+		setPath(baseURL + serviceObject.path);
 	}
 
 	//User for all PUT and POST methods

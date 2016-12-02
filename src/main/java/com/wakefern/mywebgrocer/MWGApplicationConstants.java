@@ -76,5 +76,15 @@ public class MWGApplicationConstants {
             public static final String ItemLocatorAuth = "/wfctoken/auth/gentoken";
             public static final String ItemLocatorJson = "/itemlocator/item/location/json";
         }
+        
+        public static class Recommendations{
+        	public static final String ProductRecommendations = "/recommend/api/v1/products/user";
+        	public static final String baseURL = "https://wfcapi.shoprite.com";
+        }
+        
+        public static class Rewards{
+        	public static final String Points = "/rewards/api/v1/points";
+        	public static final String baseURL = "https://wfcapi.shoprite.com";
+        }
     }
 }

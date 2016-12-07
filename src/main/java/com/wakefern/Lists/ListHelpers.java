@@ -38,6 +38,7 @@ public final class ListHelpers {
             String json = shopList.getInfo(chainId, userId, isMember, authToken);
             return json;
         } catch (Exception e) {
+            System.out.print("Error" + e.getMessage());
             ExceptionHandler.Exception(e);
             return e.getMessage();
         }

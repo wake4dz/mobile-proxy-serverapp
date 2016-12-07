@@ -52,6 +52,7 @@ public class CartGet extends BaseService {
 			if (shortStoreId.isEmpty()) {
 				return this.createValidResponse(cartResp);
 			}
+			System.out.print("Cart Response:: " + cartResp);
 			JSONObject cart = new JSONObject(cartResp);
 			JSONArray items = (JSONArray) cart
 					.get(ApplicationConstants.AisleItemLocator.Items);
@@ -122,38 +123,25 @@ public class CartGet extends BaseService {
 										.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
 								for (Object upc : locations) {
 									JSONObject currentUpc = (JSONObject) upc;
-									String itemString = currentUpc
-											.get(ApplicationConstants.AisleItemLocator.upc_13_num)
+									String itemString = currentUpc.get(ApplicationConstants.AisleItemLocator.upc_13_num)
 											.toString();
 									for (int i = 0; i < items.length(); i++) {
-										JSONObject item = (JSONObject) items
-												.get(i);
+										JSONObject item = (JSONObject) items.get(i);
 										if(item.getBoolean("IsAvailable")){
-
-										if (item.get(
-												ApplicationConstants.AisleItemLocator.Sku)
-												.toString()
-												.contains(itemString)) {
-												item.put(
-														ApplicationConstants.AisleItemLocator.Aisle,
-														ApplicationConstants.AisleItemLocator.Other);
-												retval.append(
-														ApplicationConstants.AisleItemLocator.Items,
-														item);
-											
-											// Ran out of items, just return the
-											// cart
-											if (items.length() - 1 == 0) {
-												return this
-														.createValidResponse(retval
-																.toString());
-											} else {
-												// Remove item so its no longer
-												// iterated over
-												items.remove(i);
+											if (item.get(ApplicationConstants.AisleItemLocator.Sku).toString().contains(itemString)) {
+													item.put(ApplicationConstants.AisleItemLocator.Aisle,
+															ApplicationConstants.AisleItemLocator.Other);
+													retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+												// Ran out of items, just return the
+												// cart
+												if (items.length() - 1 == 0) {
+													return this.createValidResponse(retval.toString());
+												} else {
+													// Remove item so its no longer iterated over
+													items.remove(i);
+												}
 											}
 										}
-									}
 									}
 								}
 								continue;
@@ -167,13 +155,28 @@ public class CartGet extends BaseService {
 						return this.createValidResponse(retval.toString());
 					} catch (Exception e) {
 						// Error casting
-						return this.createValidResponse(cartResp);
+						for(Object item: items){
+							JSONObject currentItem = (JSONObject) item;
+							currentItem.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+							retval.append(ApplicationConstants.AisleItemLocator.Items, currentItem);
+						}
+						return this.createValidResponse(retval.toString());
 					}
 				}
-				return this.createValidResponse(cart.toString());
+				for(Object item: items){
+					JSONObject currentItem = (JSONObject) item;
+					currentItem.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+					retval.append(ApplicationConstants.AisleItemLocator.Items, currentItem);
+				}
+				return this.createValidResponse(retval.toString());
 			} else {
 				// Return without anything
-				return this.createValidResponse(cartResp);
+				for(Object item: items){
+					JSONObject currentItem = (JSONObject) item;
+					currentItem.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+					retval.append(ApplicationConstants.AisleItemLocator.Items, currentItem);
+				}
+				return this.createValidResponse(retval.toString());
 			}
 
 		} catch (Exception e) {

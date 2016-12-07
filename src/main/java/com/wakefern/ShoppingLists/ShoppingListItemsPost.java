@@ -50,7 +50,7 @@ public class ShoppingListItemsPost extends BaseService {
         ServiceMappings mapping = new ServiceMappings();
         mapping.setAllHeadersPutMapping(this, jsonBody);
 
-        return (HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader(), 0));
+        return HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader(), 0);
     }
 
     public ShoppingListItemsPost(){
@@ -59,16 +59,12 @@ public class ShoppingListItemsPost extends BaseService {
 
     private String prepareResponse(String userId, String storeId, String listId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.ShoppingLists.slItemsUser
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
-                + ApplicationConstants.StringConstants.backSlash + listId;
         String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId;
 
-        if(isMember.isEmpty()){
+        if(!isMember.isEmpty()){
             path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list

@@ -45,7 +45,6 @@ public class AddItemToList extends BaseService {
             listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);
         }
         //System.out.println("List ID ::" + listId);
-        //this.addItem(createItem,listId,storeId,userId,authToken);
 
         return this.addItem(createItem,listId,storeId,userId,isMember,authToken);
     }

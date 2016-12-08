@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -41,6 +42,16 @@ public class Categories extends BaseService {
             this.token = ApplicationConstants.Requests.Tokens.planningToken;
         }else{
         	this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        }
+
+        String qEncoded = "";
+        try {
+            if(q != "") {
+                qEncoded = URLEncoder.encode(q, "UTF-8");
+            }
+        } catch (Exception e){
+            Exception ex = new Exception("Invalid encoding scheme, please use UTF-8");
+            return this.createErrorResponse(ex);
         }
         Set<Integer> ids = new HashSet<>();
         JSONObject matchedObjects = new JSONObject();
@@ -70,7 +81,7 @@ public class Categories extends BaseService {
             if(category == "") {
                 this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                         + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
-                        + ApplicationConstants.StringConstants.queryParam + q;
+                        + ApplicationConstants.StringConstants.queryParam + qEncoded;
 
                 ServiceMappings secondMapping = new ServiceMappings();
                 secondMapping.setServiceMappingv1(this, null);
@@ -85,7 +96,7 @@ public class Categories extends BaseService {
                     JSONArray jsonArray = jsonObject.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONArray(ApplicationConstants.recipeSearch.category);
                     ids = getSubcategories(jsonArray);
                 } catch (Exception e) {
-                    JSONArray emptyArray = new JSONArray(); //Used to format like a sucessful response, but just with an empty array
+                    JSONArray emptyArray = new JSONArray(); //Used to format like a successful response, but just with an empty array
                     matchedObjects.put(ApplicationConstants.recipeSearch.RecipeCategories, emptyArray);
                     matchedObjects.put(ApplicationConstants.recipeSearch.totalRecipes, 0);
                     return this.createValidResponse(matchedObjects.toString());

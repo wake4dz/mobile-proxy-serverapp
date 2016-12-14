@@ -23,10 +23,11 @@ public class ShoppingListItemsGet extends BaseService {
     @Path("/{userId}/store/{storeId}/list/{listId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId , @PathParam("listId") String listId,
                                     @QueryParam("take") String take, @QueryParam("skip") String skip,
+                                    @DefaultValue("")@QueryParam("fq") String fq,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-
-        String path = prepareResponse(userId, storeId, listId, take, skip, isMember, authToken);
+        
+        String path = prepareResponse(userId, storeId, listId, take, skip, fq, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
@@ -34,16 +35,16 @@ public class ShoppingListItemsGet extends BaseService {
         return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0));
     }
 
-    public String getInfo(String userId, String storeId , String listId, String take, String skip, String isMember, String authToken) throws Exception, IOException {
-        return this.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken, "");
+    public String getInfo(String userId, String storeId , String listId, String take, String skip, String fq, String isMember, String authToken) throws Exception, IOException {
+        return this.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken, "", fq);
     }
     
     public String getInfoFilter(String userId, String storeId , String listId, String take, 
-    		String skip, String isMember, String authToken,String filter) throws Exception, IOException {
-    	String path = prepareResponse(userId, storeId, listId, take, skip, isMember, authToken);
+    		String skip, String isMember, String authToken, String filter, String fq) throws Exception, IOException {
+    	String path = prepareResponse(userId, storeId, listId, take, skip, fq, isMember, authToken);
     	//Fix filter 
     	if(!filter.isEmpty()){
-    		path += "&fq=" + URLEncoder.encode(filter, "UTF-8");;
+    		path += "&fq=" + URLEncoder.encode(filter, "UTF-8");
     		//System.out.println("Filter With Path :: " + path);
     	}else{
     		//System.out.println("No Filter With Path :: " + path);
@@ -57,7 +58,7 @@ public class ShoppingListItemsGet extends BaseService {
         return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
     }
 
-    public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String isMember, String authToken){
+    public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String fq, String isMember, String authToken){
         this.token = authToken;
 
         this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
@@ -65,12 +66,18 @@ public class ShoppingListItemsGet extends BaseService {
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
                 + take + ApplicationConstants.StringConstants.skip + skip;
+
+        if(!fq.isEmpty()){
+            try {
+                String fqEncoded = URLEncoder.encode(fq, "UTF-8");
+                this.path += ApplicationConstants.StringConstants.fq + fqEncoded;
+            } catch (Exception e){
+                System.out.print("ShoppingListItemGet:: Error Encoding fq " + e.getMessage());
+            }
+        }
+
         if(!isMember.isEmpty()){
-            this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
-                    + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
-                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
-                    + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
-                    + take + ApplicationConstants.StringConstants.skip + skip + ApplicationConstants.StringConstants.isMemberAmp;
+            this.path += ApplicationConstants.StringConstants.isMemberAmp;
         }
         return path;
     }

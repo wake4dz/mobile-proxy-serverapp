@@ -39,7 +39,7 @@ public class GetItemsInList extends BaseService {
         ShoppingListItemsGet list = new ShoppingListItemsGet();
         if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
             try {
-				return this.createValidResponse(list.getInfo(userId, storeId, listId, take, skip, isMember, authToken));
+				return this.createValidResponse(list.getInfo(userId, storeId, listId, take, skip, "", isMember, authToken));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				return this.createErrorResponse(e);
@@ -81,9 +81,9 @@ public class GetItemsInList extends BaseService {
 		if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
 			try {
 				if(filter.isEmpty()){
-					return list.getInfo(userId, storeId, listId, take, skip, isMember, authToken);
+					return list.getInfo(userId, storeId, listId, take, skip, "", isMember, authToken);
 				}else{
-					return list.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken,filter);
+					return list.getInfoFilter(userId, storeId, listId, take, skip, isMember, authToken, filter, "");
 					
 				}
 			} catch (IOException e) {

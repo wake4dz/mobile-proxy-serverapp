@@ -458,7 +458,7 @@ public final class ApplicationConstants {
 
     public static class AisleItemLocator{
         public static final String Aisle = "Aisle";
-        public static final String area_desc = "area_desc";
+        public static final String area_desc = "wf_area_desc";
         public static final String Items = "Items";
         public static final String item_locations = "item_locations";
         public static final String jsonOpen = "{ \"store\": ";

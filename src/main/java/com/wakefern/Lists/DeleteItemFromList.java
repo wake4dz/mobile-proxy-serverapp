@@ -56,7 +56,7 @@ public class DeleteItemFromList extends BaseService {
                 ShoppingListItemsGet list = new ShoppingListItemsGet();
                 String returnString = null;
     			try {
-    				returnString = list.getInfo(userId, storeId, listId, "9999", "0", isMember, authToken);
+    				returnString = list.getInfo(userId, storeId, listId, "9999", "0", "", isMember, authToken);
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				return this.createErrorResponse(e);

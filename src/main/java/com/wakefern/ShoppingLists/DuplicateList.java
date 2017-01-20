@@ -42,7 +42,7 @@ public class DuplicateList extends BaseService {
 
         //Get items from first list - max and min hardcoded for take and skip respectively
         ShoppingListItemsGet shoppingListItemsGet = new ShoppingListItemsGet();
-        String firstList = shoppingListItemsGet.getInfo(userId, storeId, id1, "9999", "0", isMember, authToken);
+        String firstList = shoppingListItemsGet.getInfo(userId, storeId, id1, "9999", "0", "", isMember, authToken);
 
         //Create second List
         ShoppingListsPost shoppingListsPost = new ShoppingListsPost();

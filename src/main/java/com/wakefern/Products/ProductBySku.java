@@ -78,33 +78,27 @@ public class ProductBySku extends BaseService {
         String authString = wakefernAuth.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);
         if(!authString.isEmpty()){
             String sku = jsonObject.getString(ApplicationConstants.AisleItemLocator.Sku);
-            sku = sku.substring(0, sku.length()-1);
+            sku = sku.substring(0, sku.length() - 1);
             ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
             String itemLocation = itemLocatorArray.getInfo(shortStoreId, sku, authString);
             try{
                 JSONArray jsonArray = new JSONArray(itemLocation);
-                for (int i = 0, size = jsonArray.length(); i < size; i++){
-                    JSONObject locationItems = (JSONObject)jsonArray.get(i);
-                    JSONArray locations = locationItems.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
-                    //Iterate through these too - inner excluded UPCs
-                    for(int z = 0, sizez = locations.length(); z <sizez;z++) {
-                        JSONObject aItem = (JSONObject) locations.get(z);
-                        String itemString = aItem.get(ApplicationConstants.AisleItemLocator.upc_13_num).toString();
-                        if (sku.contains(itemString)) {
-                            if (aItem.has(ApplicationConstants.AisleItemLocator.area_desc)) {
-                                jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, aItem.get(ApplicationConstants.AisleItemLocator.area_desc));
-                                return jsonObject;
-                            } else {
-                                jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
-                                break;
-                            }
-                        } else if (z + 1 == locations.length()) {
+                for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                    JSONObject locationItems = (JSONObject) jsonArray.get(i);
+                    Object areaDesc = locationItems.get(ApplicationConstants.AisleItemLocator.area_desc);
+                    if ( areaDesc != null ) {
+                        if( !areaDesc.toString().equals("null") ) {
+                            jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, areaDesc.toString());
+                            return jsonObject;
+                        } else {
                             jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+                            return jsonObject;
                         }
+                    } else {
+                        jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+                        return jsonObject;
                     }
-
                 }
-                return jsonObject;
             }catch(Exception e){
                 //Error casting
                 throw e;

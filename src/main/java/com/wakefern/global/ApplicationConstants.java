@@ -464,5 +464,6 @@ public final class ApplicationConstants {
         public static final String Sku = "Sku";
         public static final String upc_13_num = "upc_13_num"; //
         public static final String WakefernAuth = "eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9";
+        public static final String item_locations = "item_locations";
     }
 }

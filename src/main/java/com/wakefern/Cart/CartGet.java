@@ -1,6 +1,7 @@
 package com.wakefern.Cart;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -43,59 +44,78 @@ public class CartGet extends BaseService {
 
 		try {
 			String cartResp = HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(),0);
-			if (shortStoreId.isEmpty()) {
-				return this.createValidResponse(cartResp);
-			}
-			JSONObject cart = new JSONObject(cartResp);
-			JSONArray items = (JSONArray) cart.get(ApplicationConstants.AisleItemLocator.Items);
-			JSONObject searchAble = new JSONObject();
-			JSONObject retval = new JSONObject();
-
-			// Set up retval with all non-items data
-			for (Object key : cart.keySet()) {
-				String keyStr = (String) key;
-				if (!keyStr.equals(ApplicationConstants.AisleItemLocator.Items)) {
-					Object keyvalue = cart.get(keyStr);
-					retval.put(keyStr, keyvalue);
+			try {
+				if (shortStoreId.isEmpty()) {
+					return this.createValidResponse(cartResp);
 				}
-			}
+				JSONObject cart = new JSONObject(cartResp);
+				JSONArray items = (JSONArray) cart.get(ApplicationConstants.AisleItemLocator.Items);
+				JSONObject searchAble = new JSONObject();
+				JSONObject retval = new JSONObject();
 
-			if (!items.isNull(0)) {
-				WakefernAuth auth = new WakefernAuth();
-				String authString = auth
-						.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);
-				if (!authString.isEmpty()) {
-					// return without AISLE Data
-					String responseString = "";
-					for (int i = 0, size = items.length(); i < size; i++) {
-						// Get the items in the array and make a comma separated string of them as well trim the first and last digit
-						JSONObject item = (JSONObject) items.get(i);
-						String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
-						String sku = this.updateUPC(itemId);
-						if (sku.matches("[0-9]+")) {
-							responseString += sku + ",";
-							searchAble.append(ApplicationConstants.AisleItemLocator.Items,item);
-						} else {
-							item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
-							retval.append(ApplicationConstants.AisleItemLocator.Items, item);
-						}
+				// Set up retval with all non-items data
+				for (Object key : cart.keySet()) {
+					String keyStr = (String) key;
+					if (!keyStr.equals(ApplicationConstants.AisleItemLocator.Items)) {
+						Object keyvalue = cart.get(keyStr);
+						retval.put(keyStr, keyvalue);
 					}
-					items = (JSONArray) searchAble.get(ApplicationConstants.AisleItemLocator.Items);
-					responseString = responseString.substring(0, responseString.length() - 1); //remove trailing comma
+				}
 
-					ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
-					String itemLocations = itemLocatorArray.getInfo(shortStoreId, responseString, authString);
+				if (!items.isNull(0)) {
+					WakefernAuth auth = new WakefernAuth();
+					String authString = auth.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);
+					if (!authString.isEmpty()) {
+						// return without AISLE Data
+						String responseString = "";
+						for (int i = 0, size = items.length(); i < size; i++) {
+							// Get the items in the array and make a comma separated string of them as well trim the first and last digit
+							JSONObject item = (JSONObject) items.get(i);
+							String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
+							String sku = this.updateUPC(itemId);
+							if (sku.matches("[0-9]+")) {
+								responseString += sku + ",";
+								searchAble.append(ApplicationConstants.AisleItemLocator.Items, item);
+							} else {
+								item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+								retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+							}
+						}
 
-					try {
-						JSONArray jsonArray = new JSONArray(itemLocations);
-						int size = jsonArray.length();
-						for (int i = 0; i < size; i++) {
-							JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-							Object areaDesc = jsonObject.get(ApplicationConstants.AisleItemLocator.area_desc);
+						items = (JSONArray) searchAble.get(ApplicationConstants.AisleItemLocator.Items);
+						responseString = responseString.substring(0, responseString.length() - 1); //remove trailing comma
+						ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
+						String locatorArray = itemLocatorArray.getInfo(shortStoreId, responseString, authString);
+						HashMap<String, Object> itemLocatorData = new HashMap<>();
+
+						try {
+							JSONArray jsonArray = new JSONArray(locatorArray);
+							int size = jsonArray.length();
+							for (int i = 0; i < size; i++) {
+								JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+								Object areaDesc = jsonObject.get(ApplicationConstants.AisleItemLocator.area_desc);
+								JSONArray itemLocations = jsonObject.getJSONArray(ApplicationConstants.AisleItemLocator.item_locations);
+								for (int j = 0; j < itemLocations.length(); j++) {
+									Object upc13 = itemLocations.getJSONObject(j).get(ApplicationConstants.AisleItemLocator.upc_13_num);
+									itemLocatorData.put(upc13.toString(), areaDesc);
+								}
+							}
+						} catch (Exception e) {
+							throw e;
+						}
+
+						for (int i = 0; i < items.length(); i++) {
 							JSONObject item = items.getJSONObject(i);
-							if ( areaDesc != null ) {
-								if( !areaDesc.toString().equals("null") ) {
-									item.put(ApplicationConstants.AisleItemLocator.Aisle, areaDesc.toString());
+							String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
+							String upc = this.updateUPC(itemId);
+
+							while (upc.charAt(0) == '0') {
+								upc = upc.substring(1, upc.length());
+							}
+							Object wfAreaDesc = itemLocatorData.get(upc);
+							if (wfAreaDesc != null) {
+								if (wfAreaDesc.toString() != "null") {
+									item.put(ApplicationConstants.AisleItemLocator.Aisle, wfAreaDesc.toString());
 								} else {
 									item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
 								}
@@ -105,23 +125,22 @@ public class CartGet extends BaseService {
 							retval.append(ApplicationConstants.AisleItemLocator.Items, item);
 						}
 						return this.createValidResponse(retval.toString());
-					} catch (Exception e) {
-						throw e;
 					}
+				} else { // Return without anything
+					for (Object item : items) {
+						JSONObject currentItem = (JSONObject) item;
+						currentItem.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+						retval.append(ApplicationConstants.AisleItemLocator.Items, currentItem);
+					}
+					return this.createValidResponse(retval.toString());
 				}
-			} else { // Return without anything
-				for(Object item: items){
-					JSONObject currentItem = (JSONObject) item;
-					currentItem.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
-					retval.append(ApplicationConstants.AisleItemLocator.Items, currentItem);
-				}
-				return this.createValidResponse(retval.toString());
+			}catch (Exception e){
+				return this.createValidResponse(cartResp);
 			}
-
 		} catch (Exception e) {
 			return this.createErrorResponse(e);
 		}
-		System.out.print("Null return"); return null;
+		System.out.print("Null return"); return null; //Code should not be reached
 	}
 
 	private String updateUPC(String sku) {    return sku.substring(1, sku.length() - 1);    }

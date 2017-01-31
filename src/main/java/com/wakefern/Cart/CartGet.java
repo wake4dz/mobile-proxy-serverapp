@@ -114,8 +114,12 @@ public class CartGet extends BaseService {
 							}
 							Object wfAreaDesc = itemLocatorData.get(upc);
 							if (wfAreaDesc != null) {
-								if (wfAreaDesc.toString() != "null") {
-									item.put(ApplicationConstants.AisleItemLocator.Aisle, wfAreaDesc.toString());
+								if (wfAreaDesc.toString() != "null"  ) {
+									if( wfAreaDesc.toString().toLowerCase().contains("not found") ){
+										item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+									} else {
+										item.put(ApplicationConstants.AisleItemLocator.Aisle, wfAreaDesc.toString());
+									}
 								} else {
 									item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
 								}

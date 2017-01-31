@@ -87,9 +87,14 @@ public class ProductBySku extends BaseService {
                     JSONObject locationItems = (JSONObject) jsonArray.get(i);
                     Object areaDesc = locationItems.get(ApplicationConstants.AisleItemLocator.area_desc);
                     if ( areaDesc != null ) {
-                        if( !areaDesc.toString().equals("null") ) {
-                            jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, areaDesc.toString());
-                            return jsonObject;
+                        if (areaDesc.toString() != "null" ) {
+                            if( areaDesc.toString().toLowerCase().contains("not found") ) {
+                                jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+                                return jsonObject;
+                            } else {
+                                jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, areaDesc.toString());
+                                return jsonObject;
+                            }
                         } else {
                             jsonObject.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
                             return jsonObject;

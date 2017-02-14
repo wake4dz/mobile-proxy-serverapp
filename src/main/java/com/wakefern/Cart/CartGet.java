@@ -110,7 +110,7 @@ public class CartGet extends BaseService {
 							String upc = this.updateUPC(itemId);
 
 							while (upc.charAt(0) == '0') {
-								upc = upc.substring(1, upc.length());
+								upc = upc.substring(0, upc.length());
 							}
 							Object wfAreaDesc = itemLocatorData.get(upc);
 							if (wfAreaDesc != null) {
@@ -147,7 +147,7 @@ public class CartGet extends BaseService {
 		System.out.print("Null return"); return null; //Code should not be reached
 	}
 
-	private String updateUPC(String sku) {    return sku.substring(1, sku.length() - 1);    }
+	private String updateUPC(String sku) {    return sku.substring(0, sku.length() - 1);    }
 
 	public String getInfo(String userId, String storeId, String isMember,
 			String authToken) throws Exception, IOException {

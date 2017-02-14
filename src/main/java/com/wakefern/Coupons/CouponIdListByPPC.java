@@ -35,6 +35,10 @@ public class CouponIdListByPPC extends BaseService {
             this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }
 
+        if(ppcParam.equals("")){
+            return this.createResponse(400);
+        }
+
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam);
 

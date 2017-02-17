@@ -109,9 +109,9 @@ public class CartGet extends BaseService {
 							String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
 							String upc = this.updateUPC(itemId);
 
-							while (upc.charAt(0) == '0') {
-								upc = upc.substring(0, upc.length());
-							}
+//							while (upc.charAt(0) == '0') {
+//								upc = upc.substring(0, upc.length());
+//							}
 							Object wfAreaDesc = itemLocatorData.get(upc);
 							if (wfAreaDesc != null) {
 								if (wfAreaDesc.toString() != "null"  ) {

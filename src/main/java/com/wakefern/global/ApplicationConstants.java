@@ -10,12 +10,12 @@ import java.util.Map;
 public final class ApplicationConstants {
 
 
-    public static final String testUser				    = "bbrosemer@gmail.com";
-    public static final String password				    = "fuzzy2345";
-    public static final String jsonResponseType		    = "application/json";
-    public static final String jsonAcceptType		    = "application/json";
+    public static final String testUser                 = "bbrosemer@gmail.com";
+    public static final String password                 = "fuzzy2345";
+    public static final String jsonResponseType         = "application/json";
+    public static final String jsonAcceptType           = "application/json";
     public static final String xmlAcceptType            = "text/xml";
-    public static final String authToken 				= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
+    public static final String authToken                = "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
     public static final int xmlTabAmount                = 4;
     public static final String ErrorMessage             = "ErrorMessage";
 
@@ -139,9 +139,9 @@ public final class ApplicationConstants {
         public static String forbiddenError = "Session is not valid";
 
         public static class Header{
-            public static final String contentType	= "Content-Type";
+            public static final String contentType  = "Content-Type";
             public static final String contentAccept = "Accept";
-            public static final String contentAuthorization	= "Authorization";
+            public static final String contentAuthorization = "Authorization";
         }
 
         public static class Tokens{
@@ -226,13 +226,13 @@ public final class ApplicationConstants {
         }
 
         public static class Recommendations{
-        	public static final String ProductRecommendations = MWGApplicationConstants.Requests.Recommendations.ProductRecommendations;
-        	public static final String BaseRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseURL;
+            public static final String ProductRecommendations = MWGApplicationConstants.Requests.Recommendations.ProductRecommendations;
+            public static final String BaseRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseURL;
         }
         
         public static class Rewards{
-        	public static final String Points = MWGApplicationConstants.Requests.Rewards.Points;
-        	public static final String BasePointsURL = MWGApplicationConstants.Requests.Rewards.baseURL;
+            public static final String Points = MWGApplicationConstants.Requests.Rewards.Points;
+            public static final String BasePointsURL = MWGApplicationConstants.Requests.Rewards.baseURL;
         }
     }
 
@@ -460,10 +460,16 @@ public final class ApplicationConstants {
         public static final String Aisle = "Aisle";
         public static final String area_desc = "wf_area_desc";
         public static final String Items = "Items";
-        public static final String Other = "Other";
+        public static final String Other = "OTHER";
         public static final String Sku = "Sku";
         public static final String upc_13_num = "upc_13_num"; //
         public static final String WakefernAuth = "eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9";
         public static final String item_locations = "item_locations";
+        public static final String area_seq_num = "area_seq_num";
+        public static final String wf_area_code = "wf_area_code";
+        public static final String TotalPrice = "TotalPrice";
+        public static final String RegularPrice = "RegularPrice";
+        public static final String Quantity = "Quantity";
+        public static final String CurrentPrice = "CurrentPrice";
     }
 }

@@ -80,6 +80,8 @@ public class MWGApplicationConstants {
         public static class Recommendations{
         	public static final String ProductRecommendations = "/recommend/api/v1/products/user";
         	public static final String baseURL = "https://wfcapi.shoprite.com";
+        	public static final String UPCRecommendations = "/api/wfc/store/";
+        	public static final String baseUPC_URL = "https://vp.shoprite.com";
         }
         
         public static class Rewards{

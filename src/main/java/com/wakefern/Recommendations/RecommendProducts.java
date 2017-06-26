@@ -1,6 +1,8 @@
 package com.wakefern.Recommendations;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -18,6 +20,8 @@ import com.wakefern.request.HTTPRequest;
 @Path(ApplicationConstants.Requests.Recommendations.ProductRecommendations)
 public class RecommendProducts extends BaseService {
 
+	private final static Logger logger = Logger.getLogger("RecommendProducts");
+	
     @GET
     @Produces("application/*")
     @Path("/{userId}/sessid/{userAuth}")
@@ -28,10 +32,13 @@ public class RecommendProducts extends BaseService {
     	
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMappingWithURL(this, ApplicationConstants.Requests.Recommendations.BaseRecommendationsURL);
+    	String secondMapPath = secondMapping.getPath();
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+        	String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getgenericHeader(), 0);
+            return this.createValidResponse(jsonResp);
         } catch (Exception e){
+        	logger.log(Level.SEVERE, "[getInfoResponse]::Product Recommendation Exception!!!, Path: "+secondMapPath, e);
             return this.createErrorResponse(e);
         }
     }
@@ -43,7 +50,9 @@ public class RecommendProducts extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        String resp = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+
+        return resp;
     }
 
     public RecommendProducts(){
@@ -55,6 +64,7 @@ public class RecommendProducts extends BaseService {
         this.path = ApplicationConstants.Requests.Recommendations.ProductRecommendations
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.sessid
                 + ApplicationConstants.StringConstants.backSlash + userAuth;
+        logger.log(Level.INFO, "[prepareResponse]::path: ", path);
     }
 
 }

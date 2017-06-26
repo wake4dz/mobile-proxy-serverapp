@@ -11,24 +11,34 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 8/25/16.
  */
 @Path(ApplicationConstants.Requests.Categories.ProductId)
 public class ProductById extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger("ProductById");
+	
     @GET
     @Produces("application/*")
     @Path("/{productId}/store/{storeId}")
     public Response getInfoResponse(@PathParam("productId") String productId, @PathParam("storeId") String storeId, @DefaultValue("") @QueryParam("circularId") String circId,
                             @QueryParam("page") String page, @QueryParam("circularItemId") String circularItemId,
                             @DefaultValue("")@QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        if(circId != ""){
+
+        if(circId != null && !circId.isEmpty()){//(circId != ""){     
             prepareEmpty(storeId, circId, page, circularItemId, isMember, authToken);
 
             PageItemId pageItemId = new PageItemId();
-            return this.createValidResponse(pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, isMember, authToken));
+            String pageItemIdResp = pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, isMember, authToken);
+
+            return this.createValidResponse(pageItemIdResp);
         } else {
+
+            logger.log(Level.INFO, "[getInfoResponse]::Circular is empty");
             prepareCirc(productId, storeId, isMember, authToken);
 
             ServiceMappings secondMapping = new ServiceMappings();
@@ -37,17 +47,20 @@ public class ProductById extends BaseService {
             try {
                 return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
             } catch (Exception e){
+            	logger.log(Level.SEVERE, "[getInfoResponse]::Exception processing product Id", e);
                 return this.createErrorResponse(e);
             }
         }
     }
 
     public String getInfo(String productId, String storeId, String circId, String page, String circularItemId, String isMember, String authToken) throws Exception, IOException {
-        if(circId != ""){
+        if(circId != null && !circId.isEmpty()){//(circId != ""){
+        	logger.log(Level.INFO, "[getInfo]::circId not empty");
             prepareEmpty(storeId, circId, page, circularItemId, isMember, authToken);
 
             PageItemId pageItemId = new PageItemId();
-            return pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, isMember, authToken);
+            String pageItemIdResp = pageItemId.getInfo("FBFB1313", storeId, circId, page, circularItemId, isMember, authToken);
+            return pageItemIdResp;
         } else {
             prepareCirc(productId, storeId, isMember, authToken);
 
@@ -79,6 +92,7 @@ public class ProductById extends BaseService {
                     + ApplicationConstants.StringConstants.backSlash + circularItemId
                     + ApplicationConstants.StringConstants.isMemberAmp;
         }
+        logger.log(Level.INFO, "[prepareEmpty]::Product Id path: ", this.path);
     }
 
     private void prepareCirc(String productId, String storeId, String isMember, String authToken){
@@ -91,5 +105,6 @@ public class ProductById extends BaseService {
                     + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.isMember;
         }
+        logger.log(Level.INFO, "[prepareCirc]::circ path: ", this.path);
     }
 }

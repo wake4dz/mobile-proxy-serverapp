@@ -29,7 +29,8 @@ public class StoreDetails extends BaseService {
         try {
             String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-            return this.createValidResponse(xmLtoJSONConverter.convert(xmlRequest));
+            //return this.createValidResponse(xmLtoJSONConverter.convert(xmlRequest));
+            return this.createValidResponse(xmLtoJSONConverter.convertToJsonStr(xmlRequest));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

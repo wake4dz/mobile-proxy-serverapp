@@ -35,6 +35,8 @@ public class WakefernApplicationConstants {
                 public static final String PPCQuery = "?ppc_number=";
                 public static final String CouponId = "coupon_id";
                 public static final String CouponParam = "&coupon_id=";
+                public static final String ClipSource = "&clip_source=";
+                public static final String ClipSource_App_SR = "APP_SR";
             }
 
             public static class Search{

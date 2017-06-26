@@ -2,6 +2,8 @@ package com.wakefern.Cart;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -28,6 +30,8 @@ import com.wakefern.request.HTTPRequest;
  */
 @Path(ApplicationConstants.Requests.Cart.CartUser)
 public class CartGet extends BaseService {
+	private final static Logger logger = Logger.getLogger("CartGet");
+
 	@GET
 	@Produces("application/*")
 	@Path("/{userId}/store/{storeId}")
@@ -37,6 +41,8 @@ public class CartGet extends BaseService {
 			@HeaderParam("Authorization") String authToken,
 			@DefaultValue("") @QueryParam("shortStoreId") String shortStoreId)
 			throws Exception, IOException {
+//		logger.log(Level.INFO, "[getInfoResponse]::path: {0}/store/{1}", new Object[]{userId, storeId});
+		
 		prepareResponse(userId, storeId, isMember, authToken);
 
 		ServiceMappings secondMapping = new ServiceMappings();
@@ -112,7 +118,8 @@ public class CartGet extends BaseService {
 								}
 							}
 						} catch (Exception e) {
-							throw e;
+							logger.log(Level.WARNING, "[getInfoResponse]::Exception processing item locator: ", e);
+//							throw e;
 						}
 
 						for (int i = 0; i < items.length(); i++) {
@@ -130,9 +137,12 @@ public class CartGet extends BaseService {
 							
 							retval.append(ApplicationConstants.AisleItemLocator.Items, item);
 						}
+						
 						return this.createValidResponse(retval.toString());
 					}
 				} else { // Return without anything
+					logger.log(Level.INFO, "[getInfoResponse]::Empty cart");
+
 					for (Object item : items) {
 						JSONObject currentItem = (JSONObject) item;
 						currentItem.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
@@ -141,25 +151,30 @@ public class CartGet extends BaseService {
 					return this.createValidResponse(retval.toString());
 				}
 			}catch (Exception e){
+				logger.log(Level.WARNING, "[getInfoResponse]::Exception processing cart item locator: ", e);
 				return this.createValidResponse(cartResp);
 			}
 		} catch (Exception e) {
+			logger.log(Level.WARNING, "[getInfoResponse]::Exception getting cart from MWG: ", e);
 			return this.createErrorResponse(e);
 		}
-		System.out.print("Null return"); return null; //Code should not be reached
+		logger.log(Level.INFO, "[getInfoResponse]::Null return"); 
+		return null; //Code should not be reached
 	}
 
 	private String updateUPC(String sku) {    return sku.substring(0, sku.length() - 1);    }
 
 	public String getInfo(String userId, String storeId, String isMember,
 			String authToken) throws Exception, IOException {
+
 		prepareResponse(userId, storeId, isMember, authToken);
 
 		ServiceMappings secondMapping = new ServiceMappings();
 		secondMapping.setMapping(this);
-
-		return HTTPRequest.executeGetJSON(secondMapping.getPath(),
+		
+		String getJsonResp = HTTPRequest.executeGetJSON(secondMapping.getPath(),
 				secondMapping.getgenericHeader(), 0);
+		return getJsonResp;
 	}
 
 	public void prepareResponse(String userId, String storeId, String isMember,
@@ -176,6 +191,7 @@ public class CartGet extends BaseService {
 					+ ApplicationConstants.StringConstants.backSlash + storeId
 					+ ApplicationConstants.StringConstants.isMember;
 		}
+		logger.log(Level.INFO, "[prepareResponse]::path: "+this.path);
 	}
 
 	public CartGet() {

@@ -227,7 +227,9 @@ public final class ApplicationConstants {
 
         public static class Recommendations{
             public static final String ProductRecommendations = MWGApplicationConstants.Requests.Recommendations.ProductRecommendations;
-            public static final String BaseRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseURL;
+            public static final String BaseRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseURL; 
+            public static final String UPCRecommendations = MWGApplicationConstants.Requests.Recommendations.UPCRecommendations;
+            public static final String BaseUPCRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseUPC_URL;
         }
         
         public static class Rewards{
@@ -471,5 +473,11 @@ public final class ApplicationConstants {
         public static final String RegularPrice = "RegularPrice";
         public static final String Quantity = "Quantity";
         public static final String CurrentPrice = "CurrentPrice";
+    }
+    
+    public static class StoreInfo{
+        public static final String Store = "Store";
+        public static final String Sections = "Sections";
+        public static final String Section = "Section";
     }
 }

@@ -46,7 +46,7 @@ public class Categories extends BaseService {
 
         String qEncoded = "";
         try {
-            if(q != "") {
+            if(!q.isEmpty()){//q != "") {
                 qEncoded = URLEncoder.encode(q, "UTF-8");
             }
         } catch (Exception e){
@@ -59,7 +59,7 @@ public class Categories extends BaseService {
         // this is being used for recipes favorites 
         if(listName.isEmpty()){
             //No query parameter case
-            if(q == ""){
+            if(q.isEmpty()){// == ""){
                 try {
                     this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                             + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories;
@@ -78,7 +78,7 @@ public class Categories extends BaseService {
             q = q.toLowerCase();
 
             //No category parameter case
-            if(category == "") {
+            if(category.isEmpty()){//category == "") {
                 this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                         + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
                         + ApplicationConstants.StringConstants.queryParam + qEncoded;
@@ -229,7 +229,7 @@ public class Categories extends BaseService {
                         ApplicationConstants.recipeSearch.category);
                 for (Object category : categories) {
                     JSONObject currentCategory = (JSONObject) category;
-                    if(categoryQuery == "") { //No query, just add id
+                    if(categoryQuery.isEmpty()){//categoryQuery == "") { //No query, just add id
                         recipeIds.add(currentCategory.getInt(ApplicationConstants.recipeSearch.id));
                     } else { //Has query verify that it is a valid id
                         int categoryQueryInt = Integer.parseInt(categoryQuery);
@@ -242,7 +242,7 @@ public class Categories extends BaseService {
                 //JSON is of object type
                 JSONObject categories = currentRecipes.getJSONObject(ApplicationConstants.recipeSearch.categories).getJSONObject(
                         ApplicationConstants.recipeSearch.category);
-                if(categoryQuery == "") { //No query, just add id
+                if(categoryQuery.isEmpty()){//categoryQuery == "") { //No query, just add id
                     recipeIds.add(categories.getInt(ApplicationConstants.recipeSearch.id));
                 } else { //Has query verify that it is a valid id
                     int categoryQueryInt = Integer.parseInt(categoryQuery);

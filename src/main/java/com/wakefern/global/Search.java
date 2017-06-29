@@ -20,10 +20,10 @@ public class Search extends BaseService {
         intTake -= finalLoop;
         intTake /= 20;
         try {
-            if(fq != "") {
+            if(!fq.isEmpty()){// != "") {
                 fq = URLEncoder.encode(fq, "UTF-8");
             }
-            if(sort != ""){
+            if(!sort.isEmpty()){// != ""){
                 sort = URLEncoder.encode(sort, "UTF-8");
             }
         } catch (Exception e){
@@ -36,11 +36,11 @@ public class Search extends BaseService {
                     + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * i) + initSkip );
 
-            if(sort != ""){
+            if(!sort.isEmpty()){// != ""){
                 this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
             }
 
-            if(fq != ""){
+            if(!fq.isEmpty()){// != ""){
                 this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
             }
 
@@ -60,11 +60,11 @@ public class Search extends BaseService {
                     + Integer.toString(finalLoop) + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * intTake) + initSkip);
 
-            if(sort != ""){
+            if(!sort.isEmpty()){// != ""){
                 this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
             }
 
-            if(fq != ""){
+            if(!fq.isEmpty()){// != ""){
                 this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
             }
 

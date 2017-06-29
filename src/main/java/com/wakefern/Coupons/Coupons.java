@@ -49,7 +49,7 @@ public class Coupons extends BaseService {
         try {
             String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
-            if (query == "") {
+            if (query.isEmpty()){// == "") {
                 return this.createValidResponse(coupons);
             }
 
@@ -81,7 +81,7 @@ public class Coupons extends BaseService {
 
         String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
-        if (query == "") {
+        if (query.isEmpty()){// == "") {
             return coupons;
         }
 

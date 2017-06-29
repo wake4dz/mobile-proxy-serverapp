@@ -125,7 +125,7 @@ public class GetPastPurchases extends BaseService {
                     return retval;
                 }
 
-                if(category == "") {
+                if(category.isEmpty()){// == "") {
                     shoppingListItem.append(ApplicationConstants.Planning.ShoppingListItem, currentListItem);
                     matches++;
                 } else {

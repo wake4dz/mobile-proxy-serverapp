@@ -13,12 +13,16 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 9/27/16.
  */
 @Path(ApplicationConstants.Requests.Coupons.CouponAddPPC)
 public class CouponAddToPPC extends BaseService {
+	private final static Logger logger = Logger.getLogger("CouponAddToPPC");
+	
     public JSONObject matchedObjects;
 
     @GET
@@ -46,6 +50,7 @@ public class CouponAddToPPC extends BaseService {
         try {
             return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
         } catch (Exception e){
+        	logger.log(Level.SEVERE, "[getInfoResponse]::Exception-", e);
             return this.createErrorResponse(e);
         }
     }
@@ -75,6 +80,8 @@ public class CouponAddToPPC extends BaseService {
     private void prepareResponse(String ppcParam, String couponId){
         this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.CouponAddPPC
                 + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam
-                + WakefernApplicationConstants.Requests.Coupons.Metadata.CouponParam + couponId;
+                + WakefernApplicationConstants.Requests.Coupons.Metadata.CouponParam + couponId
+                + WakefernApplicationConstants.Requests.Coupons.Metadata.ClipSource + WakefernApplicationConstants.Requests.Coupons.Metadata.ClipSource_App_SR;
+        logger.log(Level.INFO, "[prepareResponse]::Add coupon to PPC-", this.path);
     }
 }

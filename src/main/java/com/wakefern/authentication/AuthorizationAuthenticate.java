@@ -15,12 +15,17 @@ import javax.ws.rs.core.Response;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 10/5/16.
  */
 @Path(ApplicationConstants.Requests.Authentication.Authenticate)
 public class AuthorizationAuthenticate extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger("AuthorizationAuthenticate");
+	
     @POST
     @Consumes("application/json")
     @Produces("application/*")
@@ -33,11 +38,11 @@ public class AuthorizationAuthenticate extends BaseService {
         }
         //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
         this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
-
+        String userEmail = "";
         try {
             JSONObject messageJson = new JSONObject(jsonBody);
             //Test to see if there is user data, if not get thrown to guest auth
-            messageJson.get("Email");
+            userEmail =  String.valueOf(messageJson.get("Email"));
             ServiceMappings mapping = new ServiceMappings();
             mapping.setPutMapping(this, jsonBody);
             String json;
@@ -45,14 +50,17 @@ public class AuthorizationAuthenticate extends BaseService {
             try {
                 json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader(), 0));
             } catch (Exception e) {
+            	logger.log(Level.SEVERE, "[getInfo]::Exception authenticate user: {0}, msg: {1}", new Object[]{userEmail, e.toString()});
                 return this.createErrorResponse(e);
             }
+
             //run regular v5 authentication
             String v5;
             try {
                 Authentication authentication = new Authentication();
                 v5 = authentication.getInfo(jsonBody);
             } catch (Exception e) {
+            	logger.log(Level.SEVERE, "[getInfo]::Exception authenticate in v5 ", e.toString());
                 return this.createErrorResponse(e);
             }
 
@@ -63,6 +71,7 @@ public class AuthorizationAuthenticate extends BaseService {
                         ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning,
                         v5).toString()).build();
             } catch (Exception e) {
+            	logger.log(Level.SEVERE, "[getInfo]::Exception occurred getting auth response ", e);
                 return this.createErrorResponse(e);
             }
         } catch (Exception ex){
@@ -71,6 +80,7 @@ public class AuthorizationAuthenticate extends BaseService {
                 Authentication authentication = new Authentication();
                 return this.createValidResponse(authentication.getInfo("{}"));//{} is the jsonbody that triggers a guest authtoken
             } catch (Exception e){
+            	logger.log(Level.SEVERE, "[getInfo]::Exception occurred on authentication ", e);
                 return this.createErrorResponse(e);
             }
         }

@@ -147,7 +147,7 @@ public class ProductsInCategory extends BaseService {
                     + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * i) + initSkip );
 
-            if(sort != ""){
+            if(!sort.isEmpty()){//sort != ""){
                 sort = URLEncoder.encode(sort, "UTF-8");
                 this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
             }
@@ -175,7 +175,7 @@ public class ProductsInCategory extends BaseService {
                     + Integer.toString(finalLoop) + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * intTake) + initSkip);
 
-            if(sort != ""){
+            if(!sort.isEmpty()){//sort != ""){
                 sort = URLEncoder.encode(sort, "UTF-8");
                 this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
             }

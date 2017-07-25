@@ -1,6 +1,12 @@
 package com.wakefern.Coupons;
 
 import com.wakefern.Wakefern.Models.WakefernHeader;
+import com.wakefern.dao.coupon.CouponDAO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -14,6 +20,8 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
@@ -22,6 +30,9 @@ import java.util.Set;
 @Path(ApplicationConstants.Requests.Coupons.GetCoupons)
 public class Coupons extends BaseService {
     public JSONObject matchedObjects;
+	private long startTime, endTime;
+	private final static Logger logger = Logger.getLogger("Coupons");
+
     @GET
     @Produces("application/*")
     public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All)
@@ -37,7 +48,8 @@ public class Coupons extends BaseService {
         }catch(Exception e){
         	this.token = ApplicationConstants.Requests.Tokens.couponToken;
         }
-
+        
+        startTime = System.currentTimeMillis();
         matchedObjects = new JSONObject();
         this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
                     + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
@@ -48,9 +60,62 @@ public class Coupons extends BaseService {
 
         try {
             String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
+            
+            endTime = System.currentTimeMillis();
+        	System.out.println("[Coupons]::Total process time (ms): "+ (endTime - startTime));
+        	
+        	ObjectMapper mapper = new ObjectMapper();
+        	CouponDAO[] couponDaoArr = mapper.readValue(coupons, CouponDAO[].class);
 
-            if (query == "") {
-                return this.createValidResponse(coupons);
+            if (query.isEmpty()){// == "") {
+
+            	String[] couponOmittedValuesArr = {
+            		    "coupon_id",
+            		    "featured",
+            		    "requirement_description",
+            		    "brand_name",
+            		    "reward_upcs",
+            		    "short_description",
+            		    "image_url",
+            		    "external_id",
+            		    "pos_live_date",
+            		    "display_start_date",
+            		    "display_end_date",
+            		    "Category",
+            		    "requirement_upcs",
+            		    "expiration_date",
+            		    "coupon_value"
+            	};
+//            			"id", "__createdAt", "__updatedAt", "__version", "__deleted", "total_downloads", "targeting_buckets",
+//            		    "targeted_offer", "tags", "enabled", "offer_type", "long_description_header"};
+            	
+            	FilterProvider filterCouponFields = new SimpleFilterProvider()
+            			.addFilter("filterByValue", SimpleBeanPropertyFilter.filterOutAllExcept(couponOmittedValuesArr));
+            	ObjectWriter writer = mapper.writer(filterCouponFields);
+            	for(CouponDAO couponDao : couponDaoArr){
+            		try{
+            			//"short_description": "Save $.50 On Crystal Farms Chunk Cheese"
+	            		String [] shortDesc = couponDao.getShortDescription().split(" ");
+            			if(shortDesc[1].contains("$"))
+            				couponDao.setCouponValue(shortDesc[1]);
+            			else if(shortDesc[0].contains("$")){
+            				couponDao.setCouponValue(shortDesc[0]);
+            			} else{
+            				for(String value : shortDesc){
+            					if(value.contains("$")){
+                    				couponDao.setCouponValue(value);
+                    				break;
+            					}
+            				}
+            			}
+            		} catch(Exception e){
+                    	logger.log(Level.SEVERE, "[getInfoResponse]::Exception retrieved coupon ppc: {0}, msg: {1}", new Object[]{ppcParam, e.toString()});
+            		}
+            	}
+            	
+            	String cnrDaoStr = writer.writeValueAsString(couponDaoArr);
+            	
+                return this.createValidResponse(cnrDaoStr);
             }
 
             JSONArray matchedObjects2 = new JSONArray();
@@ -81,7 +146,7 @@ public class Coupons extends BaseService {
 
         String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
-        if (query == "") {
+        if (query.isEmpty()){// == "") {
             return coupons;
         }
 

@@ -4,6 +4,9 @@ import com.wakefern.Planning.StoreDetails;
 import com.wakefern.Planning.StoreLocator;
 import com.wakefern.Recipes.GetProfile;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
+
+import java.util.logging.Level;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -66,13 +69,14 @@ public class FormattedAuthentication {
             retval.put(ApplicationConstants.FormattedAuthentication.PseudoStoreId, getPseudoStore());
             retval.put(ApplicationConstants.FormattedAuthentication.StoreName, getStoreName());
             retval.put(ApplicationConstants.FormattedAuthentication.ExternalStoreId, getExternalId());
-            retval.put(ApplicationConstants.FormattedAuthentication.ShopriteFromHome, getFromHome());
 
             if(getSisterId() != null) {
+            	this.setFromHome(false);
                 retval.put(ApplicationConstants.FormattedAuthentication.SisterStoreId, getSisterId());
                 retval.put(ApplicationConstants.FormattedAuthentication.SisterStoreName, getSisterName());
                 retval.put(ApplicationConstants.FormattedAuthentication.SisterStorePseudoStoreId, getSisterPseudo());
             }
+            retval.put(ApplicationConstants.FormattedAuthentication.ShopriteFromHome, getFromHome());
         } catch (Exception e){
             ExceptionHandler exceptionHandler = new ExceptionHandler();
             //System.out.print(exceptionHandler.exceptionMessageJson(e));
@@ -82,6 +86,7 @@ public class FormattedAuthentication {
     //
 
     private void searchStores(String stores, String chainId, String planningAuth){
+    	JSONArray sectionArr;
         JSONObject jsonObject = new JSONObject(stores).getJSONObject(ApplicationConstants.FormattedAuthentication.Store);
         try{
             setExternalId(jsonObject.get(ApplicationConstants.FormattedAuthentication.ExternalStoreId).toString());
@@ -92,8 +97,21 @@ public class FormattedAuthentication {
         	//System.out.println("Int value :: " + aLong.toString());
             setPseudoStore(aLong.toString());
         }
-        Object store = jsonObject.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections)
-                .getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
+        
+//        Object store = jsonObject.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections)
+//                .getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
+        /**
+         * fixed issue of section is an object instead of array, causing data corrupt at front end (SR of Montgomery-08558 vs SR of Aberdeen)
+         * so if section is an object, returns object; otherwise, returns the first element of array of section  
+         */
+        JSONObject sections = jsonObject.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections);
+        Object section = sections.get(ApplicationConstants.FormattedAuthentication.Section);
+        Object store = null;
+        if(section instanceof JSONObject){
+            store = section;//sectionArr.get(0);
+        } else {
+        	store = sections.getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
+        }
         JSONObject currentStore = (JSONObject) store;
         setStoreName(currentStore.getString(ApplicationConstants.FormattedAuthentication.Name));
 
@@ -124,8 +142,17 @@ public class FormattedAuthentication {
                     setSisterPseudo(jsonObject1.get(ApplicationConstants.FormattedAuthentication.PseudoStoreId).toString());
                     setSisterId(jsonObject1.get(ApplicationConstants.FormattedAuthentication.StoreId).toString());
 
-                    Object store1 = jsonObject1.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections)
-                            .getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
+//                    Object store1 = jsonObject1.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections)
+//                            .getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
+
+                    JSONObject sections1 = jsonObject1.getJSONObject(ApplicationConstants.FormattedAuthentication.Sections);
+                    Object section1 = sections1.get(ApplicationConstants.FormattedAuthentication.Section);
+                    Object store1 = null;
+                    if(section1 instanceof JSONObject){
+                        store1 = section1;//sectionArr.get(0);
+                    } else {
+                    	store1 = sections1.getJSONArray(ApplicationConstants.FormattedAuthentication.Section).get(0);
+                    }
                     JSONObject currentStore1 = (JSONObject) store1;
                     setSisterName(currentStore1.getString(ApplicationConstants.FormattedAuthentication.Name));
                 } catch (Exception e) {

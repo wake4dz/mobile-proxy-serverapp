@@ -71,7 +71,7 @@ public class ProductBySku extends BaseService {
     private JSONObject formatAisle(String skuData, String shortStoreId) throws Exception {
         JSONObject jsonObject = new JSONObject(skuData);
         String aisle = jsonObject.getString(ApplicationConstants.AisleItemLocator.Aisle);
-        if(aisle == null || aisle == ""){
+        if(aisle == null || aisle.isEmpty()){// == ""){
             return jsonObject;
         }
         WakefernAuth wakefernAuth = new WakefernAuth();

@@ -9,26 +9,35 @@ import com.wakefern.request.HTTPRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 9/14/16.
  */
 @Path(ApplicationConstants.Requests.Circular.Categories)
 public class PageItemId extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger("PageItemId");
+	
     @GET
     @Produces("application/*")
     @Path("/{chainId}/stores/{storeId}/circulars/{circularId}/pages/{pageId}/items/{itemId}")
     public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId, @PathParam("circularId") String circularId, @PathParam("pageId") String pageId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @PathParam("itemId") String itemId, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+
         prepareResponse(chainId, storeId, circularId, pageId, itemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+        	String secondMappingPath = secondMapping.getPath();
+        	String jsonResp = HTTPRequest.executeGetJSON(secondMappingPath, secondMapping.getgenericHeader(), 0);
+            return this.createValidResponse(jsonResp);
         } catch (Exception e){
+        	logger.log(Level.SEVERE, "[getInfoResponse]::Exception getInfoResponse ", e);
             return this.createErrorResponse(e);
         }
     }
@@ -38,8 +47,10 @@ public class PageItemId extends BaseService {
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
-
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        
+        String jsonResp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        
+        return jsonResp;
     }
 
     public PageItemId(){
@@ -62,5 +73,7 @@ public class PageItemId extends BaseService {
                     + ApplicationConstants.StringConstants.backSlash + pageId + ApplicationConstants.StringConstants.items
                     + ApplicationConstants.StringConstants.backSlash + itemId + ApplicationConstants.StringConstants.isMember;
         }
+        logger.log(Level.INFO, "[prepareResponse]::Path: "+ this.path); 
+
     }
 }

@@ -28,7 +28,7 @@ public class ProductBySearch extends BaseService {
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         this.token = authToken;
         try {
-            if(q != "") {
+            if(!q.isEmpty()){// != "") {
                 q = URLEncoder.encode(q, "UTF-8");
             }
         } catch (Exception e){
@@ -66,7 +66,7 @@ public class ProductBySearch extends BaseService {
         Search search = new Search();
         String json = search.search(partialUrl, take, skip, fq, sort, isMember, authToken);
 
-        if((json.equals("[null]") || json.equals(null)) && fq != ""){
+        if((json.equals("[null]") || json.equals(null)) && !fq.isEmpty()){//fq != ""){
             Exception e = new Exception("No results for for take");
             return this.createErrorResponse(e);
         }

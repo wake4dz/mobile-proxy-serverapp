@@ -1,15 +1,29 @@
 package com.wakefern.Circular;
 
+import java.io.IOException;
+
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.wakefern.dao.circular.pages.CircularPagesDetail;
+import com.wakefern.dao.circular.pages.ImageLink_;
+import com.wakefern.dao.circular.pages.Item;
+import com.wakefern.dao.circular.pages.Page;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by zacpuste on 10/6/16.
@@ -37,7 +51,37 @@ public class CircularPages extends BaseService {
         mwgHeader.authenticate(authToken, "application/vnd.mywebgrocer.circular-pages-full+json", "application/vnd.mywebgrocer.circular-pages-full+json");
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGetJSON(path, mwgHeader.getMap(), 0));
+        	String respStr = HTTPRequest.executeGetJSON(path, mwgHeader.getMap(), 0);
+        	
+        	ObjectMapper objMapper = new ObjectMapper();
+        	CircularPagesDetail cpd = objMapper.readValue(respStr, CircularPagesDetail.class);
+        	String[] valueInJsonPagesMain = {"Pages"};
+        	String[] valueInJsonItem = {"Id", "AreaCoordinates", "Category",
+//        		    "DisplayCategory",
+        		    "ItemType", "Title", "Description", "PriceText", "ImageName",
+//        		    "Options",
+        		    "ImageLinks",
+//        		    "Links",
+//        		    "ChildItems"
+        	};
+        	FilterProvider filProd = new SimpleFilterProvider()
+        			.addFilter("filterByCircularPagesValue", SimpleBeanPropertyFilter.filterOutAllExcept(valueInJsonPagesMain))
+        			.addFilter("filterByCircularItemValue", SimpleBeanPropertyFilter.filterOutAllExcept(valueInJsonItem));
+        	
+        	for(Page page: cpd.getPages()){
+        		for(Item item : page.getItems()){
+        			for(int i = 0; i < item.getImageLinks().size(); i++){
+        				ImageLink_ imgLnk = item.getImageLinks().get(i);
+        				if(imgLnk.getRel() != null && !imgLnk.getRel().equalsIgnoreCase("full")){
+        					item.getImageLinks().remove(i);
+        				}
+        			}
+        		}
+        	}
+        	ObjectWriter writer = objMapper.writer(filProd);
+        	String jsonRespStr = writer.writeValueAsString(cpd);
+        	
+            return this.createValidResponse(jsonRespStr);//respStr);
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

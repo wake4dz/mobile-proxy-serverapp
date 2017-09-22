@@ -16,6 +16,7 @@ public final class ApplicationConstants {
     public static final String jsonAcceptType           = "application/json";
     public static final String xmlAcceptType            = "text/xml";
     public static final String authToken                = "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
+    public static final String VP_AUTHTOKEN_UPC_REC 	= "VG2A9OCYWlaaGVHZUtleUdlaU1XRz1HYWlDaGVuMTIz";
     public static final int xmlTabAmount                = 4;
     public static final String ErrorMessage             = "ErrorMessage";
 
@@ -72,6 +73,7 @@ public final class ApplicationConstants {
         public static final String fakeJson = "{\"Test\":\"Test\"}";
         public static final String featured = "/featured";
         public static final String fulfillment = "/fulfillment";
+        public static final String fsn = "/fsn";
         public static final String FulfillmentJSON = "Fulfillment";
         public static final String fulfillments = "/fulfillments";
         public static final String fq = "&fq=";
@@ -207,11 +209,13 @@ public final class ApplicationConstants {
         }
 
         public static final class Coupons{
+            public static final String GetPPCCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.PPCCoupons;
             public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
             public static final String GetCouponId = WakefernApplicationConstants.Requests.Coupons.ListId.CouponId;
             public static final String GetCouponIdByPPC = WakefernApplicationConstants.Requests.Coupons.ListId.CouponByPPC;
             public static final String CouponAddPPC = WakefernApplicationConstants.Requests.Coupons.ListId.CouponAddPPC;
             public static final String BaseCouponURL = WakefernApplicationConstants.Requests.Coupons.baseURL;
+            public static final String GetCouponsRecommendations = WakefernApplicationConstants.Requests.Coupons.Metadata.MetadataRecommendations;
         }
 
         public static final class Planning{
@@ -473,11 +477,18 @@ public final class ApplicationConstants {
         public static final String RegularPrice = "RegularPrice";
         public static final String Quantity = "Quantity";
         public static final String CurrentPrice = "CurrentPrice";
+        public static final String Size = "Size";
+        public static final String Sale = "Sale";
+        public static final String LimitText = "LimitText";
     }
     
     public static class StoreInfo{
         public static final String Store = "Store";
         public static final String Sections = "Sections";
         public static final String Section = "Section";
+    }
+    
+    public static class RecommendationUPCs{
+        public static final String products = "products";
     }
 }

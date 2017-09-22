@@ -17,6 +17,9 @@ public class BaseService {
             String[] array = e.getMessage().split(",");
 
             String buildError;
+            if(e.getMessage().contains("400")){
+                return Response.status(400).entity(exceptionHandler.exceptionMessageJson(e)).build();
+            }
             if(Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403){
                 buildError = ApplicationConstants.Requests.buildErrorJsonOpen + ApplicationConstants.Requests.forbiddenError
                         + ApplicationConstants.Requests.buildErrorJsonClose;

@@ -24,6 +24,14 @@ import java.util.HashMap;
  */
 @Path(ApplicationConstants.Requests.ShoppingLists.slItemsUser)
 public class ShoppingListItemsGet extends BaseService {
+	
+
+    String responseString = "";
+    JSONArray items = null;
+    JSONObject searchAble = null;
+    JSONObject retval = null;
+    double totalPrice = 0.0;
+    
     @GET
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/list/{listId}")
@@ -49,11 +57,11 @@ public class ShoppingListItemsGet extends BaseService {
                 return this.createValidResponse(listResp);
             }
             JSONObject list = new JSONObject(listResp);
-            JSONArray items = (JSONArray) list.get(ApplicationConstants.AisleItemLocator.Items);
+            items = list.getJSONArray(ApplicationConstants.AisleItemLocator.Items);
             //Object totalPrice = list.get(ApplicationConstants.AisleItemLocator.TotalPrice);
-            JSONObject searchAble = new JSONObject();
-            JSONObject retval = new JSONObject();
-            double totalPrice = 0.0;
+            searchAble = new JSONObject();
+            retval = new JSONObject();
+//            double totalPrice = 0.0;
             // Set up retval with all non-items data
             for (Object key : list.keySet()) {
                 String keyStr = (String) key;
@@ -68,60 +76,10 @@ public class ShoppingListItemsGet extends BaseService {
                 String authString = auth.getInfo(ApplicationConstants.AisleItemLocator.WakefernAuth);
                 if (!authString.isEmpty()) {
                     // return without AISLE Data
-                    String responseString = "";
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0, size = items.length(); i < size; i++) {
-                        // Get the items in the array and make a comma separated string of them as well trim the first and last digit
-                        JSONObject item = (JSONObject) items.get(i);
-                        String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
-                        String regularPrice = item.get(ApplicationConstants.AisleItemLocator.RegularPrice).toString();
-                        String currentPrice = item.get(ApplicationConstants.AisleItemLocator.CurrentPrice).toString();
-                        int quantity = Integer.parseInt(item.get(ApplicationConstants.AisleItemLocator.Quantity).toString());
-                        try{
-                            String[] currentPriceArr = currentPrice.split(" ");
-                            /**
-                             * 3 scenarios pricing
-                             * 1) if current Price is '$2.99', then quantity * current Price
-                             * 2) if current Price is 'n for $2.99'
-                             *      i) if quantity > n, then price per item [(current Price) $2.99 / n] * quantity
-                             *      ii) if quantity < n, then regular price * quantity
-                             */
-                            if(currentPriceArr.length == 1){ //no sale price ie "$1.99" vs "2 for $1.99"
-                                totalPrice += quantity * Double.parseDouble(currentPrice.replace("$", ""));
-                            } else{
-                                int currentPriceQty = Integer.parseInt(currentPriceArr[0]);
-                                if(quantity >= currentPriceQty){
-                                    double currentPriceStr = Double.parseDouble(currentPriceArr[currentPriceArr.length - 1].replace("$", ""));
-                                    double pricePerItem = currentPriceStr / currentPriceQty;
-                                    totalPrice += quantity * pricePerItem;
-                                } else{
-                                    totalPrice += quantity * Double.parseDouble(regularPrice.replace("$", ""));
-                                }
-                            }
-                        } catch(Exception ex){
-                            totalPrice = 0.0;
-                            System.out.println("[ShoppingListItemsGet]::::Error calculating price in Shopping List");
-                            ex.printStackTrace();
-                        }
-                        /*
-                        if(regularPrice.isEmpty()){
-                            String[] currentPriceArr = currentPrice.split(" ");
-                            regularPrice = currentPriceArr[currentPriceArr.length-1];
-                        }
-                        regularPrice = regularPrice.replace("$", "");
-                        for(int j = 0; j < quantity; j++){
-                            totalPrice += Double.parseDouble(regularPrice);
-                        }
-                        */
-                        String sku = this.updateUPC(itemId);
-                        if (sku.matches("[0-9]+")) {
-                            responseString += sku + ",";
-                            searchAble.append(ApplicationConstants.AisleItemLocator.Items, item);
-                        } else {
-                            item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
-                            retval.append(ApplicationConstants.AisleItemLocator.Items, item);
-                        }
-                    }
+                    
+                    //run price calculation for shopping list
+                    this.shoppingListPriceCalculation();
 
                     if(totalPrice != 0){
                         String[] totalPriceArr = String.valueOf(totalPrice).split("\\.");
@@ -163,7 +121,7 @@ public class ShoppingListItemsGet extends BaseService {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        throw e;
+//                        throw e;
                     }
 
                     for (int i = 0; i < items.length(); i++) {
@@ -201,6 +159,137 @@ public class ShoppingListItemsGet extends BaseService {
             return this.createValidResponse(listResp);
         }
         return this.createValidResponse(listResp);
+    }
+    
+    /**
+     * This method provides price calculation for 4 pricing format scenarios in Shopping List
+     * 1) "$7.47 (avg.) / each"
+     * 		i) "Min Qty: 1, Limit: 4 Items" if limit is 4, then sales price @ 4, 5th item will be regular price
+     * 2) "$6.99/lb"
+     * 3) "n for $2.99"
+     * 		i) if quantity > n, then price per item [(current Price) $2.99 / n] * quantity
+     *      ii) if quantity < n, then regular price * quantity
+     * 4) "$0.69"
+     * 		i) if current sale Price is '$0.69', then quantity * current Price
+     * @param totalPrice
+     * @param searchAble
+     * @param retval
+     * @param items
+     * @param responseString
+     */
+    private void shoppingListPriceCalculation(){
+
+        boolean isAvgPricing = false; // for item pricing "$7.47 (avg.) / each"
+        boolean isLbPricing = false; // for item pricing "$6.99/lb"
+        for (int i = 0, size = items.length(); i < size; i++) {
+            // Get the items in the array and make a comma separated string of them as well trim the first and last digit
+            JSONObject item = (JSONObject) items.get(i);
+            String itemId = item.get(ApplicationConstants.AisleItemLocator.Sku).toString();
+            String regularPrice = item.get(ApplicationConstants.AisleItemLocator.RegularPrice).toString();
+            String currentPrice = item.get(ApplicationConstants.AisleItemLocator.CurrentPrice).toString();
+            int quantity = Integer.parseInt(item.get(ApplicationConstants.AisleItemLocator.Quantity).toString());
+            try{
+            	String[] currentPriceArr;
+            	if(currentPrice.contains("lb")){ 
+            		// "$3.99/lb" pricing
+            		currentPriceArr = currentPrice.split("/");
+            		isLbPricing = true;
+            	} else if(currentPrice.contains("avg")){ 
+            		//"$7.47 (avg.) / each" pricing
+            		currentPriceArr = currentPrice.split("\\(");
+            		isAvgPricing = true;
+            	} else{	
+            		// "n for $2.99", "$0.69" pricing
+            		currentPriceArr = currentPrice.split(" ");	
+            	}
+            	
+            	if(isAvgPricing || currentPriceArr.length == 1){ 
+            		// "$1.99" or "$7.47 (avg.) / each"
+            		totalPrice += quantity * Double.parseDouble(currentPriceArr[0].replace("$", ""));
+                	isAvgPricing = false;
+            	} else{
+            		// "$3.99/lb" or "n for $2.99"
+                    JSONObject sale = item.getJSONObject(ApplicationConstants.AisleItemLocator.Sale);
+            		if(isLbPricing){
+            			// "$3.99/lb"
+                        String[] quantityPerLbArr = item.get(ApplicationConstants.AisleItemLocator.Size).toString().split(" ");
+                        if(sale != null){ //check for limit
+                            String limitText = sale.get(ApplicationConstants.AisleItemLocator.LimitText).toString();
+                            if(limitText.contains("Limit")){
+                            	//LimitText : "Min Qty: 1, Limit: 4 Items"
+                            	int limitQty = Integer.parseInt(limitText.split("\\:")[2].trim().split(" ")[0]); // returns 4
+                            	int aboveLimitInt = quantity - limitQty;
+                            	if(aboveLimitInt > 0){
+                            		totalPrice += aboveLimitInt * Double.parseDouble(quantityPerLbArr[0]) * Double.parseDouble(regularPrice.replace("$", ""))
+                            				+ limitQty * Double.parseDouble(quantityPerLbArr[0]) * Double.parseDouble(currentPriceArr[0].replace("$", ""));
+                            	} else {
+                            		totalPrice += quantity * Double.parseDouble(quantityPerLbArr[0]) * Double.parseDouble(currentPriceArr[0].replace("$", ""));
+                            	}
+                            } else{
+                            	totalPrice += quantity * Double.parseDouble(quantityPerLbArr[0]) * Double.parseDouble(currentPriceArr[0].replace("$", ""));
+                            }
+                        } else{
+                        	totalPrice += quantity * Double.parseDouble(quantityPerLbArr[0]) * Double.parseDouble(currentPriceArr[0].replace("$", ""));
+                        }
+                		isLbPricing = false;
+                    } else{
+                    	// "n for $2.99"
+                        int currentPriceQty = Integer.parseInt(currentPriceArr[0]);
+                        double currentPriceStr = Double.parseDouble(currentPriceArr[currentPriceArr.length - 1].replace("$", ""));
+                        double pricePerItem = currentPriceStr / currentPriceQty;
+                    	if(sale != null){
+                            String limitText = sale.get(ApplicationConstants.AisleItemLocator.LimitText).toString();
+                            if(limitText.contains("Limit")){
+                            	int limitQty = Integer.parseInt(limitText.split("\\:")[2].trim().split(" ")[0]); // returns 4
+                            	int aboveLimitInt = quantity - limitQty;
+                            	if(aboveLimitInt > 0){
+                            		totalPrice += aboveLimitInt * Double.parseDouble(regularPrice.replace("$", ""))
+                            				+ limitQty * pricePerItem;//Double.parseDouble(currentPriceArr[0].replace("$", ""));
+                            	} else if(quantity >= currentPriceQty){
+    	                            totalPrice += quantity * pricePerItem;
+    	                        } else{
+    	                            totalPrice += quantity * Double.parseDouble(regularPrice.replace("$", ""));
+    	                        }
+                            } else{
+                            	if(quantity >= currentPriceQty){
+    	                            totalPrice += quantity * pricePerItem;
+    	                        } else{
+    	                            totalPrice += quantity * Double.parseDouble(regularPrice.replace("$", ""));
+    	                        }
+                            }
+                    	} else {
+	                        if(quantity >= currentPriceQty){
+	                            totalPrice += quantity * pricePerItem;
+	                        } else{
+	                            totalPrice += quantity * Double.parseDouble(regularPrice.replace("$", ""));
+	                        }
+                    	}
+                    }
+            	}
+            } catch(Exception ex){
+                totalPrice = 0.0;
+                System.out.println("[ShoppingListItemsGet]::::Error calculating price in Shopping List");
+                ex.printStackTrace();
+            }
+            /*
+            if(regularPrice.isEmpty()){
+                String[] currentPriceArr = currentPrice.split(" ");
+                regularPrice = currentPriceArr[currentPriceArr.length-1];
+            }
+            regularPrice = regularPrice.replace("$", "");
+            for(int j = 0; j < quantity; j++){
+                totalPrice += Double.parseDouble(regularPrice);
+            }
+            */
+            String sku = this.updateUPC(itemId);
+            if (sku.matches("[0-9]+")) {
+                responseString += sku + ",";
+                searchAble.append(ApplicationConstants.AisleItemLocator.Items, item);
+            } else {
+                item.put(ApplicationConstants.AisleItemLocator.Aisle, ApplicationConstants.AisleItemLocator.Other);
+                retval.append(ApplicationConstants.AisleItemLocator.Items, item);
+            }
+        }
     }
 
     private String updateUPC(String sku) {    return sku.substring(0, sku.length() - 1);    }

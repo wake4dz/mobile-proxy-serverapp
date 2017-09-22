@@ -2,6 +2,7 @@ package com.wakefern.Coupons;
 
 import com.wakefern.Wakefern.Models.WakefernHeader;
 import com.wakefern.dao.coupon.CouponDAO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -18,7 +19,9 @@ import org.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,12 +74,11 @@ public class Coupons extends BaseService {
 
             	String[] couponOmittedValuesArr = {
             		    "coupon_id",
-            		    "featured",
             		    "requirement_description",
             		    "brand_name",
-            		    "reward_upcs",
             		    "short_description",
             		    "image_url",
+            		    "total_downloads", 
             		    "external_id",
             		    "pos_live_date",
             		    "display_start_date",
@@ -84,9 +86,10 @@ public class Coupons extends BaseService {
             		    "Category",
             		    "requirement_upcs",
             		    "expiration_date",
-            		    "coupon_value"
+            		    "coupon_value",
+            		    "targeting_buckets"
             	};
-//            			"id", "__createdAt", "__updatedAt", "__version", "__deleted", "total_downloads", "targeting_buckets",
+//            			"reward_upcs", "featured", "id", "__createdAt", "__updatedAt", "__version", "__deleted", "total_downloads", 
 //            		    "targeted_offer", "tags", "enabled", "offer_type", "long_description_header"};
             	
             	FilterProvider filterCouponFields = new SimpleFilterProvider()

@@ -29,7 +29,9 @@ public class WakefernApplicationConstants {
             }
 
             public static class Metadata{
+                public static final String PPCCoupons = "/getPPCCoupons";
                 public static final String Metadata = "/getCouponMetadata";
+                public static final String MetadataRecommendations = "/getCouponsRecommendations";
                 public static final String PPC = "ppc_number";
                 public static final String PPC_All = "all";
                 public static final String PPCQuery = "?ppc_number=";
@@ -37,6 +39,11 @@ public class WakefernApplicationConstants {
                 public static final String CouponParam = "&coupon_id=";
                 public static final String ClipSource = "&clip_source=";
                 public static final String ClipSource_App_SR = "APP_SR";
+                //For Coupon and recommendation
+                public static final String store = "?storeId=";
+                public static final String pseudo = "&pseudo=";
+                public static final String email = "&email=";
+                public static final String ppcNo = "&ppc_number=";
             }
 
             public static class Search{

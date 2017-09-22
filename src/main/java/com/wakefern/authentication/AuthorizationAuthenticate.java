@@ -1,22 +1,24 @@
 package com.wakefern.authentication;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import org.apache.commons.text.StringEscapeUtils;
+import org.json.JSONObject;
+
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.global.FormattedAuthentication;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
-
-import org.json.JSONObject;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 10/5/16.
@@ -38,12 +40,17 @@ public class AuthorizationAuthenticate extends BaseService {
         }
         //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
         this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
-        String userEmail = "";
+        
         try {
             JSONObject messageJson = new JSONObject(jsonBody);
             //Test to see if there is user data, if not get thrown to guest auth
-            userEmail =  String.valueOf(messageJson.get("Email"));
+            StringEscapeUtils seu = new StringEscapeUtils();
+            String userEmail =  String.valueOf(messageJson.get("Email"));
+            String password = String.valueOf(messageJson.get("Password"));
+            String escapeCharPass = seu.escapeHtml4(password);
+            messageJson.put("Password", escapeCharPass);
             ServiceMappings mapping = new ServiceMappings();
+            jsonBody = messageJson.toString();
             mapping.setPutMapping(this, jsonBody);
             String json;
             

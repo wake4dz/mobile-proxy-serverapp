@@ -16,7 +16,7 @@ public class HTTPRequest {
 	
 
 	private final static Logger logger = Logger.getLogger("HTTPRequest");
-	private static int timeOutInt = 30000;
+	private static int timeOutInt = 20000; // 20 seconds time out
 	
     public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody,
                                      Map<String, String> requestHeaders, int timeOut) throws Exception{
@@ -37,6 +37,7 @@ public class HTTPRequest {
                 connection.setDoInput(true);
                 timeOut = timeOutInt;
                 connection.setConnectTimeout(timeOut);
+                connection.setReadTimeout(timeOut);
 
                 for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -115,6 +116,7 @@ public class HTTPRequest {
                 connection.setDoInput(true);
                 timeOut = timeOutInt;
                 connection.setConnectTimeout(timeOut);
+                connection.setReadTimeout(timeOut);
 
                 for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -195,6 +197,7 @@ public class HTTPRequest {
                 connection.setDoInput(true);
                 timeOut = timeOutInt;
                 connection.setConnectTimeout(timeOut);
+                connection.setReadTimeout(timeOut);
 
                 for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -340,6 +343,7 @@ public class HTTPRequest {
             connection.setRequestMethod("DELETE");
             timeOut = timeOutInt;
             connection.setConnectTimeout(timeOut);
+            connection.setReadTimeout(timeOut);
 
             for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
                 connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -397,8 +401,11 @@ public class HTTPRequest {
         URL url = uri.toURL();
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(requestMethod);
-        timeOut = timeOutInt;
+        if(timeOut == 0){
+        	timeOut = timeOutInt;
+        }
         connection.setConnectTimeout(timeOut);
+        connection.setReadTimeout(timeOut);
 
 
         if(requestHeaders != null) {

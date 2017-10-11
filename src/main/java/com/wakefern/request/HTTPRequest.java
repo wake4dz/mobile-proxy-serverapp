@@ -1,14 +1,18 @@
 package com.wakefern.request;
 
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.global.ErrorHandling.ResponseHandler;
 
 
@@ -114,7 +118,8 @@ public class HTTPRequest {
                 connection.setUseCaches(false);
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
-                timeOut = timeOutInt;
+                timeOut = (timeOut == 0) ? timeOutInt : timeOut;
+                logger.log(Level.INFO, "[executePostJSON]::Timeout", timeOut);
                 connection.setConnectTimeout(timeOut);
                 connection.setReadTimeout(timeOut);
 
@@ -232,18 +237,21 @@ public class HTTPRequest {
                     throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
             }
             endTime= System.currentTimeMillis();
-            logger.log(Level.INFO, "[executePut]::Total process time: {0} ms, path: {1}", new Object[]{(endTime-startTime), requestURL});
+            logger.log(Level.INFO, "[executePut]::Total process time: {0} ms, URL: {1}", new Object[]{(endTime-startTime), requestURL});
             //return body to auth
             return sb.toString();
 
         } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executePut]::MalformedURLException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executePut]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executePut]::IOException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executePut]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executePut]::Exception, path: {0}, message: ", new Object[]{requestURL, ex.getMessage()});
+        	logger.log(Level.SEVERE, "[executePut]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } finally {
             if (connection != null) {
@@ -271,11 +279,13 @@ public class HTTPRequest {
             connection = createConnection(requestURL,requestHeaders,requestParameters,requestMethod, timeOut);
             int responseCode = connection.getResponseCode();
             endTime = System.currentTimeMillis();
-            logger.log(Level.INFO, "[executeRequest]::Total process time: {0} ms, path: {1}", new Object[]{(endTime-startTime), requestURL});
+            logger.log(Level.INFO, "[executeRequest]::Total process time for {0}: {1} ms, URL: {2}", new Object[]{requestMethod, (endTime-startTime), requestURL});
 
             if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
                 return buildResponse(connection);
             } else {
+            	logger.log(Level.INFO, "[executeRequest]::response code: {0}, msg: {1}, URL: {2}", 
+            			new Object[]{connection.getResponseCode(), connection.getResponseMessage()});
                 //System.out.print("Response " + buildResponse(connection));
                 //System.out.print("Connection URL " + connection.getURL());
                 //System.out.print("Response Message " + connection.getResponseMessage());
@@ -302,7 +312,9 @@ public class HTTPRequest {
 //                while ((line2 = br2.readLine()) != null) {
 //                    sb2.append(line2 + "\r");
 //                }
-//                br2.close();
+//                br2.close();            	
+//                
+//                logger.log(Level.INFO, "[executeRequest]::response body: ", sb2.toString());
 
                 //System.out.print("Error Stream " + line2);
                 //System.out.print("C");
@@ -310,17 +322,20 @@ public class HTTPRequest {
                 throw new Exception(responseCode + "," + connection.getResponseMessage());
             }
         } catch (IOException e) {
-        	logger.log(Level.SEVERE, "[executeRequest]::IOException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executeRequest]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw e;
         } catch (URISyntaxException e) {
-        	logger.log(Level.SEVERE, "[executeRequest]::URISyntaxException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw e;
         } finally {
             if (connection != null) {
                 try {
                     connection.disconnect();
                 } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executeRequest]::Exception closing connection, path: ", requestURL);
+                	logger.log(Level.SEVERE, "[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+                			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
                     throw ex;
                 }
             }
@@ -355,8 +370,10 @@ public class HTTPRequest {
             int status = connection.getResponseCode();
             
             endTime = System.currentTimeMillis();
-            logger.log(Level.INFO, "[executeDelete]::Total process time: {0} ms, path: {1}", new Object[]{(endTime-startTime), requestURL});
-            
+
+        	logger.log(Level.INFO, "[executeDelete]::Total process time: {0} ms, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{(endTime-startTime), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
+        	
             switch(status){
                 case 200:
                 case 201:
@@ -366,20 +383,24 @@ public class HTTPRequest {
                     throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
             }
         } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executeDelete]::MalformedURLException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executeDelete]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executeDelete]::IOException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executeDelete]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executeDelete]::Exception, path: {0}, message: ", new Object[]{requestURL, ex.getMessage()});
+        	logger.log(Level.SEVERE, "[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } finally {
             if (connection != null) {
                 try {
                     connection.disconnect();
                 } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executeDelete]::Exception closing connection, path: ", requestURL);
+                	logger.log(Level.SEVERE, "[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
+                			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
                     throw ex;
                 }
             }

@@ -23,7 +23,8 @@ public class CouponIdListByPPC extends BaseService {
 
     @GET
     @Produces("application/*")
-    public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
+    public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All) 
+    								@QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         try{
             if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){

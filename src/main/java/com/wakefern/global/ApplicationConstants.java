@@ -328,6 +328,7 @@ public final class ApplicationConstants {
         public static final String User = "User";
         public static final String UserId = "UserId";
         public static final String UserToken = "UserToken";
+        public static final String Secret = "Secret";
     }
     
     public static class Lists{

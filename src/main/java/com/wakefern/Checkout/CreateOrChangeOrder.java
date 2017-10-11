@@ -11,12 +11,17 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 10/4/16.
  */
 @Path(ApplicationConstants.Requests.Checkout.UserOrder)
 public class CreateOrChangeOrder extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger("CreateOrChangeOrder");
+
     /**
      *
      * @param userId
@@ -45,7 +50,10 @@ public class CreateOrChangeOrder extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePostJSON(mapping.getPath(), "", map, 0));
+        	String response = HTTPRequest.executePostJSON(mapping.getPath(), "", map, 30000);
+            logger.log(Level.INFO, "[getInfoResponse]::URL: {0}, response: {1}", new Object[]{this.path, response});
+
+            return this.createValidResponse(response);
         } catch (Exception e){
             return this.createErrorResponse(e);
         }

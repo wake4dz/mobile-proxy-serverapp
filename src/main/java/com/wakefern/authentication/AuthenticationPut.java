@@ -5,8 +5,9 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -15,31 +16,34 @@ import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.FormattedAuthentication;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 /**
- * Created by zacpuste on 10/5/16.
+ * Created by Loi Cao on 10/04/17.
  */
 @Path(ApplicationConstants.Requests.Authentication.Authenticate)
-public class AuthorizationAuthenticate extends BaseService {
+public class AuthenticationPut extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger("AuthorizationAuthenticate");
+	private final static Logger logger = Logger.getLogger("AuthenticationPut");
 	
-    @POST
+    @PUT
     @Consumes("application/json")
     @Produces("application/*")
-    @Path("/authenticate")
-    public Response getInfo(@HeaderParam("Authorization") String authToken, String jsonBody){
+    @Path("/{sessionToken}/authenticate")
+    public Response getInfo(@PathParam("sessionToken") String sessionToken, @HeaderParam("Authorization") String authToken, String jsonBody){
         if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
             this.token = ApplicationConstants.Requests.Tokens.authenticationToken;
         }else{
         	this.token = authToken;
         }
         //this.path = ApplicationConstants.Requests.Authentication.Authenticate + ApplicationConstants.StringConstants.authenticate;
-        this.path = "https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://api.shoprite.com/api/authorization/v5/authorization/");
+        sb.append(sessionToken);	sb.append("/authenticate");
+        this.path = sb.toString();//"https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
+        System.out.println("this.path: "+this.path);
         
         try {
             JSONObject messageJson = new JSONObject(jsonBody);
@@ -55,7 +59,10 @@ public class AuthorizationAuthenticate extends BaseService {
             String json;
             
             try {
-                json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader(), 0));
+//                json = (HTTPRequest.executePostJSON(this.path, jsonBody, mapping.getgenericHeader(), 0));
+                json = (HTTPRequest.executePut("", this.path, "", mapping.getGenericBody(), mapping.getgenericHeader(), 0));
+                System.out.println("json: "+json);
+                return this.createValidResponse(json);
             } catch (Exception e) {
             	logger.log(Level.SEVERE, "[getInfo]::Exception authenticate user: {0}, msg: {1}", new Object[]{userEmail, e.toString()});
                 return this.createErrorResponse(e);
@@ -71,16 +78,16 @@ public class AuthorizationAuthenticate extends BaseService {
 //                return this.createErrorResponse(e);
 //            }
 
-            FormattedAuthentication formattedAuthentication = new FormattedAuthentication();
-
-            try {
-                return Response.status(200).entity(formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
-                        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning).toString()).build();//,
-//                        v5).toString()).build();
-            } catch (Exception e) {
-            	logger.log(Level.SEVERE, "[getInfo]::Exception occurred getting auth response ", e);
-                return this.createErrorResponse(e);
-            }
+//            FormattedAuthentication formattedAuthentication = new FormattedAuthentication();
+//
+//            try {
+//                return Response.status(200).entity(formattedAuthentication.formatAuth(json, messageJson.getString(ApplicationConstants.FormattedAuthentication.Email),
+//                        ApplicationConstants.FormattedAuthentication.ChainId, ApplicationConstants.FormattedAuthentication.AuthPlanning).toString()).build();//,
+////                        v5).toString()).build();
+//            } catch (Exception e) {
+//            	logger.log(Level.SEVERE, "[getInfo]::Exception occurred getting auth response ", e);
+//                return this.createErrorResponse(e);
+//            }
         } catch (Exception ex){
             //Invalid JSON return guest credentials
             try {
@@ -93,7 +100,7 @@ public class AuthorizationAuthenticate extends BaseService {
         }
     }
 
-    public AuthorizationAuthenticate() {
+    public AuthenticationPut() {
         this.serviceType = new MWGHeader();
     }
 }

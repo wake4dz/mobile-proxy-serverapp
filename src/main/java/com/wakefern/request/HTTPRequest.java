@@ -81,13 +81,16 @@ public class HTTPRequest {
             return sb.toString();
 
         } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executePost]::MalformedURLException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executePost]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executePost]::IOException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executePost]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executePost]::Exception, path: {0}, message: ", new Object[]{requestURL, ex.getMessage()});
+        	logger.log(Level.SEVERE, "[executePost]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } finally {
             if (connection != null) {
@@ -162,20 +165,24 @@ public class HTTPRequest {
             return sb.toString();
 
         } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executePostJSON]::MalformedURLException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executePostJSON]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executePostJSON]::IOException, path: ", requestURL);
+        	logger.log(Level.SEVERE, "[executePostJSON]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executePostJSON]::Exception, path: {0}, message: ", new Object[]{requestURL, ex.getMessage()});
+        	logger.log(Level.SEVERE, "[executePostJSON]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
+        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
             throw ex;
         } finally {
             if (connection != null) {
                 try {
                     connection.disconnect();
                 } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executePostJSON]::Exception closing connection, path: ", requestURL);
+                	logger.log(Level.SEVERE, "[executePostJSON]::Exception closing connection: {0}, URL: {1}", 
+                			new Object[]{ex.getMessage(), requestURL});
                     throw ex;
                 }
             }
@@ -258,7 +265,7 @@ public class HTTPRequest {
                 try {
                     connection.disconnect();
                 } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executePut]::Exception closing connection, path: ", requestURL);
+                	logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: ", requestURL);
                     throw ex;
                 }
             }

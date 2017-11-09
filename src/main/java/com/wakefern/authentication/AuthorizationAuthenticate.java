@@ -27,6 +27,10 @@ import com.wakefern.request.HTTPRequest;
 public class AuthorizationAuthenticate extends BaseService {
 	
 	private final static Logger logger = Logger.getLogger("AuthorizationAuthenticate");
+	private static final String Email = "Email";
+	private static final String Password = "Password";
+	private static final String AppVersion = "AppVersion";
+	private static final String appVersionErr = "501,Please update to ShopRite version 2.0.0";
 	
     @POST
     @Consumes("application/json")
@@ -45,10 +49,20 @@ public class AuthorizationAuthenticate extends BaseService {
             JSONObject messageJson = new JSONObject(jsonBody);
             //Test to see if there is user data, if not get thrown to guest auth
             StringEscapeUtils seu = new StringEscapeUtils();
-            String userEmail =  String.valueOf(messageJson.get("Email"));
-            String password = String.valueOf(messageJson.get("Password"));
+            String userEmail =  String.valueOf(messageJson.get(Email));
+            String password = String.valueOf(messageJson.get(Password));
+            try{
+            	// reject all versions that are less than 2.0.0, session cop fix.
+                int appVer = Integer.parseInt(String.valueOf(messageJson.get(AppVersion)).split("\\.")[0]);
+	            if(appVer < 2){
+	            	return this.createErrorResponse(new Exception(appVersionErr));
+	            }
+            } catch(Exception e){
+            	return this.createErrorResponse(new Exception(appVersionErr));
+            	
+            }
             String escapeCharPass = seu.escapeHtml4(password);
-            messageJson.put("Password", escapeCharPass);
+            messageJson.put(Password, escapeCharPass);
             ServiceMappings mapping = new ServiceMappings();
             jsonBody = messageJson.toString();
             mapping.setPutMapping(this, jsonBody);

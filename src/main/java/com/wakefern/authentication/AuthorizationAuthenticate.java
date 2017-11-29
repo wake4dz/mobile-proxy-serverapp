@@ -30,7 +30,7 @@ public class AuthorizationAuthenticate extends BaseService {
 	private static final String Email = "Email";
 	private static final String Password = "Password";
 	private static final String AppVersion = "AppVersion";
-	private static final String appVersionErr = "501,Please update to ShopRite version 2.0.0";
+	private static final String appVersionErr = "501,Please update ShopRite to the latest version.";
 	
     @POST
     @Consumes("application/json")

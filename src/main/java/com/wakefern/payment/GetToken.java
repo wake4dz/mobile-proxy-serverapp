@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -18,6 +20,8 @@ import com.wakefern.request.HTTPRequest;
 
 @Path("payment/token/user/{userId}/store/{storeId}")
 public class GetToken extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger("GetToken");
 
 	private Map<String, String> paymentMap() {
 		Map returnMap = new LinkedHashMap<>();
@@ -66,21 +70,26 @@ public class GetToken extends BaseService {
 		returnMap.put(ApplicationConstants.Payment.Items, Items);
 		PaymentMethods.add(returnMap);
 
-		String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
+		String path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
 				+ ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
 				+ ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.payment;
 
 		if(!isMember.isEmpty()){
 			path += ApplicationConstants.StringConstants.isMember;
 		}
+		logger.log(Level.INFO, "[getInfo][GetToken]::Path: ", path);
 
 		retval.put(ApplicationConstants.Payment.PaymentMethods, PaymentMethods);
 
 		ServiceMappings secondMapping = new ServiceMappings();
 		secondMapping.setPutMapping(this, retval.toString());
+		logger.log(Level.INFO, "[getInfo][GetToken]::req: ", retval.toString());
 
 		try {
-			return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
+			String resp = HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
+			logger.log(Level.INFO, "[getInfo][GetToken]::resp: ", resp);
+			
+			return this.createValidResponse(resp);
 		} catch (Exception e) {
 			return this.createErrorResponse(e);
 		}

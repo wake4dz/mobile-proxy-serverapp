@@ -12,12 +12,16 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 8/24/16.
  */
 @Path(ApplicationConstants.Requests.Checkout.UserCheckout)
 public class CheckoutBillingAddressPut extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger("CheckoutBillingAddressPut");
     @PUT
     @Produces("application/*")
     /*****
@@ -47,6 +51,7 @@ public class CheckoutBillingAddressPut extends BaseService {
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         JSONObject jsonObject = new JSONObject(jsonBody);
+        logger.log(Level.INFO, "[getInfoResponse]::jsonBody: ", jsonBody);
         System.out.println(jsonObject.toString());
         if(jsonObject.getString("FirstName").isEmpty()){
         	jsonObject.put("FirstName", "_");
@@ -58,8 +63,7 @@ public class CheckoutBillingAddressPut extends BaseService {
         
         ServiceMappings secondMapping = new ServiceMappings();
         String path = prepareResponse(userId, storeId, isMember, authToken);
-
-        System.out.println("JSON Address :: Billing OBJ ::" + jsonObject.toString());
+        logger.log(Level.INFO, "[getInfoResponse]::JSON Address::Billing OBJ: ", jsonObject.toString());
 
         secondMapping.setPutMapping(this, jsonObject.toString());
 
@@ -111,12 +115,12 @@ public class CheckoutBillingAddressPut extends BaseService {
 
     private String prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+        this.path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                 + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                 + ApplicationConstants.StringConstants.billing;
         if(!isMember.isEmpty()){
-            this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+            this.path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                     + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                     + ApplicationConstants.StringConstants.billing + ApplicationConstants.StringConstants.isMember;

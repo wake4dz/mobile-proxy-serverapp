@@ -11,12 +11,18 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 10/21/16.
  */
 @Path(ApplicationConstants.Requests.Checkout.UserCheckout)
 public class PaymentMethod extends BaseService {
+	
+
+	private final static Logger logger = Logger.getLogger("PaymentMethod");
+	
     @PUT
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/payment")
@@ -27,6 +33,7 @@ public class PaymentMethod extends BaseService {
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
+    	logger.log(Level.INFO, "[getInfoResponse]::jsonBody: ", jsonBody);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.links+json");
@@ -34,7 +41,9 @@ public class PaymentMethod extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0));
+        	String resp = HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
+        	logger.log(Level.INFO, "[getInfoResponse]::response: ", resp);
+            return this.createValidResponse(resp);
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -51,7 +60,10 @@ public class PaymentMethod extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.payments+json");
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
-        return HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
+        String resp = HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
+
+        logger.log(Level.INFO, "[preparedResponse]::response: ", resp);
+        return resp;
     }
 
     public PaymentMethod(){

@@ -22,11 +22,12 @@ public class FormattedAuthentication {
     private String sisterPseudo;
     private String sisterName;
 
-    public JSONObject formatAuth(String json, String email, String chainId, String planningAuth, String v5){
+    public JSONObject formatAuth(String json, String email, String chainId, String planningAuth){//, String v5){
         JSONObject retval = new JSONObject();
         JSONObject jsonObject = new JSONObject(json);
         String token = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Token);
         String userId = jsonObject.getString(ApplicationConstants.FormattedAuthentication.UserId);
+        String secret = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Secret);
 
         //Add /v5/authorization/authenticate
         retval.put(ApplicationConstants.FormattedAuthentication.UserToken, token);
@@ -48,9 +49,10 @@ public class FormattedAuthentication {
             retval.put(ApplicationConstants.FormattedAuthentication.FirstName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.FirstName));
             retval.put(ApplicationConstants.FormattedAuthentication.LastName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.LastName));
             retval.put(ApplicationConstants.FormattedAuthentication.PPC, ppc);
+            retval.put(ApplicationConstants.FormattedAuthentication.Secret, secret);
 
             //Get /v5/authorization and find AdSessionGuid
-            JSONObject jsonObject1 = new JSONObject(v5);
+            JSONObject jsonObject1 = new JSONObject(json);//v5);
             for(Object v5Obj: jsonObject1.keySet()){
                 String keyStr = (String)v5Obj;
                 if(keyStr.equals(ApplicationConstants.FormattedAuthentication.AdSessionGuid)) {

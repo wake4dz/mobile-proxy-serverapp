@@ -11,12 +11,16 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by zacpuste on 8/24/16.
  */
 @Path(ApplicationConstants.Requests.Checkout.UserCheckout)
 public class CheckoutDeliveryAddressPut extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger("CheckoutDeliveryAddressPut");
     @PUT
     @Produces("application/*")
     @Path("/{userId}/store/{storeId}/address/delivery")
@@ -49,7 +53,7 @@ public class CheckoutDeliveryAddressPut extends BaseService {
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody);
-        System.out.println("JSON Body Delievery :: " + jsonBody);
+        logger.log(Level.INFO, "[getInfoResponse]::JSON Body Delievery:: ", jsonBody);
         try {
             return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
         } catch (Exception e){
@@ -76,12 +80,12 @@ public class CheckoutDeliveryAddressPut extends BaseService {
 
     private String prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+        this.path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                 + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                 + ApplicationConstants.StringConstants.delivery;
         if(!isMember.isEmpty()){
-            this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+            this.path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                     + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                     + ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.isMember;

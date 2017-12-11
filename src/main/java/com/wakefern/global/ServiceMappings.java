@@ -1,6 +1,7 @@
 package com.wakefern.global;
 
 import com.wakefern.Wakefern.Models.WakefernHeader;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.*;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class ServiceMappings {
 	private void sendRequest(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
 		header.authenticate();
 		setgenericHeader(header.getMap());
-		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+		setPath(MWGApplicationConstants.baseURL + serviceObject.path);
 		setGenericBody(body.Body(jsonBody));
 	}
 

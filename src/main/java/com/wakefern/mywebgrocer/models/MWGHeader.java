@@ -3,8 +3,8 @@ package com.wakefern.mywebgrocer.models;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.models.Header;
 
 /**
@@ -30,7 +30,7 @@ public class MWGHeader extends Header {
 
 		authMap.put(ApplicationConstants.Requests.Header.contentAccept, ApplicationConstants.jsonResponseType);
 		authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.jsonAcceptType);
-		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization,ApplicationConstants.authToken);
+		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, MWGApplicationConstants.appToken);
 
 		setAllMaps(authMap);
 	}
@@ -39,7 +39,7 @@ public class MWGHeader extends Header {
 		Map<String, String> authMap = new HashMap<>();
 
 		authMap.put(ApplicationConstants.Requests.Header.contentAccept, ApplicationConstants.jsonResponseType);
-		authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.jsonAcceptType);
+		authMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.Account.authContentType);
 		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, token);
 
 		setAllMaps(authMap);

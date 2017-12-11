@@ -10,18 +10,25 @@ public class MWGApplicationConstants {
     public static final String baseURLv1            = "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1         = "https://service.shoprite.com";
     public static final String authToken			= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
+    public static final String appToken          = "62081B21-0885-4544-8849-326195C8F9CD";
     public static final String storeGroupId			= "3601";
     public static final String storeId              = "C627119202";
 
+    public static class Headers {
+    		public static class Account {
+    			public static final String authContentType = "application/vnd.mywebgrocer.account-authentication+json";
+    		}
+    }
+    
     public static class Requests {
     		public static class Account {
     			public static final String acctPath = "/account/v7";
     			public static final String authPath = chainsPath + "/authentication";
     		}
     	
-    	
         public static class Authentication {
-            public static final String Authenticate = "/authorization/v5/authorization";
+            public static final String authenticate = "/authorization/v7/authorization";        		
+            public static final String AuthenticateV5 = "/authorization/v5/authorization";
             public static final String AuthenticateV1 = "/authorization/authenticate";
         }
 

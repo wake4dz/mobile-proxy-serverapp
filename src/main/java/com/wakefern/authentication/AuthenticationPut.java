@@ -17,13 +17,14 @@ import org.json.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
 /**
  * Created by Loi Cao on 10/04/17.
  */
-@Path(ApplicationConstants.Requests.Authentication.Authenticate)
+@Path(MWGApplicationConstants.Requests.Authentication.authenticate)
 public class AuthenticationPut extends BaseService {
 	
 	private final static Logger logger = Logger.getLogger("AuthenticationPut");

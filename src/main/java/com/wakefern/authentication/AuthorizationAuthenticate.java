@@ -41,7 +41,7 @@ public class AuthorizationAuthenticate extends BaseService {
     public Response getInfo(@PathParam("chainId") String chainId, @HeaderParam("Authorization") String authToken, String jsonBody) 
     {    
     		if (authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)) {
-            this.token = ApplicationConstants.Requests.Tokens.authenticationToken;
+            this.token = MWGApplicationConstants.appToken;
         } else {
         		this.token = authToken;
         }
@@ -52,8 +52,13 @@ public class AuthorizationAuthenticate extends BaseService {
         		JSONObject messageJson = new JSONObject(jsonBody);
             
             // Test to see if there is user data, if not get thrown to guest auth
-            String userEmail =  String.valueOf(messageJson.get(Email));
+            String userEmail = String.valueOf(messageJson.get(Email));
             String password = String.valueOf(messageJson.get(Password));
+            
+            if ((userEmail.length() == 0) && (password.length() == 0)) {
+            		// UI sent empty Username & Password fields. Default to Guest User status.
+            		throw new Exception();
+            }
             
             try {
             		// Reject all versions that are less than 2.0.0, session cop fix.

@@ -56,7 +56,7 @@ public class AuthenticationPut extends BaseService {
             messageJson.put("Password", escapeCharPass);
             ServiceMappings mapping = new ServiceMappings();
             jsonBody = messageJson.toString();
-            mapping.setPutMapping(this, jsonBody);
+            mapping.setPutMapping(this, jsonBody, null);
             String json;
             
             try {

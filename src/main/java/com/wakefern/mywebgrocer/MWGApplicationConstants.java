@@ -32,7 +32,7 @@ public class MWGApplicationConstants {
     		}
     	
         public static class Authentication {
-            public static final String authenticate = "/authorization/v7/authorization";        		
+            public static final String authenticate   = "/authorization/v7/authorization";        		
             public static final String AuthenticateV5 = "/authorization/v5/authorization";
             public static final String AuthenticateV1 = "/authorization/authenticate";
         }

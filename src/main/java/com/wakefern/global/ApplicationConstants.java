@@ -3,48 +3,13 @@ package com.wakefern.global;
 import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 public final class ApplicationConstants {
 
-
-    public static final String testUser                 = "bbrosemer@gmail.com";
-    public static final String password                 = "fuzzy2345";
-    public static final String jsonResponseType         = "application/json";
-    public static final String jsonAcceptType           = "application/json";
-    public static final String xmlAcceptType            = "text/xml";
-    public static final String VP_AUTHTOKEN_UPC_REC 	   = "VG2A9OCYWlaaGVHZUtleUdlaU1XRz1HYWlDaGVuMTIz";
-    public static final int xmlTabAmount                = 4;
-    public static final String ErrorMessage             = "ErrorMessage";
-
-    public static class AuthorizationTokens{
-        public static class ApplicationTokenMapping{
-            public static final String appQATokenName          = "App-QA-Token";
-            public static final String appQAToken              = "U2mf35557JFo7LqPB]0#k9(Q{&%-!@";
-
-            public static final String mwgV5TokenName          = "mwgProdToken";
-        }
-
-
-        public static class MWGAuthorizationTokens{
-
-        }
-
-        public static class WakefernAuthorizationTokens{
-
-        }
-
-        public static class ApplciationAuthorizationTokens{
-            public static final Map<String,String> tokenMap;
-            static{
-                Map<String,String> aMap = new HashMap<>();
-                aMap.put(ApplicationTokenMapping.appQATokenName,ApplicationTokenMapping.appQAToken);
-                tokenMap = Collections.unmodifiableMap(aMap);
-            }
-        }
-    }
+    public static final String jsonResponseType = "application/json";
+    public static final String jsonAcceptType   = "application/json";
+    public static final String xmlAcceptType    = "text/xml";
+    public static final int xmlTabAmount        = 4;
+    public static final String ErrorMessage     = "ErrorMessage";
 
     public static class StringConstants{
         public static final String address = "/address";
@@ -146,10 +111,8 @@ public final class ApplicationConstants {
         }
 
         public static class Tokens{
-            public static final String authenticationToken = "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
             public static final String couponToken = "noowhTBIYfzVrXOcFrNSwIFbkMoqRh19";
             public static final String planningToken = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
-            public static final String storeSerivicesToken = "F0F5D6B2-4868-4F6E-97F8-43B3DEC5AFA4";
         }
 
         public static class Authentication{
@@ -238,13 +201,6 @@ public final class ApplicationConstants {
             public static final String Points = MWGApplicationConstants.Requests.Rewards.Points;
             public static final String BasePointsURL = MWGApplicationConstants.Requests.Rewards.baseURL;
         }
-    }
-
-    public static class MapVariables{
-        public static final String contentType = "Content-type";
-        public static final String requestType = "text/xml";
-        public static final String auth = "Authorization";
-        public static final String authToken = "2433581F-B723-4FCD-BAFF-006791F48027";
     }
 
     public static class recipeSearch{
@@ -405,7 +361,6 @@ public final class ApplicationConstants {
         public static class ItemPref{
             public static String getValue(){return "Item Preferences";}
         }
-
     }
 
     public static class Planning{
@@ -485,9 +440,5 @@ public final class ApplicationConstants {
         public static final String Store = "Store";
         public static final String Sections = "Sections";
         public static final String Section = "Section";
-    }
-    
-    public static class RecommendationUPCs{
-        public static final String products = "products";
     }
 }

@@ -49,10 +49,9 @@ public class AuthenticationPut extends BaseService {
         try {
             JSONObject messageJson = new JSONObject(jsonBody);
             //Test to see if there is user data, if not get thrown to guest auth
-            StringEscapeUtils seu = new StringEscapeUtils();
             String userEmail =  String.valueOf(messageJson.get("Email"));
             String password = String.valueOf(messageJson.get("Password"));
-            String escapeCharPass = seu.escapeHtml4(password);
+            String escapeCharPass = StringEscapeUtils.escapeHtml4(password);
             messageJson.put("Password", escapeCharPass);
             ServiceMappings mapping = new ServiceMappings();
             jsonBody = messageJson.toString();
@@ -93,7 +92,7 @@ public class AuthenticationPut extends BaseService {
             //Invalid JSON return guest credentials
             try {
                 Authentication authentication = new Authentication();
-                return this.createValidResponse(authentication.getInfo("{}"));//{} is the jsonbody that triggers a guest authtoken
+                return this.createValidResponse(authentication.getInfo());//{} is the jsonbody that triggers a guest authtoken
             } catch (Exception e){
             	logger.log(Level.SEVERE, "[getInfo]::Exception occurred on authentication ", e);
                 return this.createErrorResponse(e);

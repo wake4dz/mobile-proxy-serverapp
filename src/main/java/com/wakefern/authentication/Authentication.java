@@ -16,17 +16,21 @@ public class Authentication extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("Authentication");
 	
+	/**
+	 * Constructor
+	 */
+    public Authentication() {
+        this.serviceType = new MWGHeader();
+        this.path = MWGApplicationConstants.Requests.Authentication.authenticate;
+    }
+	
     @POST
     @Consumes("application/json")
     @Produces("application/*")
     public Response getInfoResponse(String jsonBody) throws Exception, IOException {
-        prepareResponse();
-        logger.log(Level.INFO, "[getInfoResponse]::Authenticating user..");
-        ServiceMappings mapping = new ServiceMappings();
-        mapping.setMapping(this, jsonBody);
-
+    	
         try {
-        	String jsonResp = HTTPRequest.executePost("", mapping.getPath(), "", mapping.getGenericBody(), mapping.getgenericHeader(), 0);
+        		String jsonResp = makeRequest();
             return this.createValidResponse(jsonResp);
         } catch (Exception e) {
         		logger.log(Level.SEVERE, "[getInfoResponse]::Exception getInfoResponse ", e);
@@ -34,11 +38,32 @@ public class Authentication extends BaseService {
         }
     }
 
-    public String getInfo(String jsonBody) throws Exception, IOException {
-        prepareResponse();
-
-        ServiceMappings mapping = new ServiceMappings();
-        mapping.setMapping(this, jsonBody);
+    	/**
+    	 * Triggers the Auth Request for the Session Token, but does not format the response.
+    	 * For use internally.  This is not a REST endpoint.
+    	 * 
+    	 * @return
+    	 * @throws Exception
+    	 * @throws IOException
+    	 */
+    public String getInfo() throws Exception, IOException {
+    		return makeRequest();
+    }
+    
+    /**
+     * Make the Auth Request to MWG for a Session Token.
+     * 
+     * @return
+     * @throws Exception
+     * @throws IOException
+     */
+    private String makeRequest() throws Exception, IOException {
+        // The purpose of this request is to simply retrieve a valid Session Token from MWG.
+        // As such, just send "{}" as POST data.  
+    		// Any actual data sent, would just be ignored anyway.
+        
+    		ServiceMappings mapping = new ServiceMappings();
+        mapping.setMapping(this, "{}");
         
         String reqURL = mapping.getPath();
         String reqData = mapping.getGenericBody();
@@ -47,12 +72,10 @@ public class Authentication extends BaseService {
         return HTTPRequest.executePost("", reqURL, "", reqData, reqHead, 0);
     }
 
-    public void prepareResponse() {
-        this.path = MWGApplicationConstants.Requests.Authentication.authenticate;
-        logger.log(Level.INFO, "[prepareResponse]::Authenticate path: ", this.path);
-    }
-
-    public Authentication(){
-        this.serviceType = new MWGHeader();
-    }
+// TODO: CAN THIS GO AWAY?
+//
+//    public void prepareResponse() {
+//        this.path = MWGApplicationConstants.Requests.Authentication.authenticate;
+//        logger.log(Level.INFO, "[prepareResponse]::Authenticate path: ", this.path);
+//    }
 }

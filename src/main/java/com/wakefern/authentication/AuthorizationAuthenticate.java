@@ -73,7 +73,7 @@ public class AuthorizationAuthenticate extends BaseService {
                 try {
                     Authentication authentication = new Authentication();
                     
-                    String response = authentication.getInfo("{}");
+                    String response = authentication.getInfo();
                     JSONObject respJSON = new JSONObject(response);
                     
                     // The value returned by MWG as the "Token" is the Session Token required for all subsequent calls.
@@ -141,7 +141,7 @@ public class AuthorizationAuthenticate extends BaseService {
             // Return guest credentials
             try {
                 Authentication authentication = new Authentication();
-                return this.createValidResponse(authentication.getInfo("{}")); // {} is the jsonbody that triggers a guest authtoken
+                return this.createValidResponse(authentication.getInfo());
             
             } catch (Exception e) {
             		logger.log(Level.SEVERE, "[getInfo]::Exception occurred on authentication ", e);

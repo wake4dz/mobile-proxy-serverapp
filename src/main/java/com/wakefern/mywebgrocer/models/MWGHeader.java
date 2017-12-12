@@ -16,7 +16,8 @@ public class MWGHeader extends Header {
 	public Map<String, String> getMap(){
 		return map;
 	}
-	public void setMap( Map aMap){
+	
+	public void setMap( Map<String, String> aMap) {
 		this.map = aMap;
 	}
 

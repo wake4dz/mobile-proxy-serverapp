@@ -2,6 +2,7 @@ package com.wakefern.Wakefern.Models;
 
 import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.models.Header;
 
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class WakefernHeader extends Header {
 
         authMap.put(ApplicationConstants.Requests.Header.contentAccept, ApplicationConstants.jsonResponseType);
         authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.jsonAcceptType);
-        authMap.put(ApplicationConstants.Requests.Header.contentAuthorization,ApplicationConstants.authToken);
+        authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, MWGApplicationConstants.authToken);
 
         setAllMaps(authMap);
     }

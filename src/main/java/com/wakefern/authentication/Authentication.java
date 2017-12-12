@@ -37,6 +37,7 @@ public class Authentication extends BaseService {
     	
         try {
         		String jsonResp = makeRequest();
+        		System.out.println("com.wakefern.authentication.Authentication::getInfoResponse() - " + jsonResp);
             return this.createValidResponse(jsonResp);
         } catch (Exception e) {
         		logger.log(Level.SEVERE, "[getInfoResponse]::Exception getInfoResponse ", e);
@@ -81,11 +82,4 @@ public class Authentication extends BaseService {
         
         return HTTPRequest.executePost("", reqURL, "", reqData, reqHead, 0);
     }
-
-// TODO: CAN THIS GO AWAY?
-//
-//    public void prepareResponse() {
-//        this.path = MWGApplicationConstants.Requests.Authentication.authenticate;
-//        logger.log(Level.INFO, "[prepareResponse]::Authenticate path: ", this.path);
-//    }
 }

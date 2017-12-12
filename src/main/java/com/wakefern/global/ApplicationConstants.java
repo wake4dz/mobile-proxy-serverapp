@@ -117,7 +117,6 @@ public final class ApplicationConstants {
 
         public static class Authentication{
             public static final String Authenticate = MWGApplicationConstants.Requests.Authentication.authenticate;
-            public static final String Authenticatev1 = MWGApplicationConstants.Requests.Authentication.AuthenticateV1;
         }
 
         public static class Categories{

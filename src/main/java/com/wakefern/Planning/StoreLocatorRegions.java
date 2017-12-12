@@ -51,11 +51,8 @@ public class StoreLocatorRegions extends BaseService {
     }
 
     private void prepareResponse(String chainId, String authToken){
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
+    	
+    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
         this.path = ApplicationConstants.Requests.Planning.StoreLocator
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.regions;

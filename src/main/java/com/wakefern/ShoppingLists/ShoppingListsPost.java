@@ -30,7 +30,7 @@ public class ShoppingListsPost extends BaseService {
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, jsonBody);
+        mapping.setPutMapping(this, jsonBody, null);
 
         try {
             return this.createValidResponse(HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader(), 0));
@@ -43,7 +43,7 @@ public class ShoppingListsPost extends BaseService {
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, jsonBody);
+        mapping.setPutMapping(this, jsonBody, null);
 
         return (HTTPRequest.executePostJSON(path, mapping.getGenericBody(), mapping.getgenericHeader(), 0));
     }

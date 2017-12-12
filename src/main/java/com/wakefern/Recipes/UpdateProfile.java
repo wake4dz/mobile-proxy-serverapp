@@ -44,11 +44,7 @@ public class UpdateProfile extends BaseService {
     }
 
     private String prepareResponse(String userId, String email, String chainId, String storeId, String authToken) throws Exception{
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-        	this.token = authToken;
-        }
+    		this.token = authToken;
 
         GetProfile getProfile = new GetProfile();
         String jsonBody = getProfile.getInfo(userId, chainId, email, authToken);

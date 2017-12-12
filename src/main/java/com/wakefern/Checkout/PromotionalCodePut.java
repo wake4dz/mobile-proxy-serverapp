@@ -26,7 +26,7 @@ public class PromotionalCodePut extends BaseService {
         preparedResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.promo-code+json");
@@ -43,7 +43,7 @@ public class PromotionalCodePut extends BaseService {
         preparedResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.promo-code+json");

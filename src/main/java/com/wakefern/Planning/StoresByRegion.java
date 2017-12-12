@@ -58,11 +58,8 @@ public class StoresByRegion extends BaseService {
     }
 
     private void prepareResponse(String chainId, String regionId, String pageNumber, String pageSize, String authToken){
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
+        
+    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
         this.path = ApplicationConstants.Requests.Planning.StoreLocator
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.region

@@ -33,7 +33,7 @@ public class ItemPut extends BaseService {
         prepareResponse(userId, storeId, itemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
 
         try {
             return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
@@ -46,7 +46,7 @@ public class ItemPut extends BaseService {
         prepareResponse(userId, storeId, itemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
 
         return HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
     }

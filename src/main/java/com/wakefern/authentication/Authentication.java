@@ -18,6 +18,10 @@ public class Authentication extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("Authentication");
 	
+	//-------------------------------------------------------------------------
+	// Public Methods
+	//-------------------------------------------------------------------------
+
 	/**
 	 * Constructor
 	 */
@@ -52,6 +56,10 @@ public class Authentication extends BaseService {
     		return makeRequest();
     }
     
+	//-------------------------------------------------------------------------
+	// Private Methods
+	//-------------------------------------------------------------------------
+
     /**
      * Make the Auth Request to MWG for a Session Token.
      * 

@@ -150,7 +150,6 @@ public final class ApplicationConstants {
             public static final String authenticationToken = "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
             public static final String couponToken = "noowhTBIYfzVrXOcFrNSwIFbkMoqRh19";
             public static final String planningToken = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
-            public static final String RosettaToken = "01010101-0101-0101-0101-01010101010";
             public static final String storeSerivicesToken = "F0F5D6B2-4868-4F6E-97F8-43B3DEC5AFA4";
         }
 

@@ -52,7 +52,7 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
         logger.log(Level.INFO, "[getInfoResponse]::JSON Body Delievery:: ", jsonBody);
         try {
             return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
@@ -65,7 +65,7 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.delivery-info+json");

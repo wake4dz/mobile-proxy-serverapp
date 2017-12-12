@@ -42,7 +42,7 @@ public class CreateOrChangeOrder extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, jsonBody);
+        mapping.setPutMapping(this, jsonBody, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.order-results+json");
@@ -63,7 +63,7 @@ public class CreateOrChangeOrder extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, jsonBody);
+        mapping.setPutMapping(this, jsonBody, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.order-results+json");

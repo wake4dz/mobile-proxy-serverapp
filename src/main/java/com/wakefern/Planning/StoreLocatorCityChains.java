@@ -55,12 +55,9 @@ public class StoreLocatorCityChains extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String chainId, String regionId, String authToken){
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
+    private void prepareResponse(String chainId, String regionId, String authToken) {
+    
+    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
         this.path = ApplicationConstants.Requests.Planning.StoreLocator
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.region

@@ -38,11 +38,8 @@ public class Categories extends BaseService {
                                     @DefaultValue("") @QueryParam("userId") String userId,
                                     @DefaultValue("") @QueryParam("category") String category,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-        	this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
+        
+    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
         String qEncoded = "";
         try {

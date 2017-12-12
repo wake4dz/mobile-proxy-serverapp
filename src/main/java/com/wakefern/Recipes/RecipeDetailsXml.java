@@ -46,11 +46,7 @@ public class RecipeDetailsXml extends BaseService {
     }
 
     private void prepareResponse(String chainId, String recipeId, String authToken){
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-        	this.token = authToken;
-        }
+    		this.token = authToken;
 
         this.path = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.recipe

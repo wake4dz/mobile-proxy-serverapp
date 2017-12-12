@@ -82,7 +82,7 @@ public class GetToken extends BaseService {
 		retval.put(ApplicationConstants.Payment.PaymentMethods, PaymentMethods);
 
 		ServiceMappings secondMapping = new ServiceMappings();
-		secondMapping.setPutMapping(this, retval.toString());
+		secondMapping.setPutMapping(this, retval.toString(), null);
 		logger.log(Level.INFO, "[getInfo][GetToken]::req: ", retval.toString());
 
 		try {

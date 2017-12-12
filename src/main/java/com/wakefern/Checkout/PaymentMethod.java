@@ -32,7 +32,7 @@ public class PaymentMethod extends BaseService {
         String path = preparedResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
     	logger.log(Level.INFO, "[getInfoResponse]::jsonBody: ", jsonBody);
 
         Map<String, String> map = new HashMap();
@@ -53,7 +53,7 @@ public class PaymentMethod extends BaseService {
         String path = preparedResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody);
+        secondMapping.setPutMapping(this, jsonBody, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.links+json");

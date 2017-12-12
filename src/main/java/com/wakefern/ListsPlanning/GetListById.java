@@ -56,13 +56,9 @@ public class GetListById extends BaseService {
     }
 
     private void prepareResponse(String userId, String listId, String isMember, String authToken){
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-        	this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
         
-
+    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+        
         this.path = ApplicationConstants.Requests.Planning.ShoppingListUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId;

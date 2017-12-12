@@ -45,15 +45,8 @@ public class AuthorizationAuthenticate extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Account.authPath)
     public Response getInfo(@PathParam("chainId") String chainId, @HeaderParam("Authorization") String authToken, String jsonBody) {    
-    		boolean isAppToken = false;
     		
-    		if (authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)) {
-            this.token = MWGApplicationConstants.appToken;
-            isAppToken = true;
-        } else {
-        		this.token = authToken;
-        }
-        
+    		this.token = authToken;
         this.path = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.authPath;
         
         try {
@@ -67,26 +60,7 @@ public class AuthorizationAuthenticate extends BaseService {
             		// UI sent empty Username & Password fields. Default to Guest User status.
             		throw new Exception();
             }
-            
-            // If we got user credentials, but do not have a MWG Session Token, we need to request one before the user can authenticate.
-            if (isAppToken) {
-                try {
-                    Authentication authentication = new Authentication();
-                    
-                    String response = authentication.getInfo();
-                    JSONObject respJSON = new JSONObject(response);
-                    
-                    // The value returned by MWG as the "Token" is the Session Token required for all subsequent calls.
-                    // With the exception of the initial Auth request to get the Session Token in the first place,
-                    // any requests lacking the Session Token will be rejected by MWG.
-                    this.token = respJSON.getString("Token");
-                    
-                } catch (Exception e) {
-                		logger.log(Level.SEVERE, "[getInfo]::Exception occurred on authentication ", e);
-                    return this.createErrorResponse(e);
-                }
-            }
-            
+                        
             try {
             		// Reject all versions that are less than 2.0.0, session cop fix.
                 int appVer = Integer.parseInt(String.valueOf(messageJson.get(AppVersion)).split("\\.")[0]);

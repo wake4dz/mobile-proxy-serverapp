@@ -30,15 +30,8 @@ public class CouponAddToPPC extends BaseService {
     public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                                     @DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.CouponId) String couponId,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        try{
-            if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-                this.token = ApplicationConstants.Requests.Tokens.couponToken;
-            }else{
-                this.token = ApplicationConstants.Requests.Tokens.couponToken;
-            }
-        }catch(Exception e){
-            this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }
+
+    		this.token = ApplicationConstants.Requests.Tokens.couponToken;
 
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam, couponId);
@@ -50,21 +43,15 @@ public class CouponAddToPPC extends BaseService {
         try {
             return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
         } catch (Exception e){
-        	logger.log(Level.SEVERE, "[getInfoResponse]::Exception-", e);
+        		logger.log(Level.SEVERE, "[getInfoResponse]::Exception-", e);
             return this.createErrorResponse(e);
         }
     }
 
     public String getInfo(String ppcParam, String couponId, String authToken) throws Exception, IOException {
-        try{
-            if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-                this.token = ApplicationConstants.Requests.Tokens.couponToken;
-            }else{
-                this.token = ApplicationConstants.Requests.Tokens.couponToken;
-            }
-        }catch(Exception e){
-            this.token = ApplicationConstants.Requests.Tokens.couponToken;
-        }
+    	
+        this.token = ApplicationConstants.Requests.Tokens.couponToken;
+
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam, couponId);
 

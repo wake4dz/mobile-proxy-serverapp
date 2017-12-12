@@ -81,12 +81,8 @@ public class UserRegistration extends BaseService {
     }
 
     private String prepareResponse(String authToken) throws Exception{
-        if(authToken.equals(ApplicationConstants.Requests.Tokens.RosettaToken)){
-            this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }else{
-        	this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        }
-
+    	
+    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
         return this.path = "https://service.shoprite.com" + ApplicationConstants.Requests.Registration.UserRegistration;
     }
 

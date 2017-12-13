@@ -1,4 +1,4 @@
-package com.wakefern.authentication;
+package com.wakefern.account.authentication;
 
 import com.wakefern.global.*;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.json.JSONObject;
 
 @Path(MWGApplicationConstants.Requests.Authentication.authenticate)
 public class Authentication extends BaseService {
@@ -35,10 +37,20 @@ public class Authentication extends BaseService {
     @Produces("application/*")
     public Response getInfoResponse(String jsonBody) throws Exception, IOException {
     	
+    		// The UI can send an optional boolean config setting called "useStaging".
+    		// If "useStaging" is present and TRUE, set the Base URL to the Staging URL.
+    		// Otherwise, use the Production URL.
+    		JSONObject postDataJSON = new JSONObject(jsonBody);
+    		boolean   useStaging    = (postDataJSON.has("useStaging")) ? postDataJSON.getBoolean("useStaging") : false;
+    		
+    		// TODO: Enable before releasing!
+    		//MWGApplicationConstants.baseURL = (useStaging) ? MWGApplicationConstants.fgStageBaseURL : MWGApplicationConstants.fgProdBaseURL;
+    	
         try {
         		String jsonResp = makeRequest();
         		System.out.println("com.wakefern.authentication.Authentication::getInfoResponse() - " + jsonResp);
             return this.createValidResponse(jsonResp);
+        
         } catch (Exception e) {
         		logger.log(Level.SEVERE, "[getInfoResponse]::Exception getInfoResponse ", e);
             return this.createErrorResponse(e);

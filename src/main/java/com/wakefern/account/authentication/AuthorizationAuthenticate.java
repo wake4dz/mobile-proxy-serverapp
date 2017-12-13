@@ -1,4 +1,4 @@
-package com.wakefern.authentication;
+package com.wakefern.account.authentication;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -59,10 +59,10 @@ public class AuthorizationAuthenticate extends BaseService {
         
         JSONObject postDataJSON = new JSONObject(jsonBody);
         
-        String userEmail = (postDataJSON.has(emailKey)) ? String.valueOf(postDataJSON.get(emailKey)) : ""; 
-        String password  = (postDataJSON.has(pwKey))    ? String.valueOf(postDataJSON.get(pwKey))    : "";
+        String userEmail = (postDataJSON.has(emailKey)) ? postDataJSON.getString(emailKey) : ""; 
+        String password  = (postDataJSON.has(pwKey))    ? postDataJSON.getString(pwKey)    : "";
         
-        int appVer = (postDataJSON.has(appVerKey)) ? Integer.parseInt(String.valueOf(postDataJSON.get(appVerKey)).split("\\.")[0]) : 0;
+        int appVer = (postDataJSON.has(appVerKey)) ? Integer.parseInt(postDataJSON.getString(appVerKey).split("\\.")[0]) : 0;
         
         // Reject all versions that are less than 2.0.0. Session cop fix.
         if (appVer < 2) {

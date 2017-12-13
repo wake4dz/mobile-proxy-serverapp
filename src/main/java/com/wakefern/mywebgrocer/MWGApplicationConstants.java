@@ -4,11 +4,13 @@ package com.wakefern.mywebgrocer;
  * Created by brandyn.brosemer on 8/9/16.
  */
 public class MWGApplicationConstants {
-    //public static final String baseURL = "https://api.thefreshgrocer.com/api";  // Prod
-    public static final String baseURL = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // Staging
+    public static final String fgProdBaseURL  = "https://api.thefreshgrocer.com/api";                 // Prod
+    public static final String fgStageBaseURL = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // Staging
+    
+    public static String baseURL = fgStageBaseURL;  // TODO: Change this so it defaults to the PROD URL before releasing!
     
     public static final String chainID = "chainId";
-    public static final String userID = "userId";
+    public static final String userID  = "userId";
     
     public static final String baseURLv1		= "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1	= "https://service.shoprite.com";

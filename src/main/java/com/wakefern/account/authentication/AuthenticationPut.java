@@ -1,4 +1,4 @@
-package com.wakefern.authentication;
+package com.wakefern.account.authentication;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

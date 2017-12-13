@@ -52,6 +52,9 @@ public class AuthorizationAuthenticate extends BaseService {
     		String pwKey     = "Password";
     		String appVerKey = "AppVersion";
     	
+    		// Here in Wakefern API Land, we don't care if the Auth Token supplied by the UI is valid or not.
+    		// Simply send it to MWG and let them figure it out.
+    		// MWG's response will be passed along to the UI, which will deal with it accordingly.
     		this.token = authToken;
         
         JSONObject postDataJSON = new JSONObject(jsonBody);

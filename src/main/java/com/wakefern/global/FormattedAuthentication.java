@@ -1,11 +1,7 @@
 package com.wakefern.global;
 
-import com.wakefern.Planning.StoreDetails;
-import com.wakefern.Planning.StoreLocator;
 import com.wakefern.Recipes.GetProfile;
-import com.wakefern.global.ErrorHandling.ExceptionHandler;
-
-import java.util.logging.Level;
+import com.wakefern.stores.StoreDetails;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -80,17 +76,17 @@ public class FormattedAuthentication {
             }
             retval.put(ApplicationConstants.FormattedAuthentication.ShopriteFromHome, getFromHome());
         } catch (Exception e){
-            ExceptionHandler exceptionHandler = new ExceptionHandler();
-            //System.out.print(exceptionHandler.exceptionMessageJson(e));
+            // Anything to do here?
         }
         return retval;
     }
     //
 
     private void searchStores(String stores, String chainId, String planningAuth){
-    	JSONArray sectionArr;
-        JSONObject jsonObject = new JSONObject(stores).getJSONObject(ApplicationConstants.FormattedAuthentication.Store);
-        try{
+        
+    		JSONObject jsonObject = new JSONObject(stores).getJSONObject(ApplicationConstants.FormattedAuthentication.Store);
+        
+    		try{
             setExternalId(jsonObject.get(ApplicationConstants.FormattedAuthentication.ExternalStoreId).toString());
             setPseudoStore(jsonObject.getString(ApplicationConstants.FormattedAuthentication.PseudoStoreId));
         }catch(Exception e){

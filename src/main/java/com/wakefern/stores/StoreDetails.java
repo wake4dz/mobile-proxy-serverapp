@@ -1,4 +1,4 @@
-package com.wakefern.Planning;
+package com.wakefern.stores;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -12,16 +12,16 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 /**
- * Created by zacpuste on 11/14/16.
+ * Created by zacpuste on 9/12/16.
  */
 @Path(ApplicationConstants.Requests.Planning.StoreLocator)
-public class StoreLocatorRegions extends BaseService {
+public class StoreDetails extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{chainId}/regions")
-    public Response getInfoResponse(@PathParam("chainId") String chainId,
-                                    @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(chainId, authToken);
+    @Path("/{chainId}/storeid/{storeId}")
+    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
+                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
@@ -29,14 +29,15 @@ public class StoreLocatorRegions extends BaseService {
         try {
             String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-            return this.createValidResponse(xmLtoJSONConverter.convert(xmlRequest));
+            //return this.createValidResponse(xmLtoJSONConverter.convert(xmlRequest));
+            return this.createValidResponse(xmLtoJSONConverter.convertToJsonStr(xmlRequest));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String chainId, String authToken) throws Exception, IOException {
-        prepareResponse(chainId, authToken);
+    public String getInfo(String chainId, String storeId, String authToken) throws Exception, IOException {
+        prepareResponse(chainId, storeId, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, null);
@@ -46,16 +47,19 @@ public class StoreLocatorRegions extends BaseService {
         return xmLtoJSONConverter.convert(xmlRequest);
     }
 
-    public StoreLocatorRegions(){
+    public StoreDetails(){
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String chainId, String authToken){
-    	
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    private void prepareResponse(String chainId, String storeId, String authToken){
+
+        this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
         this.path = ApplicationConstants.Requests.Planning.StoreLocator
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.regions;
+                + ApplicationConstants.StringConstants.backSlash 
+                + chainId 
+                + ApplicationConstants.StringConstants.storeid
+                + ApplicationConstants.StringConstants.backSlash 
+                + storeId ;
     }
 }
-

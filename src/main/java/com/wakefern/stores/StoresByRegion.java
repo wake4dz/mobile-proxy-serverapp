@@ -1,4 +1,4 @@
-package com.wakefern.Planning;
+package com.wakefern.stores;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;

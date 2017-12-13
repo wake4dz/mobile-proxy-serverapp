@@ -5,6 +5,8 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +17,7 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 10/6/16.
  */
-@Path(ApplicationConstants.Requests.Planning.ShoppingListUser)
+@Path(MWGApplicationConstants.Requests.Stores.ShoppingListUser)
 public class GetPastPurchases extends BaseService {
     @GET
     @Produces("application/*")

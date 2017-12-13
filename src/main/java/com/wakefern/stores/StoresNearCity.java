@@ -4,7 +4,10 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
+
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
@@ -15,7 +18,7 @@ import java.net.URLEncoder;
 /**
  * Created by zacpuste on 11/14/16.
  */
-@Path(ApplicationConstants.Requests.Planning.StoreLocator)
+@Path(MWGApplicationConstants.Requests.Stores.StoreLocator)
 public class StoresNearCity extends BaseService {
     @GET
     @Produces("application/*")
@@ -25,7 +28,8 @@ public class StoresNearCity extends BaseService {
                                     @PathParam("units") String units, @PathParam("pageNumber") String pageNumber,
                                     @PathParam("pageSize") String pageSize,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        city = URLEncoder.encode(city, "UTF-8");
+        
+    		city = URLEncoder.encode(city, "UTF-8");
         city = city.replaceAll("\\+", "%20");
         regionId = URLEncoder.encode(regionId, "UTF-8");
         regionId = regionId.replaceAll("\\+", "%20");
@@ -45,7 +49,8 @@ public class StoresNearCity extends BaseService {
 
     public String getInfo(String chainId, String regionId, String city, String radius, String units, String pageNumber,
                           String pageSize, String authToken) throws Exception, IOException {
-        city = URLEncoder.encode(city, "UTF-8");
+        
+    		city = URLEncoder.encode(city, "UTF-8");
         city = city.replaceAll("\\+", "%20");
         regionId = URLEncoder.encode(regionId, "UTF-8");
         regionId = regionId.replaceAll("\\+", "%20");
@@ -68,14 +73,14 @@ public class StoresNearCity extends BaseService {
         
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = ApplicationConstants.Requests.Planning.StoreLocator
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.region
-                + ApplicationConstants.StringConstants.backSlash + regionId + ApplicationConstants.StringConstants.city
-                + ApplicationConstants.StringConstants.backSlash + city + ApplicationConstants.StringConstants.radius
-                + ApplicationConstants.StringConstants.backSlash + radius + ApplicationConstants.StringConstants.unit
-                + ApplicationConstants.StringConstants.backSlash + units + ApplicationConstants.StringConstants.page
-                + ApplicationConstants.StringConstants.backSlash + pageNumber + ApplicationConstants.StringConstants.size
-                + ApplicationConstants.StringConstants.backSlash + pageSize;
+        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator
+                + "/" + chainId    + ApplicationConstants.StringConstants.region
+                + "/" + regionId   + ApplicationConstants.StringConstants.city
+                + "/" + city       + ApplicationConstants.StringConstants.radius
+                + "/" + radius     + ApplicationConstants.StringConstants.unit
+                + "/" + units      + ApplicationConstants.StringConstants.page
+                + "/" + pageNumber + ApplicationConstants.StringConstants.size
+                + "/" + pageSize;
 
         System.out.print("Path:: " + this.path);
     }

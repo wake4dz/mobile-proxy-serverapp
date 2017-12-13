@@ -4,7 +4,10 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
+
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
@@ -14,7 +17,7 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 9/12/16.
  */
-@Path(ApplicationConstants.Requests.Planning.StoreLocator)
+@Path(MWGApplicationConstants.Requests.Stores.StoreLocator)
 public class StoreDetails extends BaseService {
     @GET
     @Produces("application/*")
@@ -51,15 +54,12 @@ public class StoreDetails extends BaseService {
         this.serviceType = new MWGHeader();
     }
 
-    private void prepareResponse(String chainId, String storeId, String authToken){
+    private void prepareResponse(String chainId, String storeId, String authToken) {
 
         this.token = ApplicationConstants.Requests.Tokens.planningToken;
-
-        this.path = ApplicationConstants.Requests.Planning.StoreLocator
-                + ApplicationConstants.StringConstants.backSlash 
-                + chainId 
-                + ApplicationConstants.StringConstants.storeid
-                + ApplicationConstants.StringConstants.backSlash 
-                + storeId ;
+        
+        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator 
+        		+ "/" + chainId + ApplicationConstants.StringConstants.storeid 
+        		+ "/" + storeId;
     }
 }

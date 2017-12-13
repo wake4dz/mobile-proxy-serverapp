@@ -4,7 +4,10 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
+
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
@@ -15,7 +18,7 @@ import java.net.URLEncoder;
 /**
  * Created by zacpuste on 11/14/16.
  */
-@Path(ApplicationConstants.Requests.Planning.StoreLocator)
+@Path(MWGApplicationConstants.Requests.Stores.StoreLocator)
 public class StoresByRegion extends BaseService {
     @GET
     @Produces("application/*")
@@ -61,10 +64,10 @@ public class StoresByRegion extends BaseService {
         
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = ApplicationConstants.Requests.Planning.StoreLocator
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.region
-                + ApplicationConstants.StringConstants.backSlash + regionId + ApplicationConstants.StringConstants.page
-                + ApplicationConstants.StringConstants.backSlash + pageNumber + ApplicationConstants.StringConstants.size
-                + ApplicationConstants.StringConstants.backSlash + pageSize;
+        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator
+                + "/" + chainId    + ApplicationConstants.StringConstants.region
+                + "/" + regionId   + ApplicationConstants.StringConstants.page
+                + "/" + pageNumber + ApplicationConstants.StringConstants.size
+                + "/" + pageSize;
     }
 }

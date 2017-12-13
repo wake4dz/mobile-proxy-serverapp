@@ -4,7 +4,10 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
+
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
@@ -14,7 +17,7 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 9/12/16.
  */
-@Path(ApplicationConstants.Requests.Planning.StoreLocator)
+@Path(MWGApplicationConstants.Requests.Stores.StoreLocator)
 public class StoreLocator extends BaseService {
     @GET
     @Produces("application/*")
@@ -55,13 +58,13 @@ public class StoreLocator extends BaseService {
     
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = ApplicationConstants.Requests.Planning.StoreLocator
-                + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.postalCode
-                + ApplicationConstants.StringConstants.backSlash + zip + ApplicationConstants.StringConstants.radius
-                + ApplicationConstants.StringConstants.backSlash + rad + ApplicationConstants.StringConstants.unit
-                + ApplicationConstants.StringConstants.backSlash + units + ApplicationConstants.StringConstants.page
-                + ApplicationConstants.StringConstants.backSlash + pageNum + ApplicationConstants.StringConstants.size
-                + ApplicationConstants.StringConstants.backSlash + sizeNum;
+        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator
+                + "/" + chainId + ApplicationConstants.StringConstants.postalCode
+                + "/" + zip + ApplicationConstants.StringConstants.radius
+                + "/" + rad + ApplicationConstants.StringConstants.unit
+                + "/" + units + ApplicationConstants.StringConstants.page
+                + "/" + pageNum + ApplicationConstants.StringConstants.size
+                + "/" + sizeNum;
     }
 }
 

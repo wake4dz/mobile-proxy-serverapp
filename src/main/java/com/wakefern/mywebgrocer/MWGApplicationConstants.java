@@ -30,12 +30,19 @@ public class MWGApplicationConstants {
     public static class Requests {
     		public static class Account {
     			public static final String acctPath = "/account/v7";
-    			public static final String authPath = chainsPath + "/authentication";
+    			public static final String authPath = chainsPath + "/authentication";  // Log in a registered user
     		}
     	
         public static class Authentication {
-            public static final String authenticate   = "/authorization/v7/authorization";        		
+            public static final String authenticate = "/authorization/v7/authorization";  // Retrieve Session Token & Guest User ID
         }
+        
+        public static class Stores {
+            public static final String StoreLocator     = "/storelocator/v1/chain";
+            public static final String ShoppingListUser = "/shoppinglists/v1/user/";
+        }
+        
+        // ^^^ NEW STUFF ^^^ \\
 
         public static class Categories {
             public static final String CategoriesFromStoreId = "/product/v5/categories/store";
@@ -84,11 +91,6 @@ public class MWGApplicationConstants {
 
         public static class Registration{
             public static final String UserRegistration = "/user/v1/registration";
-        }
-
-        public static class Planning{
-            public static final String StoreLocator = "/storelocator/v1/chain";
-            public static final String ShoppingListUser = "/shoppinglists/v1/user/";
         }
 
         public static class Wakefern{

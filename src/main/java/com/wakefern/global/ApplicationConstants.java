@@ -178,11 +178,6 @@ public final class ApplicationConstants {
             public static final String GetCouponsRecommendations = WakefernApplicationConstants.Requests.Coupons.Metadata.MetadataRecommendations;
         }
 
-        public static final class Planning{
-            public static final String StoreLocator = MWGApplicationConstants.Requests.Planning.StoreLocator;
-            public static final String ShoppingListUser = MWGApplicationConstants.Requests.Planning.ShoppingListUser;
-        }
-
         public static final class Wakefern{
             public static final String ItemLocator = MWGApplicationConstants.Requests.Wakefern.ItemLocator;
             public static final String ItemLocatorAuth = MWGApplicationConstants.Requests.Wakefern.ItemLocatorAuth;

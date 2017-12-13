@@ -9,6 +9,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.XMLtoJSONConverter;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
@@ -18,7 +19,7 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 10/6/16.
  */
-@Path(ApplicationConstants.Requests.Planning.ShoppingListUser)
+@Path(MWGApplicationConstants.Requests.Stores.ShoppingListUser)
 public class GetListById extends BaseService {
     @GET
     @Produces("application/*")
@@ -59,11 +60,12 @@ public class GetListById extends BaseService {
         
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
         
-        this.path = ApplicationConstants.Requests.Planning.ShoppingListUser
+        this.path = MWGApplicationConstants.Requests.Stores.ShoppingListUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId;
-        if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Planning.ShoppingListUser
+        
+        if (!isMember.isEmpty()) {
+            this.path = MWGApplicationConstants.Requests.Stores.ShoppingListUser
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
                     + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.isMember;
         }

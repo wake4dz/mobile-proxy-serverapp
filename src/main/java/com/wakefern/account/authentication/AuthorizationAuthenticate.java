@@ -75,7 +75,6 @@ public class AuthorizationAuthenticate extends BaseService {
     			return this.createErrorResponse(new Exception(appVerErr));
         
         } else {
-	        String responseJSON;
 	        ServiceMappings mapping = new ServiceMappings();
 	        HashMap<String, String> reqParams = new HashMap<String, String>();
 	        
@@ -88,12 +87,8 @@ public class AuthorizationAuthenticate extends BaseService {
 	        Map<String, String> reqHead = mapping.getgenericHeader();
 	        
 	        try {
-	        		responseJSON = HTTPRequest.executePut("", reqURL, "", reqData, reqHead, 0);
-	        
-	        		return Response
-		            		.status(200)
-		            		.entity(responseJSON)
-		            		.build();
+	        		String responseJSON = HTTPRequest.executePut("", reqURL, "", reqData, reqHead, 0);
+	        		return this.createValidResponse(responseJSON);
 	        		
 	        } catch (Exception e) {
 	        		logger.log(Level.SEVERE, "[getInfo]::Exception authenticate user: {0}, msg: {1}", new Object[]{userEmail, e.toString()});

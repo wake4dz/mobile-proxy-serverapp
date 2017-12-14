@@ -24,7 +24,7 @@ public class OrderDelete extends BaseService {
         prepareResponse(orderId, userId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         try {
             HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
@@ -38,7 +38,7 @@ public class OrderDelete extends BaseService {
         prepareResponse(orderId, userId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

@@ -58,8 +58,9 @@ public class Authentication extends BaseService {
     }
 
     	/**
-    	 * Triggers the Auth Request for the Session Token, but does not format the response.
-    	 * For use internally.  This is not a REST endpoint.
+    	 * Triggers the Auth Request for the Session Token, but does not format the response.<br>
+    	 * For use internally.<br>  
+    	 * This is not a REST endpoint.<br>
     	 * 
     	 * @return
     	 * @throws Exception

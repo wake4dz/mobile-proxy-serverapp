@@ -49,7 +49,7 @@ public class Search extends BaseService {
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
-            secondMapping.setMapping(this);
+            secondMapping.setGetMapping(this, null);
 
             String result = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
             jsonArray[i] = result;
@@ -73,7 +73,7 @@ public class Search extends BaseService {
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
-            secondMapping.setMapping(this);
+            secondMapping.setGetMapping(this, null);
 
             String result = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
             jsonArray[intTake] = result;

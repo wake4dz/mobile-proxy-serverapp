@@ -49,9 +49,15 @@ public class ServiceMappings {
 		this.servicePath = servicePath;
 	}
 
-	//Used for v5 authorization
+	/**
+	 * Used for the Authorization call to retrieve the MWG Session Token & Guest User ID.
+	 * 
+	 * @param serviceObject
+	 * @param jsonBody
+	 */
 	public void setMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
+		
 		if (aService.serviceType instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
 			MWGBody mwgBody = new MWGBody("");
@@ -59,22 +65,35 @@ public class ServiceMappings {
 		}
 	}
 
-	//Used for GET and DELETE
-	public void setMapping(Object serviceObject){
+	/**
+	 * Used for GET & DELETE requests.
+	 * 
+	 * @param serviceObject
+	 * @param reqParams
+	 */
+	public void setGetMapping(Object serviceObject, Map<String, String> reqParams) {
 		BaseService aService = (BaseService) serviceObject;
+		
 		if (aService.serviceType instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
-			sendRequest(aService, mwgHeader);
+			buildRequest(aService, mwgHeader, reqParams);
 		}
 	}
 
-	//User for all PUT and POST methods
+	/**
+	 * Used for PUT & POST requests.
+	 * 
+	 * @param serviceObject
+	 * @param jsonBody
+	 * @param reqParams
+	 */
 	public void setPutMapping(Object serviceObject, String jsonBody, Map<String, String> reqParams) {
 		BaseService aService = (BaseService) serviceObject;
+		
 		if (aService.serviceType instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
 			MWGBody mwgBody = new MWGBody("");
-			sendPutRequest(aService, mwgHeader, mwgBody, jsonBody, reqParams);
+			buildPutRequest(aService, mwgHeader, mwgBody, jsonBody, reqParams);
 		}
 	}
 	
@@ -125,19 +144,22 @@ public class ServiceMappings {
 		setGenericBody(body.Body(jsonBody));
 	}
 
-	private void sendRequest(BaseService serviceObject,MWGHeader header){
-		header.authenticate(serviceObject.token);
-		setgenericHeader(header.getMap());
-		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
-	}
-
 	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
 		header.authenticate(serviceObject.token);
 		setgenericHeader(header.getMap());
 		setPath(baseURL + serviceObject.path);
 	}
 
-	private void sendPutRequest(BaseService serviceObject, MWGHeader header, MWGBody body, String jsonBody, Map<String, String> reqParams){
+	/**
+	 * Construct a PUT / POST request.
+	 * 
+	 * @param serviceObject
+	 * @param header
+	 * @param body
+	 * @param jsonBody
+	 * @param reqParams
+	 */
+	private void buildPutRequest(BaseService serviceObject, MWGHeader header, MWGBody body, String jsonBody, Map<String, String> reqParams){
 		header.authenticate(serviceObject.token);
 		setgenericHeader(header.getMap());
 		
@@ -145,6 +167,22 @@ public class ServiceMappings {
 		
 		setPath(reqURL);
 		setGenericBody(body.Body(jsonBody));
+	}
+	
+	/**
+	 * Construct a GET / DELETE request.
+	 * 
+	 * @param serviceObject
+	 * @param header
+	 * @param reqParams
+	 */
+	private void buildRequest(BaseService serviceObject, MWGHeader header, Map<String, String> reqParams) {
+		header.authenticate(serviceObject.token);
+		setgenericHeader(header.getMap());
+		
+		String reqURL = buildURL(serviceObject, reqParams);
+		
+		setPath(reqURL);
 	}
 	
 	/**
@@ -169,6 +207,10 @@ public class ServiceMappings {
 			
 			if (reqParams.containsKey(MWGApplicationConstants.userID)) {
 				path = path.replace("{" + MWGApplicationConstants.userID + "}", reqParams.get(MWGApplicationConstants.userID));
+			}
+			
+			if (reqParams.containsKey(MWGApplicationConstants.storeID)) {
+				path = path.replace("{" + MWGApplicationConstants.storeID + "}", reqParams.get(MWGApplicationConstants.storeID));
 			}
 		}
 		

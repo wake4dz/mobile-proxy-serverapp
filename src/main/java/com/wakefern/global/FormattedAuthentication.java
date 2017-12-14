@@ -18,22 +18,24 @@ public class FormattedAuthentication {
     private String sisterPseudo;
     private String sisterName;
 
-    public JSONObject formatAuth(String json, String email, String chainId, String planningAuth){//, String v5){
+    public JSONObject formatAuth (String json, String email, String chainId) {
         JSONObject retval = new JSONObject();
         JSONObject jsonObject = new JSONObject(json);
-        String token = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Token);
-        String userId = jsonObject.getString(ApplicationConstants.FormattedAuthentication.UserId);
-        String secret = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Secret);
+        
+        //String token = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Token);
+        String userId = jsonObject.getString("AccountId");
+        //String secret = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Secret);
 
         //Add /v5/authorization/authenticate
-        retval.put(ApplicationConstants.FormattedAuthentication.UserToken, token);
-        retval.put(ApplicationConstants.FormattedAuthentication.PlanningToken, planningAuth);
+        //retval.put(ApplicationConstants.FormattedAuthentication.UserToken, token);
+        //retval.put(ApplicationConstants.FormattedAuthentication.PlanningToken, planningAuth);
+        
         retval.put(ApplicationConstants.FormattedAuthentication.UserId, userId);
 
         GetProfile getProfile = new GetProfile();
         try {
             //Get user info
-            String xml = getProfile.getInfo(userId, chainId, email, planningAuth);
+            String xml = getProfile.getInfo(userId, chainId, email, ApplicationConstants.FormattedAuthentication.AuthPlanning);
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             JSONObject xmlJson = new JSONObject(xmLtoJSONConverter.convert(xml)).getJSONObject(ApplicationConstants.FormattedAuthentication.User);
 
@@ -45,7 +47,7 @@ public class FormattedAuthentication {
             retval.put(ApplicationConstants.FormattedAuthentication.FirstName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.FirstName));
             retval.put(ApplicationConstants.FormattedAuthentication.LastName, xmlJson.getString(ApplicationConstants.FormattedAuthentication.LastName));
             retval.put(ApplicationConstants.FormattedAuthentication.PPC, ppc);
-            retval.put(ApplicationConstants.FormattedAuthentication.Secret, secret);
+            //retval.put(ApplicationConstants.FormattedAuthentication.Secret, secret);
 
             //Get /v5/authorization and find AdSessionGuid
             JSONObject jsonObject1 = new JSONObject(json);//v5);
@@ -59,8 +61,8 @@ public class FormattedAuthentication {
 
             //Get store info
             StoreDetails storeDetails = new StoreDetails();
-            String storesJson = storeDetails.getInfo(chainId, storeId, planningAuth);
-            searchStores(storesJson, chainId, planningAuth);
+            String storesJson = storeDetails.getInfo(chainId, storeId, ApplicationConstants.FormattedAuthentication.AuthPlanning);
+            searchStores(storesJson, chainId, ApplicationConstants.FormattedAuthentication.AuthPlanning);
 
             //Save store info
             retval.put(ApplicationConstants.FormattedAuthentication.StoreId, storeId);

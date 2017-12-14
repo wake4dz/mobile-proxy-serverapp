@@ -26,7 +26,7 @@ public class OrderGet extends BaseService {
         prepareResponse(orderId, userId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.order-detail+json");
@@ -45,7 +45,7 @@ public class OrderGet extends BaseService {
         prepareResponse(orderId, userId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.order-detail+json");

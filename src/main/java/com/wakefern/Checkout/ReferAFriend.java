@@ -26,7 +26,7 @@ public class ReferAFriend extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.refer-a-friend+json");
@@ -43,7 +43,7 @@ public class ReferAFriend extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.refer-a-friend+json");

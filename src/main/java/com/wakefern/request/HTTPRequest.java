@@ -189,6 +189,8 @@ public class HTTPRequest {
         }
     }
 
+    // TODO: Refactor!  'requestType', 'timeOut' & 'requestParameters' are not used!
+    //
     public static String executePut(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders
             , int timeOut) throws Exception {
         HttpURLConnection connection = null;

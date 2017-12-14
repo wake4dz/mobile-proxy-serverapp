@@ -12,54 +12,78 @@ import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Created by zacpuste on 9/12/16.
- */
-@Path(MWGApplicationConstants.Requests.Stores.StoreLocator)
+@Path(MWGApplicationConstants.Requests.Stores.storesPath)
 public class StoreDetails extends BaseService {
-    @GET
+	
+	//-------------------------------------------------------------------------
+	// Public Methods
+	//-------------------------------------------------------------------------
+
+	/**
+	 * Constructor
+	 */
+    public StoreDetails(){
+        this.serviceType = new MWGHeader();
+        this.path = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.detailsPath;
+    }
+    
+	@GET
     @Produces("application/*")
-    @Path("/{chainId}/storeid/{storeId}")
-    public Response getInfoResponse(@PathParam("chainId") String chainId, @PathParam("storeId") String storeId,
-                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(chainId, storeId, authToken);
-
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMappingv1(this, null);
-
+    @Path(MWGApplicationConstants.Requests.Stores.detailsPath)
+    public Response getInfoResponse(
+    		@PathParam(MWGApplicationConstants.chainID) String chainId, 
+    		@PathParam(MWGApplicationConstants.storeID) String storeId,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
+        
         try {
-            String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
-            XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-            //return this.createValidResponse(xmLtoJSONConverter.convert(xmlRequest));
-            return this.createValidResponse(xmLtoJSONConverter.convertToJsonStr(xmlRequest));
+            String jsonResponse = makeRequest(chainId, storeId, sessionToken);
+            return this.createValidResponse(jsonResponse);
+        
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
     }
 
-    public String getInfo(String chainId, String storeId, String authToken) throws Exception, IOException {
-        prepareResponse(chainId, storeId, authToken);
-
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setServiceMappingv1(this, null);
-
-        String xmlRequest = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
-        XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
-        return xmLtoJSONConverter.convert(xmlRequest);
+	/**
+	 * Not an API endpoint.<br>
+	 * Used internally to get details of a particular store.
+	 * 
+	 * @param chainId
+	 * @param storeId
+	 * @param sessionToken
+	 * @return
+	 * @throws Exception
+	 * @throws IOException
+	 */
+    public String getInfo(String chainId, String storeId, String sessionToken) throws Exception, IOException {
+    		return makeRequest(chainId, storeId, sessionToken);
     }
 
-    public StoreDetails(){
-        this.serviceType = new MWGHeader();
-    }
-
-    private void prepareResponse(String chainId, String storeId, String authToken) {
-
-        this.token = ApplicationConstants.Requests.Tokens.planningToken;
+	//-------------------------------------------------------------------------
+	// Private Methods
+	//-------------------------------------------------------------------------
+    
+    private String makeRequest(String chainId, String storeId, String sessionToken) throws Exception, IOException {
+    		this.token = sessionToken;
+    	
+        ServiceMappings mapping = new ServiceMappings();
+        HashMap<String, String> reqParams = new HashMap<String, String>();
         
-        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator 
-        		+ "/" + chainId + ApplicationConstants.StringConstants.storeid 
-        		+ "/" + storeId;
+        reqParams.put(MWGApplicationConstants.chainID, chainId);
+        reqParams.put(MWGApplicationConstants.storeID, storeId);
+        
+        mapping.setGetMapping(this, reqParams);
+        
+        String reqURL = mapping.getPath();
+        Map<String, String> reqHead = mapping.getgenericHeader();
+        
+        return HTTPRequest.executeGetJSON(reqURL, reqHead, 0);
     }
 }

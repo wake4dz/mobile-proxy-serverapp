@@ -26,7 +26,7 @@ public class CheckoutGet extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.checkout+json");
@@ -44,7 +44,7 @@ public class CheckoutGet extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.checkout+json");

@@ -24,7 +24,7 @@ public class CartDelete extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         try{
             HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
@@ -38,7 +38,7 @@ public class CartDelete extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

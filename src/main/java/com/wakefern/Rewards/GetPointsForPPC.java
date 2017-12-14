@@ -40,7 +40,7 @@ public class GetPointsForPPC extends BaseService {
     	prepareResponse(ppc, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

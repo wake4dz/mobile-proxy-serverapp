@@ -44,7 +44,7 @@ public class ShoppingListItemsGet extends BaseService {
         String path = prepareResponse(userId, storeId, listId, take, skip, fq, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         String listResp = HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
         //return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0));
@@ -301,6 +301,7 @@ public class ShoppingListItemsGet extends BaseService {
     public String getInfoFilter(String userId, String storeId , String listId, String take, 
             String skip, String isMember, String authToken, String filter, String fq) throws Exception, IOException {
         String path = prepareResponse(userId, storeId, listId, take, skip, fq, isMember, authToken);
+        
         //Fix filter 
         if(!filter.isEmpty()){
             path += "&fq=" + URLEncoder.encode(filter, "UTF-8");
@@ -311,9 +312,8 @@ public class ShoppingListItemsGet extends BaseService {
         }
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
-        String returnString = HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
-        //System.out.println("Purchase response ::" + returnString);
+        secondMapping.setGetMapping(this, null);
+        
         return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
     }
 

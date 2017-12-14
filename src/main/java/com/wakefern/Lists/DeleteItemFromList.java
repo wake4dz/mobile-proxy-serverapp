@@ -39,7 +39,7 @@ public class DeleteItemFromList extends BaseService {
         this.token = authToken;
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
 
         if(listId.isEmpty()) {

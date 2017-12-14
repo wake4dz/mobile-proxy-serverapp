@@ -41,7 +41,7 @@ public class ActiveCirculars extends BaseService{
         prepareResponse(chainId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         try {
         	String resp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
@@ -67,7 +67,7 @@ public class ActiveCirculars extends BaseService{
         prepareResponse(chainId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

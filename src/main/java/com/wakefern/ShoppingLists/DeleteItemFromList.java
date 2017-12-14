@@ -25,7 +25,7 @@ public class DeleteItemFromList extends BaseService {
         prepareResponse(chainId, userId, listId, listItemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         try{
             HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
@@ -39,7 +39,7 @@ public class DeleteItemFromList extends BaseService {
         prepareResponse(chainId, userId, listId, listItemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

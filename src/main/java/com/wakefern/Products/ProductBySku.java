@@ -29,7 +29,7 @@ public class ProductBySku extends BaseService {
         prepareResponse(storeId, skuId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         try {
             String skuData = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
@@ -47,7 +47,7 @@ public class ProductBySku extends BaseService {
         prepareResponse(storeId, skuId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

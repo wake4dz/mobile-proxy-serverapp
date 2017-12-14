@@ -26,7 +26,7 @@ public class CircularItemSearch extends BaseService {
         prepareResponse(storeId, circularId, take, skip, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         try {
             return this.createValidResponse(HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
@@ -39,7 +39,7 @@ public class CircularItemSearch extends BaseService {
         prepareResponse(storeId, circularId, take, skip, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

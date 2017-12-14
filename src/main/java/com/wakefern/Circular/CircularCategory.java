@@ -25,7 +25,7 @@ public class CircularCategory extends BaseService{
         prepareRespone(chainId, storeId, categoryId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         try {
             return this.createValidResponse(HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
@@ -38,7 +38,7 @@ public class CircularCategory extends BaseService{
         prepareRespone(chainId, storeId, categoryId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMapping(this);
+        secondMapping.setGetMapping(this, null);
 
         return HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

@@ -44,16 +44,16 @@ public class CartDelete extends BaseService {
     }
 
     public CartDelete(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     public void prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Cart.CartUser
+        this.requestPath = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Cart.CartUser
+            this.requestPath = ApplicationConstants.Requests.Cart.CartUser
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.isMember;
         }

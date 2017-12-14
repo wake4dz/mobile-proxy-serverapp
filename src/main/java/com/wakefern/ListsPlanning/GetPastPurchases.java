@@ -70,7 +70,7 @@ public class GetPastPurchases extends BaseService {
     }
 
     public GetPastPurchases() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String getPast(String userListJson) throws Exception {

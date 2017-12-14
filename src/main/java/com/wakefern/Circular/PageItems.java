@@ -43,18 +43,18 @@ public class PageItems extends BaseService {
     }
 
     public PageItems(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String storeId, String circularId, String pageId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories
+        this.requestPath = ApplicationConstants.Requests.Circular.Categories
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
                 + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.pages
                 + ApplicationConstants.StringConstants.backSlash + pageId + ApplicationConstants.StringConstants.items;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Circular.Categories
+            this.requestPath = ApplicationConstants.Requests.Circular.Categories
                     + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.stores
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
                     + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.pages

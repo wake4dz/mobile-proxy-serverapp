@@ -57,6 +57,6 @@ public class ItemLocatorArrayPost extends BaseService {
     }
 
     public ItemLocatorArrayPost(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 }

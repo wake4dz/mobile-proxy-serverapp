@@ -1,5 +1,6 @@
 package com.wakefern.stores;
 
+import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 
@@ -25,11 +26,11 @@ public class StoreDetails extends BaseService {
 	 * Constructor
 	 */
     public StoreDetails(){
-        this.serviceType = new MWGHeader();
-        this.path = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.detailsPath;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.detailsPath;
     }
     
 	@GET
+    @Consumes(MWGApplicationConstants.Headers.Stores.details)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.detailsPath)
     public Response getInfoResponse(
@@ -67,6 +68,7 @@ public class StoreDetails extends BaseService {
     
     private String makeRequest(String chainId, String storeId, String sessionToken) throws Exception, IOException {
     		this.token = sessionToken;
+    		this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, MWGApplicationConstants.Headers.Stores.details, sessionToken);
     	
         ServiceMappings mapping = new ServiceMappings();
         HashMap<String, String> reqParams = new HashMap<String, String>();

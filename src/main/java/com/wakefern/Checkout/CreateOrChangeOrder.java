@@ -51,7 +51,7 @@ public class CreateOrChangeOrder extends BaseService {
 
         try {
         	String response = HTTPRequest.executePostJSON(mapping.getPath(), "", map, 30000);
-            logger.log(Level.INFO, "[getInfoResponse]::URL: {0}, response: {1}", new Object[]{this.path, response});
+            logger.log(Level.INFO, "[getInfoResponse]::URL: {0}, response: {1}", new Object[]{this.requestPath, response});
 
             return this.createValidResponse(response);
         } catch (Exception e){
@@ -74,16 +74,16 @@ public class CreateOrChangeOrder extends BaseService {
     }
 
     public CreateOrChangeOrder(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.UserOrder
+        this.requestPath = ApplicationConstants.Requests.Checkout.UserOrder
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Checkout.UserOrder
+            this.requestPath = ApplicationConstants.Requests.Checkout.UserOrder
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.isMember;
         }

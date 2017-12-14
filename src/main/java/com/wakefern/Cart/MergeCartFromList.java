@@ -47,22 +47,22 @@ public class MergeCartFromList extends BaseService {
     }
 
     public MergeCartFromList(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String prepareResponse(String userId, String storeId, String listId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.baseURLV5 +  ApplicationConstants.Requests.Cart.CartUser
+        this.requestPath = ApplicationConstants.Requests.baseURLV5 +  ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.mergeFrom
                 + ApplicationConstants.StringConstants.list + ApplicationConstants.StringConstants.backSlash + listId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.baseURLV5 +  ApplicationConstants.Requests.Cart.CartUser
+            this.requestPath = ApplicationConstants.Requests.baseURLV5 +  ApplicationConstants.Requests.Cart.CartUser
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.mergeFrom
                     + ApplicationConstants.StringConstants.list + ApplicationConstants.StringConstants.backSlash + listId
                     + ApplicationConstants.StringConstants.isMember;
         }
-        return this.path;
+        return this.requestPath;
     }
 }

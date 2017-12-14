@@ -53,17 +53,17 @@ public class ChangeOrderGet extends BaseService {
     }
 
     public ChangeOrderGet(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String orderId, String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.Order
+        this.requestPath = ApplicationConstants.Requests.Checkout.Order
                 + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.toCart;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Checkout.Order
+            this.requestPath = ApplicationConstants.Requests.Checkout.Order
                     + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.toCart

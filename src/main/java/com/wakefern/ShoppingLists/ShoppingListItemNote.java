@@ -33,7 +33,7 @@ public class ShoppingListItemNote extends BaseService {
                                     @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         prepareResponse(chainId, userId, listId, itemId, isMember, authToken);
         Map<String, String> map = new HashMap<>();
-        String path = ApplicationConstants.Requests.baseURLV5 + this.path;
+        String path = ApplicationConstants.Requests.baseURLV5 + this.requestPath;
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.list-item+json");
 
@@ -48,7 +48,7 @@ public class ShoppingListItemNote extends BaseService {
         prepareResponse(chainId, userId, listId, itemId, isMember, authToken);
 
         Map<String, String> map = new HashMap<>();
-        String path = ApplicationConstants.Requests.baseURLV5 + this.path;
+        String path = ApplicationConstants.Requests.baseURLV5 + this.requestPath;
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.list-item+json");
 
@@ -56,18 +56,18 @@ public class ShoppingListItemNote extends BaseService {
     }
 
     public ShoppingListItemNote(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String userId, String listId, String itemId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.ShoppingLists.slChains
+        this.requestPath = ApplicationConstants.Requests.ShoppingLists.slChains
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
                 + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.items
                 + ApplicationConstants.StringConstants.backSlash + itemId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.ShoppingLists.slChains
+            this.requestPath = ApplicationConstants.Requests.ShoppingLists.slChains
                     + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
                     + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.items

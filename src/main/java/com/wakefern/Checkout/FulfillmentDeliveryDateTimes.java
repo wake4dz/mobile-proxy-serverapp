@@ -65,18 +65,18 @@ public class FulfillmentDeliveryDateTimes extends BaseService {
     }
 
     public FulfillmentDeliveryDateTimes(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String storeId, String zipCode, String year, String month, String day,
                                  String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+        this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                 + storeId +  ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.backSlash
                 + zipCode + ApplicationConstants.StringConstants.backSlash + year + ApplicationConstants.StringConstants.backSlash
                 + month + ApplicationConstants.StringConstants.backSlash + day + ApplicationConstants.StringConstants.times;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+            this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                     + storeId +  ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.backSlash
                     + zipCode + ApplicationConstants.StringConstants.backSlash + year + ApplicationConstants.StringConstants.backSlash
                     + month + ApplicationConstants.StringConstants.backSlash + day + ApplicationConstants.StringConstants.times

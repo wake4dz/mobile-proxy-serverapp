@@ -43,15 +43,15 @@ public class Categories extends BaseService {
     }
 
     public Categories(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
+        this.requestPath = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
                 + storeId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
+            this.requestPath = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
                     + storeId + ApplicationConstants.StringConstants.isMember;
         }
     }

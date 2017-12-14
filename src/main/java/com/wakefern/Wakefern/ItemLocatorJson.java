@@ -36,6 +36,6 @@ public class ItemLocatorJson extends BaseService {
     }
 
     public ItemLocatorJson(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 }

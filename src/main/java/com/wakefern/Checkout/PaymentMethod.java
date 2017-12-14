@@ -67,20 +67,20 @@ public class PaymentMethod extends BaseService {
     }
 
     public PaymentMethod(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String preparedResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
+        this.requestPath = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.payment;
         if(!isMember.isEmpty()){
-            this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
+            this.requestPath = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.payment
                     + ApplicationConstants.StringConstants.isMember;
         }
-        return path;
+        return requestPath;
     }
 }

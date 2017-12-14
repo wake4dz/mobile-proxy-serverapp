@@ -80,16 +80,16 @@ public class CheckoutFulfillmentPut extends BaseService {
     }
 
     public CheckoutFulfillmentPut(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResposne(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.UserCheckout
+        this.requestPath = ApplicationConstants.Requests.Checkout.UserCheckout
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Checkout.UserCheckout
+            this.requestPath = ApplicationConstants.Requests.Checkout.UserCheckout
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment
                     + ApplicationConstants.StringConstants.isMember;

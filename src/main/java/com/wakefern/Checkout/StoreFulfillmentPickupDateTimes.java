@@ -54,17 +54,17 @@ public class StoreFulfillmentPickupDateTimes extends BaseService{
     }
 
     public StoreFulfillmentPickupDateTimes(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String storeId, String year, String month, String day, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+        this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.backSlash
                 + year + ApplicationConstants.StringConstants.backSlash + month
                 + ApplicationConstants.StringConstants.backSlash + day + ApplicationConstants.StringConstants.times;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
+            this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                     + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.backSlash
                     + year + ApplicationConstants.StringConstants.backSlash + month
                     + ApplicationConstants.StringConstants.backSlash + day + ApplicationConstants.StringConstants.times

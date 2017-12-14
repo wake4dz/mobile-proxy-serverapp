@@ -53,16 +53,16 @@ public class ReferAFriend extends BaseService {
     }
 
     public ReferAFriend(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.Users
+        this.requestPath = ApplicationConstants.Requests.Checkout.Users
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.stores
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.referFriend;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Checkout.Users
+            this.requestPath = ApplicationConstants.Requests.Checkout.Users
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.stores
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.referFriend
                     + ApplicationConstants.StringConstants.isMember;

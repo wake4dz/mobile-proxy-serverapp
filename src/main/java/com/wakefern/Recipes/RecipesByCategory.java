@@ -47,14 +47,14 @@ public class RecipesByCategory extends BaseService {
     }
 
     public RecipesByCategory(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String subCategoryId, String authToken){
     		
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+        this.requestPath = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category
                 + ApplicationConstants.StringConstants.backSlash + subCategoryId;
     }

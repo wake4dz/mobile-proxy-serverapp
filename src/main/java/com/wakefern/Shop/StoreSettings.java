@@ -43,15 +43,15 @@ public class StoreSettings extends BaseService {
     }
 
     public StoreSettings(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Shop.ShopStore
+        this.requestPath = ApplicationConstants.Requests.Shop.ShopStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.settings;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Shop.ShopStore
+            this.requestPath = ApplicationConstants.Requests.Shop.ShopStore
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.settings
                     + ApplicationConstants.StringConstants.isMember;
         }

@@ -320,7 +320,7 @@ public class ShoppingListItemsGet extends BaseService {
     public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String fq, String isMember, String authToken){
         this.token = authToken;
 
-        this.path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
+        this.requestPath = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.take
@@ -329,20 +329,20 @@ public class ShoppingListItemsGet extends BaseService {
         if(!fq.isEmpty()){
             try {
                 String fqEncoded = URLEncoder.encode(fq, "UTF-8");
-                this.path += ApplicationConstants.StringConstants.fq + fqEncoded;
+                this.requestPath += ApplicationConstants.StringConstants.fq + fqEncoded;
             } catch (Exception e){
                 System.out.print("ShoppingListItemGet:: Error Encoding fq " + e.getMessage());
             }
         }
 
         if(!isMember.isEmpty()){
-            this.path += ApplicationConstants.StringConstants.isMemberAmp;
+            this.requestPath += ApplicationConstants.StringConstants.isMemberAmp;
         }
-        return path;
+        return requestPath;
     }
 
     public ShoppingListItemsGet(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 }
 

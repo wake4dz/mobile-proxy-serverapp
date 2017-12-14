@@ -96,6 +96,6 @@ public class GetToken extends BaseService {
 	}
 
 	public GetToken() {
-		this.serviceType = new MWGHeader();
+		this.requestHeader = new MWGHeader();
 	}
 }

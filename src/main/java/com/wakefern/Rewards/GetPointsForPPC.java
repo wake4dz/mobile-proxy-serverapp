@@ -46,12 +46,12 @@ public class GetPointsForPPC extends BaseService {
     }
 
     public GetPointsForPPC(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String ppc, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Rewards.Points
+        this.requestPath = ApplicationConstants.Requests.Rewards.Points
                 + ApplicationConstants.StringConstants.backSlash + ppc;
     }
 

@@ -39,8 +39,8 @@ public class AuthenticationPut extends BaseService {
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.shoprite.com/api/authorization/v5/authorization/");
         sb.append(sessionToken);	sb.append("/authenticate");
-        this.path = sb.toString();//"https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
-        System.out.println("this.path: "+this.path);
+        this.requestPath = sb.toString();//"https://api.shoprite.com/api/authorization/v5/authorization/authenticate";
+        System.out.println("this.path: "+this.requestPath);
         
         try {
             JSONObject messageJson = new JSONObject(jsonBody);
@@ -55,7 +55,7 @@ public class AuthenticationPut extends BaseService {
             String json;
             
             try {
-                json = (HTTPRequest.executePut("", this.path, "", mapping.getGenericBody(), mapping.getgenericHeader(), 0));
+                json = (HTTPRequest.executePut("", this.requestPath, "", mapping.getGenericBody(), mapping.getgenericHeader(), 0));
                 System.out.println("json: "+json);
                 return this.createValidResponse(json);
             
@@ -78,6 +78,6 @@ public class AuthenticationPut extends BaseService {
     }
 
     public AuthenticationPut() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 }

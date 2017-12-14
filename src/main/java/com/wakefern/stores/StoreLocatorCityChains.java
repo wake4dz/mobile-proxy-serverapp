@@ -55,14 +55,14 @@ public class StoreLocatorCityChains extends BaseService {
     }
 
     public StoreLocatorCityChains(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String regionId, String authToken) {
     
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator
+        this.requestPath = MWGApplicationConstants.Requests.Stores.StoreLocator
                 + "/" + chainId + ApplicationConstants.StringConstants.region
                 + "/" + regionId + ApplicationConstants.StringConstants.cities;
     }

@@ -43,16 +43,16 @@ public class ShoppingListsGet extends BaseService {
     }
 
     public ShoppingListsGet(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String userId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.ShoppingLists.slChains
+        this.requestPath = ApplicationConstants.Requests.ShoppingLists.slChains
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.ShoppingLists.slChains
+            this.requestPath = ApplicationConstants.Requests.ShoppingLists.slChains
                     + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists
                     + ApplicationConstants.StringConstants.isMember;

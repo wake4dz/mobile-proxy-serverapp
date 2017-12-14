@@ -42,13 +42,13 @@ public class RecipeDetailsXml extends BaseService {
     }
 
     public RecipeDetailsXml(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String recipeId, String authToken){
     		this.token = authToken;
 
-        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+        this.requestPath = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.recipe
                 + ApplicationConstants.StringConstants.backSlash + recipeId;
     }

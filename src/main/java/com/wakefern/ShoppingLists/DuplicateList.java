@@ -29,12 +29,12 @@ public class DuplicateList extends BaseService {
                           @DefaultValue("")@QueryParam("isMember") String isMember,
                           @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.ShoppingLists.slUser
+        this.requestPath = ApplicationConstants.Requests.ShoppingLists.slUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.duplicate
                 + ApplicationConstants.StringConstants.id1 + id1 + ApplicationConstants.StringConstants.name + name;
         if(!isMember.isEmpty()){
-            this.path += ApplicationConstants.StringConstants.isMemberAmp;
+            this.requestPath += ApplicationConstants.StringConstants.isMemberAmp;
         }
 
         ServiceMappings secondMapping = new ServiceMappings();
@@ -67,7 +67,7 @@ public class DuplicateList extends BaseService {
         return retval + shoppingListItemsPost.getInfo(userId, storeId, newListId, isMember, authToken, firstList);
     }
     public DuplicateList(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     public String newListId(String newList){

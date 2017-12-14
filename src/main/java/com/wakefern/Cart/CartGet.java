@@ -180,21 +180,21 @@ public class CartGet extends BaseService {
 	public void prepareResponse(String userId, String storeId, String isMember,
 			String authToken) {
 		this.token = authToken;
-		this.path = ApplicationConstants.Requests.Cart.CartUser
+		this.requestPath = ApplicationConstants.Requests.Cart.CartUser
 				+ ApplicationConstants.StringConstants.backSlash + userId
 				+ ApplicationConstants.StringConstants.store
 				+ ApplicationConstants.StringConstants.backSlash + storeId;
 		if (!isMember.isEmpty()) {
-			this.path = ApplicationConstants.Requests.Cart.CartUser
+			this.requestPath = ApplicationConstants.Requests.Cart.CartUser
 					+ ApplicationConstants.StringConstants.backSlash + userId
 					+ ApplicationConstants.StringConstants.store
 					+ ApplicationConstants.StringConstants.backSlash + storeId
 					+ ApplicationConstants.StringConstants.isMember;
 		}
-		logger.log(Level.INFO, "[prepareResponse]::path: "+this.path);
+		logger.log(Level.INFO, "[prepareResponse]::path: "+this.requestPath);
 	}
 
 	public CartGet() {
-		this.serviceType = new MWGHeader();
+		this.requestHeader = new MWGHeader();
 	}
 }

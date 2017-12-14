@@ -47,16 +47,16 @@ public class GetUserLists extends BaseService {
     }
 
     public GetUserLists() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String userId, String isMember, String authToken){
     		
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
-    		this.path  = MWGApplicationConstants.Requests.Stores.ShoppingListUser + "/" + userId;
+    		this.requestPath  = MWGApplicationConstants.Requests.Stores.ShoppingListUser + "/" + userId;
         
     		if (!isMember.isEmpty()) {
-            this.path = MWGApplicationConstants.Requests.Stores.ShoppingListUser 
+            this.requestPath = MWGApplicationConstants.Requests.Stores.ShoppingListUser 
             		+ "/" 
             		+ userId 
             		+ ApplicationConstants.StringConstants.isMember;

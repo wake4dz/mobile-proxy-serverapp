@@ -43,16 +43,16 @@ public class ShoppingApiEntry extends BaseService {
     }
 
     public ShoppingApiEntry(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Shop.ShopUser
+        this.requestPath = ApplicationConstants.Requests.Shop.ShopUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Shop.ShopUser
+            this.requestPath = ApplicationConstants.Requests.Shop.ShopUser
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.isMember;
         }

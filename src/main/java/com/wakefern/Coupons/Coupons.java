@@ -47,7 +47,7 @@ public class Coupons extends BaseService {
         
         startTime = System.currentTimeMillis();
         matchedObjects = new JSONObject();
-        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
+        this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
                     + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
 
         //Execute Post
@@ -126,7 +126,7 @@ public class Coupons extends BaseService {
     		this.token = ApplicationConstants.Requests.Tokens.couponToken;
 
         matchedObjects = new JSONObject();
-        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
+        this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons
                 + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
 
         //Execute Post
@@ -143,7 +143,7 @@ public class Coupons extends BaseService {
         return search(coupons, query, matchedObjects2).toString();
     }
 
-    public Coupons () {this.serviceType = new WakefernHeader();}
+    public Coupons () {this.requestHeader = new WakefernHeader();}
 
     private JSONObject search(String coupons, String query, JSONArray matchedObjects2){
         query = query.toLowerCase();

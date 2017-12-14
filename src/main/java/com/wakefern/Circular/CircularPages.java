@@ -88,6 +88,6 @@ public class CircularPages extends BaseService {
     }
 
     public CircularPages() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 }

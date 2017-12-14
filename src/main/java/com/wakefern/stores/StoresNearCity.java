@@ -65,7 +65,7 @@ public class StoresNearCity extends BaseService {
     }
 
     public StoresNearCity(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String regionId, String city, String radius,String units,
@@ -73,7 +73,7 @@ public class StoresNearCity extends BaseService {
         
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator
+        this.requestPath = MWGApplicationConstants.Requests.Stores.StoreLocator
                 + "/" + chainId    + ApplicationConstants.StringConstants.region
                 + "/" + regionId   + ApplicationConstants.StringConstants.city
                 + "/" + city       + ApplicationConstants.StringConstants.radius
@@ -82,6 +82,6 @@ public class StoresNearCity extends BaseService {
                 + "/" + pageNumber + ApplicationConstants.StringConstants.size
                 + "/" + pageSize;
 
-        System.out.print("Path:: " + this.path);
+        System.out.print("Path:: " + this.requestPath);
     }
 }

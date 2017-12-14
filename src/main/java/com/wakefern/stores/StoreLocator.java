@@ -51,14 +51,14 @@ public class StoreLocator extends BaseService {
     }
 
     public StoreLocator(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String chainId, String zip, String rad, String units, String pageNum, String sizeNum, String authToken) {
     
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = MWGApplicationConstants.Requests.Stores.StoreLocator
+        this.requestPath = MWGApplicationConstants.Requests.Stores.StoreLocator
                 + "/" + chainId + ApplicationConstants.StringConstants.postalCode
                 + "/" + zip + ApplicationConstants.StringConstants.radius
                 + "/" + rad + ApplicationConstants.StringConstants.unit

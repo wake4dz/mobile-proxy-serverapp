@@ -7,7 +7,7 @@ public class MWGApplicationConstants {
     public static final String fgProdBaseURL  = "https://api.thefreshgrocer.com/api";                 // Prod
     public static final String fgStageBaseURL = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // Staging
     
-    public static String baseURL = fgStageBaseURL;  // TODO: Change this so it defaults to the PROD URL before releasing!
+    public static String baseURL = fgProdBaseURL;
     
     public static final String chainID = "chainId";
     public static final String userID  = "userId";
@@ -19,6 +19,7 @@ public class MWGApplicationConstants {
     public static final String appToken		= "62081B21-0885-4544-8849-326195C8F9CD";
 
     private static final String chainsPath = "/chains/{" + chainID + "}";	
+    private static final String usersPath  = "/users/{"  + userID  + "}";	
     
     public static class Headers {
     		public static class Params {
@@ -26,7 +27,14 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class Account {
-    			public static final String authContentType = "application/vnd.mywebgrocer.account-authentication+json";
+    			public static final String login = "application/vnd.mywebgrocer.account-authentication+json";
+    			
+    			public static final String fullProfile  = "application/vnd.mywebgrocer.account-profile-full+json";
+    			public static final String basicProfile = "application/vnd.mywebgrocer.account-profile-basic+json";
+    		}
+    		
+    		public static class Stores {
+    			public static final String details = "application/vnd.mywebgrocer.store+json";
     		}
     }
     
@@ -34,6 +42,8 @@ public class MWGApplicationConstants {
     		public static class Account {
     			public static final String acctPath = "/account/v7";
     			public static final String authPath = chainsPath + "/authentication";  // Log in a registered user
+    			
+    			public static final String userProfilePath = chainsPath + usersPath;   // Get a user's profile data
     		}
     	
         public static class Authentication {

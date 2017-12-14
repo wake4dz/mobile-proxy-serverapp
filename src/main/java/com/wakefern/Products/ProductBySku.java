@@ -53,16 +53,16 @@ public class ProductBySku extends BaseService {
     }
 
     public ProductBySku(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String storeId, String skuId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductStore
+        this.requestPath = ApplicationConstants.Requests.Categories.ProductStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.sku
                 + ApplicationConstants.StringConstants.backSlash + skuId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Categories.ProductStore
+            this.requestPath = ApplicationConstants.Requests.Categories.ProductStore
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.sku
                     + ApplicationConstants.StringConstants.backSlash + skuId + ApplicationConstants.StringConstants.isMember;
         }

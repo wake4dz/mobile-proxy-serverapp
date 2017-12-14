@@ -65,7 +65,7 @@ public class ComparePastPurchasesCircular extends BaseService {
     }
 
     public ComparePastPurchasesCircular() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private JSONObject getPurchaseIds(String pastPurchases, String storeId, String isMember, String auth, String take, String skip)throws Exception {

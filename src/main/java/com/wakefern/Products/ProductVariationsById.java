@@ -43,17 +43,17 @@ public class ProductVariationsById extends BaseService {
     }
 
     public ProductVariationsById(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String productId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductId
+        this.requestPath = ApplicationConstants.Requests.Categories.ProductId
                 + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.all
                 + ApplicationConstants.StringConstants.variations;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Categories.ProductId
+            this.requestPath = ApplicationConstants.Requests.Categories.ProductId
                     + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.all
                     + ApplicationConstants.StringConstants.variations + ApplicationConstants.StringConstants.isMember;

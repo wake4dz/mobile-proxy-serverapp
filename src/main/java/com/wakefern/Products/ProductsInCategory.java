@@ -82,7 +82,7 @@ public class ProductsInCategory extends BaseService {
     }
 
     public ProductsInCategory(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String formatResponse(JSONArray jsonArray, String take, String skip){
@@ -143,58 +143,58 @@ public class ProductsInCategory extends BaseService {
         String[] jsonArray = new String[intTake + 1];
 
         for(int i = 0; i < intTake; i++){
-            this.path = partialUrl + ApplicationConstants.StringConstants.take
+            this.requestPath = partialUrl + ApplicationConstants.StringConstants.take
                     + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * i) + initSkip );
 
             if(!sort.isEmpty()){//sort != ""){
                 sort = URLEncoder.encode(sort, "UTF-8");
-                this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
+                this.requestPath = this.requestPath + ApplicationConstants.StringConstants.sort + sort;
             }
 
             if(fqList != null) {
                 for (String query : fqList){
                     query = URLEncoder.encode(query, "UTF-8");
-                   this.path = this.path + ApplicationConstants.StringConstants.fq + query;
+                   this.requestPath = this.requestPath + ApplicationConstants.StringConstants.fq + query;
                 }
             }
 
             if(!isMember.isEmpty()){
-                this.path += ApplicationConstants.StringConstants.isMemberAmp;
+                this.requestPath += ApplicationConstants.StringConstants.isMemberAmp;
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setGetMapping(this, null);
 
-            String result = HTTPRequest.executeGetJSON(this.path, secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGetJSON(this.requestPath, secondMapping.getgenericHeader(), 0);
             jsonArray[i] = result;
         }
 
         if(finalLoop != 0) {
-            this.path = partialUrl + ApplicationConstants.StringConstants.take
+            this.requestPath = partialUrl + ApplicationConstants.StringConstants.take
                     + Integer.toString(finalLoop) + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * intTake) + initSkip);
 
             if(!sort.isEmpty()){//sort != ""){
                 sort = URLEncoder.encode(sort, "UTF-8");
-                this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
+                this.requestPath = this.requestPath + ApplicationConstants.StringConstants.sort + sort;
             }
 
             if(fqList != null) {
                 for (String query : fqList){
                     query = URLEncoder.encode(query, "UTF-8");
-                    this.path = this.path + ApplicationConstants.StringConstants.fq + query;
+                    this.requestPath = this.requestPath + ApplicationConstants.StringConstants.fq + query;
                 }
             }
 
             if(!isMember.isEmpty()){
-                this.path += ApplicationConstants.StringConstants.isMemberAmp;
+                this.requestPath += ApplicationConstants.StringConstants.isMemberAmp;
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setGetMapping(this, null);
 
-            String result = HTTPRequest.executeGetJSON(this.path, secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGetJSON(this.requestPath, secondMapping.getgenericHeader(), 0);
             jsonArray[intTake] = result;
         }
         return Arrays.deepToString(jsonArray);

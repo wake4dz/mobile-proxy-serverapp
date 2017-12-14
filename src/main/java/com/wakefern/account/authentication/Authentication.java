@@ -28,8 +28,8 @@ public class Authentication extends BaseService {
 	 * Constructor
 	 */
     public Authentication() {
-        this.serviceType = new MWGHeader();
-        this.path = MWGApplicationConstants.Requests.Authentication.authenticate;
+        this.requestHeader = new MWGHeader();
+        this.requestPath = MWGApplicationConstants.Requests.Authentication.authenticate;
     }
 	
     @POST
@@ -43,8 +43,8 @@ public class Authentication extends BaseService {
     		JSONObject postDataJSON = new JSONObject(jsonBody);
     		boolean   useStaging    = (postDataJSON.has("useStaging")) ? postDataJSON.getBoolean("useStaging") : false;
     		
-    		// TODO: Enable before releasing!
-    		//MWGApplicationConstants.baseURL = (useStaging) ? MWGApplicationConstants.fgStageBaseURL : MWGApplicationConstants.fgProdBaseURL;
+    		// TODO: change to 'useStaging' before releasing!
+    		MWGApplicationConstants.baseURL = (true) ? MWGApplicationConstants.fgStageBaseURL : MWGApplicationConstants.fgProdBaseURL;
     	
         try {
         		String jsonResp = makeRequest();

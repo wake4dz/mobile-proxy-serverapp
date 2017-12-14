@@ -58,7 +58,7 @@ public class ServiceMappings {
 	public void setMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
 		
-		if (aService.serviceType instanceof MWGHeader) {
+		if (aService.requestHeader instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
 			MWGBody mwgBody = new MWGBody("");
 			sendRequest((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
@@ -74,9 +74,8 @@ public class ServiceMappings {
 	public void setGetMapping(Object serviceObject, Map<String, String> reqParams) {
 		BaseService aService = (BaseService) serviceObject;
 		
-		if (aService.serviceType instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
-			buildRequest(aService, mwgHeader, reqParams);
+		if (aService.requestHeader instanceof MWGHeader) {
+			buildRequest(aService, reqParams);
 		}
 	}
 
@@ -90,7 +89,7 @@ public class ServiceMappings {
 	public void setPutMapping(Object serviceObject, String jsonBody, Map<String, String> reqParams) {
 		BaseService aService = (BaseService) serviceObject;
 		
-		if (aService.serviceType instanceof MWGHeader) {
+		if (aService.requestHeader instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
 			MWGBody mwgBody = new MWGBody("");
 			buildPutRequest(aService, mwgHeader, mwgBody, jsonBody, reqParams);
@@ -100,7 +99,7 @@ public class ServiceMappings {
 	//v1 calls with passed in authToken
 	public void setServiceMappingv1(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
-		if (aService.serviceType instanceof MWGHeader) {
+		if (aService.requestHeader instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
 			MWGBody mwgBody = new MWGBody("");
 			sendServiceMappingv1((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
@@ -110,7 +109,7 @@ public class ServiceMappings {
 	//Used for coupon api
 	public void setCouponMapping(Object serviceObject){
 		BaseService aService = (BaseService) serviceObject;
-		if (aService.serviceType instanceof WakefernHeader){
+		if (aService.requestHeader instanceof WakefernHeader){
 			WakefernHeader wakefernHeader = new WakefernHeader();
 			sendCouponMapping((BaseService) serviceObject, wakefernHeader);
 		}
@@ -118,7 +117,7 @@ public class ServiceMappings {
 	
 	public void setMappingWithURL(Object serviceObject, String baseURL){
 		BaseService aService = (BaseService) serviceObject;
-		if (aService.serviceType instanceof MWGHeader) {
+		if (aService.requestHeader instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
 			sendRequestWithURL(aService, mwgHeader, baseURL);
 		}
@@ -126,7 +125,7 @@ public class ServiceMappings {
 
 	public void setAllHeadersPutMapping(Object serviceObject, String jsonBody){
 		BaseService aService = (BaseService) serviceObject;
-		if (aService.serviceType instanceof MWGHeader) {
+		if (aService.requestHeader instanceof MWGHeader) {
 			MWGHeader mwgHeader = new MWGHeader();
 			MWGBody mwgBody = new MWGBody("");
 			sendAllHeadersPutRequest(aService, mwgHeader, mwgBody, jsonBody);
@@ -140,14 +139,14 @@ public class ServiceMappings {
 	private void sendRequest(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
 		header.authenticate();
 		setgenericHeader(header.getMap());
-		setPath(MWGApplicationConstants.baseURL + serviceObject.path);
+		setPath(MWGApplicationConstants.baseURL + serviceObject.requestPath);
 		setGenericBody(body.Body(jsonBody));
 	}
 
 	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
 		header.authenticate(serviceObject.token);
 		setgenericHeader(header.getMap());
-		setPath(baseURL + serviceObject.path);
+		setPath(baseURL + serviceObject.requestPath);
 	}
 
 	/**
@@ -173,11 +172,10 @@ public class ServiceMappings {
 	 * Construct a GET / DELETE request.
 	 * 
 	 * @param serviceObject
-	 * @param header
 	 * @param reqParams
 	 */
-	private void buildRequest(BaseService serviceObject, MWGHeader header, Map<String, String> reqParams) {
-		header.authenticate(serviceObject.token);
+	private void buildRequest(BaseService serviceObject, Map<String, String> reqParams) {
+		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
 		setgenericHeader(header.getMap());
 		
 		String reqURL = buildURL(serviceObject, reqParams);
@@ -198,7 +196,7 @@ public class ServiceMappings {
 	 * @return {String}
 	 */
 	private String buildURL(BaseService serviceObj, Map<String, String> reqParams) {
-		String path = serviceObj.path;
+		String path = serviceObj.requestPath;
 				
 		if ((reqParams != null) && !reqParams.isEmpty()) {
 			if (reqParams.containsKey(MWGApplicationConstants.chainID)) {
@@ -220,20 +218,20 @@ public class ServiceMappings {
 	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
 		header.authenticate(serviceObject.token, ApplicationConstants.shoppingListItemPost.contentType, ApplicationConstants.shoppingListItemPost.contentAccept);
 		setgenericHeader(header.getMap());
-		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.path);
+		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.requestPath);
 		setGenericBody(body.Body(jsonBody));
 	}
 
 	private void sendServiceMappingv1(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
 		header.v1Authentication(serviceObject.token);
 		setgenericHeader(header.getMap());
-		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.path);
+		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.requestPath);
 		setGenericBody(body.Body(jsonBody));
 	}
 	
 	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
 		wakefernHeader.cuponAuth(serviceObject.token);
 		setgenericHeader(wakefernHeader.getMap());
-		setPath(serviceObject.path);
+		setPath(serviceObject.requestPath);
 	}
 }

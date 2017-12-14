@@ -49,12 +49,12 @@ public class ShoppingListsPost extends BaseService {
     }
 
     public ShoppingListsPost(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.ShoppingLists.slUser
+        this.requestPath = ApplicationConstants.Requests.ShoppingLists.slUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;
         String path = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slUser

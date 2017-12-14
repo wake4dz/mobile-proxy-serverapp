@@ -72,19 +72,19 @@ public class ProductById extends BaseService {
     }
 
     public ProductById(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareEmpty(String storeId, String circId, String page, String circularItemId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories +
+        this.requestPath = ApplicationConstants.Requests.Circular.Categories +
                 ApplicationConstants.StringConstants.backSlash + "FBFB1313" + ApplicationConstants.StringConstants.stores
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
                 + ApplicationConstants.StringConstants.backSlash + circId + ApplicationConstants.StringConstants.pages
                 + ApplicationConstants.StringConstants.backSlash + page + ApplicationConstants.StringConstants.items
                 + ApplicationConstants.StringConstants.backSlash + circularItemId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Circular.Categories +
+            this.requestPath = ApplicationConstants.Requests.Circular.Categories +
                     ApplicationConstants.StringConstants.backSlash + "FBFB1313" + ApplicationConstants.StringConstants.stores
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
                     + ApplicationConstants.StringConstants.backSlash + circId + ApplicationConstants.StringConstants.pages
@@ -92,19 +92,19 @@ public class ProductById extends BaseService {
                     + ApplicationConstants.StringConstants.backSlash + circularItemId
                     + ApplicationConstants.StringConstants.isMemberAmp;
         }
-        logger.log(Level.INFO, "[prepareEmpty]::Product Id path: ", this.path);
+        logger.log(Level.INFO, "[prepareEmpty]::Product Id path: ", this.requestPath);
     }
 
     private void prepareCirc(String productId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductId
+        this.requestPath = ApplicationConstants.Requests.Categories.ProductId
                 + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Categories.ProductId
+            this.requestPath = ApplicationConstants.Requests.Categories.ProductId
                     + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.isMember;
         }
-        logger.log(Level.INFO, "[prepareCirc]::circ path: ", this.path);
+        logger.log(Level.INFO, "[prepareCirc]::circ path: ", this.requestPath);
     }
 }

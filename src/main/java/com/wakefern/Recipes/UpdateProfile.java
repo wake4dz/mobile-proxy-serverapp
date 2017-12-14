@@ -40,7 +40,7 @@ public class UpdateProfile extends BaseService {
     }
 
     public UpdateProfile(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String prepareResponse(String userId, String email, String chainId, String storeId, String authToken) throws Exception{
@@ -54,7 +54,7 @@ public class UpdateProfile extends BaseService {
         jsonBody = jsonBody.replaceAll("<?xml version=\"1.0\" encoding=\"UTF-8\"?>","");
         jsonBody = jsonBody.replaceAll("xmlns=\"http://schemas.datacontract.org/2004/07/MyWebGrocer.Account.Service.ServiceModels\"", "");
 
-        this.path = ApplicationConstants.Requests.Recipes.UpdateProfile
+        this.requestPath = ApplicationConstants.Requests.Recipes.UpdateProfile
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.emailParam + email;
         return jsonBody;
     }

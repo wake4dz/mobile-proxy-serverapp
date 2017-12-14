@@ -61,10 +61,10 @@ public class CouponIdListByPPC extends BaseService {
         return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
     }
 
-    public CouponIdListByPPC() {     this.serviceType = new WakefernHeader();    }
+    public CouponIdListByPPC() {     this.requestHeader = new WakefernHeader();    }
 
     private void prepareResponse(String ppcParam){
-        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCouponIdByPPC
+        this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCouponIdByPPC
                 + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
     }
 }

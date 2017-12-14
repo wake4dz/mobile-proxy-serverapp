@@ -1,14 +1,15 @@
 package com.wakefern.global;
 
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
+
 import javax.ws.rs.core.Response;
 
 /**
  * Created by zacpuste on 8/12/16.
  */
 public class BaseService {
-    public Object serviceType = null;
-    public String path = null;
+    public Object requestHeader = null;
+    public String requestPath = null;
     public String token = null;
     
     public Response createErrorResponse(Exception e){

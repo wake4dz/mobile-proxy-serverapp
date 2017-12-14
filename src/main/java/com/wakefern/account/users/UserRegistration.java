@@ -1,4 +1,4 @@
-package com.wakefern.User;
+package com.wakefern.account.users;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -83,8 +83,8 @@ public class UserRegistration extends BaseService {
     private String prepareResponse(String authToken) throws Exception{
     	
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
-        return this.path = "https://service.shoprite.com" + ApplicationConstants.Requests.Registration.UserRegistration;
+        return this.requestPath = "https://service.shoprite.com" + ApplicationConstants.Requests.Registration.UserRegistration;
     }
 
-    public UserRegistration(){  this.serviceType = new MWGHeader(); }
+    public UserRegistration(){  this.requestHeader = new MWGHeader(); }
 }

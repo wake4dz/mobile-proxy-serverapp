@@ -54,7 +54,7 @@ public class ShoppingListItemsPost extends BaseService {
     }
 
     public ShoppingListItemsPost(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String prepareResponse(String userId, String storeId, String listId, String isMember, String authToken){

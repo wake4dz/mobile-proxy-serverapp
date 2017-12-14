@@ -44,17 +44,17 @@ public class CircularCategory extends BaseService{
     }
 
     public CircularCategory(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareRespone(String chainId, String storeId, String categoryId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+        this.requestPath = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                 + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.backSlash
                 + categoryId;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
+            this.requestPath = ApplicationConstants.Requests.Circular.Categories + ApplicationConstants.StringConstants.backSlash
                     + chainId + ApplicationConstants.StringConstants.stores + ApplicationConstants.StringConstants.backSlash
                     + storeId + ApplicationConstants.StringConstants.categories + ApplicationConstants.StringConstants.backSlash
                     + categoryId + ApplicationConstants.StringConstants.isMember;

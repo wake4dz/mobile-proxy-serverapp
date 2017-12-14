@@ -35,12 +35,12 @@ public class AuthorizationAuthenticate extends BaseService {
 	 * Constructor
 	 */
     public AuthorizationAuthenticate() {
-        this.serviceType = new MWGHeader();
-        this.path = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.authPath;
+        this.requestHeader = new MWGHeader();
+        this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.authPath;
     } 
 
     @PUT
-    @Consumes(MWGApplicationConstants.Headers.Account.authContentType)
+    @Consumes(MWGApplicationConstants.Headers.Account.login)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Account.authPath)
     public Response getInfoResponse(

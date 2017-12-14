@@ -55,7 +55,7 @@ public class FeaturedRecipes extends BaseService {
     }
 
     public FeaturedRecipes(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     public String extractId(String featuredReturn, String chainId, String authToken){
@@ -83,7 +83,7 @@ public class FeaturedRecipes extends BaseService {
     private void prepareResponse(String chainId, String q, String authToken){
     		this.token = authToken;
 
-        this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+        this.requestPath = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.featured
                 + ApplicationConstants.StringConstants.queryParam + q;
     }

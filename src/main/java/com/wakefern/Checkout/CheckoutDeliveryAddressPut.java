@@ -75,22 +75,22 @@ public class CheckoutDeliveryAddressPut extends BaseService {
     }
 
     public CheckoutDeliveryAddressPut(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private String prepareResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+        this.requestPath = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                 + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                 + ApplicationConstants.StringConstants.delivery;
         if(!isMember.isEmpty()){
-            this.path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
+            this.requestPath = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout + ApplicationConstants.StringConstants.backSlash
                     + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.address
                     + ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.isMember;
         }
-        return path;
+        return requestPath;
     }
 }
 

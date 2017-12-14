@@ -49,7 +49,7 @@ public class AddItemToList extends BaseService {
         return this.addItem(createItem,listId,storeId,userId,isMember,authToken);
     }
 
-    public AddItemToList(){this.serviceType = new MWGHeader();}
+    public AddItemToList(){this.requestHeader = new MWGHeader();}
 
     /*
     Private Methods

@@ -48,7 +48,7 @@ public class ComparePastPurchasesBoth extends BaseService {
     }
 
     public ComparePastPurchasesBoth() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     public JSONObject getPurchaseIds(String pastPurchases, Set<String> coupons, String skip, String take ){

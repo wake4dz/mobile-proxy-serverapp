@@ -45,17 +45,17 @@ public class CircularItemSearch extends BaseService {
     }
 
     public CircularItemSearch() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String storeId, String circularId, String take, String skip, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductsStore
+        this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circularItem
                 + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.take
                 + take + ApplicationConstants.StringConstants.skip + skip;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Categories.ProductsStore
+            this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circularItem
                     + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.take
                     + take + ApplicationConstants.StringConstants.skip + skip + ApplicationConstants.StringConstants.isMember;

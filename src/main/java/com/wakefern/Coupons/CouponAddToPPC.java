@@ -62,13 +62,13 @@ public class CouponAddToPPC extends BaseService {
         return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
     }
 
-    public CouponAddToPPC() {     this.serviceType = new WakefernHeader();    }
+    public CouponAddToPPC() {     this.requestHeader = new WakefernHeader();    }
 
     private void prepareResponse(String ppcParam, String couponId){
-        this.path = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.CouponAddPPC
+        this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.CouponAddPPC
                 + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam
                 + WakefernApplicationConstants.Requests.Coupons.Metadata.CouponParam + couponId
                 + WakefernApplicationConstants.Requests.Coupons.Metadata.ClipSource + WakefernApplicationConstants.Requests.Coupons.Metadata.ClipSource_App_SR;
-        logger.log(Level.INFO, "[prepareResponse]::Add coupon to PPC-", this.path);
+        logger.log(Level.INFO, "[prepareResponse]::Add coupon to PPC-", this.requestPath);
     }
 }

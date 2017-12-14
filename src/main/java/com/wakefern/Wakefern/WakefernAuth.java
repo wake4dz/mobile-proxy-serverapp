@@ -54,6 +54,6 @@ public class WakefernAuth extends BaseService {
     }
 
     public WakefernAuth(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 }

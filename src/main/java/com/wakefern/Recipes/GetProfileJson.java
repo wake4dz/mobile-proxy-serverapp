@@ -49,13 +49,13 @@ public class GetProfileJson extends BaseService {
     }
 
     public GetProfileJson() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String userId, String chainId, String email, String authToken){
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
 
-        this.path = ApplicationConstants.Requests.Recipes.UpdateProfile
+        this.requestPath = ApplicationConstants.Requests.Recipes.UpdateProfile
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.chainid
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.emailParam + email;
     }

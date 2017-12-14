@@ -58,7 +58,7 @@ public class Categories extends BaseService {
             //No query parameter case
             if(q.isEmpty()){// == ""){
                 try {
-                    this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                    this.requestPath = ApplicationConstants.Requests.Recipes.RecipeChain
                             + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories;
 
                     ServiceMappings secondMapping = new ServiceMappings();
@@ -76,7 +76,7 @@ public class Categories extends BaseService {
 
             //No category parameter case
             if(category.isEmpty()){//category == "") {
-                this.path = ApplicationConstants.Requests.Recipes.RecipeChain
+                this.requestPath = ApplicationConstants.Requests.Recipes.RecipeChain
                         + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.categories
                         + ApplicationConstants.StringConstants.queryParam + qEncoded;
 
@@ -152,7 +152,7 @@ public class Categories extends BaseService {
     }
 
     public Categories(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     public JSONArray searchJSON(String jsonString, String query, JSONArray matchedObjects2) throws JSONException {

@@ -53,19 +53,19 @@ public class GetListById extends BaseService {
     }
 
     public GetListById() {
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String userId, String listId, String isMember, String authToken){
         
     		this.token = ApplicationConstants.Requests.Tokens.planningToken;
         
-        this.path = MWGApplicationConstants.Requests.Stores.ShoppingListUser
+        this.requestPath = MWGApplicationConstants.Requests.Stores.ShoppingListUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
                 + ApplicationConstants.StringConstants.backSlash + listId;
         
         if (!isMember.isEmpty()) {
-            this.path = MWGApplicationConstants.Requests.Stores.ShoppingListUser
+            this.requestPath = MWGApplicationConstants.Requests.Stores.ShoppingListUser
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list
                     + ApplicationConstants.StringConstants.backSlash + listId + ApplicationConstants.StringConstants.isMember;
         }

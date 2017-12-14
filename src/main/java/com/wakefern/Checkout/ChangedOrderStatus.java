@@ -53,16 +53,16 @@ public class ChangedOrderStatus extends BaseService {
     }
 
     public ChangedOrderStatus(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void preparedResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Checkout.User
+        this.requestPath = ApplicationConstants.Requests.Checkout.User
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.changedOrder;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Checkout.User
+            this.requestPath = ApplicationConstants.Requests.Checkout.User
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.changedOrder
                     + ApplicationConstants.StringConstants.isMember;

@@ -43,15 +43,15 @@ public class FeaturedInStore extends BaseService {
     }
 
     public FeaturedInStore(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Categories.ProductsStore
+        this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Categories.ProductsStore
+            this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured
                     + ApplicationConstants.StringConstants.isMember;
         }

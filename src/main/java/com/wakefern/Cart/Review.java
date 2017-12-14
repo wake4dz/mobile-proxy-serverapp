@@ -43,16 +43,16 @@ public class Review extends BaseService {
     }
 
     public Review(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 
     private void preparedResponse(String userId, String storeId, String isMember, String authToken){
         this.token = authToken;
-        this.path = ApplicationConstants.Requests.Cart.CartUser
+        this.requestPath = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.review;
         if(!isMember.isEmpty()){
-            this.path = ApplicationConstants.Requests.Cart.CartUser
+            this.requestPath = ApplicationConstants.Requests.Cart.CartUser
                     + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.review
                     + ApplicationConstants.StringConstants.isMember;

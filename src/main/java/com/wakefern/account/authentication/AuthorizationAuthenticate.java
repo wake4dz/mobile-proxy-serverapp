@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
 
+import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -35,7 +36,6 @@ public class AuthorizationAuthenticate extends BaseService {
 	 * Constructor
 	 */
     public AuthorizationAuthenticate() {
-        this.requestHeader = new MWGHeader();
         this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.authPath;
     } 
 
@@ -75,6 +75,8 @@ public class AuthorizationAuthenticate extends BaseService {
     			return this.createErrorResponse(new Exception(appVerErr));
         
         } else {
+            this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, MWGApplicationConstants.Headers.Account.login, sessionToken);
+
 	        ServiceMappings mapping = new ServiceMappings();
 	        HashMap<String, String> reqParams = new HashMap<String, String>();
 	        

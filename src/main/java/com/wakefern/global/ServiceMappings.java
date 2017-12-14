@@ -50,22 +50,6 @@ public class ServiceMappings {
 	}
 
 	/**
-	 * Used for the Authorization call to retrieve the MWG Session Token & Guest User ID.
-	 * 
-	 * @param serviceObject
-	 * @param jsonBody
-	 */
-	public void setMapping(Object serviceObject, String jsonBody) {
-		BaseService aService = (BaseService) serviceObject;
-		
-		if (aService.requestHeader instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
-			MWGBody mwgBody = new MWGBody("");
-			sendRequest((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
-		}
-	}
-
-	/**
 	 * Used for GET & DELETE requests.
 	 * 
 	 * @param serviceObject
@@ -90,9 +74,8 @@ public class ServiceMappings {
 		BaseService aService = (BaseService) serviceObject;
 		
 		if (aService.requestHeader instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
 			MWGBody mwgBody = new MWGBody("");
-			buildPutRequest(aService, mwgHeader, mwgBody, jsonBody, reqParams);
+			buildPutRequest(aService, mwgBody, jsonBody, reqParams);
 		}
 	}
 	
@@ -136,30 +119,16 @@ public class ServiceMappings {
 	// Private Methods
 	//-------------------------------------------------------------------------
 
-	private void sendRequest(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
-		header.authenticate();
-		setgenericHeader(header.getMap());
-		setPath(MWGApplicationConstants.baseURL + serviceObject.requestPath);
-		setGenericBody(body.Body(jsonBody));
-	}
-
-	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
-		header.authenticate(serviceObject.token);
-		setgenericHeader(header.getMap());
-		setPath(baseURL + serviceObject.requestPath);
-	}
-
 	/**
 	 * Construct a PUT / POST request.
 	 * 
 	 * @param serviceObject
-	 * @param header
 	 * @param body
 	 * @param jsonBody
 	 * @param reqParams
 	 */
-	private void buildPutRequest(BaseService serviceObject, MWGHeader header, MWGBody body, String jsonBody, Map<String, String> reqParams){
-		header.authenticate(serviceObject.token);
+	private void buildPutRequest(BaseService serviceObject, MWGBody body, String jsonBody, Map<String, String> reqParams){
+		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
 		setgenericHeader(header.getMap());
 		
 		String reqURL = buildURL(serviceObject, reqParams);
@@ -233,5 +202,11 @@ public class ServiceMappings {
 		wakefernHeader.cuponAuth(serviceObject.token);
 		setgenericHeader(wakefernHeader.getMap());
 		setPath(serviceObject.requestPath);
+	}
+	
+	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
+		header.authenticate(serviceObject.token);
+		setgenericHeader(header.getMap());
+		setPath(baseURL + serviceObject.requestPath);
 	}
 }

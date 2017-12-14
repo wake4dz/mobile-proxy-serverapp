@@ -28,12 +28,11 @@ public class Authentication extends BaseService {
 	 * Constructor
 	 */
     public Authentication() {
-        this.requestHeader = new MWGHeader();
         this.requestPath = MWGApplicationConstants.Requests.Authentication.authenticate;
     }
 	
     @POST
-    @Consumes("application/json")
+    @Consumes(ApplicationConstants.jsonAcceptType)
     @Produces("application/*")
     public Response getInfoResponse(String jsonBody) throws Exception, IOException {
     	
@@ -41,7 +40,7 @@ public class Authentication extends BaseService {
     		// If "useStaging" is present and TRUE, set the Base URL to the Staging URL.
     		// Otherwise, use the Production URL.
     		JSONObject postDataJSON = new JSONObject(jsonBody);
-    		boolean   useStaging    = (postDataJSON.has("useStaging")) ? postDataJSON.getBoolean("useStaging") : false;
+    		boolean    useStaging   = (postDataJSON.has("useStaging")) ? postDataJSON.getBoolean("useStaging") : false;
     		
     		// TODO: change to 'useStaging' before releasing!
     		MWGApplicationConstants.baseURL = (true) ? MWGApplicationConstants.fgStageBaseURL : MWGApplicationConstants.fgProdBaseURL;
@@ -82,12 +81,14 @@ public class Authentication extends BaseService {
      * @throws IOException
      */
     private String makeRequest() throws Exception, IOException {
+        this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, ApplicationConstants.jsonResponseType, MWGApplicationConstants.appToken);
+
         // The purpose of this request is to simply retrieve a valid Session Token from MWG.
         // As such, just send "{}" as POST data.  
     		// Any actual data sent, would just be ignored anyway.
         
     		ServiceMappings mapping = new ServiceMappings();
-        mapping.setMapping(this, "{}");
+        mapping.setPutMapping(this, "{}", null); 
         
         String reqURL = mapping.getPath();
         String reqData = mapping.getGenericBody();

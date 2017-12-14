@@ -35,6 +35,7 @@ public class MWGApplicationConstants {
     		
     		public static class Stores {
     			public static final String details = "application/vnd.mywebgrocer.store+json";
+    			public static final String chains  = "application/vnd.mywebgrocer.chains+json";
     		}
     }
     
@@ -51,8 +52,9 @@ public class MWGApplicationConstants {
         }
         
         public static class Stores {
-        		public static final String storesPath  = "/stores/v7";
-        		public static final String detailsPath = chainsPath + "/stores/{" + storeID + "}";
+        		public static final String storesPath     = "/stores/v7";
+        		public static final String detailsPath    = chainsPath + "/stores/{" + storeID + "}";
+        		public static final String listChainsPath = "/chains";
         		
             public static final String StoreLocator     = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";

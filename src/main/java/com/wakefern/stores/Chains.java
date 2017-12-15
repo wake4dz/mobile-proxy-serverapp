@@ -57,7 +57,7 @@ public class Chains extends BaseService {
 	 * @throws IOException
 	 */
     private String makeRequest(String sessionToken) throws Exception, IOException {
-    		this.token = sessionToken;
+    		this.requestToken = sessionToken;
     		this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, MWGApplicationConstants.Headers.Stores.chains, sessionToken);
     	
         ServiceMappings mapping = new ServiceMappings();

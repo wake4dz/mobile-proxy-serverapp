@@ -57,7 +57,7 @@ public class ProductBySku extends BaseService {
     }
 
     private void prepareResponse(String storeId, String skuId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Categories.ProductStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.sku
                 + ApplicationConstants.StringConstants.backSlash + skuId;

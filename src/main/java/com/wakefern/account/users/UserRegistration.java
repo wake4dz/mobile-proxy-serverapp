@@ -82,7 +82,7 @@ public class UserRegistration extends BaseService {
 
     private String prepareResponse(String authToken) throws Exception{
     	
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.planningToken;
         return this.requestPath = "https://service.shoprite.com" + ApplicationConstants.Requests.Registration.UserRegistration;
     }
 

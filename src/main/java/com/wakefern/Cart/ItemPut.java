@@ -56,7 +56,7 @@ public class ItemPut extends BaseService {
     }
 
     private void prepareResponse(String userId, String storeId, String itemId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item

@@ -52,7 +52,7 @@ public class GetUserLists extends BaseService {
 
     private void prepareResponse(String userId, String isMember, String authToken){
     		
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.planningToken;
     		this.requestPath  = MWGApplicationConstants.Requests.Stores.ShoppingListUser + "/" + userId;
         
     		if (!isMember.isEmpty()) {

@@ -58,7 +58,7 @@ public class GetListById extends BaseService {
 
     private void prepareResponse(String userId, String listId, String isMember, String authToken){
         
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.planningToken;
         
         this.requestPath = MWGApplicationConstants.Requests.Stores.ShoppingListUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.list

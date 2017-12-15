@@ -39,7 +39,7 @@ public class Categories extends BaseService {
                                     @DefaultValue("") @QueryParam("category") String category,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
         
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.planningToken;
 
         String qEncoded = "";
         try {

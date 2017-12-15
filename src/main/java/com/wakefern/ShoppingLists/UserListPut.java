@@ -51,7 +51,7 @@ public class UserListPut extends BaseService {
     }
 
     private void prepareResponse(String chainId, String userId, String listId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.ShoppingLists.slChains
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists

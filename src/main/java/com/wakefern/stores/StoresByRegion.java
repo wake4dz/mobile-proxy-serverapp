@@ -62,7 +62,7 @@ public class StoresByRegion extends BaseService {
 
     private void prepareResponse(String chainId, String regionId, String pageNumber, String pageSize, String authToken){
         
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.planningToken;
 
         this.requestPath = MWGApplicationConstants.Requests.Stores.StoreLocator
                 + "/" + chainId    + ApplicationConstants.StringConstants.region

@@ -58,7 +58,7 @@ public class StoreFulfillment extends BaseService {
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash + storeId;
         if(!isMember.isEmpty()){
             this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash

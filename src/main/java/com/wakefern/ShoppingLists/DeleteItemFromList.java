@@ -29,7 +29,7 @@ public class DeleteItemFromList extends BaseService {
 
         try{
             HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
-            return this.createValidDelete();
+            return this.createValidResponse("{}");
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -49,7 +49,7 @@ public class DeleteItemFromList extends BaseService {
     }
 
     public void prepareResponse(String chainId, String userId, String listId, String listItemId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.ShoppingLists.slChains
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.users
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.lists

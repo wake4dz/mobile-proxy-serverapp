@@ -35,7 +35,7 @@ public class ItemAdd extends BaseService {
         String path = ApplicationConstants.Requests.baseURLV5  + this.requestPath;
 
         MWGHeader mwgHeader = new MWGHeader();
-        mwgHeader.authenticate(this.token, "application/vnd.mywebgrocer.cart-item+json", "application/vnd.mywebgrocer.grocery-item+json");
+        mwgHeader.authenticate(this.requestToken, "application/vnd.mywebgrocer.cart-item+json", "application/vnd.mywebgrocer.grocery-item+json");
 
         try {
             return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap(), 0));
@@ -58,7 +58,7 @@ public class ItemAdd extends BaseService {
     }
 
     public void prepareResponse(String userId, String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.item;

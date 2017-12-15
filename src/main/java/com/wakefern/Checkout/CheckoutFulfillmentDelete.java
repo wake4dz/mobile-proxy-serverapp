@@ -34,7 +34,7 @@ public class CheckoutFulfillmentDelete extends BaseService {
 
         try{
             HTTPRequest.executeDelete(secondMapping.getPath(), map, 0);
-            return this.createValidDelete();
+            return this.createValidResponse("{}");
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -58,7 +58,7 @@ public class CheckoutFulfillmentDelete extends BaseService {
     }
 
     private void prepareResposne(String userId, String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Checkout.UserCheckout
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.fulfillment;

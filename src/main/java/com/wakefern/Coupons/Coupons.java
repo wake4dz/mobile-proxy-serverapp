@@ -43,7 +43,7 @@ public class Coupons extends BaseService {
                                     @DefaultValue("") @QueryParam("query") String query,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
     	
-    		this.token = ApplicationConstants.Requests.Tokens.couponToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
         
         startTime = System.currentTimeMillis();
         matchedObjects = new JSONObject();
@@ -123,7 +123,7 @@ public class Coupons extends BaseService {
 
     public String getInfo(String ppcParam,  String query, String authToken) throws Exception, IOException {
         
-    		this.token = ApplicationConstants.Requests.Tokens.couponToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
 
         matchedObjects = new JSONObject();
         this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCoupons

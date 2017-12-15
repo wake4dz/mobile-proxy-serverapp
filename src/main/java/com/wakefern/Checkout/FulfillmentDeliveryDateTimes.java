@@ -70,7 +70,7 @@ public class FulfillmentDeliveryDateTimes extends BaseService {
 
     private void prepareResponse(String storeId, String zipCode, String year, String month, String day,
                                  String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                 + storeId +  ApplicationConstants.StringConstants.delivery + ApplicationConstants.StringConstants.backSlash
                 + zipCode + ApplicationConstants.StringConstants.backSlash + year + ApplicationConstants.StringConstants.backSlash

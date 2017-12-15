@@ -49,7 +49,7 @@ public class CircularItemSearch extends BaseService {
     }
 
     private void prepareResponse(String storeId, String circularId, String take, String skip, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circularItem
                 + ApplicationConstants.StringConstants.backSlash + circularId + ApplicationConstants.StringConstants.take

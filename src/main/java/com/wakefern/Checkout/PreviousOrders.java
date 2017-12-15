@@ -57,7 +57,7 @@ public class PreviousOrders extends BaseService {
     }
 
     private void prepareResponse(String userId, String storeId, String isMember,  String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Checkout.UserOrder
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;

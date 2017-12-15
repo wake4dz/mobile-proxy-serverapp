@@ -47,7 +47,7 @@ public class CategoriesWithSpecials extends BaseService {
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.special;
         if(!isMember.isEmpty()){

@@ -26,7 +26,7 @@ public class GetPastPurchases extends BaseService {
                                     @DefaultValue("0") @QueryParam("skip") String skip, @DefaultValue("") @QueryParam("category") String category,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,@DefaultValue("Days:0") @QueryParam("fq") String filter,
                                     @HeaderParam("Authorization") String authToken, @HeaderParam("Authorization2") String authToken2) throws Exception, IOException {
-        this.token = authToken2; //User Auth
+        this.requestToken = authToken2; //User Auth
         ShoppingList shoppingList = new ShoppingList();
 
         GetUserLists getUserLists = new GetUserLists();
@@ -52,7 +52,7 @@ public class GetPastPurchases extends BaseService {
     
     public String getInfoFilter(String userId, String storeId, String take, String skip, String category, 
     		String isMember, String authToken, String authToken2,String filter) throws Exception, IOException {
-        this.token = authToken2;
+        this.requestToken = authToken2;
         ShoppingList shoppingList = new ShoppingList();
 
         GetUserLists getUserLists = new GetUserLists();

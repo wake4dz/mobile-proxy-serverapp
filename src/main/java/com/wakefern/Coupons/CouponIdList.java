@@ -27,7 +27,7 @@ public class CouponIdList extends BaseService {
                                     @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
-    		this.token = ApplicationConstants.Requests.Tokens.couponToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
 
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam);
@@ -45,7 +45,7 @@ public class CouponIdList extends BaseService {
 
     public String getInfo(String ppcParam, String authToken) throws Exception, IOException {
     	
-    		this.token = ApplicationConstants.Requests.Tokens.couponToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
     	
         matchedObjects = new JSONObject();
         prepareResponse(ppcParam);

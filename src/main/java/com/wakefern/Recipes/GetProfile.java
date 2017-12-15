@@ -49,7 +49,7 @@ public class GetProfile extends BaseService {
     }
 
     private void prepareResponse(String userId, String chainId, String email, String authToken){
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.planningToken;
 
         this.requestPath = ApplicationConstants.Requests.Recipes.UpdateProfile
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.chainid

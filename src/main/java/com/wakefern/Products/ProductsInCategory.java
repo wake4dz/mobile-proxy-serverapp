@@ -126,7 +126,7 @@ public class ProductsInCategory extends BaseService {
     }
 
     private String search(String partialUrl, String take, String skip, List<String> fqList, String sort, String isMember, String authToken) throws Exception{
-        this.token = authToken;
+        this.requestToken = authToken;
         int intTake = Integer.parseInt(take);
         int initSkip = Integer.parseInt(skip);
         int finalLoop = intTake % 20;

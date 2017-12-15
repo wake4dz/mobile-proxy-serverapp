@@ -47,7 +47,7 @@ public class Categories extends BaseService {
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Categories.CategoriesFromStoreId + ApplicationConstants.StringConstants.backSlash
                 + storeId;
         if(!isMember.isEmpty()){

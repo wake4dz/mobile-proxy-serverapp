@@ -60,7 +60,7 @@ public class RecommendProducts extends BaseService {
     }
 
     private void prepareResponse(String userId, String userAuth, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Recommendations.ProductRecommendations
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.sessid
                 + ApplicationConstants.StringConstants.backSlash + userAuth;

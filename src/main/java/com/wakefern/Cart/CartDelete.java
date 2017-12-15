@@ -28,7 +28,7 @@ public class CartDelete extends BaseService {
 
         try{
             HTTPRequest.executeDelete(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
-            return this.createValidDelete();
+            return this.createValidResponse("{}");
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -48,7 +48,7 @@ public class CartDelete extends BaseService {
     }
 
     public void prepareResponse(String userId, String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;

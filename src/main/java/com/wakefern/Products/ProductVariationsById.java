@@ -47,7 +47,7 @@ public class ProductVariationsById extends BaseService {
     }
 
     private void prepareResponse(String productId, String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Categories.ProductId
                 + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.all

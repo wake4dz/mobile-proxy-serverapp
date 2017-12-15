@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Search extends BaseService {
 
     public String search(String partialUrl, String take, String skip, String fq, String sort, String isMember, String authToken) throws Exception {
-        this.token = authToken;
+        this.requestToken = authToken;
 
         int intTake = Integer.parseInt(take);
         int initSkip = Integer.parseInt(skip);

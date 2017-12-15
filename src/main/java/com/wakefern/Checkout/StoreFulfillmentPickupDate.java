@@ -58,7 +58,7 @@ public class StoreFulfillmentPickupDate extends BaseService{
         }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Checkout.Checkout + ApplicationConstants.StringConstants.backSlash
                 + storeId + ApplicationConstants.StringConstants.pickup + ApplicationConstants.StringConstants.dates;
         if(!isMember.isEmpty()){

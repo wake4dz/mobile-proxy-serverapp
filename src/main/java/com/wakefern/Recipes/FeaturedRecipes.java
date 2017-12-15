@@ -81,7 +81,7 @@ public class FeaturedRecipes extends BaseService {
     }
 
     private void prepareResponse(String chainId, String q, String authToken){
-    		this.token = authToken;
+    		this.requestToken = authToken;
 
         this.requestPath = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.featured

@@ -26,7 +26,7 @@ public class ProductBySearch extends BaseService {
                             @DefaultValue("")@QueryParam("fq") String fq, @DefaultValue("")@QueryParam("sort") String sort,
                             @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        this.token = authToken;
+        this.requestToken = authToken;
         try {
             if(!q.isEmpty()){// != "") {
                 q = URLEncoder.encode(q, "UTF-8");

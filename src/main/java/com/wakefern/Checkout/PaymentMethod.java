@@ -71,7 +71,7 @@ public class PaymentMethod extends BaseService {
     }
 
     private String preparedResponse(String userId, String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.payment;

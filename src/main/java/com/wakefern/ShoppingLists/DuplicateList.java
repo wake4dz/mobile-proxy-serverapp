@@ -28,7 +28,7 @@ public class DuplicateList extends BaseService {
                           @QueryParam("id1") String id1, @QueryParam("name") String name,
                           @DefaultValue("")@QueryParam("isMember") String isMember,
                           @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.ShoppingLists.slUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.duplicate

@@ -34,7 +34,7 @@ public class AuthenticationPut extends BaseService {
     @Path("/{sessionToken}/authenticate")
     public Response getInfo(@PathParam("sessionToken") String sessionToken, @HeaderParam("Authorization") String authToken, String jsonBody){
         
-    		this.token = authToken;
+    		this.requestToken = authToken;
         	
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.shoprite.com/api/authorization/v5/authorization/");

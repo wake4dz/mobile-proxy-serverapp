@@ -57,7 +57,7 @@ public class ChangeOrderGet extends BaseService {
     }
 
     private void prepareResponse(String orderId, String userId, String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Checkout.Order
                 + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store

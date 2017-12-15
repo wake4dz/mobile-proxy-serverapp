@@ -185,27 +185,27 @@ public class ServiceMappings {
 	}
 
 	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
-		header.authenticate(serviceObject.token, ApplicationConstants.shoppingListItemPost.contentType, ApplicationConstants.shoppingListItemPost.contentAccept);
+		header.authenticate(serviceObject.requestToken, ApplicationConstants.shoppingListItemPost.contentType, ApplicationConstants.shoppingListItemPost.contentAccept);
 		setgenericHeader(header.getMap());
 		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.requestPath);
 		setGenericBody(body.Body(jsonBody));
 	}
 
 	private void sendServiceMappingv1(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
-		header.v1Authentication(serviceObject.token);
+		header.v1Authentication(serviceObject.requestToken);
 		setgenericHeader(header.getMap());
 		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.requestPath);
 		setGenericBody(body.Body(jsonBody));
 	}
 	
 	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
-		wakefernHeader.cuponAuth(serviceObject.token);
+		wakefernHeader.cuponAuth(serviceObject.requestToken);
 		setgenericHeader(wakefernHeader.getMap());
 		setPath(serviceObject.requestPath);
 	}
 	
 	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
-		header.authenticate(serviceObject.token);
+		header.authenticate(serviceObject.requestToken);
 		setgenericHeader(header.getMap());
 		setPath(baseURL + serviceObject.requestPath);
 	}

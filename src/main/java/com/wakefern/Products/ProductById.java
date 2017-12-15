@@ -76,7 +76,7 @@ public class ProductById extends BaseService {
     }
 
     private void prepareEmpty(String storeId, String circId, String page, String circularItemId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Circular.Categories +
                 ApplicationConstants.StringConstants.backSlash + "FBFB1313" + ApplicationConstants.StringConstants.stores
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.circulars
@@ -96,7 +96,7 @@ public class ProductById extends BaseService {
     }
 
     private void prepareCirc(String productId, String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Categories.ProductId
                 + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId;

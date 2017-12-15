@@ -36,7 +36,7 @@ public class DeleteItemFromList extends BaseService {
         }catch(Exception e){
         	itemId = null;
         }
-        this.token = authToken;
+        this.requestToken = authToken;
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null);
@@ -71,7 +71,7 @@ public class DeleteItemFromList extends BaseService {
             if(update.isEmpty()){
 				try {
 					HTTPRequest.executeDelete(this.requestPath, secondMapping.getgenericHeader(), 0);
-					return this.createValidDelete();
+					return this.createValidResponse("{}");
 				} catch (Exception e){
 					return this.createErrorResponse(e);
 				}
@@ -79,7 +79,7 @@ public class DeleteItemFromList extends BaseService {
             	//Update the item with a PUT
 				try {
 					HTTPRequest.executePut("", this.requestPath, "", jsonBody, secondMapping.getgenericHeader(), 0);
-					return this.createDefaultResponse();
+					return this.createValidResponse("{}");
 				} catch (Exception e){
 					return this.createErrorResponse(e);
 				}
@@ -103,12 +103,12 @@ public class DeleteItemFromList extends BaseService {
             	if(update.isEmpty()){
             		ItemDelete deleteItem = new ItemDelete();
             		deleteItem.getInfo(userId,storeId,itemId,isMember,authToken);
-	            	return this.createValidDelete();
+	            	return this.createValidResponse("{}");
             	}else{
             		//Update item in cart 
             		ItemPut itemPut = new ItemPut();
             		itemPut.getInfo(userId, storeId, itemId, authToken, isMember, jsonBody);
-            		return this.createDefaultResponse();
+            		return this.createValidResponse("{}");
             	}
 
 			} catch (IOException e) {

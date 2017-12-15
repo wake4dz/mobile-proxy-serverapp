@@ -60,7 +60,7 @@ public class GetToken extends BaseService {
 		ArrayList<Map> PaymentMethods = new ArrayList<>();
 		JSONObject retval = new JSONObject();
 
-		this.token = authToken;
+		this.requestToken = authToken;
 		String successCallbackURL = "https://shop.shoprite.com/store/" + storeId + ApplicationConstants.Payment.SuccessCallbackURL;
 		String cancelCallbackURL = "https://shop.shoprite.com/store/" + storeId + ApplicationConstants.Payment.CancelCallbackURL;
 

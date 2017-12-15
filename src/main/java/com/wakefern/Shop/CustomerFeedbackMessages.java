@@ -49,7 +49,7 @@ public class CustomerFeedbackMessages extends BaseService {
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Shop.ShopStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.contact
                 + ApplicationConstants.StringConstants.messages;

@@ -179,7 +179,7 @@ public class CartGet extends BaseService {
 
 	public void prepareResponse(String userId, String storeId, String isMember,
 			String authToken) {
-		this.token = authToken;
+		this.requestToken = authToken;
 		this.requestPath = ApplicationConstants.Requests.Cart.CartUser
 				+ ApplicationConstants.StringConstants.backSlash + userId
 				+ ApplicationConstants.StringConstants.store

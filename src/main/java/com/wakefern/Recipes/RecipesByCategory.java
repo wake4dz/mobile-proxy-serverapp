@@ -52,7 +52,7 @@ public class RecipesByCategory extends BaseService {
 
     private void prepareResponse(String chainId, String subCategoryId, String authToken){
     		
-    		this.token = ApplicationConstants.Requests.Tokens.planningToken;
+    		this.requestToken = ApplicationConstants.Requests.Tokens.planningToken;
 
         this.requestPath = ApplicationConstants.Requests.Recipes.RecipeChain
                 + ApplicationConstants.StringConstants.backSlash + chainId + ApplicationConstants.StringConstants.category

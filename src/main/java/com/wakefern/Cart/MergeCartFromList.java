@@ -27,7 +27,7 @@ public class MergeCartFromList extends BaseService {
         String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         MWGHeader mwgHeader = new MWGHeader();
-        mwgHeader.authenticate(this.token, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
+        mwgHeader.authenticate(this.requestToken, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
 
         try {
             return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap(), 0));
@@ -41,7 +41,7 @@ public class MergeCartFromList extends BaseService {
         String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         MWGHeader mwgHeader = new MWGHeader();
-        mwgHeader.authenticate(this.token, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
+        mwgHeader.authenticate(this.requestToken, ApplicationConstants.jsonResponseType, ApplicationConstants.shoppingListItemPost.contentAccept);
 
         return (HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap(), 0));
     }
@@ -51,7 +51,7 @@ public class MergeCartFromList extends BaseService {
     }
 
     private String prepareResponse(String userId, String storeId, String listId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.baseURLV5 +  ApplicationConstants.Requests.Cart.CartUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.mergeFrom

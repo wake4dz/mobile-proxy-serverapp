@@ -318,7 +318,7 @@ public class ShoppingListItemsGet extends BaseService {
     }
 
     public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String fq, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
 
         this.requestPath = "https://shop.shoprite.com/api" + ApplicationConstants.Requests.ShoppingLists.slItemsUser
                 + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store

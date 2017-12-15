@@ -47,7 +47,7 @@ public class FeaturedInStore extends BaseService {
     }
 
     private void prepareResponse(String storeId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured;
         if(!isMember.isEmpty()){

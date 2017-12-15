@@ -61,7 +61,7 @@ public class OrderGet extends BaseService {
     }
 
     private void prepareResponse(String orderId, String userId, String isMember, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Checkout.Order
                 + ApplicationConstants.StringConstants.backSlash + orderId + ApplicationConstants.StringConstants.user
                 + ApplicationConstants.StringConstants.backSlash + userId;

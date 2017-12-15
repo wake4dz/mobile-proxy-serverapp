@@ -50,7 +50,7 @@ public class GetPointsForPPC extends BaseService {
     }
 
     private void prepareResponse(String ppc, String authToken){
-        this.token = authToken;
+        this.requestToken = authToken;
         this.requestPath = ApplicationConstants.Requests.Rewards.Points
                 + ApplicationConstants.StringConstants.backSlash + ppc;
     }

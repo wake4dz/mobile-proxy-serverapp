@@ -1,6 +1,5 @@
 package com.wakefern.account.authentication;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,10 +17,8 @@ import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.request.HTTPRequest;
 
 @Path(MWGApplicationConstants.Requests.Account.acctPath)
 public class AuthenticateUser extends BaseService {
@@ -76,20 +73,14 @@ public class AuthenticateUser extends BaseService {
         
         } else {
             this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, MWGApplicationConstants.Headers.Account.login, sessionToken);
-
-	        ServiceMappings mapping = new ServiceMappings();
-	        HashMap<String, String> reqParams = new HashMap<String, String>();
-	        
-	        reqParams.put(MWGApplicationConstants.chainID, chainId);
-	        jsonData.put(pwKey, StringEscapeUtils.escapeHtml4(password));
-	        mapping.setPutMapping(this, jsonData.toString(), reqParams);
-	        
-	        String reqURL = mapping.getPath();
-	        String reqData = mapping.getGenericBody();
-	        Map<String, String> reqHead = mapping.getgenericHeader();
+    			this.requestParams = new HashMap<String, String>();    			
+    			
+    			this.requestParams.put(MWGApplicationConstants.chainID, chainId);
+    	        
+    			jsonData.put(pwKey, StringEscapeUtils.escapeHtml4(password));
 	        
 	        try {
-	        		String responseJSON = HTTPRequest.executePut("", reqURL, "", reqData, reqHead, 0);
+	        		String responseJSON = this.makePutRequest(jsonData.toString());
 	        		return this.createValidResponse(responseJSON);
 	        		
 	        } catch (Exception e) {

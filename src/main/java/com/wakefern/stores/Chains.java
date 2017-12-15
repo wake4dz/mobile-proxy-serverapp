@@ -52,9 +52,7 @@ public class Chains extends BaseService {
 	 * @throws IOException
 	 */
     private String makeRequest(String sessionToken) throws Exception, IOException {
-    		this.requestToken = sessionToken;
     		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.chains, ApplicationConstants.jsonAcceptType, sessionToken);
-    	
     		return this.makeGetRequest();
     }
 }

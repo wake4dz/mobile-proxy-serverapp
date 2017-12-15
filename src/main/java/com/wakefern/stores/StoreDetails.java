@@ -64,7 +64,6 @@ public class StoreDetails extends BaseService {
 	//-------------------------------------------------------------------------
     
     private String makeRequest(String chainId, String storeId, String sessionToken) throws Exception, IOException {
-    		this.requestToken = sessionToken;
     		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.details, ApplicationConstants.jsonResponseType, sessionToken);
     		this.requestParams = new HashMap<String, String>();
     	

@@ -3,13 +3,11 @@ package com.wakefern.account.authentication;
 import com.wakefern.global.*;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.request.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,19 +83,11 @@ public class AuthenticateUI extends BaseService {
         this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, ApplicationConstants.jsonResponseType, MWGApplicationConstants.appToken);
 
         // The purpose of this request is to simply retrieve a valid Session Token & Guest User ID, from MWG.
-        // As such, just send "{}" as POST data.  Any actual data sent, will just be ignored.
+        // Any actual data sent with the request, will just be ignored.
         // Once this request succeeds, The UI will have access to a valid Session Token and Guest User ID.
         // The Session Token is required for all subsequent requests to MWG.  If it's omitted, the request will be rejected as Unauthorized.
         // The Guest User ID is valid for all operations available to non-registered users.
         // To get a valid Registered User ID, users must authenticate via the "AuthenticateUser" endpoint.
-        
-    		ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, "{}", null); 
-        
-        String reqURL = mapping.getPath();
-        String reqData = mapping.getGenericBody();
-        Map<String, String> reqHead = mapping.getgenericHeader();
-        
-        return HTTPRequest.executePost(reqURL, reqData, reqHead);
+        return this.makePostRequest("");
     }
 }

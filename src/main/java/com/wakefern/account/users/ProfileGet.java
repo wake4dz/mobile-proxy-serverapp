@@ -59,7 +59,6 @@ public class ProfileGet extends BaseService {
 	//-------------------------------------------------------------------------
 
     private String makeRequest(String sessionToken, String acceptType, String chainID, String userID) throws Exception, IOException {
-    		this.requestToken  = sessionToken;
     		this.requestParams = new HashMap<String, String>();
         this.requestHeader = new MWGHeader(acceptType, ApplicationConstants.jsonResponseType, sessionToken);
     	        

@@ -20,6 +20,21 @@ public class BaseService {
     protected String requestPath   = null;
     protected String requestToken  = null;
     
+    protected static enum ReqType { GET, POST, PUT, DELETE };
+    
+//    protected String mwgRequest(ReqType reqType, String reqData) {
+//    		String reqTypeStr;
+//    		
+//    		switch (reqType) {
+//    			case GET: reqTypeStr = "GET"; break;
+//    			case POST: reqTypeStr = "POST"; break;
+//    			case PUT: reqTypeStr = "PUT"; break;
+//    			case DELETE: reqTypeStr = "DELETE"; break;
+//    		}
+//    		
+//    		
+//    }
+    
     /**
      * Trigger a GET request to MyWebGrocer.
      * 
@@ -28,21 +43,68 @@ public class BaseService {
      * @throws IOException
      */
     protected String makeGetRequest() throws Exception, IOException {
-    		ServiceMappings mapping = new ServiceMappings();
         
-    		if ((requestToken == null) || (requestPath == null) || (requestHeader == null)) {
+    		if ((requestPath == null) || (requestHeader == null)) {
     			throw new Exception("Unable to execute GET request.  Missing required data.");
     		
     		} else {
-    			mapping.setGetMapping(this, requestParams);
-        
-    			String reqURL = mapping.getPath();
-    			Map<String, String> genericHeader = mapping.getgenericHeader();
+    			ServiceMappings sm = getServiceMapping(ReqType.GET, null);
+    			
+    			String reqURL = sm.getPath();
+    			Map<String, String> genericHeader = sm.getgenericHeader();
         
     			return HTTPRequest.executeGetJSON(reqURL, genericHeader, 0);
     		}
     }
     
+    /**
+     * Trigger a POST request to MyWebGrocer.
+     * 
+     * @param data
+     * @return
+     * @throws Exception
+     * @throws IOException
+     */
+    protected String makePostRequest(String data) throws Exception, IOException {
+        
+    		if ((requestPath == null) || (requestHeader == null)) {
+    			throw new Exception("Unable to execute POST request.  Missing required data.");
+    		
+    		} else {
+    			ServiceMappings sm = getServiceMapping(ReqType.POST, data);
+            
+            String reqURL = sm.getPath();
+            String reqData = sm.getGenericBody();
+            Map<String, String> reqHead = sm.getgenericHeader();
+            
+            return HTTPRequest.executePost(reqURL, reqData, reqHead);
+    		}
+    }
+    
+    /**
+     * Trigger a PUT request to MyWebGrocer.
+     * 
+     * @param data
+     * @return
+     * @throws Exception
+     * @throws IOException
+     */
+    protected String makePutRequest(String data) throws Exception, IOException {
+    	
+		if ((requestPath == null) || (requestHeader == null)) {
+			throw new Exception("Unable to execute PUT request.  Missing required data.");
+		
+		} else {
+	    		ServiceMappings sm = getServiceMapping(ReqType.PUT, data);
+	        
+	        String reqURL = sm.getPath();
+	        String reqData = sm.getGenericBody();
+	        Map<String, String> reqHead = sm.getgenericHeader();
+	        
+	        return HTTPRequest.executePut("", reqURL, "", reqData, reqHead, 0);
+		}    	
+    }
+        
     /**
      * Create a standardized Error Response (HTTP 5xx / 4xx) to pass back to the UI.
      * 
@@ -94,5 +156,31 @@ public class BaseService {
      */
     protected Response createResponse(int status) {
         return Response.status(status).build();
+    }
+    
+    /**
+     * Returns the ServiceMappings Object required to construct a request.
+     * 
+     * @param data
+     * @return
+     */
+    private ServiceMappings getServiceMapping(ReqType reqType, String data) {
+    		ServiceMappings sm = new ServiceMappings();
+    		
+    		data = (data == null) || (data.length() == 0) ? "{}" : data;
+    		
+    		switch (reqType) {
+    			case DELETE:
+    			case GET:
+    				sm.setGetMapping(this, requestParams);
+    				break;
+    				
+    			case POST:
+    			case PUT:
+    				sm.setPutMapping(this, data, requestParams);
+    				break;
+    		}
+    		    		
+    		return sm;
     }
 }

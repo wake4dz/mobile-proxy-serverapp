@@ -63,7 +63,7 @@ public class UserRegistration extends BaseService {
             String path = prepareResponse(authToken);
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setServiceMappingv1(this, jsonBody);
-            String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
+            String xml = HTTPRequest.executePost(path, secondMapping.getGenericBody(), secondMapping.getgenericHeader());
             XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
             return this.createValidResponse(xmLtoJSONConverter.convert(xml));
         } catch (Exception e){
@@ -75,7 +75,7 @@ public class UserRegistration extends BaseService {
         String path = prepareResponse(authToken);
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, jsonBody);
-        String xml = HTTPRequest.executePost("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
+        String xml = HTTPRequest.executePost(path, secondMapping.getGenericBody(), secondMapping.getgenericHeader());
         XMLtoJSONConverter xmLtoJSONConverter = new XMLtoJSONConverter();
         return xmLtoJSONConverter.convert(xml);
     }

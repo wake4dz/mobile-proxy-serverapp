@@ -98,6 +98,6 @@ public class AuthenticateUI extends BaseService {
         String reqData = mapping.getGenericBody();
         Map<String, String> reqHead = mapping.getgenericHeader();
         
-        return HTTPRequest.executePost("", reqURL, "", reqData, reqHead, 0);
+        return HTTPRequest.executePost(reqURL, reqData, reqHead);
     }
 }

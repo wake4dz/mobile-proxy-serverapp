@@ -18,15 +18,15 @@ import com.wakefern.global.ErrorHandling.ResponseHandler;
 
 public class HTTPRequest {
 	
-
 	private final static Logger logger = Logger.getLogger("HTTPRequest");
 	private static int timeOutInt = 20000; // 20 seconds time out
 	
-    public static String executePost(String requestType,String requestURL, String requestParameters, String requestBody,
-                                     Map<String, String> requestHeaders, int timeOut) throws Exception{
-        HttpURLConnection connection = null;
-    	long startTime, endTime;
+    public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
+        
+    		HttpURLConnection connection = null;
+    		long startTime, endTime;
         startTime = System.currentTimeMillis();
+        
         try {
             //Create connection
             URL url = new URL(requestURL);
@@ -39,11 +39,10 @@ public class HTTPRequest {
                 connection.setUseCaches(false);
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
-                timeOut = timeOutInt;
-                connection.setConnectTimeout(timeOut);
-                connection.setReadTimeout(timeOut);
+                connection.setConnectTimeout(timeOutInt);
+                connection.setReadTimeout(timeOutInt);
 
-                for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
+                for (Map.Entry<String, String> entry: requestHeaders.entrySet()) {
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
                 }
 
@@ -60,7 +59,8 @@ public class HTTPRequest {
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder sb = new StringBuilder();
             String line;
-            switch(status){
+            
+            switch(status) {
                 case 200:
                 case 201:
                 case 204:
@@ -74,6 +74,7 @@ public class HTTPRequest {
                     //sb.append(status);
                     throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
             }
+            
             endTime = System.currentTimeMillis();
             
             logger.log(Level.INFO, "[executePost]::Total process time: {0} ms, path: {1}", new Object[]{(endTime-startTime), requestURL});

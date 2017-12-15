@@ -20,6 +20,13 @@ public class BaseService {
     protected String requestPath   = null;
     protected String requestToken  = null;
     
+    /**
+     * Trigger a GET request to MyWebGrocer.
+     * 
+     * @return
+     * @throws Exception
+     * @throws IOException
+     */
     protected String makeGetRequest() throws Exception, IOException {
     		ServiceMappings mapping = new ServiceMappings();
         

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import org.json.JSONObject;
 
 @Path(MWGApplicationConstants.Requests.Authentication.authenticate)
-public class Authentication extends BaseService {
+public class AuthenticateUI extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("Authentication");
 	
@@ -27,7 +27,7 @@ public class Authentication extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public Authentication() {
+    public AuthenticateUI() {
         this.requestPath = MWGApplicationConstants.Requests.Authentication.authenticate;
     }
 	
@@ -57,7 +57,7 @@ public class Authentication extends BaseService {
     }
 
     	/**
-    	 * Triggers the Auth Request for the Session Token, but does not format the response.<br>
+    	 * Triggers the Auth Request for the Session Token.<br>
     	 * For use internally.<br>  
     	 * This is not a REST endpoint.<br>
     	 * 
@@ -74,7 +74,8 @@ public class Authentication extends BaseService {
 	//-------------------------------------------------------------------------
 
     /**
-     * Make the Auth Request to MWG for a Session Token.
+     * Make the Auth Request to MWG for a Session Token.<br>
+     * The Session Token must be sent with all subsequent requests to MWG.
      * 
      * @return
      * @throws Exception
@@ -83,9 +84,12 @@ public class Authentication extends BaseService {
     private String makeRequest() throws Exception, IOException {
         this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, ApplicationConstants.jsonResponseType, MWGApplicationConstants.appToken);
 
-        // The purpose of this request is to simply retrieve a valid Session Token from MWG.
-        // As such, just send "{}" as POST data.  
-    		// Any actual data sent, would just be ignored anyway.
+        // The purpose of this request is to simply retrieve a valid Session Token & Guest User ID, from MWG.
+        // As such, just send "{}" as POST data.  Any actual data sent, will just be ignored.
+        // Once this request succeeds, The UI will have access to a valid Session Token and Guest User ID.
+        // The Session Token is required for all subsequent requests to MWG.  If it's omitted, the request will be rejected as Unauthorized.
+        // The Guest User ID is valid for all operations available to non-registered users.
+        // To get a valid Registered User ID, users must authenticate via the "AuthenticateUser" endpoint.
         
     		ServiceMappings mapping = new ServiceMappings();
         mapping.setPutMapping(this, "{}", null); 

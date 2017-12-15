@@ -24,7 +24,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 
 @Path(MWGApplicationConstants.Requests.Account.acctPath)
-public class AuthorizationAuthenticate extends BaseService {
+public class AuthenticateUser extends BaseService {
 	
 	private final static Logger logger = Logger.getLogger("AuthorizationAuthenticate");
 	
@@ -35,7 +35,7 @@ public class AuthorizationAuthenticate extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public AuthorizationAuthenticate() {
+    public AuthenticateUser() {
         this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.authPath;
     } 
 
@@ -53,7 +53,7 @@ public class AuthorizationAuthenticate extends BaseService {
     		String appVerKey = "AppVersion";
     		String appVerErr = "501, Please update the app to the latest version.";
 
-    		// Here in Wakefern API Land, we don't care if the Auth Token supplied by the UI is valid or not.
+    		// Here in Wakefern API Land, we don't care if the Session Token supplied by the UI is valid or not.
     		// Simply send it to MWG and let them figure it out.
     		// MWG's response will be passed along to the UI, which will deal with it accordingly.
     		this.requestToken = sessionToken;

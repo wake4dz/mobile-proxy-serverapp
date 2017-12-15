@@ -2,17 +2,12 @@ package com.wakefern.stores;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
-
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.request.HTTPRequest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-
 import java.io.IOException;
-import java.util.Map;
 
 @Path(MWGApplicationConstants.Requests.Stores.storesPath)
 public class Chains extends BaseService {
@@ -39,7 +34,7 @@ public class Chains extends BaseService {
             String jsonResponse = makeRequest(sessionToken);
             return this.createValidResponse(jsonResponse);
         
-        } catch (Exception e){
+        } catch (Exception e) {
             return this.createErrorResponse(e);
         }
     }
@@ -58,15 +53,8 @@ public class Chains extends BaseService {
 	 */
     private String makeRequest(String sessionToken) throws Exception, IOException {
     		this.requestToken = sessionToken;
-    		this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, MWGApplicationConstants.Headers.Stores.chains, sessionToken);
+    		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.chains, ApplicationConstants.jsonAcceptType, sessionToken);
     	
-        ServiceMappings mapping = new ServiceMappings();
-                
-        mapping.setGetMapping(this, null);
-        
-        String reqURL = mapping.getPath();
-        Map<String, String> reqHead = mapping.getgenericHeader();
-        
-        return HTTPRequest.executeGetJSON(reqURL, reqHead, 0);
+    		return this.makeGetRequest();
     }
 }

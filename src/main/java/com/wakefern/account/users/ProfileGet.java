@@ -47,6 +47,7 @@ public class ProfileGet extends BaseService {
     		try {
     			String jsonResponse = makeRequest(sessionToken, MWGApplicationConstants.Headers.Account.fullProfile, chainID, userID);
     			return this.createValidResponse(jsonResponse);
+    		
     		} catch (Exception e) {
     			logger.log(Level.SEVERE, "[getFullProfile]::Exception - Get user profile.  Message: {1}", new Object[]{e.toString()});
             return this.createErrorResponse(e);

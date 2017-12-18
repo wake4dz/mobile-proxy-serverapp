@@ -15,459 +15,494 @@ import java.util.logging.Logger;
 
 import com.wakefern.global.ErrorHandling.ResponseHandler;
 
-
 public class HTTPRequest {
-	
+
 	private final static Logger logger = Logger.getLogger("HTTPRequest");
 	private static int timeOutInt = 20000; // 20 seconds time out
-	
-    public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
-        
-    		HttpURLConnection connection = null;
-    		long startTime, endTime;
-        startTime = System.currentTimeMillis();
-        
-        try {
-            //Create connection
-            URL url = new URL(requestURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
 
-            if(requestBody != null){
-                //Set Content length
-                connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
-                connection.setUseCaches(false);
-                connection.setDoOutput(true);
-                connection.setDoInput(true);
-                connection.setConnectTimeout(timeOutInt);
-                connection.setReadTimeout(timeOutInt);
+	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
 
-                for (Map.Entry<String, String> entry: requestHeaders.entrySet()) {
-                    connection.addRequestProperty(entry.getKey(), entry.getValue());
-                }
+		HttpURLConnection connection = null;
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
 
-                //Set JSON as body of request
-                OutputStream oStream = connection.getOutputStream();
-                oStream.write(requestBody.getBytes("UTF-8"));
-                oStream.close();
-            }
+		try {
+			// Create connection
+			URL url = new URL(requestURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
 
-            //Connect to the server
-            connection.connect();
+			if (requestBody != null) {
+				// Set Content length
+				connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
+				connection.setUseCaches(false);
+				connection.setDoOutput(true);
+				connection.setDoInput(true);
+				connection.setConnectTimeout(timeOutInt);
+				connection.setReadTimeout(timeOutInt);
 
-            int status = connection.getResponseCode();
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            
-            switch(status) {
-                case 200:
-                case 201:
-                case 204:
-                    //sb.append(status);
-                    while( (line = br.readLine()) != null ){
-                        sb.append(line + "\r");
-                    }
-                    br.close();
-                    break;
-                default:
-                    //sb.append(status);
-                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
-            }
-            
-            endTime = System.currentTimeMillis();
-            
-            logger.log(Level.INFO, "[executePost]::Total process time: {0} ms, path: {1}", new Object[]{(endTime-startTime), requestURL});
-            //return body to auth
-            return sb.toString();
+				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+					connection.addRequestProperty(entry.getKey(), entry.getValue());
+				}
 
-        } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executePost]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executePost]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executePost]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executePost]::Exception closing connection, path: ", requestURL);
-                    throw ex;
-                }
-            }
-        }
-    }
+				// Set JSON as body of request
+				OutputStream oStream = connection.getOutputStream();
+				oStream.write(requestBody.getBytes("UTF-8"));
+				oStream.close();
+			}
 
-    public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeOut) throws Exception{
-        HttpURLConnection connection = null;
-    	long startTime, endTime;
+			// Connect to the server
+			connection.connect();
 
-        try {
-        	startTime = System.currentTimeMillis();
-            //Create connection
-            URL url = new URL(requestURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+			int status = connection.getResponseCode();
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder sb = new StringBuilder();
+			String line;
 
-            if(requestBody != null){
-                //Set Content length
-                connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
-                connection.setUseCaches(false);
-                connection.setDoOutput(true);
-                connection.setDoInput(true);
-                timeOut = (timeOut == 0) ? timeOutInt : timeOut;
-                logger.log(Level.INFO, "[executePostJSON]::Timeout", timeOut);
-                connection.setConnectTimeout(timeOut);
-                connection.setReadTimeout(timeOut);
+			switch (status) {
+			case 200:
+			case 201:
+			case 204:
+				// sb.append(status);
+				while ((line = br.readLine()) != null) {
+					sb.append(line + "\r");
+				}
+				br.close();
+				break;
+			default:
+				// sb.append(status);
+				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+			}
 
-                for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-                    connection.addRequestProperty(entry.getKey(), entry.getValue());
-                }
+			endTime = System.currentTimeMillis();
 
-                //Set JSON as body of request
-                OutputStream oStream = connection.getOutputStream();
-                oStream.write(requestBody.getBytes("UTF-8"));
-                oStream.close();
-            }
+			logger.log(Level.INFO, "[executePost]::Total process time: {0} ms, path: {1}",
+					new Object[] { (endTime - startTime), requestURL });
+			// return body to auth
+			return sb.toString();
 
-            //Connect to the server
-            connection.connect();
+		} catch (MalformedURLException ex) {
+			logger.log(Level.SEVERE,
+					"[executePost]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (IOException ex) {
+			logger.log(Level.SEVERE, "[executePost]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "[executePost]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					logger.log(Level.SEVERE, "[executePost]::Exception closing connection, path: ", requestURL);
+					throw ex;
+				}
+			}
+		}
+	}
 
-            int status = connection.getResponseCode();
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder sb = new StringBuilder();
+	public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders,
+			int timeOut) throws Exception {
+		HttpURLConnection connection = null;
+		long startTime, endTime;
 
-            switch(status){
-                case 200:
-                case 201:
-                case 204:
-                    //sb.append(status);
-                    int read;
-                    char[] chars = new char[1024];
-                    while( (read = br.read(chars)) != -1 ){
-                        sb.append(chars, 0, read);
-                    }
-                    br.close();
-                    break;
-                default:
-                    //sb.append(status);
-                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
-            }
-            endTime = System.currentTimeMillis();
-            logger.log(Level.INFO, "[executePostJSON]::Total process time: {0} ms, path: {1}", new Object[]{(endTime-startTime), requestURL});
-            //return body to auth
-            return sb.toString();
+		try {
+			startTime = System.currentTimeMillis();
+			// Create connection
+			URL url = new URL(requestURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
 
-        } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executePostJSON]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executePostJSON]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executePostJSON]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executePostJSON]::Exception closing connection: {0}, URL: {1}", 
-                			new Object[]{ex.getMessage(), requestURL});
-                    throw ex;
-                }
-            }
-        }
-    }
+			if (requestBody != null) {
+				// Set Content length
+				connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
+				connection.setUseCaches(false);
+				connection.setDoOutput(true);
+				connection.setDoInput(true);
+				timeOut = (timeOut == 0) ? timeOutInt : timeOut;
+				logger.log(Level.INFO, "[executePostJSON]::Timeout", timeOut);
+				connection.setConnectTimeout(timeOut);
+				connection.setReadTimeout(timeOut);
 
-    // TODO: Refactor!  'requestType', 'timeOut' & 'requestParameters' are not used!
-    //
-    public static String executePut(String requestType,String requestURL, String requestParameters, String requestBody, Map<String, String> requestHeaders
-            , int timeOut) throws Exception {
-        HttpURLConnection connection = null;
-    	long startTime, endTime;
+				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+					connection.addRequestProperty(entry.getKey(), entry.getValue());
+				}
 
-        try {
-        	startTime = System.currentTimeMillis();
-            //Create connection
-            URL url = new URL(requestURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("PUT");
+				// Set JSON as body of request
+				OutputStream oStream = connection.getOutputStream();
+				oStream.write(requestBody.getBytes("UTF-8"));
+				oStream.close();
+			}
 
-            if(requestBody != null){
-                //Set Content length
-                connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
-                connection.setUseCaches(false);
-                connection.setDoOutput(true);
-                connection.setDoInput(true);
-                timeOut = timeOutInt;
-                connection.setConnectTimeout(timeOut);
-                connection.setReadTimeout(timeOut);
+			// Connect to the server
+			connection.connect();
 
-                for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-                    connection.addRequestProperty(entry.getKey(), entry.getValue());
-                }
+			int status = connection.getResponseCode();
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder sb = new StringBuilder();
 
-                //Set JSON as body of request
-                OutputStream oStream = connection.getOutputStream();
-                oStream.write(requestBody.getBytes("UTF-8"));
-                oStream.close();
-            }
+			switch (status) {
+			case 200:
+			case 201:
+			case 204:
+				// sb.append(status);
+				int read;
+				char[] chars = new char[1024];
+				while ((read = br.read(chars)) != -1) {
+					sb.append(chars, 0, read);
+				}
+				br.close();
+				break;
+			default:
+				// sb.append(status);
+				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+			}
+			endTime = System.currentTimeMillis();
+			logger.log(Level.INFO, "[executePostJSON]::Total process time: {0} ms, path: {1}",
+					new Object[] { (endTime - startTime), requestURL });
+			// return body to auth
+			return sb.toString();
 
-            //Connect to the server
-            connection.connect();
+		} catch (MalformedURLException ex) {
+			logger.log(Level.SEVERE,
+					"[executePostJSON]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (IOException ex) {
+			logger.log(Level.SEVERE, "[executePostJSON]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "[executePostJSON]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					logger.log(Level.SEVERE, "[executePostJSON]::Exception closing connection: {0}, URL: {1}",
+							new Object[] { ex.getMessage(), requestURL });
+					throw ex;
+				}
+			}
+		}
+	}
 
-            int status = connection.getResponseCode();
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder sb = new StringBuilder();
+	// TODO: Refactor! 'requestType', 'timeOut' & 'requestParameters' are not used!
+	//
+	public static String executePut(String requestType, String requestURL, String requestParameters, String requestBody,
+			Map<String, String> requestHeaders, int timeOut) throws Exception {
+		HttpURLConnection connection = null;
+		long startTime, endTime;
 
-            switch(status){
-                case 200:
-                case 201:
-                case 204:
-                    //sb.append(status);
-                    int read;
-                    char[] chars = new char[1024];
-                    while( (read = br.read(chars)) != -1 ){
-                        sb.append(chars, 0, read);
-                    }
-                    br.close();
-                    break;
-                default:
-                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
-            }
-            endTime= System.currentTimeMillis();
-            logger.log(Level.INFO, "[executePut]::Total process time: {0} ms, URL: {1}", new Object[]{(endTime-startTime), requestURL});
-            //return body to auth
-            return sb.toString();
+		try {
+			startTime = System.currentTimeMillis();
+			// Create connection
+			URL url = new URL(requestURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("PUT");
 
-        } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executePut]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executePut]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executePut]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: ", requestURL);
-                    throw ex;
-                }
-            }
-        }
-    }
+			if (requestBody != null) {
+				// Set Content length
+				connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
+				connection.setUseCaches(false);
+				connection.setDoOutput(true);
+				connection.setDoInput(true);
+				timeOut = timeOutInt;
+				connection.setConnectTimeout(timeOut);
+				connection.setReadTimeout(timeOut);
 
-    public static String executeGet(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception{
-        return executeRequest(requestURL,requestHeaders,null,"GET", timeOut);
-    }
+				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+					connection.addRequestProperty(entry.getKey(), entry.getValue());
+				}
 
-    public static String executeRequest(String requestURL,Map<String,String> requestHeaders,Map<String,String>
-            requestParameters,String requestMethod, int timeOut) throws Exception{
-        HttpURLConnection connection = null;
-    	long startTime, endTime;
-    	
-        try {
-        	startTime = System.currentTimeMillis();
-            connection = createConnection(requestURL,requestHeaders,requestParameters,requestMethod, timeOut);
-            int responseCode = connection.getResponseCode();
-            endTime = System.currentTimeMillis();
-            logger.log(Level.INFO, "[executeRequest]::Total process time for {0}: {1} ms, URL: {2}", new Object[]{requestMethod, (endTime-startTime), requestURL});
+				// Set JSON as body of request
+				OutputStream oStream = connection.getOutputStream();
+				oStream.write(requestBody.getBytes("UTF-8"));
+				oStream.close();
+			}
 
-            if(responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206){
-                return buildResponse(connection);
-            } else {
-            	logger.log(Level.INFO, "[executeRequest]::response code: {0}, msg: {1}, URL: {2}", 
-            			new Object[]{connection.getResponseCode(), connection.getResponseMessage()});
-                //System.out.print("Response " + buildResponse(connection));
-                //System.out.print("Connection URL " + connection.getURL());
-                //System.out.print("Response Message " + connection.getResponseMessage());
-                ////System.out.print("Request Method " + connection.getReq);
-//                for(Map.Entry<String, List<String>> entry: connection.getRequestProperties().entrySet()){
-//                        //System.out.print(entry.getKey().toString() + ": " + entry.getValue().toString());
-//                }
+			// Connect to the server
+			connection.connect();
 
-                //System.out.print("A");
-//                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//                StringBuilder sb = new StringBuilder();
-//                String line;
-//                while ((line = br.readLine()) != null) {
-//                    sb.append(line + "\r");
-//                }
-//                br.close();
-//                //System.out.print("Input Stream " + line);
-//                //System.out.print("B");
+			int status = connection.getResponseCode();
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder sb = new StringBuilder();
 
+			switch (status) {
+			case 200:
+			case 201:
+			case 204:
+				// sb.append(status);
+				int read;
+				char[] chars = new char[1024];
+				while ((read = br.read(chars)) != -1) {
+					sb.append(chars, 0, read);
+				}
+				br.close();
+				break;
+			default:
+				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+			}
+			endTime = System.currentTimeMillis();
+			logger.log(Level.INFO, "[executePut]::Total process time: {0} ms, URL: {1}",
+					new Object[] { (endTime - startTime), requestURL });
+			// return body to auth
+			return sb.toString();
 
-//                BufferedReader br2 = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-//                StringBuilder sb2 = new StringBuilder();
-//                String line2;
-//                while ((line2 = br2.readLine()) != null) {
-//                    sb2.append(line2 + "\r");
-//                }
-//                br2.close();            	
-//                
-//                logger.log(Level.INFO, "[executeRequest]::response body: ", sb2.toString());
+		} catch (MalformedURLException ex) {
+			logger.log(Level.SEVERE, "[executePut]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (IOException ex) {
+			logger.log(Level.SEVERE, "[executePut]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "[executePut]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: ", requestURL);
+					throw ex;
+				}
+			}
+		}
+	}
 
-                //System.out.print("Error Stream " + line2);
-                //System.out.print("C");
+	public static String executeGet(String requestURL, Map<String, String> requestHeaders, int timeOut)
+			throws Exception {
+		return executeRequest(requestURL, requestHeaders, null, "GET", timeOut);
+	}
 
-                throw new Exception(responseCode + "," + connection.getResponseMessage());
-            }
-        } catch (IOException e) {
-        	logger.log(Level.SEVERE, "[executeRequest]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw e;
-        } catch (URISyntaxException e) {
-        	logger.log(Level.SEVERE, "[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw e;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-                			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-                    throw ex;
-                }
-            }
-        }
-    }
+	public static String executeRequest(String requestURL, Map<String, String> requestHeaders,
+			Map<String, String> requestParameters, String requestMethod, int timeOut) throws Exception {
+		HttpURLConnection connection = null;
+		long startTime, endTime;
 
-    public static String executeGetJSON(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception{
-        return executeRequest(requestURL,requestHeaders,null,"GET", timeOut);
-    }
+		try {
+			startTime = System.currentTimeMillis();
+			connection = createConnection(requestURL, requestHeaders, requestParameters, requestMethod, timeOut);
+			int responseCode = connection.getResponseCode();
+			endTime = System.currentTimeMillis();
+			logger.log(Level.INFO, "[executeRequest]::Total process time for {0}: {1} ms, URL: {2}",
+					new Object[] { requestMethod, (endTime - startTime), requestURL });
 
-    public static String executeDelete(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception {
-        HttpURLConnection connection = null;
-    	long startTime, endTime;
+			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205
+					|| responseCode == 206) {
+				return buildResponse(connection);
+			} else {
+				logger.log(Level.INFO, "[executeRequest]::response code: {0}, msg: {1}, URL: {2}",
+						new Object[] { connection.getResponseCode(), connection.getResponseMessage() });
+				// System.out.print("Response " + buildResponse(connection));
+				// System.out.print("Connection URL " + connection.getURL());
+				// System.out.print("Response Message " + connection.getResponseMessage());
+				//// System.out.print("Request Method " + connection.getReq);
+				// for(Map.Entry<String, List<String>> entry:
+				// connection.getRequestProperties().entrySet()){
+				// //System.out.print(entry.getKey().toString() + ": " +
+				// entry.getValue().toString());
+				// }
 
-        try {
-        	startTime = System.currentTimeMillis();
-            //Create connection
-            URL url = new URL(requestURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("DELETE");
-            timeOut = timeOutInt;
-            connection.setConnectTimeout(timeOut);
-            connection.setReadTimeout(timeOut);
+				// System.out.print("A");
+				// BufferedReader br = new BufferedReader(new
+				// InputStreamReader(connection.getInputStream()));
+				// StringBuilder sb = new StringBuilder();
+				// String line;
+				// while ((line = br.readLine()) != null) {
+				// sb.append(line + "\r");
+				// }
+				// br.close();
+				// //System.out.print("Input Stream " + line);
+				// //System.out.print("B");
 
-            for(Map.Entry<String, String> entry: requestHeaders.entrySet()){
-                connection.addRequestProperty(entry.getKey(), entry.getValue());
-            }
+				// BufferedReader br2 = new BufferedReader(new
+				// InputStreamReader(connection.getErrorStream()));
+				// StringBuilder sb2 = new StringBuilder();
+				// String line2;
+				// while ((line2 = br2.readLine()) != null) {
+				// sb2.append(line2 + "\r");
+				// }
+				// br2.close();
+				//
+				// logger.log(Level.INFO, "[executeRequest]::response body: ", sb2.toString());
 
-            //Connect to the server
-            connection.connect();
+				// System.out.print("Error Stream " + line2);
+				// System.out.print("C");
 
-            int status = connection.getResponseCode();
-            
-            endTime = System.currentTimeMillis();
+				throw new Exception(responseCode + "," + connection.getResponseMessage());
+			}
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "[executeRequest]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { e.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw e;
+		} catch (URISyntaxException e) {
+			logger.log(Level.SEVERE,
+					"[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { e.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw e;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					logger.log(Level.SEVERE,
+							"[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}",
+							new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+									connection.getResponseMessage() });
+					throw ex;
+				}
+			}
+		}
+	}
 
-        	logger.log(Level.INFO, "[executeDelete]::Total process time: {0} ms, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{(endTime-startTime), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-        	
-            switch(status){
-                case 200:
-                case 201:
-                case 204:
-                    return status + " Success";
-                default:
-                    throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
-            }
-        } catch (MalformedURLException ex) {
-        	logger.log(Level.SEVERE, "[executeDelete]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (IOException ex) {
-        	logger.log(Level.SEVERE, "[executeDelete]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } catch (Exception ex) {
-        	logger.log(Level.SEVERE, "[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
-        			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-            throw ex;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception ex) {
-                	logger.log(Level.SEVERE, "[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}", 
-                			new Object[]{ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()});
-                    throw ex;
-                }
-            }
-        }
-    }
-/*
-    Private Method Section --
- */
+	public static String executeGetJSON(String requestURL, Map<String, String> requestHeaders, int timeOut)
+			throws Exception {
+		return executeRequest(requestURL, requestHeaders, null, "GET", timeOut);
+	}
 
-    private static HttpURLConnection createConnection(String requestURL,Map<String,String> requestHeaders,Map<String,String> requestParameters, String requestMethod, int timeOut) throws IOException, URISyntaxException {
-        HttpURLConnection connection = null;
-        URI uri = new URI(requestURL);
-        if(requestParameters!=null) {
-            for (Map.Entry<String, String> entry : requestParameters.entrySet()) {
-                uri = appendUri(uri.toString(), entry.getKey() + "=" + entry.getValue());
-            }
-        }
+	public static String executeDelete(String requestURL, Map<String, String> requestHeaders, int timeOut)
+			throws Exception {
+		HttpURLConnection connection = null;
+		long startTime, endTime;
 
-        URL url = uri.toURL();
-        connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod(requestMethod);
-        if(timeOut == 0){
-        	timeOut = timeOutInt;
-        }
-        connection.setConnectTimeout(timeOut);
-        connection.setReadTimeout(timeOut);
+		try {
+			startTime = System.currentTimeMillis();
+			// Create connection
+			URL url = new URL(requestURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("DELETE");
+			timeOut = timeOutInt;
+			connection.setConnectTimeout(timeOut);
+			connection.setReadTimeout(timeOut);
 
+			for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+				connection.addRequestProperty(entry.getKey(), entry.getValue());
+			}
 
-        if(requestHeaders != null) {
-            for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
-                connection.addRequestProperty(entry.getKey(), entry.getValue());
-            }
-        }
+			// Connect to the server
+			connection.connect();
 
-        //Connect to the server
-        connection.connect();
+			int status = connection.getResponseCode();
 
-        return connection;
-    }
+			endTime = System.currentTimeMillis();
 
-    public static URI appendUri(String uri, String appendQuery) throws URISyntaxException {
-        URI oldUri = new URI(uri);
+			logger.log(Level.INFO,
+					"[executeDelete]::Total process time: {0} ms, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { (endTime - startTime), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
 
-        String newQuery = oldUri.getQuery();
-        if (newQuery == null) {
-            newQuery = appendQuery;
-        } else {
-            newQuery += "&" + appendQuery;
-        }
+			switch (status) {
+			case 200:
+			case 201:
+			case 204:
+				return status + " Success";
+			default:
+				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+			}
+		} catch (MalformedURLException ex) {
+			logger.log(Level.SEVERE,
+					"[executeDelete]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (IOException ex) {
+			logger.log(Level.SEVERE, "[executeDelete]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					logger.log(Level.SEVERE, "[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
+							new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+									connection.getResponseMessage() });
+					throw ex;
+				}
+			}
+		}
+	}
+	/*
+	 * Private Method Section --
+	 */
 
-        URI newUri = new URI(oldUri.getScheme(), oldUri.getAuthority(),
-                oldUri.getPath(), newQuery, oldUri.getFragment());
+	private static HttpURLConnection createConnection(String requestURL, Map<String, String> requestHeaders,
+			Map<String, String> requestParameters, String requestMethod, int timeOut)
+			throws IOException, URISyntaxException {
+		HttpURLConnection connection = null;
+		URI uri = new URI(requestURL);
+		if (requestParameters != null) {
+			for (Map.Entry<String, String> entry : requestParameters.entrySet()) {
+				uri = appendUri(uri.toString(), entry.getKey() + "=" + entry.getValue());
+			}
+		}
 
-        return newUri;
-    }
+		URL url = uri.toURL();
+		connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod(requestMethod);
+		if (timeOut == 0) {
+			timeOut = timeOutInt;
+		}
+		connection.setConnectTimeout(timeOut);
+		connection.setReadTimeout(timeOut);
 
-    private static String buildResponse(HttpURLConnection connection){
-        return ResponseHandler.Response(connection);
-    }
+		if (requestHeaders != null) {
+			for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+				connection.addRequestProperty(entry.getKey(), entry.getValue());
+			}
+		}
+
+		// Connect to the server
+		connection.connect();
+
+		return connection;
+	}
+
+	public static URI appendUri(String uri, String appendQuery) throws URISyntaxException {
+		URI oldUri = new URI(uri);
+
+		String newQuery = oldUri.getQuery();
+		if (newQuery == null) {
+			newQuery = appendQuery;
+		} else {
+			newQuery += "&" + appendQuery;
+		}
+
+		URI newUri = new URI(oldUri.getScheme(), oldUri.getAuthority(), oldUri.getPath(), newQuery,
+				oldUri.getFragment());
+
+		return newUri;
+	}
+
+	private static String buildResponse(HttpURLConnection connection) {
+		return ResponseHandler.Response(connection);
+	}
 }

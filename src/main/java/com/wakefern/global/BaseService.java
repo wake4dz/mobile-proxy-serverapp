@@ -61,14 +61,18 @@ public class BaseService {
             		switch (reqType) {
 	        			case GET : 
 	        				response = HTTPRequest.executeGet(reqURL, reqHead, 0);
+	        				break;
 	        			case POST :
-	        				reqBody = sm.getGenericBody();
+	        				reqBody  = sm.getGenericBody();
 	        				response = HTTPRequest.executePost(reqURL, reqBody, reqHead);
+	        				break;
 	        			case PUT :
-	        				reqBody = sm.getGenericBody();
+	        				reqBody  = sm.getGenericBody();
 	        				response = HTTPRequest.executePut("", reqURL, "", reqBody, reqHead, 0);
+	        				break;
 	        			case DELETE :
 	        				response = HTTPRequest.executeDelete(reqURL, reqHead, 0);
+	        				break;
         				default :
         					response = "{}"; // This should never actually happen.  BUT just in case...
             		}

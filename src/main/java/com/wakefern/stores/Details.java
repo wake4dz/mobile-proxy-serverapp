@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Stores.stores)
-public class StoreDetails extends BaseService {
+public class Details extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -22,7 +22,7 @@ public class StoreDetails extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public StoreDetails(){
+    public Details(){
         this.requestPath = MWGApplicationConstants.Requests.Stores.stores + MWGApplicationConstants.Requests.Stores.details;
     }
     

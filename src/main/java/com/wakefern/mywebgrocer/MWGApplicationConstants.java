@@ -14,10 +14,23 @@ public class MWGApplicationConstants {
     public static final String storeID  = "storeId";
     public static final String regionID = "region";
     
-    public static final String querySkip = "skip";
-    public static final String queryTake = "take";
-    public static final String querySvcs = "mwgService";
-        
+    public static final String querySkip          = "skip";
+    public static final String queryTake          = "take";
+    public static final String queryServices      = "mwgService";
+    public static final String queryCity          = "city";
+    public static final String queryCoords        = "coordinates";
+    public static final String queryToZip         = "deliversTo";
+    public static final String queryFilters       = "fq";
+    public static final String queryIpAddr        = "ip";
+    public static final String queryZipCode       = "postalCode";
+    public static final String querySearchTerm    = "q";
+    public static final String queryRadius        = "radius";
+    public static final String queryRegionCode    = "region";
+    public static final String queryStoreOwnerID  = "storeownerId";
+    public static final String queryStoreStatus   = "storeStatus";
+    public static final String queryUnitOfMeasure = "unitOfMeasure";
+    
+    
     public static final String baseURLv1		= "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1	= "https://service.shoprite.com";
     public static final String authToken		= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
@@ -43,15 +56,16 @@ public class MWGApplicationConstants {
     			public static final String chains  = "application/vnd.mywebgrocer.chains+json";
     			public static final String regions = "application/vnd.mywebgrocer.stores-regions+json";
     			public static final String cities  = "application/vnd.mywebgrocer.stores-region-cities+json";
+    			public static final String stores  = "application/vnd.mywebgrocer.stores+json";
     		}
     }
     
     public static class Requests {
     		public static class Account {
     			public static final String acctPath = "/account/v7";
-    			public static final String authPath = chainsPath + "/authentication";  // Log in a registered user
     			
-    			public static final String userProfilePath = chainsPath + usersPath;   // Get a user's profile data
+    			public static final String login   = chainsPath + "/authentication";  // Log in a registered user
+    			public static final String profile = chainsPath + usersPath;   // Get a user's profile data
     		}
     	
         public static class Authentication {
@@ -59,11 +73,14 @@ public class MWGApplicationConstants {
         }
         
         public static class Stores {
-        		public static final String stores  = "/stores/v7";
-        		public static final String details = chainsPath + "/stores/{" + storeID + "}";
+        		public static final String storesPath = "/stores/v7";
+        		
         		public static final String chains  = "/chains";
         		public static final String regions = chainsPath + "/regions";
-        		public static final String cities  = chainsPath + "/regions/{region}/cities";
+        		public static final String stores  = chainsPath + "/stores";
+        		
+        		public static final String cities  = regions + "/{region}/cities";
+        		public static final String details = stores  + "/{" + storeID + "}";
         		
             public static final String StoreLocator     = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";

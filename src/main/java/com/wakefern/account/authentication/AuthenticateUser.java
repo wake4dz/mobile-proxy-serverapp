@@ -33,13 +33,13 @@ public class AuthenticateUser extends BaseService {
 	 * Constructor
 	 */
     public AuthenticateUser() {
-        this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.authPath;
+        this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.login;
     } 
 
     @PUT
     @Consumes(MWGApplicationConstants.Headers.Account.login)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Account.authPath)
+    @Path(MWGApplicationConstants.Requests.Account.login)
     public Response getInfoResponse(
     		@PathParam(MWGApplicationConstants.chainID) String chainId, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 

@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Stores.stores)
+@Path(MWGApplicationConstants.Requests.Stores.storesPath)
 public class Chains extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class Chains extends BaseService {
 	 * Constructor
 	 */
     public Chains() {
-        this.requestPath = MWGApplicationConstants.Requests.Stores.stores + MWGApplicationConstants.Requests.Stores.chains;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.chains;
     }
     
 	@GET
@@ -29,12 +29,12 @@ public class Chains extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.chains)
     public Response getChains(
-    		@QueryParam(MWGApplicationConstants.querySvcs) String services,
+    		@QueryParam(MWGApplicationConstants.queryServices) String services,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.chains, ApplicationConstants.jsonResponseType, sessionToken);
 		this.queryParams = new HashMap<String, String>();
-		this.queryParams.put(MWGApplicationConstants.querySvcs, services);
+		this.queryParams.put(MWGApplicationConstants.queryServices, services);
 
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

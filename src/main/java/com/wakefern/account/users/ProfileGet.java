@@ -31,13 +31,13 @@ public class ProfileGet extends BaseService {
 	 * Constructor
 	 */
     public ProfileGet() {
-        this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.userProfilePath;
+        this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.profile;
     } 
 
     @GET
     @Consumes(MWGApplicationConstants.Headers.Account.fullProfile)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Account.userProfilePath)
+    @Path(MWGApplicationConstants.Requests.Account.profile)
     public Response getFullProfile(
     		@PathParam(MWGApplicationConstants.chainID) String chainID, 
     		@PathParam(MWGApplicationConstants.userID) String userID, 

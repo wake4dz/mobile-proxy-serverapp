@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Stores.stores)
+@Path(MWGApplicationConstants.Requests.Stores.storesPath)
 public class Cities extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class Cities extends BaseService {
 	 * Constructor
 	 */
     public Cities() {
-        this.requestPath = MWGApplicationConstants.Requests.Stores.stores + MWGApplicationConstants.Requests.Stores.cities;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.cities;
     }
     
 	@GET
@@ -31,7 +31,7 @@ public class Cities extends BaseService {
     public Response getCities(
     		@PathParam(MWGApplicationConstants.regionID) String regionID,
     		@PathParam(MWGApplicationConstants.chainID) String chainID,
-    		@QueryParam(MWGApplicationConstants.querySvcs) String services,
+    		@QueryParam(MWGApplicationConstants.queryServices) String services,
     		@QueryParam(MWGApplicationConstants.querySkip) String skip,
     		@QueryParam(MWGApplicationConstants.queryTake) String take,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
@@ -45,7 +45,7 @@ public class Cities extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.regionID, regionID);
 		
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.querySvcs, services);
+		this.queryParams.put(MWGApplicationConstants.queryServices, services);
 		this.queryParams.put(MWGApplicationConstants.querySkip, skip);
 		this.queryParams.put(MWGApplicationConstants.queryTake, take);
 		

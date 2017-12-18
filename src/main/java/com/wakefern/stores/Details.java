@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Stores.stores)
+@Path(MWGApplicationConstants.Requests.Stores.storesPath)
 public class Details extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -23,7 +23,7 @@ public class Details extends BaseService {
 	 * Constructor
 	 */
     public Details(){
-        this.requestPath = MWGApplicationConstants.Requests.Stores.stores + MWGApplicationConstants.Requests.Stores.details;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.details;
     }
     
 	@GET

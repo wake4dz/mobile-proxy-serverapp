@@ -70,6 +70,6 @@ public class StoreDetails extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.chainID, chainId);
 		this.requestParams.put(MWGApplicationConstants.storeID, storeId);
 		
-		return this.makeGetRequest();
+        return this.mwgRequest(BaseService.ReqType.GET, null);
     }
 }

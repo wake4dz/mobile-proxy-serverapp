@@ -80,7 +80,7 @@ public class AuthenticateUser extends BaseService {
     			jsonData.put(pwKey, StringEscapeUtils.escapeHtml4(password));
 	        
 	        try {
-	        		String responseJSON = this.makePutRequest(jsonData.toString());
+	        		String responseJSON = this.mwgRequest(BaseService.ReqType.PUT, jsonData.toString());
 	        		return this.createValidResponse(responseJSON);
 	        		
 	        } catch (Exception e) {

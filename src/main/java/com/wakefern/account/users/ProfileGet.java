@@ -65,6 +65,6 @@ public class ProfileGet extends BaseService {
         this.requestParams.put(MWGApplicationConstants.chainID, chainID);
         this.requestParams.put(MWGApplicationConstants.userID, userID);
         
-        return this.makeGetRequest();
+        return this.mwgRequest(BaseService.ReqType.GET, null);
     }
 }

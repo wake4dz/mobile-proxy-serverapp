@@ -88,6 +88,6 @@ public class AuthenticateUI extends BaseService {
         // The Session Token is required for all subsequent requests to MWG.  If it's omitted, the request will be rejected as Unauthorized.
         // The Guest User ID is valid for all operations available to non-registered users.
         // To get a valid Registered User ID, users must authenticate via the "AuthenticateUser" endpoint.
-        return this.makePostRequest("");
+        return this.mwgRequest(BaseService.ReqType.POST, "{}");
     }
 }

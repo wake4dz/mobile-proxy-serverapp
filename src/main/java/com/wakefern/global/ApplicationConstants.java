@@ -115,10 +115,6 @@ public final class ApplicationConstants {
             public static final String planningToken = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
         }
 
-        public static class Authentication{
-            public static final String Authenticate = MWGApplicationConstants.Requests.Authentication.authenticate;
-        }
-
         public static class Categories{
             public static final String CategoriesFromStoreId = MWGApplicationConstants.Requests.Categories.CategoriesFromStoreId;
             public static final String Subcategories = MWGApplicationConstants.Requests.Categories.SubCategories;
@@ -239,44 +235,6 @@ public final class ApplicationConstants {
     public static class FeaturedRecipes{
         public static final String FeaturedRecipeSummaries = "FeaturedRecipeSummaries";
         public static final String FeaturedRecipeSummary = "FeaturedRecipeSummary";
-    }
-
-    public static class FormattedAuthentication{
-        public static final String AdSessionGuid = "AdSessionGuid";
-        public static final String AuthPlanning = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
-        public static final String ChainId = "139";
-        public static final String Email = "Email";
-        public static final String ExternalStoreId = "ExternalStoreId";
-        public static final String FirstName = "FirstName";
-        public static final String FSN = "FSN";
-        public static final String Id = "Id";
-        public static final String LastName = "LastName";
-        public static final String MwgServices = "MwgServices";
-        public static final String MyWebGrocerService = "MyWebGrocerService";
-        public static final String Name = "Name";
-        public static final String PlanningToken = "PlanningToken";
-        public static final String PPC = "PPC";
-        public static final String PreferredStore = "PreferredStore";
-        public static final String PseudoStoreId = "PseudoStoreId";
-        public static final String S2GSisterStore = "S2GSisterStore";
-        public static final String Section = "Section";
-        public static final String Sections = "Sections";
-        public static final String ServiceName = "ServiceName";
-        public static final String SisterStoreId = "sisterStoreId";
-        public static final String SisterStoreName = "sisterStoreName";
-        public static final String SisterStorePseudoStoreId = "sisterStorePseudoStoreId";
-        public static final String Shop2GroPickup = "Shop2GroPickup";
-        public static final String Shop2GroDelivery = "Shop2GroDelivery";
-        public static final String ShopriteFromHome = "shopriteFromHome";
-        public static final String Store = "Store";
-        public static final String StoreId = "StoreId";
-        public static final String StoreName = "StoreName";
-        public static final String Token = "Token";
-        public static final String Uri = "Uri";
-        public static final String User = "User";
-        public static final String UserId = "UserId";
-        public static final String UserToken = "UserToken";
-        public static final String Secret = "Secret";
     }
     
     public static class Lists{

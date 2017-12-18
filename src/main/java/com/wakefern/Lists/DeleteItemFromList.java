@@ -78,7 +78,7 @@ public class DeleteItemFromList extends BaseService {
             }else{
             	//Update the item with a PUT
 				try {
-					HTTPRequest.executePut("", this.requestPath, "", jsonBody, secondMapping.getgenericHeader(), 0);
+					HTTPRequest.executePut(this.requestPath, jsonBody, secondMapping.getgenericHeader());
 					return this.createValidResponse("{}");
 				} catch (Exception e){
 					return this.createErrorResponse(e);

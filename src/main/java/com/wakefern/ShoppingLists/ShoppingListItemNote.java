@@ -38,7 +38,7 @@ public class ShoppingListItemNote extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.list-item+json");
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", path, "", jsonBody, map, 0));
+            return this.createValidResponse(HTTPRequest.executePut(path, jsonBody, map));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -52,7 +52,7 @@ public class ShoppingListItemNote extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.list-item+json");
 
-        return HTTPRequest.executePut("", path, "", jsonBody, map, 0);
+        return HTTPRequest.executePut(path, jsonBody, map);
     }
 
     public ShoppingListItemNote(){

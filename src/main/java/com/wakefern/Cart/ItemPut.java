@@ -36,7 +36,7 @@ public class ItemPut extends BaseService {
         secondMapping.setPutMapping(this, jsonBody, null);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executePut(secondMapping.getPath(), secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -48,7 +48,7 @@ public class ItemPut extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setPutMapping(this, jsonBody, null);
 
-        return HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
+        return HTTPRequest.executePut(secondMapping.getPath(), secondMapping.getGenericBody(), secondMapping.getgenericHeader());
     }
 
     public ItemPut(){

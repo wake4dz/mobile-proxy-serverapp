@@ -55,7 +55,7 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         secondMapping.setPutMapping(this, jsonBody, null);
         logger.log(Level.INFO, "[getInfoResponse]::JSON Body Delievery:: ", jsonBody);
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executePut(path, secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -71,7 +71,7 @@ public class CheckoutDeliveryAddressPut extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.delivery-info+json");
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
-        return HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
+        return HTTPRequest.executePut(path, secondMapping.getGenericBody(), map);
     }
 
     public CheckoutDeliveryAddressPut(){

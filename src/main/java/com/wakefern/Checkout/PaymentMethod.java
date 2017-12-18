@@ -41,7 +41,7 @@ public class PaymentMethod extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-        	String resp = HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
+        	String resp = HTTPRequest.executePut(path, secondMapping.getGenericBody(), map);
         	logger.log(Level.INFO, "[getInfoResponse]::response: ", resp);
             return this.createValidResponse(resp);
         } catch (Exception e){
@@ -60,7 +60,7 @@ public class PaymentMethod extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.payments+json");
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
-        String resp = HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
+        String resp = HTTPRequest.executePut(path, secondMapping.getGenericBody(), map);
 
         logger.log(Level.INFO, "[preparedResponse]::response: ", resp);
         return resp;

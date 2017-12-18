@@ -24,6 +24,123 @@ public class HTTPRequest {
 	// Public Methods
 	//-------------------------------------------------------------------------
 
+	/**
+	 * Trigger HTTP GET request.
+	 * 
+	 * @param requestURL
+	 * @param requestHeaders
+	 * @param timeOut
+	 * @return
+	 * @throws Exception
+	 */
+	public static String executeGet(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception {
+		return executeRequest(requestURL, requestHeaders, null, "GET", timeOut);
+	}
+	
+	/**
+	 * Trigger HTTP PUT request.
+	 * 
+	 * @param requestURL
+	 * @param requestBody
+	 * @param requestHeaders
+	 * @return
+	 * @throws Exception
+	 */
+	public static String executePut(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
+		
+		HttpURLConnection connection = null;
+		long startTime, endTime;
+
+		try {
+			startTime = System.currentTimeMillis();
+			// Create connection
+			URL url = new URL(requestURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("PUT");
+
+			if (requestBody != null) {
+				// Set Content length
+				connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
+				connection.setUseCaches(false);
+				connection.setDoOutput(true);
+				connection.setDoInput(true);
+				connection.setConnectTimeout(timeOutInt);
+				connection.setReadTimeout(timeOutInt);
+
+				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+					connection.addRequestProperty(entry.getKey(), entry.getValue());
+				}
+
+				// Set JSON as body of request
+				OutputStream oStream = connection.getOutputStream();
+				oStream.write(requestBody.getBytes("UTF-8"));
+				oStream.close();
+			}
+
+			// Connect to the server
+			connection.connect();
+
+			int status = connection.getResponseCode();
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder sb = new StringBuilder();
+
+			switch (status) {
+			case 200:
+			case 201:
+			case 204:
+				// sb.append(status);
+				int read;
+				char[] chars = new char[1024];
+				while ((read = br.read(chars)) != -1) {
+					sb.append(chars, 0, read);
+				}
+				br.close();
+				break;
+			default:
+				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+			}
+			endTime = System.currentTimeMillis();
+			logger.log(Level.INFO, "[executePut]::Total process time: {0} ms, URL: {1}",
+					new Object[] { (endTime - startTime), requestURL });
+			// return body to auth
+			return sb.toString();
+
+		} catch (MalformedURLException ex) {
+			logger.log(Level.SEVERE, "[executePut]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (IOException ex) {
+			logger.log(Level.SEVERE, "[executePut]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "[executePut]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
+							connection.getResponseMessage() });
+			throw ex;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: ", requestURL);
+					throw ex;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Trigger HTTP POST request.
+	 * 
+	 * @param requestURL
+	 * @param requestBody
+	 * @param requestHeaders
+	 * @return
+	 * @throws Exception
+	 */
 	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
 
 		HttpURLConnection connection = null;
@@ -202,100 +319,6 @@ public class HTTPRequest {
 				}
 			}
 		}
-	}
-
-	// TODO: Refactor! 'requestType', 'timeOut' & 'requestParameters' are not used!
-	//
-	public static String executePut(String requestType, String requestURL, String requestParameters, String requestBody,
-			Map<String, String> requestHeaders, int timeOut) throws Exception {
-		HttpURLConnection connection = null;
-		long startTime, endTime;
-
-		try {
-			startTime = System.currentTimeMillis();
-			// Create connection
-			URL url = new URL(requestURL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("PUT");
-
-			if (requestBody != null) {
-				// Set Content length
-				connection.setRequestProperty("Content-length", requestBody.getBytes().length + "");
-				connection.setUseCaches(false);
-				connection.setDoOutput(true);
-				connection.setDoInput(true);
-				timeOut = timeOutInt;
-				connection.setConnectTimeout(timeOut);
-				connection.setReadTimeout(timeOut);
-
-				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
-					connection.addRequestProperty(entry.getKey(), entry.getValue());
-				}
-
-				// Set JSON as body of request
-				OutputStream oStream = connection.getOutputStream();
-				oStream.write(requestBody.getBytes("UTF-8"));
-				oStream.close();
-			}
-
-			// Connect to the server
-			connection.connect();
-
-			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-
-			switch (status) {
-			case 200:
-			case 201:
-			case 204:
-				// sb.append(status);
-				int read;
-				char[] chars = new char[1024];
-				while ((read = br.read(chars)) != -1) {
-					sb.append(chars, 0, read);
-				}
-				br.close();
-				break;
-			default:
-				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
-			}
-			endTime = System.currentTimeMillis();
-			logger.log(Level.INFO, "[executePut]::Total process time: {0} ms, URL: {1}",
-					new Object[] { (endTime - startTime), requestURL });
-			// return body to auth
-			return sb.toString();
-
-		} catch (MalformedURLException ex) {
-			logger.log(Level.SEVERE, "[executePut]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
-			throw ex;
-		} catch (IOException ex) {
-			logger.log(Level.SEVERE, "[executePut]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
-			throw ex;
-		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "[executePut]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
-			throw ex;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.disconnect();
-				} catch (Exception ex) {
-					logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: ", requestURL);
-					throw ex;
-				}
-			}
-		}
-	}
-
-	public static String executeGet(String requestURL, Map<String, String> requestHeaders, int timeOut)
-			throws Exception {
-		return executeRequest(requestURL, requestHeaders, null, "GET", timeOut);
 	}
 
 	public static String executeRequest(String requestURL, Map<String, String> requestHeaders,

@@ -68,7 +68,7 @@ public class BaseService {
 	        				break;
 	        			case PUT :
 	        				reqBody  = sm.getGenericBody();
-	        				response = HTTPRequest.executePut("", reqURL, "", reqBody, reqHead, 0);
+	        				response = HTTPRequest.executePut(reqURL, reqBody, reqHead);
 	        				break;
 	        			case DELETE :
 	        				response = HTTPRequest.executeDelete(reqURL, reqHead, 0);

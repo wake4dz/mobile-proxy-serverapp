@@ -26,7 +26,7 @@ public class UpdateProfile extends BaseService {
             String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setServiceMappingv1(this, jsonBody);
-            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executePut(secondMapping.getServicePath(), secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -36,7 +36,7 @@ public class UpdateProfile extends BaseService {
         String jsonBody = prepareResponse(userId, email, chainId, storeId, authToken);
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setServiceMappingv1(this, jsonBody);
-        return HTTPRequest.executePut("", secondMapping.getServicePath(), "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
+        return HTTPRequest.executePut(secondMapping.getServicePath(), secondMapping.getGenericBody(), secondMapping.getgenericHeader());
     }
 
     public UpdateProfile(){

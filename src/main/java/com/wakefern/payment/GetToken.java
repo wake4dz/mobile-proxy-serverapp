@@ -86,7 +86,7 @@ public class GetToken extends BaseService {
 		logger.log(Level.INFO, "[getInfo][GetToken]::req: ", retval.toString());
 
 		try {
-			String resp = HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0);
+			String resp = HTTPRequest.executePut(path, secondMapping.getGenericBody(), secondMapping.getgenericHeader());
 			logger.log(Level.INFO, "[getInfo][GetToken]::resp: ", resp);
 			
 			return this.createValidResponse(resp);

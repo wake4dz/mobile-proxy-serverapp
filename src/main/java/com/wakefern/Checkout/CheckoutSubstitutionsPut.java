@@ -33,7 +33,7 @@ public class CheckoutSubstitutionsPut extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
         try {
-            return this.createValidResponse(HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), map, 0));
+            return this.createValidResponse(HTTPRequest.executePut(secondMapping.getPath(), secondMapping.getGenericBody(), map));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -49,7 +49,7 @@ public class CheckoutSubstitutionsPut extends BaseService {
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.substitutions+json");
         map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
-        return HTTPRequest.executePut("", secondMapping.getPath(), "", secondMapping.getGenericBody(), map, 0);
+        return HTTPRequest.executePut(secondMapping.getPath(), secondMapping.getGenericBody(), map);
     }
 
     public CheckoutSubstitutionsPut(){

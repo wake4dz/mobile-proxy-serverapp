@@ -24,7 +24,7 @@ public class NutritionBySku extends BaseService {
         prepareResponse(storeId, skuId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null);
+        secondMapping.setGetMapping(this, null, null);
 
         try {
             return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
@@ -37,7 +37,7 @@ public class NutritionBySku extends BaseService {
         prepareResponse(storeId, skuId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null);
+        secondMapping.setGetMapping(this, null, null);
 
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }

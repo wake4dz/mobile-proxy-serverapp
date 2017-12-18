@@ -26,7 +26,7 @@ public class FulfillmentDelivery extends BaseService {
         prepareResponse(storeId, zipCode, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null);
+        secondMapping.setGetMapping(this, null, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.fulfillment-options+json");
@@ -44,7 +44,7 @@ public class FulfillmentDelivery extends BaseService {
         prepareResponse(storeId, zipCode, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null);
+        secondMapping.setGetMapping(this, null, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.fulfillment-options+json");

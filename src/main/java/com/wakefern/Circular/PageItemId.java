@@ -30,7 +30,7 @@ public class PageItemId extends BaseService {
         prepareResponse(chainId, storeId, circularId, pageId, itemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null);
+        secondMapping.setGetMapping(this, null, null);
 
         try {
         	String secondMappingPath = secondMapping.getPath();
@@ -46,7 +46,7 @@ public class PageItemId extends BaseService {
         prepareResponse(chainId, storeId, circularId, pageId, itemId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null);
+        secondMapping.setGetMapping(this, null, null);
         
         String jsonResp = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
         

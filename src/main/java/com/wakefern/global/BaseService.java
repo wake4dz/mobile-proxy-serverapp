@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 public class BaseService {
     protected HashMap<String, String> requestParams = null;
+    protected HashMap<String, String> queryParams   = null;
     
     protected Header requestHeader = null;
     protected String requestPath   = null;
@@ -149,12 +150,12 @@ public class BaseService {
     		switch (reqType) {
     			case DELETE:
     			case GET:
-    				sm.setGetMapping(this, requestParams);
+    				sm.setGetMapping(this, requestParams, queryParams);
     				break;
     				
     			case POST:
     			case PUT:
-    				sm.setPutMapping(this, data, requestParams);
+    				sm.setPutMapping(this, data, requestParams, queryParams);
     				break;
     		}
     		    		

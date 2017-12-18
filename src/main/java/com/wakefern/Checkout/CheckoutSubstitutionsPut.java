@@ -26,7 +26,7 @@ public class CheckoutSubstitutionsPut extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody, null);
+        secondMapping.setPutMapping(this, jsonBody, null, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.substitutions+json");
@@ -43,7 +43,7 @@ public class CheckoutSubstitutionsPut extends BaseService {
         prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody, null);
+        secondMapping.setPutMapping(this, jsonBody, null, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.substitutions+json");

@@ -53,7 +53,7 @@ public class CheckoutFulfillmentPut extends BaseService {
         prepareResposne(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody, null);
+        secondMapping.setPutMapping(this, jsonBody, null, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.fulfillment-slot+json");
@@ -70,7 +70,7 @@ public class CheckoutFulfillmentPut extends BaseService {
         prepareResposne(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody, null);
+        secondMapping.setPutMapping(this, jsonBody, null, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.fulfillment-slot+json");

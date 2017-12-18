@@ -5,6 +5,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.*;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class ServiceMappings {
 
@@ -55,11 +56,11 @@ public class ServiceMappings {
 	 * @param serviceObject
 	 * @param reqParams
 	 */
-	public void setGetMapping(Object serviceObject, Map<String, String> reqParams) {
+	public void setGetMapping(Object serviceObject, Map<String, String> reqParams, Map<String, String> queryParams) {
 		BaseService aService = (BaseService) serviceObject;
 		
 		if (aService.requestHeader instanceof MWGHeader) {
-			buildRequest(aService, reqParams);
+			buildGetRequest(aService, reqParams, queryParams);
 		}
 	}
 
@@ -70,12 +71,12 @@ public class ServiceMappings {
 	 * @param jsonBody
 	 * @param reqParams
 	 */
-	public void setPutMapping(Object serviceObject, String jsonBody, Map<String, String> reqParams) {
+	public void setPutMapping(Object serviceObject, String jsonBody, Map<String, String> reqParams, Map<String, String> queryParams) {
 		BaseService aService = (BaseService) serviceObject;
 		
 		if (aService.requestHeader instanceof MWGHeader) {
 			MWGBody mwgBody = new MWGBody("");
-			buildPutRequest(aService, mwgBody, jsonBody, reqParams);
+			buildPostRequest(aService, mwgBody, jsonBody, reqParams, queryParams);
 		}
 	}
 	
@@ -127,11 +128,11 @@ public class ServiceMappings {
 	 * @param jsonBody
 	 * @param reqParams
 	 */
-	private void buildPutRequest(BaseService serviceObject, MWGBody body, String jsonBody, Map<String, String> reqParams){
+	private void buildPostRequest(BaseService serviceObject, MWGBody body, String jsonBody, Map<String, String> reqParams, Map<String, String> queryParams) {
 		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
 		setgenericHeader(header.getMap());
 		
-		String reqURL = buildURL(serviceObject, reqParams);
+		String reqURL = buildURL(serviceObject, reqParams, queryParams);
 		
 		setPath(reqURL);
 		setGenericBody(body.Body(jsonBody));
@@ -143,30 +144,32 @@ public class ServiceMappings {
 	 * @param serviceObject
 	 * @param reqParams
 	 */
-	private void buildRequest(BaseService serviceObject, Map<String, String> reqParams) {
+	private void buildGetRequest(BaseService serviceObject, Map<String, String> reqParams, Map<String, String> queryParams) {
 		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
 		setgenericHeader(header.getMap());
 		
-		String reqURL = buildURL(serviceObject, reqParams);
+		String reqURL = buildURL(serviceObject, reqParams, queryParams);
 		
 		setPath(reqURL);
 	}
 	
 	/**
-	 * Figure out if the 'path' property of the Service Object contains any placeholder text.
-	 * If so, replace with matching request parameters.
+	 * Build the full URL. If the 'requestPath' property of the Service Object contains any placeholder text, replace with matching request parameters.
 	 * <p>
 	 * For Example:
 	 * <p>
-	 * If the 'path' contains a '{chainId}' placeholder, there should be a corresponding 'chainId' request parameter.
+	 * If the requestPath contains a '{chainId}' placeholder, there should be a corresponding 'chainId' request parameter.
 	 * 
-	 * @param {BaseService} serviceObj
-	 * @param {Map} reqParams
+	 * @param serviceObj
+	 * @param reqParams
+	 * @param queryParams
 	 * @return {String}
 	 */
-	private String buildURL(BaseService serviceObj, Map<String, String> reqParams) {
+	private String buildURL(BaseService serviceObj, Map<String, String> reqParams, Map<String, String> queryParams) {
 		String path = serviceObj.requestPath;
+		StringBuilder query = new StringBuilder();
 				
+		// Insert any Request Path parameters
 		if ((reqParams != null) && !reqParams.isEmpty()) {
 			if (reqParams.containsKey(MWGApplicationConstants.chainID)) {
 				path = path.replace("{" + MWGApplicationConstants.chainID + "}", reqParams.get(MWGApplicationConstants.chainID));
@@ -181,7 +184,28 @@ public class ServiceMappings {
 			}
 		}
 		
-		return (MWGApplicationConstants.baseURL + path);
+		// Build the query string, if there are any query parameters
+		if ((queryParams != null) && (!queryParams.isEmpty())) {
+			int len = queryParams.size();
+			int cnt = 0;
+			
+			query.append("?");
+			
+			for (Entry<String, String> pair : queryParams.entrySet()) {
+	            cnt++;
+	            
+	            query.append(pair.getKey() + "=" + pair.getValue());
+	            
+	            if (cnt < len) {
+	            		query.append("&");
+	            }
+	        }
+		
+		} else {
+			query.setLength(0);
+		}
+		
+		return (MWGApplicationConstants.baseURL + path + query);
 	}
 
 	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){

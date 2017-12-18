@@ -164,7 +164,7 @@ public class ProductsInCategory extends BaseService {
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
-            secondMapping.setGetMapping(this, null);
+            secondMapping.setGetMapping(this, null, null);
 
             String result = HTTPRequest.executeGet(this.requestPath, secondMapping.getgenericHeader(), 0);
             jsonArray[i] = result;
@@ -192,7 +192,7 @@ public class ProductsInCategory extends BaseService {
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
-            secondMapping.setGetMapping(this, null);
+            secondMapping.setGetMapping(this, null, null);
 
             String result = HTTPRequest.executeGet(this.requestPath, secondMapping.getgenericHeader(), 0);
             jsonArray[intTake] = result;

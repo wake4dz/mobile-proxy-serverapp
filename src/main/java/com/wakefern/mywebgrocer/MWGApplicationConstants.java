@@ -9,10 +9,15 @@ public class MWGApplicationConstants {
     
     public static String baseURL = fgProdBaseURL;
     
-    public static final String chainID = "chainId";
-    public static final String userID  = "userId";
-    public static final String storeID = "storeId";
+    public static final String chainID  = "chainId";
+    public static final String userID   = "userId";
+    public static final String storeID  = "storeId";
+    public static final String regionID = "region";
     
+    public static final String querySkip = "skip";
+    public static final String queryTake = "take";
+    public static final String querySvcs = "mwgService";
+        
     public static final String baseURLv1		= "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1	= "https://service.shoprite.com";
     public static final String authToken		= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
@@ -37,6 +42,7 @@ public class MWGApplicationConstants {
     			public static final String details = "application/vnd.mywebgrocer.store+json";
     			public static final String chains  = "application/vnd.mywebgrocer.chains+json";
     			public static final String regions = "application/vnd.mywebgrocer.stores-regions+json";
+    			public static final String cities  = "application/vnd.mywebgrocer.stores-region-cities+json";
     		}
     }
     
@@ -53,10 +59,11 @@ public class MWGApplicationConstants {
         }
         
         public static class Stores {
-        		public static final String storesPath      = "/stores/v7";
-        		public static final String detailsPath     = chainsPath + "/stores/{" + storeID + "}";
-        		public static final String listChainsPath  = "/chains";
-        		public static final String listRegionsPath = chainsPath + "/regions";
+        		public static final String stores  = "/stores/v7";
+        		public static final String details = chainsPath + "/stores/{" + storeID + "}";
+        		public static final String chains  = "/chains";
+        		public static final String regions = chainsPath + "/regions";
+        		public static final String cities  = chainsPath + "/regions/{region}/cities";
         		
             public static final String StoreLocator     = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";

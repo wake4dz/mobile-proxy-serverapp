@@ -65,7 +65,7 @@ public class CheckoutBillingAddressPut extends BaseService {
         String path = prepareResponse(userId, storeId, isMember, authToken);
         logger.log(Level.INFO, "[getInfoResponse]::JSON Address::Billing OBJ: ", jsonObject.toString());
 
-        secondMapping.setPutMapping(this, jsonObject.toString(), null);
+        secondMapping.setPutMapping(this, jsonObject.toString(), null, null);
 
         
        
@@ -100,7 +100,7 @@ public class CheckoutBillingAddressPut extends BaseService {
         String path = prepareResponse(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody, null);
+        secondMapping.setPutMapping(this, jsonBody, null, null);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentType, "application/vnd.mywebgrocer.address+json");

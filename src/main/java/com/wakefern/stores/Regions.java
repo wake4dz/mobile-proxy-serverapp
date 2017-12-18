@@ -9,7 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 
-@Path(MWGApplicationConstants.Requests.Stores.storesPath)
+@Path(MWGApplicationConstants.Requests.Stores.stores)
 public class Regions extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -20,13 +20,13 @@ public class Regions extends BaseService {
 	 * Constructor
 	 */
     public Regions() {
-        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.listRegionsPath;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.stores + MWGApplicationConstants.Requests.Stores.regions;
     }
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Stores.regions)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Stores.listRegionsPath)
+    @Path(MWGApplicationConstants.Requests.Stores.regions)
     public Response getChains(
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         

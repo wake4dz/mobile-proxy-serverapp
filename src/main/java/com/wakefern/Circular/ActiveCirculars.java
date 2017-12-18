@@ -44,7 +44,7 @@ public class ActiveCirculars extends BaseService{
         secondMapping.setGetMapping(this, null);
 
         try {
-        	String resp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        	String resp = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
         	ObjectMapper objMapper = new ObjectMapper();
         	ActiveCircular[] acArr = objMapper.readValue(resp, ActiveCircular[].class);
         	for(ActiveCircular ac : acArr){
@@ -69,7 +69,7 @@ public class ActiveCirculars extends BaseService{
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null);
 
-        return HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        return HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
     public ActiveCirculars(){

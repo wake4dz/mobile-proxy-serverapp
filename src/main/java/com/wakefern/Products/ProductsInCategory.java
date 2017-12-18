@@ -166,7 +166,7 @@ public class ProductsInCategory extends BaseService {
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setGetMapping(this, null);
 
-            String result = HTTPRequest.executeGetJSON(this.requestPath, secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGet(this.requestPath, secondMapping.getgenericHeader(), 0);
             jsonArray[i] = result;
         }
 
@@ -194,7 +194,7 @@ public class ProductsInCategory extends BaseService {
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setGetMapping(this, null);
 
-            String result = HTTPRequest.executeGetJSON(this.requestPath, secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGet(this.requestPath, secondMapping.getgenericHeader(), 0);
             jsonArray[intTake] = result;
         }
         return Arrays.deepToString(jsonArray);

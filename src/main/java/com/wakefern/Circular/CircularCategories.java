@@ -28,7 +28,7 @@ public class CircularCategories extends BaseService{
         secondMapping.setGetMapping(this, null);
 
         try {
-            return this.createValidResponse(HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
         } catch (Exception e){
             return this.createErrorResponse(e);
         }
@@ -40,7 +40,7 @@ public class CircularCategories extends BaseService{
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null);
 
-        return  HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        return  HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
     public CircularCategories(){

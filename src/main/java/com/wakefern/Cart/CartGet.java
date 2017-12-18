@@ -49,7 +49,7 @@ public class CartGet extends BaseService {
 		secondMapping.setGetMapping(this, null);
 
 		try {
-			String cartResp = HTTPRequest.executeGetJSON( secondMapping.getPath(), secondMapping.getgenericHeader(),0);
+			String cartResp = HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader(),0);
 			try {
 				if (shortStoreId.isEmpty()) {
 					return this.createValidResponse(cartResp);
@@ -172,7 +172,7 @@ public class CartGet extends BaseService {
 		ServiceMappings secondMapping = new ServiceMappings();
 		secondMapping.setGetMapping(this, null);
 		
-		String getJsonResp = HTTPRequest.executeGetJSON(secondMapping.getPath(),
+		String getJsonResp = HTTPRequest.executeGet(secondMapping.getPath(),
 				secondMapping.getgenericHeader(), 0);
 		return getJsonResp;
 	}

@@ -46,7 +46,7 @@ public class ShoppingListItemsGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null);
 
-        String listResp = HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
+        String listResp = HTTPRequest.executeGet(path, secondMapping.getgenericHeader(), 0);
         //return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0));
         return getItemLocatorForNonSRFHList(shortStoreId, listResp);
     }
@@ -314,7 +314,7 @@ public class ShoppingListItemsGet extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null);
         
-        return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
+        return HTTPRequest.executeGet(path, secondMapping.getgenericHeader(), 0);
     }
 
     public String prepareResponse(String userId, String storeId, String listId, String take, String skip, String fq, String isMember, String authToken){

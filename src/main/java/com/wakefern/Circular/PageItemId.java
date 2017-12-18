@@ -34,7 +34,7 @@ public class PageItemId extends BaseService {
 
         try {
         	String secondMappingPath = secondMapping.getPath();
-        	String jsonResp = HTTPRequest.executeGetJSON(secondMappingPath, secondMapping.getgenericHeader(), 0);
+        	String jsonResp = HTTPRequest.executeGet(secondMappingPath, secondMapping.getgenericHeader(), 0);
             return this.createValidResponse(jsonResp);
         } catch (Exception e){
         	logger.log(Level.SEVERE, "[getInfoResponse]::Exception getInfoResponse ", e);
@@ -48,7 +48,7 @@ public class PageItemId extends BaseService {
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null);
         
-        String jsonResp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        String jsonResp = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
         
         return jsonResp;
     }

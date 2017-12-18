@@ -64,7 +64,7 @@ public class Categories extends BaseService {
                     ServiceMappings secondMapping = new ServiceMappings();
                     secondMapping.setServiceMappingv1(this, null);
 
-                    String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
+                    String subCategoryXml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
                     XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
                     return this.createValidResponse(subCategoryJson.convert(subCategoryXml));
                 } catch (Exception e){
@@ -83,7 +83,7 @@ public class Categories extends BaseService {
                 ServiceMappings secondMapping = new ServiceMappings();
                 secondMapping.setServiceMappingv1(this, null);
 
-                String subCategoryXml = HTTPRequest.executeGetJSON(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
+                String subCategoryXml = HTTPRequest.executeGet(secondMapping.getServicePath(), secondMapping.getgenericHeader(), 0);
                 XMLtoJSONConverter subCategoryJson = new XMLtoJSONConverter();
                 String parsedJson = subCategoryJson.convert(subCategoryXml);
 

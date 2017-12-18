@@ -51,7 +51,7 @@ public class CircularPages extends BaseService {
         mwgHeader.authenticate(authToken, "application/vnd.mywebgrocer.circular-pages-full+json", "application/vnd.mywebgrocer.circular-pages-full+json");
 
         try {
-        	String respStr = HTTPRequest.executeGetJSON(path, mwgHeader.getMap(), 0);
+        	String respStr = HTTPRequest.executeGet(path, mwgHeader.getMap(), 0);
         	
         	ObjectMapper objMapper = new ObjectMapper();
         	CircularPagesDetail cpd = objMapper.readValue(respStr, CircularPagesDetail.class);

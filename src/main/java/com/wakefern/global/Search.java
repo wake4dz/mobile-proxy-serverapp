@@ -51,7 +51,7 @@ public class Search extends BaseService {
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setGetMapping(this, null);
 
-            String result = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
             jsonArray[i] = result;
         }
 
@@ -75,7 +75,7 @@ public class Search extends BaseService {
             ServiceMappings secondMapping = new ServiceMappings();
             secondMapping.setGetMapping(this, null);
 
-            String result = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
             jsonArray[intTake] = result;
         }
         return Arrays.deepToString(jsonArray);

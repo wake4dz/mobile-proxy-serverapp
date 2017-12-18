@@ -46,7 +46,7 @@ public class CircularsAll extends BaseService{
         secondMapping.setGetMapping(this, null);
 
         try {
-        	String circularResp = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        	String circularResp = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
         	ObjectMapper mapper = new ObjectMapper();
         	CircularsAllDAO[] circularAllDaoArr = mapper.readValue(circularResp, CircularsAllDAO[].class);
         	
@@ -113,7 +113,7 @@ public class CircularsAll extends BaseService{
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null);
 
-        return HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
     public CircularsAll(){

@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 @Path(MWGApplicationConstants.Requests.Stores.storesPath)
-public class Chains extends BaseService {
+public class Regions extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,14 +19,14 @@ public class Chains extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public Chains() {
-        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.listChainsPath;
+    public Regions() {
+        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.listRegionsPath;
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Stores.chains)
+    @Consumes(MWGApplicationConstants.Headers.Stores.regions)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Stores.listChainsPath)
+    @Path(MWGApplicationConstants.Requests.Stores.listRegionsPath)
     public Response getChains(
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
@@ -52,7 +52,7 @@ public class Chains extends BaseService {
 	 * @throws IOException
 	 */
     private String makeRequest(String sessionToken) throws Exception, IOException {
-    		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.chains, ApplicationConstants.jsonResponseType, sessionToken);
+    		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.regions, ApplicationConstants.jsonResponseType, sessionToken);
         return this.mwgRequest(BaseService.ReqType.GET, null);
     }
 }

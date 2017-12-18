@@ -13,6 +13,7 @@ public class MWGApplicationConstants {
     public static final String userID   = "userId";
     public static final String storeID  = "storeId";
     public static final String regionID = "region";
+    public static final String zipCode  = "postalCode";
     
     public static final String querySkip          = "skip";
     public static final String queryTake          = "take";
@@ -52,11 +53,12 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class Stores {
-    			public static final String details = "application/vnd.mywebgrocer.store+json";
-    			public static final String chains  = "application/vnd.mywebgrocer.chains+json";
-    			public static final String regions = "application/vnd.mywebgrocer.stores-regions+json";
-    			public static final String cities  = "application/vnd.mywebgrocer.stores-region-cities+json";
-    			public static final String stores  = "application/vnd.mywebgrocer.stores+json";
+    			public static final String details  = "application/vnd.mywebgrocer.store+json";
+    			public static final String chains   = "application/vnd.mywebgrocer.chains+json";
+    			public static final String regions  = "application/vnd.mywebgrocer.stores-regions+json";
+    			public static final String cities   = "application/vnd.mywebgrocer.stores-region-cities+json";
+    			public static final String stores   = "application/vnd.mywebgrocer.stores+json";
+    			public static final String delivers = "application/vnd.mywebgrocer.store-delivers-to+json";
     		}
     }
     
@@ -79,8 +81,9 @@ public class MWGApplicationConstants {
         		public static final String regions = chainsPath + "/regions";
         		public static final String stores  = chainsPath + "/stores";
         		
-        		public static final String cities  = regions + "/{region}/cities";
-        		public static final String details = stores  + "/{" + storeID + "}";
+        		public static final String cities   = regions + "/{" + regionID + "}/cities";
+        		public static final String details  = stores  + "/{" + storeID + "}";
+        		public static final String delivers = details + "/delivers-to/{" + zipCode + "}";
         		
             public static final String StoreLocator     = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";

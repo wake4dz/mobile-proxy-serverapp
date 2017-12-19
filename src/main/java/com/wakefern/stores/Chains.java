@@ -28,7 +28,7 @@ public class Chains extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.Stores.chains)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.chains)
-    public Response getChains(
+    public Response getResponse(
     		@QueryParam(MWGApplicationConstants.queryServices) String services,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         

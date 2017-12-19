@@ -28,7 +28,7 @@ public class Cities extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.Stores.cities)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.cities)
-    public Response getCities(
+    public Response getResponse(
     		@PathParam(MWGApplicationConstants.regionID) String regionID,
     		@PathParam(MWGApplicationConstants.chainID) String chainID,
     		@QueryParam(MWGApplicationConstants.queryServices) String services,

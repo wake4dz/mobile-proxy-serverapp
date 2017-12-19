@@ -32,7 +32,7 @@ public class AuthenticateUI extends BaseService {
     @POST
     @Consumes(ApplicationConstants.jsonAcceptType)
     @Produces("application/*")
-    public Response getInfoResponse(String jsonBody) throws Exception, IOException {
+    public Response getResponse(String jsonBody) throws Exception, IOException {
     	
     		// The UI can send an optional boolean config setting called "useStaging".
     		// If "useStaging" is present and TRUE, set the Base URL to the Staging URL.

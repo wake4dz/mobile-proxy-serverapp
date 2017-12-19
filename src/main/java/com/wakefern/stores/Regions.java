@@ -28,7 +28,7 @@ public class Regions extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.Stores.regions)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.regions)
-    public Response getRegions(
+    public Response getResponse(
     		@PathParam(MWGApplicationConstants.chainID) String chainID,
     		@QueryParam(MWGApplicationConstants.queryServices) String services,
     		@QueryParam(MWGApplicationConstants.querySkip) String skip,

@@ -30,7 +30,7 @@ public class Details extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.Stores.details)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.details)
-    public Response getInfoResponse(
+    public Response getResponse(
     		@PathParam(MWGApplicationConstants.chainID) String chainId, 
     		@PathParam(MWGApplicationConstants.storeID) String storeId,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {

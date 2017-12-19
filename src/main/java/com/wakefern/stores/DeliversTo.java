@@ -30,7 +30,7 @@ public class DeliversTo extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.Stores.delivers)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.delivers)
-    public Response getDeliversToInfo(
+    public Response getResponse(
     		@PathParam(MWGApplicationConstants.chainID) String chainID, 
     		@PathParam(MWGApplicationConstants.storeID) String storeID,
     		@PathParam(MWGApplicationConstants.zipCode) String zipCode,

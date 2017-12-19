@@ -40,7 +40,7 @@ public class AuthenticateUser extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.Account.login)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Account.login)
-    public Response getInfoResponse(
+    public Response getResponse(
     		@PathParam(MWGApplicationConstants.chainID) String chainId, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 
     		String jsonBody) {    

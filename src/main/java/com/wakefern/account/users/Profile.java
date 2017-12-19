@@ -19,7 +19,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 @Path(MWGApplicationConstants.Requests.Account.acctPath)
-public class ProfileGet extends BaseService {
+public class Profile extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("ProfileGet");
 	
@@ -30,7 +30,7 @@ public class ProfileGet extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public ProfileGet() {
+    public Profile() {
         this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.profile;
     } 
 
@@ -38,7 +38,7 @@ public class ProfileGet extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.Account.fullProfile)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Account.profile)
-    public Response getFullProfile(
+    public Response getResponse(
     		@PathParam(MWGApplicationConstants.chainID) String chainID, 
     		@PathParam(MWGApplicationConstants.userID) String userID, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 

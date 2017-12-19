@@ -7,7 +7,9 @@ public class MWGApplicationConstants {
     public static final String fgProdBaseURL  = "https://api.thefreshgrocer.com/api";                 // Prod
     public static final String fgStageBaseURL = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // Staging
     
-    public static String baseURL = fgProdBaseURL;
+    // TODO: CHANGE TO PROD BEFORE RELEASING!!!
+    //
+    public static final String baseURL = fgStageBaseURL;
     
     public static final String pathChainID     = "chainId";
     public static final String pathUserID      = "userId";

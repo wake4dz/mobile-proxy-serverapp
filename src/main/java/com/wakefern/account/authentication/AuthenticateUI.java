@@ -33,16 +33,7 @@ public class AuthenticateUI extends BaseService {
     @Consumes(ApplicationConstants.jsonAcceptType)
     @Produces("application/*")
     public Response getResponse(String jsonBody) throws Exception, IOException {
-    	
-    		// The UI can send an optional boolean config setting called "useStaging".
-    		// If "useStaging" is present and TRUE, set the Base URL to the Staging URL.
-    		// Otherwise, use the Production URL.
-    		JSONObject postDataJSON = new JSONObject(jsonBody);
-    		boolean    useStaging   = (postDataJSON.has("useStaging")) ? postDataJSON.getBoolean("useStaging") : false;
-    		
-    		// TODO: change to 'useStaging' before releasing!
-    		MWGApplicationConstants.baseURL = (true) ? MWGApplicationConstants.fgStageBaseURL : MWGApplicationConstants.fgProdBaseURL;
-    	
+    	    	
         try {
         		String jsonResp = makeRequest();
         		System.out.println("com.wakefern.authentication.Authentication::getInfoResponse() - " + jsonResp);

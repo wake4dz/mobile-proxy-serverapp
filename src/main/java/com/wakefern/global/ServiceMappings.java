@@ -182,6 +182,22 @@ public class ServiceMappings {
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathStoreID)) {
 				path = path.replace("{" + MWGApplicationConstants.pathStoreID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathStoreID));
 			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathRegionID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathRegionID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathRegionID));
+			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathZipCode)) {
+				path = path.replace("{" + MWGApplicationConstants.pathZipCode + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathZipCode));
+			}
+
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathParentCatID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathParentCatID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathParentCatID));
+			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathCategoryID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathCategoryID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathCategoryID));
+			}
 		}
 		
 		// Build the query string, if there are any query parameters

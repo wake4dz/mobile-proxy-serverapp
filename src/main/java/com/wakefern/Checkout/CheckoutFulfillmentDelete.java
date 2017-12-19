@@ -26,7 +26,7 @@ public class CheckoutFulfillmentDelete extends BaseService {
         prepareResposne(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.checkout-results+json");
@@ -44,7 +44,7 @@ public class CheckoutFulfillmentDelete extends BaseService {
         prepareResposne(userId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.checkout-results+json");

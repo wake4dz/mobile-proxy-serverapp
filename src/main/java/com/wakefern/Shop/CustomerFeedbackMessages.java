@@ -26,7 +26,7 @@ public class CustomerFeedbackMessages extends BaseService {
         prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, jsonBody, null, null);
+        mapping.setPutMapping(this, jsonBody);
 
         try {
             return this.createValidResponse(HTTPRequest.executePostJSON(mapping.getPath(), mapping.getGenericBody(), mapping.getgenericHeader(), 0));
@@ -39,7 +39,7 @@ public class CustomerFeedbackMessages extends BaseService {
         prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings mapping = new ServiceMappings();
-        mapping.setPutMapping(this, jsonBody, null, null);
+        mapping.setPutMapping(this, jsonBody);
 
         return (HTTPRequest.executePostJSON(mapping.getPath(), mapping.getGenericBody(), mapping.getgenericHeader(), 0));
     }

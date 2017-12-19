@@ -48,7 +48,7 @@ public class RecommendProducts extends BaseService {
         prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
 
         String resp = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
 

@@ -46,7 +46,7 @@ public class CartGet extends BaseService {
 		prepareResponse(userId, storeId, isMember, authToken);
 
 		ServiceMappings secondMapping = new ServiceMappings();
-		secondMapping.setGetMapping(this, null, null);
+		secondMapping.setGetMapping(this);
 
 		try {
 			String cartResp = HTTPRequest.executeGet( secondMapping.getPath(), secondMapping.getgenericHeader(),0);
@@ -170,7 +170,7 @@ public class CartGet extends BaseService {
 		prepareResponse(userId, storeId, isMember, authToken);
 
 		ServiceMappings secondMapping = new ServiceMappings();
-		secondMapping.setGetMapping(this, null, null);
+		secondMapping.setGetMapping(this);
 		
 		String getJsonResp = HTTPRequest.executeGet(secondMapping.getPath(),
 				secondMapping.getgenericHeader(), 0);

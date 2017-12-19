@@ -29,7 +29,7 @@ public class FulfillmentDeliveryDates extends BaseService {
         prepareResponse(storeId, zipCode, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.fulfillment-dates+json");
@@ -53,7 +53,7 @@ public class FulfillmentDeliveryDates extends BaseService {
         prepareResponse(storeId, zipCode, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
 
         Map<String, String> map = new HashMap();
         map.put(ApplicationConstants.Requests.Header.contentAccept, "application/vnd.mywebgrocer.fulfillment-dates+json");

@@ -38,7 +38,7 @@ public class DuplicateList extends BaseService {
         }
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
 
         //Get items from first list - max and min hardcoded for take and skip respectively
         ShoppingListItemsGet shoppingListItemsGet = new ShoppingListItemsGet();

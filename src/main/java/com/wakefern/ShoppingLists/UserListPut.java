@@ -28,7 +28,7 @@ public class UserListPut extends BaseService {
         prepareResponse(chainId, userId, listId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody, null, null);
+        secondMapping.setPutMapping(this, jsonBody);
 
         try {
             return this.createValidResponse(HTTPRequest.executePut(secondMapping.getPath(), secondMapping.getGenericBody(), secondMapping.getgenericHeader()));
@@ -41,7 +41,7 @@ public class UserListPut extends BaseService {
         prepareResponse(chainId, userId, listId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setPutMapping(this, jsonBody, null, null);
+        secondMapping.setPutMapping(this, jsonBody);
 
         return HTTPRequest.executePut(secondMapping.getPath(), secondMapping.getGenericBody(), secondMapping.getgenericHeader());
     }

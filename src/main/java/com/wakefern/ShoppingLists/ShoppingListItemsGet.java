@@ -44,7 +44,7 @@ public class ShoppingListItemsGet extends BaseService {
         String path = prepareResponse(userId, storeId, listId, take, skip, fq, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
 
         String listResp = HTTPRequest.executeGet(path, secondMapping.getgenericHeader(), 0);
         //return this.createValidResponse(HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0));
@@ -312,7 +312,7 @@ public class ShoppingListItemsGet extends BaseService {
         }
 
         ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this, null, null);
+        secondMapping.setGetMapping(this);
         
         return HTTPRequest.executeGet(path, secondMapping.getgenericHeader(), 0);
     }

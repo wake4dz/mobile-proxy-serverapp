@@ -1,4 +1,4 @@
-package com.wakefern.Products;
+package com.wakefern.products;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -13,15 +13,15 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 8/25/16.
  */
-@Path(ApplicationConstants.Requests.Categories.ProductCategory)
-public class FeaturedInCategory extends BaseService {
+@Path(ApplicationConstants.Requests.Categories.ProductsStore)
+public class FeaturedInStore extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{categoryId}/store/{storeId}/featured")
-    public Response getInfoResponse(@PathParam("categoryId") String categoryId, @PathParam("storeId") String storeId,
+    @Path("/{storeId}/featured")
+    public Response getInfoResponse(@PathParam("storeId") String storeId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(categoryId, storeId, isMember, authToken);
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null, null);
@@ -33,8 +33,8 @@ public class FeaturedInCategory extends BaseService {
         }
     }
 
-    public String getInfo(String categoryId, String storeId, String isMember, String authToken) throws Exception, IOException {
-        prepareResponse(categoryId, storeId, isMember, authToken);
+    public String getInfo(String storeId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null, null);
@@ -42,18 +42,16 @@ public class FeaturedInCategory extends BaseService {
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
-    public FeaturedInCategory(){
+    public FeaturedInStore(){
         this.requestHeader = new MWGHeader();
     }
 
-    private void prepareResponse(String categoryId, String storeId, String isMember, String authToken){
+    private void prepareResponse(String storeId, String isMember, String authToken){
         this.requestToken = authToken;
-        this.requestPath = ApplicationConstants.Requests.Categories.ProductCategory
-                + ApplicationConstants.StringConstants.backSlash + categoryId + ApplicationConstants.StringConstants.store
+        this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                 + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured;
         if(!isMember.isEmpty()){
-            this.requestPath = ApplicationConstants.Requests.Categories.ProductCategory
-                    + ApplicationConstants.StringConstants.backSlash + categoryId + ApplicationConstants.StringConstants.store
+            this.requestPath = ApplicationConstants.Requests.Categories.ProductsStore
                     + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.featured
                     + ApplicationConstants.StringConstants.isMember;
         }

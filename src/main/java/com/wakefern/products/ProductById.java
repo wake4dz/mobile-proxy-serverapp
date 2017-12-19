@@ -1,4 +1,4 @@
-package com.wakefern.Products;
+package com.wakefern.products;
 
 import com.wakefern.Circular.PageItemId;
 import com.wakefern.Circular.RetrieveCircular;

@@ -1,4 +1,4 @@
-package com.wakefern.Products;
+package com.wakefern.products;
 
 import com.wakefern.global.*;
 import com.wakefern.mywebgrocer.models.MWGHeader;

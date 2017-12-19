@@ -1,4 +1,4 @@
-package com.wakefern.Products;
+package com.wakefern.products;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -13,15 +13,15 @@ import java.io.IOException;
 /**
  * Created by zacpuste on 8/25/16.
  */
-@Path(ApplicationConstants.Requests.Categories.ProductId)
-public class NutritionByProductId extends BaseService {
+@Path(ApplicationConstants.Requests.Categories.ProductCategory)
+public class SpecialInCategory extends BaseService {
     @GET
     @Produces("application/*")
-    @Path("/{productId}/store/{storeId}/nutrition")
-    public Response getInfoResponse(@PathParam("productId") String productId, @PathParam("storeId") String storeId,
+    @Path("/{categoryId}/store/{storeId}/special")
+    public Response getInfoResponse(@PathParam("categoryId") String categoryId, @PathParam("storeId") String storeId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-        prepareResponse(productId, storeId, isMember, authToken);
+        prepareResponse(categoryId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null, null);
@@ -33,8 +33,8 @@ public class NutritionByProductId extends BaseService {
         }
     }
 
-    public String getInfo(String productId, String storeId, String isMember, String authToken) throws Exception, IOException {
-        prepareResponse(productId, storeId, isMember, authToken);
+    public String getInfo(String categoryId, String storeId, String isMember, String authToken) throws Exception, IOException {
+        prepareResponse(categoryId, storeId, isMember, authToken);
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setGetMapping(this, null, null);
@@ -42,19 +42,19 @@ public class NutritionByProductId extends BaseService {
         return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
     }
 
-    public NutritionByProductId(){
+    public SpecialInCategory(){
         this.requestHeader = new MWGHeader();
     }
 
-    private void prepareResponse(String productId, String storeId, String isMember, String authToken){
+    private void prepareResponse(String categoryId, String storeId, String isMember, String authToken){
         this.requestToken = authToken;
-        this.requestPath = ApplicationConstants.Requests.Categories.ProductId
-                + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.nutrition;
+        this.requestPath = ApplicationConstants.Requests.Categories.ProductCategory
+                + ApplicationConstants.StringConstants.backSlash + categoryId + ApplicationConstants.StringConstants.store
+                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.special;
         if(!isMember.isEmpty()){
-            this.requestPath = ApplicationConstants.Requests.Categories.ProductId
-                    + ApplicationConstants.StringConstants.backSlash + productId + ApplicationConstants.StringConstants.store
-                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.nutrition
+            this.requestPath = ApplicationConstants.Requests.Categories.ProductCategory
+                    + ApplicationConstants.StringConstants.backSlash + categoryId + ApplicationConstants.StringConstants.store
+                    + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.special
                     + ApplicationConstants.StringConstants.isMember;
         }
     }

@@ -9,11 +9,11 @@ public class MWGApplicationConstants {
     
     public static String baseURL = fgProdBaseURL;
     
-    public static final String chainID  = "chainId";
-    public static final String userID   = "userId";
-    public static final String storeID  = "storeId";
-    public static final String regionID = "region";
-    public static final String zipCode  = "postalCode";
+    public static final String pathChainID  = "chainId";
+    public static final String pathUserID   = "userId";
+    public static final String pathStoreID  = "storeId";
+    public static final String pathRegionID = "region";
+    public static final String pathZipCode  = "postalCode";
     
     public static final String querySkip          = "skip";
     public static final String queryTake          = "take";
@@ -30,15 +30,18 @@ public class MWGApplicationConstants {
     public static final String queryStoreOwnerID  = "storeownerId";
     public static final String queryStoreStatus   = "storeStatus";
     public static final String queryUnitOfMeasure = "unitOfMeasure";
+    public static final String queryIsMember      = "isMember";
+    public static final String queryProdsPerCat	 = "productPerCategory";
+    public static final String querySaleOnlyProds = "saleOnly";
+    public static final String queryUserID        = "userId";
     
-    
-    public static final String baseURLv1		= "https://api.shoprite.com/api/v1";
-    public static final String serviceURLv1	= "https://service.shoprite.com";
-    public static final String authToken		= "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
-    public static final String appToken		= "62081B21-0885-4544-8849-326195C8F9CD";
+    public static final String baseURLv1	   = "https://api.shoprite.com/api/v1";
+    public static final String serviceURLv1 = "https://service.shoprite.com";
+    public static final String authToken	   = "FE8803F0-D4FA-4AFF-B688-1A3BD5915FAA";
+    public static final String appToken     = "62081B21-0885-4544-8849-326195C8F9CD";
 
-    private static final String chainsPath = "/chains/{" + chainID + "}";	
-    private static final String usersPath  = "/users/{"  + userID  + "}";	
+    private static final String chainsPath = "/chains/{" + pathChainID + "}";	
+    private static final String usersPath  = "/users/{"  + pathUserID  + "}";	
     
     public static class Headers {
     		public static class Params {
@@ -60,6 +63,10 @@ public class MWGApplicationConstants {
     			public static final String stores   = "application/vnd.mywebgrocer.stores+json";
     			public static final String delivers = "application/vnd.mywebgrocer.store-delivers-to+json";
     		}
+    		
+    		public static class Products {
+    			public static final String categories = "application/vnd.mywebgrocer.category+json";
+    		}
     }
     
     public static class Requests {
@@ -67,7 +74,7 @@ public class MWGApplicationConstants {
     			public static final String acctPath = "/account/v7";
     			
     			public static final String login   = chainsPath + "/authentication";  // Log in a registered user
-    			public static final String profile = chainsPath + usersPath;   // Get a user's profile data
+    			public static final String profile = chainsPath + usersPath;
     		}
     	
         public static class Authentication {
@@ -81,12 +88,21 @@ public class MWGApplicationConstants {
         		public static final String regions = chainsPath + "/regions";
         		public static final String stores  = chainsPath + "/stores";
         		
-        		public static final String cities   = regions + "/{" + regionID + "}/cities";
-        		public static final String details  = stores  + "/{" + storeID + "}";
-        		public static final String delivers = details + "/delivers-to/{" + zipCode + "}";
+        		public static final String cities   = regions + "/{" + pathRegionID + "}/cities";
+        		public static final String details  = stores  + "/{" + pathStoreID + "}";
+        		public static final String delivers = details + "/delivers-to/{" + pathZipCode + "}";
         		
             public static final String StoreLocator     = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";
+        }
+        
+        public static class Products {
+        		private static final String storePath = "/store/" + "{" + pathStoreID + "}";
+        		private static final String catsPath  = "/categories"; 
+        		
+        		public static final String productPath = "product/v7";
+        		
+        		public static final String categories = catsPath + storePath;
         }
         
         // ^^^ NEW STUFF ^^^ \\

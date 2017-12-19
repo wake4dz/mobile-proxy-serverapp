@@ -1,4 +1,4 @@
-package com.wakefern.Products;
+package com.wakefern.products;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;

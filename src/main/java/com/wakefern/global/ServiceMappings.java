@@ -171,16 +171,16 @@ public class ServiceMappings {
 				
 		// Insert any Request Path parameters
 		if ((reqParams != null) && !reqParams.isEmpty()) {
-			if (reqParams.containsKey(MWGApplicationConstants.chainID)) {
-				path = path.replace("{" + MWGApplicationConstants.chainID + "}", reqParams.get(MWGApplicationConstants.chainID));
+			if (reqParams.containsKey(MWGApplicationConstants.pathChainID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathChainID + "}", reqParams.get(MWGApplicationConstants.pathChainID));
 			}
 			
-			if (reqParams.containsKey(MWGApplicationConstants.userID)) {
-				path = path.replace("{" + MWGApplicationConstants.userID + "}", reqParams.get(MWGApplicationConstants.userID));
+			if (reqParams.containsKey(MWGApplicationConstants.pathUserID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathUserID + "}", reqParams.get(MWGApplicationConstants.pathUserID));
 			}
 			
-			if (reqParams.containsKey(MWGApplicationConstants.storeID)) {
-				path = path.replace("{" + MWGApplicationConstants.storeID + "}", reqParams.get(MWGApplicationConstants.storeID));
+			if (reqParams.containsKey(MWGApplicationConstants.pathStoreID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathStoreID + "}", reqParams.get(MWGApplicationConstants.pathStoreID));
 			}
 		}
 		

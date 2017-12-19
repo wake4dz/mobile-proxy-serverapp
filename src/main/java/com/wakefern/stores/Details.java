@@ -31,8 +31,8 @@ public class Details extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.details)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.chainID) String chainId, 
-    		@PathParam(MWGApplicationConstants.storeID) String storeId,
+    		@PathParam(MWGApplicationConstants.pathChainID) String chainId, 
+    		@PathParam(MWGApplicationConstants.pathStoreID) String storeId,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
         try {
@@ -67,8 +67,8 @@ public class Details extends BaseService {
     		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.details, ApplicationConstants.jsonResponseType, sessionToken);
     		this.requestParams = new HashMap<String, String>();
     	
-		this.requestParams.put(MWGApplicationConstants.chainID, chainId);
-		this.requestParams.put(MWGApplicationConstants.storeID, storeId);
+		this.requestParams.put(MWGApplicationConstants.pathChainID, chainId);
+		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeId);
 		
         return this.mwgRequest(BaseService.ReqType.GET, null);
     }

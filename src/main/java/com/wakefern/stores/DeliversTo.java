@@ -31,17 +31,17 @@ public class DeliversTo extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.delivers)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.chainID) String chainID, 
-    		@PathParam(MWGApplicationConstants.storeID) String storeID,
-    		@PathParam(MWGApplicationConstants.zipCode) String zipCode,
+    		@PathParam(MWGApplicationConstants.pathChainID) String chainID, 
+    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
+    		@PathParam(MWGApplicationConstants.pathZipCode) String zipCode,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.delivers, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 	
-		this.requestParams.put(MWGApplicationConstants.chainID, chainID);
-		this.requestParams.put(MWGApplicationConstants.storeID, storeID);
-		this.requestParams.put(MWGApplicationConstants.zipCode, zipCode);
+		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
+		this.requestParams.put(MWGApplicationConstants.pathZipCode, zipCode);
 	
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

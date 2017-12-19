@@ -1,4 +1,4 @@
-package com.wakefern.Products;
+package com.wakefern.products;
 
 import com.wakefern.Wakefern.ItemLocatorArray;
 import com.wakefern.Wakefern.WakefernAuth;

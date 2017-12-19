@@ -122,7 +122,7 @@ public class BaseService {
      * @param jsonResponse
      * @return
      */
-    protected Response createValidResponse(String jsonResponse){
+    protected Response createValidResponse(String jsonResponse) {
     		return Response.status(200).entity(jsonResponse).build();
     }
         
@@ -150,12 +150,12 @@ public class BaseService {
     		switch (reqType) {
     			case DELETE:
     			case GET:
-    				sm.setGetMapping(this, requestParams, queryParams);
+    				sm.setGetMapping(this);
     				break;
     				
     			case POST:
     			case PUT:
-    				sm.setPutMapping(this, data, requestParams, queryParams);
+    				sm.setPutMapping(this, data);
     				break;
     		}
     		    		

@@ -56,11 +56,11 @@ public class ServiceMappings {
 	 * @param serviceObject
 	 * @param reqParams
 	 */
-	public void setGetMapping(Object serviceObject, Map<String, String> reqParams, Map<String, String> queryParams) {
+	public void setGetMapping(Object serviceObject) {
 		BaseService aService = (BaseService) serviceObject;
 		
 		if (aService.requestHeader instanceof MWGHeader) {
-			buildGetRequest(aService, reqParams, queryParams);
+			buildGetRequest(aService);
 		}
 	}
 
@@ -71,12 +71,12 @@ public class ServiceMappings {
 	 * @param jsonBody
 	 * @param reqParams
 	 */
-	public void setPutMapping(Object serviceObject, String jsonBody, Map<String, String> reqParams, Map<String, String> queryParams) {
+	public void setPutMapping(Object serviceObject, String jsonBody) {
 		BaseService aService = (BaseService) serviceObject;
 		
 		if (aService.requestHeader instanceof MWGHeader) {
 			MWGBody mwgBody = new MWGBody("");
-			buildPostRequest(aService, mwgBody, jsonBody, reqParams, queryParams);
+			buildPostRequest(aService, mwgBody, jsonBody);
 		}
 	}
 	
@@ -128,11 +128,11 @@ public class ServiceMappings {
 	 * @param jsonBody
 	 * @param reqParams
 	 */
-	private void buildPostRequest(BaseService serviceObject, MWGBody body, String jsonBody, Map<String, String> reqParams, Map<String, String> queryParams) {
+	private void buildPostRequest(BaseService serviceObject, MWGBody body, String jsonBody) {
 		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
 		setgenericHeader(header.getMap());
 		
-		String reqURL = buildURL(serviceObject, reqParams, queryParams);
+		String reqURL = buildURL(serviceObject);
 		
 		setPath(reqURL);
 		setGenericBody(body.Body(jsonBody));
@@ -144,11 +144,11 @@ public class ServiceMappings {
 	 * @param serviceObject
 	 * @param reqParams
 	 */
-	private void buildGetRequest(BaseService serviceObject, Map<String, String> reqParams, Map<String, String> queryParams) {
+	private void buildGetRequest(BaseService serviceObject) {
 		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
 		setgenericHeader(header.getMap());
 		
-		String reqURL = buildURL(serviceObject, reqParams, queryParams);
+		String reqURL = buildURL(serviceObject);
 		
 		setPath(reqURL);
 	}
@@ -165,39 +165,46 @@ public class ServiceMappings {
 	 * @param queryParams
 	 * @return {String}
 	 */
-	private String buildURL(BaseService serviceObj, Map<String, String> reqParams, Map<String, String> queryParams) {
+	private String buildURL(BaseService serviceObj) {
 		String path = serviceObj.requestPath;
 		StringBuilder query = new StringBuilder();
 				
 		// Insert any Request Path parameters
-		if ((reqParams != null) && !reqParams.isEmpty()) {
-			if (reqParams.containsKey(MWGApplicationConstants.pathChainID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathChainID + "}", reqParams.get(MWGApplicationConstants.pathChainID));
+		if ((serviceObj.requestParams != null) && !serviceObj.requestParams.isEmpty()) {
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathChainID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathChainID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathChainID));
 			}
 			
-			if (reqParams.containsKey(MWGApplicationConstants.pathUserID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathUserID + "}", reqParams.get(MWGApplicationConstants.pathUserID));
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathUserID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathUserID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathUserID));
 			}
 			
-			if (reqParams.containsKey(MWGApplicationConstants.pathStoreID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathStoreID + "}", reqParams.get(MWGApplicationConstants.pathStoreID));
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathStoreID)) {
+				path = path.replace("{" + MWGApplicationConstants.pathStoreID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathStoreID));
 			}
 		}
 		
 		// Build the query string, if there are any query parameters
-		if ((queryParams != null) && (!queryParams.isEmpty())) {
-			int len = queryParams.size();
+		if ((serviceObj.queryParams != null) && (!serviceObj.queryParams.isEmpty())) {
+			boolean isQueryStart = true;
+			
+			int len = serviceObj.queryParams.size();
 			int cnt = 0;
 			
-			query.append("?");
-			
-			for (Entry<String, String> pair : queryParams.entrySet()) {
+			for (Entry<String, String> pair : serviceObj.queryParams.entrySet()) {
 	            cnt++;
 	            
-	            query.append(pair.getKey() + "=" + pair.getValue());
-	            
-	            if (cnt < len) {
-	            		query.append("&");
+	            if (pair.getValue() != null) {
+	            		if (isQueryStart) {
+	            			query.append("?");
+	            			isQueryStart = false;
+	            		}
+	            		
+	            		query.append(pair.getKey() + "=" + pair.getValue());
+	    	            
+	    	            if (cnt < len) {
+	    	            		query.append("&");
+	    	            }	
 	            }
 	        }
 		

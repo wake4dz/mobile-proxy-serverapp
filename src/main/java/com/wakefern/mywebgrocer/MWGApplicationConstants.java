@@ -35,6 +35,7 @@ public class MWGApplicationConstants {
     public static final String queryProdsPerCat	 = "productPerCategory";
     public static final String querySaleOnlyProds = "saleOnly";
     public static final String queryUserID        = "userId";
+    public static final String queryStoreID       = "storeId";
     
     public static final String baseURLv1	   = "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1 = "https://service.shoprite.com";
@@ -67,6 +68,7 @@ public class MWGApplicationConstants {
     		
     		public static class Products {
     			public static final String categories = "application/vnd.mywebgrocer.category+json";
+    			public static final String countries  = "application/vnd.mywebgrocer.product-country-of-origin+json";
     		}
     }
     
@@ -108,6 +110,8 @@ public class MWGApplicationConstants {
         		public static final String subCategories    = catTreePath   + storePath + catsPath;
         		public static final String catsWithSales    = categories    + "/special";
         		public static final String subCatsWithSales = subCategories + "/special";
+        		
+        		public static final String countries = chainsPath + "/countries";
         }
         
         // ^^^ NEW STUFF ^^^ \\

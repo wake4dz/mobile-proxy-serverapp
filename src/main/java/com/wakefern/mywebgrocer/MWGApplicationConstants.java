@@ -9,11 +9,12 @@ public class MWGApplicationConstants {
     
     public static String baseURL = fgProdBaseURL;
     
-    public static final String pathChainID  = "chainId";
-    public static final String pathUserID   = "userId";
-    public static final String pathStoreID  = "storeId";
-    public static final String pathRegionID = "region";
-    public static final String pathZipCode  = "postalCode";
+    public static final String pathChainID     = "chainId";
+    public static final String pathUserID      = "userId";
+    public static final String pathStoreID     = "storeId";
+    public static final String pathRegionID    = "region";
+    public static final String pathZipCode     = "postalCode";
+    public static final String pathParentCatID = "parentCategoryId";
     
     public static final String querySkip          = "skip";
     public static final String queryTake          = "take";
@@ -97,12 +98,14 @@ public class MWGApplicationConstants {
         }
         
         public static class Products {
-        		private static final String storePath = "/store/" + "{" + pathStoreID + "}";
-        		private static final String catsPath  = "/categories"; 
+        		private static final String storePath   = "/store/" + "{" + pathStoreID + "}";
+        		private static final String catsPath    = "/categories";
+        		private static final String catTreePath = "/category/{parentCategoryId}";
         		
         		public static final String productPath = "product/v7";
         		
-        		public static final String categories = catsPath + storePath;
+        		public static final String categories    = catsPath    + storePath;
+        		public static final String subCategories = catTreePath + storePath + catsPath;
         }
         
         // ^^^ NEW STUFF ^^^ \\

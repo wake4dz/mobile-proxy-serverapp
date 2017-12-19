@@ -104,8 +104,10 @@ public class MWGApplicationConstants {
         		
         		public static final String productPath = "product/v7";
         		
-        		public static final String categories    = catsPath    + storePath;
-        		public static final String subCategories = catTreePath + storePath + catsPath;
+        		public static final String categories       = catsPath      + storePath;
+        		public static final String subCategories    = catTreePath   + storePath + catsPath;
+        		public static final String catsWithSales    = categories    + "/special";
+        		public static final String subCatsWithSales = subCategories + "/special";
         }
         
         // ^^^ NEW STUFF ^^^ \\

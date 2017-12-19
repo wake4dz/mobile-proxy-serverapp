@@ -21,13 +21,13 @@ public class Stores extends BaseService {
 	 * Constructor
 	 */
     public Stores() {
-        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.regions;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.stores;
     }
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Stores.stores)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Stores.regions)
+    @Path(MWGApplicationConstants.Requests.Stores.stores)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.pathChainID) String chainID,
     		

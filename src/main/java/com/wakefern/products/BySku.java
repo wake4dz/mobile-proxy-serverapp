@@ -25,7 +25,7 @@ public class BySku extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Products.byCategory)
+    @Consumes(MWGApplicationConstants.Headers.Products.bySKU)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.prodsByCat)
     public Response getResponse(
@@ -45,8 +45,50 @@ public class BySku extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
     		
 	) throws Exception, IOException {
+        		
+        try {
+            String jsonResponse = makeRequest(categoryID, storeID, isMember, userID, prodsToExclude, prodfilters, searchTerm, skip, sortOrder, searchBySound, take, sessionToken);
+            return this.createValidResponse(jsonResponse);
         
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.byCategory, ApplicationConstants.jsonResponseType, sessionToken);
+        } catch (Exception e) {
+            return this.createErrorResponse(e);
+        }
+    }
+	
+	public String getInfo(
+			String categoryID,
+			String storeID,
+			String isMember,
+			String userID,
+			String prodsToExclude,
+			String prodfilters,
+			String searchTerm,
+			String skip,
+			String sortOrder,
+			String searchBySound,
+			String take,
+			String sessionToken
+	) throws Exception {
+		
+		return makeRequest(categoryID, storeID, isMember, userID, prodsToExclude, prodfilters, searchTerm, skip, sortOrder, searchBySound, take, sessionToken);
+	}
+	
+	private String makeRequest(
+			String categoryID,
+			String storeID,
+			String isMember,
+			String userID,
+			String prodsToExclude,
+			String prodfilters,
+			String searchTerm,
+			String skip,
+			String sortOrder,
+			String searchBySound,
+			String take,
+			String sessionToken
+	) throws Exception {
+		
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.bySKU, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -65,17 +107,7 @@ public class BySku extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.querySeachBySound, searchBySound);
 		this.queryParams.put(MWGApplicationConstants.queryTake, take);
 		
-        try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
-            return this.createValidResponse(jsonResponse);
-        
-        } catch (Exception e) {
-            return this.createErrorResponse(e);
-        }
-    }
-	
-	private String makeRequest() throws Exception {
-		
+		return this.mwgRequest(BaseService.ReqType.GET, null);
 	}
 }
 

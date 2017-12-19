@@ -203,13 +203,8 @@ public class ServiceMappings {
 		// Build the query string, if there are any query parameters
 		if ((serviceObj.queryParams != null) && (!serviceObj.queryParams.isEmpty())) {
 			boolean isQueryStart = true;
-			
-			int len = serviceObj.queryParams.size();
-			int cnt = 0;
-			
-			for (Entry<String, String> pair : serviceObj.queryParams.entrySet()) {
-	            cnt++;
-	            
+						
+			for (Entry<String, String> pair : serviceObj.queryParams.entrySet()) {	            
 	            if (pair.getValue() != null) {
 	            		if (isQueryStart) {
 	            			query.append("?");
@@ -217,15 +212,18 @@ public class ServiceMappings {
 	            		}
 	            		
 	            		query.append(pair.getKey() + "=" + pair.getValue());
-	    	            
-	    	            if (cnt < len) {
-	    	            		query.append("&");
-	    	            }	
+	            		query.append("&");
 	            }
 	        }
 		
 		} else {
 			query.setLength(0);
+		}
+		
+		// If the length of the query string is > 0, then the last char will be '&'.
+		// Which needs to be removed before sending the request.
+		if (query.length() > 0) {
+			query.deleteCharAt(query.length() - 1);
 		}
 		
 		return (MWGApplicationConstants.baseURL + path + query);

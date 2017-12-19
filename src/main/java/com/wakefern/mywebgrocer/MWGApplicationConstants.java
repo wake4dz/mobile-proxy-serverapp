@@ -75,6 +75,7 @@ public class MWGApplicationConstants {
     			public static final String categories = "application/vnd.mywebgrocer.category+json";
     			public static final String countries  = "application/vnd.mywebgrocer.product-country-of-origin+json";
     			public static final String byCategory = "application/vnd.mywebgrocer.product-list+json";
+    			public static final String bySKU      = "application/vnd.mywebgrocer.product+json";
     		}
     }
     

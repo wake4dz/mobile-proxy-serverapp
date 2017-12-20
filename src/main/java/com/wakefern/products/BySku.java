@@ -29,7 +29,7 @@ public class BySku extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.prodBySKU)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathSKU) String productSKU,
+    		@PathParam(MWGApplicationConstants.pathProductSKU) String productSKU,
     		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
     		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
@@ -81,7 +81,7 @@ public class BySku extends BaseService {
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathSKU, productSKU);
+		this.requestParams.put(MWGApplicationConstants.pathProductSKU, productSKU);
 		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);

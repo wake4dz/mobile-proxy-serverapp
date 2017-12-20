@@ -18,14 +18,15 @@ public class MWGApplicationConstants {
     public static final String pathZipCode     = "postalCode";
     public static final String pathParentCatID = "parentCategoryId";
     public static final String pathCategoryID  = "categoryId";
-    public static final String pathSKU         = "sku";
+    public static final String pathProductSKU  = "sku";
+    public static final String pathProductID   = "productId";
     
     public static final String querySkip          = "skip";
     public static final String queryTake          = "take";
     public static final String queryServices      = "mwgService";
     public static final String queryCity          = "city";
     public static final String queryCoords        = "coordinates";     // Geolocation coordinates.
-    public static final String queryToZip         = "deliversTo";
+    public static final String queryToZip         = "deliversTo";      // Is this ZIP within a given store's delivery area?
     public static final String queryFilters       = "fq";
     public static final String queryIpAddr        = "ip";
     public static final String queryZipCode       = "postalCode";
@@ -42,7 +43,7 @@ public class MWGApplicationConstants {
     public static final String queryStoreID       = "storeId";
     public static final String queryExcluded      = "exclude";        // Products to exclude from the result set
     public static final String querySortOrder     = "sort";           // Sort results by Brand, Price, or UnitPrice 
-    public static final String querySeachBySound  = "sound";          // What does this do?
+    public static final String querySeachBySound  = "sound";          // What does this do?  Maybe if you yell your request really loudly, MWG will hear it?
     
     public static final String baseURLv1	   = "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1 = "https://service.shoprite.com";
@@ -110,11 +111,13 @@ public class MWGApplicationConstants {
         public static class Products {
         		private static final String storePath   = "/store/" + "{" + pathStoreID + "}";
         		private static final String catsPath    = "/categories";
-        		private static final String catPath     = "/category/{categoryId}";
-        		private static final String catTreePath = "/category/{parentCategoryId}";
+        		private static final String catPath     = "/category/{" + pathCategoryID + "}";
+        		private static final String catTreePath = "/category/{" + pathParentCatID + "}";
         		private static final String prodsPath   = "/products";
         		private static final String prodPath    = "/product";
-        		private static final String skuPath     = "/sku/{sku}";
+        		private static final String prodIdPath  = prodPath + "/{" + pathProductID + "}";
+        		private static final String skuPath     = "/sku/{" + pathProductSKU + "}";
+        		private static final String nutriPath   = "/nutrition";
         		
         		public static final String productPath = "product/v7";
         		
@@ -127,6 +130,9 @@ public class MWGApplicationConstants {
         		
         		public static final String prodsByCat = prodsPath + catPath   + storePath;
         		public static final String prodBySKU  =  prodPath + storePath + skuPath;
+        		
+        		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
+        		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;
         }
         
         // ^^^ NEW STUFF ^^^ \\

@@ -21,7 +21,7 @@ public class ByCategory extends BaseService {
 	 * Constructor
 	 */
     public ByCategory() {
-        this.requestPath = MWGApplicationConstants.Requests.Products.prodsByCat + MWGApplicationConstants.Requests.Products.categories;
+        this.requestPath = MWGApplicationConstants.Requests.Products.productPath + MWGApplicationConstants.Requests.Products.prodsByCat;
     }
     
 	@GET

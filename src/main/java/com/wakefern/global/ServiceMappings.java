@@ -199,8 +199,8 @@ public class ServiceMappings {
 				path = replacePathParam(MWGApplicationConstants.pathCategoryID, path, serviceObj);
 			}
 			
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathSKU)) {
-				path = replacePathParam(MWGApplicationConstants.pathSKU, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathProductSKU)) {
+				path = replacePathParam(MWGApplicationConstants.pathProductSKU, path, serviceObj);
 			}
 		}
 		

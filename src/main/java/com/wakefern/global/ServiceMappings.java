@@ -172,31 +172,35 @@ public class ServiceMappings {
 		// Insert any Request Path parameters
 		if ((serviceObj.requestParams != null) && !serviceObj.requestParams.isEmpty()) {
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathChainID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathChainID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathChainID));
+				path = replacePathParam(MWGApplicationConstants.pathChainID, path, serviceObj);
 			}
 			
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathUserID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathUserID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathUserID));
+				path = replacePathParam(MWGApplicationConstants.pathUserID, path, serviceObj);
 			}
 			
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathStoreID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathStoreID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathStoreID));
+				path = replacePathParam(MWGApplicationConstants.pathStoreID, path, serviceObj);
 			}
 			
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathRegionID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathRegionID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathRegionID));
+				path = replacePathParam(MWGApplicationConstants.pathRegionID, path, serviceObj);
 			}
 			
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathZipCode)) {
-				path = path.replace("{" + MWGApplicationConstants.pathZipCode + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathZipCode));
+				path = replacePathParam(MWGApplicationConstants.pathZipCode, path, serviceObj);
 			}
 
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathParentCatID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathParentCatID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathParentCatID));
+				path = replacePathParam(MWGApplicationConstants.pathParentCatID, path, serviceObj);
 			}
 			
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathCategoryID)) {
-				path = path.replace("{" + MWGApplicationConstants.pathCategoryID + "}", serviceObj.requestParams.get(MWGApplicationConstants.pathCategoryID));
+				path = replacePathParam(MWGApplicationConstants.pathCategoryID, path, serviceObj);
+			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathSKU)) {
+				path = replacePathParam(MWGApplicationConstants.pathSKU, path, serviceObj);
 			}
 		}
 		
@@ -227,6 +231,18 @@ public class ServiceMappings {
 		}
 		
 		return (MWGApplicationConstants.baseURL + path + query);
+	}
+	
+	/**
+	 * Replace a URL path placeholder with the corresponding value.
+	 * 
+	 * @param pathParam
+	 * @param path
+	 * @param serviceObj
+	 * @return
+	 */
+	private String replacePathParam(String pathParam, String path, BaseService serviceObj) {
+		return path.replace("{" + pathParam + "}", serviceObj.requestParams.get(pathParam));
 	}
 
 	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){

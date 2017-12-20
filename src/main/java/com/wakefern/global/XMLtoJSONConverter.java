@@ -37,15 +37,15 @@ public class XMLtoJSONConverter {
     	JSONArray sectionArr;
         try{
             JSONObject converted = XML.toJSONObject(xml);
-            JSONObject store = (JSONObject) converted.get(ApplicationConstants.StoreInfo.Store);
-            JSONObject sections = (JSONObject) store.get(ApplicationConstants.StoreInfo.Sections);
-            Object section = sections.get(ApplicationConstants.StoreInfo.Section);
+            JSONObject store = (JSONObject) converted.get("Store");
+            JSONObject sections = (JSONObject) store.get("Sections");
+            Object section = sections.get("Section");
             if(section instanceof JSONObject){
             	logger.log(Level.INFO, "[convertToJsonStr]::Sister store is Object, perform array conversion.");
             	sectionArr = new JSONArray();
             	sectionArr.put(section);
-            	sections.remove(ApplicationConstants.StoreInfo.Section);
-            	sections.put(ApplicationConstants.StoreInfo.Section, sectionArr);
+            	sections.remove("Section");
+            	sections.put("Section", sectionArr);
             }
             return converted.toString(ApplicationConstants.xmlTabAmount);
         } catch (JSONException ex){

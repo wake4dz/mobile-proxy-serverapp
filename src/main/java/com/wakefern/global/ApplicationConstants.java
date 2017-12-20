@@ -385,10 +385,4 @@ public final class ApplicationConstants {
         public static final String Sale = "Sale";
         public static final String LimitText = "LimitText";
     }
-    
-    public static class StoreInfo{
-        public static final String Store = "Store";
-        public static final String Sections = "Sections";
-        public static final String Section = "Section";
-    }
 }

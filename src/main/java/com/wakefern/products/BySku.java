@@ -25,7 +25,7 @@ public class BySku extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Products.bySKU)
+    @Consumes(MWGApplicationConstants.Headers.Products.product)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.prodBySKU)
     public Response getResponse(
@@ -75,7 +75,7 @@ public class BySku extends BaseService {
 	 * @throws Exception
 	 */
 	private String makeRequest(String storeID, String productSKU, String isMember, String sessionToken) throws Exception {		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.bySKU, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.product, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		

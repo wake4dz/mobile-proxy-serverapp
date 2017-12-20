@@ -77,7 +77,7 @@ public class MWGApplicationConstants {
     			public static final String categories = "application/vnd.mywebgrocer.category+json";
     			public static final String countries  = "application/vnd.mywebgrocer.product-country-of-origin+json";
     			public static final String byCategory = "application/vnd.mywebgrocer.product-list+json";
-    			public static final String bySKU      = "application/vnd.mywebgrocer.product+json";
+    			public static final String product    = "application/vnd.mywebgrocer.product+json";
     		}
     }
     
@@ -129,7 +129,8 @@ public class MWGApplicationConstants {
         		public static final String countries = chainsPath + "/countries";
         		
         		public static final String prodsByCat = prodsPath + catPath   + storePath;
-        		public static final String prodBySKU  =  prodPath + storePath + skuPath;
+        		public static final String prodBySKU  = prodPath + storePath + skuPath;
+        		public static final String prodByID   = prodIdPath + storePath ;
         		
         		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
         		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;

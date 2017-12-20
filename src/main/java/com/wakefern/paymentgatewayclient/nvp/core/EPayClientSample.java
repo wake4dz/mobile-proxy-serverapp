@@ -5,10 +5,7 @@ package com.wakefern.paymentgatewayclient.nvp.core;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -20,7 +17,6 @@ import com.wakefern.paymentgatewayclient.nvp.request.Request;
 import com.wakefern.paymentgatewayclient.nvp.domain.Constants;
 import com.wakefern.paymentgatewayclient.nvp.profile.Profile;
 import com.wakefern.paymentgatewayclient.nvp.util.LogToFile;
-import com.wakefern.statica.StaticaProxyAuthenticator;
 
 /**
  * This EPayClientSample class can be used as the main program which sends requests and 

@@ -139,6 +139,7 @@ public class MWGApplicationConstants {
         		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
         		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;
         		
+        		public static final String suggestedProds       = prodsPath + storePath + "/suggest";
         		public static final String featuredProdsByStore = prodsPath + storePath + featPath;
         		public static final String featuredProdsByCat   = prodsPath + catPath   + storePath + featPath;
         		public static final String saleItemsByCat       = prodsPath + catPath   + storePath + salesPath;

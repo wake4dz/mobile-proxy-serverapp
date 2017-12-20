@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Products.productPath)
-public class ByCategory extends BaseService {
+public class FeaturedByCategory extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -20,32 +20,31 @@ public class ByCategory extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public ByCategory() {
-        this.requestPath = MWGApplicationConstants.Requests.Products.productPath + MWGApplicationConstants.Requests.Products.prodsByCat;
+    public FeaturedByCategory() {
+        this.requestPath = MWGApplicationConstants.Requests.Products.productPath + MWGApplicationConstants.Requests.Products.featuredProdsByCat;
     }
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Products.productList)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Products.prodsByCat)
+    @Path(MWGApplicationConstants.Requests.Products.featuredProdsByCat)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.pathCategoryID) String categoryID,
     		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
     		
+    		@QueryParam(MWGApplicationConstants.queryExcluded) String excludedProds,
+    		@QueryParam(MWGApplicationConstants.queryFilters) String searchFilters,
     		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
-    		@QueryParam(MWGApplicationConstants.queryUserID) String userID,
-    		@QueryParam(MWGApplicationConstants.queryExcluded) String prodsToExclude,
-    		@QueryParam(MWGApplicationConstants.queryFilters) String prodfilters,
     		@QueryParam(MWGApplicationConstants.querySearchTerm) String searchTerm,
-    		@QueryParam(MWGApplicationConstants.querySkip) String skip,
+    		@QueryParam(MWGApplicationConstants.querySkip) String skipCount,
     		@QueryParam(MWGApplicationConstants.querySortOrder) String sortOrder,
     		@QueryParam(MWGApplicationConstants.querySeachBySound) String searchBySound,
-    		@QueryParam(MWGApplicationConstants.queryTake) String take,
-
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
+    		@QueryParam(MWGApplicationConstants.queryTake) String takeCount,
+    		@QueryParam(MWGApplicationConstants.queryUserID) String userID,
     		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
-        
+        		
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.productList, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
@@ -54,16 +53,16 @@ public class ByCategory extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
 		this.requestParams.put(MWGApplicationConstants.pathCategoryID, categoryID);
 		
-		// Build the Map of Request Query parameters
+		// Build the Map of Query String parameters
+		this.queryParams.put(MWGApplicationConstants.queryExcluded, excludedProds);
+		this.queryParams.put(MWGApplicationConstants.queryFilters, searchFilters);
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);
-		this.queryParams.put(MWGApplicationConstants.queryUserID, userID);
-		this.queryParams.put(MWGApplicationConstants.queryExcluded, prodsToExclude);
-		this.queryParams.put(MWGApplicationConstants.queryFilters, prodfilters);
 		this.queryParams.put(MWGApplicationConstants.querySearchTerm, searchTerm);
-		this.queryParams.put(MWGApplicationConstants.querySkip, skip);
+		this.queryParams.put(MWGApplicationConstants.querySkip, skipCount);
 		this.queryParams.put(MWGApplicationConstants.querySortOrder, sortOrder);
 		this.queryParams.put(MWGApplicationConstants.querySeachBySound, searchBySound);
-		this.queryParams.put(MWGApplicationConstants.queryTake, take);
+		this.queryParams.put(MWGApplicationConstants.queryTake, takeCount);
+		this.queryParams.put(MWGApplicationConstants.queryUserID, userID);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

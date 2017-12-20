@@ -60,8 +60,21 @@ public class BySku extends BaseService {
 		return makeRequest(storeID, productSKU, isMember, sessionToken);
 	}
 	
-	private String makeRequest(String storeID, String productSKU, String isMember, String sessionToken) throws Exception {
-		
+	//-------------------------------------------------------------------------
+	// Public Methods
+	//-------------------------------------------------------------------------
+
+	/**
+	 * Trigger the request to the MWG API.
+	 * 
+	 * @param storeID
+	 * @param productSKU
+	 * @param isMember
+	 * @param sessionToken
+	 * @return
+	 * @throws Exception
+	 */
+	private String makeRequest(String storeID, String productSKU, String isMember, String sessionToken) throws Exception {		
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.bySKU, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();

@@ -4,7 +4,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ErrorHandling.ExceptionHandler;
 import com.wakefern.mywebgrocer.models.MWGHeader;
-import com.wakefern.products.ProductBySku;
+import com.wakefern.products.BySku;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import org.json.JSONArray;
@@ -89,15 +89,14 @@ public class ComparePastPurchasesCircular extends BaseService {
                 String singleSku = new JSONObject(pastPurchases).getJSONObject(ApplicationConstants.Planning.ShoppingList)
                         .getJSONObject(ApplicationConstants.Planning.ShoppingListItems).getJSONObject(ApplicationConstants.Planning.ShoppingListItem)
                         .getString(ApplicationConstants.Planning.Sku);
-                ProductBySku productBySku = new ProductBySku();
+                BySku productBySku = new BySku();
                 String json = productBySku.getInfo(storeId, singleSku, isMember, auth);
                 JSONObject jsonObject = new JSONObject(json);
                 retval.put(ApplicationConstants.Planning.Matches, jsonObject);
                 return retval;
             } catch (Exception ex){//ShoppingListItem doesn't exist, all results have been filtered out
                 ex = new Exception(ApplicationConstants.Planning.CategoryErrorMessage);
-                ExceptionHandler exceptionHandler = new ExceptionHandler();
-                throw exceptionHandler.Exception(ex);
+                throw ExceptionHandler.Exception(ex);
             }
         }
 
@@ -116,14 +115,14 @@ public class ComparePastPurchasesCircular extends BaseService {
                         return retval;
                     }
 
-                    //int currentid = (int) it.next();
                     String sku = it.next().toString();
-
-                    ProductBySku productBySku = new ProductBySku();
+                    BySku productBySku = new BySku();
+                    
                     String json = productBySku.getInfo(storeId, sku, isMember, auth);
 
                     //Verify that a new item is on sale
                     Object isSale = new JSONObject(json).get(ApplicationConstants.Planning.Sale);
+                    
                     if (isSale != null) {
                         JSONObject jsonObject = new JSONObject(json);
                         retval.append(ApplicationConstants.Planning.Matches, jsonObject);

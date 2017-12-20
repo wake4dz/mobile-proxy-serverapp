@@ -18,6 +18,7 @@ public class MWGApplicationConstants {
     public static final String pathZipCode     = "postalCode";
     public static final String pathParentCatID = "parentCategoryId";
     public static final String pathCategoryID  = "categoryId";
+    public static final String pathSKU         = "sku";
     
     public static final String querySkip          = "skip";
     public static final String queryTake          = "take";
@@ -109,9 +110,11 @@ public class MWGApplicationConstants {
         public static class Products {
         		private static final String storePath   = "/store/" + "{" + pathStoreID + "}";
         		private static final String catsPath    = "/categories";
+        		private static final String catPath     = "/category/{categoryId}";
         		private static final String catTreePath = "/category/{parentCategoryId}";
         		private static final String prodsPath   = "/products";
-        		private static final String catPath     = "/category/{categoryId}";
+        		private static final String prodPath    = "/product";
+        		private static final String skuPath     = "/sku/{sku}";
         		
         		public static final String productPath = "product/v7";
         		
@@ -122,7 +125,8 @@ public class MWGApplicationConstants {
         		
         		public static final String countries = chainsPath + "/countries";
         		
-        		public static final String prodsByCat = prodsPath + catPath + storePath;
+        		public static final String prodsByCat = prodsPath + catPath   + storePath;
+        		public static final String prodBySKU  =  prodPath + storePath + skuPath;
         }
         
         // ^^^ NEW STUFF ^^^ \\

@@ -115,22 +115,24 @@ public class MWGApplicationConstants {
         		private static final String catTreePath = "/category/{" + pathParentCatID + "}";
         		private static final String prodsPath   = "/products";
         		private static final String prodPath    = "/product";
-        		private static final String prodIdPath  = prodPath + "/{" + pathProductID + "}";
+        		private static final String prodIdPath  = "/product/{" + pathProductID + "}";
         		private static final String skuPath     = "/sku/{" + pathProductSKU + "}";
         		private static final String nutriPath   = "/nutrition";
+        		private static final String salesPath   = "/special";
         		
         		public static final String productPath = "product/v7";
         		
         		public static final String categories       = catsPath      + storePath;
         		public static final String subCategories    = catTreePath   + storePath + catsPath;
-        		public static final String catsWithSales    = categories    + "/special";
-        		public static final String subCatsWithSales = subCategories + "/special";
+        		public static final String catsWithSales    = categories    + salesPath;
+        		public static final String subCatsWithSales = subCategories + salesPath;
         		
         		public static final String countries = chainsPath + "/countries";
         		
-        		public static final String prodsByCat = prodsPath + catPath   + storePath;
-        		public static final String prodBySKU  = prodPath + storePath + skuPath;
-        		public static final String prodByID   = prodIdPath + storePath ;
+        		public static final String prodsByCat   = prodsPath  + catPath   + storePath;
+        		public static final String prodBySKU    = prodPath   + storePath + skuPath;
+        		public static final String prodByID     = prodIdPath + storePath;
+        		public static final String prodVarsByID = prodIdPath + storePath + "/all/variations";
         		
         		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
         		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;

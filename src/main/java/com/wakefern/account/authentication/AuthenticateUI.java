@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.json.JSONObject;
-
 @Path(MWGApplicationConstants.Requests.Authentication.authenticate)
 public class AuthenticateUI extends BaseService {
 

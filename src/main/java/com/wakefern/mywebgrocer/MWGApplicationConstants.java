@@ -109,16 +109,18 @@ public class MWGApplicationConstants {
         }
         
         public static class Products {
-        		private static final String storePath   = "/store/" + "{" + pathStoreID + "}";
-        		private static final String catsPath    = "/categories";
-        		private static final String catPath     = "/category/{" + pathCategoryID + "}";
-        		private static final String catTreePath = "/category/{" + pathParentCatID + "}";
-        		private static final String prodsPath   = "/products";
-        		private static final String prodPath    = "/product";
-        		private static final String prodIdPath  = "/product/{" + pathProductID + "}";
-        		private static final String skuPath     = "/sku/{" + pathProductSKU + "}";
-        		private static final String nutriPath   = "/nutrition";
-        		private static final String salesPath   = "/special";
+	    		private static final String prodsPath = "/products";
+	    		private static final String prodPath  = "/product";
+	    		private static final String catsPath  = "/categories";
+	    		private static final String nutriPath = "/nutrition";
+	    		private static final String salesPath = "/special";
+	    		private static final String featPath  = "/featured";
+
+    			private static final String storePath   = "/store/"    + "{" + pathStoreID     + "}";
+        		private static final String catPath     = "/category/" + "{" + pathCategoryID  + "}";
+        		private static final String catTreePath = "/category/" + "{" + pathParentCatID + "}";
+        		private static final String prodIdPath  = "/product/"  + "{" + pathProductID   + "}";
+        		private static final String skuPath     = "/sku/"      + "{" + pathProductSKU  + "}";
         		
         		public static final String productPath = "product/v7";
         		
@@ -137,7 +139,9 @@ public class MWGApplicationConstants {
         		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
         		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;
         		
-        		public static final String featuredProdsByCat = prodsPath + catPath + storePath + "/featured";
+        		public static final String featuredProdsByStore = prodsPath + storePath + featPath;
+        		public static final String featuredProdsByCat   = prodsPath + catPath   + storePath + featPath;
+        		public static final String saleItemsByCat       = prodsPath + catPath   + storePath + salesPath;
         }
         
         // ^^^ NEW STUFF ^^^ \\

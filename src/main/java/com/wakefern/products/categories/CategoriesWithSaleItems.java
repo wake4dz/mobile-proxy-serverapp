@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Products.productPath)
-public class CatsWithSaleItems extends BaseService {
+public class CategoriesWithSaleItems extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -20,7 +20,7 @@ public class CatsWithSaleItems extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public CatsWithSaleItems() {
+    public CategoriesWithSaleItems() {
         this.requestPath = MWGApplicationConstants.Requests.Products.productPath + MWGApplicationConstants.Requests.Products.catsWithSales;
     }
     

@@ -48,40 +48,48 @@ public class MWGApplicationConstants {
     public static final String baseURLv1	   = "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1 = "https://service.shoprite.com";
     public static final String appToken     = "62081B21-0885-4544-8849-326195C8F9CD";
-
-    private static final String chainsPath = "/chains/{" + pathChainID + "}";	
-    private static final String usersPath  = "/users/{"  + pathUserID  + "}";	
     
     public static class Headers {
+    		private static final String prefix = "application/vnd.mywebgrocer.";
+    		
     		public static class Params {
     			public static final String auth = "Authorization";
     		}
     		
     		public static class Account {
-    			public static final String login = "application/vnd.mywebgrocer.account-authentication+json";
+    			public static final String login = prefix + "account-authentication+json";
     			
-    			public static final String fullProfile  = "application/vnd.mywebgrocer.account-profile-full+json";
-    			public static final String basicProfile = "application/vnd.mywebgrocer.account-profile-basic+json";
+    			public static final String fullProfile  = prefix + "account-profile-full+json";
+    			public static final String basicProfile = prefix + "account-profile-basic+json";
     		}
     		
     		public static class Stores {
-    			public static final String details  = "application/vnd.mywebgrocer.store+json";
-    			public static final String chains   = "application/vnd.mywebgrocer.chains+json";
-    			public static final String regions  = "application/vnd.mywebgrocer.stores-regions+json";
-    			public static final String cities   = "application/vnd.mywebgrocer.stores-region-cities+json";
-    			public static final String stores   = "application/vnd.mywebgrocer.stores+json";
-    			public static final String delivers = "application/vnd.mywebgrocer.store-delivers-to+json";
+    			public static final String details  = prefix + "store+json";
+    			public static final String chains   = prefix + "chains+json";
+    			public static final String regions  = prefix + "stores-regions+json";
+    			public static final String cities   = prefix + "stores-region-cities+json";
+    			public static final String stores   = prefix + "stores+json";
+    			public static final String delivers = prefix + "store-delivers-to+json";
     		}
     		
     		public static class Products {
-    			public static final String categories  = "application/vnd.mywebgrocer.category+json";
-    			public static final String countries   = "application/vnd.mywebgrocer.product-country-of-origin+json";
-    			public static final String productList = "application/vnd.mywebgrocer.product-list+json";
-    			public static final String product     = "application/vnd.mywebgrocer.product+json";
+    			public static final String categories  = prefix + "category+json";
+    			public static final String countries   = prefix + "product-country-of-origin+json";
+    			public static final String productList = prefix + "product-list+json";
+    			public static final String product     = prefix + "product+json";
+    		}
+    		
+    		public static class Circulars {
+    			public static final String categories = prefix + "circular-category+json";
     		}
     }
     
     public static class Requests {
+        private static final String chainsPath = "/chains/" + "{" + pathChainID + "}";	
+        private static final String usersPath  = "/users/"  + "{" + pathUserID  + "}";	
+
+		private static final String catsPath  = "/categories";
+
     		public static class Account {
     			public static final String acctPath = "/account/v7";
     			
@@ -111,7 +119,6 @@ public class MWGApplicationConstants {
         public static class Products {
 	    		private static final String prodsPath = "/products";
 	    		private static final String prodPath  = "/product";
-	    		private static final String catsPath  = "/categories";
 	    		private static final String nutriPath = "/nutrition";
 	    		private static final String salesPath = "/special";
 	    		private static final String featPath  = "/featured";
@@ -146,18 +153,15 @@ public class MWGApplicationConstants {
         		public static final String saleItemsByCat       = prodsPath + catPath   + storePath + salesPath;
         }
         
+        public static class Circulars {
+        		private static final String storesPath = "/stores/" + "{" + pathStoreID + "}";
+        	
+        		public static final String circularsPath = "/circulars/v7";
+        		
+            public static final String categories = chainsPath + storesPath + catsPath;
+        }
+        
         // ^^^ NEW STUFF ^^^ \\
-
-        public static class Categories {
-            public static final String ProductId = "/product/v5/product";
-            public static final String ProductStore = "/product/v5/product/store";
-            public static final String ProductsStore = "/product/v5/products/store";
-            public static final String ProductCategory = "/product/v5/products/category";
-        }
-
-        public static class Circular{
-            public static final String Categories = "/circulars/v5/chains";
-        }
 
         public static class Checkout {
             public static final String Checkout = "/checkout/v5/fulfillments/store";

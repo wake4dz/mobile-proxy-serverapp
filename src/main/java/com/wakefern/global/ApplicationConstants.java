@@ -115,13 +115,6 @@ public final class ApplicationConstants {
             public static final String planningToken = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
         }
 
-        public static class Categories{
-            public static final String ProductId = MWGApplicationConstants.Requests.Categories.ProductId;
-            public static final String ProductStore = MWGApplicationConstants.Requests.Categories.ProductStore;
-            public static final String ProductsStore = MWGApplicationConstants.Requests.Categories.ProductsStore;
-            public static final String ProductCategory = MWGApplicationConstants.Requests.Categories.ProductCategory;
-        }
-
         public static class Circular{
             public static final String Categories = MWGApplicationConstants.Requests.Circular.Categories;
         }

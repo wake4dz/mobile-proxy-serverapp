@@ -45,6 +45,7 @@ public class MWGApplicationConstants {
     public static final String queryExcluded      = "exclude";        // Products to exclude from the result set
     public static final String querySortOrder     = "sort";           // Sort results by Brand, Price, or UnitPrice 
     public static final String querySeachBySound  = "sound";          // What does this do?  Maybe if you yell your request really loudly, MWG will hear it?
+    public static final String queryRunState      = "runState";
     
     public static final String baseURLv1	   = "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1 = "https://service.shoprite.com";
@@ -81,9 +82,12 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class Circulars {
-    			public static final String categories = prefix + "circular-category+json";
-    			public static final String items      = prefix + "circular-items+json";
-    			public static final String item       = prefix + "circular-item+json";
+    			public static final String circulars       = prefix + "circular+json";
+    			public static final String cirularsDetails = prefix + "circular-detail+json";
+    			public static final String categories      = prefix + "circular-category+json";
+    			
+    			public static final String items = prefix + "circular-items+json";
+    			public static final String item  = prefix + "circular-item+json";
     		}
     }
     
@@ -157,14 +161,16 @@ public class MWGApplicationConstants {
         }
         
         public static class Circulars {
+        		private static final String itemsPath  = "/items";
         		private static final String storesPath = "/stores/" + "{" + pathStoreID + "}";
         	
         		public static final String circularsPath = "/circulars/v7";
         		
+        		public static final String circulars     = chainsPath + storesPath + "/circulars";
             public static final String categories    = chainsPath + storesPath + categoriesPath;
             public static final String category      = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}";
-            public static final String categoryItems = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}/items";
-            public static final String categoryItem  = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}/items" + "/{" + pathItemID  + "}";
+            public static final String categoryItems = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}" + itemsPath;
+            public static final String categoryItem  = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}" + itemsPath + "/{" + pathItemID  + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

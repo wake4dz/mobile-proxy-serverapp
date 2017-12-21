@@ -46,6 +46,7 @@ public class Subcategories extends BaseService {
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
+		this.requestParams.put(MWGApplicationConstants.pathParentCatID, parentCategoryID);
 		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);

@@ -81,6 +81,7 @@ public class MWGApplicationConstants {
     		
     		public static class Circulars {
     			public static final String categories = prefix + "circular-category+json";
+    			public static final String items      = prefix + "circular-items+json";
     		}
     }
     
@@ -158,8 +159,9 @@ public class MWGApplicationConstants {
         	
         		public static final String circularsPath = "/circulars/v7";
         		
-            public static final String categories = chainsPath + storesPath + categoriesPath;
-            public static final String category   = chainsPath + storesPath + categoriesPath + "/{categoryId}";
+            public static final String categories    = chainsPath + storesPath + categoriesPath;
+            public static final String category      = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}";
+            public static final String categoryItems = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}/items";
         }
         
         // ^^^ NEW STUFF ^^^ \\

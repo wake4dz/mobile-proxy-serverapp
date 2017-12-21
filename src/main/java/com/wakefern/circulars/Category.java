@@ -37,7 +37,6 @@ public class Category extends BaseService {
         		
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.categories, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
-		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);

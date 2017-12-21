@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Circulars.circularsPath)
-public class Categories extends BaseService {
+public class CategoryItems extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -20,26 +20,37 @@ public class Categories extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public Categories() {
-        this.requestPath = MWGApplicationConstants.Requests.Circulars.circularsPath + MWGApplicationConstants.Requests.Circulars.categories;
+    public CategoryItems() {
+        this.requestPath = MWGApplicationConstants.Requests.Circulars.circularsPath + MWGApplicationConstants.Requests.Circulars.categoryItems;
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Circulars.categories)
+    @Consumes(MWGApplicationConstants.Headers.Circulars.items)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Circulars.categories)
+    @Path(MWGApplicationConstants.Requests.Circulars.categoryItems)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
     		@PathParam(MWGApplicationConstants.pathChainID) String chainID,    		
+    		@PathParam(MWGApplicationConstants.pathCategoryID) String categoryID,   
+    		
+    		@QueryParam(MWGApplicationConstants.querySkip) String skip,
+    		@QueryParam(MWGApplicationConstants.queryTake) String take,
+    		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.categories, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.items, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
+		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
 		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.pathCategoryID, categoryID);
+		
+		// Map of the Query String parameters
+		this.queryParams.put(MWGApplicationConstants.queryTake, take);
+		this.queryParams.put(MWGApplicationConstants.querySkip, skip);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

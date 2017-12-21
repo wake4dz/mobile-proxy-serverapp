@@ -11,6 +11,7 @@ public class MWGApplicationConstants {
     //
     public static final String baseURL = fgStageBaseURL;
     
+    public static final String pathItemID      = "itemId";
     public static final String pathChainID     = "chainId";
     public static final String pathUserID      = "userId";
     public static final String pathStoreID     = "storeId";
@@ -82,6 +83,7 @@ public class MWGApplicationConstants {
     		public static class Circulars {
     			public static final String categories = prefix + "circular-category+json";
     			public static final String items      = prefix + "circular-items+json";
+    			public static final String item       = prefix + "circular-item+json";
     		}
     }
     
@@ -162,6 +164,7 @@ public class MWGApplicationConstants {
             public static final String categories    = chainsPath + storesPath + categoriesPath;
             public static final String category      = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}";
             public static final String categoryItems = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}/items";
+            public static final String categoryItem  = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}/items" + "/{" + pathItemID  + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

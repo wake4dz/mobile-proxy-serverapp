@@ -131,10 +131,11 @@ public class MWGApplicationConstants {
         		
         		public static final String countries = chainsPath + "/countries";
         		
+        		public static final String prodByID     = prodIdPath + storePath;
         		public static final String prodsByCat   = prodsPath  + catPath   + storePath;
         		public static final String prodBySKU    = prodPath   + storePath + skuPath;
-        		public static final String prodByID     = prodIdPath + storePath;
         		public static final String prodVarsByID = prodIdPath + storePath + "/all/variations";
+        		public static final String prodSearch   = prodsPath  + storePath + "/search";
         		
         		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
         		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;

@@ -85,10 +85,11 @@ public class MWGApplicationConstants {
     }
     
     public static class Requests {
-        private static final String chainsPath = "/chains/" + "{" + pathChainID + "}";	
-        private static final String usersPath  = "/users/"  + "{" + pathUserID  + "}";	
+        private static final String chainsPath   = "/chains/"   + "{" + pathChainID     + "}";	
+        private static final String usersPath    = "/users/"    + "{" + pathUserID      + "}";	
+		private static final String categoryPath = "/category/" + "{" + pathCategoryID  + "}";
 
-		private static final String catsPath  = "/categories";
+		private static final String categoriesPath = "/categories";
 
     		public static class Account {
     			public static final String acctPath = "/account/v7";
@@ -124,33 +125,32 @@ public class MWGApplicationConstants {
 	    		private static final String featPath  = "/featured";
 
     			private static final String storePath   = "/store/"    + "{" + pathStoreID     + "}";
-        		private static final String catPath     = "/category/" + "{" + pathCategoryID  + "}";
         		private static final String catTreePath = "/category/" + "{" + pathParentCatID + "}";
         		private static final String prodIdPath  = "/product/"  + "{" + pathProductID   + "}";
         		private static final String skuPath     = "/sku/"      + "{" + pathProductSKU  + "}";
         		
         		public static final String productPath = "/product/v7";
         		
-        		public static final String categories       = catsPath      + storePath;
-        		public static final String subCategories    = catTreePath   + storePath + catsPath;
-        		public static final String catsWithSales    = categories    + salesPath;
-        		public static final String subCatsWithSales = subCategories + salesPath;
+        		public static final String categories       = categoriesPath + storePath;
+        		public static final String subCategories    = catTreePath    + storePath + categoriesPath;
+        		public static final String catsWithSales    = categories     + salesPath;
+        		public static final String subCatsWithSales = subCategories  + salesPath;
         		
         		public static final String countries = chainsPath + "/countries";
         		
         		public static final String prodByID     = prodIdPath + storePath;
-        		public static final String prodsByCat   = prodsPath  + catPath   + storePath;
-        		public static final String prodBySKU    = prodPath   + storePath + skuPath;
-        		public static final String prodVarsByID = prodIdPath + storePath + "/all/variations";
-        		public static final String prodSearch   = prodsPath  + storePath + "/search";
+        		public static final String prodsByCat   = prodsPath  + categoryPath + storePath;
+        		public static final String prodBySKU    = prodPath   + storePath    + skuPath;
+        		public static final String prodVarsByID = prodIdPath + storePath    + "/all/variations";
+        		public static final String prodSearch   = prodsPath  + storePath    + "/search";
         		
         		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
         		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;
         		
-        		public static final String suggestedProds       = prodsPath + storePath + "/suggest";
-        		public static final String featuredProdsByStore = prodsPath + storePath + featPath;
-        		public static final String featuredProdsByCat   = prodsPath + catPath   + storePath + featPath;
-        		public static final String saleItemsByCat       = prodsPath + catPath   + storePath + salesPath;
+        		public static final String suggestedProds       = prodsPath + storePath    + "/suggest";
+        		public static final String featuredProdsByStore = prodsPath + storePath    + featPath;
+        		public static final String featuredProdsByCat   = prodsPath + categoryPath + storePath + featPath;
+        		public static final String saleItemsByCat       = prodsPath + categoryPath + storePath + salesPath;
         }
         
         public static class Circulars {
@@ -158,7 +158,8 @@ public class MWGApplicationConstants {
         	
         		public static final String circularsPath = "/circulars/v7";
         		
-            public static final String categories = chainsPath + storesPath + catsPath;
+            public static final String categories = chainsPath + storesPath + categoriesPath;
+            public static final String category   = chainsPath + storesPath + categoriesPath + "/{categoryId}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

@@ -46,12 +46,14 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class Circulars {
-    			public static final String circulars        = prefix + "circular+json";
-    			public static final String circularsDetails = prefix + "circular-detail+json";
-    			public static final String categories       = prefix + "circular-category+json";
+    			public static final String circulars  = prefix + "circular+json";
+    			public static final String categories = prefix + "circular-category+json";
+    			public static final String details    = prefix + "circular-detail+json";
+    			public static final String fullPages  = prefix + "circular-pages-full+json";
     			
     			public static final String items = prefix + "circular-items+json";
     			public static final String item  = prefix + "circular-item+json";
+    			
     		}
     }
     
@@ -174,16 +176,19 @@ public class MWGApplicationConstants {
         public static class Circulars {
         		private static final String storeID = "/stores/" + "{" + Params.Path.storeID + "}";
         		
-        		private static final String cats = "/categories";
+        		private static final String cats  = "/categories";
+        		private static final String circs = "/circulars";
         	
         		public static final String circularsPath = "/circulars/v7";
-        		
-        		public static final String circular      = chainID + storeID + "/circulars/{" + Params.Path.circularID + "}";
-        		public static final String circulars     = chainID + storeID + "/circulars";
-            public static final String categories    = chainID + storeID + cats;
-            public static final String category      = chainID + storeID + cats + "/{" + Params.Path.categoryID  + "}";
-            public static final String categoryItems = chainID + storeID + cats + "/{" + Params.Path.categoryID  + "}" + "/items";
-            public static final String categoryItem  = chainID + storeID + cats + "/{" + Params.Path.categoryID  + "}" + "/items" + "/{" + Params.Path.itemID + "}";
+        		            
+        		public static final String categories    = chainID       + storeID + cats;
+            public static final String category      = categories    + "/{" + Params.Path.categoryID  + "}";
+            public static final String categoryItems = category      + "/items";
+            public static final String categoryItem  = categoryItems + "/{" + Params.Path.itemID + "}";
+            
+			public static final String circulars = chainID   + storeID + circs;
+    			public static final String circular  = circulars + "/{" + Params.Path.circularID + "}";
+    			public static final String fullPages = circular  + "/pages";
         }
         
         // ^^^ NEW STUFF ^^^ \\

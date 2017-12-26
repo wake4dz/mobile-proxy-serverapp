@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Circulars.circularsPath)
-public class CircularsDetails extends BaseService {
+public class FullPages extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -20,33 +20,39 @@ public class CircularsDetails extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public CircularsDetails() {
-        this.requestPath = MWGApplicationConstants.Requests.Circulars.circularsPath + MWGApplicationConstants.Requests.Circulars.circulars;
+    public FullPages() {
+        this.requestPath = MWGApplicationConstants.Requests.Circulars.circularsPath + MWGApplicationConstants.Requests.Circulars.fullPages;
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Circulars.details)
+    @Consumes(MWGApplicationConstants.Headers.Circulars.fullPages)
     @Produces("application/*")
-    @Path(MWGApplicationConstants.Requests.Circulars.circulars)
+    @Path(MWGApplicationConstants.Requests.Circulars.fullPages)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,    		
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.circularID) String circularID,
     		
-    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.runState) String runState,
-    		
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
+    		    		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.details, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.fullPages, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.circularID, circularID);
 		
-		// Map of the Query String parameters
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.runState, runState);
+		// Map of the URL Query parameters
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

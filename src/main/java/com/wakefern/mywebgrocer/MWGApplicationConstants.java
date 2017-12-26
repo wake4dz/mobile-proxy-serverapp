@@ -73,6 +73,7 @@ public class MWGApplicationConstants {
         		    public static final String categoryID  = "categoryId";
         		    public static final String productSKU  = "sku";
         		    public static final String productID   = "productId";
+        		    public static final String circularID  = "circularId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -172,15 +173,17 @@ public class MWGApplicationConstants {
         
         public static class Circulars {
         		private static final String storeID = "/stores/" + "{" + Params.Path.storeID + "}";
+        		
+        		private static final String cats = "/categories";
         	
         		public static final String circularsPath = "/circulars/v7";
         		
-        		public static final String circular      = "/chains/{chainId}/stores/{storeId}/circulars/{circularId}";
+        		public static final String circular      = chainID + storeID + "/circulars/{" + Params.Path.circularID + "}";
         		public static final String circulars     = chainID + storeID + "/circulars";
-            public static final String categories    = chainID + storeID + "/categories";
-            public static final String category      = chainID + storeID + "/categories" + "/{" + Params.Path.categoryID  + "}";
-            public static final String categoryItems = chainID + storeID + "/categories" + "/{" + Params.Path.categoryID  + "}" + "/items";
-            public static final String categoryItem  = chainID + storeID + "/categories" + "/{" + Params.Path.categoryID  + "}" + "/items" + "/{" + Params.Path.itemID + "}";
+            public static final String categories    = chainID + storeID + cats;
+            public static final String category      = chainID + storeID + cats + "/{" + Params.Path.categoryID  + "}";
+            public static final String categoryItems = chainID + storeID + cats + "/{" + Params.Path.categoryID  + "}" + "/items";
+            public static final String categoryItem  = chainID + storeID + cats + "/{" + Params.Path.categoryID  + "}" + "/items" + "/{" + Params.Path.itemID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

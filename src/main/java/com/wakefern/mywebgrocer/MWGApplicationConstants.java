@@ -51,6 +51,7 @@ public class MWGApplicationConstants {
     			public static final String details    = prefix + "circular-detail+json";
     			public static final String fullPages  = prefix + "circular-pages-full+json";
     			
+    			public static final String page  = prefix + "circular-page+json";
     			public static final String items = prefix + "circular-items+json";
     			public static final String item  = prefix + "circular-item+json";
     			
@@ -76,6 +77,7 @@ public class MWGApplicationConstants {
         		    public static final String productSKU  = "sku";
         		    public static final String productID   = "productId";
         		    public static final String circularID  = "circularId";
+        		    public static final String pageID      = "pageId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -189,6 +191,7 @@ public class MWGApplicationConstants {
 			public static final String circulars = chainID   + storeID + circs;
     			public static final String circular  = circulars + "/{" + Params.Path.circularID + "}";
     			public static final String fullPages = circular  + "/pages";
+    			public static final String page      = fullPages + "/{" + Params.Path.pageID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

@@ -31,15 +31,15 @@ public class Suggestions extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		
-    		@QueryParam(MWGApplicationConstants.queryExcluded) String excludedProds,
-    		@QueryParam(MWGApplicationConstants.queryFilters) String searchFilters,
-    		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
-    		@QueryParam(MWGApplicationConstants.querySearchTerm) String searchTerm,
-    		@QueryParam(MWGApplicationConstants.querySkip) String skipCount,
-    		@QueryParam(MWGApplicationConstants.querySortOrder) String sortOrder,
-    		@QueryParam(MWGApplicationConstants.querySeachBySound) String searchBySound,
-    		@QueryParam(MWGApplicationConstants.queryTake) String takeCount,
-    		@QueryParam(MWGApplicationConstants.queryUserID) String userID,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.excluded) String excludedProds,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.filters) String searchFilters,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchTerm) String searchTerm,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skipCount,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.sortOrder) String sortOrder,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchBySound) String searchBySound,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String takeCount,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.userID) String userID,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {

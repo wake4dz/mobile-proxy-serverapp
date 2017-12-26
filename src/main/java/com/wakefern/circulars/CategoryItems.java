@@ -33,8 +33,8 @@ public class CategoryItems extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,    		
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.categoryID) String categoryID,   
     		
-    		@QueryParam(MWGApplicationConstants.querySkip) String skip,
-    		@QueryParam(MWGApplicationConstants.queryTake) String take,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
@@ -49,8 +49,8 @@ public class CategoryItems extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.categoryID, categoryID);
 		
 		// Map of the Query String parameters
-		this.queryParams.put(MWGApplicationConstants.queryTake, take);
-		this.queryParams.put(MWGApplicationConstants.querySkip, skip);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

@@ -31,7 +31,7 @@ public class Countries extends BaseService {
     @Path(MWGApplicationConstants.Requests.Products.countries)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
-    		@QueryParam(MWGApplicationConstants.queryStoreID) String storeID,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.countries, ApplicationConstants.jsonResponseType, sessionToken);
@@ -42,7 +42,7 @@ public class Countries extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.queryStoreID, storeID);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

@@ -32,15 +32,15 @@ public class ByCategory extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.categoryID) String categoryID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		
-    		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
-    		@QueryParam(MWGApplicationConstants.queryUserID) String userID,
-    		@QueryParam(MWGApplicationConstants.queryExcluded) String prodsToExclude,
-    		@QueryParam(MWGApplicationConstants.queryFilters) String prodfilters,
-    		@QueryParam(MWGApplicationConstants.querySearchTerm) String searchTerm,
-    		@QueryParam(MWGApplicationConstants.querySkip) String skip,
-    		@QueryParam(MWGApplicationConstants.querySortOrder) String sortOrder,
-    		@QueryParam(MWGApplicationConstants.querySeachBySound) String searchBySound,
-    		@QueryParam(MWGApplicationConstants.queryTake) String take,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.userID) String userID,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.excluded) String prodsToExclude,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.filters) String prodfilters,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchTerm) String searchTerm,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.sortOrder) String sortOrder,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchBySound) String searchBySound,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
     		
@@ -55,15 +55,15 @@ public class ByCategory extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.categoryID, categoryID);
 		
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);
-		this.queryParams.put(MWGApplicationConstants.queryUserID, userID);
-		this.queryParams.put(MWGApplicationConstants.queryExcluded, prodsToExclude);
-		this.queryParams.put(MWGApplicationConstants.queryFilters, prodfilters);
-		this.queryParams.put(MWGApplicationConstants.querySearchTerm, searchTerm);
-		this.queryParams.put(MWGApplicationConstants.querySkip, skip);
-		this.queryParams.put(MWGApplicationConstants.querySortOrder, sortOrder);
-		this.queryParams.put(MWGApplicationConstants.querySeachBySound, searchBySound);
-		this.queryParams.put(MWGApplicationConstants.queryTake, take);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.userID, userID);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.excluded, prodsToExclude);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, prodfilters);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchTerm, searchTerm);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.sortOrder, sortOrder);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchBySound, searchBySound);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

@@ -32,8 +32,8 @@ public class Circulars extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,    		
     		
-    		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
-    		@QueryParam(MWGApplicationConstants.queryRunState) String runState,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.runState) String runState,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
@@ -47,8 +47,8 @@ public class Circulars extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Map of the Query String parameters
-		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);
-		this.queryParams.put(MWGApplicationConstants.queryRunState, runState);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.runState, runState);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

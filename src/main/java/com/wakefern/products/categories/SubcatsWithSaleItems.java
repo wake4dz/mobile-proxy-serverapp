@@ -31,9 +31,9 @@ public class SubcatsWithSaleItems extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.parentCatID) String parentCategoryID,
     		
-    		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
-    		@QueryParam(MWGApplicationConstants.queryProdsPerCat) String productsPerCategory,
-    		@QueryParam(MWGApplicationConstants.queryUserID) String userID,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.prodsPerCat) String productsPerCategory,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.userID) String userID,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	
@@ -48,9 +48,9 @@ public class SubcatsWithSaleItems extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.parentCatID, parentCategoryID);
 
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);
-		this.queryParams.put(MWGApplicationConstants.queryProdsPerCat, productsPerCategory);
-		this.queryParams.put(MWGApplicationConstants.queryUserID, userID);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.prodsPerCat, productsPerCategory);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.userID, userID);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

@@ -31,7 +31,7 @@ public class ById extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.productID) String productID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
-    		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
@@ -44,7 +44,7 @@ public class ById extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.productID, productID);
 		
 		// Build the Map of Query String parameters
-		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

@@ -29,12 +29,12 @@ public class Chains extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.chains)
     public Response getResponse(
-    		@QueryParam(MWGApplicationConstants.queryServices) String services,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.services) String services,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.chains, ApplicationConstants.jsonResponseType, sessionToken);
 		this.queryParams = new HashMap<String, String>();
-		this.queryParams.put(MWGApplicationConstants.queryServices, services);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.services, services);
 
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

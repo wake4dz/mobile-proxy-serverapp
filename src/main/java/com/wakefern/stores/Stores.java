@@ -31,21 +31,21 @@ public class Stores extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
     		
-    		@QueryParam(MWGApplicationConstants.queryServices) String services,
-    		@QueryParam(MWGApplicationConstants.querySkip) String skip,
-    		@QueryParam(MWGApplicationConstants.queryTake) String take,
-    		@QueryParam(MWGApplicationConstants.queryCity) String city,
-    		@QueryParam(MWGApplicationConstants.queryCoords) String coords,
-    		@QueryParam(MWGApplicationConstants.queryToZip) String deliversToZip,
-    		@QueryParam(MWGApplicationConstants.queryFilters) String filters,
-    		@QueryParam(MWGApplicationConstants.queryIpAddr) String ipAddr,
-    		@QueryParam(MWGApplicationConstants.queryZipCode) String zipCode,
-    		@QueryParam(MWGApplicationConstants.querySearchTerm) String searchTerm,
-    		@QueryParam(MWGApplicationConstants.queryRadius) String radius,
-    		@QueryParam(MWGApplicationConstants.queryRegionCode) String isoRegionCode,
-    		@QueryParam(MWGApplicationConstants.queryStoreOwnerID) String storeOwnerID,
-    		@QueryParam(MWGApplicationConstants.queryStoreStatus) String storeStatus,
-    		@QueryParam(MWGApplicationConstants.queryUnitOfMeasure) String distUnitOfMeasure,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.services) String services,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.city) String city,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.coords) String coords,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.toZip) String deliversToZip,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.filters) String filters,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.ipAddr) String ipAddr,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.zipCode) String zipCode,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchTerm) String searchTerm,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.radius) String radius,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.regionCode) String isoRegionCode,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeOwnerID) String storeOwnerID,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeStatus) String storeStatus,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.unitOfMeasure) String distUnitOfMeasure,
 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	
@@ -59,21 +59,21 @@ public class Stores extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.queryServices, services);
-		this.queryParams.put(MWGApplicationConstants.querySkip, skip);
-		this.queryParams.put(MWGApplicationConstants.queryTake, take);
-		this.queryParams.put(MWGApplicationConstants.queryCity, city);
-		this.queryParams.put(MWGApplicationConstants.queryCoords, coords);
-		this.queryParams.put(MWGApplicationConstants.queryToZip, deliversToZip);
-		this.queryParams.put(MWGApplicationConstants.queryFilters, filters);
-		this.queryParams.put(MWGApplicationConstants.queryIpAddr, ipAddr);
-		this.queryParams.put(MWGApplicationConstants.queryZipCode, zipCode);
-		this.queryParams.put(MWGApplicationConstants.querySearchTerm, searchTerm);
-		this.queryParams.put(MWGApplicationConstants.queryRadius, radius);
-		this.queryParams.put(MWGApplicationConstants.queryRegionCode, isoRegionCode);
-		this.queryParams.put(MWGApplicationConstants.queryStoreOwnerID, storeOwnerID);
-		this.queryParams.put(MWGApplicationConstants.queryStoreStatus, storeStatus);
-		this.queryParams.put(MWGApplicationConstants.queryUnitOfMeasure, distUnitOfMeasure);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.services, services);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.city, city);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.coords, coords);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.toZip, deliversToZip);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, filters);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.ipAddr, ipAddr);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.zipCode, zipCode);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchTerm, searchTerm);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.radius, radius);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.regionCode, isoRegionCode);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeOwnerID, storeOwnerID);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeStatus, storeStatus);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.unitOfMeasure, distUnitOfMeasure);
 
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

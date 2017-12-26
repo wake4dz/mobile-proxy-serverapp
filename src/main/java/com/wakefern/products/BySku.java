@@ -31,7 +31,7 @@ public class BySku extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.productSKU) String productSKU,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
-    		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
@@ -84,7 +84,7 @@ public class BySku extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.productSKU, productSKU);
 		
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
 		
 		return this.mwgRequest(BaseService.ReqType.GET, null);
 	}

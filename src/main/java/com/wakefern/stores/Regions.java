@@ -30,9 +30,9 @@ public class Regions extends BaseService {
     @Path(MWGApplicationConstants.Requests.Stores.regions)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
-    		@QueryParam(MWGApplicationConstants.queryServices) String services,
-    		@QueryParam(MWGApplicationConstants.querySkip) String skip,
-    		@QueryParam(MWGApplicationConstants.queryTake) String take,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.services) String services,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.regions, ApplicationConstants.jsonResponseType, sessionToken);
@@ -43,9 +43,9 @@ public class Regions extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.queryServices, services);
-		this.queryParams.put(MWGApplicationConstants.querySkip, skip);
-		this.queryParams.put(MWGApplicationConstants.queryTake, take);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.services, services);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

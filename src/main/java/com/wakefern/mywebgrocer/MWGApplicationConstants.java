@@ -10,34 +10,7 @@ public class MWGApplicationConstants {
     // TODO: CHANGE TO PROD BEFORE RELEASING!!!
     //
     public static final String baseURL = fgStageBaseURL;
-    
-
-    
-    public static final String querySkip          = "skip";
-    public static final String queryTake          = "take";
-    public static final String queryServices      = "mwgService";
-    public static final String queryCity          = "city";
-    public static final String queryCoords        = "coordinates";     // Geolocation coordinates.
-    public static final String queryToZip         = "deliversTo";      // Is this ZIP within a given store's delivery area?
-    public static final String queryFilters       = "fq";
-    public static final String queryIpAddr        = "ip";
-    public static final String queryZipCode       = "postalCode";
-    public static final String querySearchTerm    = "q";
-    public static final String queryRadius        = "radius";          // Store Search radius. In meters or kilometers.
-    public static final String queryUnitOfMeasure = "unitOfMeasure";   // Unit of measure (m or km) for Store Search radius.
-    public static final String queryRegionCode    = "region";
-    public static final String queryStoreOwnerID  = "storeownerId";
-    public static final String queryStoreStatus   = "storeStatus";
-    public static final String queryIsMember      = "isMember";
-    public static final String queryProdsPerCat	 = "productPerCategory";
-    public static final String querySaleOnlyProds = "saleOnly";
-    public static final String queryUserID        = "userId";
-    public static final String queryStoreID       = "storeId";
-    public static final String queryExcluded      = "exclude";        // Products to exclude from the result set
-    public static final String querySortOrder     = "sort";           // Sort results by Brand, Price, or UnitPrice 
-    public static final String querySeachBySound  = "sound";          // What does this do?  Maybe if you yell your request really loudly, MWG will hear it?
-    public static final String queryRunState      = "runState";
-    
+        
     public static final String baseURLv1	   = "https://api.shoprite.com/api/v1";
     public static final String serviceURLv1 = "https://service.shoprite.com";
     public static final String appToken     = "62081B21-0885-4544-8849-326195C8F9CD";
@@ -104,10 +77,32 @@ public class MWGApplicationConstants {
         		
         		// Request Parameters that are part of the URL's query string.
         		public static class Query {
-        			
+        		    public static final String skip          = "skip";
+        		    public static final String take          = "take";
+        		    public static final String services      = "mwgService";
+        		    public static final String city          = "city";
+        		    public static final String coords        = "coordinates";     // Geolocation coordinates.
+        		    public static final String toZip         = "deliversTo";      // Is this ZIP within a given store's delivery area?
+        		    public static final String filters       = "fq";
+        		    public static final String ipAddr        = "ip";
+        		    public static final String zipCode       = "postalCode";
+        		    public static final String searchTerm    = "q";
+        		    public static final String radius        = "radius";          // Store Search radius. In meters or kilometers.
+        		    public static final String unitOfMeasure = "unitOfMeasure";   // Unit of measure (m or km) for Store Search radius.
+        		    public static final String regionCode    = "region";
+        		    public static final String storeOwnerID  = "storeownerId";
+        		    public static final String storeStatus   = "storeStatus";
+        		    public static final String isMember      = "isMember";
+        		    public static final String prodsPerCat	 = "productPerCategory";
+        		    public static final String saleOnlyProds = "saleOnly";
+        		    public static final String userID        = "userId";
+        		    public static final String storeID       = "storeId";
+        		    public static final String excluded      = "exclude";        // Products to exclude from the result set
+        		    public static final String sortOrder     = "sort";           // Sort results by Brand, Price, or UnitPrice 
+        		    public static final String searchBySound = "sound";          // What does this do?  Maybe if you yell your request really loudly, MWG will hear it?
+        		    public static final String runState      = "runState";
         		}
         }
-        
         
     		public static class Account {
     			public static final String acctPath = "/account/v7";

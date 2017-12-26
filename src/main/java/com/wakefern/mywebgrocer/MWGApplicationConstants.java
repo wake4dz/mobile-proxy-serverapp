@@ -190,6 +190,7 @@ public class MWGApplicationConstants {
     			public static final String fullPages   = circular    + "/pages";
     			public static final String pageDetails = fullPages   + "/{" + Params.Path.pageID + "}";
     			public static final String pageItems   = pageDetails + "/items";
+    			public static final String pageItem    = pageItems   + "/{" + Params.Path.itemID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

@@ -29,7 +29,7 @@ public class Categories extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.categories)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
     		@QueryParam(MWGApplicationConstants.queryProdsPerCat) String productsPerCategory,
     		@QueryParam(MWGApplicationConstants.querySaleOnlyProds) String onlySaleProducts,
@@ -41,7 +41,7 @@ public class Categories extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);

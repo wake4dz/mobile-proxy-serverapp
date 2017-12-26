@@ -41,7 +41,7 @@ public class AuthenticateUser extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Account.login)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainId, 
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainId, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 
     		String jsonBody) {    
     		
@@ -75,7 +75,7 @@ public class AuthenticateUser extends BaseService {
             this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, MWGApplicationConstants.Headers.Account.login, sessionToken);
     			this.requestParams = new HashMap<String, String>();    			
     			
-    			this.requestParams.put(MWGApplicationConstants.pathChainID, chainId);
+    			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainId);
     	        
     			jsonData.put(pwKey, StringEscapeUtils.escapeHtml4(password));
 	        

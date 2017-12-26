@@ -4,6 +4,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.mywebgrocer.MWGApplicationConstants.Requests.Params;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -29,7 +30,7 @@ public class Countries extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.countries)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
     		@QueryParam(MWGApplicationConstants.queryStoreID) String storeID,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
@@ -38,7 +39,7 @@ public class Countries extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.queryStoreID, storeID);

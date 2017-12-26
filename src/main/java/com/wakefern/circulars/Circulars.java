@@ -29,8 +29,8 @@ public class Circulars extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Circulars.circulars)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID,    		
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,    		
     		
     		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
     		@QueryParam(MWGApplicationConstants.queryRunState) String runState,
@@ -43,8 +43,8 @@ public class Circulars extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Map of the Query String parameters
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);

@@ -29,7 +29,7 @@ public class Suggestions extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.suggestedProds)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		
     		@QueryParam(MWGApplicationConstants.queryExcluded) String excludedProds,
     		@QueryParam(MWGApplicationConstants.queryFilters) String searchFilters,
@@ -48,7 +48,7 @@ public class Suggestions extends BaseService {
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 				
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

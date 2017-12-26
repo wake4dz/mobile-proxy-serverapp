@@ -29,8 +29,8 @@ public class ByCategory extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.prodsByCat)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathCategoryID) String categoryID,
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.categoryID) String categoryID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		
     		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
     		@QueryParam(MWGApplicationConstants.queryUserID) String userID,
@@ -51,8 +51,8 @@ public class ByCategory extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathCategoryID, categoryID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.categoryID, categoryID);
 		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);

@@ -28,8 +28,8 @@ public class Subcategories extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.subCategories)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
-    		@PathParam(MWGApplicationConstants.pathParentCatID) String parentCategoryID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.parentCatID) String parentCategoryID,
     		
     		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
     		@QueryParam(MWGApplicationConstants.queryProdsPerCat) String productsPerCategory,
@@ -45,8 +45,8 @@ public class Subcategories extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathParentCatID, parentCategoryID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.parentCatID, parentCategoryID);
 		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);

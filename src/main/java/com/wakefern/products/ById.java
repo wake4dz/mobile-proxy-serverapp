@@ -29,8 +29,8 @@ public class ById extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.prodByID)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathProductID) String productID,
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.productID) String productID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@QueryParam(MWGApplicationConstants.queryIsMember) String isMember,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
@@ -40,8 +40,8 @@ public class ById extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathProductID, productID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.productID, productID);
 		
 		// Build the Map of Query String parameters
 		this.queryParams.put(MWGApplicationConstants.queryIsMember, isMember);

@@ -29,9 +29,9 @@ public class CategoryItems extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Circulars.categoryItems)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID,    		
-    		@PathParam(MWGApplicationConstants.pathCategoryID) String categoryID,   
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,    		
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.categoryID) String categoryID,   
     		
     		@QueryParam(MWGApplicationConstants.querySkip) String skip,
     		@QueryParam(MWGApplicationConstants.queryTake) String take,
@@ -44,9 +44,9 @@ public class CategoryItems extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
-		this.requestParams.put(MWGApplicationConstants.pathCategoryID, categoryID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.categoryID, categoryID);
 		
 		// Map of the Query String parameters
 		this.queryParams.put(MWGApplicationConstants.queryTake, take);

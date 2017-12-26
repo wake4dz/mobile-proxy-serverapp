@@ -29,7 +29,7 @@ public class Regions extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.regions)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
     		@QueryParam(MWGApplicationConstants.queryServices) String services,
     		@QueryParam(MWGApplicationConstants.querySkip) String skip,
     		@QueryParam(MWGApplicationConstants.queryTake) String take,
@@ -40,7 +40,7 @@ public class Regions extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.queryServices, services);

@@ -29,8 +29,8 @@ public class NutritionById extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.nutritionByID)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathProductID) String productID,
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.productID) String productID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
@@ -38,8 +38,8 @@ public class NutritionById extends BaseService {
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathProductID, productID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.productID, productID);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

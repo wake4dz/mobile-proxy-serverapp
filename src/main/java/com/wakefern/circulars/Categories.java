@@ -29,8 +29,8 @@ public class Categories extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Circulars.categories)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID,    		
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,    		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
@@ -38,8 +38,8 @@ public class Categories extends BaseService {
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

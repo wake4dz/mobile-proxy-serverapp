@@ -25,25 +25,25 @@ public class CircularsDetails extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Circulars.cirularsDetails)
+    @Consumes(MWGApplicationConstants.Headers.Circulars.circularsDetails)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Circulars.circulars)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID,    		
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,    		
     		
     		@QueryParam(MWGApplicationConstants.queryRunState) String runState,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.cirularsDetails, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.circularsDetails, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
 		// Map of the Query String parameters
 		this.queryParams.put(MWGApplicationConstants.queryRunState, runState);

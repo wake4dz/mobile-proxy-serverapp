@@ -29,7 +29,7 @@ public class FeaturedByStore extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.featuredProdsByStore)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		
     		@QueryParam(MWGApplicationConstants.queryExcluded) String excludedProds,
     		@QueryParam(MWGApplicationConstants.queryFilters) String searchFilters,
@@ -49,7 +49,7 @@ public class FeaturedByStore extends BaseService {
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 		
 		// Build the Map of Query String parameters
 		this.queryParams.put(MWGApplicationConstants.queryExcluded, excludedProds);

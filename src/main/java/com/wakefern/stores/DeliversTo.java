@@ -31,17 +31,17 @@ public class DeliversTo extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Stores.delivers)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID, 
-    		@PathParam(MWGApplicationConstants.pathStoreID) String storeID,
-    		@PathParam(MWGApplicationConstants.pathZipCode) String zipCode,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID, 
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.zipCode) String zipCode,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.delivers, ApplicationConstants.jsonResponseType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 	
-		this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
-		this.requestParams.put(MWGApplicationConstants.pathStoreID, storeID);
-		this.requestParams.put(MWGApplicationConstants.pathZipCode, zipCode);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.zipCode, zipCode);
 	
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

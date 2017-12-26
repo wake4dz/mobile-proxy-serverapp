@@ -39,8 +39,8 @@ public class Profile extends BaseService {
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Account.profile)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.pathChainID) String chainID, 
-    		@PathParam(MWGApplicationConstants.pathUserID) String userID, 
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID, 
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 
     		String jsonBody) {
 			
@@ -62,8 +62,8 @@ public class Profile extends BaseService {
     		this.requestParams = new HashMap<String, String>();
         this.requestHeader = new MWGHeader(acceptType, ApplicationConstants.jsonResponseType, sessionToken);
     	        
-        this.requestParams.put(MWGApplicationConstants.pathChainID, chainID);
-        this.requestParams.put(MWGApplicationConstants.pathUserID, userID);
+        this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
+        this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
         
         return this.mwgRequest(BaseService.ReqType.GET, null);
     }

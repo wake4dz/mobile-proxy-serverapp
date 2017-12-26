@@ -171,36 +171,36 @@ public class ServiceMappings {
 				
 		// Insert any Request Path parameters
 		if ((serviceObj.requestParams != null) && !serviceObj.requestParams.isEmpty()) {
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathChainID)) {
-				path = replacePathParam(MWGApplicationConstants.pathChainID, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.chainID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.chainID, path, serviceObj);
 			}
 			
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathUserID)) {
-				path = replacePathParam(MWGApplicationConstants.pathUserID, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.userID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.userID, path, serviceObj);
 			}
 			
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathStoreID)) {
-				path = replacePathParam(MWGApplicationConstants.pathStoreID, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.storeID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.storeID, path, serviceObj);
 			}
 			
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathRegionID)) {
-				path = replacePathParam(MWGApplicationConstants.pathRegionID, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.regionID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.regionID, path, serviceObj);
 			}
 			
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathZipCode)) {
-				path = replacePathParam(MWGApplicationConstants.pathZipCode, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.zipCode)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.zipCode, path, serviceObj);
 			}
 
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathParentCatID)) {
-				path = replacePathParam(MWGApplicationConstants.pathParentCatID, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.parentCatID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.parentCatID, path, serviceObj);
 			}
 			
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathCategoryID)) {
-				path = replacePathParam(MWGApplicationConstants.pathCategoryID, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.categoryID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.categoryID, path, serviceObj);
 			}
 			
-			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.pathProductSKU)) {
-				path = replacePathParam(MWGApplicationConstants.pathProductSKU, path, serviceObj);
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.productSKU)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.productSKU, path, serviceObj);
 			}
 		}
 		

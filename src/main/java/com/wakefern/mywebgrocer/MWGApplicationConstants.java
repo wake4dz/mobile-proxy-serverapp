@@ -11,16 +11,7 @@ public class MWGApplicationConstants {
     //
     public static final String baseURL = fgStageBaseURL;
     
-    public static final String pathItemID      = "itemId";
-    public static final String pathChainID     = "chainId";
-    public static final String pathUserID      = "userId";
-    public static final String pathStoreID     = "storeId";
-    public static final String pathRegionID    = "region";
-    public static final String pathZipCode     = "postalCode";
-    public static final String pathParentCatID = "parentCategoryId";
-    public static final String pathCategoryID  = "categoryId";
-    public static final String pathProductSKU  = "sku";
-    public static final String pathProductID   = "productId";
+
     
     public static final String querySkip          = "skip";
     public static final String queryTake          = "take";
@@ -82,9 +73,9 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class Circulars {
-    			public static final String circulars       = prefix + "circular+json";
-    			public static final String cirularsDetails = prefix + "circular-detail+json";
-    			public static final String categories      = prefix + "circular-category+json";
+    			public static final String circulars        = prefix + "circular+json";
+    			public static final String circularsDetails = prefix + "circular-detail+json";
+    			public static final String categories       = prefix + "circular-category+json";
     			
     			public static final String items = prefix + "circular-items+json";
     			public static final String item  = prefix + "circular-item+json";
@@ -92,17 +83,40 @@ public class MWGApplicationConstants {
     }
     
     public static class Requests {
-        private static final String chainsPath   = "/chains/"   + "{" + pathChainID     + "}";	
-        private static final String usersPath    = "/users/"    + "{" + pathUserID      + "}";	
-		private static final String categoryPath = "/category/" + "{" + pathCategoryID  + "}";
+        private static final String chainID = "/chains/" + "{" + Params.Path.chainID + "}";	
 
-		private static final String categoriesPath = "/categories";
-
+        // Request Parameters
+        public static class Params {
+        		
+        		// Request Parameters included within the URL's path.
+        		public static class Path {
+        		    public static final String itemID      = "itemId";
+        		    public static final String chainID     = "chainId";
+        		    public static final String userID      = "userId";
+        		    public static final String storeID     = "storeId";
+        		    public static final String regionID    = "region";
+        		    public static final String zipCode     = "postalCode";
+        		    public static final String parentCatID = "parentCategoryId";
+        		    public static final String categoryID  = "categoryId";
+        		    public static final String productSKU  = "sku";
+        		    public static final String productID   = "productId";
+        		}
+        		
+        		// Request Parameters that are part of the URL's query string.
+        		public static class Query {
+        			
+        		}
+        }
+        
+        
     		public static class Account {
     			public static final String acctPath = "/account/v7";
     			
-    			public static final String login   = chainsPath + "/authentication";  // Log in a registered user
-    			public static final String profile = chainsPath + usersPath;
+    			// Log in a registered user
+    			public static final String login   = chainID + "/authentication";
+    			
+    			// Get a user's full profile
+    			public static final String profile = chainID + "/users/" + "{" + Params.Path.userID + "}";
     		}
     	
         public static class Authentication {
@@ -113,64 +127,65 @@ public class MWGApplicationConstants {
         		public static final String storesPath = "/stores/v7";
         		
         		public static final String chains  = "/chains";
-        		public static final String regions = chainsPath + "/regions";
-        		public static final String stores  = chainsPath + "/stores";
+        		public static final String regions = chainID + "/regions";
+        		public static final String stores  = chainID + "/stores";
         		
-        		public static final String cities   = regions + "/{" + pathRegionID + "}/cities";
-        		public static final String details  = stores  + "/{" + pathStoreID + "}";
-        		public static final String delivers = details + "/delivers-to/{" + pathZipCode + "}";
+        		public static final String cities   = regions + "/{" + Params.Path.regionID + "}/cities";
+        		public static final String details  = stores  + "/{" + Params.Path.storeID + "}";
+        		public static final String delivers = details + "/delivers-to/{" + Params.Path.zipCode + "}";
         		
             public static final String StoreLocator     = "/storelocator/v1/chain";
             public static final String ShoppingListUser = "/shoppinglists/v1/user/";
         }
         
         public static class Products {
-	    		private static final String prodsPath = "/products";
-	    		private static final String prodPath  = "/product";
-	    		private static final String nutriPath = "/nutrition";
-	    		private static final String salesPath = "/special";
-	    		private static final String featPath  = "/featured";
+	    		private static final String products  = "/products";
+	    		private static final String product   = "/product";
+	    		private static final String nutrition = "/nutrition";
+	    		private static final String sales     = "/special";
+	    		private static final String featured  = "/featured";
 
-    			private static final String storePath   = "/store/"    + "{" + pathStoreID     + "}";
-        		private static final String catTreePath = "/category/" + "{" + pathParentCatID + "}";
-        		private static final String prodIdPath  = "/product/"  + "{" + pathProductID   + "}";
-        		private static final String skuPath     = "/sku/"      + "{" + pathProductSKU  + "}";
+	    		private static final String categoryID  = "/category/" + "{" + Params.Path.categoryID  + "}";
+    			private static final String storeID     = "/store/"    + "{" + Params.Path.storeID     + "}";
+        		private static final String parentCatID = "/category/" + "{" + Params.Path.parentCatID + "}";
+        		private static final String productID   = "/product/"  + "{" + Params.Path.productID   + "}";
+        		private static final String productSKU  = "/sku/"      + "{" + Params.Path.productSKU  + "}";
         		
         		public static final String productPath = "/product/v7";
         		
-        		public static final String categories       = categoriesPath + storePath;
-        		public static final String subCategories    = catTreePath    + storePath + categoriesPath;
-        		public static final String catsWithSales    = categories     + salesPath;
-        		public static final String subCatsWithSales = subCategories  + salesPath;
+        		public static final String categories       = "/categories" + storeID;
+        		public static final String subCategories    = parentCatID   + storeID + "/categories";
+        		public static final String catsWithSales    = categories    + sales;
+        		public static final String subCatsWithSales = subCategories + sales;
         		
-        		public static final String countries = chainsPath + "/countries";
+        		public static final String countries = chainID + "/countries";
         		
-        		public static final String prodByID     = prodIdPath + storePath;
-        		public static final String prodsByCat   = prodsPath  + categoryPath + storePath;
-        		public static final String prodBySKU    = prodPath   + storePath    + skuPath;
-        		public static final String prodVarsByID = prodIdPath + storePath    + "/all/variations";
-        		public static final String prodSearch   = prodsPath  + storePath    + "/search";
+        		public static final String prodByID     = productID + storeID;
+        		public static final String prodsByCat   = products  + categoryID + storeID;
+        		public static final String prodBySKU    = product   + storeID    + productSKU;
+        		public static final String prodVarsByID = productID + storeID    + "/all/variations";
+        		public static final String prodSearch   = products  + storeID    + "/search";
         		
-        		public static final String nutritionBySKU = prodPath   + storePath + skuPath + nutriPath;
-        		public static final String nutritionByID  = prodIdPath + storePath + nutriPath;
+        		public static final String nutritionBySKU = product   + storeID + productSKU + nutrition;
+        		public static final String nutritionByID  = productID + storeID + nutrition;
         		
-        		public static final String suggestedProds       = prodsPath + storePath    + "/suggest";
-        		public static final String featuredProdsByStore = prodsPath + storePath    + featPath;
-        		public static final String featuredProdsByCat   = prodsPath + categoryPath + storePath + featPath;
-        		public static final String saleItemsByCat       = prodsPath + categoryPath + storePath + salesPath;
+        		public static final String suggestedProds       = products + storeID    + "/suggest";
+        		public static final String featuredProdsByStore = products + storeID    + featured;
+        		public static final String featuredProdsByCat   = products + categoryID + storeID + featured;
+        		public static final String saleItemsByCat       = products + categoryID + storeID + sales;
         }
         
         public static class Circulars {
-        		private static final String itemsPath  = "/items";
-        		private static final String storesPath = "/stores/" + "{" + pathStoreID + "}";
+        		private static final String storeID = "/stores/" + "{" + Params.Path.storeID + "}";
         	
         		public static final String circularsPath = "/circulars/v7";
         		
-        		public static final String circulars     = chainsPath + storesPath + "/circulars";
-            public static final String categories    = chainsPath + storesPath + categoriesPath;
-            public static final String category      = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}";
-            public static final String categoryItems = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}" + itemsPath;
-            public static final String categoryItem  = chainsPath + storesPath + categoriesPath + "/{" + pathCategoryID  + "}" + itemsPath + "/{" + pathItemID  + "}";
+        		public static final String circular      = "/chains/{chainId}/stores/{storeId}/circulars/{circularId}";
+        		public static final String circulars     = chainID + storeID + "/circulars";
+            public static final String categories    = chainID + storeID + "/categories";
+            public static final String category      = chainID + storeID + "/categories" + "/{" + Params.Path.categoryID  + "}";
+            public static final String categoryItems = chainID + storeID + "/categories" + "/{" + Params.Path.categoryID  + "}" + "/items";
+            public static final String categoryItem  = chainID + storeID + "/categories" + "/{" + Params.Path.categoryID  + "}" + "/items" + "/{" + Params.Path.itemID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

@@ -111,6 +111,8 @@ public class MWGApplicationConstants {
         		    public static final String sortOrder     = "sort";           // Sort results by Brand, Price, or UnitPrice 
         		    public static final String searchBySound = "sound";          // What does this do?  Maybe if you yell your request really loudly, MWG will hear it?
         		    public static final String runState      = "runState";
+        		    public static final String promotion     = "promotion";
+        		    public static final String recipeGroup   = "recipeGroup";        		    
         		}
         }
         
@@ -204,7 +206,8 @@ public class MWGApplicationConstants {
         public static class Recipes{
             public static final String recipesPath = "/recipes/v7";
             
-            public static final String search = chainID + "/recipes";
+            public static final String search   = chainID  + "/recipes";
+            public static final String featured = search   + "/features";
             
             public static final String categories  = chainID    + "/categories";
             public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}/recipes";

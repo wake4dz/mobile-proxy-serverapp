@@ -56,6 +56,10 @@ public class MWGApplicationConstants {
     			public static final String item  = prefix + "circular-item+json";
     			
     		}
+    		
+    		public static class Recipes {
+    			public static final String categories = prefix + "recipe-category+json";
+    		}
     }
     
     public static class Requests {
@@ -196,6 +200,12 @@ public class MWGApplicationConstants {
     			public static final String pageItem    = pageItems   + "/{" + Params.Path.itemID + "}";
         }
         
+        public static class Recipes{
+            public static final String recipesPath = "/recipes/v7";
+            
+            public static final String categories = chainID + "/categories";
+        }
+        
         // ^^^ NEW STUFF ^^^ \\
 
         public static class Checkout {
@@ -223,11 +233,6 @@ public class MWGApplicationConstants {
             public static final String slUser = "/shoppinglist/v5/user";
             public static final String slItemsUser = "/shoppinglist/v5/items/user";
             public static final String slGeneric = "/shoppinglist/v5/generic";
-        }
-
-        public static class Recipes{
-            public static final String RecipeChain = "/recipes/v1/chain";
-            public static final String UpdateProfile = "/user/v1/id";
         }
 
         public static class Registration{

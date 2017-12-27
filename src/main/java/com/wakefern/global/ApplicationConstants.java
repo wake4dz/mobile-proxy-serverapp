@@ -142,11 +142,6 @@ public final class ApplicationConstants {
             public static final String slGenericList = MWGApplicationConstants.Requests.ShoppingLists.slGeneric;
         }
 
-        public static final class Recipes{
-            public static final String RecipeChain = MWGApplicationConstants.Requests.Recipes.RecipeChain;
-            public static final String UpdateProfile = MWGApplicationConstants.Requests.Recipes.UpdateProfile;
-        }
-
         public static final class Registration{
             public static final String UserRegistration = MWGApplicationConstants.Requests.Registration.UserRegistration;
         }

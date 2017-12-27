@@ -176,20 +176,23 @@ public class MWGApplicationConstants {
         }
         
         public static class Circulars {
+        		private static final String items   = "/items";
         		private static final String storeID = "/stores/" + "{" + Params.Path.storeID + "}";
         		        	
         		public static final String circularsPath = "/circulars/v7";
         		            
         		public static final String categories    = chainID       + storeID + "/categories";
             public static final String category      = categories    + "/{" + Params.Path.categoryID  + "}";
-            public static final String categoryItems = category      + "/items";
+            public static final String categoryItems = category      + items;
             public static final String categoryItem  = categoryItems + "/{" + Params.Path.itemID + "}";
+            
+            public static final String search = chainID + storeID + items;
             
 			public static final String circulars   = chainID     + storeID + "/circulars";
     			public static final String circular    = circulars   + "/{" + Params.Path.circularID + "}";
     			public static final String fullPages   = circular    + "/pages";
     			public static final String pageDetails = fullPages   + "/{" + Params.Path.pageID + "}";
-    			public static final String pageItems   = pageDetails + "/items";
+    			public static final String pageItems   = pageDetails + items;
     			public static final String pageItem    = pageItems   + "/{" + Params.Path.itemID + "}";
         }
         

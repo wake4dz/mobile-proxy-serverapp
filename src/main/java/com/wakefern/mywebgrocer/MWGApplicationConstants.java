@@ -59,7 +59,9 @@ public class MWGApplicationConstants {
     		
     		public static class Recipes {
     			public static final String categories = prefix + "recipe-category+json";
-    			public static final String recipes    = prefix + "recipes+json"; 
+    			
+    			public static final String recipes = prefix + "recipes+json"; 
+    			public static final String recipe  = prefix + "recipe+json";
     		}
     }
     
@@ -83,6 +85,7 @@ public class MWGApplicationConstants {
         		    public static final String productID   = "productId";
         		    public static final String circularID  = "circularId";
         		    public static final String pageID      = "pageId";
+        		    public static final String recipeID    = "recipeId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -204,13 +207,16 @@ public class MWGApplicationConstants {
         }
         
         public static class Recipes{
+        		private static final String recipes = "/recipes";
+        		
             public static final String recipesPath = "/recipes/v7";
             
-            public static final String search   = chainID  + "/recipes";
-            public static final String featured = search   + "/features";
+            public static final String search   = chainID + recipes;
+            public static final String details  = search  + "/{" + Params.Path.recipeID + "}";
+            public static final String featured = search  + "/features";
             
             public static final String categories  = chainID    + "/categories";
-            public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}/recipes";
+            public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}" + recipes;
         }
         
         // ^^^ NEW STUFF ^^^ \\

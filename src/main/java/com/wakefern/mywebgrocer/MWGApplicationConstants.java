@@ -204,6 +204,8 @@ public class MWGApplicationConstants {
         public static class Recipes{
             public static final String recipesPath = "/recipes/v7";
             
+            public static final String search = chainID + "/recipes";
+            
             public static final String categories  = chainID    + "/categories";
             public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}/recipes";
         }

@@ -59,6 +59,7 @@ public class MWGApplicationConstants {
     		
     		public static class Recipes {
     			public static final String categories = prefix + "recipe-category+json";
+    			public static final String recipes    = prefix + "recipes+json"; 
     		}
     }
     
@@ -203,7 +204,8 @@ public class MWGApplicationConstants {
         public static class Recipes{
             public static final String recipesPath = "/recipes/v7";
             
-            public static final String categories = chainID + "/categories";
+            public static final String categories  = chainID    + "/categories";
+            public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}/recipes";
         }
         
         // ^^^ NEW STUFF ^^^ \\

@@ -43,12 +43,7 @@ public class DeleteItemFromList extends BaseService {
 
 
         if(listId.isEmpty()) {
-            try {
-				listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				return this.createErrorResponse(e);
-			}
+			listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);
         }
         if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
         	if(itemId.isEmpty()){
@@ -56,6 +51,9 @@ public class DeleteItemFromList extends BaseService {
                 ShoppingListItemsGet list = new ShoppingListItemsGet();
                 String returnString = null;
     			try {
+                	if(listId == null){
+        				return this.createErrorResponse(new Exception("402,listId is empty."));
+                	}
     				returnString = list.getInfo(userId, storeId, listId, "9999", "0", "", isMember, authToken);
     			} catch (IOException e) {
     				// TODO Auto-generated catch block

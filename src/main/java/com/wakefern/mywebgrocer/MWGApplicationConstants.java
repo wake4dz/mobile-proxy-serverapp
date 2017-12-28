@@ -70,8 +70,9 @@ public class MWGApplicationConstants {
     }
     
     public static class Requests {
-        private static final String chainID = "/chains/" + "{" + Params.Path.chainID + "}";	
-
+        private static final String chainID = "/chains/" + "{" + Params.Path.chainID + "}";
+        private static final String userID  = "/users/" + "{" + Params.Path.userID + "}";
+        
         // Request Parameters
         public static class Params {
         		
@@ -130,7 +131,7 @@ public class MWGApplicationConstants {
     			public static final String login   = chainID + "/authentication";
     			
     			// Get a user's full profile
-    			public static final String profile = chainID + "/users/" + "{" + Params.Path.userID + "}";
+    			public static final String profile = chainID + userID;
     		}
     	
         public static class Authentication {
@@ -227,6 +228,8 @@ public class MWGApplicationConstants {
             
             public static final String categories  = chainID    + "/categories";
             public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}" + recipes;
+            
+            public static final String userRecipes = chainID + userID + "/recipes";
         }
         
         // ^^^ NEW STUFF ^^^ \\

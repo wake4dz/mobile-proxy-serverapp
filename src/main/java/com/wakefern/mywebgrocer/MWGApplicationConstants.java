@@ -65,6 +65,7 @@ public class MWGApplicationConstants {
     			public static final String emailRequest = prefix + "recipe-email+json";
     			public static final String ingredients  = prefix + "recipe-ingredients+json";
     			public static final String nutritional  = prefix + "recipe-nutrients+json";
+    			public static final String prepTimes    = prefix + "recipe-times+json";
     		}
     }
     
@@ -222,6 +223,7 @@ public class MWGApplicationConstants {
             public static final String emailRequest = details + "/emailRequest";
             public static final String instructions = details + "/directions";
             public static final String nutritional  = details + "/nutrients";
+            public static final String prepTimes    = details + "/times";
             
             public static final String categories  = chainID    + "/categories";
             public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}" + recipes;

@@ -54,15 +54,15 @@ public class MWGApplicationConstants {
     			public static final String page  = prefix + "circular-page+json";
     			public static final String items = prefix + "circular-items+json";
     			public static final String item  = prefix + "circular-item+json";
-    			
     		}
     		
     		public static class Recipes {
-    			public static final String categories   = prefix + "recipe-category+json";
-    			public static final String instructions = prefix + "recipe-directions+json";
-    			
     			public static final String recipes = prefix + "recipes+json"; 
     			public static final String recipe  = prefix + "recipe+json";
+
+    			public static final String categories   = prefix + "recipe-category+json";
+    			public static final String instructions = prefix + "recipe-directions+json";
+    			public static final String emailRequest = prefix + "recipe-email+json";    			
     		}
     }
     
@@ -216,6 +216,7 @@ public class MWGApplicationConstants {
             public static final String details  = search  + "/{" + Params.Path.recipeID + "}";
             public static final String featured = search  + "/features";
             
+            public static final String emailRequest = details    + "/emailRequest";
             public static final String instructions = details    + "/directions";
             public static final String categories   = chainID    + "/categories";
             public static final String searchByCat  = categories + "/{" + Params.Path.categoryID + "}" + recipes;

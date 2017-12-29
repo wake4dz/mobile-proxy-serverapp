@@ -214,11 +214,13 @@ public class MWGApplicationConstants {
         public static class Recipes{
         		private static final String recipes = "/recipes";
         		
+        		private static final String id = "/{" + Params.Path.recipeID + "}";
+        		
             public static final String recipesPath = "/recipes/v7";
             
             public static final String search   = chainID + recipes;
             public static final String featured = search  + "/features";
-            public static final String details  = search  + "/{" + Params.Path.recipeID + "}";
+            public static final String details  = search  + id;
             
             public static final String ingredients  = details + "/ingredients";
             public static final String emailRequest = details + "/emailRequest";
@@ -229,7 +231,8 @@ public class MWGApplicationConstants {
             public static final String categories  = chainID    + "/categories";
             public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}" + recipes;
             
-            public static final String userRecipes = chainID + userID + "/recipes";
+            public static final String userRecipes = chainID + userID + recipes;
+            public static final String updateRecipe = userRecipes + id;
         }
         
         // ^^^ NEW STUFF ^^^ \\

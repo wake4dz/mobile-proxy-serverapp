@@ -25,8 +25,8 @@ public class EmailRequest extends BaseService {
     }
     
 	@POST
-    @Consumes(MWGApplicationConstants.Headers.Recipes.emailRequest)
-    @Produces("application/*")
+    @Consumes(ApplicationConstants.jsonAcceptType)
+    @Produces(MWGApplicationConstants.Headers.Recipes.emailRequest)
     @Path(MWGApplicationConstants.Requests.Recipes.emailRequest)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
@@ -34,10 +34,11 @@ public class EmailRequest extends BaseService {
     		
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
     		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
+    		String jsonData
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Recipes.emailRequest, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, MWGApplicationConstants.Headers.Recipes.emailRequest, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -49,7 +50,7 @@ public class EmailRequest extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

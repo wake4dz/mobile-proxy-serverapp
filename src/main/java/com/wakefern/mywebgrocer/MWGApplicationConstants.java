@@ -71,7 +71,7 @@ public class MWGApplicationConstants {
     
     public static class Requests {
         private static final String chainID = "/chains/" + "{" + Params.Path.chainID + "}";
-        private static final String userID  = "/users/" + "{" + Params.Path.userID + "}";
+        private static final String userID  = "/users/"  + "{" + Params.Path.userID  + "}";
         
         // Request Parameters
         public static class Params {
@@ -235,6 +235,10 @@ public class MWGApplicationConstants {
             public static final String updateRecipe = userRecipes + id;
         }
         
+        public static class Shop {
+            
+        }
+        
         // ^^^ NEW STUFF ^^^ \\
 
         public static class Checkout {
@@ -250,11 +254,6 @@ public class MWGApplicationConstants {
         public static class Cart {
             public static final String CartAuth = "/cart/v5/user/authenticated";
             public static final String CartUser = "/cart/v5/user";
-        }
-
-        public static class Shop{
-            public static final String ShopStore = "/shop/v5/shop/store";
-            public static final String ShopUser = "/shop/v5/shop/user";
         }
 
         public static class ShoppingLists{

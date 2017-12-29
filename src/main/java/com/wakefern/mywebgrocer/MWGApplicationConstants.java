@@ -67,11 +67,16 @@ public class MWGApplicationConstants {
     			public static final String nutritional  = prefix + "recipe-nutrients+json";
     			public static final String prepTimes    = prefix + "recipe-times+json";
     		}
+    		
+    		public static class Shop {
+    			public static final String contact = prefix + "customer-service-contact+json";
+    		}
     }
     
     public static class Requests {
-        private static final String chainID = "/chains/" + "{" + Params.Path.chainID + "}";
-        private static final String userID  = "/users/"  + "{" + Params.Path.userID  + "}";
+        private static final String chainsID = "/chains/" + "{" + Params.Path.chainID + "}";
+        private static final String usersID  = "/users/"  + "{" + Params.Path.userID  + "}";
+        private static final String userID   = "/user/"   + "{" + Params.Path.userID  + "}";
         
         // Request Parameters
         public static class Params {
@@ -128,10 +133,10 @@ public class MWGApplicationConstants {
     			public static final String acctPath = "/account/v7";
     			
     			// Log in a registered user
-    			public static final String login   = chainID + "/authentication";
+    			public static final String login   = chainsID + "/authentication";
     			
     			// Get a user's full profile
-    			public static final String profile = chainID + userID;
+    			public static final String profile = chainsID + usersID;
     		}
     	
         public static class Authentication {
@@ -142,8 +147,8 @@ public class MWGApplicationConstants {
         		public static final String storesPath = "/stores/v7";
         		
         		public static final String chains  = "/chains";
-        		public static final String regions = chainID + "/regions";
-        		public static final String stores  = chainID + "/stores";
+        		public static final String regions = chainsID + "/regions";
+        		public static final String stores  = chainsID + "/stores";
         		
         		public static final String cities   = regions + "/{" + Params.Path.regionID + "}/cities";
         		public static final String details  = stores  + "/{" + Params.Path.storeID + "}";
@@ -173,7 +178,7 @@ public class MWGApplicationConstants {
         		public static final String catsWithSales    = categories    + sales;
         		public static final String subCatsWithSales = subCategories + sales;
         		
-        		public static final String countries = chainID + "/countries";
+        		public static final String countries = chainsID + "/countries";
         		
         		public static final String prodByID     = productID + storeID;
         		public static final String prodsByCat   = products  + categoryID + storeID;
@@ -196,14 +201,14 @@ public class MWGApplicationConstants {
         		        	
         		public static final String circularsPath = "/circulars/v7";
         		            
-        		public static final String categories    = chainID       + storeID + "/categories";
+        		public static final String categories    = chainsID       + storeID + "/categories";
             public static final String category      = categories    + "/{" + Params.Path.categoryID  + "}";
             public static final String categoryItems = category      + items;
             public static final String categoryItem  = categoryItems + "/{" + Params.Path.itemID + "}";
             
-            public static final String search = chainID + storeID + items;
+            public static final String search = chainsID + storeID + items;
             
-			public static final String circulars   = chainID     + storeID + "/circulars";
+			public static final String circulars   = chainsID     + storeID + "/circulars";
     			public static final String circular    = circulars   + "/{" + Params.Path.circularID + "}";
     			public static final String fullPages   = circular    + "/pages";
     			public static final String pageDetails = fullPages   + "/{" + Params.Path.pageID + "}";
@@ -218,7 +223,7 @@ public class MWGApplicationConstants {
         		
             public static final String recipesPath = "/recipes/v7";
             
-            public static final String search   = chainID + recipes;
+            public static final String search   = chainsID + recipes;
             public static final String featured = search  + "/features";
             public static final String details  = search  + id;
             
@@ -228,15 +233,20 @@ public class MWGApplicationConstants {
             public static final String nutritional  = details + "/nutrients";
             public static final String prepTimes    = details + "/times";
             
-            public static final String categories  = chainID    + "/categories";
+            public static final String categories  = chainsID    + "/categories";
             public static final String searchByCat = categories + "/{" + Params.Path.categoryID + "}" + recipes;
             
-            public static final String userRecipes  = chainID + userID + recipes;
+            public static final String userRecipes  = chainsID + usersID + recipes;
             public static final String updateRecipe = userRecipes + id;
         }
         
         public static class Shop {
+        		private static final String shop    = "/shop";
+        		private static final String storeID = "/store" + "/{" + Params.Path.storeID + "}";
+        	
+            public static final String shopPath = "/shop/v7";
             
+            public static final String contact = shop + storeID + "/contact";
         }
         
         // ^^^ NEW STUFF ^^^ \\

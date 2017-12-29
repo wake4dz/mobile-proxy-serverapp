@@ -69,9 +69,10 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class Shop {
-    			public static final String contact  = prefix + "customer-service-contact+json";
-    			public static final String message  = prefix + "contact-message+json";
-    			public static final String settings = prefix + "shop-store-settings+json";
+    			public static final String contact   = prefix + "customer-service-contact+json";
+    			public static final String message   = prefix + "contact-message+json";
+    			public static final String settings  = prefix + "shop-store-settings+json";
+    			public static final String dashboard = prefix + "dashboard-entry+json";
     		}
     }
     
@@ -250,8 +251,10 @@ public class MWGApplicationConstants {
             
             public static final String contact  = shop + storeID + "/contact";
             public static final String settings = shop + storeID + "/settings";
-            
-            public static final String message = contact + "/messages";
+
+            public static final String message = contact + "/messages";            
+
+            public static final String dashboard = shop + userID + storeID + "/dashboard";
         }
         
         // ^^^ NEW STUFF ^^^ \\

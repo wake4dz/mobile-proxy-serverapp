@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Recipes.recipesPath)
-public class UpdateUserRecipe extends BaseService {
+public class DeleteUserRecipe extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -20,11 +20,11 @@ public class UpdateUserRecipe extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public UpdateUserRecipe() {
+    public DeleteUserRecipe() {
         this.requestPath = MWGApplicationConstants.Requests.Recipes.recipesPath + MWGApplicationConstants.Requests.Recipes.updateRecipe;
     }
     
-    @PUT
+	@DELETE
     @Consumes(MWGApplicationConstants.Headers.Recipes.recipe)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Recipes.updateRecipe)
@@ -51,7 +51,7 @@ public class UpdateUserRecipe extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

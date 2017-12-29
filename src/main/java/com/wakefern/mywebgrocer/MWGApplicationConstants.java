@@ -69,8 +69,9 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class Shop {
-    			public static final String contact = prefix + "customer-service-contact+json";
-    			public static final String message = prefix + "contact-message+json";
+    			public static final String contact  = prefix + "customer-service-contact+json";
+    			public static final String message  = prefix + "contact-message+json";
+    			public static final String settings = prefix + "shop-store-settings+json";
     		}
     }
     
@@ -247,7 +248,9 @@ public class MWGApplicationConstants {
         	
             public static final String shopPath = "/shop/v7";
             
-            public static final String contact = shop + storeID + "/contact";
+            public static final String contact  = shop + storeID + "/contact";
+            public static final String settings = shop + storeID + "/settings";
+            
             public static final String message = contact + "/messages";
         }
         

@@ -1,6 +1,5 @@
 package com.wakefern.shoppingList;
 
-import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
-public class GetUserList extends BaseService {
+public class DeleteList extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -20,12 +19,12 @@ public class GetUserList extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public GetUserList() {
+    public DeleteList() {
         this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.list;
     }
     
-	@GET
-    @Consumes(MWGApplicationConstants.Headers.ShoppingList.list)
+	@DELETE
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.list)
     public Response getResponse(
@@ -38,7 +37,7 @@ public class GetUserList extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.list, ApplicationConstants.jsonHeaderType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.generic, MWGApplicationConstants.Headers.generic, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -51,7 +50,7 @@ public class GetUserList extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

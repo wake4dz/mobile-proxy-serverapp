@@ -80,6 +80,7 @@ public class MWGApplicationConstants {
     		public static class ShoppingList {
     			public static final String list  = prefix + "list+json";
     			public static final String email = prefix + "list-email+json";
+    			public static final String item  = prefix + "list-item+json";
     		}
     }
     
@@ -269,8 +270,8 @@ public class MWGApplicationConstants {
         		public static final String prefix = "/shoppinglist/v7";
         		
         		public static final String lists = chainsID + usersID + "/lists";
-        		
-        		public static final String list = lists + "/{" + Params.Path.listID + "}";
+        		public static final String list  = lists + "/{" + Params.Path.listID + "}";
+        		public static final String items = list + "/items";
         }
         
         // ^^^ NEW STUFF ^^^ \\

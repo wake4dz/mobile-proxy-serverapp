@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
-public class GetUserLists extends BaseService {
+public class CreateList extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -20,11 +20,11 @@ public class GetUserLists extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public GetUserLists() {
+    public CreateList() {
         this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.lists;
     }
     
-	@GET
+	@POST
     @Consumes(MWGApplicationConstants.Headers.ShoppingList.list)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.lists)
@@ -34,10 +34,12 @@ public class GetUserLists extends BaseService {
     		
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
     		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
+    		
+    		String jsonData
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.list, ApplicationConstants.jsonHeaderType, sessionToken);
+		this.requestHeader = new MWGHeader(ApplicationConstants.jsonHeaderType, MWGApplicationConstants.Headers.ShoppingList.list, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -49,7 +51,7 @@ public class GetUserLists extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

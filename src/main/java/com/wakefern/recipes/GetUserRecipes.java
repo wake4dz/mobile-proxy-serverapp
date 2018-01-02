@@ -26,7 +26,7 @@ public class GetUserRecipes extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Recipes.recipes)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.userRecipes)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

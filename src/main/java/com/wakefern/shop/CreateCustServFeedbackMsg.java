@@ -28,7 +28,7 @@ public class CreateCustServFeedbackMsg extends BaseService {
     
 	@POST
     @Consumes(MWGApplicationConstants.Headers.Shop.message)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Shop.message)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,

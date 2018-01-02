@@ -5,6 +5,7 @@ import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ public class CouponAddToPPC extends BaseService {
     public JSONObject matchedObjects;
 
     @GET
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
                                     @DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.CouponId) String couponId,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {

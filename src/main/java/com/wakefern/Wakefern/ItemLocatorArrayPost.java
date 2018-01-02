@@ -2,6 +2,7 @@ package com.wakefern.Wakefern;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -19,7 +20,7 @@ public class ItemLocatorArrayPost extends BaseService {
 
     @POST
     @Consumes("application/json")
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     /**
      * JSON Format:
      {

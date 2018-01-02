@@ -25,7 +25,7 @@ public class GetSubcatsWithSaleItems extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Products.categories)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.subCatsWithSales)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,

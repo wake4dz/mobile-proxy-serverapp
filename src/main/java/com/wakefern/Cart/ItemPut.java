@@ -3,6 +3,7 @@ package com.wakefern.Cart;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 @Path(ApplicationConstants.Requests.Cart.CartUser)
 public class ItemPut extends BaseService {
     @PUT
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{userId}/store/{storeId}/item/{itemId}")
     /**
      * JSON Format

@@ -26,7 +26,7 @@ public class GetNutritionBySku extends BaseService {
     
 	@GET
     @Consumes(ApplicationConstants.jsonHeaderType)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.nutritionBySKU)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.productSKU) String productSKU,

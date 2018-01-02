@@ -26,7 +26,7 @@ public class GetStores extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Stores.stores)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.stores)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

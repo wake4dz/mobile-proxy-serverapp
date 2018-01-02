@@ -26,7 +26,7 @@ public class Search extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Recipes.recipes)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.search)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

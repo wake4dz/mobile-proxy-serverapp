@@ -26,7 +26,7 @@ public class GetCategoriesWithSaleItems extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Products.categories)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.catsWithSales)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,

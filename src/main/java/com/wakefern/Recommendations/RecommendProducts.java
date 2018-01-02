@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -23,7 +24,7 @@ public class RecommendProducts extends BaseService {
 	private final static Logger logger = Logger.getLogger("RecommendProducts");
 	
     @GET
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{userId}/sessid/{userAuth}")
     public Response getInfoResponse(@PathParam("userId") String userId,
     						@PathParam("userAuth") String userAuth,

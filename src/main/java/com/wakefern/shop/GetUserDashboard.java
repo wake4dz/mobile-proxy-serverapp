@@ -28,7 +28,7 @@ public class GetUserDashboard extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Shop.dashboard)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Shop.dashboard)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,

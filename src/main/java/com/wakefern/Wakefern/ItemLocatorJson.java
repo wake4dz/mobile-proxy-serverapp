@@ -2,6 +2,7 @@ package com.wakefern.Wakefern;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 @Path(ApplicationConstants.Requests.Wakefern.ItemLocatorJson)
 public class ItemLocatorJson extends BaseService {
     @GET
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{storeId}/{upc}")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("upc") String upc,
                                     @HeaderParam("Authentication") String authToken) throws Exception, IOException {

@@ -26,7 +26,7 @@ public class CreateListEmail extends BaseService {
     
 	@POST
     @Consumes(MWGApplicationConstants.Headers.ShoppingList.email)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.list)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

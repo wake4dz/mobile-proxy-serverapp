@@ -26,7 +26,7 @@ public class GetCategories extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Recipes.categories)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.categories)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

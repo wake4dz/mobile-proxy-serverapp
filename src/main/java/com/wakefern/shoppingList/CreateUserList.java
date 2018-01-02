@@ -26,7 +26,7 @@ public class CreateUserList extends BaseService {
     
 	@POST
     @Consumes(MWGApplicationConstants.Headers.ShoppingList.list)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.lists)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

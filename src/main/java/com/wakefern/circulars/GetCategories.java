@@ -26,7 +26,7 @@ public class GetCategories extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Circulars.categories)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Circulars.categories)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,

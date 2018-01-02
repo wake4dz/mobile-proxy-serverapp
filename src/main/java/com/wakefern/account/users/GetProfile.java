@@ -36,7 +36,7 @@ public class GetProfile extends BaseService {
 
     @GET
     @Consumes(MWGApplicationConstants.Headers.Account.fullProfile)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Account.profile)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID, 

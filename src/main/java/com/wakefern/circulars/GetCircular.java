@@ -26,7 +26,7 @@ public class GetCircular extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Circulars.circulars)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Circulars.circular)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,

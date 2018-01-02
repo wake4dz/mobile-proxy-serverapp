@@ -3,6 +3,7 @@ package com.wakefern.Checkout;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 @Path(ApplicationConstants.Requests.Checkout.Order)
 public class OrderDelete extends BaseService {
     @DELETE
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{orderId}/user/{userId}")
     public Response getInfoResponse(@PathParam("orderId") String orderId, @PathParam("userId") String userId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,

@@ -3,6 +3,7 @@ package com.wakefern.Checkout;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ import java.util.Map;
 @Path(ApplicationConstants.Requests.Checkout.UserCheckout)
 public class CheckoutBillingAddressGet extends BaseService {
     @GET
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{userId}/store/{storeId}/address/billing")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,

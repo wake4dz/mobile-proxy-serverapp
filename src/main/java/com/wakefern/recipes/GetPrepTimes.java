@@ -26,7 +26,7 @@ public class GetPrepTimes extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Recipes.prepTimes)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.prepTimes)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

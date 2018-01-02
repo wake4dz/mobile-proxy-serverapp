@@ -3,6 +3,7 @@ package com.wakefern.Checkout;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 @Path(ApplicationConstants.Requests.Checkout.Payments)
 public class PaymentOptions extends BaseService {
     @GET
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{storeId}/{fulfillmentType}")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("fulfillmentType") String fulfillmentType,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,

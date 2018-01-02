@@ -26,7 +26,7 @@ public class GetVariationsById extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Products.product)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.prodVarsByID)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.productID) String productID,

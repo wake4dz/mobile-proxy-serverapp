@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -48,7 +49,7 @@ public class GetToken extends BaseService {
 	}
 
 	@GET
-	@Produces("application/*")
+	@Produces(MWGApplicationConstants.Headers.generic)
 	/**expected body
 	 *
 	 * {"PaymentMethods":[{"Id":"59","Name":"","PaymentMethodMessage":"","PayMethodTooltipUri":"","PrimaryOption":true,"AllowsMultiple":false,"RequiresCardNumber":false,"RequiredNumeric":false,"MinimumLength":0,"MaximumLength":0,"RequiresAmount":false,"CardNumber":null,"Amount":null,"Image":null,"IsVendor":true,"SuccessCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=True","CancelCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=False","CardNumberLabel":null,"AmountLabel":null,"Items":[],"FulfillmentType":""}]}

@@ -26,7 +26,7 @@ public class CreateEmailRequest extends BaseService {
     
 	@POST
     @Consumes(MWGApplicationConstants.Headers.Recipes.emailRequest)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.emailRequest)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -19,7 +20,7 @@ import com.wakefern.request.HTTPRequest;
 public class GetPointsForPPC extends BaseService {
 
     @GET
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{ppc}")
     public Response getInfoResponse(@PathParam("ppc") String ppc,
                             @HeaderParam("Authorization") String authToken) throws Exception, IOException {

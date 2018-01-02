@@ -26,7 +26,7 @@ public class DeleteUserRecipe extends BaseService {
     
 	@DELETE
     @Consumes(MWGApplicationConstants.Headers.Recipes.recipe)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.updateRecipe)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

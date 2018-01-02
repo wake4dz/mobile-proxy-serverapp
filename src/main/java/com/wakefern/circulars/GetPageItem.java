@@ -26,7 +26,7 @@ public class GetPageItem extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Circulars.item)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Circulars.pageItem)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,

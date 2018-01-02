@@ -3,6 +3,7 @@ package com.wakefern.Checkout;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 import org.json.JSONObject;
@@ -20,7 +21,7 @@ import java.util.Map;
 @Path(ApplicationConstants.Requests.Checkout.Checkout)
 public class FulfillmentDeliveryDateTimes extends BaseService {
     @GET
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{storeId}/delivery/{zipCode}/{year}/{month}/{day}/times")
     public Response getInfoResponse(@PathParam("storeId") String storeId, @PathParam("zipCode") String zipCode,
                             @PathParam("year") String year, @PathParam("month") String month, @PathParam("day") String day,

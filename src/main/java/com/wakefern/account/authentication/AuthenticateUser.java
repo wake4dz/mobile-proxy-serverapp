@@ -38,7 +38,7 @@ public class AuthenticateUser extends BaseService {
 
     @PUT
     @Consumes(MWGApplicationConstants.Headers.Account.login)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Account.login)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainId, 

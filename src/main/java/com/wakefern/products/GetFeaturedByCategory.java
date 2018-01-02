@@ -26,7 +26,7 @@ public class GetFeaturedByCategory extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Products.productList)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.featuredProdsByCat)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.categoryID) String categoryID,

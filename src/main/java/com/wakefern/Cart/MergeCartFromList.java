@@ -3,6 +3,7 @@ package com.wakefern.Cart;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 public class MergeCartFromList extends BaseService {
     @GET
     @Consumes("application/json")
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{userId}/store/{storeId}/merge-from/list/{listId}")
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId, @PathParam("listId") String listId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,

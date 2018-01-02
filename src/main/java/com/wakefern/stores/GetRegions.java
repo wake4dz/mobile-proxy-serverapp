@@ -26,7 +26,7 @@ public class GetRegions extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Stores.regions)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.regions)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

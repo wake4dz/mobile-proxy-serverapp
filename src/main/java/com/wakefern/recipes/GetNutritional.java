@@ -26,7 +26,7 @@ public class GetNutritional extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Recipes.nutritional)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.nutritional)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,

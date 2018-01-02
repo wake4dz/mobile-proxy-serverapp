@@ -7,11 +7,12 @@ import javax.ws.rs.Produces;
 import org.json.JSONObject;
 
 import com.wakefern.global.BaseService;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 @Path("payment/confirm")
 public class ConfirmPayment extends BaseService {
 	@POST
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     public String getInfo(String jsonBody){
     	JSONObject response = new JSONObject();
     	response.put("payment-status", true);

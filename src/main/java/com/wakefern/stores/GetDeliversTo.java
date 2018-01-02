@@ -28,7 +28,7 @@ public class GetDeliversTo extends BaseService {
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.Stores.delivers)
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.delivers)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID, 

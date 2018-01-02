@@ -3,6 +3,7 @@ package com.wakefern.Checkout;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 import org.json.JSONObject;
@@ -23,7 +24,7 @@ public class CheckoutBillingAddressPut extends BaseService {
 	
 	private final static Logger logger = Logger.getLogger("CheckoutBillingAddressPut");
     @PUT
-    @Produces("application/*")
+    @Produces(MWGApplicationConstants.Headers.generic)
     /*****
      * {
      * Format for passed in json

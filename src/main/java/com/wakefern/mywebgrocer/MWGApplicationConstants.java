@@ -76,7 +76,8 @@ public class MWGApplicationConstants {
     		}
     		
     		public static class ShoppingList {
-    			public static final String list = prefix + "list+json";
+    			public static final String list  = prefix + "list+json";
+    			public static final String email = prefix + "list-email+json";
     		}
     }
     
@@ -103,6 +104,7 @@ public class MWGApplicationConstants {
         		    public static final String circularID  = "circularId";
         		    public static final String pageID      = "pageId";
         		    public static final String recipeID    = "recipeId";
+        		    public static final String listID      = "listId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -265,6 +267,8 @@ public class MWGApplicationConstants {
         		public static final String prefix = "/shoppinglist/v7";
         		
         		public static final String lists = chainsID + usersID + "/lists";
+        		
+        		public static final String list = lists + "/{" + Params.Path.listID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

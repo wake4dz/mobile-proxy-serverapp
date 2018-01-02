@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Recipes.recipesPath)
+@Path(MWGApplicationConstants.Requests.Recipes.prefix)
 public class Search extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class Search extends BaseService {
 	 * Constructor
 	 */
     public Search() {
-        this.requestPath = MWGApplicationConstants.Requests.Recipes.recipesPath + MWGApplicationConstants.Requests.Recipes.search;
+        this.requestPath = MWGApplicationConstants.Requests.Recipes.prefix + MWGApplicationConstants.Requests.Recipes.search;
     }
     
 	@GET

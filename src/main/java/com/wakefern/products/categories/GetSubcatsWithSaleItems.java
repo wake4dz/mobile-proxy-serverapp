@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Products.productPath)
+@Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetSubcatsWithSaleItems extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -20,7 +20,7 @@ public class GetSubcatsWithSaleItems extends BaseService {
 	 * Constructor
 	 */
     public GetSubcatsWithSaleItems() {
-        this.requestPath = MWGApplicationConstants.Requests.Products.productPath + MWGApplicationConstants.Requests.Products.subCatsWithSales;
+        this.requestPath = MWGApplicationConstants.Requests.Products.prefix + MWGApplicationConstants.Requests.Products.subCatsWithSales;
     }
     
 	@GET

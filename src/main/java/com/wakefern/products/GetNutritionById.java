@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Products.productPath)
+@Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetNutritionById extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class GetNutritionById extends BaseService {
 	 * Constructor
 	 */
     public GetNutritionById() {
-        this.requestPath = MWGApplicationConstants.Requests.Products.productPath + MWGApplicationConstants.Requests.Products.nutritionByID;
+        this.requestPath = MWGApplicationConstants.Requests.Products.prefix + MWGApplicationConstants.Requests.Products.nutritionByID;
     }
     
 	@GET

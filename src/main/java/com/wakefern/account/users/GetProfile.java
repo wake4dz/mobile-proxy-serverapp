@@ -18,7 +18,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
-@Path(MWGApplicationConstants.Requests.Account.acctPath)
+@Path(MWGApplicationConstants.Requests.Account.prefix)
 public class GetProfile extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("ProfileGet");
@@ -31,7 +31,7 @@ public class GetProfile extends BaseService {
 	 * Constructor
 	 */
     public GetProfile() {
-        this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.profile;
+        this.requestPath = MWGApplicationConstants.Requests.Account.prefix + MWGApplicationConstants.Requests.Account.profile;
     } 
 
     @GET

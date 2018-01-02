@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Products.productPath)
+@Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetVariationsById extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class GetVariationsById extends BaseService {
 	 * Constructor
 	 */
     public GetVariationsById() {
-        this.requestPath = MWGApplicationConstants.Requests.Products.productPath + MWGApplicationConstants.Requests.Products.prodVarsByID;
+        this.requestPath = MWGApplicationConstants.Requests.Products.prefix + MWGApplicationConstants.Requests.Products.prodVarsByID;
     }
     
 	@GET

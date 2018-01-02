@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Stores.storesPath)
+@Path(MWGApplicationConstants.Requests.Stores.prefix)
 public class GetDeliversTo extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -23,7 +23,7 @@ public class GetDeliversTo extends BaseService {
 	 * Constructor
 	 */
     public GetDeliversTo() {
-        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.delivers;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.prefix + MWGApplicationConstants.Requests.Stores.delivers;
     }
     
 	@GET

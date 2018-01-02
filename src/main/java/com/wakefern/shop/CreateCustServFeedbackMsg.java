@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Shop.shopPath)
+@Path(MWGApplicationConstants.Requests.Shop.prefix)
 public class CreateCustServFeedbackMsg extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -23,7 +23,7 @@ public class CreateCustServFeedbackMsg extends BaseService {
 	 * Constructor
 	 */
     public CreateCustServFeedbackMsg() {
-        this.requestPath = MWGApplicationConstants.Requests.Shop.shopPath + MWGApplicationConstants.Requests.Shop.message;
+        this.requestPath = MWGApplicationConstants.Requests.Shop.prefix + MWGApplicationConstants.Requests.Shop.message;
     }
     
 	@POST

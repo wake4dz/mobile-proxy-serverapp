@@ -20,7 +20,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
-@Path(MWGApplicationConstants.Requests.Account.acctPath)
+@Path(MWGApplicationConstants.Requests.Account.prefix)
 public class AuthenticateUser extends BaseService {
 	
 	private final static Logger logger = Logger.getLogger("AuthorizationAuthenticate");
@@ -33,7 +33,7 @@ public class AuthenticateUser extends BaseService {
 	 * Constructor
 	 */
     public AuthenticateUser() {
-        this.requestPath = MWGApplicationConstants.Requests.Account.acctPath + MWGApplicationConstants.Requests.Account.login;
+        this.requestPath = MWGApplicationConstants.Requests.Account.prefix + MWGApplicationConstants.Requests.Account.login;
     } 
 
     @PUT

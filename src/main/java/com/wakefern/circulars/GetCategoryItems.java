@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Circulars.circularsPath)
+@Path(MWGApplicationConstants.Requests.Circulars.prefix)
 public class GetCategoryItems extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class GetCategoryItems extends BaseService {
 	 * Constructor
 	 */
     public GetCategoryItems() {
-        this.requestPath = MWGApplicationConstants.Requests.Circulars.circularsPath + MWGApplicationConstants.Requests.Circulars.categoryItems;
+        this.requestPath = MWGApplicationConstants.Requests.Circulars.prefix + MWGApplicationConstants.Requests.Circulars.categoryItems;
     }
     
 	@GET

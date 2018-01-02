@@ -129,13 +129,6 @@ public final class ApplicationConstants {
             public static final String CartUser = MWGApplicationConstants.Requests.Cart.CartUser;
         }
 
-        public static final class ShoppingLists{
-            public static final String slChains = MWGApplicationConstants.Requests.ShoppingLists.slChains;
-            public static final String slUser = MWGApplicationConstants.Requests.ShoppingLists.slUser;
-            public static final String slItemsUser = MWGApplicationConstants.Requests.ShoppingLists.slItemsUser;
-            public static final String slGenericList = MWGApplicationConstants.Requests.ShoppingLists.slGeneric;
-        }
-
         public static final class Registration{
             public static final String UserRegistration = MWGApplicationConstants.Requests.Registration.UserRegistration;
         }
@@ -169,153 +162,11 @@ public final class ApplicationConstants {
         }
     }
 
-    public static class recipeSearch{
-        public static final String recipes = "Recipes";
-        public static final String recipeSummary = "RecipeSummary";
-        public static final String description = "Description";
-        public static final String name = "Name";
-        public static final String category = "Category";
-        public static final String categories = "Categories";
-        public static final String subCategories = "Subcategories";
-        public static final String id = "Id";
-        public static final String totalRecipes = "totalRecipes";
-        public static final String items = "Items";
-        public static final String RecipeCategories = "RecipeCategories";
-        public static final String Note = "Note";
-        public static final String ListError = "listName or storeId is empty in the query";
-        public static final String RecipeError = "Failed to iterate Recipes";
-        public static final String CategoryError = "Failed to iterate Categories";
-    }
-
     public static class shoppingListItemPost{
         public static final String contentType = "application/vnd.mywebgrocer.grocery-list+json";
         public static final String contentAccept = "*/*";
     }
-
-    public static class ProductSearch{
-        public static final String items = "Items";
-        public static final String facets = "Facets";
-        public static final String itemCount = "ItemCount";
-        public static final String activeFilters = "ActiveFilters";
-        public static final String recentFilters = "RecentFilters";
-        public static final String sortLinks = "SortLinks";
-        public static final String pages = "Pages";
-        public static final String pageLinks = "PageLinks";
-        public static final String skip = "Skip";
-        public static final String take = "Take";
-        public static final String totalQuantity = "TotalQuantity";
-        public static final String links = "Links";
-        public static final String moreAvailiable = "MoreAvailiable";
-    }
-
-    public static class FeaturedRecipes{
-        public static final String FeaturedRecipeSummaries = "FeaturedRecipeSummaries";
-        public static final String FeaturedRecipeSummary = "FeaturedRecipeSummary";
-    }
     
-    public static class Lists{
-        private static final String favoriteString      = "favorites";
-        private static final String favoriteRecipes     = "favoriteRecipes";
-        private static final String recentSearches      = "recentSearches";
-        private static final String recipeIngredients   = "recipeIngredients";
-        private static final String preferredStore      = "preferredStore";
-        public static final String cart                = "cart";
-        private static final String notes               = "notes";
-        private static final String itemPref            = "itemPreferences";
-
-
-
-        public static String getListType(String value){
-            switch (value){
-                case favoriteString:
-                    return Favorites.getValue();
-                case favoriteRecipes:
-                    return RecipesFavorites.getValue();
-                case recentSearches:
-                    return RecentSearches.getValue();
-                case recipeIngredients:
-                    return RecipesIngredients.getValue();
-                case preferredStore:
-                    return Store.getValue();
-                case cart:
-                    return Cart.getValue();
-                case notes:
-                    return GlobalNotes.getValue();
-                case itemPref:
-                    return ItemPref.getValue();
-                default:
-                    return value;
-            }
-        }
-
-        public static class Favorites {
-            public static String getValue() {
-                return "My Favorites";
-            }
-        }
-
-        public static class RecipesFavorites {
-            public static String getValue() {
-                return "Favorite Recipes";
-            }
-        }
-
-        public static class RecipesIngredients {
-            public static String getValue() {
-                return "Recipe Ingredients";
-            }
-        }
-
-        public static class Store {
-            public static String getValue() {
-                return "Preferred Store";
-            }
-        }
-
-        public static class RecentSearches{
-            public static String getValue() {
-                return "Recent Searches";
-            }
-        }
-
-        public static class GlobalNotes{
-            public static String getValue(){return "Default";}
-        }
-
-        public static class Cart{
-            public static String getValue(){return "MwgCart";}
-        }
-
-        public static class ItemPref{
-            public static String getValue(){return "Item Preferences";}
-        }
-    }
-
-    public static class Planning{
-        public static final String Category = "Category";
-        public static final String CategoryId = "CategoryId";
-        public static final String Coupons = "Coupons";
-        public static final String DateModified = "DateModified";
-        public static final String Circular = "Circular";
-        public static final String CategoryErrorMessage = "All purchases have been filtered out";
-        public static final String Id = "Id";
-        public static final String Items = "Items";
-        public static final String Matches = "Matches";
-        public static final String MyPastPurchases = "My Past Purchases";
-        public static final String Name = "Name";
-        public static final String PastPurchasesError = "Failed to find 'My Past Purchases'";
-        public static final String Product = "Product";
-        public static final String requirement_upc = "requirement_upcs";
-        public static final String Rewards = "Rewards";
-        public static final String Sale = "Sale";
-        public static final String ShoppingList = "ShoppingList";
-        public static final String ShoppingLists = "ShoppingLists";
-        public static final String ShoppingListItem = "ShoppingListItem";
-        public static final String ShoppingListItems = "ShoppingListItems";
-        public static final String SKU = "SKU";
-        public static final String Sku = "Sku";
-    }
-
     public static class Payment{
         public static final String AllowsMultiple = "AllowsMultiple";
         public static final String Amount = "Amount";

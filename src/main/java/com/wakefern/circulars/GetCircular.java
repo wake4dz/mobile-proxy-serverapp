@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Circulars.circularsPath)
+@Path(MWGApplicationConstants.Requests.Circulars.prefix)
 public class GetCircular extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class GetCircular extends BaseService {
 	 * Constructor
 	 */
     public GetCircular() {
-        this.requestPath = MWGApplicationConstants.Requests.Circulars.circularsPath + MWGApplicationConstants.Requests.Circulars.circular;
+        this.requestPath = MWGApplicationConstants.Requests.Circulars.prefix + MWGApplicationConstants.Requests.Circulars.circular;
     }
     
 	@GET

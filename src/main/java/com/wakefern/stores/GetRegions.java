@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Path(MWGApplicationConstants.Requests.Stores.storesPath)
+@Path(MWGApplicationConstants.Requests.Stores.prefix)
 public class GetRegions extends BaseService {
 	
 	//-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class GetRegions extends BaseService {
 	 * Constructor
 	 */
     public GetRegions() {
-        this.requestPath = MWGApplicationConstants.Requests.Stores.storesPath + MWGApplicationConstants.Requests.Stores.regions;
+        this.requestPath = MWGApplicationConstants.Requests.Stores.prefix + MWGApplicationConstants.Requests.Stores.regions;
     }
     
 	@GET

@@ -74,6 +74,10 @@ public class MWGApplicationConstants {
     			public static final String settings  = prefix + "shop-store-settings+json";
     			public static final String dashboard = prefix + "dashboard-entry+json";
     		}
+    		
+    		public static class ShoppingList {
+    			public static final String list = prefix + "list+json";
+    		}
     }
     
     public static class Requests {
@@ -259,6 +263,8 @@ public class MWGApplicationConstants {
         
         public static class ShoppingList {
         		public static final String prefix = "/shoppinglist/v7";
+        		
+        		public static final String lists = chainsID + usersID + "/lists";
         }
         
         // ^^^ NEW STUFF ^^^ \\

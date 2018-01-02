@@ -203,6 +203,10 @@ public class ServiceMappings {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.productSKU, path, serviceObj);
 			}
 			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.productID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.productID, path, serviceObj);
+			}
+			
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.itemID)) {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.itemID, path, serviceObj);
 			}

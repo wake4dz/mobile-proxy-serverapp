@@ -32,7 +32,7 @@ public class Chains extends BaseService {
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.services) String services,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.chains, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.chains, ApplicationConstants.jsonHeaderType, sessionToken);
 		this.queryParams = new HashMap<String, String>();
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.services, services);
 

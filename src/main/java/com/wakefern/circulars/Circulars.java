@@ -38,7 +38,7 @@ public class Circulars extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.circulars, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.circulars, ApplicationConstants.jsonHeaderType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		

@@ -35,7 +35,7 @@ public class Regions extends BaseService {
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.regions, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.regions, ApplicationConstants.jsonHeaderType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		

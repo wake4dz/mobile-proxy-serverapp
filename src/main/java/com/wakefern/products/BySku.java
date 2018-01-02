@@ -75,7 +75,7 @@ public class BySku extends BaseService {
 	 * @throws Exception
 	 */
 	private String makeRequest(String storeID, String productSKU, String isMember, String sessionToken) throws Exception {		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.product, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.product, ApplicationConstants.jsonHeaderType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		

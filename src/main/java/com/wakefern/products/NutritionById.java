@@ -25,7 +25,7 @@ public class NutritionById extends BaseService {
     }
     
 	@GET
-    @Consumes(ApplicationConstants.jsonAcceptType)
+    @Consumes(ApplicationConstants.jsonHeaderType)
     @Produces("application/*")
     @Path(MWGApplicationConstants.Requests.Products.nutritionByID)
     public Response getResponse(
@@ -34,7 +34,7 @@ public class NutritionById extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(ApplicationConstants.jsonAcceptType, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(ApplicationConstants.jsonHeaderType, ApplicationConstants.jsonHeaderType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

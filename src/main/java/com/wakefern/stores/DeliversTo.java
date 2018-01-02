@@ -36,7 +36,7 @@ public class DeliversTo extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.zipCode) String zipCode,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.delivers, ApplicationConstants.jsonResponseType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.delivers, ApplicationConstants.jsonHeaderType, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 	
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);

@@ -5,11 +5,10 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 public final class ApplicationConstants {
 
-    public static final String jsonResponseType = "application/json";
-    public static final String jsonAcceptType   = "application/json";
-    public static final String xmlAcceptType    = "text/xml";
-    public static final int xmlTabAmount        = 4;
-    public static final String ErrorMessage     = "ErrorMessage";
+    public static final String jsonHeaderType = "application/json";
+    public static final String xmlAcceptType  = "text/xml";
+    public static final int xmlTabAmount      = 4;
+    public static final String ErrorMessage   = "ErrorMessage";
 
     public static class StringConstants{
         public static final String address = "/address";

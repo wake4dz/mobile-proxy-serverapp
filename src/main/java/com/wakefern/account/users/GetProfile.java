@@ -35,7 +35,7 @@ public class GetProfile extends BaseService {
     } 
 
     @GET
-    @Consumes(MWGApplicationConstants.Headers.Account.fullProfile)
+    @Consumes(MWGApplicationConstants.Headers.Account.profile)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Account.profile)
     public Response getResponse(
@@ -45,7 +45,7 @@ public class GetProfile extends BaseService {
     		String jsonBody) {
 			
     		try {
-    			String jsonResponse = makeRequest(sessionToken, MWGApplicationConstants.Headers.Account.fullProfile, chainID, userID);
+    			String jsonResponse = makeRequest(sessionToken, MWGApplicationConstants.Headers.Account.profile, chainID, userID);
     			return this.createValidResponse(jsonResponse);
     		
     		} catch (Exception e) {

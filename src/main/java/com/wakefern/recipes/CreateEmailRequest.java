@@ -25,7 +25,7 @@ public class CreateEmailRequest extends BaseService {
     }
     
 	@POST
-    @Consumes(MWGApplicationConstants.Headers.Recipes.emailRequest)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.emailRequest)
     public Response getResponse(

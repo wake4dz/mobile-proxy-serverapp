@@ -27,7 +27,7 @@ public class GetCustServContactInfo extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Shop.contact)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Shop.contact)
     public Response getResponse(

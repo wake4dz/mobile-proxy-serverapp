@@ -25,7 +25,7 @@ public class GetById extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Products.product)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.prodByID)
     public Response getResponse(

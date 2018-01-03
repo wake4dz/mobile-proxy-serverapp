@@ -25,7 +25,7 @@ public class GetCities extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Stores.cities)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.cities)
     public Response getResponse(

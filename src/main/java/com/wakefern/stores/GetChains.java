@@ -25,7 +25,7 @@ public class GetChains extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Stores.chains)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.chains)
     public Response getResponse(

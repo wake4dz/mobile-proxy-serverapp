@@ -25,7 +25,7 @@ public class UpdateList extends BaseService {
     }
     
 	@PUT
-    @Consumes(MWGApplicationConstants.Headers.ShoppingList.email)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.list)
     public Response getResponse(

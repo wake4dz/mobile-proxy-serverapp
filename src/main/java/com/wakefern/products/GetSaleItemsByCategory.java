@@ -25,7 +25,7 @@ public class GetSaleItemsByCategory extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Products.productList)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.saleItemsByCat)
     public Response getResponse(

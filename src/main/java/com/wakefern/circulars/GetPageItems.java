@@ -25,7 +25,7 @@ public class GetPageItems extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Circulars.items)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Circulars.pageItems)
     public Response getResponse(

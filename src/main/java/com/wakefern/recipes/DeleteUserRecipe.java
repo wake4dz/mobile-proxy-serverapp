@@ -25,7 +25,7 @@ public class DeleteUserRecipe extends BaseService {
     }
     
 	@DELETE
-    @Consumes(MWGApplicationConstants.Headers.Recipes.recipe)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.updateRecipe)
     public Response getResponse(

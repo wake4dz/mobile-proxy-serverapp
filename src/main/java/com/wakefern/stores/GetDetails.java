@@ -27,7 +27,7 @@ public class GetDetails extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Stores.details)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.details)
     public Response getResponse(

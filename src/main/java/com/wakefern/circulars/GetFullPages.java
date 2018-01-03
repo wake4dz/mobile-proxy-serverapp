@@ -25,7 +25,7 @@ public class GetFullPages extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Circulars.fullPages)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Circulars.fullPages)
     public Response getResponse(

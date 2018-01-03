@@ -28,7 +28,7 @@ public class AuthenticateUI extends BaseService {
     }
 	
     @POST
-    @Consumes(ApplicationConstants.jsonHeaderType)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     public Response getResponse(String jsonBody) throws Exception, IOException {
     	    	

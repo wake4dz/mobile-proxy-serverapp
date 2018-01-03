@@ -25,7 +25,7 @@ public class GetStores extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Stores.stores)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.stores)
     public Response getResponse(

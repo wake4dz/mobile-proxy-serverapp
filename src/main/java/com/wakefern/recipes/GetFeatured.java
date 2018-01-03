@@ -25,7 +25,7 @@ public class GetFeatured extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Recipes.recipes)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.featured)
     public Response getResponse(

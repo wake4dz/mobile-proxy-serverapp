@@ -25,7 +25,7 @@ public class CreateList extends BaseService {
     }
     
 	@POST
-    @Consumes(MWGApplicationConstants.Headers.ShoppingList.list)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.lists)
     public Response getResponse(

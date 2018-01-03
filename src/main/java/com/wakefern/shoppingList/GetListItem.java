@@ -24,7 +24,7 @@ public class GetListItem extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.ShoppingList.item)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.item)
     public Response getResponse(

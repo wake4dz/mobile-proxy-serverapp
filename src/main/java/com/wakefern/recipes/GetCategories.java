@@ -25,7 +25,7 @@ public class GetCategories extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Recipes.categories)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.categories)
     public Response getResponse(

@@ -27,7 +27,7 @@ public class CreateCustServFeedbackMsg extends BaseService {
     }
     
 	@POST
-    @Consumes(MWGApplicationConstants.Headers.Shop.message)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Shop.message)
     public Response getResponse(

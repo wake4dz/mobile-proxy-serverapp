@@ -26,7 +26,7 @@ public class GetCountries extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Products.countries)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.countries)
     public Response getResponse(

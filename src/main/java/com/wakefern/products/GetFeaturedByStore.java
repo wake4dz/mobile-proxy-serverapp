@@ -25,7 +25,7 @@ public class GetFeaturedByStore extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Products.productList)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.featuredProdsByStore)
     public Response getResponse(

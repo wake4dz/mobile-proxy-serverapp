@@ -25,7 +25,7 @@ public class GetNutritional extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Recipes.nutritional)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.nutritional)
     public Response getResponse(

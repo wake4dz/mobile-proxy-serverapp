@@ -25,7 +25,7 @@ public class GetIngredients extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Recipes.ingredients)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.ingredients)
     public Response getResponse(

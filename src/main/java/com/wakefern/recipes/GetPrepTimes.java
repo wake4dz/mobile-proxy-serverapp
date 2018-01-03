@@ -25,7 +25,7 @@ public class GetPrepTimes extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Recipes.prepTimes)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Recipes.prepTimes)
     public Response getResponse(

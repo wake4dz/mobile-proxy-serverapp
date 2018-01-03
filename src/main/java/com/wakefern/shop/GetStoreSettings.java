@@ -27,7 +27,7 @@ public class GetStoreSettings extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Shop.settings)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Shop.settings)
     public Response getResponse(

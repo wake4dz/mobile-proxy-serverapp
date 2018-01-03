@@ -37,7 +37,7 @@ public class AuthenticateUser extends BaseService {
     } 
 
     @PUT
-    @Consumes(MWGApplicationConstants.Headers.Account.login)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Account.login)
     public Response getResponse(

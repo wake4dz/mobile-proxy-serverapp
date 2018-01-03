@@ -25,7 +25,7 @@ public class GetSuggestions extends BaseService {
     }
     
 	@GET
-    @Consumes(ApplicationConstants.jsonHeaderType)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.suggestedProds)
     public Response getResponse(

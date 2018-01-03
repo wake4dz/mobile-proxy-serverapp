@@ -25,7 +25,7 @@ public class GetNutritionById extends BaseService {
     }
     
 	@GET
-    @Consumes(ApplicationConstants.jsonHeaderType)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.nutritionByID)
     public Response getResponse(

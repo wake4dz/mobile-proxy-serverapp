@@ -21,11 +21,11 @@ public class GetBySku extends BaseService {
 	 * Constructor
 	 */
     public GetBySku() {
-        this.requestPath = MWGApplicationConstants.Requests.Products.prodsByCat + MWGApplicationConstants.Requests.Products.prodBySKU;
+        this.requestPath = MWGApplicationConstants.Requests.Products.prefix + MWGApplicationConstants.Requests.Products.prodBySKU;
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Products.product)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Products.prodBySKU)
     public Response getResponse(

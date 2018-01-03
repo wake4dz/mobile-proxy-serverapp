@@ -35,7 +35,7 @@ public class GetProfile extends BaseService {
     } 
 
     @GET
-    @Consumes(MWGApplicationConstants.Headers.Account.profile)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Account.profile)
     public Response getResponse(

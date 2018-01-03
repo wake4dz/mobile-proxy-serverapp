@@ -27,7 +27,7 @@ public class GetDeliversTo extends BaseService {
     }
     
 	@GET
-    @Consumes(MWGApplicationConstants.Headers.Stores.delivers)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Stores.delivers)
     public Response getResponse(

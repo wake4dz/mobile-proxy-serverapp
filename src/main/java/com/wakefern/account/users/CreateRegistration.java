@@ -25,7 +25,7 @@ public class CreateRegistration extends BaseService {
     }
     
 	@POST
-    @Consumes(MWGApplicationConstants.Headers.Account.register)
+    @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Account.register)
     public Response getResponse(

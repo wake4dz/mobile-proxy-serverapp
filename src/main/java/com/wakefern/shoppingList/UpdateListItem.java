@@ -21,13 +21,13 @@ public class UpdateListItem extends BaseService {
 	 * Constructor
 	 */
     public UpdateListItem() {
-        this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.updateItem;
+        this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.item;
     }
     
 	@PUT
     @Consumes(MWGApplicationConstants.Headers.ShoppingList.item)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.ShoppingList.updateItem)
+    @Path(MWGApplicationConstants.Requests.ShoppingList.item)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,

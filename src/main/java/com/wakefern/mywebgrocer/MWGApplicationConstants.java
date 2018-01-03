@@ -273,10 +273,10 @@ public class MWGApplicationConstants {
         		public static final String prefix = "/shoppinglist/v7";
         		
         		public static final String lists = chainsID + usersID + "/lists";
-        		public static final String list  = lists + "/{" + Params.Path.listID + "}";
-        		public static final String items = list + "/items";
         		
-        		public static final String updateItem = items + "/{" + Params.Path.listItemID + "}";
+        		public static final String list  = lists + "/{" + Params.Path.listID + "}";
+        		public static final String items = list  + "/items";
+        		public static final String item  = items + "/{" + Params.Path.listItemID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

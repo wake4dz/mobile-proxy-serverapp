@@ -81,6 +81,7 @@ public class MWGApplicationConstants {
     			public static final String list  = prefix + "list+json";
     			public static final String email = prefix + "list-email+json";
     			public static final String item  = prefix + "list-item+json";
+    			public static final String items = prefix + "list-items+json";
     		}
     }
     
@@ -108,6 +109,7 @@ public class MWGApplicationConstants {
         		    public static final String pageID      = "pageId";
         		    public static final String recipeID    = "recipeId";
         		    public static final String listID      = "listId";
+        		    public static final String listItemID  = "listItemId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -128,7 +130,7 @@ public class MWGApplicationConstants {
         		    public static final String storeOwnerID  = "storeownerId";
         		    public static final String storeStatus   = "storeStatus";
         		    public static final String isMember      = "isMember";
-        		    public static final String prodsPerCat	 = "productPerCategory";
+        		    public static final String prodsPerCat	= "productPerCategory";
         		    public static final String saleOnlyProds = "saleOnly";
         		    public static final String userID        = "userId";
         		    public static final String storeID       = "storeId";
@@ -137,7 +139,8 @@ public class MWGApplicationConstants {
         		    public static final String searchBySound = "sound";          // What does this do?  Maybe if you yell your request really loudly, MWG will hear it?
         		    public static final String runState      = "runState";
         		    public static final String promotion     = "promotion";
-        		    public static final String recipeGroup   = "recipeGroup";        		    
+        		    public static final String recipeGroup   = "recipeGroup";   
+        		    public static final String categoryMap   = "categoryMap";
         		}
         }
         
@@ -272,6 +275,8 @@ public class MWGApplicationConstants {
         		public static final String lists = chainsID + usersID + "/lists";
         		public static final String list  = lists + "/{" + Params.Path.listID + "}";
         		public static final String items = list + "/items";
+        		
+        		public static final String updateItem = items + "/{" + Params.Path.listItemID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

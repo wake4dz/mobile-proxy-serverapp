@@ -51,7 +51,7 @@ public class GetStores extends BaseService {
 	
 	) throws Exception, IOException {
         
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.stores, ApplicationConstants.jsonHeaderType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.stores, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		

@@ -69,7 +69,7 @@ public class AuthenticateUI extends BaseService {
      * @throws IOException
      */
     private String makeRequest() throws Exception, IOException {
-        this.requestHeader = new MWGHeader(ApplicationConstants.jsonHeaderType, ApplicationConstants.jsonHeaderType, MWGApplicationConstants.appToken);
+        this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, MWGApplicationConstants.appToken);
 
         // The purpose of this request is to simply retrieve a valid Session Token & Guest User ID, from MWG.
         // Any actual data sent with the request, will just be ignored.

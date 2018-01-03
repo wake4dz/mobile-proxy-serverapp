@@ -35,7 +35,7 @@ public class GetCategory extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.categories, ApplicationConstants.jsonHeaderType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.categories, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

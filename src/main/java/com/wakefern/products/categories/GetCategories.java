@@ -36,7 +36,7 @@ public class GetCategories extends BaseService {
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.userID) String userID,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
         
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.categories, ApplicationConstants.jsonHeaderType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.categories, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		

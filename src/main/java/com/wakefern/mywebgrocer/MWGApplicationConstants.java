@@ -19,6 +19,7 @@ public class MWGApplicationConstants {
     		private static final String prefix = "application/vnd.mywebgrocer.";
     		
     		public static final String generic = "application/*";
+    		public static final String json    = "application/json";
 
     		public static class Params {
     			public static final String auth = "Authorization";

@@ -39,7 +39,7 @@ public class CreateList extends BaseService {
     		String jsonData
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(ApplicationConstants.jsonHeaderType, MWGApplicationConstants.Headers.ShoppingList.list, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.list, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		

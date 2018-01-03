@@ -36,7 +36,7 @@ public class CreateCustServFeedbackMsg extends BaseService {
     		String jsonData
 	) throws Exception, IOException {
         
-		this.requestHeader = new MWGHeader(ApplicationConstants.jsonHeaderType, MWGApplicationConstants.Headers.Shop.message, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Shop.message, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 	
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);

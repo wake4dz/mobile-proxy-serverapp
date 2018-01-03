@@ -60,7 +60,7 @@ public class GetProfile extends BaseService {
 
     private String makeRequest(String sessionToken, String acceptType, String chainID, String userID) throws Exception, IOException {
     		this.requestParams = new HashMap<String, String>();
-        this.requestHeader = new MWGHeader(acceptType, ApplicationConstants.jsonHeaderType, sessionToken);
+        this.requestHeader = new MWGHeader(acceptType, MWGApplicationConstants.Headers.json, sessionToken);
     	        
         this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
         this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);

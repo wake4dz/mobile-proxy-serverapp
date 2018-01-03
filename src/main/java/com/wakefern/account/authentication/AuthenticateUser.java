@@ -72,7 +72,7 @@ public class AuthenticateUser extends BaseService {
     			return this.createErrorResponse(new Exception(appVerErr));
         
         } else {
-            this.requestHeader = new MWGHeader(ApplicationConstants.jsonHeaderType, MWGApplicationConstants.Headers.Account.login, sessionToken);
+            this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Account.login, sessionToken);
     			this.requestParams = new HashMap<String, String>();    			
     			
     			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainId);

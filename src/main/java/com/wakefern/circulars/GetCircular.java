@@ -36,7 +36,7 @@ public class GetCircular extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.circulars, ApplicationConstants.jsonHeaderType, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Circulars.circulars, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

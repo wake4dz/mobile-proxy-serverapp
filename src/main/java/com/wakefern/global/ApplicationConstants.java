@@ -5,7 +5,6 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 public final class ApplicationConstants {
 
-    public static final String jsonHeaderType = "application/json";
     public static final String xmlAcceptType  = "text/xml";
     public static final int xmlTabAmount      = 4;
     public static final String ErrorMessage   = "ErrorMessage";

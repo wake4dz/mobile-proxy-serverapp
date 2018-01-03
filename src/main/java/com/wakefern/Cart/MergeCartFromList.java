@@ -28,7 +28,7 @@ public class MergeCartFromList extends BaseService {
         String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         MWGHeader mwgHeader = new MWGHeader();
-        mwgHeader.authenticate(this.requestToken, ApplicationConstants.jsonHeaderType, ApplicationConstants.shoppingListItemPost.contentAccept);
+        mwgHeader.authenticate(this.requestToken, MWGApplicationConstants.Headers.json, ApplicationConstants.shoppingListItemPost.contentAccept);
 
         try {
             return this.createValidResponse(HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap(), 0));
@@ -42,7 +42,7 @@ public class MergeCartFromList extends BaseService {
         String path = prepareResponse(userId, storeId, listId, isMember, authToken);
 
         MWGHeader mwgHeader = new MWGHeader();
-        mwgHeader.authenticate(this.requestToken, ApplicationConstants.jsonHeaderType, ApplicationConstants.shoppingListItemPost.contentAccept);
+        mwgHeader.authenticate(this.requestToken, MWGApplicationConstants.Headers.json, ApplicationConstants.shoppingListItemPost.contentAccept);
 
         return (HTTPRequest.executePostJSON(path, jsonBody, mwgHeader.getMap(), 0));
     }

@@ -29,8 +29,8 @@ public class WakefernHeader extends Header {
     public void authenticate(){
         Map<String, String> authMap = new HashMap<>();
 
-        authMap.put(ApplicationConstants.Requests.Header.contentAccept, ApplicationConstants.jsonHeaderType);
-        authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.jsonHeaderType);
+        authMap.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
+        authMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
         authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, MWGApplicationConstants.appToken);
 
         setAllMaps(authMap);
@@ -39,8 +39,8 @@ public class WakefernHeader extends Header {
     public void authenticate(String token){
         Map<String, String> authMap = new HashMap<>();
 
-        authMap.put(ApplicationConstants.Requests.Header.contentAccept, ApplicationConstants.jsonHeaderType);
-        authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.jsonHeaderType);
+        authMap.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
+        authMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
         authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, token);
 
         setAllMaps(authMap);

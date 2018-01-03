@@ -27,8 +27,9 @@ public class MWGApplicationConstants {
     		public static class Account {
     			public static final String login = prefix + "account-authentication+json";
     			
-    			public static final String profile  = prefix + "account-profile-full+json";
-    			public static final String register = prefix + "account-profile-register+json";
+    			public static final String profile   = prefix + "account-profile-full+json";
+    			public static final String register  = prefix + "account-profile-register+json";
+    			public static final String prefStore = prefix + "account-online-shopping-store+json";
     		}
     		
     		public static class Stores {

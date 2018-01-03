@@ -1,4 +1,4 @@
-package com.wakefern.Rewards;
+package com.wakefern.rewards;
 
 import java.io.IOException;
 

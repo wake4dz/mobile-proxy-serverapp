@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Cart.prefix)
-public class GetCartItem extends BaseService {
+public class CreateCartItems extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,32 +19,34 @@ public class GetCartItem extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public GetCartItem() {
-        this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.item;
+    public CreateCartItems() {
+        this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.items;
     }
     
-	@GET
+	@POST
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.Cart.item)
-    public Response getResponse(
+    @Path(MWGApplicationConstants.Requests.Cart.items)
+    public Response getResponse(    
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
-    		@PathParam(MWGApplicationConstants.Requests.Params.Path.itemID) String itemID,
-    		    		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
+
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.evtParams) String evtPararms,
+    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
+
+    		String jsonData
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Cart.itemsV2, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Cart.items, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.itemID, itemID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
@@ -52,4 +54,5 @@ public class GetCartItem extends BaseService {
         }
     }
 }
+
 

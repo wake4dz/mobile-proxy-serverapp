@@ -88,6 +88,7 @@ public class MWGApplicationConstants {
     		
     		public static class Cart {
     			public static final String mergeGuest = prefix + "user-authenticated+json";
+    			public static final String email      = prefix + "cart-email+json";
     		}
     }
     
@@ -95,7 +96,8 @@ public class MWGApplicationConstants {
         private static final String chainsID = "/chains/" + "{" + Params.Path.chainID + "}";
         private static final String usersID  = "/users/"  + "{" + Params.Path.userID  + "}";
         private static final String userID   = "/user/"   + "{" + Params.Path.userID  + "}";
-        
+		private static final String storeID  = "/store/"  + "{" + Params.Path.storeID + "}";
+
         // Request Parameters
         public static class Params {
         		
@@ -147,6 +149,7 @@ public class MWGApplicationConstants {
         		    public static final String promotion     = "promotion";
         		    public static final String recipeGroup   = "recipeGroup";   
         		    public static final String categoryMap   = "categoryMap";
+        		    public static final String evtParams     = "eventParameters";
         		}
         }
         
@@ -190,7 +193,6 @@ public class MWGApplicationConstants {
 	    		private static final String featured  = "/featured";
 
 	    		private static final String categoryID  = "/category/" + "{" + Params.Path.categoryID  + "}";
-    			private static final String storeID     = "/store/"    + "{" + Params.Path.storeID     + "}";
         		private static final String parentCatID = "/category/" + "{" + Params.Path.parentCatID + "}";
         		private static final String productID   = "/product/"  + "{" + Params.Path.productID   + "}";
         		private static final String productSKU  = "/sku/"      + "{" + Params.Path.productSKU  + "}";
@@ -293,7 +295,8 @@ public class MWGApplicationConstants {
     			
         		// Merge the cart of Guest user, into the now-authenticated user's cart.
     			public static final String mergeGuest = "/user/authenticated";
-        	
+    			
+    			public static final String cart = userID + storeID;
         }
         
         // ^^^ NEW STUFF ^^^ \\

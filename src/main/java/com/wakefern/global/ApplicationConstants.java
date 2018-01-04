@@ -123,11 +123,6 @@ public final class ApplicationConstants {
             public static final String User = MWGApplicationConstants.Requests.Checkout.User;
         }
 
-        public static final class Cart{
-            public static final String CartAuth = MWGApplicationConstants.Requests.Cart.CartAuth;
-            public static final String CartUser = MWGApplicationConstants.Requests.Cart.CartUser;
-        }
-
         public static final class Registration{
             public static final String UserRegistration = MWGApplicationConstants.Requests.Registration.UserRegistration;
         }

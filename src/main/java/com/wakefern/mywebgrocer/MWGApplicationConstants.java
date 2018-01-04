@@ -89,6 +89,8 @@ public class MWGApplicationConstants {
     		public static class Cart {
     			public static final String mergeGuest = prefix + "user-authenticated+json";
     			public static final String email      = prefix + "cart-email+json";
+    			public static final String contents   = prefix + "grocery-list+json";
+    			public static final String simpleItem = prefix + "simple-cart-item+json";
     		}
     }
     
@@ -290,13 +292,16 @@ public class MWGApplicationConstants {
         		public static final String item  = items + "/{" + Params.Path.listItemID + "}";
         }
         
-        public static class Cart {    			
+        public static class Cart {
+        		private static final String itemID = "/item" + "/{" + Params.Path.itemID + "}";
+        		
         		public static final String prefix = "/cart/v7";
     			
         		// Merge the cart of Guest user, into the now-authenticated user's cart.
     			public static final String mergeGuest = "/user/authenticated";
     			
     			public static final String cart = userID + storeID;
+    			public static final String item = cart   + itemID;
         }
         
         // ^^^ NEW STUFF ^^^ \\

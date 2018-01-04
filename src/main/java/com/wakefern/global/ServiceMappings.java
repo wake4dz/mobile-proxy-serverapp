@@ -230,6 +230,10 @@ public class ServiceMappings {
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.listItemID)) {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.listItemID, path, serviceObj);
 			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.srcListID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.srcListID, path, serviceObj);
+			}
 		}
 		
 		// Build the query string, if there are any query parameters

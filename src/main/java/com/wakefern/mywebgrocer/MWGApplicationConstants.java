@@ -123,6 +123,7 @@ public class MWGApplicationConstants {
         		    public static final String recipeID    = "recipeId";
         		    public static final String listID      = "listId";
         		    public static final String listItemID  = "listItemId";
+        		    public static final String srcListID   = "sourceListId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -303,9 +304,12 @@ public class MWGApplicationConstants {
         		// Merge the cart of Guest user, into the now-authenticated user's cart.
     			public static final String mergeGuest = "/user/authenticated";
     			
-    			public static final String cart  = userID + storeID;
-    			public static final String item  = cart   + itemID;
-    			public static final String items = cart   + "/items"; 
+    			public static final String cart = userID + storeID;
+    			
+    			public static final String item  = cart + itemID;
+    			public static final String items = cart + "/items"; 
+    			
+    			public static final String mergeList = cart + "/merge-from/list/{sourceListId}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

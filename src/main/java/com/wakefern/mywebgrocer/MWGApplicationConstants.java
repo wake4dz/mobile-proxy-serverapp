@@ -91,6 +91,7 @@ public class MWGApplicationConstants {
     			public static final String email      = prefix + "cart-email+json";
     			public static final String contents   = prefix + "grocery-list+json";
     			public static final String simpleItem = prefix + "simple-cart-item+json";
+    			public static final String itemV2     = prefix + "cart-items-v2+json";
     		}
     }
     

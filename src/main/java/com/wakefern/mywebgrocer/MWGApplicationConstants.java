@@ -94,6 +94,7 @@ public class MWGApplicationConstants {
     			public static final String itemsV2    = prefix + "cart-items-v2+json";
     			public static final String item       = prefix + "cart-item+json";
     			public static final String items      = prefix + "cart-items+json";
+    			public static final String review     = prefix + "cart-review+json";
     		}
     }
     
@@ -306,10 +307,11 @@ public class MWGApplicationConstants {
     			
     			public static final String cart = userID + storeID;
     			
-    			public static final String item  = cart + itemID;
-    			public static final String items = cart + "/items"; 
+    			public static final String item   = cart + itemID;
+    			public static final String items  = cart + "/items"; 
+    			public static final String review = cart + "/review";
     			
-    			public static final String mergeList = cart + "/merge-from/list/{sourceListId}";
+    			public static final String mergeList = cart + "/merge-from/list" + "/{" + Params.Path.srcListID + "}";
         }
         
         // ^^^ NEW STUFF ^^^ \\

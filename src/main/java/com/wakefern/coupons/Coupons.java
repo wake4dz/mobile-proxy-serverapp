@@ -1,4 +1,4 @@
-package com.wakefern.Coupons;
+package com.wakefern.coupons;
 
 import com.wakefern.Wakefern.Models.WakefernHeader;
 import com.wakefern.dao.coupon.CouponDAO;

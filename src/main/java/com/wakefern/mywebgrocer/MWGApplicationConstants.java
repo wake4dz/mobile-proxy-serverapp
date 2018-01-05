@@ -135,6 +135,7 @@ public class MWGApplicationConstants {
         		    public static final String listItemID  = "listItemId";
         		    public static final String srcListID   = "sourceListId";
         		    public static final String mwgStoreID  = "pseudoStoreId";
+        		    public static final String districtID  = "districtId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -331,6 +332,7 @@ public class MWGApplicationConstants {
         		private static final String mwgStoreID  = "/store/"    + "{" + Params.Path.mwgStoreID + "}";
         		private static final String mwgStoresID = "/stores/"   + "{" + Params.Path.mwgStoreID + "}";
         		private static final String deliveryZip = "/delivery/" + "{" + Params.Path.zipCode    + "}";
+        		private static final String districtID  = "/district/" + "{" + Params.Path.districtID + "}";
         		
         		public static final String prefix ="/checkout/v7";
         		
@@ -339,6 +341,8 @@ public class MWGApplicationConstants {
         		public static final String fulfillOpts   = fulfill      + mwgStoreID;
         		public static final String deliveryInfo  = fulfillOpts  + deliveryZip;
         		public static final String deliveryDates = deliveryInfo + dates;
+        		
+        		public static final String deliveryDistrictDates = deliveryInfo + districtID + dates;
         		
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";

@@ -238,6 +238,10 @@ public class ServiceMappings {
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.mwgStoreID)) {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, path, serviceObj);
 			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.districtID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.districtID, path, serviceObj);
+			}
 		}
 		
 		// Build the query string, if there are any query parameters

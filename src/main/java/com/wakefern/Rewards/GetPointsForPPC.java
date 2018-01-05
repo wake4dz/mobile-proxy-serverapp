@@ -22,8 +22,11 @@ public class GetPointsForPPC extends BaseService {
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{ppc}")
-    public Response getInfoResponse(@PathParam("ppc") String ppc,
-                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+    public Response getInfoResponse(
+    		@PathParam("ppc") String ppc,
+        @HeaderParam("Authorization") String authToken
+    ) throws Exception, IOException {
+    
     	prepareResponse(ppc, authToken);
     	
         ServiceMappings secondMapping = new ServiceMappings();

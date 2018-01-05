@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
 
-import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;

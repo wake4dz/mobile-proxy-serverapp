@@ -1,10 +1,8 @@
 package com.wakefern.products.chains;
 
-import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.mywebgrocer.MWGApplicationConstants.Requests.Params;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

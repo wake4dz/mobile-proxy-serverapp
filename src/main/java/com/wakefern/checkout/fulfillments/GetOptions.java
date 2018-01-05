@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class GetOptionsByStore extends BaseService {
+public class GetOptions extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,7 +19,7 @@ public class GetOptionsByStore extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public GetOptionsByStore() {
+    public GetOptions() {
         this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.fulfillOpts;
     }
     

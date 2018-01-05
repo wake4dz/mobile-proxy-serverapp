@@ -101,6 +101,7 @@ public class MWGApplicationConstants {
     			public static final String promoCodes    = prefix + "promo-code+json";
     			public static final String fulfillOpts   = prefix + "fulfillment-options-v2+json";
     			public static final String deliveryDates = prefix + "fulfillment-dates+json";
+    			public static final String deliveryTimes = prefix + "fulfillment-times+json";
     			
     			public static final String links = prefix + "links+json";
     		}
@@ -328,6 +329,7 @@ public class MWGApplicationConstants {
         public static class Checkout {
         		private static final String fulfill = "/fulfillments";
         		private static final String dates   = "/dates";
+        		private static final String times   = "/times";
         		
         		private static final String mwgStoreID  = "/store/"    + "{" + Params.Path.mwgStoreID + "}";
         		private static final String mwgStoresID = "/stores/"   + "{" + Params.Path.mwgStoreID + "}";
@@ -341,8 +343,10 @@ public class MWGApplicationConstants {
         		public static final String fulfillOpts   = fulfill      + mwgStoreID;
         		public static final String deliveryInfo  = fulfillOpts  + deliveryZip;
         		public static final String deliveryDates = deliveryInfo + dates;
+        		public static final String deliveryTimes	= deliveryInfo + times;
         		
         		public static final String deliveryDistrictDates = deliveryInfo + districtID + dates;
+        		public static final String deliveryDistrictTimes = deliveryInfo + districtID + times;
         		
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";

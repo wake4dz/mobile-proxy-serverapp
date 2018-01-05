@@ -2,7 +2,6 @@ package com.wakefern.coupons;
 
 import com.wakefern.Wakefern.Models.WakefernHeader;
 import com.wakefern.dao.coupon.CouponDAO;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -20,9 +19,7 @@ import org.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;

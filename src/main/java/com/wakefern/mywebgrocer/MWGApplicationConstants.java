@@ -96,6 +96,10 @@ public class MWGApplicationConstants {
     			public static final String items      = prefix + "cart-items+json";
     			public static final String review     = prefix + "cart-review+json";
     		}
+    
+    		public static class Checkout {
+    			public static final String promoCodes = prefix + "promo-code+json";
+    		}
     }
     
     public static class Requests {
@@ -103,6 +107,7 @@ public class MWGApplicationConstants {
         private static final String usersID  = "/users/"  + "{" + Params.Path.userID  + "}";
         private static final String userID   = "/user/"   + "{" + Params.Path.userID  + "}";
 		private static final String storeID  = "/store/"  + "{" + Params.Path.storeID + "}";
+		private static final String storesID = "/stores/" + "{" + Params.Path.storeID + "}";
 
         // Request Parameters
         public static class Params {
@@ -314,17 +319,13 @@ public class MWGApplicationConstants {
     			public static final String mergeList = cart + "/merge-from/list" + "/{" + Params.Path.srcListID + "}";
         }
         
-        // ^^^ NEW STUFF ^^^ \\
-
         public static class Checkout {
-            public static final String Checkout = "/checkout/v5/fulfillments/store";
-            public static final String Payments = "/checkout/v5/payments/store";
-            public static final String UserCheckout = "/checkout/v5/user";
-            public static final String Users = "/checkout/v5/users";
-            public static final String User = "/checkout/v5/user";
-            public static final String UserOrder = "/checkout/v5/orders/user";
-            public static final String Order = "/checkout/v5/order";
+        		public static final String prefix ="/checkout/v7";
+        		
+        		public static final String promoCodes = chainsID + storesID + usersID + "/promocodes";
         }
+        
+        // ^^^ NEW STUFF ^^^ \\
 
         public static class Registration{
             public static final String UserRegistration = "/user/v1/registration";

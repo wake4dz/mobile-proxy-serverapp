@@ -113,16 +113,6 @@ public final class ApplicationConstants {
             public static final String planningToken = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
         }
 
-        public static class Checkout{
-            public static final String Checkout = MWGApplicationConstants.Requests.Checkout.Checkout;
-            public static final String Payments = MWGApplicationConstants.Requests.Checkout.Payments;
-            public static final String UserCheckout = MWGApplicationConstants.Requests.Checkout.UserCheckout;
-            public static final String UserOrder = MWGApplicationConstants.Requests.Checkout.UserOrder;
-            public static final String Order = MWGApplicationConstants.Requests.Checkout.Order;
-            public static final String Users = MWGApplicationConstants.Requests.Checkout.Users;
-            public static final String User = MWGApplicationConstants.Requests.Checkout.User;
-        }
-
         public static final class Registration{
             public static final String UserRegistration = MWGApplicationConstants.Requests.Registration.UserRegistration;
         }

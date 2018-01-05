@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class OptionsByStore extends BaseService {
+public class GetDeliveryInfoByZip extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,24 +19,26 @@ public class OptionsByStore extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public OptionsByStore() {
-        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.fulfillOpts;
+    public GetDeliveryInfoByZip() {
+        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.deliveryInfo;
     }
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.Checkout.fulfillOpts)
+    @Path(MWGApplicationConstants.Requests.Checkout.deliveryInfo)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.zipCode) String zipCode,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.links, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.fulfillOpts, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.zipCode, zipCode);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

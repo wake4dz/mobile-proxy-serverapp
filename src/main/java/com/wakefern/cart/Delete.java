@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Cart.prefix)
-public class DeleteCart extends BaseService {
+public class Delete extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,7 +19,7 @@ public class DeleteCart extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public DeleteCart() {
+    public Delete() {
         this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.cart;
     }
     

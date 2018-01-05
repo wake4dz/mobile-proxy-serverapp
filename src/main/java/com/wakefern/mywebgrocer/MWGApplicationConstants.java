@@ -99,6 +99,7 @@ public class MWGApplicationConstants {
     
     		public static class Checkout {
     			public static final String promoCodes = prefix + "promo-code+json";
+    			public static final String links = prefix + "links+json";
     		}
     }
     
@@ -130,6 +131,7 @@ public class MWGApplicationConstants {
         		    public static final String listID      = "listId";
         		    public static final String listItemID  = "listItemId";
         		    public static final String srcListID   = "sourceListId";
+        		    public static final String mwgStoreID  = "pseudoStoreId";
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -320,9 +322,18 @@ public class MWGApplicationConstants {
         }
         
         public static class Checkout {
+        		private static final String fulfill     = "/fulfillments";
+        		private static final String mwgStoreID  = "/store/"  + "{" + Params.Path.mwgStoreID + "}";
+        		private static final String mwgStoresID = "/stores/" + "{" + Params.Path.mwgStoreID + "}";
+        		
         		public static final String prefix ="/checkout/v7";
         		
         		public static final String promoCodes = chainsID + storesID + usersID + "/promocodes";
+        		
+        		public static final String fulfillOpts = fulfill + mwgStoreID;
+        		
+        		// Legacy.  Used by com.wakefern.payment.GetToken
+            public static final String UserCheckout = "/checkout/v5/user";
         }
         
         // ^^^ NEW STUFF ^^^ \\

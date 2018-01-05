@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 @Path(MWGApplicationConstants.Requests.Cart.prefix)
-public class MergeGuestCart extends BaseService {
+public class MergeFromGuest extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -18,7 +18,7 @@ public class MergeGuestCart extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public MergeGuestCart() {
+    public MergeFromGuest() {
         this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.mergeGuest;
     }
     

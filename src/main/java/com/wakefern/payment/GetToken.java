@@ -71,7 +71,7 @@ public class GetToken extends BaseService {
 		returnMap.put(ApplicationConstants.Payment.Items, Items);
 		PaymentMethods.add(returnMap);
 
-		String path = "https://api.shoprite.com/api" + ApplicationConstants.Requests.Checkout.UserCheckout
+		String path = "https://api.shoprite.com/api" + MWGApplicationConstants.Requests.Checkout.UserCheckout
 				+ ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.store
 				+ ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.payment;
 

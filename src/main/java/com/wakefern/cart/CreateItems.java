@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Cart.prefix)
-public class DeleteCartItem extends BaseService {
+public class CreateItems extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,32 +19,32 @@ public class DeleteCartItem extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public DeleteCartItem() {
-        this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.item;
+    public CreateItems() {
+        this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.items;
     }
     
-	@DELETE
+	@POST
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.Cart.item)
-    public Response getResponse(
+    @Path(MWGApplicationConstants.Requests.Cart.items)
+    public Response getResponse(    
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
-    		@PathParam(MWGApplicationConstants.Requests.Params.Path.itemID) String itemID,
-    		    		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
+    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
+
+    		String jsonData
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.generic, MWGApplicationConstants.Headers.generic, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Cart.items, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.itemID, itemID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
@@ -52,4 +52,5 @@ public class DeleteCartItem extends BaseService {
         }
     }
 }
+
 

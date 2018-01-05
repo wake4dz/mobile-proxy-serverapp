@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Cart.prefix)
-public class ReviewCart extends BaseService {
+public class Review extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,7 +19,7 @@ public class ReviewCart extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public ReviewCart() {
+    public Review() {
         this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.review;
     }
     

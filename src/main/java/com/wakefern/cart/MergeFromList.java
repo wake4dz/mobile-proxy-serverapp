@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Cart.prefix)
-public class MergeCartFromList extends BaseService {
+public class MergeFromList extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,7 +19,7 @@ public class MergeCartFromList extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public MergeCartFromList() {
+    public MergeFromList() {
         this.requestPath = MWGApplicationConstants.Requests.Cart.prefix + MWGApplicationConstants.Requests.Cart.mergeList;
     }
     

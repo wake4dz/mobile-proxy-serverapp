@@ -106,8 +106,9 @@ public class MWGApplicationConstants {
     			public static final String fulfillSlot  = prefix + "fulfillment-slot+json";   // User-specific fulfillment time slots.
     			public static final String deliveryInfo = prefix + "delivery-info-v2+json";
     			
-    			public static final String addr  = prefix + "address-v2+json";
-    			public static final String links = prefix + "links+json";
+    			public static final String comments = prefix + "comments+json";
+    			public static final String address  = prefix + "address-v2+json";
+    			public static final String links    = prefix + "links+json";
     		}
     }
     
@@ -362,7 +363,9 @@ public class MWGApplicationConstants {
         		
         		public static final String deliveryAddr = userID + mwgStoreID + addr + "/delivery";
         		public static final String billingAddr  = userID + mwgStoreID + addr + "/billing";
-        		public static final String timeslot     = userID + mwgStoreID + fflmnt;
+        		
+        		public static final String comments = userID + mwgStoreID + "/comments";
+        		public static final String timeslot = userID + mwgStoreID + fflmnt;
         		
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";

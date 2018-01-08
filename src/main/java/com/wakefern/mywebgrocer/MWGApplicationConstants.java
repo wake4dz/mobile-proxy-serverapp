@@ -99,6 +99,7 @@ public class MWGApplicationConstants {
     
     		public static class Checkout {
     			public static final String promoCodes   = prefix + "promo-code+json";
+    			public static final String fulfillments = prefix + "fulfillments+json";
     			public static final String fulfillOpts  = prefix + "fulfillment-options-v2+json";
     			public static final String fulfillDates = prefix + "fulfillment-dates+json";  // Available fulfillment dates.
     			public static final String fulfillTimes = prefix + "fulfillment-times+json";  // Available fulfillment times.
@@ -357,6 +358,7 @@ public class MWGApplicationConstants {
         		public static final String deliveryDistrictTimes = deliveryInfo + districtID + times;
         		
         		public static final String reservedTimeslot = usersID + mwgStoresID + "/reserved-timeslot";
+        		public static final String userFulfillOpts  = userID  + mwgStoreID  + fflmnts;
         		
         		public static final String deliveryAddr = userID + mwgStoreID + addr + "/delivery";
         		public static final String billingAddr  = userID + mwgStoreID + addr + "/billing";

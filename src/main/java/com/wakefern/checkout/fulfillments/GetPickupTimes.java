@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class GetPickupDates extends BaseService {
+public class GetPickupTimes extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,20 +19,20 @@ public class GetPickupDates extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public GetPickupDates() {
-        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.pickupDates;
+    public GetPickupTimes() {
+        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.pickupTimes;
     }
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.Checkout.pickupDates)
+    @Path(MWGApplicationConstants.Requests.Checkout.pickupTimes)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.fulfillDates, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.fulfillTimes, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

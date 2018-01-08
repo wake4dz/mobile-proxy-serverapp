@@ -29,7 +29,6 @@ public class GetPickupInfo extends BaseService {
     @Path(MWGApplicationConstants.Requests.Checkout.pickupInfo)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
-    		@PathParam(MWGApplicationConstants.Requests.Params.Path.zipCode) String zipCode,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
@@ -38,7 +37,6 @@ public class GetPickupInfo extends BaseService {
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.zipCode, zipCode);
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);

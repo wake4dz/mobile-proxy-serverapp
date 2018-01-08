@@ -344,6 +344,7 @@ public class MWGApplicationConstants {
         		public static final String deliveryInfo  = fulfillOpts  + deliveryZip;
         		public static final String deliveryDates = deliveryInfo + dates;
         		public static final String deliveryTimes	= deliveryInfo + times;
+        		public static final String pickupInfo    = fulfill      + mwgStoreID + "/pickup";
         		
         		public static final String deliveryDistrictDates = deliveryInfo + districtID + dates;
         		public static final String deliveryDistrictTimes = deliveryInfo + districtID + times;

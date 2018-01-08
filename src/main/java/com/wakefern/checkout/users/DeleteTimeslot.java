@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class UpdateTimeslot extends BaseService {
+public class DeleteTimeslot extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,22 +19,21 @@ public class UpdateTimeslot extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public UpdateTimeslot() {
+    public DeleteTimeslot() {
         this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.timeslot;
     }
     
-	@PUT
+	@DELETE
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Checkout.timeslot)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-    		String jsonData
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Checkout.fulfillSlot, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
@@ -42,7 +41,7 @@ public class UpdateTimeslot extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

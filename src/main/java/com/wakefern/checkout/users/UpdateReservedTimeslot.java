@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class UpdateTimeslot extends BaseService {
+public class UpdateReservedTimeslot extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,14 +19,14 @@ public class UpdateTimeslot extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public UpdateTimeslot() {
-        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.timeslot;
+    public UpdateReservedTimeslot() {
+        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.reservedTimeslot;
     }
     
 	@PUT
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.Checkout.timeslot)
+    @Path(MWGApplicationConstants.Requests.Checkout.reservedTimeslot)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,

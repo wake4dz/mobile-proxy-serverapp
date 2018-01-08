@@ -98,17 +98,19 @@ public class MWGApplicationConstants {
     		}
     
     		public static class Checkout {
-    			public static final String promoCodes   = prefix + "promo-code+json";
-    			public static final String fulfillments = prefix + "fulfillments+json";
-    			public static final String fulfillOpts  = prefix + "fulfillment-options-v2+json";
-    			public static final String fulfillDates = prefix + "fulfillment-dates+json";  // Available fulfillment dates.
-    			public static final String fulfillTimes = prefix + "fulfillment-times+json";  // Available fulfillment times.
-    			public static final String fulfillSlot  = prefix + "fulfillment-slot+json";   // User-specific fulfillment time slots.
-    			public static final String deliveryInfo = prefix + "delivery-info-v2+json";
+    			public static final String promoCodes     = prefix + "promo-code+json";
+    			public static final String fulfillments   = prefix + "fulfillments+json";
+    			public static final String fulfillOptsV2  = prefix + "fulfillment-options-v2+json";
+    			public static final String fulfillDates   = prefix + "fulfillment-dates+json";  // Available fulfillment dates.
+    			public static final String fulfillTimes   = prefix + "fulfillment-times+json";  // Available fulfillment times.
+    			public static final String fulfillSlot    = prefix + "fulfillment-slot+json";   // User-specific fulfillment time slots.
+    			public static final String deliveryInfoV2 = prefix + "delivery-info-v2+json";
     			
-    			public static final String comments = prefix + "comments+json";
-    			public static final String address  = prefix + "address-v2+json";
-    			public static final String links    = prefix + "links+json";
+    			public static final String comments  = prefix + "comments+json";
+    			public static final String addressV2 = prefix + "address-v2+json";
+    			public static final String links     = prefix + "links+json";
+    			
+    			public static final String checkoutV2 = prefix + "checkout-v2+json";
     		}
     }
     
@@ -358,14 +360,14 @@ public class MWGApplicationConstants {
         		public static final String deliveryDistrictDates = deliveryInfo + districtID + dates;
         		public static final String deliveryDistrictTimes = deliveryInfo + districtID + times;
         		
-        		public static final String reservedTimeslot = usersID + mwgStoresID + "/reserved-timeslot";
-        		public static final String userFulfillOpts  = userID  + mwgStoreID  + fflmnts;
+        		public static final String reservedTimeslot  = usersID + mwgStoresID + "/reserved-timeslot";
+        		public static final String userCheckoutState = userID  + mwgStoreID;
         		
-        		public static final String deliveryAddr = userID + mwgStoreID + addr + "/delivery";
-        		public static final String billingAddr  = userID + mwgStoreID + addr + "/billing";
-        		
-        		public static final String comments = userID + mwgStoreID + "/comments";
-        		public static final String timeslot = userID + mwgStoreID + fflmnt;
+        		public static final String deliveryAddr    = userCheckoutState + addr + "/delivery";
+        		public static final String billingAddr     = userCheckoutState + addr + "/billing";
+        		public static final String comments        = userCheckoutState + "/comments";
+        		public static final String timeslot        = userCheckoutState + fflmnt;
+        		public static final String userFulfillOpts = userCheckoutState + fflmnts;
         		
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";

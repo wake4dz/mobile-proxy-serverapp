@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class UpdateDeliveryAddr extends BaseService {
+public class GetCheckoutState extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,22 +19,21 @@ public class UpdateDeliveryAddr extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public UpdateDeliveryAddr() {
-        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.deliveryAddr;
+    public GetCheckoutState() {
+        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.userCheckoutState;
     }
     
-	@PUT
+	@GET
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.Checkout.deliveryAddr)
+    @Path(MWGApplicationConstants.Requests.Checkout.userCheckoutState)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-    		String jsonData
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Checkout.deliveryInfoV2, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.checkoutV2, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
@@ -42,7 +41,7 @@ public class UpdateDeliveryAddr extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

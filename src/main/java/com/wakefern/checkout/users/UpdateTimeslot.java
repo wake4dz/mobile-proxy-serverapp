@@ -34,7 +34,7 @@ public class UpdateTimeslot extends BaseService {
     		String jsonData
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.fulfillSlots, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Checkout.fulfillSlots, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

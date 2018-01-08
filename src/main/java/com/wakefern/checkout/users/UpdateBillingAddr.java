@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class UpdateDeliveryAddr extends BaseService {
+public class UpdateBillingAddr extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,14 +19,14 @@ public class UpdateDeliveryAddr extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public UpdateDeliveryAddr() {
-        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.deliveryAddr;
+    public UpdateBillingAddr() {
+        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.billingAddr;
     }
     
 	@PUT
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.Checkout.deliveryAddr)
+    @Path(MWGApplicationConstants.Requests.Checkout.billingAddr)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
@@ -34,7 +34,7 @@ public class UpdateDeliveryAddr extends BaseService {
     		String jsonData
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Checkout.deliveryInfo, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Checkout.addr, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

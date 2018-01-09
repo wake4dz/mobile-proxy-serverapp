@@ -10,6 +10,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class BaseService {
     protected HashMap<String, String> requestParams = null;
     protected HashMap<String, String> queryParams   = null;
@@ -94,7 +97,6 @@ public class BaseService {
         
         try {
             String[] array = e.getMessage().split(",");
-
             String buildError;
             
             if (e.getMessage().contains("400")) {
@@ -102,11 +104,37 @@ public class BaseService {
             }
             
             if (Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403) {
-                buildError = ApplicationConstants.Requests.buildErrorJsonOpen + ApplicationConstants.Requests.forbiddenError
-                        + ApplicationConstants.Requests.buildErrorJsonClose;
-            } else {
-                 buildError = ApplicationConstants.Requests.buildErrorJsonOpen + array[1]
-                        + ApplicationConstants.Requests.buildErrorJsonClose;
+                buildError = ApplicationConstants.Requests.buildErrorJsonOpen + ApplicationConstants.Requests.forbiddenError + ApplicationConstants.Requests.buildErrorJsonClose;
+            
+            } else {	
+            		StringBuilder sb = new StringBuilder();
+            		
+            		// We have to allow for the possibility that there's more than one "," in the exception's error message.
+            		// For example, the error message may actually be a JSON string.
+            		for (int i = 1; i < array.length; i++) {
+            			sb.append(array[i] + ",");
+            		}
+            		
+            		// Strip off the trailing comma & convert to a String
+            		sb.deleteCharAt(sb.length() - 1);
+            		String respBody = sb.toString();
+            		
+            		// Test to see if the response is already a valid JSON string.
+            		// If so, just assign it to the 'buildError' var.
+            		// If it's not, assemble the 'buildError' var as a JSON string.
+            		try {
+            			new JSONObject(respBody);
+            			buildError = respBody;
+        			
+            		} catch (Exception ex) {
+            			try {
+            				new JSONArray(respBody);
+            				buildError = respBody;
+            			
+            			} catch (Exception exx) {
+            				buildError = ApplicationConstants.Requests.buildErrorJsonOpen + respBody + ApplicationConstants.Requests.buildErrorJsonClose;
+            			}
+        			}
             }
 
             return Response.status(Integer.parseInt(array[0])).entity(buildError).build();

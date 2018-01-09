@@ -230,6 +230,16 @@ public class HTTPRequest {
 		}
 	}
 
+	/**
+	 * Used by com.wakefern.coupons
+	 * 
+	 * @param requestURL
+	 * @param requestBody
+	 * @param requestHeaders
+	 * @param timeOut
+	 * @return
+	 * @throws Exception
+	 */
 	public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders,
 			int timeOut) throws Exception {
 		HttpURLConnection connection = null;
@@ -321,8 +331,25 @@ public class HTTPRequest {
 		}
 	}
 
-	public static String executeRequest(String requestURL, Map<String, String> requestHeaders,
-			Map<String, String> requestParameters, String requestMethod, int timeOut) throws Exception {
+	/**
+	 * Execute HTTP Request
+	 * 
+	 * @param requestURL
+	 * @param requestHeaders
+	 * @param requestParameters
+	 * @param requestMethod
+	 * @param timeOut
+	 * @return
+	 * @throws Exception
+	 */
+	public static String executeRequest(
+		String requestURL, 
+		Map<String, String> requestHeaders,
+		Map<String, String> requestParameters, 
+		String requestMethod, 
+		int timeOut
+	) throws Exception {
+		
 		HttpURLConnection connection = null;
 		long startTime, endTime;
 
@@ -331,17 +358,34 @@ public class HTTPRequest {
 			connection = createConnection(requestURL, requestHeaders, requestParameters, requestMethod, timeOut);
 			int responseCode = connection.getResponseCode();
 			endTime = System.currentTimeMillis();
-			logger.log(Level.INFO, "[executeRequest]::Total process time for {0}: {1} ms, URL: {2}",
-					new Object[] { requestMethod, (endTime - startTime), requestURL });
+			
+			logger.log(
+				Level.INFO, 
+				"[executeRequest]::Total process time for {0}: {1} ms, URL: {2}",
+				new Object[] { requestMethod, (endTime - startTime), requestURL }
+			);
+			
+			String response = ResponseHandler.Response(connection);
 
-			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205
-					|| responseCode == 206) {
-				return ResponseHandler.Response(connection);
+			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
+				return response;
+			
 			} else {
-				logger.log(Level.INFO, "[executeRequest]::response code: {0}, msg: {1}, URL: {2}",
-						new Object[] { connection.getResponseCode(), connection.getResponseMessage() });
+				logger.log(
+					Level.INFO, 
+					"[executeRequest]::response code: {0}, msg: {1}, URL: {2}",
+					new Object[] { connection.getResponseCode(), connection.getResponseMessage() }
+				);
 
-				throw new Exception(responseCode + "," + connection.getResponseMessage());
+				String msg;
+				
+				if (response.length() > 0) {
+					msg = responseCode + "," + response;
+				} else {
+					msg = responseCode + "," + connection.getResponseMessage();
+				}
+				
+				throw new Exception(msg);
 			}
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "[executeRequest]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",

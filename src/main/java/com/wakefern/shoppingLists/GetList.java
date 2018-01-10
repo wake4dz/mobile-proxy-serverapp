@@ -1,4 +1,4 @@
-package com.wakefern.shoppingList;
+package com.wakefern.shoppingLists;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
-public class UpdateList extends BaseService {
+public class GetList extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,11 +19,11 @@ public class UpdateList extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public UpdateList() {
+    public GetList() {
         this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.list;
     }
     
-	@PUT
+	@GET
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.list)
@@ -34,12 +34,10 @@ public class UpdateList extends BaseService {
     		
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
     		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-    		
-    		String jsonData
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.email, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.list, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -52,7 +50,7 @@ public class UpdateList extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

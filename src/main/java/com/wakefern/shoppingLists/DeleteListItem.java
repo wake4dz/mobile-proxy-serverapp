@@ -1,4 +1,4 @@
-package com.wakefern.shoppingList;
+package com.wakefern.shoppingLists;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
-public class CreateListEmail extends BaseService {
+public class DeleteListItem extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,27 +19,26 @@ public class CreateListEmail extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public CreateListEmail() {
-        this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.list;
+    public DeleteListItem() {
+        this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.item;
     }
     
-	@POST
+	@DELETE
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
-    @Path(MWGApplicationConstants.Requests.ShoppingList.list)
+    @Path(MWGApplicationConstants.Requests.ShoppingList.item)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.listID) String listID,
-    		
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.listItemID) String itemID,
+
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
     		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-    		
-    		String jsonData
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.email, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.generic, MWGApplicationConstants.Headers.generic, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -47,12 +46,13 @@ public class CreateListEmail extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listID, listID);
-		
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listItemID, itemID);
+
 		// Build the Map of Query String parameters.
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

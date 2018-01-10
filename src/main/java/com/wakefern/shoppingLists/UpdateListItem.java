@@ -1,4 +1,4 @@
-package com.wakefern.shoppingList;
+package com.wakefern.shoppingLists;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;

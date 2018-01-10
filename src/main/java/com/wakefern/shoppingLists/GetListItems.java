@@ -1,4 +1,4 @@
-package com.wakefern.shoppingList;
+package com.wakefern.shoppingLists;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
-public class CreateListItems extends BaseService {
+public class GetListItems extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,11 +19,11 @@ public class CreateListItems extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public CreateListItems() {
+    public GetListItems() {
         this.requestPath = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.items;
     }
     
-	@POST
+	@GET
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.ShoppingList.items)
@@ -33,13 +33,14 @@ public class CreateListItems extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.listID) String listID,
     		
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.categoryMap) String catMap, // Sort of like a "cat nap", but not really.  :-)
     		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-    		
-    		String jsonData
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.item, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.generic, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -50,9 +51,12 @@ public class CreateListItems extends BaseService {
 		
 		// Build the Map of Query String parameters.
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.categoryMap, catMap);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

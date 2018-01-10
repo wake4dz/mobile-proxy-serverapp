@@ -107,10 +107,11 @@ public class MWGApplicationConstants {
     			public static final String deliveryInfoV2 = prefix + "delivery-info-v2+json";
     			
     			public static final String comments   = prefix + "comments+json";
-    			public static final String addressV2  = prefix + "address-v2+json";
     			public static final String links      = prefix + "links+json";
-    			public static final String checkoutV2 = prefix + "checkout-v2+json";
     			public static final String orders     = prefix + "orders+json";
+    			public static final String orderV3    = prefix + "order-detail-v3+json";
+    			public static final String addressV2  = prefix + "address-v2+json";
+    			public static final String checkoutV2 = prefix + "checkout-v2+json";
     		}
     }
     
@@ -130,6 +131,7 @@ public class MWGApplicationConstants {
         		    public static final String chainID     = "chainId";
         		    public static final String userID      = "userId";
         		    public static final String storeID     = "storeId";
+        		    public static final String orderID     = "orderId";
         		    public static final String regionID    = "region";
         		    public static final String zipCode     = "postalCode";
         		    public static final String parentCatID = "parentCategoryId";
@@ -344,6 +346,7 @@ public class MWGApplicationConstants {
         		private static final String mwgStoresID = "/stores/"   + "{" + Params.Path.mwgStoreID + "}";
         		private static final String deliveryZip = "/delivery/" + "{" + Params.Path.zipCode    + "}";
         		private static final String districtID  = "/district/" + "{" + Params.Path.districtID + "}";
+        		private static final String orderID     = "/order/"    + "{" + Params.Path.orderID    + "}";
         		
         		public static final String prefix ="/checkout/v7";
         		
@@ -370,6 +373,7 @@ public class MWGApplicationConstants {
         		public static final String userFulfillOpts = userCheckoutState + fflmnts;
         		
         		public static final String orders = "/orders" + userID + mwgStoreID;
+        		public static final String order  = orderID   + userID;
         		
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";

@@ -319,6 +319,7 @@ public class MWGApplicationConstants {
         		public static final String list  = lists + "/{" + Params.Path.listID + "}";
         		public static final String items = list  + "/items";
         		public static final String item  = items + "/{" + Params.Path.listItemID + "}";
+        		public static final String copy  = list  + "/duplicate";
         }
         
         public static class Cart {

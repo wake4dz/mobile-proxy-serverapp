@@ -50,7 +50,11 @@ public class CreateDuplicateList extends BaseService {
 		
 		try {			
 			JSONArray listItems = getListItems(chainID, userID, listID, sessionToken);
-			JSONArray newList   = getNewListID(chainID, userID, sessionToken, jsonData);
+			JSONArray newList   = getNewList(chainID, userID, sessionToken, jsonData);
+			
+			String newListID = newList.getJSONObject(0).getString("Id");
+			
+			JSONArray resp = populateNewList(newListID, chainID, userID, sessionToken, listItems);
 		
 			return this.createValidResponse(newList.toString());
 		
@@ -73,9 +77,9 @@ public class CreateDuplicateList extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	private JSONArray getListItems(String chainID, String userID, String listID, String sessionToken) throws Exception {
+	private JSONArray getListItems(String chainID, String userID, String listID, String token) throws Exception {
 		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.items;
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.json, token);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -88,8 +92,7 @@ public class CreateDuplicateList extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, "0");
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, "9999");
 		
-		String strResp = this.mwgRequest(BaseService.ReqType.GET, null);
-		
+		String     strResp = this.mwgRequest(BaseService.ReqType.GET, null);
 		JSONObject objResp = new JSONObject(strResp);
 		JSONArray  items   = objResp.getJSONArray("Items");
 		
@@ -106,16 +109,31 @@ public class CreateDuplicateList extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	private JSONArray getNewListID(String chainID, String userID, String sessionToken, String data) throws Exception {
+	private JSONArray getNewList(String chainID, String userID, String token, String data) throws Exception {
         this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.lists;
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.list, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.list, token);
 		this.requestParams = new HashMap<String, String>();
 
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
-		String strResp = this.mwgRequest(BaseService.ReqType.POST, data);
+		String    strResp = this.mwgRequest(BaseService.ReqType.POST, data);
+		JSONArray objResp = new JSONArray(strResp);
 
+		return objResp;
+	}
+	
+	private JSONArray populateNewList(String listID, String chainID, String userID, String token, JSONArray listItems) throws Exception {
+		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.list;
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.list, token);
+		this.requestParams = new HashMap<String, String>();
+		
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listID, listID);
+		
+		String    items   = listItems.toString();
+		String    strResp = this.mwgRequest(BaseService.ReqType.PUT, items);
 		JSONArray objResp = new JSONArray(strResp);
 
 		return objResp;

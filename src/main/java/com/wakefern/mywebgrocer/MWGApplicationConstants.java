@@ -110,6 +110,7 @@ public class MWGApplicationConstants {
     			public static final String links      = prefix + "links+json";
     			public static final String orders     = prefix + "orders+json";
     			public static final String orderV3    = prefix + "order-detail-v3+json";
+    			public static final String results    = prefix + "order-results+json";
     			public static final String addressV2  = prefix + "address-v2+json";
     			public static final String checkoutV2 = prefix + "checkout-v2+json";
     		}

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class GetOrder extends BaseService {
+public class GetOrderResults extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,13 +19,13 @@ public class GetOrder extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public GetOrder() {
+    public GetOrderResults() {
         this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.order;
     }
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Produces(MWGApplicationConstants.Headers.Checkout.orderV3)
+    @Produces(MWGApplicationConstants.Headers.Checkout.results)
     @Path(MWGApplicationConstants.Requests.Checkout.order)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.orderID) String orderID,
@@ -33,7 +33,7 @@ public class GetOrder extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.orderV3, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.results, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

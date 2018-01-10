@@ -19,44 +19,36 @@ import com.wakefern.request.HTTPRequest;
 @Path(ApplicationConstants.Requests.Rewards.Points)
 public class GetPointsForPPC extends BaseService {
 
-    @GET
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Path("/{ppc}")
-    public Response getInfoResponse(
-    		@PathParam("ppc") String ppc,
-        @HeaderParam("Authorization") String authToken
-    ) throws Exception, IOException {
-    
-    	prepareResponse(ppc, authToken);
-    	
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMappingWithURL(this, ApplicationConstants.Requests.Rewards.BasePointsURL);
+	@GET
+	@Produces(MWGApplicationConstants.Headers.generic)
+	@Path("/{ppc}")
+	public Response getInfoResponse(@PathParam("ppc") String ppc, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
-        try {
-            return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
-        } catch (Exception e){
-            return this.createErrorResponse(e);
-        }
-    }
-    
+		prepareResponse(ppc, authToken);
+		ServiceMappings secondMapping = new ServiceMappings();
+		secondMapping.setMappingWithURL(this, ApplicationConstants.Requests.Rewards.BasePointsURL);
 
-    public String getInfo(String ppc, String authToken) throws Exception, IOException {
-    	prepareResponse(ppc, authToken);
+		try {
+			return this.createValidResponse(HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0));
+		} catch (Exception e) {
+			return this.createErrorResponse(e);
+		}
+	}
 
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this);
+	public String getInfo(String ppc, String authToken) throws Exception, IOException {
+		prepareResponse(ppc, authToken);
+		ServiceMappings secondMapping = new ServiceMappings();
+		secondMapping.setGetMapping(this);
 
-        return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
-    }
+		return HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+	}
 
-    public GetPointsForPPC(){
-        this.requestHeader = new MWGHeader();
-    }
+	public GetPointsForPPC() {
+		this.requestHeader = new MWGHeader();
+	}
 
-    private void prepareResponse(String ppc, String authToken){
-        this.requestToken = authToken;
-        this.requestPath = ApplicationConstants.Requests.Rewards.Points
-                + ApplicationConstants.StringConstants.backSlash + ppc;
-    }
-
+	private void prepareResponse(String ppc, String authToken) {
+		this.requestToken = authToken;
+		this.requestPath = ApplicationConstants.Requests.Rewards.Points + ApplicationConstants.StringConstants.backSlash + ppc;
+	}
 }

@@ -113,6 +113,7 @@ public class MWGApplicationConstants {
     			public static final String results    = prefix + "order-results+json";
     			public static final String addressV2  = prefix + "address-v2+json";
     			public static final String checkoutV2 = prefix + "checkout-v2+json";
+    			public static final String paymentsV3 = prefix + "payments-v3+json";
     		}
     }
     
@@ -147,6 +148,7 @@ public class MWGApplicationConstants {
         		    public static final String srcListID   = "sourceListId";
         		    public static final String mwgStoreID  = "pseudoStoreId";
         		    public static final String districtID  = "districtId";
+        		    public static final String fulfillType = "fulfillment";  // As in:  'delivery' or 'pickup'
         		}
         		
         		// Request Parameters that are part of the URL's query string.
@@ -364,8 +366,9 @@ public class MWGApplicationConstants {
         		public static final String deliveryDistrictDates = deliveryInfo + districtID + dates;
         		public static final String deliveryDistrictTimes = deliveryInfo + districtID + times;
         		
-        		public static final String reservedTimeslot  = usersID + mwgStoresID + "/reserved-timeslot";
         		public static final String userCheckoutState = userID  + mwgStoreID;
+        		public static final String reservedTimeslot  = usersID + mwgStoresID + "/reserved-timeslot";
+        		public static final String selectedPayMethod = userID  + mwgStoreID  + "/payment";
         		
         		public static final String deliveryAddr    = userCheckoutState + addr + "/delivery";
         		public static final String billingAddr     = userCheckoutState + addr + "/billing";
@@ -375,6 +378,8 @@ public class MWGApplicationConstants {
         		
         		public static final String orders = "/orders" + userID + mwgStoreID;
         		public static final String order  = orderID   + userID;
+        		
+        		public static final String payments = "/payments" + mwgStoreID + "/{" + Params.Path.fulfillType + "}";
         		
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";

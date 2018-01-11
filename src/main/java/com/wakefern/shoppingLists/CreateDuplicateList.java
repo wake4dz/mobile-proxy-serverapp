@@ -41,6 +41,7 @@ public class CreateDuplicateList extends BaseService {
 		// This is a custom endpoint.  There is no way via the MWG API to directly duplicate a list.
 		// The ListID supplied in the path, represents the ID of the List that the UI wishes to duplicate.
 		// The only property required in the incoming JSON is "Name".  Which is the name for the new list to be created.
+		// The new name *must* be unique, or MWG will kick back an HTTP 409 error.
 		//
 		// Steps:
 		// * Retrieve the contents of the list to be duplicated

@@ -37,7 +37,7 @@ public class Search extends BaseService {
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skipCount,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.sortOrder) String sortOrder,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchBySound) String searchBySound,
-    		@DefaultValue("9999") @QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String takeCount,  // MWG Docs claim this is optional, but will return an HTTP 400 if it's missing. 
+    		@DefaultValue("100") @QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String takeCount,  // MWG Docs claim this is optional, but will return an HTTP 400 if it's missing. 
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.userID) String userID,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken

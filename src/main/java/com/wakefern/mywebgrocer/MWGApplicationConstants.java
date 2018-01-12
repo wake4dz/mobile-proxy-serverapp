@@ -77,6 +77,9 @@ public class MWGApplicationConstants {
     			public static final String message   = prefix + "contact-message+json";
     			public static final String settings  = prefix + "shop-store-settings+json";
     			public static final String dashboard = prefix + "dashboard-entry+json";
+    			
+    			public static final String links = prefix + "links+json";
+    			public static final String entry = prefix + "shop-entry+json";
     		}
     		
     		public static class ShoppingList {
@@ -305,6 +308,9 @@ public class MWGApplicationConstants {
             
             public static final String contact  = shop + storeID + "/contact";
             public static final String settings = shop + storeID + "/settings";
+            
+            public static final String entryByChain = shop + usersID + chainsID + "/entry";
+            public static final String entryByStore = shop + userID  + storeID;
 
             public static final String message = contact + "/messages";            
 

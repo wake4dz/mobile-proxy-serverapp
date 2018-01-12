@@ -124,6 +124,9 @@ public class CreateDuplicateList extends BaseService {
 		return objResp;
 	}
 	
+	// TODO: This ain't not no working!
+	// TODO: MWG V7 Update List does not behave as expected!
+	//
 	private JSONArray populateNewList(String listID, String chainID, String userID, String token, JSONArray listItems) throws Exception {
 		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.list;
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.list, token);

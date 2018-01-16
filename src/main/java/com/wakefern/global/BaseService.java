@@ -1,6 +1,6 @@
 package com.wakefern.global;
 
-import com.wakefern.global.ErrorHandling.ExceptionHandler;
+import com.wakefern.global.errorHandling.ExceptionHandler;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.request.models.Header;
 

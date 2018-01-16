@@ -1,4 +1,4 @@
-package com.wakefern.global.ErrorHandling;
+package com.wakefern.global.errorHandling;
 
 import com.wakefern.global.ApplicationConstants;
 import org.json.JSONObject;

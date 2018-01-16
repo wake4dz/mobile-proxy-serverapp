@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.wakefern.global.ErrorHandling.ResponseHandler;
+import com.wakefern.global.errorHandling.ResponseHandler;
 
 public class HTTPRequest {
 

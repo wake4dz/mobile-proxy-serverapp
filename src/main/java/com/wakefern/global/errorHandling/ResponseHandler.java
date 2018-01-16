@@ -1,4 +1,4 @@
-package com.wakefern.global.ErrorHandling;
+package com.wakefern.global.errorHandling;
 
 import java.io.BufferedReader;
 import java.io.IOException;

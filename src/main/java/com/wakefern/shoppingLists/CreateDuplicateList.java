@@ -40,24 +40,22 @@ public class CreateDuplicateList extends BaseService {
 		
 		// This is a custom endpoint.  There is no way via the MWG API to directly duplicate a list.
 		// The ListID supplied in the path, represents the ID of the List that the UI wishes to duplicate.
-		// The only property required in the incoming JSON is "Name".  Which is the name for the new list to be created.
+		// The only property required in the incoming JSON is "Name".  Which is the name of the new list to be created.
 		// The new name *must* be unique, or MWG will kick back an HTTP 409 error.
 		//
 		// Steps:
 		// * Retrieve the contents of the list to be duplicated
 		// * Create a new list
-		// * Copy the contents of the first list into the newly created list
-		// * Update the new list
+		// * Update the new list with the items from the original list
 		
 		try {			
-			JSONArray listItems = getListItems(chainID, userID, listID, sessionToken);
-			JSONArray newList   = getNewList(chainID, userID, sessionToken, jsonData);
+			JSONObject respObj = getListItems(chainID, userID, listID, sessionToken);
+			JSONArray  respArr = getNewList(chainID, userID, sessionToken, jsonData);
 			
-			String newListID = newList.getJSONObject(0).getString("Id");
-			
-			JSONArray resp = populateNewList(newListID, chainID, userID, sessionToken, listItems);
+			String newListID = respArr.getJSONObject(0).getString("Id");
+			String jsonResp  = populateNewList(newListID, chainID, userID, sessionToken, respObj);
 		
-			return this.createValidResponse(newList.toString());
+			return this.createValidResponse(jsonResp);
 		
 		} catch (Exception e) {
 			return this.createErrorResponse(e);
@@ -78,7 +76,7 @@ public class CreateDuplicateList extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	private JSONArray getListItems(String chainID, String userID, String listID, String token) throws Exception {
+	private JSONObject getListItems(String chainID, String userID, String listID, String token) throws Exception {
 		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.items;
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.json, token);
 		this.requestParams = new HashMap<String, String>();
@@ -95,9 +93,8 @@ public class CreateDuplicateList extends BaseService {
 		
 		String     strResp = this.mwgRequest(BaseService.ReqType.GET, null);
 		JSONObject objResp = new JSONObject(strResp);
-		JSONArray  items   = objResp.getJSONArray("Items");
 		
-		return items;
+		return objResp;
 	}
 	
 	/**
@@ -114,6 +111,7 @@ public class CreateDuplicateList extends BaseService {
         this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.lists;
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.list, token);
 		this.requestParams = new HashMap<String, String>();
+		this.queryParams   = null;
 
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
@@ -125,22 +123,23 @@ public class CreateDuplicateList extends BaseService {
 	}
 	
 	// TODO: This ain't not no working!
-	// TODO: MWG V7 Update List does not behave as expected!
+	// TODO: Currently returning an HTTP 404.
+	// TODO: I *think* it's an issue on MWG's end.  But not 100% sure about that.
 	//
-	private JSONArray populateNewList(String listID, String chainID, String userID, String token, JSONArray listItems) throws Exception {
-		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.list;
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.list, token);
+	private String populateNewList(String listID, String chainID, String userID, String token, JSONObject listItems) throws Exception {
+		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.items;
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.items, token);
 		this.requestParams = new HashMap<String, String>();
+		this.queryParams   = null;
 		
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listID, listID);
 		
-		String    items   = listItems.toString();
-		String    strResp = this.mwgRequest(BaseService.ReqType.PUT, items);
-		JSONArray objResp = new JSONArray(strResp);
+		String reqString = listItems.toString();
+		String strResp = this.mwgRequest(BaseService.ReqType.POST, reqString);
 
-		return objResp;
+		return strResp;
 	}
 }
 

@@ -144,8 +144,8 @@ public class HTTPRequest {
 	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
 
 		HttpURLConnection connection = null;
-		long startTime, endTime;
-		startTime = System.currentTimeMillis();
+		//long startTime, endTime;
+		//startTime = System.currentTimeMillis();
 
 		try {
 			// Create connection
@@ -175,49 +175,55 @@ public class HTTPRequest {
 			// Connect to the server
 			connection.connect();
 
-			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line;
+			// Handle the response
+			int responseCode = connection.getResponseCode();
+			String response  = ResponseHandler.Response(connection);
 
-			switch (status) {
-			case 200:
-			case 201:
-			case 204:
-				// sb.append(status);
-				while ((line = br.readLine()) != null) {
-					sb.append(line + "\r");
+			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
+				return response;
+			
+			} else {
+				logger.log(
+					Level.INFO, 
+					"[executePost]::response code: {0}, msg: {1}, URL: {2}",
+					new Object[] { responseCode, response }
+				);
+
+				String msg;
+				
+				if (response.length() > 0) {
+					msg = responseCode + "," + response;
+				} else {
+					msg = responseCode + "," + connection.getResponseMessage();
 				}
-				br.close();
-				break;
-			default:
-				// sb.append(status);
-				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+				
+				throw new Exception(msg);
 			}
-
-			endTime = System.currentTimeMillis();
-
-			logger.log(Level.INFO, "[executePost]::Total process time: {0} ms, path: {1}",
-					new Object[] { (endTime - startTime), requestURL });
-			// return body to auth
-			return sb.toString();
-
+		
 		} catch (MalformedURLException ex) {
-			logger.log(Level.SEVERE,
+			logger.log(
+					Level.SEVERE,
 					"[executePost]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage() });
+			
 			throw ex;
+		
 		} catch (IOException ex) {
-			logger.log(Level.SEVERE, "[executePost]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(
+					Level.SEVERE, 
+					"[executePost]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage() });
+			
 			throw ex;
+		
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "[executePost]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(
+					Level.SEVERE, 
+					"[executePost]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
+					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage() });
+			
 			throw ex;
+		
 		} finally {
 			if (connection != null) {
 				try {

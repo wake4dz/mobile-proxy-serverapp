@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
-/**
- * Created by brandyn.brosemer on 9/13/16.
- */
 public class ResponseHandler {
     
 	public static String Response(HttpURLConnection connection) {

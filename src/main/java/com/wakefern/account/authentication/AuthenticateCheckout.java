@@ -33,7 +33,8 @@ public class AuthenticateCheckout extends BaseService {
     @Produces(MWGApplicationConstants.Headers.generic)
     public Response getResponse(
     		@PathParam("token") String token,
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
+    		String jsonData
 	) throws Exception, IOException {
     	    	
         try {
@@ -43,7 +44,7 @@ public class AuthenticateCheckout extends BaseService {
     			// The Token supplied in the path is the exact same thing as the Session Token supplied in the header.
     			// Yes, this is as dumb as it sounds.
     			this.requestParams.put("token", token);
-        		String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, null);
+        		String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
             return this.createValidResponse(jsonResp);
         
         } catch (Exception e) {

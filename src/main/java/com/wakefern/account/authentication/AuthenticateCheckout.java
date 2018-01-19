@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path(MWGApplicationConstants.Requests.Authentication.authorize)
+@Path(MWGApplicationConstants.Requests.Authentication.prefix)
 public class AuthenticateCheckout extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("Authentication");
@@ -28,11 +28,12 @@ public class AuthenticateCheckout extends BaseService {
         this.requestPath = MWGApplicationConstants.Requests.Authentication.prefix + MWGApplicationConstants.Requests.Authentication.checkout;
     }
 	
-    @POST
+    @PUT
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
+    @Path(MWGApplicationConstants.Requests.Authentication.checkout)
     public Response getResponse(
-    		@PathParam("token") String token,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.token) String token,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
     		String jsonData
 	) throws Exception, IOException {
@@ -41,9 +42,7 @@ public class AuthenticateCheckout extends BaseService {
             this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, sessionToken);
     			this.requestParams = new HashMap<String, String>();
         		
-    			// The Token supplied in the path is the exact same thing as the Session Token supplied in the header.
-    			// Yes, this is as dumb as it sounds.
-    			this.requestParams.put("token", token);
+    			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.token, token);
         		String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
             return this.createValidResponse(jsonResp);
         

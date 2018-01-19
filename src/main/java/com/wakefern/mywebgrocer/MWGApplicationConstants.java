@@ -132,6 +132,7 @@ public class MWGApplicationConstants {
         		
         		// Request Parameters included within the URL's path.
         		public static class Path {
+        			public static final String token       = "token";
         		    public static final String itemID      = "itemId";
         		    public static final String chainID     = "chainId";
         		    public static final String userID      = "userId";

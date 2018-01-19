@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path(MWGApplicationConstants.Requests.Authentication.authorize)
+@Path(MWGApplicationConstants.Requests.Authentication.prefix)
 public class AuthenticateUI extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("Authentication");
@@ -30,6 +30,7 @@ public class AuthenticateUI extends BaseService {
     @POST
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
+    @Path(MWGApplicationConstants.Requests.Authentication.authorize)
     public Response getResponse(String jsonBody) throws Exception, IOException {
     	    	
         try {

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path(MWGApplicationConstants.Requests.Authentication.authenticate)
+@Path(MWGApplicationConstants.Requests.Authentication.authorize)
 public class AuthenticateUI extends BaseService {
 
 	private final static Logger logger = Logger.getLogger("Authentication");
@@ -24,7 +24,7 @@ public class AuthenticateUI extends BaseService {
 	 * Constructor
 	 */
     public AuthenticateUI() {
-        this.requestPath = MWGApplicationConstants.Requests.Authentication.authenticate;
+        this.requestPath = MWGApplicationConstants.Requests.Authentication.prefix + MWGApplicationConstants.Requests.Authentication.authorize;
     }
 	
     @POST
@@ -38,7 +38,7 @@ public class AuthenticateUI extends BaseService {
             return this.createValidResponse(jsonResp);
         
         } catch (Exception e) {
-        		logger.log(Level.SEVERE, "[getInfoResponse]::Exception getInfoResponse ", e);
+        		logger.log(Level.SEVERE, "[getResponse]::Exception getResponse ", e);
             return this.createErrorResponse(e);
         }
     }

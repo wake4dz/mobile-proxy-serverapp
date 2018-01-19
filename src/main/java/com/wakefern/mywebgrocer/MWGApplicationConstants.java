@@ -201,7 +201,13 @@ public class MWGApplicationConstants {
     		}
     	
         public static class Authentication {
-            public static final String authenticate = "/authorization/v7/authorization";  // Retrieve Session Token & Guest User ID
+        		public static final String prefix = "/authorization/v7";
+        		
+        		// Retrieve Session Token & Guest User ID
+            public static final String authorize = "/authorization";
+            
+            // The "token" path param here is "The application token header value".  AKA the session token.
+            public static final String checkout  = authorize + "/{token}/authenticate"; 
         }
         
         public static class Stores {

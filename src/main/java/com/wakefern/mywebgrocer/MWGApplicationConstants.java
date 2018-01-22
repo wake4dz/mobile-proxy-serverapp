@@ -398,6 +398,13 @@ public class MWGApplicationConstants {
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";
         }
+
+        public static class Rewards {
+        	
+        		// Legacy endpoints, still in use.
+        		public static final String Points = "/rewards/api/v1/points";
+        		public static final String baseURL = "https://wfcapi.shoprite.com";
+        }
         
         // ^^^ NEW STUFF ^^^ \\
 
@@ -418,9 +425,6 @@ public class MWGApplicationConstants {
         	public static final String baseUPC_URL = "https://vp.shoprite.com";
         }
         
-        public static class Rewards{
-        	public static final String Points = "/rewards/api/v1/points";
-        	public static final String baseURL = "https://wfcapi.shoprite.com";
-        }
+
     }
 }

@@ -80,16 +80,6 @@ public class ServiceMappings {
 		}
 	}
 	
-	//v1 calls with passed in authToken
-	public void setServiceMappingv1(Object serviceObject, String jsonBody) {
-		BaseService aService = (BaseService) serviceObject;
-		if (aService.requestHeader instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
-			MWGBody mwgBody = new MWGBody("");
-			sendServiceMappingv1((BaseService) serviceObject, mwgHeader, mwgBody, jsonBody);
-		}
-	}
-
 	//Used for coupon api
 	public void setCouponMapping(Object serviceObject){
 		BaseService aService = (BaseService) serviceObject;
@@ -99,12 +89,11 @@ public class ServiceMappings {
 		}
 	}
 	
-	public void setMappingWithURL(Object serviceObject, String baseURL){
+	public void setMappingWithURL(Object serviceObject, String baseURL) {
 		BaseService aService = (BaseService) serviceObject;
-		if (aService.requestHeader instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
-			sendRequestWithURL(aService, mwgHeader, baseURL);
-		}
+		MWGHeader mwgHeader  = new MWGHeader();
+		
+		sendRequestWithURL(aService, mwgHeader, baseURL);
 	}
 
 	public void setAllHeadersPutMapping(Object serviceObject, String jsonBody){
@@ -293,13 +282,6 @@ public class ServiceMappings {
 		header.authenticate(serviceObject.requestToken, ApplicationConstants.shoppingListItemPost.contentType, ApplicationConstants.shoppingListItemPost.contentAccept);
 		setgenericHeader(header.getMap());
 		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.requestPath);
-		setGenericBody(body.Body(jsonBody));
-	}
-
-	private void sendServiceMappingv1(BaseService serviceObject,MWGHeader header,MWGBody body, String jsonBody){
-		header.v1Authentication(serviceObject.requestToken);
-		setgenericHeader(header.getMap());
-		setServicePath(ApplicationConstants.Requests.serviceURLV1 + serviceObject.requestPath);
 		setGenericBody(body.Body(jsonBody));
 	}
 	

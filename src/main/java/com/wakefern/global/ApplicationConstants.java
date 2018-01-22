@@ -140,10 +140,6 @@ public final class ApplicationConstants {
             public static final String BaseUPCRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseUPC_URL;
         }
         
-        public static class Rewards{
-            public static final String Points = MWGApplicationConstants.Requests.Rewards.Points;
-            public static final String BasePointsURL = MWGApplicationConstants.Requests.Rewards.baseURL;
-        }
     }
 
     public static class shoppingListItemPost{

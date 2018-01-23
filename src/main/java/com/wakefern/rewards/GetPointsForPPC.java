@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 
 @Path(MWGApplicationConstants.Requests.Rewards.Points)
@@ -25,7 +26,10 @@ public class GetPointsForPPC extends BaseService {
 	@Path("/{ppc}")
 	public Response getInfoResponse(@PathParam("ppc") String ppc, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
-		this.requestToken = authToken;
+		// We are not going to a MWG endpoint with this request.
+		// This is a service provided and maintained by Wakefern.
+		// So it requires a different Authorization Header Token than the one provided by the UI.
+		this.requestToken = WakefernApplicationConstants.Requests.ppcRewardsToken;
 		this.requestPath  = MWGApplicationConstants.Requests.Rewards.Points + "/" + ppc;
 		
 		ServiceMappings srvMap = new ServiceMappings();

@@ -13,7 +13,9 @@ public class WakefernApplicationConstants {
 	}
 
     public static class Requests {
-        public static class Coupons {
+        public static final String ppcRewardsToken = "7bd4a45d-4fef-4edf-a74d-c2214c0b7b54"; // See GetPointsForPPC.java
+
+    		public static class Coupons {
             public static final String baseURL = "http://couponprodwest.azure-mobile.net/api";
 
 

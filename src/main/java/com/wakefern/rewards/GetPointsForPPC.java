@@ -29,7 +29,7 @@ public class GetPointsForPPC extends BaseService {
 		// We are not going to a MWG endpoint with this request.
 		// This is a service provided and maintained by Wakefern.
 		// So it requires a different Authorization Header Token than the one provided by the UI.
-		this.requestToken = WakefernApplicationConstants.Requests.ppcRewardsToken;
+		this.requestToken = WakefernApplicationConstants.Requests.authToken;
 		this.requestPath  = MWGApplicationConstants.Requests.Rewards.Points + "/" + ppc;
 		
 		ServiceMappings srvMap = new ServiceMappings();

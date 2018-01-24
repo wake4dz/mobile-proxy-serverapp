@@ -5,19 +5,11 @@ package com.wakefern.Wakefern;
  */
 public class WakefernApplicationConstants {
 	
-	public static class Statica{
-		public static final String userName = "statica3492";
-		public static final String password = "efadafb2c0b0f730";
-		public static final String host = "sl-ams-01-guido.statica.io";
-		public static final String port = "9293";
-	}
-
     public static class Requests {
-        public static final String ppcRewardsToken = "7bd4a45d-4fef-4edf-a74d-c2214c0b7b54"; // See GetPointsForPPC.java
+        public static final String authToken = "7bd4a45d-4fef-4edf-a74d-c2214c0b7b54"; // Used by legacy Wakefern endpoints.
 
     		public static class Coupons {
             public static final String baseURL = "http://couponprodwest.azure-mobile.net/api";
-
 
             public static class Headers{
                 public static final String CouponAuthenticationToken        = "noowhTBIYfzVrXOcFrNSwIFbkMoqRh19";
@@ -55,7 +47,6 @@ public class WakefernApplicationConstants {
                 public static final String shortDescription = "short_description";
                 public static final String requirementDescription = "requirement_description";
             }
-
         }
     }
 }

@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
@@ -26,44 +27,31 @@ public class RecommendProducts extends BaseService {
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{userId}/sessid/{userAuth}")
-    public Response getInfoResponse(@PathParam("userId") String userId,
-    						@PathParam("userAuth") String userAuth,
-                            @HeaderParam("Authorization") String authToken) throws Exception, IOException {
-    	prepareResponse(userId, userAuth, authToken);
+    public Response getInfoResponse(
+    		@PathParam("userId") String userId,
+		@PathParam("userAuth") String sessionSecret,
+        @HeaderParam("Authorization") String sessionToken
+    ) throws Exception, IOException {
     	
+    		// This request relies on a legacy endpoint maintained by Wakefern.
+    		// Ignore the session token sent by the UI.
+    		// Use the legacy Wakefern Auth Token instead.
+    	
+		this.requestHeader = new MWGHeader();
+        this.requestToken  = WakefernApplicationConstants.Requests.authToken;
+        this.requestPath   = ApplicationConstants.Requests.Recommendations.ProductRecommendations + "/" + userId + "/sessid" + "/" + sessionSecret;
+                
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMappingWithURL(this, ApplicationConstants.Requests.Recommendations.BaseRecommendationsURL);
-    	String secondMapPath = secondMapping.getPath();
+    		String secondMapPath = secondMapping.getPath();
 
         try {
-        	String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getgenericHeader(), 0);
+        		String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getgenericHeader(), 0);
             return this.createValidResponse(jsonResp);
+        
         } catch (Exception e){
-        	logger.log(Level.SEVERE, "[getInfoResponse]::Product Recommendation Exception!!!, Path: "+secondMapPath, e);
+        		logger.log(Level.SEVERE, "[getInfoResponse]::Product Recommendation Exception!!!, Path: " + secondMapPath, e);
             return this.createErrorResponse(e);
         }
     }
-    
-
-    public String getInfo(String storeId, String isMember, String authToken) throws Exception, IOException {
-        prepareResponse(storeId, isMember, authToken);
-
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setGetMapping(this);
-
-        String resp = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
-
-        return resp;
-    }
-
-    public RecommendProducts(){
-        this.requestHeader = new MWGHeader();
-    }
-
-    private void prepareResponse(String userId, String userAuth, String authToken) {
-        this.requestToken = authToken;
-        this.requestPath = ApplicationConstants.Requests.Recommendations.ProductRecommendations + "/" + userId + "/sessid" + "/" + userAuth;
-        logger.log(Level.INFO, "[prepareResponse]::path: ", requestPath);
-    }
-
 }

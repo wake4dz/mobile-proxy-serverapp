@@ -49,10 +49,11 @@ public class AuthenticateCheckout extends BaseService {
         try {
             this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, secret);
     			this.requestParams = new HashMap<String, String>();
-        		
+    			
     			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.token, sessionToken);
-        		String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
-            return this.createValidResponse(jsonResp);
+    			String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
+            
+    			return this.createValidResponse(jsonResp);
         
         } catch (Exception e) {
         		logger.log(Level.SEVERE, "[getResponse]::Exception getResponse ", e);

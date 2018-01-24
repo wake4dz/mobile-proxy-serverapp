@@ -33,16 +33,24 @@ public class AuthenticateCheckout extends BaseService {
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Authentication.checkout)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.Requests.Params.Path.token) String token,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.token) String secret,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
     		String jsonData
 	) throws Exception, IOException {
     	    	
+    		// This request relies on a Deprecated MWG endpoint.  
+    		// Wakefern has specifically asked that this endpoint continue to be used.  
+    		// Be aware that it may be removed from service at some point in the future.
+    		//
+    		// The structure of this request is a little odd.
+    		// MWG expects the 'secret' to be sent as the Authentication header, instead of the usual session token.
+    		// The session token, is instead sent as a path parameter.
+    	
         try {
-            this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, sessionToken);
+            this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, secret);
     			this.requestParams = new HashMap<String, String>();
         		
-    			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.token, token);
+    			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.token, sessionToken);
         		String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
             return this.createValidResponse(jsonResp);
         

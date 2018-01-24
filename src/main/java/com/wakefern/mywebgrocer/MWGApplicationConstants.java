@@ -283,7 +283,7 @@ public class MWGApplicationConstants {
     			public static final String pageItem    = pageItems   + "/{" + Params.Path.itemID + "}";
         }
         
-        public static class Recipes{
+        public static class Recipes {
         		private static final String recipes = "/recipes";
         		
         		private static final String id = "/{" + Params.Path.recipeID + "}";
@@ -406,25 +406,17 @@ public class MWGApplicationConstants {
         		public static final String baseURL = "https://wfcapi.shoprite.com";
         }
         
-        // ^^^ NEW STUFF ^^^ \\
-
-        public static class Registration{
-            public static final String UserRegistration = "/user/v1/registration";
-        }
-
-        public static class Wakefern{
+        public static class Wakefern {
             public static final String ItemLocator = "/itemlocator/item/location";
             public static final String ItemLocatorAuth = "/wfctoken/auth/gentoken";
             public static final String ItemLocatorJson = "/itemlocator/item/location/json";
         }
         
-        public static class Recommendations{
-        	public static final String ProductRecommendations = "/recommend/api/v1/products/user";
-        	public static final String baseURL = "https://wfcapi.shoprite.com";
-        	public static final String UPCRecommendations = "/api/wfc/store/";
-        	public static final String baseUPC_URL = "https://vp.shoprite.com";
+        public static class Recommendations {
+	        	public static final String ProductRecommendations = "/recommend/api/v1/products/user";
+	        	public static final String baseURL = "https://wfcapi.shoprite.com";
+	        	public static final String UPCRecommendations = "/api/wfc/store/";
+	        	public static final String baseUPC_URL = "https://vp.shoprite.com";
         }
-        
-
     }
 }

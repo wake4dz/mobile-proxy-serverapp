@@ -96,14 +96,14 @@ public class ServiceMappings {
 		sendRequestWithURL(aService, mwgHeader, baseURL);
 	}
 
-	public void setAllHeadersPutMapping(Object serviceObject, String jsonBody){
-		BaseService aService = (BaseService) serviceObject;
-		if (aService.requestHeader instanceof MWGHeader) {
-			MWGHeader mwgHeader = new MWGHeader();
-			MWGBody mwgBody = new MWGBody("");
-			sendAllHeadersPutRequest(aService, mwgHeader, mwgBody, jsonBody);
-		}
-	}
+//	public void setAllHeadersPutMapping(Object serviceObject, String jsonBody){
+//		BaseService aService = (BaseService) serviceObject;
+//		if (aService.requestHeader instanceof MWGHeader) {
+//			MWGHeader mwgHeader = new MWGHeader();
+//			MWGBody mwgBody = new MWGBody("");
+//			sendAllHeadersPutRequest(aService, mwgHeader, mwgBody, jsonBody);
+//		}
+//	}
 	
 	//-------------------------------------------------------------------------
 	// Private Methods
@@ -278,12 +278,12 @@ public class ServiceMappings {
 		return path.replace("{" + pathParam + "}", serviceObj.requestParams.get(pathParam));
 	}
 
-	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
-		header.authenticate(serviceObject.requestToken, ApplicationConstants.shoppingListItemPost.contentType, ApplicationConstants.shoppingListItemPost.contentAccept);
-		setgenericHeader(header.getMap());
-		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.requestPath);
-		setGenericBody(body.Body(jsonBody));
-	}
+//	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
+//		header.authenticate(serviceObject.requestToken, ApplicationConstants.shoppingListItemPost.contentType, ApplicationConstants.shoppingListItemPost.contentAccept);
+//		setgenericHeader(header.getMap());
+//		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.requestPath);
+//		setGenericBody(body.Body(jsonBody));
+//	}
 	
 	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
 		wakefernHeader.cuponAuth(serviceObject.requestToken);

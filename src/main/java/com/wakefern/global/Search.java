@@ -31,9 +31,11 @@ public class Search extends BaseService {
         }
 
         String[] jsonArray = new String[intTake + 1];
-        for(int i = 0; i < intTake; i++){
-            this.requestPath = partialUrl + ApplicationConstants.StringConstants.takeAmp
-                    + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
+        
+        for (int i = 0; i < intTake; i++) {    
+        		this.requestPath = partialUrl 
+        				+ ApplicationConstants.StringConstants.takeAmp
+                    + "20" + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * i) + initSkip );
 
             if(!sort.isEmpty()){// != ""){

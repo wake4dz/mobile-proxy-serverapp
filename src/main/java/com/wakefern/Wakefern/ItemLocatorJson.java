@@ -24,8 +24,7 @@ public class ItemLocatorJson extends BaseService {
                                     @HeaderParam("Authentication") String authToken) throws Exception, IOException {
         Map<String, String> wkfn = new HashMap<>();
 
-        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocatorJson
-                + ApplicationConstants.StringConstants.backSlash + storeId + ApplicationConstants.StringConstants.backSlash + upc;
+        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocatorJson + "/" + storeId + "/" + upc;
         wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
         wkfn.put("Authentication", authToken);
 

@@ -60,11 +60,9 @@ public class RecommendProducts extends BaseService {
         this.requestHeader = new MWGHeader();
     }
 
-    private void prepareResponse(String userId, String userAuth, String authToken){
+    private void prepareResponse(String userId, String userAuth, String authToken) {
         this.requestToken = authToken;
-        this.requestPath = ApplicationConstants.Requests.Recommendations.ProductRecommendations
-                + ApplicationConstants.StringConstants.backSlash + userId + ApplicationConstants.StringConstants.sessid
-                + ApplicationConstants.StringConstants.backSlash + userAuth;
+        this.requestPath = ApplicationConstants.Requests.Recommendations.ProductRecommendations + "/" + userId + "/sessid" + "/" + userAuth;
         logger.log(Level.INFO, "[prepareResponse]::path: ", requestPath);
     }
 

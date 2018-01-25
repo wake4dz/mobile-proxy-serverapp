@@ -50,6 +50,12 @@ public class Search extends BaseService {
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 		
+		// The MWG endpoint will puke if the Search Term contains spaces
+		// Replace any spaces with a "+" sign.
+		if (searchTerm != null) {
+			searchTerm = searchTerm.trim().replace(' ', '+');
+		}
+		
 		// Build the Map of Query String parameters
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.excluded, excludedProds);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, searchFilters);

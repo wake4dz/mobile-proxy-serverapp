@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import org.json.JSONObject;
 
@@ -50,18 +51,46 @@ public class GetToken extends BaseService {
 
 	@GET
 	@Produces(MWGApplicationConstants.Headers.generic)
-	/**expected body
-	 *
-	 * {"PaymentMethods":[{"Id":"59","Name":"","PaymentMethodMessage":"","PayMethodTooltipUri":"","PrimaryOption":true,"AllowsMultiple":false,"RequiresCardNumber":false,"RequiredNumeric":false,"MinimumLength":0,"MaximumLength":0,"RequiresAmount":false,"CardNumber":null,"Amount":null,"Image":null,"IsVendor":true,"SuccessCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=True","CancelCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=False","CardNumberLabel":null,"AmountLabel":null,"Items":[],"FulfillmentType":""}]}
-	 *
-	 */
-	public Response getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
-							@DefaultValue("")@QueryParam("isMember") String isMember, @HeaderParam("Authorization") String authToken) throws Exception, IOException {
+	public Response getInfo(
+			@PathParam("storeId") String storeId, 
+			@PathParam("userId") String userId,
+			@DefaultValue("") @QueryParam("isMember") String isMember, 
+			@HeaderParam("Authorization") String authToken
+	) throws Exception, IOException {
+		
+		/*
+		 * Response body
+		 * 
+		 * "PaymentMethods":[{
+		 * 	"Id":"59",
+		 * 	"Name":"",
+		 * 	"PaymentMethodMessage":"",
+		 * 	"PayMethodTooltipUri":"",
+		 * 	"PrimaryOption":true,
+		 * 	"AllowsMultiple":false,
+		 * 	"RequiresCardNumber":false,
+		 * 	"RequiredNumeric":false,
+		 * 	"MinimumLength":0,
+		 * 	"MaximumLength":0,
+		 * 	"RequiresAmount":false,
+		 * 	"CardNumber":null,
+		 * 	"Amount":null,
+		 * 	"Image":null,
+		 * 	"IsVendor":true,
+		 * 	"SuccessCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=True",
+		 * 	"CancelCallbackUri":"https://shop.shoprite.com/store/DA87780/checkout/ProcessPayment?authorized=False",
+		 * 	"CardNumberLabel":null,
+		 * 	"AmountLabel":null,
+		 * 	"Items":[],
+		 * 	"FulfillmentType":""
+		 * }]
+		 */
+
 		ArrayList<String> Items = new ArrayList<>();
 		ArrayList<Map> PaymentMethods = new ArrayList<>();
 		JSONObject retval = new JSONObject();
 
-		this.requestToken = authToken;
+		this.requestToken = authToken;  //WakefernApplicationConstants.Requests.authToken;
 		String successCallbackURL = "https://shop.shoprite.com/store/" + storeId + ApplicationConstants.Payment.SuccessCallbackURL;
 		String cancelCallbackURL = "https://shop.shoprite.com/store/" + storeId + ApplicationConstants.Payment.CancelCallbackURL;
 
@@ -71,26 +100,29 @@ public class GetToken extends BaseService {
 		returnMap.put(ApplicationConstants.Payment.Items, Items);
 		PaymentMethods.add(returnMap);
 
-		String path = "https://api.shoprite.com/api" + MWGApplicationConstants.Requests.Checkout.UserCheckout
+		String path = "https://api.shoprite.com/api" 
+				+ MWGApplicationConstants.Requests.Checkout.UserCheckout
 				+ "/" + userId + ApplicationConstants.StringConstants.store
 				+ "/" + storeId + ApplicationConstants.StringConstants.payment;
 
-		if(!isMember.isEmpty()){
+		if (!isMember.isEmpty()) {
 			path += ApplicationConstants.StringConstants.isMember;
 		}
+		
 		logger.log(Level.INFO, "[getInfo][GetToken]::Path: ", path);
 
 		retval.put(ApplicationConstants.Payment.PaymentMethods, PaymentMethods);
 
 		ServiceMappings secondMapping = new ServiceMappings();
 		secondMapping.setPutMapping(this, retval.toString());
+		
 		logger.log(Level.INFO, "[getInfo][GetToken]::req: ", retval.toString());
 
 		try {
 			String resp = HTTPRequest.executePut(path, secondMapping.getGenericBody(), secondMapping.getgenericHeader());
 			logger.log(Level.INFO, "[getInfo][GetToken]::resp: ", resp);
-			
 			return this.createValidResponse(resp);
+		
 		} catch (Exception e) {
 			return this.createErrorResponse(e);
 		}

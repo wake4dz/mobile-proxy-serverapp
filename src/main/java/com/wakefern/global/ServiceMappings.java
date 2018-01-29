@@ -80,7 +80,7 @@ public class ServiceMappings {
 		}
 	}
 	
-	//Used for coupon api
+	// Used for Coupons
 	public void setCouponMapping(Object serviceObject){
 		BaseService aService = (BaseService) serviceObject;
 		if (aService.requestHeader instanceof WakefernHeader){
@@ -89,21 +89,13 @@ public class ServiceMappings {
 		}
 	}
 	
+	// Used for Recommendations & Rewards
 	public void setMappingWithURL(Object serviceObject, String baseURL) {
 		BaseService aService = (BaseService) serviceObject;
 		MWGHeader mwgHeader  = new MWGHeader();
 		
 		sendRequestWithURL(aService, mwgHeader, baseURL);
 	}
-
-//	public void setAllHeadersPutMapping(Object serviceObject, String jsonBody){
-//		BaseService aService = (BaseService) serviceObject;
-//		if (aService.requestHeader instanceof MWGHeader) {
-//			MWGHeader mwgHeader = new MWGHeader();
-//			MWGBody mwgBody = new MWGBody("");
-//			sendAllHeadersPutRequest(aService, mwgHeader, mwgBody, jsonBody);
-//		}
-//	}
 	
 	//-------------------------------------------------------------------------
 	// Private Methods
@@ -235,6 +227,10 @@ public class ServiceMappings {
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.token)) {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.token, path, serviceObj);
 			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.fulfillType)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.fulfillType, path, serviceObj);
+			}
 		}
 		
 		// Build the query string, if there are any query parameters
@@ -277,13 +273,6 @@ public class ServiceMappings {
 	private String replacePathParam(String pathParam, String path, BaseService serviceObj) {
 		return path.replace("{" + pathParam + "}", serviceObj.requestParams.get(pathParam));
 	}
-
-//	private void sendAllHeadersPutRequest(BaseService serviceObject,MWGHeader header, MWGBody body, String jsonBody){
-//		header.authenticate(serviceObject.requestToken, ApplicationConstants.shoppingListItemPost.contentType, ApplicationConstants.shoppingListItemPost.contentAccept);
-//		setgenericHeader(header.getMap());
-//		setPath(ApplicationConstants.Requests.baseURLV5 + serviceObject.requestPath);
-//		setGenericBody(body.Body(jsonBody));
-//	}
 	
 	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
 		wakefernHeader.cuponAuth(serviceObject.requestToken);

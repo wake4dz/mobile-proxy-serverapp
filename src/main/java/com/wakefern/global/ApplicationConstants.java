@@ -227,6 +227,8 @@ public final class ApplicationConstants {
             public static final String ItemLocator = MWGApplicationConstants.Requests.Wakefern.ItemLocator;
             public static final String ItemLocatorAuth = MWGApplicationConstants.Requests.Wakefern.ItemLocatorAuth;
             public static final String ItemLocatorJson = MWGApplicationConstants.Requests.Wakefern.ItemLocatorJson;
+			public static final String Logging = "/logging";
+			public static final String LoggingAuth = "wakefern-shoprite-auth";
         }
 
         public static class Recommendations{

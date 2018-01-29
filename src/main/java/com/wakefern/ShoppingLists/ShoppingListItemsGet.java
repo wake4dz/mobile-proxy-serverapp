@@ -183,6 +183,7 @@ public class ShoppingListItemsGet extends BaseService {
 
         boolean isAvgPricing = false; // for item pricing "$7.47 (avg.) / each"
         boolean isLbPricing = false; // for item pricing "$6.99/lb"
+        boolean isSaleObjNull = false;
         for (int i = 0, size = items.length(); i < size; i++) {
             // Get the items in the array and make a comma separated string of them as well trim the first and last digit
             JSONObject item = (JSONObject) items.get(i);
@@ -211,11 +212,17 @@ public class ShoppingListItemsGet extends BaseService {
                 	isAvgPricing = false;
             	} else{
             		// "$3.99/lb" or "n for $2.99"
-                    JSONObject sale = item.getJSONObject(ApplicationConstants.AisleItemLocator.Sale);
-            		if(isLbPricing){
+            		JSONObject sale = null;
+            		try{
+            			sale = item.getJSONObject(ApplicationConstants.AisleItemLocator.Sale);
+            			isSaleObjNull = false;
+            		} catch(Exception ex){
+            			isSaleObjNull = true;
+            		}
+                    if(isLbPricing){
             			// "$3.99/lb"
                         String[] quantityPerLbArr = item.get(ApplicationConstants.AisleItemLocator.Size).toString().split(" ");
-                        if(sale != null){ //check for limit
+                        if(!isSaleObjNull){ //check for limit
                             String limitText = sale.get(ApplicationConstants.AisleItemLocator.LimitText).toString();
                             if(limitText.contains("Limit")){
                             	//LimitText : "Min Qty: 1, Limit: 4 Items"
@@ -239,7 +246,7 @@ public class ShoppingListItemsGet extends BaseService {
                         int currentPriceQty = Integer.parseInt(currentPriceArr[0]);
                         double currentPriceStr = Double.parseDouble(currentPriceArr[currentPriceArr.length - 1].replace("$", ""));
                         double pricePerItem = currentPriceStr / currentPriceQty;
-                    	if(sale != null){
+                    	if(!isSaleObjNull){
                             String limitText = sale.get(ApplicationConstants.AisleItemLocator.LimitText).toString();
                             if(limitText.contains("Limit")){
                             	int limitQty = Integer.parseInt(limitText.split("\\:")[2].trim().split(" ")[0]); // returns 4

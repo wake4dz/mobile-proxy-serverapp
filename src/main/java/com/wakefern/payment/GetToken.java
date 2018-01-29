@@ -27,24 +27,24 @@ public class GetToken extends BaseService {
 
 	private Map<String, String> paymentMap() {
 		Map returnMap = new LinkedHashMap<>();
-		returnMap.put(ApplicationConstants.Payment.Id, ApplicationConstants.Payment.HardCodedId);
-		returnMap.put(ApplicationConstants.Payment.Name, "");
-		returnMap.put(ApplicationConstants.Payment.PaymentMethodMessage, "");
-		returnMap.put(ApplicationConstants.Payment.PayMethodTooltipUri, "");
-		returnMap.put(ApplicationConstants.Payment.PrimaryOption, true);
-		returnMap.put(ApplicationConstants.Payment.AllowsMultiple, false);
-		returnMap.put(ApplicationConstants.Payment.RequiresCardNumber, false);
-		returnMap.put(ApplicationConstants.Payment.RequiredNumeric, false);
-		returnMap.put(ApplicationConstants.Payment.MinimumLength, 0);
-		returnMap.put(ApplicationConstants.Payment.MaximumLength, 0);
-		returnMap.put(ApplicationConstants.Payment.RequiresAmount, false);
-		returnMap.put(ApplicationConstants.Payment.CardNumber, null);
-		returnMap.put(ApplicationConstants.Payment.Amount, null);
-		returnMap.put(ApplicationConstants.Payment.Image, null);
-		returnMap.put(ApplicationConstants.Payment.IsVendor, true);
-		returnMap.put(ApplicationConstants.Payment.CardNumberLabel, null);
-		returnMap.put(ApplicationConstants.Payment.AmountLabel, null);
-		returnMap.put(ApplicationConstants.Payment.FulfillmentType, null);
+		returnMap.put("Id", "59");
+		returnMap.put("Name", "");
+		returnMap.put("PaymentMethodMessage", "");
+		returnMap.put("PayMethodTooltipUri", "");
+		returnMap.put("PrimaryOption", true);
+		returnMap.put("AllowsMultiple", false);
+		returnMap.put("RequiresCardNumber", false);
+		returnMap.put("RequiredNumeric", false);
+		returnMap.put("MinimumLength", 0);
+		returnMap.put("MaximumLength", 0);
+		returnMap.put("RequiresAmount", false);
+		returnMap.put("CardNumber", null);
+		returnMap.put("Amount", null);
+		returnMap.put("Image", null);
+		returnMap.put("IsVendor", true);
+		returnMap.put("CardNumberLabel", null);
+		returnMap.put("AmountLabel", null);
+		returnMap.put("FulfillmentType", null);
 
 		return returnMap;
 	}
@@ -91,13 +91,13 @@ public class GetToken extends BaseService {
 		JSONObject retval = new JSONObject();
 
 		this.requestToken = authToken;  //WakefernApplicationConstants.Requests.authToken;
-		String successCallbackURL = "https://shop.shoprite.com/store/" + storeId + ApplicationConstants.Payment.SuccessCallbackURL;
-		String cancelCallbackURL = "https://shop.shoprite.com/store/" + storeId + ApplicationConstants.Payment.CancelCallbackURL;
+		String successCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=True";
+		String cancelCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=False";
 
 		Map returnMap = this.paymentMap();
-		returnMap.put(ApplicationConstants.Payment.SuccessCallbackUri, successCallbackURL);
-		returnMap.put(ApplicationConstants.Payment.CancelCallbackUri, cancelCallbackURL);
-		returnMap.put(ApplicationConstants.Payment.Items, Items);
+		returnMap.put("SuccessCallbackUri", successCallbackURL);
+		returnMap.put("CancelCallbackUri", cancelCallbackURL);
+		returnMap.put("Items", Items);
 		PaymentMethods.add(returnMap);
 
 		String path = "https://api.shoprite.com/api" 
@@ -111,7 +111,7 @@ public class GetToken extends BaseService {
 		
 		logger.log(Level.INFO, "[getInfo][GetToken]::Path: ", path);
 
-		retval.put(ApplicationConstants.Payment.PaymentMethods, PaymentMethods);
+		retval.put("PaymentMethods", PaymentMethods);
 
 		ServiceMappings secondMapping = new ServiceMappings();
 		secondMapping.setPutMapping(this, retval.toString());

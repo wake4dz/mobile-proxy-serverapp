@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.wakefern.global.ErrorHandling.*;
 
@@ -27,12 +29,15 @@ import com.wakefern.global.ErrorHandling.*;
 
 @Path(ApplicationConstants.Requests.ShoppingLists.slGenericList)
 public class AddItemToList extends BaseService {
+	private final static Logger logger = Logger.getLogger("AddItemToList");
     @POST
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
     public String getInfo(@PathParam("storeId") String storeId, @PathParam("userId") String userId,
                           @DefaultValue("")@QueryParam("isMember") String isMember,
-                          @HeaderParam("Authorization") String authToken,@DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId,@DefaultValue("") @QueryParam("update") String update, String jsonBody) throws Exception, IOException {
+                          @HeaderParam("Authorization") String authToken,
+                          @DefaultValue("") @QueryParam("listName") String listName,@DefaultValue("") @QueryParam("listId") String listId,
+                          @DefaultValue("") @QueryParam("update") String update, String jsonBody) throws Exception, IOException {
 
     	if(!update.isEmpty()){
     		DeleteItemFromList updateItem = new DeleteItemFromList();
@@ -41,12 +46,26 @@ public class AddItemToList extends BaseService {
     	}
     	
         GenericListItem createItem = new ObjectMapper().readValue(jsonBody,GenericListItem.class);
+        String addItemStr = "";
+        String errorMsg = "";
         if(listId.isEmpty()) {
             listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);
         }
         //System.out.println("List ID ::" + listId);
-
-        return this.addItem(createItem,listId,storeId,userId,isMember,authToken);
+        try{
+	    	if(listId == null){
+	    		errorMsg =  ListHelpers.errorMsgStr("[getInfo]::ADD ITEM NULL LIST ID, listId: " + listId + ", listName: " 
+	    				+ listName, userId, storeId, authToken, "", jsonBody, "");
+	            logger.log(Level.SEVERE, errorMsg);
+				return "{\"error\":\"402\",\"message\":\"listId is empty.\"}";
+	    	}
+	    	addItemStr = this.addItem(createItem,listId,storeId,userId,isMember,authToken);
+        } catch(Exception e){
+        	errorMsg = ListHelpers.errorMsgStr("[getInfo]::ADD ITEM LIST EXCEPTION: " + e.getMessage()
+        		+", listId: " + listId + ", listName: " + listName, userId, storeId, authToken, "", jsonBody, addItemStr);
+            logger.log(Level.SEVERE, errorMsg);
+        }
+        return addItemStr;
     }
 
     public AddItemToList(){this.serviceType = new MWGHeader();}

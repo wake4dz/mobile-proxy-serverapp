@@ -13,12 +13,15 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by brandyn.brosemer on 9/23/16.
  */
 @Path(ApplicationConstants.Requests.ShoppingLists.slGenericList)
 public class GetItemsInList extends BaseService {
+	private final static Logger logger = Logger.getLogger("GetItemsInList");
     @GET
     @Produces("application/*")
     @Path("/{storeId}/users/{userId}/lists")
@@ -29,22 +32,27 @@ public class GetItemsInList extends BaseService {
 									@DefaultValue("0") @QueryParam("skip") String skip, String jsonBody){
 
         if(listId.isEmpty()) {
-            try {
-				listId = ListHelpers.getListId(listName, userId, isMember,authToken, storeId);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				return this.createErrorResponse(e);
-			}
+			listId = ListHelpers.getListId(listName, userId, isMember,authToken, storeId);
         }
         ShoppingListItemsGet list = new ShoppingListItemsGet();
+        String errorMsg = "";
         if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
             try {
+            	if(listId == null){
+    	        	errorMsg = ListHelpers.errorMsgStr("[getInfoResponse]::SHOPPING LIST GENERIC NULL LISTID", userId, storeId, authToken, listId, listName);
+            		logger.log(Level.INFO, errorMsg);
+    				return this.createErrorResponse(new Exception("402,listId is empty."));
+            	}
 				return this.createValidResponse(list.getInfo(userId, storeId, listId, take, skip, "", isMember, authToken));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+	        	errorMsg = ListHelpers.errorMsgStr("[getInfoResponse]::SHOPPING LIST GENERIC IOEXCEPTION! " + e.getMessage(), userId, storeId, authToken, listId, listName);
+	        	logger.log(Level.SEVERE, errorMsg);
+
 				return this.createErrorResponse(e);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+	        	errorMsg = ListHelpers.errorMsgStr("[getInfoResponse]::SHOPPING LIST GENERIC EXCEPTION! " + e.getMessage(), userId, storeId, authToken, listId, listName);
+	        	logger.log(Level.SEVERE, errorMsg);
+	        	
 				return this.createErrorResponse(e);
 			}
         }else{
@@ -52,10 +60,14 @@ public class GetItemsInList extends BaseService {
             try {
 				return this.createValidResponse(cartList.getInfo(userId,storeId,isMember,authToken));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
+				errorMsg = ListHelpers.errorMsgStr("[getInfoResponse]::IOEXCEPTION GETCART! "+e.getMessage(), userId, storeId, authToken);
+				logger.log(Level.SEVERE, errorMsg);
 				return this.createErrorResponse(e);
+				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				errorMsg = ListHelpers.errorMsgStr("[getInfoResponse]::EXCEPTION GETCART! "+e.getMessage(), userId, storeId, authToken);
+				logger.log(Level.SEVERE, errorMsg);
 				return this.createErrorResponse(e);
 			}
         }
@@ -70,16 +82,16 @@ public class GetItemsInList extends BaseService {
 			String listName, String listId, String take, String skip, String jsonBody,String filter) {
 		//System.out.println("Item List :: Store ID :: " + storeId + ":: User ID ::" + userId + ":: isMemeber ::" + isMember + ":: Auth Token ::" + authToken + ":: List Name ::" + listName  + ":: List Id ::" + listId + ":: Take ::" + take + ":: Skip ::" + skip + ":: JSON Body ::" + jsonBody + ":: Filter ::" + filter);
 		if(listId.isEmpty()) {
-			try {
 				listId = ListHelpers.getListId(listName, userId, isMember, authToken, storeId);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				return this.createErrorResponse(e).toString();
-			}
 		}
 		ShoppingListItemsGet list = new ShoppingListItemsGet();
 		if(!listName.equalsIgnoreCase(ApplicationConstants.Lists.cart)) {
 			try {
+
+		    	if(listId == null){
+					logger.log(Level.SEVERE, ListHelpers.errorMsgStr("[getInfoFilter]:: LISTID IS NULL", userId, storeId, authToken, filter, "", ""));
+					return "{\"error\":\"402\",\"message\":\"listId is empty.\"}";
+		    	}
 				if(filter.isEmpty()){
 					return list.getInfo(userId, storeId, listId, take, skip, "", isMember, authToken);
 				}else{
@@ -87,10 +99,11 @@ public class GetItemsInList extends BaseService {
 					
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				logger.log(Level.SEVERE, ListHelpers.errorMsgStr("[getInfoFilter]::IOEXCEPTION GETINFOFILTER! "+e.getMessage(), userId, storeId, authToken, filter, "",""));
 				return this.createErrorResponse(e).toString();
+				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				logger.log(Level.SEVERE, ListHelpers.errorMsgStr("[getInfoFilter]::EXCEPTION GETINFOFILTER! "+e.getMessage(), userId, storeId, authToken, filter, "", ""));
 				return this.createErrorResponse(e).toString();
 			}
 		}else{
@@ -98,10 +111,11 @@ public class GetItemsInList extends BaseService {
 			try {
 				return cartList.getInfo(userId,storeId,isMember,authToken);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				logger.log(Level.SEVERE, ListHelpers.errorMsgStr("[getInfoFilter]::IOEXCEPTION GETINFOFILTER CART! "+e.getMessage(), userId, storeId, authToken));
 				return this.createErrorResponse(e).toString();
+				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				logger.log(Level.SEVERE, ListHelpers.errorMsgStr("[getInfoFilter]::EXCEPTION GETINFOFILTER CART! "+e.getMessage(), userId, storeId, authToken));
 				return this.createErrorResponse(e).toString();
 			}
 		}

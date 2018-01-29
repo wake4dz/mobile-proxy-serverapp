@@ -17,6 +17,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +27,7 @@ import java.util.HashMap;
 @Path(ApplicationConstants.Requests.ShoppingLists.slItemsUser)
 public class ShoppingListItemsGet extends BaseService {
 	
-
+	private final static Logger logger = Logger.getLogger("ShoppingListItemsGet");
     String responseString = "";
     JSONArray items = null;
     JSONObject searchAble = null;
@@ -79,7 +81,7 @@ public class ShoppingListItemsGet extends BaseService {
                     StringBuilder sb = new StringBuilder();
                     
                     //run price calculation for shopping list
-                    this.shoppingListPriceCalculation();
+                    this.shoppingListPriceCalculation(listResp);
 
                     if(totalPrice != 0){
                         String[] totalPriceArr = String.valueOf(totalPrice).split("\\.");
@@ -120,8 +122,7 @@ public class ShoppingListItemsGet extends BaseService {
                             }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
-//                        throw e;
+                    	logger.log(Level.SEVERE, "[getItemLocatorForNonSRFHList]::::Error locating item! "+e.getMessage()+", response: "+locatorArray);
                     }
 
                     for (int i = 0; i < items.length(); i++) {
@@ -155,7 +156,8 @@ public class ShoppingListItemsGet extends BaseService {
                 return this.createValidResponse(retval.toString());
             }
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
+        	logger.log(Level.SEVERE, "[getItemLocatorForNonSRFHList]::::Error getting product price", e);
             return this.createValidResponse(listResp);
         }
         return this.createValidResponse(listResp);
@@ -177,10 +179,11 @@ public class ShoppingListItemsGet extends BaseService {
      * @param items
      * @param responseString
      */
-    private void shoppingListPriceCalculation(){
+    private void shoppingListPriceCalculation(String listResp){
 
         boolean isAvgPricing = false; // for item pricing "$7.47 (avg.) / each"
         boolean isLbPricing = false; // for item pricing "$6.99/lb"
+        boolean isSaleObjNull = false;
         for (int i = 0, size = items.length(); i < size; i++) {
             // Get the items in the array and make a comma separated string of them as well trim the first and last digit
             JSONObject item = (JSONObject) items.get(i);
@@ -209,11 +212,17 @@ public class ShoppingListItemsGet extends BaseService {
                 	isAvgPricing = false;
             	} else{
             		// "$3.99/lb" or "n for $2.99"
-                    JSONObject sale = item.getJSONObject(ApplicationConstants.AisleItemLocator.Sale);
-            		if(isLbPricing){
+            		JSONObject sale = null;
+            		try{
+            			sale = item.getJSONObject(ApplicationConstants.AisleItemLocator.Sale);
+            			isSaleObjNull = false;
+            		} catch(Exception ex){
+            			isSaleObjNull = true;
+            		}
+                    if(isLbPricing){
             			// "$3.99/lb"
                         String[] quantityPerLbArr = item.get(ApplicationConstants.AisleItemLocator.Size).toString().split(" ");
-                        if(sale != null){ //check for limit
+                        if(!isSaleObjNull){ //check for limit
                             String limitText = sale.get(ApplicationConstants.AisleItemLocator.LimitText).toString();
                             if(limitText.contains("Limit")){
                             	//LimitText : "Min Qty: 1, Limit: 4 Items"
@@ -237,7 +246,7 @@ public class ShoppingListItemsGet extends BaseService {
                         int currentPriceQty = Integer.parseInt(currentPriceArr[0]);
                         double currentPriceStr = Double.parseDouble(currentPriceArr[currentPriceArr.length - 1].replace("$", ""));
                         double pricePerItem = currentPriceStr / currentPriceQty;
-                    	if(sale != null){
+                    	if(!isSaleObjNull){
                             String limitText = sale.get(ApplicationConstants.AisleItemLocator.LimitText).toString();
                             if(limitText.contains("Limit")){
                             	int limitQty = Integer.parseInt(limitText.split("\\:")[2].trim().split(" ")[0]); // returns 4
@@ -267,9 +276,8 @@ public class ShoppingListItemsGet extends BaseService {
                     }
             	}
             } catch(Exception ex){
-                totalPrice = 0.0;
-                System.out.println("[ShoppingListItemsGet]::::Error calculating price in Shopping List");
-                ex.printStackTrace();
+                totalPrice = totalPrice + 0.0;
+            	logger.log(Level.SEVERE, "[ShoppingListItemsGet]::::Error calculating price in Shopping List! "+ex.getMessage()+", response: "+ listResp);
             }
             /*
             if(regularPrice.isEmpty()){
@@ -307,12 +315,11 @@ public class ShoppingListItemsGet extends BaseService {
             //System.out.println("Filter With Path :: " + path);
         }else{
             //System.out.println("No Filter With Path :: " + path);
-
         }
 
         ServiceMappings secondMapping = new ServiceMappings();
         secondMapping.setMapping(this);
-        String returnString = HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
+//        String returnString = HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
         //System.out.println("Purchase response ::" + returnString);
         return HTTPRequest.executeGetJSON(path, secondMapping.getgenericHeader(), 0);
     }
@@ -331,7 +338,7 @@ public class ShoppingListItemsGet extends BaseService {
                 String fqEncoded = URLEncoder.encode(fq, "UTF-8");
                 this.path += ApplicationConstants.StringConstants.fq + fqEncoded;
             } catch (Exception e){
-                System.out.print("ShoppingListItemGet:: Error Encoding fq " + e.getMessage());
+                logger.log(Level.SEVERE, "ShoppingListItemGet:: Error Encoding fq " + e.getMessage());
             }
         }
 

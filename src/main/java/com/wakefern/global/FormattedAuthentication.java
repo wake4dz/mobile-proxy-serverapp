@@ -21,8 +21,10 @@ public class FormattedAuthentication {
     private String sisterId;
     private String sisterPseudo;
     private String sisterName;
+    private String userId;
+    private String userToken;
 
-    public JSONObject formatAuth(String json, String email, String chainId, String planningAuth){//, String v5){
+	public JSONObject formatAuth(String json, String email, String chainId, String planningAuth){//, String v5){
         JSONObject retval = new JSONObject();
         JSONObject jsonObject = new JSONObject(json);
         String token = jsonObject.getString(ApplicationConstants.FormattedAuthentication.Token);
@@ -33,6 +35,8 @@ public class FormattedAuthentication {
         retval.put(ApplicationConstants.FormattedAuthentication.UserToken, token);
         retval.put(ApplicationConstants.FormattedAuthentication.PlanningToken, planningAuth);
         retval.put(ApplicationConstants.FormattedAuthentication.UserId, userId);
+        this.setUserToken(token);
+        this.setUserId(userId);
 
         GetProfile getProfile = new GetProfile();
         try {
@@ -212,4 +216,18 @@ public class FormattedAuthentication {
     public void setSisterName(String sisterName) {
         this.sisterName = sisterName;
     }
+
+	public String getUserToken() {
+		return userToken;
+	}
+	public void setUserToken(String userToken) {
+		this.userToken = userToken;
+	}
+
+	public void setUserId(String userId){
+		this.userId = userId;
+	}
+	public String getUserId() {
+		return userId;
+	}
 }

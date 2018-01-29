@@ -1,5 +1,6 @@
 package com.wakefern.Checkout;
 
+import com.wakefern.Lists.ListHelpers;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
@@ -50,35 +51,44 @@ public class CheckoutBillingAddressPut extends BaseService {
     public Response getInfoResponse(@PathParam("userId") String userId, @PathParam("storeId") String storeId,
                                     @DefaultValue("")@QueryParam("isMember") String isMember,
                             @HeaderParam("Authorization") String authToken, String jsonBody) throws Exception, IOException {
-        JSONObject jsonObject = new JSONObject(jsonBody);
-        logger.log(Level.INFO, "[getInfoResponse]::jsonBody: ", jsonBody);
-        System.out.println(jsonObject.toString());
-        if(jsonObject.getString("FirstName").isEmpty()){
-        	jsonObject.put("FirstName", "_");
-        }
-        
-        if(jsonObject.getString("LastName").isEmpty()){
-        	jsonObject.put("LastName", "_");
-        }
-        
-        ServiceMappings secondMapping = new ServiceMappings();
-        String path = prepareResponse(userId, storeId, isMember, authToken);
-        logger.log(Level.INFO, "[getInfoResponse]::JSON Address::Billing OBJ: ", jsonObject.toString());
-
-        secondMapping.setPutMapping(this, jsonObject.toString());
-
-        
-       
-
-        Map<String, String> map = new HashMap();
-        map.put(ApplicationConstants.Requests.Header.contentType, "application/json");
-        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
-
-        try {
-            //return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), secondMapping.getgenericHeader(), 0));
-            return this.createValidResponse(HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0));
-        } catch (Exception e){
-            return this.createErrorResponse(e);
+        String path = "";
+        String resp = "";
+        try{
+            JSONObject jsonObject = new JSONObject(jsonBody);
+	        try{
+	        	String firstName = jsonObject.get("FirstName").toString();
+	        	jsonObject.put("FirstName", firstName);
+	        	if(firstName.isEmpty()){
+	            	jsonObject.put("FirstName", "_");
+	            }
+	        } catch (Exception e){
+	            jsonObject.put("FirstName", "_");
+	        }
+	        
+	        try{
+	        	String lastName = jsonObject.get("LastName").toString();
+	        	jsonObject.put("LastName", lastName);
+	        	if(lastName.isEmpty()){
+	            	jsonObject.put("LastName", "_");
+	            }
+	        } catch (Exception e){
+	            jsonObject.put("LastName", "_");
+	        }
+	        
+	        ServiceMappings secondMapping = new ServiceMappings();
+	        path = prepareResponse(userId, storeId, isMember, authToken);
+	
+	        secondMapping.setPutMapping(this, jsonObject.toString());
+	
+	        Map<String, String> map = new HashMap();
+	        map.put(ApplicationConstants.Requests.Header.contentType, "application/json");
+	        map.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+	        resp = HTTPRequest.executePut("", path, "", secondMapping.getGenericBody(), map, 0);
+	        return this.createValidResponse(resp);
+        } catch(Exception ex){
+        	logger.log(Level.SEVERE, ListHelpers.errorMsgStr("[getInfoResponse]::BILLING ADDR EXCEPTION! "+ex.getMessage()
+        			+", path: "+path, userId, storeId, "", "", jsonBody, resp));
+        	return this.createErrorResponse(ex);
         }
     }
     
@@ -87,11 +97,15 @@ public class CheckoutBillingAddressPut extends BaseService {
     public String getInfo(String userId, String storeId, String authToken, String isMember, String jsonBody) throws Exception, IOException {
         JSONObject jsonObject = new JSONObject(jsonBody);
         try{
+        	String firstName = jsonObject.get("FirstName").toString();
+        	jsonObject.put("FirstName", firstName);
             jsonObject.getString("FirstName");
         } catch (Exception e){
             jsonObject.put("FirstName", "_");
         }
         try{
+        	String lastName = jsonObject.get("LastName").toString();
+        	jsonObject.put("LastName", lastName);
             jsonObject.getString("LastName");
         } catch (Exception e){
             jsonObject.put("LastName", "_");

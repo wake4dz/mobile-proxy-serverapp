@@ -47,12 +47,9 @@ public class HTTPRequest {
 	 * @throws Exception
 	 */
 	public static String executePut(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
-		
 		HttpURLConnection connection = null;
-		long startTime, endTime;
 
 		try {
-			startTime = System.currentTimeMillis();
 			// Create connection
 			URL url = new URL(requestURL);
 			connection = (HttpURLConnection) url.openConnection();
@@ -80,30 +77,30 @@ public class HTTPRequest {
 			// Connect to the server
 			connection.connect();
 
-			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder sb = new StringBuilder();
+			// Handle the response
+			int responseCode = connection.getResponseCode();
+			String response  = ResponseHandler.Response(connection);
 
-			switch (status) {
-			case 200:
-			case 201:
-			case 204:
-				// sb.append(status);
-				int read;
-				char[] chars = new char[1024];
-				while ((read = br.read(chars)) != -1) {
-					sb.append(chars, 0, read);
+			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
+				return response;
+			
+			} else {
+				logger.log(
+					Level.INFO, 
+					"[executePut]::response code: {0}, msg: {1}, URL: {2}",
+					new Object[] { responseCode, response }
+				);
+
+				String msg;
+				
+				if (response.length() > 0) {
+					msg = responseCode + "," + response;
+				} else {
+					msg = responseCode + "," + connection.getResponseMessage();
 				}
-				br.close();
-				break;
-			default:
-				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+				
+				throw new Exception(msg);
 			}
-			endTime = System.currentTimeMillis();
-			logger.log(Level.INFO, "[executePut]::Total process time: {0} ms, URL: {1}",
-					new Object[] { (endTime - startTime), requestURL });
-			// return body to auth
-			return sb.toString();
 
 		} catch (MalformedURLException ex) {
 			logger.log(Level.SEVERE, "[executePut]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",

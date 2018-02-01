@@ -1,4 +1,4 @@
-package com.wakefern.checkout.orders;
+package com.wakefern.checkout.users;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
-public class GetOrderResults extends BaseService {
+public class GetPaymentOptions extends BaseService {
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -19,25 +19,25 @@ public class GetOrderResults extends BaseService {
 	/**
 	 * Constructor
 	 */
-    public GetOrderResults() {
-        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.order;
+    public GetPaymentOptions() {
+        this.requestPath = MWGApplicationConstants.Requests.Checkout.prefix + MWGApplicationConstants.Requests.Checkout.paymentOpts;
     }
     
 	@GET
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Produces(MWGApplicationConstants.Headers.Checkout.orderResults)
-    @Path(MWGApplicationConstants.Requests.Checkout.order)
+    @Produces(MWGApplicationConstants.Headers.generic)
+    @Path(MWGApplicationConstants.Requests.Checkout.paymentOpts)
     public Response getResponse(
-    		@PathParam(MWGApplicationConstants.Requests.Params.Path.orderID) String orderID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.orderResults, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.paymentsV3, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.orderID, orderID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {

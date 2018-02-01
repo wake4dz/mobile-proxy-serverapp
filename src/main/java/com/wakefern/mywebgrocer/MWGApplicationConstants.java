@@ -395,6 +395,8 @@ public class MWGApplicationConstants {
         		
         		public static final String payments = "/payments" + mwgStoreID + "/{" + Params.Path.fulfillType + "}";
         		
+        		public static final String paymentOpts = userID + mwgStoreID + "/payment";
+        		
         		// Legacy.  Used by com.wakefern.payment.GetToken
             public static final String UserCheckout = "/checkout/v5/user";
         }

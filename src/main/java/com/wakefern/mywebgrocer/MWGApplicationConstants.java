@@ -384,7 +384,7 @@ public class MWGApplicationConstants {
         		
         		public static final String userCheckoutState = userID  + mwgStoreID;
         		public static final String reservedTimeslot  = usersID + mwgStoresID + "/reserved-timeslot";
-        		public static final String selectedPayMethod = userID  + mwgStoreID  + "/payment";
+        		//public static final String selectedPayMethod = userID  + mwgStoreID  + "/payment";
         		
         		public static final String deliveryAddr    = userCheckoutState + addr + "/delivery";
         		public static final String billingAddr     = userCheckoutState + addr + "/billing";

@@ -39,7 +39,7 @@ public class GetStoreSettings extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 	
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.shop.GetStoreSettings");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e){

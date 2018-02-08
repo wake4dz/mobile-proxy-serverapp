@@ -7,6 +7,8 @@ import com.wakefern.request.models.Header;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 
@@ -28,11 +30,12 @@ public class BaseService {
      * 
      * @param reqType
      * @param reqData
+     * @param endpointName - The name of the endpoint making the request. For logging purposes.
      * @return
      * @throws Exception
      * @throws IOException
      */
-    protected String mwgRequest(ReqType reqType, String reqData) throws Exception, IOException {
+    protected String mwgRequest(ReqType reqType, String reqData, String endpointName) throws Exception, IOException {
     		String reqTypeStr;
     		String reqBody;
     		String response;
@@ -80,6 +83,10 @@ public class BaseService {
         				default :
         					response = "{}"; // This should never actually happen.  BUT just in case...
             		}
+            		
+            		Logger logger = Logger.getLogger(endpointName);
+            		logger.setLevel(Level.ALL);
+            		logger.log(Level.INFO, "[BaseService::mwgRequest]::" + this.requestPath + "::" + reqType + "::Response - ", response);
             		
             		return response;
     			}

@@ -40,7 +40,7 @@ public class CreateCustServFeedbackMsg extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 	
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.shop.CreateCustServFeedbackMsg");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e){

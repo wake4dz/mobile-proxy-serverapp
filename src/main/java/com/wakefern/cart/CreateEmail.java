@@ -50,7 +50,7 @@ public class CreateEmail extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.evtParams, evtPararms);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.cart.UpdateItem");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

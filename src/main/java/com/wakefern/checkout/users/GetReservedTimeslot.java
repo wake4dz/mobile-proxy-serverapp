@@ -41,7 +41,7 @@ public class GetReservedTimeslot extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.checkout.users.GetReservedTimeslot");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

@@ -50,7 +50,7 @@ public class DeleteListItems extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, "com.wakefern.shoppingLists.DeleteListItems");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

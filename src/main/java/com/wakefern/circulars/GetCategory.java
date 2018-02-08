@@ -43,7 +43,7 @@ public class GetCategory extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.categoryID, categoryID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.circulars.GetCategory");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

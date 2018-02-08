@@ -42,7 +42,7 @@ public class UpdateComments extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData, "com.wakefern.checkout.users.UpdateComments");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

@@ -41,7 +41,7 @@ public class GetBillingAddr extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.checkout.users.GetBillingAddr");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

@@ -68,6 +68,6 @@ public class GetDetails extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainId);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeId);
 		
-        return this.mwgRequest(BaseService.ReqType.GET, null);
+        return this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.stores.GetDetails");
     }
 }

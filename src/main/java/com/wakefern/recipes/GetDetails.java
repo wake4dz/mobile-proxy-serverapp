@@ -48,7 +48,7 @@ public class GetDetails extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.recipes.GetDetails");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

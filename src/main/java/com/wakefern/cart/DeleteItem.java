@@ -44,7 +44,7 @@ public class DeleteItem extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.itemID, itemID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, "com.wakefern.cart.DeleteItem");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

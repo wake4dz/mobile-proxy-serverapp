@@ -75,7 +75,7 @@ public class GetStores extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.unitOfMeasure, distUnitOfMeasure);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.stores.GetStores");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

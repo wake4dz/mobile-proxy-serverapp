@@ -50,7 +50,7 @@ public class GetSuggestions extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 				
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetSuggestions");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

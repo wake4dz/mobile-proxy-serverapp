@@ -40,7 +40,7 @@ public class CreateRegistration extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.account.users.CreateRegistration");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

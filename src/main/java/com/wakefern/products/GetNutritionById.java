@@ -41,7 +41,7 @@ public class GetNutritionById extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.productID, productID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetNutritionById");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

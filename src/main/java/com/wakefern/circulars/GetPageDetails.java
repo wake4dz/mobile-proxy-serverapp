@@ -47,7 +47,7 @@ public class GetPageDetails extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.pageID, pageID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.circulars.GetPageDetails");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

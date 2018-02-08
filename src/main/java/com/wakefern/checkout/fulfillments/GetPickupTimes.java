@@ -39,7 +39,7 @@ public class GetPickupTimes extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.checkout.fulfillments.GetPickupTimes");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

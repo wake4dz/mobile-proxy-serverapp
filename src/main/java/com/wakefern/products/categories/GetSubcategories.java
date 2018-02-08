@@ -55,7 +55,7 @@ public class GetSubcategories extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.categories.GetSubcategories");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

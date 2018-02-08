@@ -48,7 +48,7 @@ public class GetCircularsDetails extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.runState, runState);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.circulars.GetCircularsDetails");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

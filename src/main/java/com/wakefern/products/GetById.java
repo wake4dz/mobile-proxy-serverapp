@@ -46,7 +46,7 @@ public class GetById extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetById");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

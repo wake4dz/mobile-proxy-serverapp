@@ -79,7 +79,7 @@ public class AuthenticateUser extends BaseService {
     			jsonData.put(pwKey, StringEscapeUtils.escapeHtml4(password));
 	        
 	        try {
-	        		String responseJSON = this.mwgRequest(BaseService.ReqType.PUT, jsonData.toString());
+	        		String responseJSON = this.mwgRequest(BaseService.ReqType.PUT, jsonData.toString(), "com.wakefern.account.authentication.AuthenticateUser");
 	        		System.out.println("com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
 	        		return this.createValidResponse(responseJSON);
 	        		

@@ -56,7 +56,7 @@ public class GetListItems extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.categoryMap, catMap);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.shoppingLists.GetListItems");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

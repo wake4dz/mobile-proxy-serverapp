@@ -44,7 +44,7 @@ public class MergeFromList extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.srcListID, srcListID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, null, "com.wakefern.cart.MergeFromList");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

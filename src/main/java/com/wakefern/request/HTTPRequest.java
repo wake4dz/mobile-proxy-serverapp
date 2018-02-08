@@ -103,20 +103,17 @@ public class HTTPRequest {
 			}
 
 		} catch (MalformedURLException ex) {
-			logger.log(Level.SEVERE, "[executePut]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
+		
 		} catch (IOException ex) {
-			logger.log(Level.SEVERE, "[executePut]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
+		
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "[executePut]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
+		
 		} finally {
 			if (connection != null) {
 				try {
@@ -141,8 +138,6 @@ public class HTTPRequest {
 	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
 
 		HttpURLConnection connection = null;
-		//long startTime, endTime;
-		//startTime = System.currentTimeMillis();
 
 		try {
 			// Create connection
@@ -198,27 +193,15 @@ public class HTTPRequest {
 			}
 		
 		} catch (MalformedURLException ex) {
-			logger.log(
-					Level.SEVERE,
-					"[executePost]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage() });
-			
+			logger.log(Level.SEVERE, getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
 		
 		} catch (IOException ex) {
-			logger.log(
-					Level.SEVERE, 
-					"[executePost]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage() });
-			
+			logger.log(Level.SEVERE, getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
 		
 		} catch (Exception ex) {
-			logger.log(
-					Level.SEVERE, 
-					"[executePost]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage() });
-			
+			logger.log(Level.SEVERE, getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));			
 			throw ex;
 		
 		} finally {
@@ -243,13 +226,13 @@ public class HTTPRequest {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders,
-			int timeOut) throws Exception {
+	public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeOut) throws Exception {
 		HttpURLConnection connection = null;
 		long startTime, endTime;
-
+		
 		try {
 			startTime = System.currentTimeMillis();
+			
 			// Create connection
 			URL url = new URL(requestURL);
 			connection = (HttpURLConnection) url.openConnection();
@@ -299,28 +282,27 @@ public class HTTPRequest {
 				// sb.append(status);
 				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
 			}
+			
 			endTime = System.currentTimeMillis();
+			
 			logger.log(Level.INFO, "[executePostJSON]::Total process time: {0} ms, path: {1}",
 					new Object[] { (endTime - startTime), requestURL });
+			
 			// return body to auth
 			return sb.toString();
 
 		} catch (MalformedURLException ex) {
-			logger.log(Level.SEVERE,
-					"[executePostJSON]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
+		
 		} catch (IOException ex) {
-			logger.log(Level.SEVERE, "[executePostJSON]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
+		
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "[executePostJSON]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw ex;
+		
 		} finally {
 			if (connection != null) {
 				try {
@@ -354,14 +336,15 @@ public class HTTPRequest {
 	) throws Exception {
 		
 		HttpURLConnection connection = null;
-		long startTime, endTime;
 
 		try {
+			long startTime, endTime;
+			
 			startTime = System.currentTimeMillis();
 			connection = createConnection(requestURL, requestHeaders, requestParameters, requestMethod, timeOut);
 			int responseCode = connection.getResponseCode();
 			endTime = System.currentTimeMillis();
-			
+
 			logger.log(
 				Level.INFO, 
 				"[executeRequest]::Total process time for {0}: {1} ms, URL: {2}",
@@ -390,26 +373,21 @@ public class HTTPRequest {
 				
 				throw new Exception(msg);
 			}
+		
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "[executeRequest]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { e.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw e;
+		
 		} catch (URISyntaxException e) {
-			logger.log(Level.SEVERE,
-					"[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { e.getMessage(), requestURL, connection.getResponseCode(),
-							connection.getResponseMessage() });
+			logger.log(Level.SEVERE, getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 			throw e;
+		
 		} finally {
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE,
-							"[executeRequest]::URISyntaxException: {0}, URL: {1}, response code: {2}, msg: {3}",
-							new Object[] { ex.getMessage(), requestURL, connection.getResponseCode(),
-									connection.getResponseMessage() });
+					logger.log(Level.SEVERE, getErrorMsg("[executeRequest]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
 					throw ex;
 				}
 			}
@@ -420,9 +398,9 @@ public class HTTPRequest {
 		HttpURLConnection connection = null;
 		long startTime, endTime;
 
-		try {
+		try {			
 			startTime = System.currentTimeMillis();
-			
+
 			// Create connection
 			URL url = new URL(requestURL);
 			connection = (HttpURLConnection) url.openConnection();
@@ -439,7 +417,6 @@ public class HTTPRequest {
 			connection.connect();
 
 			int status = connection.getResponseCode();
-
 			endTime = System.currentTimeMillis();
 
 			logger.log(
@@ -531,6 +508,20 @@ public class HTTPRequest {
 	// Private Methods
 	//-------------------------------------------------------------------------
 
+
+	/**
+	 * Return a formatted error message
+	 * 
+	 * @param msg
+	 * @param url
+	 * @param respCode
+	 * @param respMsg
+	 * @return
+	 */
+	private static String getErrorMsg(String msg, String url, int respCode, String respMsg) {
+		return msg + ", url: " + url + ", respCode: " + respCode + ", respMsg: " + respMsg; 
+	}
+	   
 	/**
 	 * Create HTTP Connection.
 	 * 

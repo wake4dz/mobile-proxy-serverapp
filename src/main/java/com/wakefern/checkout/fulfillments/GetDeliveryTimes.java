@@ -41,7 +41,7 @@ public class GetDeliveryTimes extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.zipCode, zipCode);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.checkout.fulfillments.GetDeliveryTimes");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

@@ -91,7 +91,7 @@ public class CreateDuplicateList extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, "0");
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, "9999");
 		
-		String     strResp = this.mwgRequest(BaseService.ReqType.GET, null);
+		String     strResp = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.shoppingLists.CreateDuplicateList");
 		JSONObject objResp = new JSONObject(strResp);
 		
 		return objResp;
@@ -116,7 +116,7 @@ public class CreateDuplicateList extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
-		String    strResp = this.mwgRequest(BaseService.ReqType.POST, data);
+		String    strResp = this.mwgRequest(BaseService.ReqType.POST, data, "com.wakefern.shoppingLists.CreateDuplicateList");
 		JSONArray objResp = new JSONArray(strResp);
 
 		return objResp;
@@ -137,7 +137,7 @@ public class CreateDuplicateList extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listID, listID);
 		
 		String reqString = listItems.toString();
-		String strResp = this.mwgRequest(BaseService.ReqType.POST, reqString);
+		String strResp = this.mwgRequest(BaseService.ReqType.POST, reqString, "com.wakefern.shoppingLists.CreateDuplicateList");
 
 		return strResp;
 	}

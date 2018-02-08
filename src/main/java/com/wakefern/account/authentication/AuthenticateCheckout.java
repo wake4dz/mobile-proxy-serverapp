@@ -51,7 +51,7 @@ public class AuthenticateCheckout extends BaseService {
     			this.requestParams = new HashMap<String, String>();
     			
     			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.token, sessionToken);
-    			String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
+    			String jsonResp = this.mwgRequest(BaseService.ReqType.PUT, jsonData, "com.wakefern.account.authentication.AuthenticateCheckout");
             
     			return this.createValidResponse(jsonResp);
         

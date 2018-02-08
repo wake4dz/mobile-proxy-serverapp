@@ -41,7 +41,7 @@ public class DeleteTimeslot extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, "com.wakefern.checkout.users.DeleteTimeslot");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

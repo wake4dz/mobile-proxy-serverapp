@@ -41,7 +41,7 @@ public class UpdateCheckoutState extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, null, "com.wakefern.checkout.users.UpdateCheckoutState");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

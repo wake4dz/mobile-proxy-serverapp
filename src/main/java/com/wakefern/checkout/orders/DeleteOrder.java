@@ -41,7 +41,7 @@ public class DeleteOrder extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, "package com.wakefern.checkout.orders.DeleteOrder");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

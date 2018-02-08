@@ -85,7 +85,7 @@ public class GetBySku extends BaseService {
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
 		
-		return this.mwgRequest(BaseService.ReqType.GET, null);
+		return this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetBySku");
 	}
 }
 

@@ -52,7 +52,7 @@ public class UpdateList extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData, "com.wakefern.shoppingLists.UpdateList");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

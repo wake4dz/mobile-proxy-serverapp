@@ -44,7 +44,7 @@ public class CreateItems extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.cart.CreateItems");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

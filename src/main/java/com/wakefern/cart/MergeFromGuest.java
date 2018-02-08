@@ -34,7 +34,7 @@ public class MergeFromGuest extends BaseService {
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Cart.mergeGuest, sessionToken);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.cart.MergeFromGuest");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

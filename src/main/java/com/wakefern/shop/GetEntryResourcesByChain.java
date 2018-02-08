@@ -41,7 +41,7 @@ public class GetEntryResourcesByChain extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 	
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.shop.GetEntryResourcesByChain");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e){

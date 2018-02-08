@@ -59,7 +59,7 @@ public class Search extends BaseService {
 		
 		} else {
 	        try {
-	            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+	            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.circulars.Search");
 	            return this.createValidResponse(jsonResponse);
 	        
 	        } catch (Exception e) {

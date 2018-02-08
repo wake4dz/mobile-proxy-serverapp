@@ -41,7 +41,7 @@ public class GetOptions extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.fulfillType, fulfillType);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.checkout.payments.GetOptions");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

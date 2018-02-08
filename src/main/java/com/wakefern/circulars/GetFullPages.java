@@ -54,7 +54,7 @@ public class GetFullPages extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.circulars.GetFullPages");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

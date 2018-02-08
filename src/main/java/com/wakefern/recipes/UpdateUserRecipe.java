@@ -50,7 +50,7 @@ public class UpdateUserRecipe extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, null, "com.wakefern.recipes.UpdateUserRecipe");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

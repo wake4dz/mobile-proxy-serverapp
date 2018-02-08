@@ -64,6 +64,6 @@ public class GetProfile extends BaseService {
         this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
         this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
         
-        return this.mwgRequest(BaseService.ReqType.GET, null);
+        return this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.account.users.GetProfile");
     }
 }

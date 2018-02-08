@@ -41,7 +41,7 @@ public class GetOrder extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "package com.wakefern.checkout.orders.GetOrder");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

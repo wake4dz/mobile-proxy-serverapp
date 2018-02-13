@@ -133,6 +133,7 @@ public class MWGApplicationConstants {
         public static class Params {
         		
         		// Request Parameters included within the URL's path.
+        		// As new path params are added here, corresponding code will need to be added to ServiceMappings.buildURL()
         		public static class Path {
         			public static final String token       = "token";
         		    public static final String itemID      = "itemId";

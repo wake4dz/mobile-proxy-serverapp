@@ -35,7 +35,6 @@ public class AuthenticateUI extends BaseService {
     	    	
         try {
         		String jsonResp = makeRequest();
-        		System.out.println("com.wakefern.authentication.AuthenticateUI::getResponse() - " + jsonResp);
             return this.createValidResponse(jsonResp);
         
         } catch (Exception e) {

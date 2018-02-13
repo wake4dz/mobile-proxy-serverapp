@@ -210,7 +210,7 @@ public class MWGApplicationConstants {
         		// Retrieve Session Token & Guest User ID
             public static final String authorize = "/authorization";
             
-            // The "token" path param here is "The application token header value".  AKA the session token.
+            // The "token" path param here is the "secret" provided by MWG to the Mobile App.
             public static final String checkout  = authorize + "/{token}/authenticate"; 
         }
         

@@ -57,6 +57,16 @@ public class GetStores extends BaseService {
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
+		// The MWG endpoint will puke if the Search Term contains spaces
+		// Replace any spaces with a "+" sign.
+		if (searchTerm != null) {
+			searchTerm = searchTerm.trim().replace(' ', '+');
+		}
+		
+		if (city != null) {
+			city = city.trim().replace(' ', '+');
+		}
+		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.services, services);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);

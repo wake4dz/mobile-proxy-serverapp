@@ -1,6 +1,5 @@
-package com.wakefern.Wakefern.Models;
+package com.wakefern.Wakefern;
 
-import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.models.Header;

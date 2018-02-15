@@ -1,7 +1,7 @@
 package com.wakefern.coupons;
 
-import com.wakefern.Wakefern.Models.WakefernHeader;
 import com.wakefern.Wakefern.WakefernApplicationConstants;
+import com.wakefern.Wakefern.WakefernHeader;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;

@@ -37,13 +37,13 @@ public final class ApplicationConstants {
         }
 
         public static final class Coupons {
-            public static final String GetPPCCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.PPCCoupons;
-            public static final String GetCoupons = WakefernApplicationConstants.Requests.Coupons.Metadata.Metadata;
-            public static final String GetCouponId = WakefernApplicationConstants.Requests.Coupons.ListId.CouponId;
-            public static final String GetCouponIdByPPC = WakefernApplicationConstants.Requests.Coupons.ListId.CouponByPPC;
-            public static final String CouponAddPPC = WakefernApplicationConstants.Requests.Coupons.ListId.CouponAddPPC;
-            public static final String BaseCouponURL = WakefernApplicationConstants.Requests.Coupons.baseURL;
-            public static final String GetCouponsRecommendations = WakefernApplicationConstants.Requests.Coupons.Metadata.MetadataRecommendations;
+            public static final String GetPPCCoupons = WakefernApplicationConstants.Coupons.Metadata.PPCCoupons;
+            public static final String GetCoupons = WakefernApplicationConstants.Coupons.Metadata.Metadata;
+            public static final String GetCouponId = WakefernApplicationConstants.Coupons.ListId.CouponId;
+            public static final String GetCouponIdByPPC = WakefernApplicationConstants.Coupons.ListId.CouponByPPC;
+            public static final String CouponAddPPC = WakefernApplicationConstants.Coupons.ListId.CouponAddPPC;
+            public static final String BaseCouponURL = WakefernApplicationConstants.Coupons.baseURL;
+            public static final String GetCouponsRecommendations = WakefernApplicationConstants.Coupons.Metadata.MetadataRecommendations;
         }
 
         public static final class Wakefern {
@@ -58,25 +58,5 @@ public final class ApplicationConstants {
             public static final String UPCRecommendations = MWGApplicationConstants.Requests.Recommendations.UPCRecommendations;
             public static final String BaseUPCRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseUPC_URL;
         }
-    }
-    
-    public static class ItemLocator {
-        public static final String Aisle = "Aisle";
-        public static final String area_desc = "wf_area_desc";
-        public static final String Items = "Items";
-        public static final String Other = "OTHER";
-        public static final String Sku = "Sku";
-        public static final String upc_13_num = "upc_13_num";
-        public static final String WakefernAuth = "eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9";
-        public static final String item_locations = "item_locations";
-        public static final String area_seq_num = "area_seq_num";
-        public static final String wf_area_code = "wf_area_code";
-        public static final String TotalPrice = "TotalPrice";
-        public static final String RegularPrice = "RegularPrice";
-        public static final String Quantity = "Quantity";
-        public static final String CurrentPrice = "CurrentPrice";
-        public static final String Size = "Size";
-        public static final String Sale = "Sale";
-        public static final String LimitText = "LimitText";
     }
 }

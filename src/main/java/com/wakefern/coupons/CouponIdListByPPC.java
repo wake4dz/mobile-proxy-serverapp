@@ -24,8 +24,8 @@ public class CouponIdListByPPC extends BaseService {
 
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
-    public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All) 
-    								@QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
+    public Response getInfoResponse(@DefaultValue(WakefernApplicationConstants.Coupons.Metadata.PPC_All) 
+    								@QueryParam(WakefernApplicationConstants.Coupons.Metadata.PPC) String ppcParam,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
        
     		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
@@ -66,6 +66,6 @@ public class CouponIdListByPPC extends BaseService {
 
     private void prepareResponse(String ppcParam){
         this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.GetCouponIdByPPC
-                + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
+                + WakefernApplicationConstants.Coupons.Metadata.PPCQuery + ppcParam;
     }
 }

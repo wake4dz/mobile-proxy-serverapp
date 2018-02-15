@@ -28,8 +28,8 @@ public class CouponAddToPPC extends BaseService {
 
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
-    public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
-                                    @DefaultValue("") @QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.CouponId) String couponId,
+    public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Coupons.Metadata.PPC) String ppcParam,
+                                    @DefaultValue("") @QueryParam(WakefernApplicationConstants.Coupons.Metadata.CouponId) String couponId,
                                     @HeaderParam("Authorization") String authToken) throws Exception, IOException {
 
     		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
@@ -67,9 +67,9 @@ public class CouponAddToPPC extends BaseService {
 
     private void prepareResponse(String ppcParam, String couponId){
         this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL + ApplicationConstants.Requests.Coupons.CouponAddPPC
-                + WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam
-                + WakefernApplicationConstants.Requests.Coupons.Metadata.CouponParam + couponId
-                + WakefernApplicationConstants.Requests.Coupons.Metadata.ClipSource + WakefernApplicationConstants.Requests.Coupons.Metadata.ClipSource_App_SR;
+                + WakefernApplicationConstants.Coupons.Metadata.PPCQuery + ppcParam
+                + WakefernApplicationConstants.Coupons.Metadata.CouponParam + couponId
+                + WakefernApplicationConstants.Coupons.Metadata.ClipSource + WakefernApplicationConstants.Coupons.Metadata.ClipSource_App_SR;
         logger.log(Level.INFO, "[prepareResponse]::Add coupon to PPC-", this.requestPath);
     }
 }

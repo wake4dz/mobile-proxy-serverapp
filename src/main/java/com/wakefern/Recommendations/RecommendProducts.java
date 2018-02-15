@@ -38,7 +38,7 @@ public class RecommendProducts extends BaseService {
     		// Use the legacy Wakefern Auth Token instead.
     	
 		this.requestHeader = new MWGHeader();
-        this.requestToken  = WakefernApplicationConstants.Requests.authToken;
+        this.requestToken  = WakefernApplicationConstants.authToken;
         this.requestPath   = ApplicationConstants.Requests.Recommendations.ProductRecommendations + "/" + userId + "/sessid" + "/" + sessionSecret;
                 
         ServiceMappings secondMapping = new ServiceMappings();

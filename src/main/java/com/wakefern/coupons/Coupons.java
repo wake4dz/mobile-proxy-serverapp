@@ -38,8 +38,8 @@ public class Coupons extends BaseService {
 	@GET
 	@Produces(MWGApplicationConstants.Headers.generic)
 	public Response getInfoResponse(
-			@DefaultValue(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC_All) 
-			@QueryParam(WakefernApplicationConstants.Requests.Coupons.Metadata.PPC) String ppcParam,
+			@DefaultValue(WakefernApplicationConstants.Coupons.Metadata.PPC_All) 
+			@QueryParam(WakefernApplicationConstants.Coupons.Metadata.PPC) String ppcParam,
 			
 			@DefaultValue("") 
 			@QueryParam("query") String query, 
@@ -54,7 +54,7 @@ public class Coupons extends BaseService {
 		
 		this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL
 				+ ApplicationConstants.Requests.Coupons.GetCoupons
-				+ WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
+				+ WakefernApplicationConstants.Coupons.Metadata.PPCQuery + ppcParam;
 
 		// Execute Post
 		ServiceMappings serviceMappings = new ServiceMappings();
@@ -140,7 +140,7 @@ public class Coupons extends BaseService {
 		
 		this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL
 				+ ApplicationConstants.Requests.Coupons.GetCoupons
-				+ WakefernApplicationConstants.Requests.Coupons.Metadata.PPCQuery + ppcParam;
+				+ WakefernApplicationConstants.Coupons.Metadata.PPCQuery + ppcParam;
 
 		// Execute Post
 		ServiceMappings serviceMappings = new ServiceMappings();
@@ -168,10 +168,10 @@ public class Coupons extends BaseService {
 		for (Object coupon : jsonArray) {
 			JSONObject currentCoupon = (JSONObject) coupon;
 
-			String brandName = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.brandName);
-			String shortDescription = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.shortDescription);
-			String longDescription = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.longDescription);
-			String requirementDescription = currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.requirementDescription);
+			String brandName = currentCoupon.getString(WakefernApplicationConstants.Coupons.Search.brandName);
+			String shortDescription = currentCoupon.getString(WakefernApplicationConstants.Coupons.Search.shortDescription);
+			String longDescription = currentCoupon.getString(WakefernApplicationConstants.Coupons.Search.longDescription);
+			String requirementDescription = currentCoupon.getString(WakefernApplicationConstants.Coupons.Search.requirementDescription);
 
 			if (brandName.toLowerCase().contains(query) 
 					|| shortDescription.toLowerCase().contains(query)
@@ -191,7 +191,7 @@ public class Coupons extends BaseService {
 
 		for (Object coupon : matchedObjects2) {
 			JSONObject currentCoupon = (JSONObject) coupon;
-			categoryIds.add(currentCoupon.getString(WakefernApplicationConstants.Requests.Coupons.Search.category));
+			categoryIds.add(currentCoupon.getString(WakefernApplicationConstants.Coupons.Search.category));
 		}
 
 		JSONArray retval = new JSONArray();
@@ -203,7 +203,7 @@ public class Coupons extends BaseService {
 			for (Object coupon : matchedObjects2) {
 				JSONObject currentCoupon = (JSONObject) coupon;
 				String category = (currentCoupon
-						.getString(WakefernApplicationConstants.Requests.Coupons.Search.category));
+						.getString(WakefernApplicationConstants.Coupons.Search.category));
 				if (category.equals(id)) {
 					currentId.put(currentId.length(), currentCoupon);
 				}

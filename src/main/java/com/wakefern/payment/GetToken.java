@@ -90,7 +90,7 @@ public class GetToken extends BaseService {
 		ArrayList<Map> PaymentMethods = new ArrayList<>();
 		JSONObject retval = new JSONObject();
 
-		this.requestToken = authToken;  //WakefernApplicationConstants.Requests.authToken;
+		this.requestToken = authToken;  //WakefernApplicationConstants.authToken;
 		String successCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=True";
 		String cancelCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=False";
 

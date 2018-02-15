@@ -3,6 +3,7 @@ package com.wakefern.global;
 import com.wakefern.global.errorHandling.ExceptionHandler;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.request.models.Header;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernAuth;
 import com.wakefern.wakefern.itemLocator.ItemLocatorArray;
 
@@ -185,9 +186,9 @@ public class BaseService {
 		try {
 			JSONObject respObj = new JSONObject(origRespStr);
 		
-			if (respObj.has(ApplicationConstants.ItemLocator.Items)) {
+			if (respObj.has(WakefernApplicationConstants.ItemLocator.Items)) {
 
-				JSONArray items = (JSONArray) respObj.get(ApplicationConstants.ItemLocator.Items);
+				JSONArray items = (JSONArray) respObj.get(WakefernApplicationConstants.ItemLocator.Items);
 				JSONObject searchAble = new JSONObject();
 				JSONObject retval = new JSONObject();
 
@@ -195,7 +196,7 @@ public class BaseService {
 				for (Object key : respObj.keySet()) {
 					String keyStr = (String) key;
 					
-					if (!keyStr.equals(ApplicationConstants.ItemLocator.Items)) {
+					if (!keyStr.equals(WakefernApplicationConstants.ItemLocator.Items)) {
 						Object keyvalue = respObj.get(keyStr);
 						retval.put(keyStr, keyvalue);
 					}
@@ -203,7 +204,7 @@ public class BaseService {
 
 				if (items.length() > 0) {
 					WakefernAuth auth = new WakefernAuth();
-					String authString = auth.getInfo(ApplicationConstants.ItemLocator.WakefernAuth);
+					String authString = auth.getInfo(WakefernApplicationConstants.ItemLocator.WakefernAuth);
 					
 					// Can't get Item Location Data w/o a valid Wakefern Auth String.
 					if (!authString.isEmpty()) {
@@ -212,20 +213,20 @@ public class BaseService {
 						// Get the items in the array and make a comma separated string of them as well trim the first and last digit
 						for (int i = 0, size = items.length(); i < size; i++) {
 							JSONObject item = (JSONObject) items.get(i);
-							String itemId = item.get(ApplicationConstants.ItemLocator.Sku).toString();
+							String itemId = item.get(WakefernApplicationConstants.ItemLocator.Sku).toString();
 							String sku = this.updateUPC(itemId);
 							
 							if (sku.matches("[0-9]+")) {
 								responseString += sku + ",";
-								searchAble.append(ApplicationConstants.ItemLocator.Items, item);
+								searchAble.append(WakefernApplicationConstants.ItemLocator.Items, item);
 							
 							} else {
-								item.put(ApplicationConstants.ItemLocator.Aisle, ApplicationConstants.ItemLocator.Other);
-								retval.append(ApplicationConstants.ItemLocator.Items, item);
+								item.put(WakefernApplicationConstants.ItemLocator.Aisle, WakefernApplicationConstants.ItemLocator.Other);
+								retval.append(WakefernApplicationConstants.ItemLocator.Items, item);
 							}
 						}
 
-						items = (JSONArray) searchAble.get(ApplicationConstants.ItemLocator.Items);
+						items = (JSONArray) searchAble.get(WakefernApplicationConstants.ItemLocator.Items);
 						responseString = responseString.substring(0, responseString.length() - 1); //remove trailing comma
 						
 						ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
@@ -240,15 +241,15 @@ public class BaseService {
 							
 							for (int i = 0; i < size; i++) {
 								JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-								Object areaSeqNum = jsonObject.get(ApplicationConstants.ItemLocator.area_seq_num);
-								Object areaDesc = jsonObject.get(ApplicationConstants.ItemLocator.area_desc);
-								JSONArray itemLocations = jsonObject.getJSONArray(ApplicationConstants.ItemLocator.item_locations);
+								Object areaSeqNum = jsonObject.get(WakefernApplicationConstants.ItemLocator.area_seq_num);
+								Object areaDesc = jsonObject.get(WakefernApplicationConstants.ItemLocator.area_desc);
+								JSONArray itemLocations = jsonObject.getJSONArray(WakefernApplicationConstants.ItemLocator.item_locations);
 								
 								for (int j = 0; j < itemLocations.length(); j++) {
-									Object upc13 = itemLocations.getJSONObject(j).get(ApplicationConstants.ItemLocator.upc_13_num);
+									Object upc13 = itemLocations.getJSONObject(j).get(WakefernApplicationConstants.ItemLocator.upc_13_num);
 									
 									try { //if wf_area_code is found from item locator response
-										Object wfAreaCode = itemLocations.getJSONObject(j).get(ApplicationConstants.ItemLocator.wf_area_code);
+										Object wfAreaCode = itemLocations.getJSONObject(j).get(WakefernApplicationConstants.ItemLocator.wf_area_code);
 										
 										areaSeqNumData.put(
 												Long.parseLong(upc13.toString()), 
@@ -261,7 +262,7 @@ public class BaseService {
 									
 									itemLocatorData.put(
 											Long.parseLong(upc13.toString()), 
-											(areaDesc != null && !areaDesc.toString().equals("null")) ? areaDesc : ApplicationConstants.ItemLocator.Other
+											(areaDesc != null && !areaDesc.toString().equals("null")) ? areaDesc : WakefernApplicationConstants.ItemLocator.Other
 									);
 								}
 							}
@@ -273,20 +274,20 @@ public class BaseService {
 
 						for (int i = 0; i < items.length(); i++) {
 							JSONObject item = items.getJSONObject(i);
-							String itemId = item.get(ApplicationConstants.ItemLocator.Sku).toString();
+							String itemId = item.get(WakefernApplicationConstants.ItemLocator.Sku).toString();
 							String upc = this.updateUPC(itemId);
 
 							Object areaSeqNum = areaSeqNumData.get(Long.parseLong(upc));
 							int areaSeqInt = Integer.parseInt(areaSeqNum.toString()); 
 							
 							if (areaSeqInt > 0) {
-								item.put(ApplicationConstants.ItemLocator.Aisle, itemLocatorData.get(Long.parseLong(upc)).toString());
+								item.put(WakefernApplicationConstants.ItemLocator.Aisle, itemLocatorData.get(Long.parseLong(upc)).toString());
 							
 							} else { // area_seq_num = 0, -1, or -999 - INVALID
-								item.put(ApplicationConstants.ItemLocator.Aisle, ApplicationConstants.ItemLocator.Other);
+								item.put(WakefernApplicationConstants.ItemLocator.Aisle, WakefernApplicationConstants.ItemLocator.Other);
 							}
 							
-							retval.append(ApplicationConstants.ItemLocator.Items, item);
+							retval.append(WakefernApplicationConstants.ItemLocator.Items, item);
 						}
 						
 						return retval.toString();

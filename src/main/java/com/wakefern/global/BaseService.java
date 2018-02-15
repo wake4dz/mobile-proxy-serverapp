@@ -3,6 +3,8 @@ package com.wakefern.global;
 import com.wakefern.global.errorHandling.ExceptionHandler;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.request.models.Header;
+import com.wakefern.wakefern.WakefernAuth;
+import com.wakefern.wakefern.itemLocator.ItemLocatorArray;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +26,8 @@ public class BaseService {
     protected String requestToken  = null;
     
     protected static enum ReqType { GET, POST, PUT, DELETE };
+    
+    private final static Logger logger = Logger.getLogger("com.wakefern.global.BaseService");
     
     /**
      * Trigger a request to the MyWebGrocer REST API.
@@ -171,6 +175,157 @@ public class BaseService {
         return Response.status(status).build();
     }
     
+    /**
+     * Get Item Location data and add it to the JSON Response Data.
+     * 
+     * @param respData
+     * @return
+     */
+	protected String getItemLocations(String origRespStr, String shortStoreId) {
+		try {
+			JSONObject respObj = new JSONObject(origRespStr);
+		
+			if (respObj.has(ApplicationConstants.ItemLocator.Items)) {
+
+				JSONArray items = (JSONArray) respObj.get(ApplicationConstants.ItemLocator.Items);
+				JSONObject searchAble = new JSONObject();
+				JSONObject retval = new JSONObject();
+
+				// Set up retval with all non-items data
+				for (Object key : respObj.keySet()) {
+					String keyStr = (String) key;
+					
+					if (!keyStr.equals(ApplicationConstants.ItemLocator.Items)) {
+						Object keyvalue = respObj.get(keyStr);
+						retval.put(keyStr, keyvalue);
+					}
+				}
+
+				if (items.length() > 0) {
+					WakefernAuth auth = new WakefernAuth();
+					String authString = auth.getInfo(ApplicationConstants.ItemLocator.WakefernAuth);
+					
+					// Can't get Item Location Data w/o a valid Wakefern Auth String.
+					if (!authString.isEmpty()) {
+						String responseString = "";
+						
+						// Get the items in the array and make a comma separated string of them as well trim the first and last digit
+						for (int i = 0, size = items.length(); i < size; i++) {
+							JSONObject item = (JSONObject) items.get(i);
+							String itemId = item.get(ApplicationConstants.ItemLocator.Sku).toString();
+							String sku = this.updateUPC(itemId);
+							
+							if (sku.matches("[0-9]+")) {
+								responseString += sku + ",";
+								searchAble.append(ApplicationConstants.ItemLocator.Items, item);
+							
+							} else {
+								item.put(ApplicationConstants.ItemLocator.Aisle, ApplicationConstants.ItemLocator.Other);
+								retval.append(ApplicationConstants.ItemLocator.Items, item);
+							}
+						}
+
+						items = (JSONArray) searchAble.get(ApplicationConstants.ItemLocator.Items);
+						responseString = responseString.substring(0, responseString.length() - 1); //remove trailing comma
+						
+						ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
+						String locatorArray = itemLocatorArray.getInfo(shortStoreId, responseString, authString);
+						
+						HashMap<Long, Object> itemLocatorData = new HashMap<>();
+						HashMap<Long, Object> areaSeqNumData = new HashMap<>();
+
+						try {
+							JSONArray jsonArray = new JSONArray(locatorArray);
+							int size = jsonArray.length();
+							
+							for (int i = 0; i < size; i++) {
+								JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+								Object areaSeqNum = jsonObject.get(ApplicationConstants.ItemLocator.area_seq_num);
+								Object areaDesc = jsonObject.get(ApplicationConstants.ItemLocator.area_desc);
+								JSONArray itemLocations = jsonObject.getJSONArray(ApplicationConstants.ItemLocator.item_locations);
+								
+								for (int j = 0; j < itemLocations.length(); j++) {
+									Object upc13 = itemLocations.getJSONObject(j).get(ApplicationConstants.ItemLocator.upc_13_num);
+									
+									try { //if wf_area_code is found from item locator response
+										Object wfAreaCode = itemLocations.getJSONObject(j).get(ApplicationConstants.ItemLocator.wf_area_code);
+										
+										areaSeqNumData.put(
+												Long.parseLong(upc13.toString()), 
+												(wfAreaCode != null && wfAreaCode.toString().trim().equals("0") ? "0" : areaSeqNum)
+										);
+									
+									} catch(Exception e) {
+										areaSeqNumData.put(Long.parseLong(upc13.toString()), areaSeqNum);
+									}
+									
+									itemLocatorData.put(
+											Long.parseLong(upc13.toString()), 
+											(areaDesc != null && !areaDesc.toString().equals("null")) ? areaDesc : ApplicationConstants.ItemLocator.Other
+									);
+								}
+							}
+						
+						} catch (Exception e) {
+							logger.log(Level.WARNING, "[getInfoResponse]::Exception processing item locator: ", e);
+							throw e;
+						}
+
+						for (int i = 0; i < items.length(); i++) {
+							JSONObject item = items.getJSONObject(i);
+							String itemId = item.get(ApplicationConstants.ItemLocator.Sku).toString();
+							String upc = this.updateUPC(itemId);
+
+							Object areaSeqNum = areaSeqNumData.get(Long.parseLong(upc));
+							int areaSeqInt = Integer.parseInt(areaSeqNum.toString()); 
+							
+							if (areaSeqInt > 0) {
+								item.put(ApplicationConstants.ItemLocator.Aisle, itemLocatorData.get(Long.parseLong(upc)).toString());
+							
+							} else { // area_seq_num = 0, -1, or -999 - INVALID
+								item.put(ApplicationConstants.ItemLocator.Aisle, ApplicationConstants.ItemLocator.Other);
+							}
+							
+							retval.append(ApplicationConstants.ItemLocator.Items, item);
+						}
+						
+						return retval.toString();
+					
+					} else {
+						// Failed to get a Wakefern Authentication String.
+						// So we can't get Item Location Data.
+						// Just return the original response string.
+						return origRespStr;
+					}
+				
+				} else {
+					// The Items Array is empty. (no products)					
+					return origRespStr;
+				}
+			
+			} else {
+				// The supplied response string does not contain any Items (products).
+				// Just return the original string.
+				return origRespStr;
+			}
+
+		} catch (Exception ex) {
+			// Item Locator done gone and blowed up.
+			// Return the original response string.
+			return origRespStr;
+		}
+	}
+	
+	/**
+	 * Apparently the SKU Wakefern expects, is slightly different from the one MWG provides?
+	 * 
+	 * @param sku
+	 * @return
+	 */
+	private String updateUPC(String sku) {
+		return sku.substring(0, sku.length() - 1);
+	}				
+
     /**
      * Returns the ServiceMappings Object required to construct a request.
      * 

@@ -43,6 +43,11 @@ public class GetContents extends BaseService {
 		
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.cart.GetContents");
+            
+            // Item Location data provided by MWG is never up-to-date.
+            // Used Wakefern-supplied Item Location data instead.
+            jsonResponse = this.getItemLocations(jsonResponse, storeID);
+            
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.wakefern.wakefern;
+package com.wakefern.wakefern.itemLocator;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;

@@ -29,17 +29,20 @@ public class GetBySku extends BaseService {
     @Path(MWGApplicationConstants.Requests.Products.prodBySKU)
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.productSKU) String productSKU,
-    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String mwgStoreID,
+    		
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String wfStoreID,
+    		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) throws Exception, IOException {
         		
         try {
-            String jsonResponse = makeRequest(storeID, productSKU, isMember, sessionToken);
+            String jsonResponse = makeRequest(mwgStoreID, productSKU, isMember, sessionToken);
             
             // Item Location data provided by MWG is never up-to-date.
             // Used Wakefern-supplied Item Location data instead.
-            jsonResponse = this.getItemLocations(jsonResponse, storeID);
+            jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
             
             return this.createValidResponse(jsonResponse);
         
@@ -53,15 +56,15 @@ public class GetBySku extends BaseService {
 	 * Not an API endpoint.<br>
 	 * Get Product info by SKU.
 	 * 
-	 * @param storeID
+	 * @param mwgStoreID
 	 * @param productSKU
 	 * @param isMember
 	 * @param sessionToken
 	 * @return
 	 * @throws Exception
 	 */
-	public String getInfo(String storeID, String productSKU, String isMember, String sessionToken) throws Exception {
-		return makeRequest(storeID, productSKU, isMember, sessionToken);
+	public String getInfo(String mwgStoreID, String productSKU, String isMember, String sessionToken) throws Exception {
+		return makeRequest(mwgStoreID, productSKU, isMember, sessionToken);
 	}
 	
 	//-------------------------------------------------------------------------
@@ -71,20 +74,20 @@ public class GetBySku extends BaseService {
 	/**
 	 * Trigger the request to the MWG API.
 	 * 
-	 * @param storeID
+	 * @param mwgStoreID
 	 * @param productSKU
 	 * @param isMember
 	 * @param sessionToken
 	 * @return
 	 * @throws Exception
 	 */
-	private String makeRequest(String storeID, String productSKU, String isMember, String sessionToken) throws Exception {		
+	private String makeRequest(String mwgStoreID, String productSKU, String isMember, String sessionToken) throws Exception {		
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.product, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, mwgStoreID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.productSKU, productSKU);
 		
 		// Build the Map of Request Query parameters

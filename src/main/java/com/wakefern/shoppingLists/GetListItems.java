@@ -50,7 +50,7 @@ public class GetListItems extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listID, listID);
 		
 		// Build the Map of Query String parameters.
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
+		//this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID); - NOTE: Including Store ID causes MWG to return a "Chain Not Found" error.
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.categoryMap, catMap);

@@ -182,11 +182,12 @@ public class BaseService {
      * @param respData
      * @return
      */
-	protected String getItemLocations(String origRespStr, String shortStoreId) {
+	protected String getItemLocations(String origRespStr, String storeID) {
 		try {
 			JSONObject respObj = new JSONObject(origRespStr);
+			storeID = (storeID == null) ? "" : storeID;
 		
-			if (respObj.has(WakefernApplicationConstants.ItemLocator.Items)) {
+			if (respObj.has(WakefernApplicationConstants.ItemLocator.Items) && storeID.length() > 0) {
 
 				JSONArray items = (JSONArray) respObj.get(WakefernApplicationConstants.ItemLocator.Items);
 				JSONObject searchAble = new JSONObject();
@@ -230,7 +231,7 @@ public class BaseService {
 						responseString = responseString.substring(0, responseString.length() - 1); //remove trailing comma
 						
 						ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
-						String locatorArray = itemLocatorArray.getInfo(shortStoreId, responseString, authString);
+						String locatorArray = itemLocatorArray.getInfo(storeID, responseString, authString);
 						
 						HashMap<Long, Object> itemLocatorData = new HashMap<>();
 						HashMap<Long, Object> areaSeqNumData = new HashMap<>();

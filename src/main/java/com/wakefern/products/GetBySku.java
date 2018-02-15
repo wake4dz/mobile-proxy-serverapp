@@ -36,6 +36,11 @@ public class GetBySku extends BaseService {
         		
         try {
             String jsonResponse = makeRequest(storeID, productSKU, isMember, sessionToken);
+            
+            // Item Location data provided by MWG is never up-to-date.
+            // Used Wakefern-supplied Item Location data instead.
+            jsonResponse = this.getItemLocations(jsonResponse, storeID);
+            
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

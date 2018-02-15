@@ -60,6 +60,7 @@ public class GetListItems extends BaseService {
             
             // Item Location data provided by MWG is never up-to-date.
             // Used Wakefern-supplied Item Location data instead.
+            // The Store ID being passed here, is Wakefern's version.
             jsonResponse = this.getItemLocations(jsonResponse, storeID);
             
             return this.createValidResponse(jsonResponse);

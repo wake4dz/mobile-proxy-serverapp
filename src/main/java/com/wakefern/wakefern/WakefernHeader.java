@@ -1,4 +1,4 @@
-package com.wakefern.Wakefern;
+package com.wakefern.wakefern;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;

@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 @Path(MWGApplicationConstants.Requests.Rewards.Points)
 public class GetPointsForPPC extends BaseService {

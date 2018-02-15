@@ -1,12 +1,12 @@
 package com.wakefern.coupons;
 
-import com.wakefern.Wakefern.WakefernApplicationConstants;
-import com.wakefern.Wakefern.WakefernHeader;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
+import com.wakefern.wakefern.WakefernHeader;
 
 import org.json.JSONObject;
 

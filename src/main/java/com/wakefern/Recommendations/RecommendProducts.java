@@ -11,13 +11,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 @Path(ApplicationConstants.Requests.Recommendations.ProductRecommendations)
 public class RecommendProducts extends BaseService {

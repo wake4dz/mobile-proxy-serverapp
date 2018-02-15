@@ -1,4 +1,4 @@
-package com.wakefern.Wakefern;
+package com.wakefern.wakefern;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -15,9 +15,8 @@ import java.util.Map;
 /**
  * Created by zacpuste on 10/18/16.
  */
-
-@Path(ApplicationConstants.Requests.Wakefern.ItemLocator)
-public class ItemLocatorArray extends BaseService {
+@Path(ApplicationConstants.Requests.Wakefern.ItemLocatorJson)
+public class ItemLocatorJson extends BaseService {
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path("/{storeId}/{upc}")
@@ -25,7 +24,7 @@ public class ItemLocatorArray extends BaseService {
                                     @HeaderParam("Authentication") String authToken) throws Exception, IOException {
         Map<String, String> wkfn = new HashMap<>();
 
-        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocator + "/" + storeId + "/" + upc;
+        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocatorJson + "/" + storeId + "/" + upc;
         wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
         wkfn.put("Authentication", authToken);
 
@@ -36,21 +35,7 @@ public class ItemLocatorArray extends BaseService {
         }
     }
 
-    public String getInfo( String storeId, String upc, String authToken) throws Exception, IOException {
-        Map<String, String> wkfn = new HashMap<>();
-
-        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocator + "/" + storeId + "/" + upc;
-        wkfn.put(ApplicationConstants.Requests.Header.contentType, "application/json");
-        wkfn.put("Authentication", authToken);
-
-        try {
-            return HTTPRequest.executeGet(path, wkfn, 0);
-        } catch (Exception e){
-            return null;
-        }
-    }
-
-    public ItemLocatorArray(){
+    public ItemLocatorJson(){
         this.requestHeader = new MWGHeader();
     }
 }

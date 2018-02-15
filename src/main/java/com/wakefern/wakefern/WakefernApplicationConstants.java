@@ -1,4 +1,4 @@
-package com.wakefern.Wakefern;
+package com.wakefern.wakefern;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.

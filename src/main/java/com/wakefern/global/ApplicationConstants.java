@@ -1,7 +1,7 @@
 package com.wakefern.global;
 
-import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 public final class ApplicationConstants {
 

@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import com.wakefern.Wakefern.WakefernApplicationConstants;
 import com.wakefern.global.ApplicationConstants;
 import org.json.JSONObject;
 
@@ -19,6 +18,7 @@ import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 @Path("payment/token/user/{userId}/store/{storeId}")
 public class GetToken extends BaseService {

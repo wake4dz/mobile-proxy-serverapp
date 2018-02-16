@@ -211,7 +211,8 @@ public class MWGApplicationConstants {
             public static final String authorize = "/authorization";
             
             // The "token" path param here is the "secret" provided by MWG to the Mobile App.
-            public static final String checkout  = authorize + "/{token}/authenticate"; 
+            public static final String checkout  = authorize + "/{" + Params.Path.token + "}/authenticate"; 
+            public static final String delete    = authorize + "/{" + Params.Path.token + "}";
         }
         
         public static class Stores {

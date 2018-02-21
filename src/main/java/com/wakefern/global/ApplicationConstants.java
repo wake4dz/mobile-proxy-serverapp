@@ -21,8 +21,6 @@ public final class ApplicationConstants {
     }
 
     public static class Requests {
-        public static String buildErrorJsonOpen = "{\"ErrorMessage\":\"";
-        public static String buildErrorJsonClose = "\"}";
         public static String forbiddenError = "Session is not valid";
 
         public static class Header {

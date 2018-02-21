@@ -108,6 +108,9 @@ public class BaseService {
         ExceptionHandler exceptionHandler = new ExceptionHandler();
         
         try {
+        		String jsonErrStart = "{\"ErrorMessage\":\"";
+        		String jsonErrEnd   = "\"}";
+        		
             String[] array = e.getMessage().split(",");
             String buildError;
             
@@ -116,7 +119,7 @@ public class BaseService {
             }
             
             if (Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403) {
-                buildError = ApplicationConstants.Requests.buildErrorJsonOpen + ApplicationConstants.Requests.forbiddenError + ApplicationConstants.Requests.buildErrorJsonClose;
+                buildError = jsonErrStart + ApplicationConstants.Requests.forbiddenError + jsonErrEnd;
             
             } else {	
             		StringBuilder sb = new StringBuilder();
@@ -144,7 +147,9 @@ public class BaseService {
             				buildError = respBody;
             			
             			} catch (Exception exx) {
-            				buildError = ApplicationConstants.Requests.buildErrorJsonOpen + respBody + ApplicationConstants.Requests.buildErrorJsonClose;
+            				// The error is in an unexpected format.
+            				// Respond with a default text message.
+            				buildError = jsonErrStart + "MWG returned an unexpected, non-JSON compliant error." + jsonErrEnd;
             			}
         			}
             }

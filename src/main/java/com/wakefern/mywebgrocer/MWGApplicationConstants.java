@@ -6,10 +6,15 @@ public class MWGApplicationConstants {
     private static final String freshGrocerProd  = "https://api.thefreshgrocer.com/api";                 // FreshGrocer Production
     private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
                 
-    public static final String appToken = "62081B21-0885-4544-8849-326195C8F9CD";
+    private static final String freshGrocerAppToken = "62081B21-0885-4544-8849-326195C8F9CD";
+    private static final String shopRiteAppToken    = "49a84945-cf10-4790-8514-a4d71841a2e3";
+    
+    private static final String fgStage = "FreshGrocerStage";
+    private static final String fgProd  = "FreshGrocerProd";
+    private static final String srStage = "ShopRiteStage";
+    private static final String srProd  = "ShopRiteProd";
     
     /**
-     * Check the Bluemix Environment Variable, indicating which MWG API this instance of the Wakefern Java API should be talking to.
      * Return the appropriate Base URL.
      * 
      * @return String
@@ -17,21 +22,61 @@ public class MWGApplicationConstants {
     public static String getBaseURL() {
     		String baseURL;
     		
-    		// TODO: Add Code to check Environment Variable.
-    		// TODO: Based on the value of that variable, return the correct base URL.
-    		// TEMP: Hardcoded FreshGrocerStaging API for testing purposes.
-    		final String targetAPI = "FreshGrocerStage";
+    		String targetAPI = getTargetAPI();
     		
     		switch (targetAPI) {
-    			case "FreshGrocerStage" : baseURL = freshGrocerStage; break;
-    			case "FreshGrocerProd"  : baseURL = freshGrocerProd;  break;
-    			case "ShopRiteStage"    : baseURL = shopRiteStage;    break;
-    			case "ShopRiteProd"     : baseURL = shopRiteProd;     break;
+    			case fgStage : baseURL = freshGrocerStage; break;
+    			case fgProd  : baseURL = freshGrocerProd;  break;
+    			case srStage : baseURL = shopRiteStage;    break;
+    			case srProd  : baseURL = shopRiteProd;     break;
     			
     			default : baseURL = shopRiteProd;
     		}
     		
     		return baseURL;
+    }
+    
+    /**
+     * Return the appropriate Application Token.
+     * 
+     * @return String
+     */
+    public static String getAppToken() {
+    		String appToken;
+    		
+    		String targetAPI = getTargetAPI();
+    		
+    		switch (targetAPI) {
+    			case fgStage :
+    			case fgProd  : 
+    				appToken = freshGrocerAppToken;  
+    				break;
+    			
+    			case srStage :
+    			case srProd  : 
+    				appToken = shopRiteAppToken;     
+    				break;
+    			
+    			default : appToken = shopRiteAppToken;
+    		}
+    		
+    		return appToken;
+    }
+    
+    /**
+     * Check the Bluemix Environment Variable, indicating which MWG API this instance of the Wakefern Java API should be talking to.
+     * 
+     * @return String
+     */
+    private static String getTargetAPI() {
+		// TEMP: Hardcoded MWG API for testing purposes.
+		 String targetAPI = fgStage;
+		 
+		 //
+		 // TODO: Add Code to check Environment Variable and determine correct Target MWG API Environment.
+		 //
+		 
+		 return targetAPI;
     }
     
     public static class Headers {

@@ -30,7 +30,7 @@ public class WakefernHeader extends Header {
 
         authMap.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
         authMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
-        authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, MWGApplicationConstants.appToken);
+        authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, MWGApplicationConstants.getAppToken());
 
         setAllMaps(authMap);
     }

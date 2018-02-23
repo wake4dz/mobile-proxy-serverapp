@@ -71,6 +71,5 @@ public class WakefernApplicationConstants {
         public static final String baseURL = "https://api.wakefern.com";
         public static final String locationPath = "/itemlocator/item/location";
         public static final String authPath = "/wfctoken/auth/gentoken";
-        //public static final String locationJsonPath = "/itemlocator/item/location/json";
     }
 }

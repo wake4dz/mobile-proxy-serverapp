@@ -1,19 +1,38 @@
 package com.wakefern.mywebgrocer;
 
-/**
- * Created by brandyn.brosemer on 8/9/16.
- */
 public class MWGApplicationConstants {
-    public static final String fgProdBaseURL  = "https://api.thefreshgrocer.com/api";                 // Prod
-    public static final String fgStageBaseURL = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // Staging
+	private static final String shopRiteProd     = "https://api.shoprite.com/api";                       // ShopRite Production
+	private static final String shopRiteStage    = "https://api.dev.shoprite.com/api";                   // ShopRite Staging
+    private static final String freshGrocerProd  = "https://api.thefreshgrocer.com/api";                 // FreshGrocer Production
+    private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
+                
+    public static final String appToken = "62081B21-0885-4544-8849-326195C8F9CD";
     
-    // TODO: CHANGE TO PROD BEFORE RELEASING!!!
-    //
-    public static final String baseURL = fgStageBaseURL;
-        
-    public static final String baseURLv1	   = "https://api.shoprite.com/api/v1";
-    public static final String serviceURLv1 = "https://service.shoprite.com";
-    public static final String appToken     = "62081B21-0885-4544-8849-326195C8F9CD";
+    /**
+     * Check the Bluemix Environment Variable, indicating which MWG API this instance of the Wakefern Java API should be talking to.
+     * Return the appropriate Base URL.
+     * 
+     * @return String
+     */
+    public static String getBaseURL() {
+    		String baseURL;
+    		
+    		// TODO: Add Code to check Environment Variable.
+    		// TODO: Based on the value of that variable, return the correct base URL.
+    		// TEMP: Hardcoded FreshGrocerStaging API for testing purposes.
+    		final String targetAPI = "FreshGrocerStage";
+    		
+    		switch (targetAPI) {
+    			case "FreshGrocerStage" : baseURL = freshGrocerStage; break;
+    			case "FreshGrocerProd"  : baseURL = freshGrocerProd;  break;
+    			case "ShopRiteStage"    : baseURL = shopRiteStage;    break;
+    			case "ShopRiteProd"     : baseURL = shopRiteProd;     break;
+    			
+    			default : baseURL = shopRiteProd;
+    		}
+    		
+    		return baseURL;
+    }
     
     public static class Headers {
     		private static final String prefix = "application/vnd.mywebgrocer.";
@@ -410,13 +429,7 @@ public class MWGApplicationConstants {
         		public static final String Points = "/rewards/api/v1/points";
         		public static final String baseURL = "https://wfcapi.shoprite.com";
         }
-        
-        public static class Wakefern {
-            public static final String ItemLocator = "/itemlocator/item/location";
-            public static final String ItemLocatorAuth = "/wfctoken/auth/gentoken";
-            public static final String ItemLocatorJson = "/itemlocator/item/location/json";
-        }
-        
+                
         public static class Recommendations {
 	        	public static final String ProductRecommendations = "/recommend/api/v1/products/user";
 	        	public static final String baseURL = "https://wfcapi.shoprite.com";

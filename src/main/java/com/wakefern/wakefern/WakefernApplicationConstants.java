@@ -16,8 +16,8 @@ public class WakefernApplicationConstants {
         }
 
         public static class ListId{
-            public static final String CouponId = "/getCouponIDListBySR";
-            public static final String CouponByPPC = "/getCouponIDListByPPC";
+            public static final String CouponId     = "/getCouponIDListBySR";
+            public static final String CouponByPPC  = "/getCouponIDListByPPC";
             public static final String CouponAddPPC = "/addCouponToPPC";
         }
 
@@ -32,11 +32,12 @@ public class WakefernApplicationConstants {
             public static final String CouponParam = "&coupon_id=";
             public static final String ClipSource = "&clip_source=";
             public static final String ClipSource_App_SR = "APP_SR";
+            
             //For Coupon and recommendation
-            public static final String store = "?storeId=";
+            public static final String store  = "?storeId=";
             public static final String pseudo = "&pseudo=";
-            public static final String email = "&email=";
-            public static final String ppcNo = "&ppc_number=";
+            public static final String email  = "&email=";
+            public static final String ppcNo  = "&ppc_number=";
         }
 
         public static class Search{
@@ -55,7 +56,6 @@ public class WakefernApplicationConstants {
         public static final String Other = "OTHER";
         public static final String Sku = "Sku";
         public static final String upc_13_num = "upc_13_num";
-        public static final String WakefernAuth = "eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9";
         public static final String item_locations = "item_locations";
         public static final String area_seq_num = "area_seq_num";
         public static final String wf_area_code = "wf_area_code";
@@ -66,5 +66,11 @@ public class WakefernApplicationConstants {
         public static final String Size = "Size";
         public static final String Sale = "Sale";
         public static final String LimitText = "LimitText";
+        
+        public static final String WakefernAuth    = "eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9";
+        public static final String baseURL = "https://api.wakefern.com";
+        public static final String locationPath = "/itemlocator/item/location";
+        public static final String authPath = "/wfctoken/auth/gentoken";
+        //public static final String locationJsonPath = "/itemlocator/item/location/json";
     }
 }

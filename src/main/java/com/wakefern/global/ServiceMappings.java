@@ -93,7 +93,6 @@ public class ServiceMappings {
 	public void setMappingWithURL(Object serviceObject, String baseURL) {
 		BaseService aService = (BaseService) serviceObject;
 		MWGHeader mwgHeader  = new MWGHeader();
-		
 		sendRequestWithURL(aService, mwgHeader, baseURL);
 	}
 	
@@ -259,7 +258,7 @@ public class ServiceMappings {
 			query.deleteCharAt(query.length() - 1);
 		}
 		
-		return (MWGApplicationConstants.baseURL + path + query);
+		return (MWGApplicationConstants.getBaseURL() + path + query);
 	}
 	
 	/**
@@ -273,13 +272,15 @@ public class ServiceMappings {
 	private String replacePathParam(String pathParam, String path, BaseService serviceObj) {
 		return path.replace("{" + pathParam + "}", serviceObj.requestParams.get(pathParam));
 	}
-	
+
+	// Used for Coupons
 	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
 		wakefernHeader.cuponAuth(serviceObject.requestToken);
 		setgenericHeader(wakefernHeader.getMap());
 		setPath(serviceObject.requestPath);
 	}
 	
+	// Used for Recommendations & Rewards
 	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
 		header.authenticate(serviceObject.requestToken);
 		setgenericHeader(header.getMap());

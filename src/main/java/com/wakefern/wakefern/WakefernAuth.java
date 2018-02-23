@@ -5,13 +5,10 @@ import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
-//import javax.ws.rs.*;
-//import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Path(ApplicationConstants.Requests.Wakefern.ItemLocatorAuth)
 public class WakefernAuth extends BaseService {
 	
     public WakefernAuth() {
@@ -21,7 +18,7 @@ public class WakefernAuth extends BaseService {
     public String getInfo(String authToken) throws Exception, IOException {
         Map<String, String> wkfn = new HashMap<>();
 
-        String path = "https://api.wakefern.com" + ApplicationConstants.Requests.Wakefern.ItemLocatorAuth;
+        String path = WakefernApplicationConstants.ItemLocator.baseURL + WakefernApplicationConstants.ItemLocator.authPath;
         
         wkfn.put(ApplicationConstants.Requests.Header.contentType, "text/plain");
         wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);

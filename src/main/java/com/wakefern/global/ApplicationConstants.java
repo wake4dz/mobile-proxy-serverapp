@@ -44,12 +44,6 @@ public final class ApplicationConstants {
             public static final String GetCouponsRecommendations = WakefernApplicationConstants.Coupons.Metadata.MetadataRecommendations;
         }
 
-        public static final class Wakefern {
-            public static final String ItemLocator = MWGApplicationConstants.Requests.Wakefern.ItemLocator;
-            public static final String ItemLocatorAuth = MWGApplicationConstants.Requests.Wakefern.ItemLocatorAuth;
-            public static final String ItemLocatorJson = MWGApplicationConstants.Requests.Wakefern.ItemLocatorJson;
-        }
-
         public static class Recommendations {
             public static final String ProductRecommendations = MWGApplicationConstants.Requests.Recommendations.ProductRecommendations;
             public static final String BaseRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseURL; 

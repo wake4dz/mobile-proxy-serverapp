@@ -7,7 +7,7 @@ public class MWGApplicationConstants {
     private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
                 
     private static final String freshGrocerAppToken = "62081B21-0885-4544-8849-326195C8F9CD";
-    private static final String shopRiteAppToken    = "49a84945-cf10-4790-8514-a4d71841a2e3";
+    private static final String shopRiteAppToken    = "56BF02A1-074E-4767-9801-73447DC64928"; //"49a84945-cf10-4790-8514-a4d71841a2e3";
     
     private static final String fgStage = "FreshGrocerStage";
     private static final String fgProd  = "FreshGrocerProd";
@@ -70,7 +70,7 @@ public class MWGApplicationConstants {
      */
     private static String getTargetAPI() {
 		// TEMP: Hardcoded MWG API for testing purposes.
-		 String targetAPI = fgStage;
+		 String targetAPI = srStage; //fgStage;
 		 
 		 //
 		 // TODO: Add Code to check Environment Variable and determine correct Target MWG API Environment.

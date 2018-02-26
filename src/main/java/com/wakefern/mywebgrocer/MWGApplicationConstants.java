@@ -68,13 +68,15 @@ public class MWGApplicationConstants {
      * 
      * @return String
      */
-    private static String getTargetAPI() {
-		// TEMP: Hardcoded MWG API for testing purposes.
-		 String targetAPI = srStage; //fgStage;
+    private static String getTargetAPI() {		 
+		 String targetAPI = java.lang.System.getenv("chain");
 		 
+		 // On a local Dev server, the environment variable won't exist unless you have specifically set it up yourself.
+		 // In that case, default to one of the dev targets.
 		 //
-		 // TODO: Add Code to check Environment Variable and determine correct Target MWG API Environment.
-		 //
+		 // ShopRite Staging:     srStage
+		 // FreshGrocer Staging:  fgStage
+		 targetAPI = (targetAPI == null) ? srStage : targetAPI;
 		 
 		 return targetAPI;
     }

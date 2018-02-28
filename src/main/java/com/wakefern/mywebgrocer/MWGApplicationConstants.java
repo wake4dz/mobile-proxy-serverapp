@@ -2,17 +2,21 @@ package com.wakefern.mywebgrocer;
 
 public class MWGApplicationConstants {
 	private static final String shopRiteProd     = "https://api.shoprite.com/api";                       // ShopRite Production
-	private static final String shopRiteStage    = "https://api.dev.shoprite.com/api";                   // ShopRite Staging
-    private static final String freshGrocerProd  = "https://api.thefreshgrocer.com/api";                 // FreshGrocer Production
+	private static final String shopRiteDev      = "https://api.dev.shoprite.com/api";                   // ShopRite Development
+	private static final String shopRiteStage    = "https://api-sr75stg.staging.shoprite.com";          // ShopRite Staging
+	private static final String freshGrocerProd  = "https://api.thefreshgrocer.com/api";                 // FreshGrocer Production
     private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
                 
-    private static final String freshGrocerAppToken = "62081B21-0885-4544-8849-326195C8F9CD";
-    private static final String shopRiteAppToken    = "56BF02A1-074E-4767-9801-73447DC64928"; //"49a84945-cf10-4790-8514-a4d71841a2e3";
+    private static final String freshGrocerStageToken = "62081B21-0885-4544-8849-326195C8F9CD";
+    private static final String shopRiteDevToken      = "56BF02A1-074E-4767-9801-73447DC64928";
+    private static final String shopRiteStageToken    = "13B4312E-D431-4C53-A16C-5998B2F53482";
+    private static final String shopRiteProdToken     = "";
     
     private static final String fgStage = "FreshGrocerStage";
     private static final String fgProd  = "FreshGrocerProd";
     private static final String srStage = "ShopRiteStage";
     private static final String srProd  = "ShopRiteProd";
+    private static final String srDev  = "ShopRiteDev";
     
     /**
      * Return the appropriate Base URL.
@@ -29,6 +33,7 @@ public class MWGApplicationConstants {
     			case fgProd  : baseURL = freshGrocerProd;  break;
     			case srStage : baseURL = shopRiteStage;    break;
     			case srProd  : baseURL = shopRiteProd;     break;
+    			case srDev   : baseURL = shopRiteDev;      break;
     			
     			default : baseURL = shopRiteProd;
     		}
@@ -49,15 +54,14 @@ public class MWGApplicationConstants {
     		switch (targetAPI) {
     			case fgStage :
     			case fgProd  : 
-    				appToken = freshGrocerAppToken;  
+    				appToken = freshGrocerStageToken;  
     				break;
     			
-    			case srStage :
-    			case srProd  : 
-    				appToken = shopRiteAppToken;     
-    				break;
+    			case srDev   : appToken = shopRiteDevToken;   break;
+    			case srStage : appToken = shopRiteStageToken; break;
+    			case srProd  : appToken = shopRiteProdToken;  break;
     			
-    			default : appToken = shopRiteAppToken;
+    			default : appToken = shopRiteProdToken;
     		}
     		
     		return appToken;
@@ -74,8 +78,9 @@ public class MWGApplicationConstants {
 		 // On a local Dev server, the environment variable won't exist unless you have specifically set it up yourself.
 		 // In that case, default to one of the dev targets.
 		 //
-		 // ShopRite Staging:     srStage
-		 // FreshGrocer Staging:  fgStage
+		 // ShopRite Dev        :  srDev
+		 // ShopRite Staging    :  srStage
+		 // FreshGrocer Staging :  fgStage
 		 targetAPI = (targetAPI == null) ? fgStage : targetAPI;
 		 
 		 return targetAPI;

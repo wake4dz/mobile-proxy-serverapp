@@ -45,10 +45,10 @@ public final class ApplicationConstants {
         }
 
         public static class Recommendations {
-            public static final String ProductRecommendations = MWGApplicationConstants.Requests.Recommendations.ProductRecommendations;
-            public static final String BaseRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseURL; 
-            public static final String UPCRecommendations = MWGApplicationConstants.Requests.Recommendations.UPCRecommendations;
-            public static final String BaseUPCRecommendationsURL = MWGApplicationConstants.Requests.Recommendations.baseUPC_URL;
+            public static final String ProductRecommendations = "/recommend/api/v1/products/user";
+            public static final String BaseRecommendationsURL = "https://wfcapi.shoprite.com"; 
+            public static final String UPCRecommendations = "/api/wfc/store/";
+            public static final String BaseUPCRecommendationsURL = "https://vp.shoprite.com";
         }
     }
 }

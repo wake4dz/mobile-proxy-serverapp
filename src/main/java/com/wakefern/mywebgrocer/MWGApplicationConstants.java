@@ -3,7 +3,7 @@ package com.wakefern.mywebgrocer;
 public class MWGApplicationConstants {
 	private static final String shopRiteProd     = "https://api.shoprite.com/api";                       // ShopRite Production
 	private static final String shopRiteDev      = "https://api.dev.shoprite.com/api";                   // ShopRite Development
-	private static final String shopRiteStage    = "https://api-sr75stg.staging.shoprite.com";          // ShopRite Staging
+	private static final String shopRiteStage    = "https://api-sr75stg.staging.shoprite.com/api";       // ShopRite Staging
 	private static final String freshGrocerProd  = "https://api.thefreshgrocer.com/api";                 // FreshGrocer Production
     private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
                 

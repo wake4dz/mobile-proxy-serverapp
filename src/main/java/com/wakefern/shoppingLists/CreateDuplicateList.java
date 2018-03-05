@@ -83,7 +83,7 @@ public class CreateDuplicateList extends BaseService {
 		
 			} else {
 				// Build Error Response	
-				throw new Exception("404, Failed to copy any items from the original list to the new Shopping List.");
+				throw new Exception("404, [{ \"Text\" : \"Failed to copy any items from the original list to the new Shopping List.\" }]");
 			}
 				
 		} catch (Exception e) {

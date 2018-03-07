@@ -408,7 +408,7 @@ public class MWGApplicationConstants {
         		public static final String items = list  + "/items";
         		public static final String item  = items + "/{" + Params.Path.listItemID + "}";
         		public static final String copy  = list  + "/duplicate";
-        		
+        		        		
         		// These items are specific to the Duplicate List functionality
         		//
         		// The Default Limit for the number of items to copy from an existing Shopping List to a new duplicate list.
@@ -416,7 +416,8 @@ public class MWGApplicationConstants {
         		// Which can result in a ridiculous number of requests for large lists.
         		// Wakefern's work-around is to cap the number of items that can be duplicated from one list to the next.
         		public static final String strDupeCap = "20";
-        		public static final int    intDupeCap =  Integer.parseInt(strDupeCap);
+        		public static final int intDupeCap =  Integer.parseInt(strDupeCap);
+        		public static final String copyLimit = "/duplicate/limit";
         }
         
         public static class Cart {

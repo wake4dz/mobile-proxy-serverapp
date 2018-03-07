@@ -18,12 +18,6 @@ import java.util.HashMap;
 public class CreateDuplicateList extends BaseService {
 	private static final String THIS = "com.wakefern.shoppingLists.CreateDuplicateList";
 	
-	// The Default Limit for the number of items to copy from the old list to the new list.
-	// This is because each item has to be added to the new list via a separate request to the MWG API.
-	// Which can result in a ridiculous number of requests for large lists.
-	private static final String strDefaultLimit = "20";
-	private static final int    intDefaultLimit = 20;
-	
 	//-------------------------------------------------------------------------
 	// Public Methods
 	//-------------------------------------------------------------------------
@@ -43,7 +37,7 @@ public class CreateDuplicateList extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.listID) String listID,
     		
-    		@DefaultValue(strDefaultLimit)
+    		@DefaultValue(MWGApplicationConstants.Requests.ShoppingList.strDupeCap)
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
     		    		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
@@ -182,8 +176,8 @@ public class CreateDuplicateList extends BaseService {
 			intLimit = Integer.parseInt(strLimit);
 			
 		} catch (Exception e) {
-			intLimit = intDefaultLimit;
-			strLimit = strDefaultLimit;
+			intLimit = MWGApplicationConstants.Requests.ShoppingList.intDupeCap;
+			strLimit = MWGApplicationConstants.Requests.ShoppingList.strDupeCap;
 		}
 		
 		if (arrListItems.length() < intLimit) {

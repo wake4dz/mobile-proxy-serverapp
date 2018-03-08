@@ -81,7 +81,7 @@ public class MWGApplicationConstants {
 		 // ShopRite Dev        :  srDev
 		 // ShopRite Staging    :  srStage
 		 // FreshGrocer Staging :  fgStage
-		 targetAPI = (targetAPI == null) ? fgStage : targetAPI;
+		 targetAPI = (targetAPI == null) ? srStage : targetAPI;
 		 
 		 return targetAPI;
     }

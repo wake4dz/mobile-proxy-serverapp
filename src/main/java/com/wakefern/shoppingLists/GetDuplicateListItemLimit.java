@@ -37,7 +37,7 @@ public class GetDuplicateListItemLimit extends BaseService {
 		//
 		// At the moment, the default cap is just a hardcoded value.
 		// So we manually construct a response string and send it back to the UI.
-		String response = "{ \"data\" : { \"itemLimit\" : \"" + MWGApplicationConstants.Requests.ShoppingList.strDupeCap + "\" } }";
+		String response = "{ \"itemLimit\" : \"" + MWGApplicationConstants.Requests.ShoppingList.strDupeCap + "\" }";
 
         return this.createValidResponse(response);
     }

@@ -71,7 +71,12 @@ public class CreateDuplicateList extends BaseService {
 			if (results.get("errors") < results.get("items")) {
 				// Build Success Response
 				String copiedCount = results.get("successes").toString();
-				jsonResp = "{ \"data\" : { \"Message\" : \"" + copiedCount + " items copied to the new Shopping List.\" } }";
+				
+				jsonResp = "{" + 
+						"\"itemsCopied\" : \"" + copiedCount + "\"" +
+						"\"origListId\" : \""  + listID      + "\"" +
+						"\"newListId\" : \""   + newListID   + "\"" +
+						"}";
 
 				return this.createValidResponse(jsonResp);
 		

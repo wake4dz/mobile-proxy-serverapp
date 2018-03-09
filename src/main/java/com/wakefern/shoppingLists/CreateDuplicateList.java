@@ -68,14 +68,15 @@ public class CreateDuplicateList extends BaseService {
 			
 			HashMap<String, Integer> results = populateNewList(newListID, chainID, userID, take, sessionToken, respObj);
 			
-			if (results.get("errors") < results.get("items")) {
+			if ((results.get("errors") < results.get("items")) || (results.get("items") == 0)) {
 				// Build Success Response
 				String copiedCount = results.get("successes").toString();
 				
 				jsonResp = "{" + 
-						"\"itemsCopied\" : \"" + copiedCount + "\"" +
-						"\"origListId\" : \""  + listID      + "\"" +
-						"\"newListId\" : \""   + newListID   + "\"" +
+						"\"itemsCopied\" : \"" + copiedCount          + "\", " +
+						"\"origListId\" : \""  + listID               + "\", " +
+						"\"newListId\" : \""   + newListID            + "\", " +
+						"\"newList\" : \""     + respArr.toString()   + "\"" +
 						"}";
 
 				return this.createValidResponse(jsonResp);
@@ -106,7 +107,7 @@ public class CreateDuplicateList extends BaseService {
 	 */
 	private JSONObject getListItems(String chainID, String userID, String listID, String token) throws Exception {
 		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.items;
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.json, token);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.generic, token);
 		this.requestParams = new HashMap<String, String>();
 		this.queryParams   = new HashMap<String, String>();
 		
@@ -116,8 +117,8 @@ public class CreateDuplicateList extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listID, listID);
 		
 		// GetListItems query parameters.
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, "0");
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, "9999");
+//		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, "0");
+//		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, "9999");
 		
 		String     strResp = this.mwgRequest(BaseService.ReqType.GET, null, THIS);
 		JSONObject objResp = new JSONObject(strResp);
@@ -197,7 +198,7 @@ public class CreateDuplicateList extends BaseService {
 			String reqData = arrListItems.getJSONObject(i).toString();
 			
 			try {
-				this.mwgRequest(BaseService.ReqType.POST, reqData, THIS);
+				this.mwgRequest(BaseService.ReqType.POST, "[" + reqData + "]", THIS);
 			
 			} catch (Exception e) {
 				errCount++;

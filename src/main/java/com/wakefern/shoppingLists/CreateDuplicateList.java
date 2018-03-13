@@ -63,7 +63,6 @@ public class CreateDuplicateList extends BaseService {
 			JSONObject respObj = getListItems(chainID, userID, listID, sessionToken);
 			JSONArray  respArr = getNewList(chainID, userID, sessionToken, jsonData);
 			
-			String jsonResp;
 			String newListID = respArr.getJSONObject(0).getString("Id");
 			
 			HashMap<String, Integer> results = populateNewList(newListID, chainID, userID, take, sessionToken, respObj);
@@ -72,14 +71,14 @@ public class CreateDuplicateList extends BaseService {
 				// Build Success Response
 				String copiedCount = results.get("successes").toString();
 				
-				jsonResp = "{" + 
-						"\"itemsCopied\" : \"" + copiedCount          + "\", " +
-						"\"origListId\" : \""  + listID               + "\", " +
-						"\"newListId\" : \""   + newListID            + "\", " +
-						"\"newList\" : \""     + respArr.toString()   + "\"" +
-						"}";
+				JSONObject jo = new JSONObject();
+				
+				jo.put("itemsCopied", copiedCount);
+				jo.put("origListId", listID);
+				jo.put("newListId", newListID);
+				jo.put("newList", respArr);
 
-				return this.createValidResponse(jsonResp);
+				return this.createValidResponse(jo.toString());
 		
 			} else {
 				// Build Error Response	

@@ -39,7 +39,7 @@ public class CreatePromoCode extends BaseService {
     		
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, "application/vnd.mywebgrocer.wakefern-promo-code", sessionToken);
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Checkout.promoCodes, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
@@ -48,7 +48,7 @@ public class CreatePromoCode extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, MWGApplicationConstants.Headers.Checkout.promoCodes);
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.checkout.chains.GetPromoCodes");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

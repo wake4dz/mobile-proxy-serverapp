@@ -48,7 +48,7 @@ public class CreatePromoCode extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
 		
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.checkout.chains.GetPromoCodes");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, MWGApplicationConstants.Headers.Checkout.promoCodes);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

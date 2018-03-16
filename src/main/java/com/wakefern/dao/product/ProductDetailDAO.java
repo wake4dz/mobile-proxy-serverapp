@@ -1,4 +1,3 @@
-
 package com.wakefern.dao.product;
 
 import java.util.HashMap;
@@ -18,10 +17,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "ItemType",
     "ItemKey",
     "Brand",
+    "BrandId",
     "Name",
     "Size",
     "Sizes",
+    "SpecificCategory",
+    "DisplayCategory",
     "Category",
+    "CategoryId",
+    "UniversalCategoryId",
+    "UniversalCategoryName",
+    "IsSubStoreCategory",
     "CurrentPrice",
     "RegularPrice",
     "CurrentUnitPrice",
@@ -29,6 +35,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "Aisle",
     "InStock",
     "IsAvailable",
+    "IsAvailableInStore",
+    "FulfillmentTypeExclusion",
     "Sale",
     "AlternateSale",
     "ManufacturerInformation",
@@ -38,9 +46,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "Decals",
     "ImageLinks",
     "Links",
-    "VariationLinks"
+    "VariationLinks",
+    "PointRedemptionInfo",
+    "Notifications"
 })
-public class ProductDetail {
+public class ProductDetailDAO {
 
     @JsonProperty("Id")
     private Integer id;
@@ -52,14 +62,28 @@ public class ProductDetail {
     private String itemKey;
     @JsonProperty("Brand")
     private String brand;
+    @JsonProperty("BrandId")
+    private Integer brandId;
     @JsonProperty("Name")
     private String name;
     @JsonProperty("Size")
     private String size;
     @JsonProperty("Sizes")
     private List<Object> sizes = null;
+    @JsonProperty("SpecificCategory")
+    private SpecificCategory specificCategory;
+    @JsonProperty("DisplayCategory")
+    private DisplayCategory displayCategory;
     @JsonProperty("Category")
     private String category;
+    @JsonProperty("CategoryId")
+    private Integer categoryId;
+    @JsonProperty("UniversalCategoryId")
+    private Object universalCategoryId;
+    @JsonProperty("UniversalCategoryName")
+    private Object universalCategoryName;
+    @JsonProperty("IsSubStoreCategory")
+    private Boolean isSubStoreCategory;
     @JsonProperty("CurrentPrice")
     private String currentPrice;
     @JsonProperty("RegularPrice")
@@ -74,12 +98,16 @@ public class ProductDetail {
     private Boolean inStock;
     @JsonProperty("IsAvailable")
     private Boolean isAvailable;
+    @JsonProperty("IsAvailableInStore")
+    private Boolean isAvailableInStore;
+    @JsonProperty("FulfillmentTypeExclusion")
+    private List<Object> fulfillmentTypeExclusion = null;
     @JsonProperty("Sale")
     private Sale sale;
     @JsonProperty("AlternateSale")
     private Object alternateSale;
     @JsonProperty("ManufacturerInformation")
-    private ManufacturerInformation manufacturerInformation;
+    private Object manufacturerInformation;
     @JsonProperty("Labels")
     private List<Label> labels = null;
     @JsonProperty("HasLabels")
@@ -94,6 +122,10 @@ public class ProductDetail {
     private List<Link> links = null;
     @JsonProperty("VariationLinks")
     private List<VariationLink> variationLinks = null;
+    @JsonProperty("PointRedemptionInfo")
+    private Object pointRedemptionInfo;
+    @JsonProperty("Notifications")
+    private List<Object> notifications = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -147,6 +179,16 @@ public class ProductDetail {
         this.brand = brand;
     }
 
+    @JsonProperty("BrandId")
+    public Integer getBrandId() {
+        return brandId;
+    }
+
+    @JsonProperty("BrandId")
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
+    }
+
     @JsonProperty("Name")
     public String getName() {
         return name;
@@ -177,6 +219,26 @@ public class ProductDetail {
         this.sizes = sizes;
     }
 
+    @JsonProperty("SpecificCategory")
+    public SpecificCategory getSpecificCategory() {
+        return specificCategory;
+    }
+
+    @JsonProperty("SpecificCategory")
+    public void setSpecificCategory(SpecificCategory specificCategory) {
+        this.specificCategory = specificCategory;
+    }
+
+    @JsonProperty("DisplayCategory")
+    public DisplayCategory getDisplayCategory() {
+        return displayCategory;
+    }
+
+    @JsonProperty("DisplayCategory")
+    public void setDisplayCategory(DisplayCategory displayCategory) {
+        this.displayCategory = displayCategory;
+    }
+
     @JsonProperty("Category")
     public String getCategory() {
         return category;
@@ -185,6 +247,46 @@ public class ProductDetail {
     @JsonProperty("Category")
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @JsonProperty("CategoryId")
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    @JsonProperty("CategoryId")
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    @JsonProperty("UniversalCategoryId")
+    public Object getUniversalCategoryId() {
+        return universalCategoryId;
+    }
+
+    @JsonProperty("UniversalCategoryId")
+    public void setUniversalCategoryId(Object universalCategoryId) {
+        this.universalCategoryId = universalCategoryId;
+    }
+
+    @JsonProperty("UniversalCategoryName")
+    public Object getUniversalCategoryName() {
+        return universalCategoryName;
+    }
+
+    @JsonProperty("UniversalCategoryName")
+    public void setUniversalCategoryName(Object universalCategoryName) {
+        this.universalCategoryName = universalCategoryName;
+    }
+
+    @JsonProperty("IsSubStoreCategory")
+    public Boolean getIsSubStoreCategory() {
+        return isSubStoreCategory;
+    }
+
+    @JsonProperty("IsSubStoreCategory")
+    public void setIsSubStoreCategory(Boolean isSubStoreCategory) {
+        this.isSubStoreCategory = isSubStoreCategory;
     }
 
     @JsonProperty("CurrentPrice")
@@ -257,6 +359,26 @@ public class ProductDetail {
         this.isAvailable = isAvailable;
     }
 
+    @JsonProperty("IsAvailableInStore")
+    public Boolean getIsAvailableInStore() {
+        return isAvailableInStore;
+    }
+
+    @JsonProperty("IsAvailableInStore")
+    public void setIsAvailableInStore(Boolean isAvailableInStore) {
+        this.isAvailableInStore = isAvailableInStore;
+    }
+
+    @JsonProperty("FulfillmentTypeExclusion")
+    public List<Object> getFulfillmentTypeExclusion() {
+        return fulfillmentTypeExclusion;
+    }
+
+    @JsonProperty("FulfillmentTypeExclusion")
+    public void setFulfillmentTypeExclusion(List<Object> fulfillmentTypeExclusion) {
+        this.fulfillmentTypeExclusion = fulfillmentTypeExclusion;
+    }
+
     @JsonProperty("Sale")
     public Sale getSale() {
         return sale;
@@ -278,12 +400,12 @@ public class ProductDetail {
     }
 
     @JsonProperty("ManufacturerInformation")
-    public ManufacturerInformation getManufacturerInformation() {
+    public Object getManufacturerInformation() {
         return manufacturerInformation;
     }
 
     @JsonProperty("ManufacturerInformation")
-    public void setManufacturerInformation(ManufacturerInformation manufacturerInformation) {
+    public void setManufacturerInformation(Object manufacturerInformation) {
         this.manufacturerInformation = manufacturerInformation;
     }
 
@@ -355,6 +477,26 @@ public class ProductDetail {
     @JsonProperty("VariationLinks")
     public void setVariationLinks(List<VariationLink> variationLinks) {
         this.variationLinks = variationLinks;
+    }
+
+    @JsonProperty("PointRedemptionInfo")
+    public Object getPointRedemptionInfo() {
+        return pointRedemptionInfo;
+    }
+
+    @JsonProperty("PointRedemptionInfo")
+    public void setPointRedemptionInfo(Object pointRedemptionInfo) {
+        this.pointRedemptionInfo = pointRedemptionInfo;
+    }
+
+    @JsonProperty("Notifications")
+    public List<Object> getNotifications() {
+        return notifications;
+    }
+
+    @JsonProperty("Notifications")
+    public void setNotifications(List<Object> notifications) {
+        this.notifications = notifications;
     }
 
     @JsonAnyGetter

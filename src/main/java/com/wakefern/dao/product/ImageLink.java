@@ -1,4 +1,3 @@
-
 package com.wakefern.dao.product;
 
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class ImageLink {
     @JsonProperty("Rel")
     private String rel;
     @JsonProperty("Placeholders")
-    private List<Object> placeholders = null;
+    private List<String> placeholders = null;
     @JsonProperty("Queries")
     private Object queries;
     @JsonProperty("Uri")
@@ -42,12 +41,12 @@ public class ImageLink {
     }
 
     @JsonProperty("Placeholders")
-    public List<Object> getPlaceholders() {
+    public List<String> getPlaceholders() {
         return placeholders;
     }
 
     @JsonProperty("Placeholders")
-    public void setPlaceholders(List<Object> placeholders) {
+    public void setPlaceholders(List<String> placeholders) {
         this.placeholders = placeholders;
     }
 

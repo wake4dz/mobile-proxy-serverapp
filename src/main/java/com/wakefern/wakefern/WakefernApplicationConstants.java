@@ -6,6 +6,8 @@ package com.wakefern.wakefern;
 public class WakefernApplicationConstants {
 	
     public static final String authToken = "7bd4a45d-4fef-4edf-a74d-c2214c0b7b54"; // Used by legacy Wakefern endpoints.
+    public static final String srAuthToken = "e9d69feb-012b-45e1-bf10-eea13424495d"; // v2 product recommendation for ShopRite
+    public static final String tfgAuthToken = "17a7139d-7268-4548-a441-29dbb380a592"; // v2 product recommendation for TheFreshGrocer
 
 	public static class Coupons {
         public static final String baseURL = "http://couponprodwest.azure-mobile.net/api";

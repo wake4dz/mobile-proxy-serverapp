@@ -1,4 +1,3 @@
-
 package com.wakefern.dao.product;
 
 import java.util.HashMap;
@@ -22,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Sale {
 
     @JsonProperty("Types")
-    private List<Object> types = null;
+    private List<String> types = null;
     @JsonProperty("DateText")
     private String dateText;
     @JsonProperty("Description1")
@@ -35,12 +34,12 @@ public class Sale {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("Types")
-    public List<Object> getTypes() {
+    public List<String> getTypes() {
         return types;
     }
 
     @JsonProperty("Types")
-    public void setTypes(List<Object> types) {
+    public void setTypes(List<String> types) {
         this.types = types;
     }
 

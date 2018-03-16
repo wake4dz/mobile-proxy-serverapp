@@ -1,5 +1,7 @@
 package com.wakefern.mywebgrocer;
 
+import com.wakefern.wakefern.WakefernApplicationConstants;
+
 public class MWGApplicationConstants {
 	private static final String shopRiteProd     = "https://api.shoprite.com/api";                       // ShopRite Production
 	private static final String shopRiteDev      = "https://api.dev.shoprite.com/api";                   // ShopRite Development
@@ -66,6 +68,19 @@ public class MWGApplicationConstants {
     		
     		return appToken;
     }
+    
+    /**
+     * Return auth token for The Fresh Grocer or ShopRite
+     * @return
+     */
+    public static String getProductRecmdAuthToken() {
+		String appToken;
+		
+		String targetAPI = getTargetAPI();
+		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd)) ? WakefernApplicationConstants.tfgAuthToken : WakefernApplicationConstants.srAuthToken;
+		
+		return appToken;
+}
     
     /**
      * Check the Bluemix Environment Variable, indicating which MWG API this instance of the Wakefern Java API should be talking to.

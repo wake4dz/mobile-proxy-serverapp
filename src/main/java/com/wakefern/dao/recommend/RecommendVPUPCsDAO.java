@@ -1,6 +1,8 @@
-package com.wakefern.dao.product;
+
+package com.wakefern.dao.recommend;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,36 +13,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Uri",
-    "View"
+    "Success",
+    "products"
 })
-public class Source {
+public class RecommendVPUPCsDAO {
 
-    @JsonProperty("Uri")
-    private String uri;
-    @JsonProperty("View")
-    private Object view;
+    @JsonProperty("Success")
+    private Boolean success;
+    @JsonProperty("products")
+    private List<String> products = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Uri")
-    public String getUri() {
-        return uri;
+    @JsonProperty("Success")
+    public Boolean getSuccess() {
+        return success;
     }
 
-    @JsonProperty("Uri")
-    public void setUri(String uri) {
-        this.uri = uri;
+    @JsonProperty("Success")
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 
-    @JsonProperty("View")
-    public Object getView() {
-        return view;
+    @JsonProperty("products")
+    public List<String> getProducts() {
+        return products;
     }
 
-    @JsonProperty("View")
-    public void setView(Object view) {
-        this.view = view;
+    @JsonProperty("products")
+    public void setProducts(List<String> products) {
+        this.products = products;
     }
 
     @JsonAnyGetter

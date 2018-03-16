@@ -14,7 +14,7 @@ import com.wakefern.dao.coupon.CouponDAO;
 public class CouponsAndRecommendationsDao {
 
     @JsonProperty("Recommendations")
-    private RecommendProduct recommendProducts = null;
+    private RecommendProductDAO recommendProducts = null;
     
     @JsonProperty("CouponMetadata")
 //    private List<CouponDAO> couponDaoList = null;
@@ -22,12 +22,12 @@ public class CouponsAndRecommendationsDao {
 
 
     @JsonProperty("Recommendations")
-    public RecommendProduct getActiveFilters() {
+    public RecommendProductDAO getActiveFilters() {
         return recommendProducts;
     }
 
     @JsonProperty("Recommendations")
-    public void setRecommendProducts(RecommendProduct recommendProducts) {
+    public void setRecommendProducts(RecommendProductDAO recommendProducts) {
         this.recommendProducts = recommendProducts;
     }
 

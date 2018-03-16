@@ -19,6 +19,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
+@Deprecated
 @Path(ApplicationConstants.Requests.Recommendations.ProductRecommendations)
 public class RecommendProducts extends BaseService {
 

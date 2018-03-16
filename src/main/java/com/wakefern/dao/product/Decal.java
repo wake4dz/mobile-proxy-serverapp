@@ -1,4 +1,3 @@
-
 package com.wakefern.dao.product;
 
 import java.util.HashMap;
@@ -13,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "Name",
-    "SmallImageUri"
+    "SmallImageUri",
+    "Priority"
 })
 public class Decal {
 
@@ -21,6 +21,8 @@ public class Decal {
     private String name;
     @JsonProperty("SmallImageUri")
     private String smallImageUri;
+    @JsonProperty("Priority")
+    private Integer priority;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -44,6 +46,16 @@ public class Decal {
         this.smallImageUri = smallImageUri;
     }
 
+    @JsonProperty("Priority")
+    public Integer getPriority() {
+        return priority;
+    }
+
+    @JsonProperty("Priority")
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -53,5 +65,4 @@ public class Decal {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

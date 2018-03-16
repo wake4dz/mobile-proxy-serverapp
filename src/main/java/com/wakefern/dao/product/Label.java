@@ -1,4 +1,3 @@
-
 package com.wakefern.dao.product;
 
 import java.util.HashMap;
@@ -20,7 +19,7 @@ public class Label {
     @JsonProperty("Title")
     private String title;
     @JsonProperty("Description")
-    private String description;
+    private Object description;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -35,12 +34,12 @@ public class Label {
     }
 
     @JsonProperty("Description")
-    public String getDescription() {
+    public Object getDescription() {
         return description;
     }
 
     @JsonProperty("Description")
-    public void setDescription(String description) {
+    public void setDescription(Object description) {
         this.description = description;
     }
 

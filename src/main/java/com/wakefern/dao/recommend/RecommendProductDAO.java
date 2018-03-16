@@ -1,7 +1,8 @@
 
-package com.wakefern.dao.product;
+package com.wakefern.dao.recommend;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -12,49 +13,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Name",
-    "Address",
-    "Phone"
+    "Recommend",
+    "TotalCount"
 })
-public class ManufacturerInformation {
+public class RecommendProductDAO {
 
-    @JsonProperty("Name")
-    private String name;
-    @JsonProperty("Address")
-    private String address;
-    @JsonProperty("Phone")
-    private String phone;
+    @JsonProperty("Recommend")
+    private List<Recommend> recommend = null;
+    @JsonProperty("TotalCount")
+    private int totalCount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Name")
-    public String getName() {
-        return name;
+    @JsonProperty("Recommend")
+    public List<Recommend> getRecommend() {
+        return recommend;
     }
 
-    @JsonProperty("Name")
-    public void setName(String name) {
-        this.name = name;
+    @JsonProperty("Recommend")
+    public void setRecommend(List<Recommend> recommend) {
+        this.recommend = recommend;
     }
 
-    @JsonProperty("Address")
-    public String getAddress() {
-        return address;
+    @JsonProperty("TotalCount")
+    public int getTotalCount() {
+        return totalCount;
     }
 
-    @JsonProperty("Address")
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    @JsonProperty("Phone")
-    public String getPhone() {
-        return phone;
-    }
-
-    @JsonProperty("Phone")
-    public void setPhone(String phone) {
-        this.phone = phone;
+    @JsonProperty("TotalCount")
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
     }
 
     @JsonAnyGetter

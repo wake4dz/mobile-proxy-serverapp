@@ -45,9 +45,12 @@ public final class ApplicationConstants {
 
         public static class Recommendations {
             public static final String ProductRecommendations = "/recommend/api/v1/products/user";
+
+            public static final String ProductRecommendationsv2 = "/recommedation/api/v2/store";
             public static final String BaseRecommendationsURL = "https://wfcapi.shoprite.com"; 
-            public static final String UPCRecommendations = "/api/wfc/store/";
-            public static final String BaseUPCRecommendationsURL = "https://vp.shoprite.com";
+//            public static final String UPCRecommendations = "/api/wfc/store/";
+//            public static final String BaseUPCRecommendationsURL = "https://vp.shoprite.com";
+
         }
     }
 }

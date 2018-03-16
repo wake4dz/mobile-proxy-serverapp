@@ -1,4 +1,3 @@
-
 package com.wakefern.dao.product;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class VariationLink {
     @JsonProperty("Name")
     private String name;
     @JsonProperty("Links")
-    private List<Link_> links = null;
+    private List<Link> links = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -36,12 +35,12 @@ public class VariationLink {
     }
 
     @JsonProperty("Links")
-    public List<Link_> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
 
     @JsonProperty("Links")
-    public void setLinks(List<Link_> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
 

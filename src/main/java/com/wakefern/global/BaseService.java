@@ -189,54 +189,55 @@ public class BaseService {
      */
 	protected String getItemLocations(String origRespStr, String storeID) {
 		try {
-			JSONObject respObj = new JSONObject(origRespStr);
+			JSONObject origRespJObj = new JSONObject(origRespStr);
 			storeID = (storeID == null) ? "" : storeID;
 		
-			if (respObj.has(WakefernApplicationConstants.ItemLocator.Items) && storeID.length() > 0) {
-
-				JSONArray items = (JSONArray) respObj.get(WakefernApplicationConstants.ItemLocator.Items);
-				JSONObject searchAble = new JSONObject();
-				JSONObject retval = new JSONObject();
-
-				// Set up retval with all non-items data
-				for (Object key : respObj.keySet()) {
-					String keyStr = (String) key;
-					
-					if (!keyStr.equals(WakefernApplicationConstants.ItemLocator.Items)) {
-						Object keyvalue = respObj.get(keyStr);
-						retval.put(keyStr, keyvalue);
+			if (origRespJObj.has(WakefernApplicationConstants.ItemLocator.Items) && storeID.length() > 0) {
+				JSONArray itemsJArray = (JSONArray) origRespJObj.get(WakefernApplicationConstants.ItemLocator.Items);
+				
+				if (itemsJArray.length() > 0) {				
+					JSONObject itemsJObj  = new JSONObject();
+					JSONObject retvalJObj = new JSONObject();
+	
+					// Set up retval with all non-items data
+					for (Object key : origRespJObj.keySet()) {
+						String keyStr = (String) key;
+						
+						if (!keyStr.equals(WakefernApplicationConstants.ItemLocator.Items)) {
+							Object keyvalue = origRespJObj.get(keyStr);
+							retvalJObj.put(keyStr, keyvalue);
+						}
 					}
-				}
 
-				if (items.length() > 0) {
 					WakefernAuth auth = new WakefernAuth();
 					String authString = auth.getInfo(WakefernApplicationConstants.ItemLocator.WakefernAuth);
 					
 					// Can't get Item Location Data w/o a valid Wakefern Auth String.
 					if (!authString.isEmpty()) {
-						String responseString = "";
+						String strItemSkuList = "";
 						
 						// Get the items in the array and make a comma separated string of them as well trim the first and last digit
-						for (int i = 0, size = items.length(); i < size; i++) {
-							JSONObject item = (JSONObject) items.get(i);
-							String itemId = item.get(WakefernApplicationConstants.ItemLocator.Sku).toString();
+						for (int i = 0, size = itemsJArray.length(); i < size; i++) {
+							JSONObject itemJObj = (JSONObject) itemsJArray.get(i);
+							
+							String itemId = itemJObj.get(WakefernApplicationConstants.ItemLocator.Sku).toString();
 							String sku = this.updateUPC(itemId);
 							
 							if (sku.matches("[0-9]+")) {
-								responseString += sku + ",";
-								searchAble.append(WakefernApplicationConstants.ItemLocator.Items, item);
+								strItemSkuList += sku + ",";
+								itemsJObj.append(WakefernApplicationConstants.ItemLocator.Items, itemJObj);
 							
 							} else {
-								item.put(WakefernApplicationConstants.ItemLocator.Aisle, WakefernApplicationConstants.ItemLocator.Other);
-								retval.append(WakefernApplicationConstants.ItemLocator.Items, item);
+								itemJObj.put(WakefernApplicationConstants.ItemLocator.Aisle, WakefernApplicationConstants.ItemLocator.Other);
+								retvalJObj.append(WakefernApplicationConstants.ItemLocator.Items, itemJObj);
 							}
 						}
 
-						items = (JSONArray) searchAble.get(WakefernApplicationConstants.ItemLocator.Items);
-						responseString = responseString.substring(0, responseString.length() - 1); //remove trailing comma
+						itemsJArray = (JSONArray) itemsJObj.get(WakefernApplicationConstants.ItemLocator.Items);
+						strItemSkuList = strItemSkuList.substring(0, strItemSkuList.length() - 1); //remove trailing comma
 						
 						ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
-						String locatorArray = itemLocatorArray.getInfo(storeID, responseString, authString);
+						String locatorArray = itemLocatorArray.getInfo(storeID, strItemSkuList, authString);
 						
 						HashMap<Long, Object> itemLocatorData = new HashMap<>();
 						HashMap<Long, Object> areaSeqNumData = new HashMap<>();
@@ -262,7 +263,7 @@ public class BaseService {
 												(wfAreaCode != null && wfAreaCode.toString().trim().equals("0") ? "0" : areaSeqNum)
 										);
 									
-									} catch(Exception e) {
+									} catch(Exception exx) {
 										areaSeqNumData.put(Long.parseLong(upc13.toString()), areaSeqNum);
 									}
 									
@@ -273,13 +274,13 @@ public class BaseService {
 								}
 							}
 						
-						} catch (Exception e) {
-							logger.log(Level.WARNING, "[getInfoResponse]::Exception processing item locator: ", e);
-							throw e;
+						} catch (Exception ex) {
+							logger.log(Level.WARNING, "[getItemLocations]::Exception processing item locator: ", ex);
+							throw ex;
 						}
 
-						for (int i = 0; i < items.length(); i++) {
-							JSONObject item = items.getJSONObject(i);
+						for (int i = 0; i < itemsJArray.length(); i++) {
+							JSONObject item = itemsJArray.getJSONObject(i);
 							String itemId = item.get(WakefernApplicationConstants.ItemLocator.Sku).toString();
 							String upc = this.updateUPC(itemId);
 
@@ -288,37 +289,43 @@ public class BaseService {
 							
 							if (areaSeqInt > 0) {
 								item.put(WakefernApplicationConstants.ItemLocator.Aisle, itemLocatorData.get(Long.parseLong(upc)).toString());
+								System.out.println("Item: " + item.get("Name") + ", Location: " + WakefernApplicationConstants.ItemLocator.Aisle);
 							
 							} else { // area_seq_num = 0, -1, or -999 - INVALID
 								item.put(WakefernApplicationConstants.ItemLocator.Aisle, WakefernApplicationConstants.ItemLocator.Other);
+								System.out.println("Item: " + item.get("Name") + ", Location: " + WakefernApplicationConstants.ItemLocator.Other);
 							}
 							
-							retval.append(WakefernApplicationConstants.ItemLocator.Items, item);
+							retvalJObj.append(WakefernApplicationConstants.ItemLocator.Items, item);
 						}
 						
-						return retval.toString();
+						return retvalJObj.toString();
 					
 					} else {
 						// Failed to get a Wakefern Authentication String.
 						// So we can't get Item Location Data.
 						// Just return the original response string.
+						System.out.println("Failed to get a Wakefern Authentication String.");
 						return origRespStr;
 					}
 				
 				} else {
-					// The Items Array is empty. (no products)					
+					// The Items Array is empty (no products).		
+					System.out.println("The Items Array is empty (no products).");
 					return origRespStr;
 				}
 			
 			} else {
 				// The supplied response string does not contain any Items (products).
 				// Just return the original string.
+				System.out.println("The supplied response string does not contain any Items (no products).");
 				return origRespStr;
 			}
 
-		} catch (Exception ex) {
+		} catch (Exception e) {
 			// Item Locator done gone and blowed up.
 			// Return the original response string.
+			logger.log(Level.WARNING, "[getItemLocations]::Exception processing item locator: ", e);
 			return origRespStr;
 		}
 	}

@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Products.prefix)
@@ -52,8 +53,8 @@ public class Search extends BaseService {
 		
 		// The MWG endpoint will puke if the Search Term contains spaces
 		// Replace any spaces with a "+" sign.
-		if (searchTerm != null) {
-			searchTerm = searchTerm.trim().replace(' ', '+');
+		if (searchTerm != null && !searchTerm.isEmpty()) {
+			searchTerm = URLEncoder.encode(searchTerm, "UTF-8");//searchTerm.trim().replace(' ', '+');
 		}
 		
 		// Build the Map of Query String parameters

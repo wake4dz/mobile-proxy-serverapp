@@ -215,24 +215,25 @@ public class MWGApplicationConstants {
 
 		public static class Checkout {
 			public static final String promoCodes = prefix + "promo-code+json";
+			public static final String userFSN = prefix + "frequent-shopper-number+json";
+			public static final String comments = prefix + "comments+json";
+			public static final String links = prefix + "links+json";
+
 			public static final String fulfillments = prefix + "fulfillments+json";
 			public static final String fulfillOptsV2 = prefix + "fulfillment-options-v2+json";
 			public static final String fulfillDates = prefix + "fulfillment-dates+json"; // Available fulfillment dates.
 			public static final String fulfillTimes = prefix + "fulfillment-times+json"; // Available fulfillment times.
-			public static final String fulfillSlot = prefix + "fulfillment-slot+json"; // User-specific fulfillment time
-																						// slots.
+			public static final String fulfillSlot = prefix + "fulfillment-slot+json"; // User-specific fulfillment time slots.
+			
 			public static final String deliveryInfoV2 = prefix + "delivery-info-v2+json";
-
-			public static final String comments = prefix + "comments+json";
-			public static final String links = prefix + "links+json";
-			public static final String orders = prefix + "orders+json";
-			public static final String orderV3 = prefix + "order-detail-v3+json";
-			public static final String addressV2 = prefix + "address-v2+json";
 			public static final String checkoutV2 = prefix + "checkout-v2+json";
 			public static final String paymentsV3 = prefix + "payments-v3+json";
-
-			public static final String orderResults = prefix + "order-results+json";
 			public static final String checkoutResults = prefix + "checkout-results+json";
+			public static final String addressV2 = prefix + "address-v2+json";
+
+			public static final String orders = prefix + "orders+json";
+			public static final String orderV3 = prefix + "order-detail-v3+json";
+			public static final String orderResults = prefix + "order-results+json";
 		}
 	}
 
@@ -524,6 +525,7 @@ public class MWGApplicationConstants {
 			public static final String comments = userCheckoutState + "/comments";
 			public static final String timeslot = userCheckoutState + fflmnt;
 			public static final String userFulfillOpts = userCheckoutState + fflmnts;
+			public static final String userFSN = usersID + mwgStoresID + "/fsn";
 
 			public static final String orders = "/orders" + userID + mwgStoreID;
 			public static final String order = orderID + userID;

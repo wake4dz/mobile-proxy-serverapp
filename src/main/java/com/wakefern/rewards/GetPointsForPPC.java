@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -29,7 +30,7 @@ public class GetPointsForPPC extends BaseService {
 		// We are not going to a MWG endpoint with this request.
 		// This is a service provided and maintained by Wakefern.
 		// So it requires a different Authorization Header Token than the one provided by the UI.
-		this.requestToken = WakefernApplicationConstants.authToken;
+		this.requestToken = MWGApplicationConstants.getProductRecmdAuthToken();
 		this.requestPath  = MWGApplicationConstants.Requests.Rewards.Points + "/" + ppc;
 		
 		ServiceMappings srvMap = new ServiceMappings();
@@ -39,6 +40,7 @@ public class GetPointsForPPC extends BaseService {
 		String srvPath = srvMap.getPath();
 		
 		Map<String, String> srvHead = srvMap.getgenericHeader();
+		srvHead.remove(ApplicationConstants.Requests.Header.contentType);
 
 		try {
 			String response = HTTPRequest.executeGet(srvPath, srvHead, 0);

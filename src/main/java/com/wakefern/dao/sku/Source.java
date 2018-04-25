@@ -1,4 +1,5 @@
-package com.wakefern.dao.product;
+
+package com.wakefern.dao.sku;
 
 import java.util.HashMap;
 import java.util.Map;

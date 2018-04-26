@@ -1,4 +1,5 @@
-package com.wakefern.dao.product;
+
+package com.wakefern.dao.sku;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,4 +66,5 @@ public class Decal {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
 }

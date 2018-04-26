@@ -16,19 +16,19 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wakefern.dao.product.ImageLink;
-import com.wakefern.dao.product.ProductDetailDAO;
 import com.wakefern.dao.recommend.Recommend;
 import com.wakefern.dao.recommend.RecommendProductDAO;
 import com.wakefern.dao.recommend.RecommendVPUPCsDAO;
+import com.wakefern.dao.sku.ImageLink;
+import com.wakefern.dao.sku.Item;
+import com.wakefern.dao.sku.ProductSKUsDAO;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
-import com.wakefern.products.GetBySku;
+import com.wakefern.products.GetProductBySkus;
 import com.wakefern.request.HTTPRequest;
-import com.wakefern.wakefern.WakefernApplicationConstants;
 
 @Path(ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2)
 public class ProductsRecommendation extends BaseService {
@@ -51,7 +51,7 @@ public class ProductsRecommendation extends BaseService {
     		// Use the legacy Wakefern Auth Token instead.
 
 		int count = 0;
-		GetBySku gbs = new GetBySku();
+		GetProductBySkus getProductBySku = new GetProductBySkus();
 		ObjectMapper mapper = new ObjectMapper();
 		RecommendProductDAO recProdDao = new RecommendProductDAO();
 		List<Recommend> recmdList = new ArrayList<Recommend>();
@@ -65,7 +65,7 @@ public class ProductsRecommendation extends BaseService {
     		String secondMapPath = secondMapping.getPath();
 
         try {
-        		// CALL & GET LIST OF RECOMMENDED SKU
+        		// CALL & GET LIST OF RECOMMENDED SKUs
         		String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getgenericHeader(), 0);
         		RecommendVPUPCsDAO recUPCDao = mapper.readValue(jsonResp, RecommendVPUPCsDAO.class);
         		List<String> upcList = recUPCDao.getProducts();
@@ -89,33 +89,36 @@ public class ProductsRecommendation extends BaseService {
 			      "ItemKey": "product~179860~0.8 lb",
 			      "ItemType": "Product"
         		 */
-        		
+        		ArrayList<String> skuList = new ArrayList<String>();
         		for(String upcStr : upcList){
         			try{
-        				// FOR EACH SKU, CALL MWG & GET PRODUCT DETAIL.
-	            		String skuResp = gbs.getInfo(storeId, upcStr.substring(2), "true", sessionToken);
-	            		ProductDetailDAO pddao = mapper.readValue(skuResp, ProductDetailDAO.class);
-	            		Recommend recmd = new Recommend();
-	            		recmd.setAisle(pddao.getAisle());		recmd.setBrand(pddao.getBrand());
-	            		recmd.setCategory(pddao.getCategory());	recmd.setName(pddao.getName());
-	            		recmd.setSku(pddao.getSku());			recmd.setProductId(pddao.getId());
-	            		recmd.setSize(pddao.getSize());			recmd.setInStock(pddao.getInStock());
-	            		for(ImageLink imgLnk : pddao.getImageLinks()){
-	            			if(imgLnk.getRel().equalsIgnoreCase("large")){
-	            				recmd.setImagelink(imgLnk.getUri());
-	            			}
-	            		}
-	            		recmd.setItemKey(pddao.getItemKey());	recmd.setItemType(pddao.getItemType());
-	            		recmd.setRegularPrice(pddao.getRegularPrice()); recmd.setCurrentPrice(pddao.getCurrentPrice());
-//	            		recmd.setNote(pddao.get);
-//	            		recmd.setDateText(pddao.getda);
-//	            		recmd.setCouponId(couponId);
-	            		recmdList.add(recmd);
-	            		count ++;
-        			} catch(Exception e){
-        				//Product not found for sku, do nothing//
-//        				logger.log(Level.INFO, "Exception getting SKU - SKU does not exist.");
+        				skuList.add(upcStr);
+        			} catch(Exception e) {
+        				//error
         			}
+        		}
+			// Bundle SKUs and call MWG to retrieve SKUs' detail.
+        		String skusResp = getProductBySku.getInfo(storeId, skuList, sessionToken);
+        		ProductSKUsDAO pdSKUDao = mapper.readValue(skusResp, ProductSKUsDAO.class);
+        		for(Item item : pdSKUDao.getItems()) {
+
+            		Recommend recmd = new Recommend();
+            		recmd.setAisle(item.getAisle());		recmd.setBrand(item.getBrand());
+            		recmd.setCategory(item.getCategory());	recmd.setName(item.getName());
+            		recmd.setSku(item.getSku());			recmd.setProductId(Integer.parseInt(item.getId()));
+            		recmd.setSize(item.getSize());			recmd.setInStock(item.getInStock());
+            		for(ImageLink imgLnk : item.getImageLinks()){
+            			if(imgLnk.getRel().equalsIgnoreCase("large")){
+            				recmd.setImagelink(imgLnk.getUri());
+            			}
+            		}
+            		recmd.setItemKey(item.getItemKey());	recmd.setItemType(item.getItemType());
+            		recmd.setRegularPrice(item.getRegularPrice()); recmd.setCurrentPrice(item.getCurrentPrice());
+//		            		recmd.setNote(pddao.get);
+//		            		recmd.setDateText(pddao.getda);
+//		            		recmd.setCouponId(couponId);
+            		recmdList.add(recmd);
+            		count ++;
         		}
         		recProdDao.setTotalCount(count);
         		recProdDao.setRecommend(recmdList);
@@ -125,7 +128,7 @@ public class ProductsRecommendation extends BaseService {
         		return this.createValidResponse(resp);
         
         } catch (Exception e){
-        	logger.log(Level.SEVERE, "[getInfoResponse]::Product Recommendation Exception!!!, URL: " + secondMapPath + e.getMessage());
+        		logger.log(Level.SEVERE, "[getInfoResponse]::Product Recommendation Exception!!!, URL: " + secondMapPath + e.getMessage());
             return this.createErrorResponse(e);
         }
     }

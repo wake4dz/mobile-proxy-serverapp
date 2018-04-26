@@ -3,7 +3,7 @@ package com.wakefern.mywebgrocer;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 public class MWGApplicationConstants {
-	private static final String shopRiteProd = "https://apinew.shoprite.com/api"; // ShopRite Production
+	private static final String shopRiteProd = "https://api.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
 	private static final String shopRiteStage = "https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
@@ -157,6 +157,7 @@ public class MWGApplicationConstants {
 			public static final String countries = prefix + "product-country-of-origin+json";
 			public static final String productList = prefix + "product-list+json";
 			public static final String product = prefix + "product+json";
+			public static final String accept = prefix + "grocery-list+json";
 
 			// This is a Products header, but it's used by the Circular functionality.
 			public static final String circItemProds = prefix + "grocery-list-plugin+json";
@@ -307,6 +308,7 @@ public class MWGApplicationConstants {
 				public static final String recipeGroup = "recipeGroup";
 				public static final String categoryMap = "categoryMap";
 				public static final String evtParams = "eventParameters";
+				public static final String sku = "sku";
 			}
 		}
 
@@ -355,6 +357,7 @@ public class MWGApplicationConstants {
 			private static final String nutrition = "/nutrition";
 			private static final String sales = "/special";
 			private static final String featured = "/featured";
+			private static final String productList = "/productList";
 
 			private static final String categoryID = "/category/" + "{" + Params.Path.categoryID + "}";
 			private static final String parentCatID = "/category/" + "{" + Params.Path.parentCatID + "}";
@@ -373,6 +376,7 @@ public class MWGApplicationConstants {
 			public static final String prodByID = productID + storeID;
 			public static final String prodsByCat = products + categoryID + storeID;
 			public static final String prodBySKU = product + storeID + productSKU;
+			public static final String prodsBySKUs = product + storeID + productList;
 			public static final String prodVarsByID = productID + storeID + "/all/variations";
 			public static final String prodSearch = products + storeID + "/search";
 

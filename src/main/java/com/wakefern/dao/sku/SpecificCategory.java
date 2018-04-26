@@ -1,4 +1,5 @@
-package com.wakefern.dao.product;
+
+package com.wakefern.dao.sku;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +25,9 @@ public class SpecificCategory {
     @JsonProperty("CategoryId")
     private Integer categoryId;
     @JsonProperty("UniversalCategoryName")
-    private String universalCategoryName;
+    private Object universalCategoryName;
     @JsonProperty("UniversalCategoryId")
-    private Integer universalCategoryId;
+    private Object universalCategoryId;
     @JsonProperty("IsSubStoreCategory")
     private Boolean isSubStoreCategory;
     @JsonIgnore
@@ -53,22 +54,22 @@ public class SpecificCategory {
     }
 
     @JsonProperty("UniversalCategoryName")
-    public String getUniversalCategoryName() {
+    public Object getUniversalCategoryName() {
         return universalCategoryName;
     }
 
     @JsonProperty("UniversalCategoryName")
-    public void setUniversalCategoryName(String universalCategoryName) {
+    public void setUniversalCategoryName(Object universalCategoryName) {
         this.universalCategoryName = universalCategoryName;
     }
 
     @JsonProperty("UniversalCategoryId")
-    public Integer getUniversalCategoryId() {
+    public Object getUniversalCategoryId() {
         return universalCategoryId;
     }
 
     @JsonProperty("UniversalCategoryId")
-    public void setUniversalCategoryId(Integer universalCategoryId) {
+    public void setUniversalCategoryId(Object universalCategoryId) {
         this.universalCategoryId = universalCategoryId;
     }
 

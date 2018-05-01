@@ -18,7 +18,7 @@ import com.wakefern.global.errorHandling.ResponseHandler;
 public class HTTPRequest {
 
 	private final static Logger logger = Logger.getLogger("HTTPRequest");
-	private static int timeOutInt = 20000; // 20 seconds time out
+	private static int timeOutInt = 30000; // 30 seconds time out
 
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -69,9 +69,19 @@ public class HTTPRequest {
 				}
 
 				// Set JSON as body of request
-				OutputStream oStream = connection.getOutputStream();
-				oStream.write(requestBody.getBytes("UTF-8"));
-				oStream.close();
+				OutputStream oStream = null;
+				try {
+					oStream = connection.getOutputStream();
+					oStream.write(requestBody.getBytes("UTF-8"));
+				}finally {
+					if(oStream != null) {
+						try {
+							oStream.close();
+						} catch(Exception ex) {
+    							logger.log(Level.SEVERE, "[HTTPRequest]::executePut::Exception close stream: " + ex.getMessage());
+						}
+					}
+				}
 			}
 
 			// Connect to the server
@@ -85,11 +95,7 @@ public class HTTPRequest {
 				return response;
 			
 			} else {
-				logger.log(
-					Level.INFO, 
-					"[executePut]::response code: {0}, msg: {1}, URL: {2}",
-					new Object[] { responseCode, response }
-				);
+				logger.log(Level.INFO, "[executePut]::response code: "+responseCode+", msg: "+response+", URL: "+requestURL);
 
 				String msg;
 				
@@ -119,7 +125,7 @@ public class HTTPRequest {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: ", requestURL);
+					logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: "+ requestURL);
 					throw ex;
 				}
 			}
@@ -159,9 +165,19 @@ public class HTTPRequest {
 				}
 
 				// Set JSON as body of request
-				OutputStream oStream = connection.getOutputStream();
-				oStream.write(requestBody.getBytes("UTF-8"));
-				oStream.close();
+				OutputStream oStream = null;
+				try {
+					oStream = connection.getOutputStream();
+					oStream.write(requestBody.getBytes("UTF-8"));
+				} finally {
+					if(oStream != null) {
+						try {
+							oStream.close();
+						} catch(Exception ex) {
+							logger.log(Level.SEVERE, "[HTTPRequest]::executePost::Exception close stream: " + ex.getMessage());
+						}
+					}
+				}
 			}
 
 			// Connect to the server
@@ -209,7 +225,7 @@ public class HTTPRequest {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, "[executePost]::Exception closing connection, path: ", requestURL);
+					logger.log(Level.SEVERE, "[executePost]::Exception closing connection, path: "+ requestURL);
 					throw ex;
 				}
 			}
@@ -254,9 +270,19 @@ public class HTTPRequest {
 				}
 
 				// Set JSON as body of request
-				OutputStream oStream = connection.getOutputStream();
-				oStream.write(requestBody.getBytes("UTF-8"));
-				oStream.close();
+				OutputStream oStream = null;
+				try{
+					oStream = connection.getOutputStream();
+					oStream.write(requestBody.getBytes("UTF-8"));
+				} finally {
+					if(oStream != null) {
+						try {
+							oStream.close();
+						} catch(Exception ex) {
+	    						logger.log(Level.SEVERE, "[HTTPRequest]::executePostJSON::Exception close stream: " + ex.getMessage());
+						}
+					}
+				}
 			}
 
 			// Connect to the server
@@ -285,8 +311,7 @@ public class HTTPRequest {
 			
 			endTime = System.currentTimeMillis();
 			
-			logger.log(Level.INFO, "[executePostJSON]::Total process time: {0} ms, path: {1}",
-					new Object[] { (endTime - startTime), requestURL });
+			logger.log(Level.INFO, "[executePostJSON]::Total process time: "+(endTime - startTime)+" ms, path: "+requestURL);
 			
 			// return body to auth
 			return sb.toString();
@@ -308,8 +333,7 @@ public class HTTPRequest {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, "[executePostJSON]::Exception closing connection: {0}, URL: {1}",
-							new Object[] { ex.getMessage(), requestURL });
+					logger.log(Level.SEVERE, "[executePostJSON]::Exception closing connection: "+ex.getMessage()+", URL: "+requestURL);
 					throw ex;
 				}
 			}
@@ -347,9 +371,7 @@ public class HTTPRequest {
 
 			logger.log(
 				Level.INFO, 
-				"[executeRequest]::Total process time for {0}: {1} ms, URL: {2}",
-				new Object[] { requestMethod, (endTime - startTime), requestURL }
-			);
+				"[executeRequest]::Total process time for "+requestMethod+": "+(endTime - startTime)+" ms, URL: "+requestURL);
 			
 			String response = ResponseHandler.Response(connection);
 

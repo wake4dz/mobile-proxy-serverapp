@@ -3,9 +3,9 @@ package com.wakefern.mywebgrocer;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 public class MWGApplicationConstants {
-	private static final String shopRiteProd = "https://api.shoprite.com/api"; // ShopRite Production
+	private static final String shopRiteProd = "https://mobileapi.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
-	private static final String shopRiteStage = "https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
+	private static final String shopRiteStage = "https://mobileapi-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
 	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer
 																											// Staging
@@ -201,6 +201,7 @@ public class MWGApplicationConstants {
 			public static final String email = prefix + "list-email+json";
 			public static final String item = prefix + "list-item+json";
 			public static final String items = prefix + "list-items+json";
+			public static final String wakefernItems = prefix + "wakefern-list-items+json";
 		}
 
 		public static class Cart {

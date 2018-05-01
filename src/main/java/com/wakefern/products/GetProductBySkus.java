@@ -88,13 +88,15 @@ public class GetProductBySkus extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, mwgStoreID);
 		
 		StringBuilder sb = new StringBuilder();
+		String skuStr = "";
 		for(String prodSKUsStr : productSKUs) {
-			sb.append(prodSKUsStr.substring(2));
+			sb.append(prodSKUsStr);
 			sb.append("&sku=");
 		}
+		skuStr = sb.toString();
 
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.sku, sb.toString());
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.sku, skuStr.substring(0, skuStr.length()-"&sku=".length()));
 		
 		return this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetProductsBySKUs");
 	}

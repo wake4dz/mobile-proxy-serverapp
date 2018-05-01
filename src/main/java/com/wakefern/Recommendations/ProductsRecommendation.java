@@ -92,7 +92,7 @@ public class ProductsRecommendation extends BaseService {
         		ArrayList<String> skuList = new ArrayList<String>();
         		for(String upcStr : upcList){
         			try{
-        				skuList.add(upcStr);
+        				skuList.add(upcStr.substring(2));
         			} catch(Exception e) {
         				//error
         			}

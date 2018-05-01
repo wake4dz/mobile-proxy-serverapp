@@ -53,4 +53,10 @@ public final class ApplicationConstants {
 
         }
     }
+    
+    public static class Logging {
+		public static final String Logging = "/logging";
+		public static final String log = "log";
+		public static final String LoggingAuth = "wakefern-shoprite-auth";
+    }
 }

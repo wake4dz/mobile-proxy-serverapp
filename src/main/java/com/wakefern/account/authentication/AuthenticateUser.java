@@ -67,7 +67,7 @@ public class AuthenticateUser extends BaseService {
         }
         
         // Reject all versions that are less than 2.0.0. Session cop fix.
-        if (appVer < 2) {
+        if (appVer < 3) {
     			return this.createErrorResponse(new Exception(appVerErr));
         
         } else {
@@ -80,7 +80,7 @@ public class AuthenticateUser extends BaseService {
 	        
 	        try {
 	        		String responseJSON = this.mwgRequest(BaseService.ReqType.PUT, jsonData.toString(), "com.wakefern.account.authentication.AuthenticateUser");
-	        		System.out.println("com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
+	        		logger.log(Level.INFO, "com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
 	        		return this.createValidResponse(responseJSON);
 	        		
 	        } catch (Exception e) {

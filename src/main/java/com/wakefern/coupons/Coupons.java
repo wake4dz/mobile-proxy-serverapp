@@ -64,7 +64,7 @@ public class Coupons extends BaseService {
 			String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
 			endTime = System.currentTimeMillis();
-			System.out.println("[Coupons]::Total process time (ms): " + (endTime - startTime));
+			logger.log(Level.INFO, "[Coupons]::Total process time (ms): " + (endTime - startTime));
 
 			ObjectMapper mapper = new ObjectMapper();
 			CouponDAO[] couponDaoArr = mapper.readValue(coupons, CouponDAO[].class);

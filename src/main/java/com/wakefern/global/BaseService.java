@@ -91,7 +91,7 @@ public class BaseService {
             		
             		Logger logger = Logger.getLogger(endpointName);
             		logger.setLevel(Level.ALL);
-            		logger.log(Level.INFO, "[BaseService::mwgRequest]::" + this.requestPath + "::" + reqType + "::Response - ", response);
+            		logger.log(Level.INFO, "[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
             		
             		return response;
     			}
@@ -147,6 +147,8 @@ public class BaseService {
             				buildError = respBody;
             			
             			} catch (Exception exx) {
+                    		logger.log(Level.SEVERE, "[BaseService::createErrorResponse]::MWG returned an unexpected, non-JSON compliant error, resp: " 
+                    				+ respBody);
             				// The error is in an unexpected format.
             				// Respond with a default text message.
             				buildError = jsonErrStart + "MWG returned an unexpected, non-JSON compliant error." + jsonErrEnd;
@@ -275,7 +277,7 @@ public class BaseService {
 							}
 						
 						} catch (Exception ex) {
-							logger.log(Level.WARNING, "[getItemLocations]::Exception processing item locator: ", ex);
+							logger.log(Level.SEVERE, "[getItemLocations]::Exception processing item locator: " + ex.getMessage());
 							throw ex;
 						}
 
@@ -289,11 +291,9 @@ public class BaseService {
 							
 							if (areaSeqInt > 0) {
 								item.put(WakefernApplicationConstants.ItemLocator.Aisle, itemLocatorData.get(Long.parseLong(upc)).toString());
-								System.out.println("Item: " + item.get("Name") + ", Location: " + WakefernApplicationConstants.ItemLocator.Aisle);
 							
 							} else { // area_seq_num = 0, -1, or -999 - INVALID
 								item.put(WakefernApplicationConstants.ItemLocator.Aisle, WakefernApplicationConstants.ItemLocator.Other);
-								System.out.println("Item: " + item.get("Name") + ", Location: " + WakefernApplicationConstants.ItemLocator.Other);
 							}
 							
 							retvalJObj.append(WakefernApplicationConstants.ItemLocator.Items, item);
@@ -305,20 +305,18 @@ public class BaseService {
 						// Failed to get a Wakefern Authentication String.
 						// So we can't get Item Location Data.
 						// Just return the original response string.
-						System.out.println("Failed to get a Wakefern Authentication String.");
+						logger.log(Level.SEVERE, "Failed to get a Wakefern Authentication String.");
 						return origRespStr;
 					}
 				
 				} else {
-					// The Items Array is empty (no products).		
-					System.out.println("The Items Array is empty (no products).");
+					// The Items Array is empty (no products).
 					return origRespStr;
 				}
 			
 			} else {
 				// The supplied response string does not contain any Items (products).
 				// Just return the original string.
-				System.out.println("The supplied response string does not contain any Items (no products).");
 				return origRespStr;
 			}
 

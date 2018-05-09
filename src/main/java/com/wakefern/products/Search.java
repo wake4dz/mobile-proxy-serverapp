@@ -56,6 +56,10 @@ public class Search extends BaseService {
 		if (searchTerm != null && !searchTerm.isEmpty()) {
 			searchTerm = URLEncoder.encode(searchTerm, "UTF-8");//searchTerm.trim().replace(' ', '+');
 		}
+
+		if(searchFilters != null && !searchFilters.isEmpty()) {
+			searchFilters = URLEncoder.encode(searchFilters, "UTF-8");
+		}
 		
 		// Build the Map of Query String parameters
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.excluded, excludedProds);

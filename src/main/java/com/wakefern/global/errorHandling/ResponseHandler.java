@@ -21,11 +21,11 @@ public class ResponseHandler {
         String line;
         
         try {
-	        try {
+//	        try {
 	        		stream = connection.getInputStream();
-	        } catch (IOException e) {
-	        		stream = connection.getErrorStream();
-	        }
+//	        } catch (IOException e) {
+//	        		stream = connection.getErrorStream();
+//	        }
 	        
     			streamReader = new InputStreamReader(stream);
             reader = new BufferedReader(streamReader);

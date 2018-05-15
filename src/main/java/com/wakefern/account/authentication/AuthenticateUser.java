@@ -76,7 +76,7 @@ public class AuthenticateUser extends BaseService {
     			
     			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainId);
     	        
-    			jsonData.put(pwKey, StringEscapeUtils.escapeHtml4(password));
+    			jsonData.put(pwKey, password);//StringEscapeUtils.escapeHtml4(password));
 	        
 	        try {
 	        		String responseJSON = this.mwgRequest(BaseService.ReqType.PUT, jsonData.toString(), "com.wakefern.account.authentication.AuthenticateUser");

@@ -74,4 +74,9 @@ public class WakefernApplicationConstants {
         public static final String locationPath = "/itemlocator/item/location";
         public static final String authPath = "/wfctoken/auth/gentoken";
     }
+    
+    public static class UserProfile {
+    		public static final String Address = "Addresses";
+    		public static final String IsDefaultBilling = "IsDefaultBilling";
+    }
 }

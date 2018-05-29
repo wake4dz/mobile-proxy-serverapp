@@ -32,7 +32,7 @@ public class Search extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.excluded) String excludedProds,
-    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.filters) String searchFilters,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.filters) String[] searchFilters,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchTerm) String searchTerm,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skipCount,
@@ -57,13 +57,16 @@ public class Search extends BaseService {
 			searchTerm = URLEncoder.encode(searchTerm, "UTF-8");//searchTerm.trim().replace(' ', '+');
 		}
 
-		if(searchFilters != null && !searchFilters.isEmpty()) {
-			searchFilters = URLEncoder.encode(searchFilters, "UTF-8");
+		StringBuilder sb = new StringBuilder();
+		for(String searchFilter : searchFilters) {
+			sb.append(URLEncoder.encode(searchFilter, "UTF-8"));
+			sb.append("&fq=");
 		}
+		String searchFilterStr = sb.toString();
 		
 		// Build the Map of Query String parameters
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.excluded, excludedProds);
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, searchFilters);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, searchFilterStr.isEmpty() ? searchFilterStr : searchFilterStr.substring(0, searchFilterStr.length()-"&fq=".length()));
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchTerm, searchTerm);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skipCount);

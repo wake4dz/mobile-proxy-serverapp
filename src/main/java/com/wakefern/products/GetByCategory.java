@@ -7,6 +7,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Products.prefix)
@@ -34,7 +35,7 @@ public class GetByCategory extends BaseService {
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.isMember) String isMember,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.userID) String userID,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.excluded) String prodsToExclude,
-    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.filters) String prodfilters,
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.filters) String[] prodfilters,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.searchTerm) String searchTerm,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.sortOrder) String sortOrder,
@@ -53,11 +54,22 @@ public class GetByCategory extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.categoryID, categoryID);
 		
+		/**
+		 * To handle multiple query filter in request parameter &fq 
+		 * ie http://shopritemobileproddep.mybluemix.net/api/product/v7/products/category/520589/store/027F776?take=10&skip=0&fq=brand%3AArmour&fq=brand%3ABenecol
+		 */
+		StringBuilder sb = new StringBuilder();
+		for(String prodFilter : prodfilters) {
+			sb.append(URLEncoder.encode(prodFilter, "UTF-8"));
+			sb.append("&fq=");
+		}
+		String prodFilterStr = sb.toString();
+		
 		// Build the Map of Request Query parameters
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.userID, userID);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.excluded, prodsToExclude);
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, prodfilters);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, prodFilterStr.isEmpty() ? prodFilterStr : prodFilterStr.substring(0, prodFilterStr.length()-"&fq=".length()));
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchTerm, searchTerm);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.sortOrder, sortOrder);

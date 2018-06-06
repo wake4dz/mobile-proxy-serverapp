@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wakefern.dao.coupon.CouponDAO;
 import com.wakefern.dao.user.Address;
+import com.wakefern.dao.user.PhoneNumber;
 import com.wakefern.dao.user.UserProfileDAO;
 import com.wakefern.global.BaseService;
 import com.wakefern.mywebgrocer.models.MWGHeader;
@@ -84,6 +85,9 @@ public class GetProfile extends BaseService {
     			ObjectMapper mapper = new ObjectMapper();
     			UserProfileDAO userProfileDAO = mapper.readValue(resp, UserProfileDAO.class);
 			List<Address> addressList = userProfileDAO.getAddresses();
+			List<PhoneNumber> phoneNoList = userProfileDAO.getPhoneNumbers();
+			boolean updateProfileObj = false;
+			
 			if(addressList != null && !addressList.isEmpty()) {
 				Address firstAddr = addressList.get(0); // get the first address
 				for(Address addr : addressList) {
@@ -93,8 +97,29 @@ public class GetProfile extends BaseService {
 				}
 				// if no primary addr found, set the first addr to be one & return it.
 				firstAddr.setIsDefaultBilling(true);
+    				logger.log(Level.SEVERE, "[assignPrimaryAddress]::No primary address " + userID);
+				updateProfileObj = true;
+			} else {
+				/**
+				 * To fix scenario where user has no address, address array object is empty,
+				 * in this case, assign dummy primary address to remediate the situation
+				 */
+				Address dummyAddr = new Address();
+				dummyAddr.setIsDefaultBilling(true);
+				addressList.add(dummyAddr);
+				logger.log(Level.SEVERE, "[assignPrimaryAddress]::empty address, assign dummy one " + userID);
+				updateProfileObj = true;
+			}
+			
+			// Incase the phone number is not there, assign
+			if(phoneNoList != null && phoneNoList.isEmpty()) {
+				phoneNoList.add(new PhoneNumber());
+    				logger.log(Level.SEVERE, "[assignPrimaryAddress]::No phone no " + userID);
+    				updateProfileObj = true;
+			}
+			
+			if(updateProfileObj) {
 	    			ObjectWriter writer = mapper.writer();
-	    			logger.log(Level.SEVERE, "[assignPrimaryAddress]::No primary address" + userID);
 	    			return writer.writeValueAsString(userProfileDAO);
 			}
     		} catch(Exception e) {

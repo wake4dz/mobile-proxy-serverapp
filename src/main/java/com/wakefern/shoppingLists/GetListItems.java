@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class GetListItems extends BaseService {
-
-	private final static Logger logger = Logger.getLogger("GetListItems");
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -74,7 +72,6 @@ public class GetListItems extends BaseService {
             // The Store ID being passed here, is Wakefern's version.
             jsonResponse = this.getItemLocations(jsonResponse, storeID);
 
-            logger.log(Level.INFO, "Cart Response: "+jsonResponse);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

@@ -300,6 +300,7 @@ public class MWGApplicationConstants {
 				public static final String saleOnlyProds = "saleOnly";
 				public static final String userID = "userId";
 				public static final String storeID = "storeId";
+				public static final String itemLocator = "il";
 				public static final String excluded = "exclude"; // Products to exclude from the result set
 				public static final String sortOrder = "sort"; // Sort results by Brand, Price, or UnitPrice
 				public static final String searchBySound = "sound"; // What does this do? Maybe if you yell your request

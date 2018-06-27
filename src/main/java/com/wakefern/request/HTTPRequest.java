@@ -457,6 +457,8 @@ public class HTTPRequest {
 				case 201:
 				case 204:
 					return status + " Success";
+				case 205:
+					return status + " - "+connection.getResponseMessage();
 				default:
 					throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
 			}

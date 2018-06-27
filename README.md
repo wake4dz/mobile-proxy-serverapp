@@ -22,4 +22,8 @@ mvn install
 cf push <appname> -p target/JavaRESTAPI.war
 ```
 
+### To add additional mapping to the current app server
+####Run this cmd to map & extend resources of the current active app server.
+cf map-route srdepmobileapp mybluemix.net --hostname srdepmobile-secondary
+
 Enjoy!

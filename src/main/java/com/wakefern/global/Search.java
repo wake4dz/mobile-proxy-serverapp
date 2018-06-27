@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Search extends BaseService {
 
     public String search(String partialUrl, String take, String skip, String fq, String sort, String isMember, String authToken) throws Exception {
-        this.token = authToken;
+        this.requestToken = authToken;
 
         int intTake = Integer.parseInt(take);
         int initSkip = Integer.parseInt(skip);
@@ -31,57 +31,59 @@ public class Search extends BaseService {
         }
 
         String[] jsonArray = new String[intTake + 1];
-        for(int i = 0; i < intTake; i++){
-            this.path = partialUrl + ApplicationConstants.StringConstants.takeAmp
-                    + ApplicationConstants.StringConstants.twenty + ApplicationConstants.StringConstants.skip
+        
+        for (int i = 0; i < intTake; i++) {    
+        		this.requestPath = partialUrl 
+        				+ ApplicationConstants.StringConstants.takeAmp
+                    + "20" + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * i) + initSkip );
 
             if(!sort.isEmpty()){// != ""){
-                this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
+                this.requestPath = this.requestPath + ApplicationConstants.StringConstants.sort + sort;
             }
 
             if(!fq.isEmpty()){// != ""){
-                this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+                this.requestPath = this.requestPath + ApplicationConstants.StringConstants.fq + fq;
             }
 
             if(!isMember.isEmpty()){
-                this.path += ApplicationConstants.StringConstants.isMemberAmp;
+                this.requestPath += ApplicationConstants.StringConstants.isMemberAmp;
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
-            secondMapping.setMapping(this);
+            secondMapping.setGetMapping(this);
 
-            String result = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
             jsonArray[i] = result;
         }
 
         if(finalLoop != 0) {
-            this.path = partialUrl + ApplicationConstants.StringConstants.takeAmp
+            this.requestPath = partialUrl + ApplicationConstants.StringConstants.takeAmp
                     + Integer.toString(finalLoop) + ApplicationConstants.StringConstants.skip
                     + String.valueOf((20 * intTake) + initSkip);
 
             if(!sort.isEmpty()){// != ""){
-                this.path = this.path + ApplicationConstants.StringConstants.sort + sort;
+                this.requestPath = this.requestPath + ApplicationConstants.StringConstants.sort + sort;
             }
 
             if(!fq.isEmpty()){// != ""){
-                this.path = this.path + ApplicationConstants.StringConstants.fq + fq;
+                this.requestPath = this.requestPath + ApplicationConstants.StringConstants.fq + fq;
             }
 
             if(!isMember.isEmpty()){
-                this.path += ApplicationConstants.StringConstants.isMemberAmp;
+                this.requestPath += ApplicationConstants.StringConstants.isMemberAmp;
             }
 
             ServiceMappings secondMapping = new ServiceMappings();
-            secondMapping.setMapping(this);
+            secondMapping.setGetMapping(this);
 
-            String result = HTTPRequest.executeGetJSON(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
+            String result = HTTPRequest.executeGet(secondMapping.getPath(), secondMapping.getgenericHeader(), 0);
             jsonArray[intTake] = result;
         }
         return Arrays.deepToString(jsonArray);
     }
 
     public Search(){
-        this.serviceType = new MWGHeader();
+        this.requestHeader = new MWGHeader();
     }
 }

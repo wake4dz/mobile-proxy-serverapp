@@ -60,13 +60,6 @@ There's two ways you can go about testing:
 - run mobile application
 - postman
 
-### Local Mobile
-
-TODO
-
-### Postman
-
-TODO
 
 ## Deploy this application
 
@@ -90,3 +83,15 @@ cf map-route srdepmobileapp mybluemix.net --hostname srdepmobile-secondary
 Enjoy! 
 
 [Help](https://secure.shoprite.com/User/Register/3601?application=UMA)
+
+## Reports
+
+We are utilizing [spotbug](https://spotbugs.github.io) for static analyis. This
+report will be generated each commit into Jenkins so we can track progress over
+time.
+
+In order to generate it yourself, the easiest way is to run a the maven site
+command and use the run lifecyle. This will generate the site for the project,
+and then host it on a Jetty webserver on localhost:8080. 
+
+TODO: GIF THIS

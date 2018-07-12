@@ -1,16 +1,21 @@
 package com.wakefern.shoppingLists;
 
-import com.wakefern.global.BaseService;
-import com.wakefern.mywebgrocer.models.MWGHeader;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import com.wakefern.global.BaseService;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.mywebgrocer.models.MWGHeader;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class GetListItems extends BaseService {
@@ -60,7 +65,7 @@ public class GetListItems extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.categoryMap, catMap);
 		if(!fd.isEmpty()) { 
-			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.wakefernItems, MWGApplicationConstants.Headers.generic, sessionToken);
+			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.generic, sessionToken);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.filters, fd);
 		}
 

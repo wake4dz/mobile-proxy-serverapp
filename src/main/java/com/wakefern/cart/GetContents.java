@@ -37,11 +37,12 @@ public class GetContents extends BaseService {
 
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String wfStoreID,
     		@DefaultValue("") @QueryParam(MWGApplicationConstants.Requests.Params.Query.itemLocator) String itemLocator,
-    		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
+
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Cart.contents, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(accept, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters

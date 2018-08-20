@@ -143,10 +143,7 @@ public class MWGApplicationConstants {
 		//
 		// ShopRite Prod Mobile or other keywords: https://mobileapi.shoprite.com/api
 		// ShopRite Prod Web : https://api.shoprite.com/api
-		System.out.println("targetProdURL before: "+targetProdURL);
 		targetProdURL = (targetProdURL != null && targetProdURL.equalsIgnoreCase(mwgWeb)) ? shopRiteProdWeb : shopRiteProd;
-		System.out.println("targetProdURL after: "+targetProdURL);
-		
 
 		return targetProdURL;
 	}
@@ -159,6 +156,7 @@ public class MWGApplicationConstants {
 
 		public static class Params {
 			public static final String auth = "Authorization";
+			public static final String accept = "Accept";
 		}
 
 		public static class Account {
@@ -234,7 +232,6 @@ public class MWGApplicationConstants {
 			public static final String mergeGuest = prefix + "user-authenticated+json";
 			public static final String email = prefix + "cart-email+json";
 			public static final String contents = prefix + "grocery-list+json";
-			public static final String simpleContents = prefix + "grocery-list-summary+json";
 			public static final String simpleItem = prefix + "simple-cart-item+json";
 			public static final String itemsV2 = prefix + "cart-items-v2+json";
 			public static final String item = prefix + "cart-item+json";

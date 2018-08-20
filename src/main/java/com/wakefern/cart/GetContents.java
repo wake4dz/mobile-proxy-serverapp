@@ -59,7 +59,7 @@ public class GetContents extends BaseService {
             			logger.log(Level.INFO, "Cart Response: "+jsonResponse);
             		} else { // log the cart resp anyway, since not many user select 'In-Store Checklist' option
                 		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
-            			logger.log(Level.INFO, "Getting In-Store Checklist");
+            			logger.log(Level.INFO, "Getting In-Store Checklist :"+userID);
             		}
             }
 

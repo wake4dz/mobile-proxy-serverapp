@@ -4,6 +4,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 public class MWGApplicationConstants {
 	private static final String shopRiteProd = "https://mobileapi.shoprite.com/api"; // ShopRite Production
+	private static final String shopRiteProdWeb = "https://api.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
 	private static final String shopRiteStage = "https://mobileapi-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
@@ -20,6 +21,10 @@ public class MWGApplicationConstants {
 	private static final String srStage = "ShopRiteStage";
 	private static final String srProd = "ShopRiteProd";
 	private static final String srDev = "ShopRiteDev";
+	
+	//By default, mobile is calling mobileapi.shoprite.com, when value 'web' is specified
+	//	in vcap env var 'url', mobile will call api.shoprite.com
+	private static final String mwgWeb = "web";
 
 	/**
 	 * Return the appropriate Base URL.
@@ -42,7 +47,7 @@ public class MWGApplicationConstants {
 			baseURL = shopRiteStage;
 			break;
 		case srProd:
-			baseURL = shopRiteProd;
+			baseURL = getTargetProdURL();
 			break;
 		case srDev:
 			baseURL = shopRiteDev;
@@ -123,6 +128,27 @@ public class MWGApplicationConstants {
 		targetAPI = (targetAPI == null) ? srStage : targetAPI;
 
 		return targetAPI;
+	}
+	
+	/**
+	 * Check the Bluemix Environment Variable, indicating which MWG API this
+	 * instance of the Wakefern Java API should be talking to.
+	 * 
+	 * @return String
+	 */
+	private static String getTargetProdURL() {
+		String targetProdURL = java.lang.System.getenv("url");
+
+		// Assigning mwg production api for cloud server to call..
+		//
+		// ShopRite Prod Mobile or other keywords: https://mobileapi.shoprite.com/api
+		// ShopRite Prod Web : https://api.shoprite.com/api
+		System.out.println("targetProdURL before: "+targetProdURL);
+		targetProdURL = (targetProdURL != null && targetProdURL.equalsIgnoreCase(mwgWeb)) ? shopRiteProdWeb : shopRiteProd;
+		System.out.println("targetProdURL after: "+targetProdURL);
+		
+
+		return targetProdURL;
 	}
 
 	public static class Headers {
@@ -208,6 +234,7 @@ public class MWGApplicationConstants {
 			public static final String mergeGuest = prefix + "user-authenticated+json";
 			public static final String email = prefix + "cart-email+json";
 			public static final String contents = prefix + "grocery-list+json";
+			public static final String simpleContents = prefix + "grocery-list-summary+json";
 			public static final String simpleItem = prefix + "simple-cart-item+json";
 			public static final String itemsV2 = prefix + "cart-items-v2+json";
 			public static final String item = prefix + "cart-item+json";

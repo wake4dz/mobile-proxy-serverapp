@@ -8,9 +8,14 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class CreateOrders extends BaseService {
+	
+	private int timeout = 40000;
+    private final static Logger logger = Logger.getLogger("CreateOrders");
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -33,6 +38,8 @@ public class CreateOrders extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
     		String jsonString
 	) throws Exception, IOException {
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
         		
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Checkout.orders, sessionToken);
 		this.requestParams = new HashMap<String, String>();
@@ -42,10 +49,15 @@ public class CreateOrders extends BaseService {
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 		
         try {
+        		this.setTimeout(timeout);
             String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonString, "package com.wakefern.checkout.orders.CreateOrders");
+			endTime = System.currentTimeMillis();
+    			logger.log(Level.INFO, "[CreateOrders::getResponse]::processing time: "+(endTime - startTime)+" "+userID+" "+mwgStoreID);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
+        		endTime = System.currentTimeMillis();
+        		logger.log(Level.SEVERE, "[CreateOrders::getResponse]::Error placing order: "+(endTime - startTime)+" "+userID+" "+mwgStoreID+" "+e.getMessage());
             return this.createErrorResponse(e);
         }
     }

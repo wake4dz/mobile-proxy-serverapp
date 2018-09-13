@@ -133,7 +133,7 @@ public class HTTPRequest {
 	}
 
 	/**
-	 * Trigger HTTP POST request.
+	 * Trigger HTTP POST request, with timeout=30 seconds. 
 	 * 
 	 * @param requestURL
 	 * @param requestBody
@@ -142,6 +142,22 @@ public class HTTPRequest {
 	 * @throws Exception
 	 */
 	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
+		return executePost(requestURL, requestBody, requestHeaders, timeOutInt);
+	}
+	
+
+	/**
+	 * Trigger HTTP POST request, with timeout as input, currently being used by create order api.
+	 * 	The create order api, in some cases, requires more than 30 seconds to return success response from MWG;
+	 * 	therefore setting timeout = 40 seconds for create order api
+	 * 
+	 * @param requestURL
+	 * @param requestBody
+	 * @param requestHeaders
+	 * @return
+	 * @throws Exception
+	 */
+	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeout) throws Exception {
 
 		HttpURLConnection connection = null;
 
@@ -157,9 +173,9 @@ public class HTTPRequest {
 				connection.setUseCaches(false);
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
-				connection.setConnectTimeout(timeOutInt);
-				connection.setReadTimeout(timeOutInt);
-
+				connection.setConnectTimeout(timeout);
+				connection.setReadTimeout(timeout);
+				
 				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
 					connection.addRequestProperty(entry.getKey(), entry.getValue());
 				}

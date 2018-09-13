@@ -25,11 +25,16 @@ public class BaseService {
     protected Header requestHeader = null;
     protected String requestPath   = null;
     protected String requestToken  = null;
+    private int timeout = 30000; //default
     
     protected static enum ReqType { GET, POST, PUT, DELETE };
     
     private final static Logger logger = Logger.getLogger("com.wakefern.global.BaseService");
     
+    protected void setTimeout(int timeout) {
+    		this.timeout = timeout;
+    }
+
     /**
      * Trigger a request to the MyWebGrocer REST API.
      * 
@@ -76,7 +81,7 @@ public class BaseService {
 	        				break;
 	        			case POST :
 	        				reqBody  = sm.getGenericBody();
-	        				response = HTTPRequest.executePost(reqURL, reqBody, reqHead);
+	        				response = HTTPRequest.executePost(reqURL, reqBody, reqHead, this.timeout);
 	        				break;
 	        			case PUT :
 	        				reqBody  = sm.getGenericBody();

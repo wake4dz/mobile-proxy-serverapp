@@ -37,11 +37,12 @@ public class GetContents extends BaseService {
 
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String wfStoreID,
     		@DefaultValue("") @QueryParam(MWGApplicationConstants.Requests.Params.Query.itemLocator) String itemLocator,
-    		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
+
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept
 	) throws Exception, IOException {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Cart.contents, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestHeader = new MWGHeader(accept, MWGApplicationConstants.Headers.json, sessionToken);
 		this.requestParams = new HashMap<String, String>();
 		
 		// Build the Map of Request Path parameters
@@ -59,7 +60,7 @@ public class GetContents extends BaseService {
             			logger.log(Level.INFO, "Cart Response: "+jsonResponse);
             		} else { // log the cart resp anyway, since not many user select 'In-Store Checklist' option
                 		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
-            			logger.log(Level.INFO, "Getting In-Store Checklist");
+            			logger.log(Level.INFO, "Getting In-Store Checklist :"+userID);
             		}
             }
 

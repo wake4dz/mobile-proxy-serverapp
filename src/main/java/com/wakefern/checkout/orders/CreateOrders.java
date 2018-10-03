@@ -52,7 +52,7 @@ public class CreateOrders extends BaseService {
         		this.setTimeout(timeout);
             String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonString, "package com.wakefern.checkout.orders.CreateOrders");
 			endTime = System.currentTimeMillis();
-    			logger.log(Level.INFO, "[CreateOrders::getResponse]::processing time: "+(endTime - startTime)+" "+userID+" "+mwgStoreID);
+    			logger.log(Level.INFO, "[CreateOrders::getResponse]::processing time: "+(endTime - startTime)+"-"+mwgStoreID+"-"+jsonResponse);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

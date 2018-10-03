@@ -299,6 +299,7 @@ public class MWGApplicationConstants {
 				public static final String mwgStoreID = "pseudoStoreId";
 				public static final String districtID = "districtId";
 				public static final String fulfillType = "fulfillment"; // As in: 'delivery' or 'pickup'
+				public static final String promoCode = "promoCode";
 			}
 
 			// Request Parameters that are part of the URL's query string.
@@ -535,6 +536,7 @@ public class MWGApplicationConstants {
 			public static final String prefix = "/checkout/v7";
 
 			public static final String promoCodes = chainsID + storesID + usersID + "/promocodes";
+			public static final String promoCodeDelete = promoCodes + "/{" + Params.Path.promoCode + "}";
 
 			public static final String fulfillOpts = fflmnts + mwgStoreID;
 			public static final String deliveryInfo = fulfillOpts + deliveryZip;

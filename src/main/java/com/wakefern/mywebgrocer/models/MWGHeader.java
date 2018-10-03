@@ -29,6 +29,20 @@ public class MWGHeader extends Header {
 
 		setAllMaps(authMap);		
 	}
+
+	/**
+	 * Construct a MyWebGrocer Header pre-populated with header data for an upcoming request.
+	 * 
+	 * @param accepts
+	 * @param contentType
+	 * @param sessionToken
+	 */
+	public MWGHeader(String sessionToken) {
+		Map<String, String> authMap = new HashMap<>();
+		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
+
+		setAllMaps(authMap);		
+	}
 	
 	/**
 	 * Construct an empty MyWebGrocer Header.

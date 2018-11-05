@@ -14,10 +14,15 @@ pipeline {
             }
         }
 
-        stage ('Build') {
+        stage ('Build') { 
             steps {
-                echo 'This is a minimal pipeline.'
+                sh 'mvn -B -DskipTests clean package' 
             }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/**/*.war', fingerprint: true
         }
     }
 }

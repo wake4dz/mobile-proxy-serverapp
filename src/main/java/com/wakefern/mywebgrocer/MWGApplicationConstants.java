@@ -6,7 +6,7 @@ public class MWGApplicationConstants {
 	private static final String shopRiteProd = "https://mobileapi.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteProdWeb = "https://api.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
-	private static final String shopRiteStage = "https://mobileapi-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
+	private static final String shopRiteStage = "https://api-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
 	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer
 																											// Staging
@@ -115,7 +115,7 @@ public class MWGApplicationConstants {
 	 * 
 	 * @return String
 	 */
-	private static String getTargetAPI() {
+	public static String getTargetAPI() {
 		String targetAPI = java.lang.System.getenv("chain");
 
 		// On a local Dev server, the environment variable won't exist unless you have
@@ -157,6 +157,8 @@ public class MWGApplicationConstants {
 		public static class Params {
 			public static final String auth = "Authorization";
 			public static final String accept = "Accept";
+      
+			public static final String contentType = "Content-Type";
 		}
 
 		public static class Account {
@@ -576,5 +578,30 @@ public class MWGApplicationConstants {
 			public static final String Points = "/rewards/api/v1/points";
 			public static final String baseURL = "https://wfcapi.shoprite.com";
 		}
+		
+	}
+	
+	public static class Log {
+		public static final String log = "/log";
+		
+		public static final String email = log + "/email";
+		public static final String status = "/status";
+		public static final String address = "/address" + "/{addresses}";
+		public static final String updateSetting = "/updateSettings";
+		public static final String trackUserId = "/trackUserId/{userIds}";
+		
+		public static final String error = log + "/error";
+		public static final String errorList = "/list";
+		public static final String errorReset = "/reset";
+		
+		public static final String logger = log + "/logger";
+		public static final String changeLevel = "/level/{logLevel}";
+		public static final String getLevel = "/level";
+		public static final String appenderList = "/appender/list";
+		
+		public static final String release = log + "/release";
+		public static final String releaseLevel = "/level";
+		
+		
 	}
 }

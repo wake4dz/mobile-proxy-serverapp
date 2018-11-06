@@ -1,8 +1,6 @@
 package com.wakefern.account.authentication;
 
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -12,17 +10,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.text.StringEscapeUtils;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgApiWarnTime;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 @Path(MWGApplicationConstants.Requests.Account.prefix)
 public class AuthenticateUser extends BaseService {
-	
-	private final static Logger logger = Logger.getLogger("AuthorizationAuthenticate");
+
+	private final static Logger logger = Logger.getLogger(AuthenticateUser.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -42,17 +43,21 @@ public class AuthenticateUser extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainId, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		String jsonBody) {    
     		
-    		String emailKey  = "Email";
-    		String pwKey     = "Password";
-    		String appVerKey = "AppVersion";
-    		String appVerErr = "501, Please update the app to the latest version.";
+    	long startTime, endTime, actualTime;
+    	
+		String emailKey  = "Email";
+		String pwKey     = "Password";
+		String appVerKey = "AppVersion";
+		String appVerErr = "501, Please update the app to the latest version.";
 
-    		// Here in Wakefern API Land, we don't care if the Session Token supplied by the UI is valid or not.
-    		// Simply send it to MWG and let them figure it out.
-    		// MWG's response will be passed along to the UI, which will deal with it accordingly.
-    		this.requestToken = sessionToken;
+		// Here in Wakefern API Land, we don't care if the Session Token supplied by the UI is valid or not.
+		// Simply send it to MWG and let them figure it out.
+		// MWG's response will be passed along to the UI, which will deal with it accordingly.
+		this.requestToken = sessionToken;
         
         JSONObject jsonData = new JSONObject(jsonBody);
         
@@ -71,21 +76,36 @@ public class AuthenticateUser extends BaseService {
     			return this.createErrorResponse(new Exception(appVerErr));
         
         } else {
-            this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Account.login, sessionToken);
-    			this.requestParams = new HashMap<String, String>();    			
-    			
-    			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainId);
-    	        
-    			jsonData.put(pwKey, password);//StringEscapeUtils.escapeHtml4(password));
+        	this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Account.login, sessionToken);
+			this.requestParams = new HashMap<String, String>();    			
+			
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainId);
+	        
+			jsonData.put(pwKey, password);//StringEscapeUtils.escapeHtml4(password));
 	        
 	        try {
-	        		String responseJSON = this.mwgRequest(BaseService.ReqType.PUT, jsonData.toString(), "com.wakefern.account.authentication.AuthenticateUser");
-	        		logger.log(Level.INFO, "com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
-	        		return this.createValidResponse(responseJSON);
+	        	startTime = System.currentTimeMillis();
+        		String responseJSON = this.mwgRequest(BaseService.ReqType.PUT, jsonData.toString(), "com.wakefern.account.authentication.AuthenticateUser");
+                // for warning any API call time exceeding its own upper limited time defined in mwgApiWarnTime.java
+    			endTime = System.currentTimeMillis();
+    			actualTime = endTime - startTime;
+    			if (actualTime > MwgApiWarnTime.AUTHENTICATION_AUTHENTICATE_USER.getWarnTime()) {
+    				logger.warn("The API call took " + actualTime + " ms to process the request, the warn time is " +
+    						MwgApiWarnTime.AUTHENTICATION_AUTHENTICATE_USER.getWarnTime() + " ms.");
+    			}
+        		logger.debug("com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
+        		return this.createValidResponse(responseJSON);
 	        		
 	        } catch (Exception e) {
-	        		logger.log(Level.SEVERE, "[getInfo]::Exception authenticate user: {0}, msg: {1}", new Object[]{userEmail, e.toString()});
-	            return this.createErrorResponse(e);
+  
+	        	LogUtil.addErrorMaps(e, MwgErrorType.AUTHENTICATION_AUTHENTICATE_USER);
+	        	
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "userEmail", userEmail, 
+	        			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
+	        	
+	    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+	    		
+	            return this.createErrorResponse(errorData, e);
 	        }
         }
     }   

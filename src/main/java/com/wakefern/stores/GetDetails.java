@@ -1,17 +1,23 @@
 package com.wakefern.stores;
 
 import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Stores.prefix)
 public class GetDetails extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger(GetDetails.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -31,14 +37,24 @@ public class GetDetails extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainId, 
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeId,
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) throws Exception, IOException {
+    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) {
         
         try {
             String jsonResponse = makeRequest(chainId, storeId, sessionToken);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e){
-            return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_USER_DASHBOARD);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainID", chainId, 
+        		 "storeID", storeId, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
+        	
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+
+            return this.createErrorResponse(errorData, e);
         }
     }
 

@@ -5,10 +5,14 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class GetDuplicateListItemLimit extends BaseService {
+	
+	//private final static Logger logger = Logger.getLogger(GetDuplicateListItemLimit.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -27,9 +31,11 @@ public class GetDuplicateListItemLimit extends BaseService {
     @Path(MWGApplicationConstants.Requests.ShoppingList.copyLimit)
     
 	public Response getResponse(    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	
-	) throws Exception, IOException {
+	) {
 		
 		// This is a custom endpoint.
 		// All it does is return the default cap placed on the number of records that the CreateDuplicate endpoint will copy from one list to the next.

@@ -1,12 +1,16 @@
 package com.wakefern.products;
 
 import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 
 /**
@@ -15,6 +19,8 @@ import java.util.HashMap;
  */
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetCircularItemProducts extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger(GetCircularItemProducts.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -41,29 +47,39 @@ public class GetCircularItemProducts extends BaseService {
 		@DefaultValue("0")    @QueryParam(MWGApplicationConstants.Requests.Params.Query.skip) String skip,
 		@DefaultValue("9999") @QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
 		
+		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
 		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	
-	) throws Exception, IOException {
-        		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.circItemProds, MWGApplicationConstants.Headers.json, sessionToken);
-		this.requestParams = new HashMap<String, String>();
-		this.queryParams   = new HashMap<String, String>();
-		
-		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.circItemID, circItemID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, mwgStoreID);
-		
-		// Build the Map of Query String parameters
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
-		
-        try {
+	) {
+        try {	
+			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.circItemProds, MWGApplicationConstants.Headers.json, sessionToken);
+			this.requestParams = new HashMap<String, String>();
+			this.queryParams   = new HashMap<String, String>();
+			
+			// Build the Map of Request Path parameters
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.circItemID, circItemID);
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, mwgStoreID);
+			
+			// Build the Map of Query String parameters
+			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
+			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
+			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
+			
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetCircularItemProducts");
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
-            return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_CIRCULAR_ITEM_PRODUCTS);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        			"mwgStoreID", mwgStoreID, 
+        			"isMember", isMember, "circItemID", circItemID, "skip", skip, "take", take, 
+        			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
+
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+    		
+            return this.createErrorResponse(errorData, e);
         }
     }
 }

@@ -2,7 +2,7 @@
  * This file provides css styles.
  */
 body, html {
-	background-color: #3b4b54;
+	background-color: #3b4b54; 
 	width: 100%;
 	height: 100%;
 	margin: 0 auto;
@@ -12,6 +12,7 @@ body, html {
 	color: #ffffff;
 	font-weight: 100;
 	font-size: 15px;
+	text-align: center;
 }
 
 a {
@@ -20,7 +21,16 @@ a {
 
 h1 {
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 3em;
+	padding-left: 10%;
+	padding-right: 10%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+h3 {
+	font-weight: bold;
+	font-size: 1em;
 	padding-left: 10%;
 	padding-right: 10%;
 	margin: 0 auto;

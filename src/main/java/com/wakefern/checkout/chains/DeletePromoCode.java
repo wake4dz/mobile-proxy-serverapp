@@ -1,17 +1,23 @@
 package com.wakefern.checkout.chains;
 
 import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class DeletePromoCode extends BaseService {
 	
+	private final static Logger logger = Logger.getLogger(CreatePromoCode.class);
 	//-------------------------------------------------------------------------
 	// Public Methods
 	//-------------------------------------------------------------------------
@@ -39,22 +45,40 @@ public class DeletePromoCode extends BaseService {
     		String jsonData
     		
 	) throws Exception, IOException {
-        		
-		this.requestHeader = new MWGHeader(sessionToken);
-		this.requestParams = new HashMap<String, String>();
+        try {	
+			this.requestHeader = new MWGHeader(sessionToken);
+			this.requestParams = new HashMap<String, String>();
+			
+			// Build the Map of Request Path parameters
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.promoCode, promoCode);
 		
-		// Build the Map of Request Path parameters
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.promoCode, promoCode);
-		
-        try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, jsonData, "com.wakefern.checkout.chains.DeletePromoCode");
+            
+			if(LogUtil.isUserTrackOn) {
+				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
+		        	String trackData = LogUtil.getRequestData("storeId", storeID, 
+		        			"chainID", chainID, "userID", userID, 
+		        			"sessionToken", sessionToken, "accept", null, "contentType", null, "httpBody", jsonData);
+					logger.info("Tracking data for " + userID + ": " + trackData + "; jsonResponse: " + jsonResponse);
+				}
+			}
+			
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
-            return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.CHAINS_DELETE_PROMO_CODE);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        			"chainID", chainID, "userID", userID, 
+        			"sessionToken", sessionToken, "accept", null, "contentType", null, "httpBody", jsonData );
+        	
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+
+            return this.createErrorResponse(errorData, e);
+
         }
     }
 }

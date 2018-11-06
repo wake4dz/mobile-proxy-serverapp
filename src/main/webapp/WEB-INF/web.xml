@@ -8,8 +8,14 @@
     <servlet-name>javax.ws.rs.core.Application</servlet-name>
     <load-on-startup>1</load-on-startup>
   </servlet>
+   <listener>
+    <listener-class>com.wakefern.logging.AppStartup</listener-class>
+  </listener>
   <servlet-mapping>
     <servlet-name>javax.ws.rs.core.Application</servlet-name>
     <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>

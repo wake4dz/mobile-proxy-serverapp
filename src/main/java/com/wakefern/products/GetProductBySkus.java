@@ -1,11 +1,9 @@
 package com.wakefern.products;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,18 +14,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wakefern.dao.sku.Item;
 import com.wakefern.dao.sku.ProductSKUsDAO;
 import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetProductBySkus extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger("GetProductBySkus");
+	private final static Logger logger = Logger.getLogger(GetProductBySkus.class);
+
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -47,41 +50,50 @@ public class GetProductBySkus extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String mwgStoreID,
     		@QueryParam(MWGApplicationConstants.Requests.Params.Path.productSKU) ArrayList<String> skus,
+    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
-	) throws Exception, IOException {
+	) {
         try {
-    			/**
-    			 * MWG only allows max of 128 SKUs request for product detail, if # of sku exceeds 128, cut it into 2 and 
-    			 */
-    			ObjectMapper mapper = new ObjectMapper();
-    			List<List<String>> listOfSkuList= new ArrayList<List<String>>();
+			/**
+			 * MWG only allows max of 128 SKUs request for product detail, if # of sku exceeds 128, cut it into 2 and 
+			 */
+			ObjectMapper mapper = new ObjectMapper();
+			List<List<String>> listOfSkuList= new ArrayList<List<String>>();
 
-    			if(skus.size() > 128) {
-    				logger.log(Level.INFO, "SKU size more than 128: "+skus.toString());
-    			}
-    			//divide sku list into 127 sku batch
-    			getSkusList(listOfSkuList, skus);
+			if(skus.size() > 128) {
+				logger.debug("SKU size more than 128: "+skus.toString());
+			}
+			//divide sku list into 127 sku batch
+			getSkusList(listOfSkuList, skus);
 
-    			String jsonResponse = makeRequest(mwgStoreID, listOfSkuList.get(0), sessionToken);
-    			ProductSKUsDAO primSkusDao = mapper.readValue(jsonResponse, ProductSKUsDAO.class);
-    			
-    			for(int i = 1; i< listOfSkuList.size(); i++) {
-        			jsonResponse = makeRequest(mwgStoreID, listOfSkuList.get(i), sessionToken);
-        			ProductSKUsDAO secSkusDao = mapper.readValue(jsonResponse, ProductSKUsDAO.class);
-        			for(Item item: secSkusDao.getItems()) {
-        				primSkusDao.getItems().add(item);
-        			}
-        			primSkusDao.setItemCount(primSkusDao.getItemCount()+secSkusDao.getItemCount());
+			String jsonResponse = makeRequest(mwgStoreID, listOfSkuList.get(0), sessionToken);
+			ProductSKUsDAO primSkusDao = mapper.readValue(jsonResponse, ProductSKUsDAO.class);
+			
+			for(int i = 1; i< listOfSkuList.size(); i++) {
+    			jsonResponse = makeRequest(mwgStoreID, listOfSkuList.get(i), sessionToken);
+    			ProductSKUsDAO secSkusDao = mapper.readValue(jsonResponse, ProductSKUsDAO.class);
+    			for(Item item: secSkusDao.getItems()) {
+    				primSkusDao.getItems().add(item);
     			}
-    			
-    			ObjectWriter writer = mapper.writer();
-    			jsonResponse = writer.writeValueAsString(primSkusDao);
+    			primSkusDao.setItemCount(primSkusDao.getItemCount()+secSkusDao.getItemCount());
+			}
+			
+			ObjectWriter writer = mapper.writer();
+			jsonResponse = writer.writeValueAsString(primSkusDao);
         			
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
-			logger.log(Level.SEVERE, "Exception getting multiple SKU: "+e.getMessage());
-            return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_PRODUCT_BY_SKUS);
+        									
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "mwgStoreId", mwgStoreID, 
+        			"skus", skus, "sessionToken", sessionToken, "accept", accept, "contentType", contentType);
+
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+    		
+            return this.createErrorResponse(errorData, e);
         }
     }
 	

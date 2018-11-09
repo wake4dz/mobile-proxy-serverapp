@@ -19,6 +19,13 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
+
+        stage ('Site') {
+            steps {
+                sh 'mvn site'
+            }
+        }
+        
     }
     post {
         always {

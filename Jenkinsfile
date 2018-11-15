@@ -30,6 +30,14 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'target/**/*.war', fingerprint: true
+             publishHTML (target: [
+              allowMissing: false,
+              alwaysLinkToLastBuild: false,
+              keepAll: true,
+              reportDir: 'target',
+              reportFiles: 'index.html',
+              reportName: "Maven Sites"
+            ])
         }
     }
 }

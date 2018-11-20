@@ -531,7 +531,12 @@ public class HTTPRequest {
 	 * @return
 	 */
 	private static String getErrorMsg(String msg, String url) {
-		return msg + ", url: " + url; 
+		if (msg != null) {
+			// remove the new line marker
+			return msg.trim() + ", url: " + url;
+		} else {
+			return "a null" + ", url: " + url; 
+		}
 	}
 	   
 	/**

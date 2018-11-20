@@ -408,7 +408,7 @@ public class BaseService {
 			// 2018-11-06 Error case: if a Sku is not found, then it blew up. Maybe because a user find a product from other store.
 			//logger.error("[getItemLocations]::Exception processing item locator: ", e);
 			logger.error("[getItemLocations]::Exception processing item locator. The error message: " + LogUtil.getExceptionMessage(e) 
-							+ ", exception location: " +  LogUtil.getRevelantStackTrace(e));
+							+ ", exception location: " +  LogUtil.getRelevantStackTrace(e));
 			
 			return origRespStr;
 		}

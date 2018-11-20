@@ -61,7 +61,7 @@ public class GetCircularsDetails extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CIRCULARS_GET_CIRCULARS_DETAILS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeID", storeID, "chainID", chainID, "runState", runState, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	

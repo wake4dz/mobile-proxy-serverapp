@@ -61,7 +61,7 @@ public class GetById extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_BY_ID);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"productID", productID, "isMember", isMember, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
 

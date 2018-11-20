@@ -89,7 +89,7 @@ public class GetFeaturedByCategory extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_FEATURED_BY_CATEGORY);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, "categoryID", categoryID,
         			"isMember", isMember, "prodsToExclude", excludedProds, "searchFilters", searchFilters,
         			"searchTerm", searchTerm,  "sortOrder", sortOrder,

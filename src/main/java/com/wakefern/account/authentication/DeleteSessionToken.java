@@ -58,7 +58,7 @@ public class DeleteSessionToken extends BaseService {
 
         	LogUtil.addErrorMaps(e, MwgErrorType.AUTHENTICATION_DELETE_SESSION_TOKEN);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

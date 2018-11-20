@@ -65,7 +65,7 @@ public class GetReservedTimeslot extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.USERS_GET_RESERVED_TIME_SLOT);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"mwgStoreID", mwgStoreID, "userID", userID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
 

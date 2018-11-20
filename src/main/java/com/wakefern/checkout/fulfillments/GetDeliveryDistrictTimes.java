@@ -57,7 +57,7 @@ public class GetDeliveryDistrictTimes extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.FULFILLMENTS_GET_DELIVERY_DISTRICT_TIMES);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "mwgStoreID", mwgStoreID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "mwgStoreID", mwgStoreID, 
         			"zipCode", zipCode, "districtID", districtID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	

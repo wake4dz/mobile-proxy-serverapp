@@ -75,7 +75,7 @@ public class AuthenticateCheckout extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.AUTHENTICATION_AUTHENTICATE_CHECKOUT);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

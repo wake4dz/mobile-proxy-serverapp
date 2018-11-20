@@ -190,7 +190,7 @@ public class LogUtil {
 			emailScheduler.scheduleJob(emailJob2, emailTrigger2);
 
 		} catch (Exception e) {
-			logger.error(LogUtil.getRevelantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
 			logger.error("ATTENTION: there is an error in initiating the app logging process, check the logConfig.properties file in the classpath");
 		}
 		
@@ -234,7 +234,7 @@ public class LogUtil {
 	/* 
 	 * only display com.wakefern related stack trace info
 	 */
-	public static String getRevelantStackTrace(Exception e) {
+	public static String getRelevantStackTrace(Exception e) {
 		StringBuffer sb = new StringBuffer();
 		StackTraceElement[] elements = e.getStackTrace();
 	
@@ -318,7 +318,7 @@ public class LogUtil {
 			return prop.getProperty(key).trim();
 
 		} catch (IOException ex) {
-			logger.error(LogUtil.getRevelantStackTrace(ex) + ",  error message: " + ex.getMessage());
+			logger.error(LogUtil.getRelevantStackTrace(ex) + ",  error message: " + ex.getMessage());
 			return null;
 		} finally {
 			if (input != null) {

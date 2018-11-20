@@ -90,7 +90,7 @@ public class CreateOrders extends BaseService {
         	
         	LogUtil.addErrorMaps(e, MwgErrorType.ORDERS_CREATE_ORDERS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"mwgStoreID", mwgStoreID, "processTime", (endTime - startTime),  "userID", userID, "sessionToken", sessionToken, "httpBody", jsonString);
         	
      

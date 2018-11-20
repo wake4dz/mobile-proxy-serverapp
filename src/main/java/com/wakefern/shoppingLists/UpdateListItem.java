@@ -77,7 +77,7 @@ public class UpdateListItem extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOPPING_LISTS_UPDATE_LIST_ITEM);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainID", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainID", chainID, 
         		 "listID", listID, "itemID", itemID, "userID", userID, 
         		 "sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
         	

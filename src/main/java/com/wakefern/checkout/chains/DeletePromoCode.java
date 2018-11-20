@@ -71,7 +71,7 @@ public class DeletePromoCode extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CHAINS_DELETE_PROMO_CODE);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"chainID", chainID, "userID", userID, 
         			"sessionToken", sessionToken, "accept", null, "contentType", null, "httpBody", jsonData );
         	

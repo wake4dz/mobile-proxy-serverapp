@@ -64,7 +64,7 @@ public class GetCities extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_USER_DASHBOARD);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "regionId", regionID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "regionId", regionID, 
         		 "chainID", chainID, "services", services, "skip", skip, "take", take, 
         		 "sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	

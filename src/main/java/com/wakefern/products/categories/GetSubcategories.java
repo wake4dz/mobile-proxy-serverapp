@@ -98,7 +98,7 @@ public class GetSubcategories extends BaseService {
         	
         	LogUtil.addErrorMaps(e, MwgErrorType.CATEGORIES_GET_SUB_CATEGORIES);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"parentCategoryID", parentCategoryID, "isMember", isMember,
         			"productsPerCategory", productsPerCategory, "onlySaleProducts", onlySaleProducts, "userID", userID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType  );

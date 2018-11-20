@@ -49,7 +49,7 @@ public class MergeFromGuest extends BaseService {
 
         	LogUtil.addErrorMaps(e, MwgErrorType.CART_MERGE_FROM_GUEST);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

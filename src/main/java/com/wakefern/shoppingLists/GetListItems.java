@@ -99,7 +99,7 @@ public class GetListItems extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOPPING_LISTS_GET_LIST_ITEMS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e),"chainID", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),"chainID", chainID, 
         			"storeID", storeID, "listID", listID, "userID", userID,
         			"skip", skip, "take", take, "filters", fd, "categoryMap", catMap, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);

@@ -47,7 +47,7 @@ public class GetCouponIDByPromoCode extends BaseService {
             return this.createValidResponse(getInfo(ppcParam, promoCode, add, authToken));
         } catch (Exception e){
     			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_BY_PROMO_CODE);
-        		String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        		String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"ppcParam", ppcParam, "promoCode", promoCode, "authToken", authToken, "PromoteCodeAdd", add);
         		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
         		
@@ -72,7 +72,7 @@ public class GetCouponIDByPromoCode extends BaseService {
         } catch (Exception e){
         		LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_BY_PROMO_CODE);
         	
-        		String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        		String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"ppcParam", ppcParam, "promoCode", promoCode, "authToken", authToken, "contentType", contentType);
         		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
         		

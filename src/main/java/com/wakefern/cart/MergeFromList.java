@@ -68,7 +68,7 @@ public class MergeFromList extends BaseService {
 
         	LogUtil.addErrorMaps(e, MwgErrorType.CART_MERGE_FROM_LIST);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"userId", userID, "srcListID", srcListID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	

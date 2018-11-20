@@ -68,7 +68,7 @@ public class GetBySku extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_BY_SKU);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "mwgStoreID", mwgStoreID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "mwgStoreID", mwgStoreID, 
         			"isMember", isMember, "wfStoreID", wfStoreID, "productSKU", productSKU, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
 

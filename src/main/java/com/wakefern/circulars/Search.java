@@ -73,7 +73,7 @@ public class Search extends BaseService {
 	        } catch (Exception e) {
 	        	LogUtil.addErrorMaps(e, MwgErrorType.CIRCULARS_SEARCH);
 	        	
-	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
 	        			"storeID", storeID, "chainID", chainID, "skip", skip, "take", take, 
 	        			"term", term, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
 	        	

@@ -67,7 +67,7 @@ public class GetPromoCodes extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CHAINS_GET_PROMO_CODES);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"chainID", chainID, "userID", userID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

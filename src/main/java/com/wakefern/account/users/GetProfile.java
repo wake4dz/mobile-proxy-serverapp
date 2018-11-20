@@ -69,7 +69,7 @@ public class GetProfile extends BaseService {
 		} catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.USERS_GET_PROFILE);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainId", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
         			"userID", userID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

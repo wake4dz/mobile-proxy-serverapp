@@ -63,7 +63,7 @@ public class GetEntryResourcesByChain extends BaseService {
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_ENTRY_RESOURCES_BY_CHAIN);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainId", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
         			"userID", userID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

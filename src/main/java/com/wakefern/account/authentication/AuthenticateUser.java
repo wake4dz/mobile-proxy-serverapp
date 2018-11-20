@@ -100,7 +100,7 @@ public class AuthenticateUser extends BaseService {
   
 	        	LogUtil.addErrorMaps(e, MwgErrorType.AUTHENTICATION_AUTHENTICATE_USER);
 	        	
-	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "userEmail", userEmail, 
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "userEmail", userEmail, 
 	        			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
 	        	
 	    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

@@ -72,7 +72,7 @@ public class GetCircularItemProducts extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_CIRCULAR_ITEM_PRODUCTS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"mwgStoreID", mwgStoreID, 
         			"isMember", isMember, "circItemID", circItemID, "skip", skip, "take", take, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);

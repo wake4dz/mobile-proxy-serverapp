@@ -73,7 +73,7 @@ public class SearchByCategory extends BaseService {
         	
         	//LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_SEARCH_BY_CATEGORY);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainId", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
         			"storeID", storeID, "categoryID", catID, 
         			"skip", skip, "take", take, "term", term, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);

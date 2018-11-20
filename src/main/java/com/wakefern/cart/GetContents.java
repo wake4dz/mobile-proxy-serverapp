@@ -94,7 +94,7 @@ public class GetContents extends BaseService {
 
         	LogUtil.addErrorMaps(e, MwgErrorType.CART_GET_CONTENTS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "mwgStoreID", mwgStoreID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "mwgStoreID", mwgStoreID, 
         			"userId", userID, "wfStoreID", wfStoreID, "itemLocator", itemLocator, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

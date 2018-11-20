@@ -55,7 +55,7 @@ public class GetNutritionById extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_NUTRITION_BY_ID);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"productID", productID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
 
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

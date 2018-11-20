@@ -75,7 +75,7 @@ public class CreateListItems extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOPPING_LISTS_CREATE_LIST_ITEMS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainID", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainID", chainID, 
         		 "storeID", storeID, "listID", listID, "userID", userID, 
         		 "sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
         	

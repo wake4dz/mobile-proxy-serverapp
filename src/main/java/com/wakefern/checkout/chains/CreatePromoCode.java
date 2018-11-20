@@ -71,7 +71,7 @@ public class CreatePromoCode extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CHAINS_CREATE_PROMO_CODE);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"chainID", chainID, "userID", userID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
         	

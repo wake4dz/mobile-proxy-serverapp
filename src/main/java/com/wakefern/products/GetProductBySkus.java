@@ -88,7 +88,7 @@ public class GetProductBySkus extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_PRODUCT_BY_SKUS);
         									
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "mwgStoreId", mwgStoreID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "mwgStoreId", mwgStoreID, 
         			"skus", skus, "sessionToken", sessionToken, "accept", accept, "contentType", contentType);
 
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

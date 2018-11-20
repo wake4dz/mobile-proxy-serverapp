@@ -52,7 +52,7 @@ public class GetChains extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_USER_DASHBOARD);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "services", services
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "services", services
         			, "sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

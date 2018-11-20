@@ -65,7 +65,7 @@ public class Search extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_SEARCH);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainId", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
         			"storeID", storeID, "skip", skip, "take", take, "term", term, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	

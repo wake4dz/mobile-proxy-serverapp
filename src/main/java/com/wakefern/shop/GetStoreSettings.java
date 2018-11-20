@@ -52,7 +52,7 @@ public class GetStoreSettings extends BaseService {
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_STORE_SETTINGS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

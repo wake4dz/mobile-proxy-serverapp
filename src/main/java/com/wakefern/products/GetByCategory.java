@@ -102,7 +102,7 @@ public class GetByCategory extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_BY_CATEGORY);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, "categoryID", categoryID,
         			"isMember", isMember, "prodsToExclude", prodsToExclude, "prodfilters", prodfilters, 
         			"searchTerm", searchTerm, "skip", skip, "sortOrder", sortOrder,

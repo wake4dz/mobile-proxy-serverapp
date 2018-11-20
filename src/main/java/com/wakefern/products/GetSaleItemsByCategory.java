@@ -90,7 +90,7 @@ public class GetSaleItemsByCategory extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_SALE_ITEMS_BY_CATEGORY);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, "categoryID", categoryID,
         			"isMember", isMember, "excludedProds", excludedProds, "searchFilters", searchFilters, 
         			"searchTerm", searchTerm, "skipCount", skipCount, "sortOrder", sortOrder,

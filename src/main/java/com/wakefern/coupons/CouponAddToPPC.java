@@ -50,7 +50,7 @@ public class CouponAddToPPC extends BaseService {
 
 	        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ADD_TO_PPC);
 	        	
-	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
 	        			"ppcParam", ppcParam, "couponID", couponId, 
 	        			"authToken", authToken, "accept", accept, "contentType", contentType);
 	        	

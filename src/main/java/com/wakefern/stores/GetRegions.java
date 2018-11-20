@@ -62,7 +62,7 @@ public class GetRegions extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_USER_DASHBOARD);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainID", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainID", chainID, 
         		 "services", services, "skip", skip, "take", take, 
         		 "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	

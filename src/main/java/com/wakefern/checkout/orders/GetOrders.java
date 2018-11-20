@@ -65,7 +65,7 @@ public class GetOrders extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CATEGORIES_GET_SUB_CATEGORIES);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"mwgStoreID", mwgStoreID, "userID", userID, "sessionToken", sessionToken );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

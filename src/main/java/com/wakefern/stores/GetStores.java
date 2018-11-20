@@ -99,7 +99,7 @@ public class GetStores extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_USER_DASHBOARD);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "servcies", services, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "servcies", services, 
         		 "skip", skip, "take", take, "city", city, "coords", coords, "deliversToZip", deliversToZip,
         		 "filters", filters, "ipAddr", ipAddr, "zipCode", zipCode, "searchTerm", searchTerm,
         		 "radius", radius, "isoRegionCode", isoRegionCode, "storeOwnerID", storeOwnerID,

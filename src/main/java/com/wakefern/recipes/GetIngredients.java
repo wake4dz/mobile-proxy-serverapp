@@ -61,7 +61,7 @@ public class GetIngredients extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_GET_INGREDIENTS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainId", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
         			"storeID", storeID, "recipeID", recipeID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	

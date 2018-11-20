@@ -63,7 +63,7 @@ public class GetPageItem extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CIRCULARS_GET_PAGE_ITEM);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeID", storeID, "chainID", chainID, "circularID", circularID,
         			"pageID", pageID, "itemID", itemID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);

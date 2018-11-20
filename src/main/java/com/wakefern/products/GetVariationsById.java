@@ -88,7 +88,7 @@ public class GetVariationsById extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_VARIATIONS_BY_ID);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, "productID", productID,
         			"isMember", isMember, "excludedProds", excludedProds, "searchFilters", searchFilters, 
         			"searchTerm", searchTerm, "skipCount", skipCount, "sortOrder", sortOrder,

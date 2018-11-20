@@ -55,7 +55,7 @@ public class GetNutritionBySku extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_NUTRITION_BY_SKU);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"productSKU", productSKU, "sessionToken", sessionToken, "accept", accept, "contentType", contentType);
 
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

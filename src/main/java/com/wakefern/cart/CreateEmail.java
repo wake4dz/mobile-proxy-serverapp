@@ -74,7 +74,7 @@ public class CreateEmail extends BaseService {
 
         	LogUtil.addErrorMaps(e, MwgErrorType.CART_CREATE_EMAIL);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"userId", userID, "evtParams", evtPararms, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
         	

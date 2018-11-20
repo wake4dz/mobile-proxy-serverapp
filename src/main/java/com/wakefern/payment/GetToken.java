@@ -137,7 +137,7 @@ public class GetToken extends BaseService {
 		} catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PAYMENT_GET_TOKEN);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeId, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeId, 
         			"isMember", isMember, "userID", userId, 
         			"authToken", authToken, "accept", accept, "contentType", contentType);
 

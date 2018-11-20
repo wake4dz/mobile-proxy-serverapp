@@ -78,7 +78,7 @@ public class GetCategoriesWithSaleItems extends BaseService {
 
         	LogUtil.addErrorMaps(e, MwgErrorType.CATEGORIES_GET_CATEGORIES_WITH_SALE_ITEMS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "storeId", storeID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
         			"isMember", isMember,
         			"productsPerCategory", productsPerCategory, "userID", userID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );

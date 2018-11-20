@@ -55,7 +55,7 @@ public class CreateCustServFeedbackMsg extends BaseService {
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_CREATE_CUST_SERV_FEEDBACK_MSG);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

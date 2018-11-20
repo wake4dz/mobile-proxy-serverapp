@@ -103,7 +103,7 @@ public class CreateDuplicateList extends BaseService {
 		} catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.SHOPPING_LISTS_CREATE_DUPLICATE_LIST);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainID", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainID", chainID, 
         		 "listID", listID, "take", take, "userID", userID, 
         		 "sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
         	

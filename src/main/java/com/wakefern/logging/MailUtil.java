@@ -51,7 +51,7 @@ public class MailUtil {
 
 			logger.info("Done sending an email to " + sb.toString());
 		} catch (Exception e) {
-			logger.error(LogUtil.getRevelantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
 		}
 	}
 }

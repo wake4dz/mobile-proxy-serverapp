@@ -60,7 +60,7 @@ public class GetPointsForPPC extends BaseService {
 		} catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.REWARDS_GET_POINTS_FOR_PPC);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "ppc", ppc, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc, 
         			"authToken", authToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

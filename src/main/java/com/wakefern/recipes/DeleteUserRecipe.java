@@ -73,7 +73,7 @@ public class DeleteUserRecipe extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_DELETE_USER_RECIPE);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainId", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
         			"storeID", storeID, "recipeID", recipeID, "userID", userID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	

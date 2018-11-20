@@ -50,7 +50,7 @@ public class CouponIdList extends BaseService {
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_LIST);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"ppcParam", ppcParam, "authToken", authToken, "accept", accept, "contentType", contentType);
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

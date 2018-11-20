@@ -75,7 +75,7 @@ public class GetSuggestions extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_SUGGESTIONS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, 
         			"isMember", isMember, "excludedProds", excludedProds, "searchFilters", searchFilters, 
         			"searchTerm", searchTerm, "skipCount", skipCount, "sortOrder", sortOrder,

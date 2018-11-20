@@ -53,7 +53,7 @@ public class GetPickupInfo extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.FULFILLMENTS_GET_PICKUP_INFO);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "mwgStoreID", mwgStoreID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "mwgStoreID", mwgStoreID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

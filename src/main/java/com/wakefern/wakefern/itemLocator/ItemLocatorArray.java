@@ -37,7 +37,7 @@ public class ItemLocatorArray extends BaseService {
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.ITEM_LOCATOR_ARRAY);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"authToken", authToken, "contentType", "application/json" );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

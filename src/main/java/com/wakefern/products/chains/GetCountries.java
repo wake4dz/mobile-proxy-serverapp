@@ -59,7 +59,7 @@ public class GetCountries extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CHAINS_GET_COUNTRIES);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeId", storeID, 
         			"chainID", chainID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType);
 

@@ -67,7 +67,7 @@ public class GetFeatured extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_GET_FEATURED);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "chainId", chainID, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
         			"storeID", storeID, "skip", skip, "take", take, "promo", promo, "group", group, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	

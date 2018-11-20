@@ -66,7 +66,7 @@ public class GetCategoryItems extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.CIRCULARS_GET_CATEGORY_ITEMS);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"storeID", storeID, "chainID", chainID, "categoryID", categoryID, "skip", skip, 
         			"take", take, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	

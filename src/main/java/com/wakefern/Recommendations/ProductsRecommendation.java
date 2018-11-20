@@ -135,7 +135,7 @@ public class ProductsRecommendation extends BaseService {
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.RECOMMENDATIONS_PRODUCTS_RECOMMENDATION);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), "externalStoreId", externalStoreId, 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "externalStoreId", externalStoreId, 
         			"email", email, "ppc", ppc, "storeId", storeId, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	

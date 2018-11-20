@@ -65,7 +65,7 @@ public class GetBillingAddr extends BaseService {
         } catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.USERS_GET_BILLING_ADDR);
         	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"mwgStoreID", mwgStoreID, "userID", userID, "sessionToken", 
         			sessionToken, "accept", accept, "contentType", contentType );
 

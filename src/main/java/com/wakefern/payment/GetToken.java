@@ -1,29 +1,30 @@
 package com.wakefern.payment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+
 import com.wakefern.global.ApplicationConstants;
+
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
-import com.wakefern.wakefern.WakefernApplicationConstants;
 
 @Path("payment/token/user/{userId}/store/{storeId}")
 public class GetToken extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger("GetToken");
+	private final static Logger logger = Logger.getLogger(GetToken.class);
 
 	private Map<String, String> paymentMap() {
 		Map returnMap = new LinkedHashMap<>();
@@ -55,8 +56,10 @@ public class GetToken extends BaseService {
 			@PathParam("storeId") String storeId, 
 			@PathParam("userId") String userId,
 			@DefaultValue("") @QueryParam("isMember") String isMember, 
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
 			@HeaderParam("Authorization") String authToken
-	) throws Exception, IOException {
+	) {
 		
 		/*
 		 * Response body
@@ -86,45 +89,61 @@ public class GetToken extends BaseService {
 		 * }]
 		 */
 
-		ArrayList<String> Items = new ArrayList<>();
-		ArrayList<Map> PaymentMethods = new ArrayList<>();
-		JSONObject retval = new JSONObject();
-
-		this.requestToken = authToken;  //WakefernApplicationConstants.authToken;
-		String successCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=True";
-		String cancelCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=False";
-
-		Map returnMap = this.paymentMap();
-		returnMap.put("SuccessCallbackUri", successCallbackURL);
-		returnMap.put("CancelCallbackUri", cancelCallbackURL);
-		returnMap.put("Items", Items);
-		PaymentMethods.add(returnMap);
-
-		String path = "https://api.shoprite.com/api" 
-				+ MWGApplicationConstants.Requests.Checkout.UserCheckout
-				+ "/" + userId + ApplicationConstants.StringConstants.store
-				+ "/" + storeId + ApplicationConstants.StringConstants.payment;
-
-		if (!isMember.isEmpty()) {
-			path += ApplicationConstants.StringConstants.isMember;
-		}
+		try {	
+			ArrayList<String> Items = new ArrayList<>();
+			ArrayList<Map> PaymentMethods = new ArrayList<>();
+			JSONObject retval = new JSONObject();
+	
+			this.requestToken = authToken;  //WakefernApplicationConstants.authToken;
+			String successCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=True";
+			String cancelCallbackURL = "https://shop.shoprite.com/store/" + storeId + "/checkout/ProcessPayment?authorized=False";
+	
+			Map returnMap = this.paymentMap();
+			returnMap.put("SuccessCallbackUri", successCallbackURL);
+			returnMap.put("CancelCallbackUri", cancelCallbackURL);
+			returnMap.put("Items", Items);
+			PaymentMethods.add(returnMap);
+	
+			String path = "https://api.shoprite.com/api" 
+					+ MWGApplicationConstants.Requests.Checkout.UserCheckout
+					+ "/" + userId + ApplicationConstants.StringConstants.store
+					+ "/" + storeId + ApplicationConstants.StringConstants.payment;
+	
+			if (!isMember.isEmpty()) {
+				path += ApplicationConstants.StringConstants.isMember;
+			}
+			
+			logger.debug("[getInfo][GetToken]::Path: " + path);
+	
+			retval.put("PaymentMethods", PaymentMethods);
+	
+			ServiceMappings secondMapping = new ServiceMappings();
+			secondMapping.setPutMapping(this, retval.toString());
+			
+			logger.debug("[getInfo][GetToken]::req: " + retval.toString());
 		
-		logger.log(Level.INFO, "[getInfo][GetToken]::Path: ", path);
-
-		retval.put("PaymentMethods", PaymentMethods);
-
-		ServiceMappings secondMapping = new ServiceMappings();
-		secondMapping.setPutMapping(this, retval.toString());
-		
-		logger.log(Level.INFO, "[getInfo][GetToken]::req: ", retval.toString());
-
-		try {
 			String resp = HTTPRequest.executePut(path, secondMapping.getGenericBody(), secondMapping.getgenericHeader());
-			logger.log(Level.INFO, "[getInfo][GetToken]::resp: ", resp);
+			
+			if(LogUtil.isUserTrackOn) {
+				if ((userId != null) && LogUtil.trackedUserIdsMap.containsKey(userId.trim())) {
+		        	String trackData = LogUtil.getRequestData("storeId", storeId, 
+		        			"isMember", isMember, "userID", userId );
+					logger.info("Tracking data for " + userId + ": " + trackData + "; resp: " + resp);
+				}
+			}
+			
 			return this.createValidResponse(resp);
 		
 		} catch (Exception e) {
-			return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.PAYMENT_GET_TOKEN);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeId, 
+        			"isMember", isMember, "userID", userId, 
+        			"authToken", authToken, "accept", accept, "contentType", contentType);
+
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+    		
+            return this.createErrorResponse(errorData, e);
 		}
 	}
 

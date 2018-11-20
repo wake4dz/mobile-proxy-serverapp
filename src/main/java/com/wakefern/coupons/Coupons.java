@@ -9,11 +9,14 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernHeader;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,8 +25,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
@@ -31,9 +33,12 @@ import java.util.logging.Logger;
 
 @Path(ApplicationConstants.Requests.Coupons.GetCoupons)
 public class Coupons extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger(CouponAddToPPC.class);
+	
 	public JSONObject matchedObjects;
 	private long startTime, endTime;
-	private final static Logger logger = Logger.getLogger("Coupons");
+
 
 	@GET
 	@Produces(MWGApplicationConstants.Headers.generic)
@@ -44,27 +49,30 @@ public class Coupons extends BaseService {
 			@DefaultValue("") 
 			@QueryParam("query") String query, 
 			
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
 			@HeaderParam("Authorization") String authToken
-		) throws Exception, IOException {
-
-		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
-
-		startTime = System.currentTimeMillis();
-		matchedObjects = new JSONObject();
-		
-		this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL
-				+ ApplicationConstants.Requests.Coupons.GetCoupons
-				+ WakefernApplicationConstants.Coupons.Metadata.PPCQuery + ppcParam;
-
-		// Execute Post
-		ServiceMappings serviceMappings = new ServiceMappings();
-		serviceMappings.setCouponMapping(this);
+		) {
 
 		try {
+			this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
+	
+			startTime = System.currentTimeMillis();
+			matchedObjects = new JSONObject();
+			
+			this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL
+					+ ApplicationConstants.Requests.Coupons.GetCoupons
+					+ WakefernApplicationConstants.Coupons.Metadata.PPCQuery + ppcParam;
+	
+			// Execute Post
+			ServiceMappings serviceMappings = new ServiceMappings();
+			serviceMappings.setCouponMapping(this);
+
+		
 			String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
 
 			endTime = System.currentTimeMillis();
-			logger.log(Level.INFO, "[Coupons]::Total process time (ms): " + (endTime - startTime));
+			logger.trace("[Coupons]::Total process time (ms): " + (endTime - startTime));
 
 			ObjectMapper mapper = new ObjectMapper();
 			CouponDAO[] couponDaoArr = mapper.readValue(coupons, CouponDAO[].class);
@@ -114,8 +122,8 @@ public class Coupons extends BaseService {
 						}
 					
 					} catch (Exception e) {
-						logger.log(Level.SEVERE, "[getInfoResponse]::Exception retrieved coupon ppc: {0}, msg: {1}",
-								new Object[] { ppcParam, e.toString() });
+						logger.error("[getInfoResponse]::Exception retrieved coupon ppc: " + ppcParam + ", msg: " + e.toString());
+						
 					}
 				}
 
@@ -128,7 +136,14 @@ public class Coupons extends BaseService {
 			return this.createValidResponse(search(coupons, query, matchedObjects2).toString());
 		
 		} catch (Exception e) {
-			return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPONS);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
+        			"ppcParam", ppcParam, "authToken", authToken, "accept", accept, "contentType", contentType);
+        	
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+
+            return this.createErrorResponse(errorData, e);
 		}
 	}
 

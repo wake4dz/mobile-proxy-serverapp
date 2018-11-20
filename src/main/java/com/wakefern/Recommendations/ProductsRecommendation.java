@@ -1,10 +1,7 @@
 package com.wakefern.Recommendations;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -14,6 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+
+import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakefern.dao.recommend.Recommend;
@@ -25,15 +24,18 @@ import com.wakefern.dao.sku.ProductSKUsDAO;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.products.GetProductBySkus;
+
 import com.wakefern.request.HTTPRequest;
 
 @Path(ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2)
 public class ProductsRecommendation extends BaseService {
 
-	private final static Logger logger = Logger.getLogger("RecommendProducts");
+	private final static Logger logger = Logger.getLogger(ProductsRecommendation.class);
 	
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
@@ -43,28 +45,31 @@ public class ProductsRecommendation extends BaseService {
         @DefaultValue("") @PathParam("email") String email,
 		@PathParam("ppc") String ppc,
 		@DefaultValue("") @QueryParam("storeId") String storeId, //pseudoStoreId
+		
+		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
 		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
-    ) throws Exception, IOException {
+    ) {
     	
     		// This request relies on a legacy endpoint maintained by Wakefern.
     		// Ignore the session token sent by the UI.
     		// Use the legacy Wakefern Auth Token instead.
+    	try {
+			int count = 0;
+			GetProductBySkus getProductBySku = new GetProductBySkus();
+			ObjectMapper mapper = new ObjectMapper();
+			RecommendProductDAO recProdDao = new RecommendProductDAO();
+			List<Recommend> recmdList = new ArrayList<Recommend>();
+			
+			this.requestHeader = new MWGHeader();
+	        this.requestToken  = MWGApplicationConstants.getProductRecmdAuthToken();
+	        this.requestPath = ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2 + "/"+externalStoreId+"/email/"+email+"/fsn/"+ppc;
+	        
+	        ServiceMappings secondMapping = new ServiceMappings();
+	        secondMapping.setMappingWithURL(this, ApplicationConstants.Requests.Recommendations.BaseRecommendationsURL);
+	    		String secondMapPath = secondMapping.getPath();
 
-		int count = 0;
-		GetProductBySkus getProductBySku = new GetProductBySkus();
-		ObjectMapper mapper = new ObjectMapper();
-		RecommendProductDAO recProdDao = new RecommendProductDAO();
-		List<Recommend> recmdList = new ArrayList<Recommend>();
-		
-		this.requestHeader = new MWGHeader();
-        this.requestToken  = MWGApplicationConstants.getProductRecmdAuthToken();
-        this.requestPath = ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2 + "/"+externalStoreId+"/email/"+email+"/fsn/"+ppc;
-        
-        ServiceMappings secondMapping = new ServiceMappings();
-        secondMapping.setMappingWithURL(this, ApplicationConstants.Requests.Recommendations.BaseRecommendationsURL);
-    		String secondMapPath = secondMapping.getPath();
-
-        try {
+      
         		// CALL & GET LIST OF RECOMMENDED SKUs
         		String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getgenericHeader(), 0);
         		RecommendVPUPCsDAO recUPCDao = mapper.readValue(jsonResp, RecommendVPUPCsDAO.class);
@@ -128,8 +133,15 @@ public class ProductsRecommendation extends BaseService {
         		return this.createValidResponse(resp);
         
         } catch (Exception e){
-        		logger.log(Level.SEVERE, "[getInfoResponse]::Product Recommendation Exception!!!, URL: " + secondMapPath + e.getMessage());
-            return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.RECOMMENDATIONS_PRODUCTS_RECOMMENDATION);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "externalStoreId", externalStoreId, 
+        			"email", email, "ppc", ppc, "storeId", storeId, 
+        			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );
+        	
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+
+            return this.createErrorResponse(errorData, e);
         }
     }
 }

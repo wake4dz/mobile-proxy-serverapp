@@ -1,6 +1,8 @@
 package com.wakefern.global;
 
 import com.wakefern.global.errorHandling.ExceptionHandler;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.request.models.Header;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -10,11 +12,10 @@ import com.wakefern.wakefern.itemLocator.ItemLocatorArray;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,11 +26,16 @@ public class BaseService {
     protected Header requestHeader = null;
     protected String requestPath   = null;
     protected String requestToken  = null;
+    private int timeout = 30000; //default
     
     protected static enum ReqType { GET, POST, PUT, DELETE };
     
-    private final static Logger logger = Logger.getLogger("com.wakefern.global.BaseService");
+    private final static Logger logger = Logger.getLogger(BaseService.class);
     
+    protected void setTimeout(int timeout) {
+    		this.timeout = timeout;
+    }
+
     /**
      * Trigger a request to the MyWebGrocer REST API.
      * 
@@ -76,7 +82,7 @@ public class BaseService {
 	        				break;
 	        			case POST :
 	        				reqBody  = sm.getGenericBody();
-	        				response = HTTPRequest.executePost(reqURL, reqBody, reqHead);
+	        				response = HTTPRequest.executePost(reqURL, reqBody, reqHead, this.timeout);
 	        				break;
 	        			case PUT :
 	        				reqBody  = sm.getGenericBody();
@@ -89,9 +95,19 @@ public class BaseService {
         					response = "{}"; // This should never actually happen.  BUT just in case...
             		}
             		
-            		Logger logger = Logger.getLogger(endpointName);
-            		logger.setLevel(Level.ALL);
-            		logger.log(Level.INFO, "[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
+            		logger.debug("[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
+            		
+        			//Note: Since only about 75% of APIs has the userId query parameter, this log message may not print
+        			//      even if isUserTrackOn=on. Just be aware of this fact.
+        			//      This block of code is more useful in the future when every API call has the userId parameter.
+            		if(LogUtil.isUserTrackOn) {
+            			if ((queryParams != null) && queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID) != null) {
+		    				if (LogUtil.trackedUserIdsMap.containsKey(queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID))) {
+								logger.info("Tracking data for " + queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID) + ": " 
+										+ "[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
+		    				}
+            			}
+            		}
             		
             		return response;
     			}
@@ -147,8 +163,73 @@ public class BaseService {
             				buildError = respBody;
             			
             			} catch (Exception exx) {
-                    		logger.log(Level.SEVERE, "[BaseService::createErrorResponse]::MWG returned an unexpected, non-JSON compliant error, resp: " 
-                    				+ respBody);
+            				logger.error("MWG returned an unexpected, non-JSON compliant error: " + respBody);
+
+            				// The error is in an unexpected format.
+            				// Respond with a default text message.
+            				buildError = jsonErrStart + "MWG returned an unexpected, non-JSON compliant error." + jsonErrEnd;
+            			}
+        			}
+            }
+
+            return Response.status(Integer.parseInt(array[0])).entity(buildError).build();
+        
+        } catch (Exception stringError) {
+            return Response.status(500).entity(exceptionHandler.exceptionMessageJson(e)).build();
+        }
+    }
+    
+    /**
+     * Create a standardized Error Response (HTTP 5xx / 4xx) to pass back to the UI.
+     * 
+     * @param e
+     * @return
+     */
+    protected Response createErrorResponse(String errorData, Exception e) {
+        ExceptionHandler exceptionHandler = new ExceptionHandler();
+        
+        try {
+        	String jsonErrStart = "{\"ErrorMessage\":\"";
+        	String jsonErrEnd   = "\"}";
+        		
+            String[] array = e.getMessage().split(",");
+            String buildError;
+            
+            if (e.getMessage().contains("400")) {
+                return Response.status(400).entity(exceptionHandler.exceptionMessageJson(e)).build();
+            }
+            
+            if (Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403) {
+                buildError = jsonErrStart + ApplicationConstants.Requests.forbiddenError + jsonErrEnd;
+            
+            } else {	
+            		StringBuilder sb = new StringBuilder();
+            		
+            		// We have to allow for the possibility that there's more than one "," in the exception's error message.
+            		// For example, the error message may actually be a JSON string.
+            		for (int i = 1; i < array.length; i++) {
+            			sb.append(array[i] + ",");
+            		}
+            		
+            		// Strip off the trailing comma & convert to a String
+            		sb.deleteCharAt(sb.length() - 1);
+            		String respBody = sb.toString();
+            		
+            		// Test to see if the response is already a valid JSON string.
+            		// If so, just assign it to the 'buildError' var.
+            		// If it's not, assemble the 'buildError' var as a JSON string.
+            		try {
+            			new JSONObject(respBody);
+            			buildError = respBody;
+        			
+            		} catch (Exception ex) {
+            			try {
+            				new JSONArray(respBody);
+            				buildError = respBody;
+            			
+            			} catch (Exception exx) {
+                    		logger.error("MWG returned an unexpected, non-JSON compliant error: " + errorData + " - " + respBody);
+            				
             				// The error is in an unexpected format.
             				// Respond with a default text message.
             				buildError = jsonErrStart + "MWG returned an unexpected, non-JSON compliant error." + jsonErrEnd;
@@ -277,7 +358,7 @@ public class BaseService {
 							}
 						
 						} catch (Exception ex) {
-							logger.log(Level.SEVERE, "[getItemLocations]::Exception processing item locator: " + ex.getMessage());
+							logger.error("[getItemLocations]::Exception processing item locator: " + ex.getMessage());
 							throw ex;
 						}
 
@@ -305,7 +386,7 @@ public class BaseService {
 						// Failed to get a Wakefern Authentication String.
 						// So we can't get Item Location Data.
 						// Just return the original response string.
-						logger.log(Level.SEVERE, "Failed to get a Wakefern Authentication String.");
+						logger.error("Failed to get a Wakefern Authentication String.");
 						return origRespStr;
 					}
 				
@@ -323,7 +404,12 @@ public class BaseService {
 		} catch (Exception e) {
 			// Item Locator done gone and blowed up.
 			// Return the original response string.
-			logger.log(Level.WARNING, "[getItemLocations]::Exception processing item locator: ", e);
+			
+			// 2018-11-06 Error case: if a Sku is not found, then it blew up. Maybe because a user find a product from other store.
+			//logger.error("[getItemLocations]::Exception processing item locator: ", e);
+			logger.error("[getItemLocations]::Exception processing item locator. The error message: " + LogUtil.getExceptionMessage(e) 
+							+ ", exception location: " +  LogUtil.getRelevantStackTrace(e));
+			
 			return origRespStr;
 		}
 	}

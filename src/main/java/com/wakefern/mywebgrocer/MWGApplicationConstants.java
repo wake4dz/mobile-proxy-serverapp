@@ -4,8 +4,9 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 public class MWGApplicationConstants {
 	private static final String shopRiteProd = "https://mobileapi.shoprite.com/api"; // ShopRite Production
+	private static final String shopRiteProdWeb = "https://api.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
-	private static final String shopRiteStage = "https://mobileapi-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
+	private static final String shopRiteStage = "https://api-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
 	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer
 																											// Staging
@@ -20,6 +21,10 @@ public class MWGApplicationConstants {
 	private static final String srStage = "ShopRiteStage";
 	private static final String srProd = "ShopRiteProd";
 	private static final String srDev = "ShopRiteDev";
+	
+	//By default, mobile is calling mobileapi.shoprite.com, when value 'web' is specified
+	//	in vcap env var 'url', mobile will call api.shoprite.com
+	private static final String mwgWeb = "web";
 
 	/**
 	 * Return the appropriate Base URL.
@@ -42,7 +47,7 @@ public class MWGApplicationConstants {
 			baseURL = shopRiteStage;
 			break;
 		case srProd:
-			baseURL = shopRiteProd;
+			baseURL = getTargetProdURL();
 			break;
 		case srDev:
 			baseURL = shopRiteDev;
@@ -110,7 +115,7 @@ public class MWGApplicationConstants {
 	 * 
 	 * @return String
 	 */
-	private static String getTargetAPI() {
+	public static String getTargetAPI() {
 		String targetAPI = java.lang.System.getenv("chain");
 
 		// On a local Dev server, the environment variable won't exist unless you have
@@ -124,6 +129,24 @@ public class MWGApplicationConstants {
 
 		return targetAPI;
 	}
+	
+	/**
+	 * Check the Bluemix Environment Variable, indicating which MWG API this
+	 * instance of the Wakefern Java API should be talking to.
+	 * 
+	 * @return String
+	 */
+	private static String getTargetProdURL() {
+		String targetProdURL = java.lang.System.getenv("url");
+
+		// Assigning mwg production api for cloud server to call..
+		//
+		// ShopRite Prod Mobile or other keywords: https://mobileapi.shoprite.com/api
+		// ShopRite Prod Web : https://api.shoprite.com/api
+		targetProdURL = (targetProdURL != null && targetProdURL.equalsIgnoreCase(mwgWeb)) ? shopRiteProdWeb : shopRiteProd;
+
+		return targetProdURL;
+	}
 
 	public static class Headers {
 		private static final String prefix = "application/vnd.mywebgrocer.";
@@ -133,6 +156,9 @@ public class MWGApplicationConstants {
 
 		public static class Params {
 			public static final String auth = "Authorization";
+			public static final String accept = "Accept";
+      
+			public static final String contentType = "Content-Type";
 		}
 
 		public static class Account {
@@ -275,6 +301,7 @@ public class MWGApplicationConstants {
 				public static final String mwgStoreID = "pseudoStoreId";
 				public static final String districtID = "districtId";
 				public static final String fulfillType = "fulfillment"; // As in: 'delivery' or 'pickup'
+				public static final String promoCode = "promoCode";
 			}
 
 			// Request Parameters that are part of the URL's query string.
@@ -511,6 +538,7 @@ public class MWGApplicationConstants {
 			public static final String prefix = "/checkout/v7";
 
 			public static final String promoCodes = chainsID + storesID + usersID + "/promocodes";
+			public static final String promoCodeDelete = promoCodes + "/{" + Params.Path.promoCode + "}";
 
 			public static final String fulfillOpts = fflmnts + mwgStoreID;
 			public static final String deliveryInfo = fulfillOpts + deliveryZip;
@@ -550,5 +578,30 @@ public class MWGApplicationConstants {
 			public static final String Points = "/rewards/api/v1/points";
 			public static final String baseURL = "https://wfcapi.shoprite.com";
 		}
+		
+	}
+	
+	public static class Log {
+		public static final String log = "/log";
+		
+		public static final String email = log + "/email";
+		public static final String status = "/status";
+		public static final String address = "/address" + "/{addresses}";
+		public static final String updateSetting = "/updateSettings";
+		public static final String trackUserId = "/trackUserId/{userIds}";
+		
+		public static final String error = log + "/error";
+		public static final String errorList = "/list";
+		public static final String errorReset = "/reset";
+		
+		public static final String logger = log + "/logger";
+		public static final String changeLevel = "/level/{logLevel}";
+		public static final String getLevel = "/level";
+		public static final String appenderList = "/appender/list";
+		
+		public static final String release = log + "/release";
+		public static final String releaseLevel = "/level";
+		
+		
 	}
 }

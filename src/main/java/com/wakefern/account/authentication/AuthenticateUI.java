@@ -1,20 +1,21 @@
 package com.wakefern.account.authentication;
 
 import com.wakefern.global.*;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
+
 
 @Path(MWGApplicationConstants.Requests.Authentication.prefix)
 public class AuthenticateUI extends BaseService {
 
-	private final static Logger logger = Logger.getLogger("Authentication");
+	private final static Logger logger = Logger.getLogger(AuthenticateUI.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -31,15 +32,24 @@ public class AuthenticateUI extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Produces(MWGApplicationConstants.Headers.generic)
     @Path(MWGApplicationConstants.Requests.Authentication.authorize)
-    public Response getResponse(String jsonBody) throws Exception, IOException {
+    public Response getResponse(
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
+    		String jsonBody) {
     	    	
         try {
-        		String jsonResp = makeRequest();
+        	String jsonResp = makeRequest();
             return this.createValidResponse(jsonResp);
         
         } catch (Exception e) {
-        		logger.log(Level.SEVERE, "[getResponse]::Exception getResponse ", e);
-            return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.AUTHENTICATION_AUTHENTICATE_UI);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
+        			"accept", accept, "contentType", contentType );
+        	
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+    		
+            return this.createErrorResponse(errorData, e);
         }
     }
 
@@ -52,7 +62,7 @@ public class AuthenticateUI extends BaseService {
     	 * @throws Exception
     	 * @throws IOException
     	 */
-    public String getInfo() throws Exception, IOException {
+    public String getInfo() throws Exception {
     		return makeRequest();
     }
     
@@ -68,7 +78,7 @@ public class AuthenticateUI extends BaseService {
      * @throws Exception
      * @throws IOException
      */
-    private String makeRequest() throws Exception, IOException {
+    private String makeRequest() throws Exception {
         this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, MWGApplicationConstants.getAppToken());
 
         // The purpose of this request is to simply retrieve a valid Session Token & Guest User ID, from MWG.

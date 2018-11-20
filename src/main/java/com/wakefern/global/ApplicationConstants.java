@@ -38,6 +38,7 @@ public final class ApplicationConstants {
             public static final String GetCoupons = WakefernApplicationConstants.Coupons.Metadata.Metadata;
             public static final String GetCouponId = WakefernApplicationConstants.Coupons.ListId.CouponId;
             public static final String GetCouponIdByPPC = WakefernApplicationConstants.Coupons.ListId.CouponByPPC;
+            public static final String CouponIDByPromoCode = WakefernApplicationConstants.Coupons.ListId.CouponIDByPromoCode;
             public static final String CouponAddPPC = WakefernApplicationConstants.Coupons.ListId.CouponAddPPC;
             public static final String BaseCouponURL = WakefernApplicationConstants.Coupons.baseURL;
             public static final String GetCouponsRecommendations = WakefernApplicationConstants.Coupons.Metadata.MetadataRecommendations;

@@ -1,16 +1,22 @@
 package com.wakefern.shoppingLists;
 
 import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class UpdateListItem extends BaseService {
+	
+	private final static Logger logger = Logger.getLogger(UpdateListItem.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -35,10 +41,12 @@ public class UpdateListItem extends BaseService {
     		
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
     		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
     		
     		String jsonData
-	) throws Exception, IOException {
+	) {
         		
 		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.ShoppingList.item, sessionToken);
 		this.requestParams = new HashMap<String, String>();
@@ -55,10 +63,27 @@ public class UpdateListItem extends BaseService {
 
         try {
             String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData, "com.wakefern.shoppingLists.UpdateListItem");
+            
+			if(LogUtil.isUserTrackOn) {
+				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
+		        	String trackData = LogUtil.getRequestData("chainID", chainID, "storeID", storeID, "listID", listID, "userID", userID, 
+		        			"itemID", itemID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData);
+					logger.info("Tracking data for " + userID + ": " + trackData + "; jsonResponse: " + jsonResponse);
+				}
+			}
+			
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
-            return this.createErrorResponse(e);
+        	LogUtil.addErrorMaps(e, MwgErrorType.SHOPPING_LISTS_UPDATE_LIST_ITEM);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainID", chainID, 
+        		 "listID", listID, "itemID", itemID, "userID", userID, 
+        		 "sessionToken", sessionToken, "accept", accept, "contentType", contentType, "httpBody", jsonData );
+        	
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+
+            return this.createErrorResponse(errorData, e);
         }
     }
 }

@@ -3,8 +3,6 @@ package com.wakefern.account.users;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -14,20 +12,24 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wakefern.dao.coupon.CouponDAO;
+
 import com.wakefern.dao.user.Address;
 import com.wakefern.dao.user.PhoneNumber;
 import com.wakefern.dao.user.UserProfileDAO;
 import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 @Path(MWGApplicationConstants.Requests.Account.prefix)
 public class GetProfile extends BaseService {
 
-	private final static Logger logger = Logger.getLogger("GetProfile");
+	private final static Logger logger = Logger.getLogger(GetProfile.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -48,16 +50,32 @@ public class GetProfile extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.chainID) String chainID, 
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		String jsonBody) {
 			
-    		try {
-    			String jsonResponse = makeRequest(sessionToken, MWGApplicationConstants.Headers.Account.profile, chainID, userID);
-    			return this.createValidResponse(assignPrimaryAddress(jsonResponse, userID));
+		try {
+			String jsonResponse = makeRequest(sessionToken, MWGApplicationConstants.Headers.Account.profile, chainID, userID);
+			
+			if(LogUtil.isUserTrackOn) {
+				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
+		        	String trackData = LogUtil.getRequestData("chainId", chainID, "userID", userID, "sessionToken", sessionToken );
+					logger.info("Tracking data for " + userID + ": " + trackData + "; jsonResponse: " + jsonResponse);
+				}
+			}
+			
+			return this.createValidResponse(assignPrimaryAddress(jsonResponse, userID));
+		
+		} catch (Exception e) {
+        	LogUtil.addErrorMaps(e, MwgErrorType.USERS_GET_PROFILE);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
+        			"userID", userID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
+        	
+    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
     		
-    		} catch (Exception e) {
-    			logger.log(Level.SEVERE, "[getFullProfile]::Exception - Get user profile.  Message: " + e.toString());
-            return this.createErrorResponse(e);
-    		} 
+            return this.createErrorResponse(errorData, e);
+		} 
     }
         
 	//-------------------------------------------------------------------------
@@ -81,9 +99,9 @@ public class GetProfile extends BaseService {
      * @return
      */
     private String assignPrimaryAddress(String resp, String userID) {
-    		try {
-    			ObjectMapper mapper = new ObjectMapper();
-    			UserProfileDAO userProfileDAO = mapper.readValue(resp, UserProfileDAO.class);
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			UserProfileDAO userProfileDAO = mapper.readValue(resp, UserProfileDAO.class);
 			List<Address> addressList = userProfileDAO.getAddresses();
 			List<PhoneNumber> phoneNoList = userProfileDAO.getPhoneNumbers();
 			boolean updateProfileObj = false;
@@ -97,7 +115,7 @@ public class GetProfile extends BaseService {
 				}
 				// if no primary addr found, set the first addr to be one & return it.
 				firstAddr.setIsDefaultBilling(true);
-    				logger.log(Level.SEVERE, "[assignPrimaryAddress]::No primary address " + userID);
+					logger.warn("[assignPrimaryAddress]::No primary address " + userID);
 				updateProfileObj = true;
 			} else {
 				/**
@@ -107,24 +125,24 @@ public class GetProfile extends BaseService {
 				Address dummyAddr = new Address();
 				dummyAddr.setIsDefaultBilling(true);
 				addressList.add(dummyAddr);
-				logger.log(Level.SEVERE, "[assignPrimaryAddress]::empty address, assign dummy one " + userID);
+				logger.warn("[assignPrimaryAddress]::empty address, assign dummy one " + userID);
 				updateProfileObj = true;
 			}
 			
-			// Incase the phone number is not there, assign
+			// In case the phone number is not there, assign
 			if(phoneNoList != null && phoneNoList.isEmpty()) {
 				phoneNoList.add(new PhoneNumber());
-    				logger.log(Level.SEVERE, "[assignPrimaryAddress]::No phone no " + userID);
-    				updateProfileObj = true;
+					logger.warn("[assignPrimaryAddress]::No phone no " + userID);
+					updateProfileObj = true;
 			}
 			
 			if(updateProfileObj) {
 	    			ObjectWriter writer = mapper.writer();
 	    			return writer.writeValueAsString(userProfileDAO);
 			}
-    		} catch(Exception e) {
-    			logger.log(Level.SEVERE, "[assignPrimaryAddress]::Exception - Get user profile.  Message: " + e.getMessage());
-    		}
-    		return resp;
+		} catch(Exception e) {
+			logger.error("[assignPrimaryAddress]::Exception - Get user profile.  Message: " + e.getMessage());
+		}
+		return resp;
     }
 }

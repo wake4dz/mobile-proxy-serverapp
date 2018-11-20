@@ -10,14 +10,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.wakefern.global.errorHandling.ResponseHandler;
+import com.wakefern.logging.LogUtil;
+
 
 public class HTTPRequest {
 
-	private final static Logger logger = Logger.getLogger("HTTPRequest");
+	private final static Logger logger = Logger.getLogger(HTTPRequest.class);
+	
 	private static int timeOutInt = 30000; // 30 seconds time out
 
 	//-------------------------------------------------------------------------
@@ -78,7 +81,8 @@ public class HTTPRequest {
 						try {
 							oStream.close();
 						} catch(Exception ex) {
-    							logger.log(Level.SEVERE, "[HTTPRequest]::executePut::Exception close stream: " + ex.getMessage());
+    						logger.error("[HTTPRequest]::executePut::Exception close stream: " + ex.getMessage());
+    						throw ex;
 						}
 					}
 				}
@@ -89,14 +93,15 @@ public class HTTPRequest {
 
 			// Handle the response
 			int responseCode = connection.getResponseCode();
-			String response  = ResponseHandler.Response(connection);
+			String response  = ResponseHandler.getResponse(connection);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
 			
 			} else {
-				logger.log(Level.INFO, "[executePut]::response code: "+responseCode+", msg: "+response+", URL: "+requestURL);
-
+				// 2018-07-30 DZ thinks it is a redundant error log
+				// logger.error("[executePut]::response code: "+responseCode+", msg: "+response+", URL: "+requestURL);
+				
 				String msg;
 				
 				if (response.length() > 0) {
@@ -109,15 +114,15 @@ public class HTTPRequest {
 			}
 
 		} catch (MalformedURLException ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} catch (IOException ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} finally {
@@ -125,7 +130,7 @@ public class HTTPRequest {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, "[executePut]::Exception closing connection, URL: "+ requestURL);
+					logger.error("[executePut]::Exception closing connection, URL: "+ requestURL);
 					throw ex;
 				}
 			}
@@ -133,7 +138,7 @@ public class HTTPRequest {
 	}
 
 	/**
-	 * Trigger HTTP POST request.
+	 * Trigger HTTP POST request, with timeout=30 seconds. 
 	 * 
 	 * @param requestURL
 	 * @param requestBody
@@ -142,6 +147,22 @@ public class HTTPRequest {
 	 * @throws Exception
 	 */
 	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
+		return executePost(requestURL, requestBody, requestHeaders, timeOutInt);
+	}
+	
+
+	/**
+	 * Trigger HTTP POST request, with timeout as input, currently being used by create order api.
+	 * 	The create order api, in some cases, requires more than 30 seconds to return success response from MWG;
+	 * 	therefore setting timeout = 40 seconds for create order api
+	 * 
+	 * @param requestURL
+	 * @param requestBody
+	 * @param requestHeaders
+	 * @return
+	 * @throws Exception
+	 */
+	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeout) throws Exception {
 
 		HttpURLConnection connection = null;
 
@@ -157,9 +178,9 @@ public class HTTPRequest {
 				connection.setUseCaches(false);
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
-				connection.setConnectTimeout(timeOutInt);
-				connection.setReadTimeout(timeOutInt);
-
+				connection.setConnectTimeout(timeout);
+				connection.setReadTimeout(timeout);
+				
 				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
 					connection.addRequestProperty(entry.getKey(), entry.getValue());
 				}
@@ -174,7 +195,8 @@ public class HTTPRequest {
 						try {
 							oStream.close();
 						} catch(Exception ex) {
-							logger.log(Level.SEVERE, "[HTTPRequest]::executePost::Exception close stream: " + ex.getMessage());
+							logger.error("[HTTPRequest]::executePost::Exception close stream: " + ex.getMessage());
+							throw ex;
 						}
 					}
 				}
@@ -185,17 +207,14 @@ public class HTTPRequest {
 
 			// Handle the response
 			int responseCode = connection.getResponseCode();
-			String response  = ResponseHandler.Response(connection);
+			String response  = ResponseHandler.getResponse(connection);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
 			
 			} else {
-				logger.log(
-					Level.INFO, 
-					"[executePost]::response code: {0}, msg: {1}, URL: {2}",
-					new Object[] { responseCode, response }
-				);
+				// 2018-07-30 DZ thinks it is a redundant error log
+				// logger.error("[executePost]::response code: " + responseCode + ", msg: " + response + ", URL: " + requestURL);
 
 				String msg;
 				
@@ -209,15 +228,15 @@ public class HTTPRequest {
 			}
 		
 		} catch (MalformedURLException ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} catch (IOException ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));			
+			logger.error(getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} finally {
@@ -225,7 +244,7 @@ public class HTTPRequest {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, "[executePost]::Exception closing connection, path: "+ requestURL);
+					logger.error("[executePost]::Exception closing connection, path: "+ requestURL);
 					throw ex;
 				}
 			}
@@ -261,7 +280,9 @@ public class HTTPRequest {
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
 				timeOut = (timeOut == 0) ? timeOutInt : timeOut;
-				logger.log(Level.INFO, "[executePostJSON]::Timeout", timeOut);
+
+				logger.trace("[executePostJSON]::Timeout: " +  timeOut);
+				
 				connection.setConnectTimeout(timeOut);
 				connection.setReadTimeout(timeOut);
 
@@ -279,7 +300,8 @@ public class HTTPRequest {
 						try {
 							oStream.close();
 						} catch(Exception ex) {
-	    						logger.log(Level.SEVERE, "[HTTPRequest]::executePostJSON::Exception close stream: " + ex.getMessage());
+							logger.error("[HTTPRequest]::executePostJSON::Exception close stream: " + ex.getMessage());
+							throw ex;
 						}
 					}
 				}
@@ -310,22 +332,22 @@ public class HTTPRequest {
 			}
 			
 			endTime = System.currentTimeMillis();
-			
-			logger.log(Level.INFO, "[executePostJSON]::Total process time: "+(endTime - startTime)+" ms, path: "+requestURL);
+
+			logger.trace("[executePostJSON]::Total process time: " + (endTime - startTime) + " ms, path: "+requestURL);
 			
 			// return body to auth
 			return sb.toString();
 
 		} catch (MalformedURLException ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} catch (IOException ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL));
 			throw ex;
 		
 		} finally {
@@ -333,7 +355,7 @@ public class HTTPRequest {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, "[executePostJSON]::Exception closing connection: "+ex.getMessage()+", URL: "+requestURL);
+					logger.error("[executePostJSON]::Exception closing connection: "+ex.getMessage()+", URL: "+requestURL);
 					throw ex;
 				}
 			}
@@ -369,22 +391,30 @@ public class HTTPRequest {
 			int responseCode = connection.getResponseCode();
 			endTime = System.currentTimeMillis();
 
-			logger.log(
-				Level.INFO, 
-				"[executeRequest]::Total process time for "+requestMethod+": "+(endTime - startTime)+" ms, URL: "+requestURL);
+			logger.trace("[executeRequest]::Total process time for "+requestMethod+": "+(endTime - startTime)+" ms, URL: "+requestURL);
 			
-			String response = ResponseHandler.Response(connection);
+			//Note: Since only about 75% of APIs has the userId query parameter, this log message may not print
+			//      even if isUserTrackOn=on. Just be aware of this fact.
+			//      This block of code is more useful in the future when every API call has the userId parameter.
+    		if(LogUtil.isUserTrackOn) {
+    			if ((requestURL != null) && (LogUtil.getUserId(requestURL) != null ) ) {
+    				if (LogUtil.trackedUserIdsMap.containsKey(LogUtil.getUserId(requestURL).trim())) {
+						logger.info("Tracking data for " + LogUtil.getUserId(requestURL).trim() + ": " 
+								+ "[executeRequest]::Total process time for " +requestMethod+ ": "+ (endTime - startTime) + " ms, URL: " + requestURL);
+    				}
+    			}
+    		}
+			
+			String response = ResponseHandler.getResponse(connection);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
 			
 			} else {
-				logger.log(
-					Level.INFO, 
-					"[executeRequest]::response code: {0}, msg: {1}, URL: {2}",
-					new Object[] { connection.getResponseCode(), connection.getResponseMessage() }
-				);
-
+				// 2018-07-30 DZ thinks it is a redundant error log
+				// logger.error("[executeRequest]::response code: " + connection.getResponseCode() + " , msg: " + connection.getResponseMessage() + 
+				// 		" , URL:" + requestURL);
+				
 				String msg;
 				
 				if (response.length() > 0) {
@@ -397,19 +427,23 @@ public class HTTPRequest {
 			}
 		
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL));
 			throw e;
 		
 		} catch (URISyntaxException e) {
-			logger.log(Level.SEVERE, getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+			logger.error(getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL));
 			throw e;
 		
+		} catch (Exception e) {
+			logger.error(getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL));
+			throw e;
+			
 		} finally {
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, getErrorMsg("[executeRequest]::Exception: "+ ex.getMessage(), requestURL, connection.getResponseCode(), connection.getResponseMessage()));
+					logger.error(getErrorMsg("[executeRequest]::Exception: "+ ex.getMessage(), requestURL));
 					throw ex;
 				}
 			}
@@ -441,16 +475,8 @@ public class HTTPRequest {
 			int status = connection.getResponseCode();
 			endTime = System.currentTimeMillis();
 
-			logger.log(
-					Level.INFO,
-					"[executeDelete]::Total process time: {0} ms, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { 
-							(endTime - startTime), 
-							requestURL, 
-							connection.getResponseCode(),
-							connection.getResponseMessage() 
-						}
-					);
+			logger.trace("[executeDelete]::Total process time: " + (endTime - startTime) + " ms, URL: " +
+					requestURL + ", response code: " + connection.getResponseCode() + ", msg: " +  connection.getResponseMessage());
 
 			switch (status) {
 				case 200:
@@ -464,45 +490,15 @@ public class HTTPRequest {
 			}
 		
 		} catch (MalformedURLException ex) {
-			logger.log(
-					Level.SEVERE,
-					"[executeDelete]::MalformedURLException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { 
-							ex.getMessage(), 
-							requestURL, 
-							connection.getResponseCode(),
-							connection.getResponseMessage() 
-						}
-					);
-			
+			logger.error("[executeDelete]::MalformedURLException: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
 		
 		} catch (IOException ex) {
-			logger.log(
-					Level.SEVERE, 
-					"[executeDelete]::IOException: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { 
-							ex.getMessage(), 
-							requestURL, 
-							connection.getResponseCode(),
-							connection.getResponseMessage() 
-						}
-					);
-			
+			logger.error("[executeDelete]::IOException: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
 		
 		} catch (Exception ex) {
-			logger.log(
-					Level.SEVERE, 
-					"[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
-					new Object[] { 
-							ex.getMessage(), 
-							requestURL, 
-							connection.getResponseCode(),
-							connection.getResponseMessage() 
-						}
-					);
-			
+			logger.error("[executeDelete]::Exception: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
 		
 		} finally {
@@ -511,16 +507,8 @@ public class HTTPRequest {
 					connection.disconnect();
 				
 				} catch (Exception ex) {
-					logger.log(
-							Level.SEVERE, 
-							"[executeDelete]::Exception: {0}, URL: {1}, response code: {2}, msg: {3}",
-							new Object[] { 
-									ex.getMessage(), 
-									requestURL, 
-									connection.getResponseCode(),
-									connection.getResponseMessage() 
-								}
-							);
+					logger.error("[executeDelete]::Exception: " + ex.getMessage() + ", URL: " + requestURL +
+							", response code: " + connection.getResponseCode() + ", msg: " + connection.getResponseMessage());
 					
 					throw ex;
 				}
@@ -542,8 +530,13 @@ public class HTTPRequest {
 	 * @param respMsg
 	 * @return
 	 */
-	private static String getErrorMsg(String msg, String url, int respCode, String respMsg) {
-		return msg + ", url: " + url + ", respCode: " + respCode + ", respMsg: " + respMsg; 
+	private static String getErrorMsg(String msg, String url) {
+		if (msg != null) {
+			// remove the new line marker
+			return msg.trim() + ", url: " + url;
+		} else {
+			return "a null" + ", url: " + url; 
+		}
 	}
 	   
 	/**

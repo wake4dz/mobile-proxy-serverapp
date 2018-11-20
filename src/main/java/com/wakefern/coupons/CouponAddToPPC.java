@@ -33,12 +33,11 @@ public class CouponAddToPPC extends BaseService {
     @Produces(MWGApplicationConstants.Headers.generic)
     public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Coupons.Metadata.PPC) String ppcParam,
                                     @DefaultValue("") @QueryParam(WakefernApplicationConstants.Coupons.Metadata.CouponId) String couponId,
-                            		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
-                            		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
+                                    @HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
+                            			@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
                                     @HeaderParam("Authorization") String authToken) {
-
-    	try {
-	    	this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
+        try {
+	    		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
 	
 	        matchedObjects = new JSONObject();
 	        prepareResponse(ppcParam, couponId);
@@ -46,17 +45,16 @@ public class CouponAddToPPC extends BaseService {
 	        //Execute Post
 	        ServiceMappings serviceMappings = new ServiceMappings();
 	        serviceMappings.setCouponMapping(this);
-
             return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
         } catch (Exception e){
 
-        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ADD_TO_PPC);
-        	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
-        			"ppcParam", ppcParam, "couponID", couponId, 
-        			"authToken", authToken, "accept", accept, "contentType", contentType);
-        	
-    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+	        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ADD_TO_PPC);
+	        	
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+	        			"ppcParam", ppcParam, "couponID", couponId, 
+	        			"authToken", authToken, "accept", accept, "contentType", contentType);
+	        	
+	    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);
         }

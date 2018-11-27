@@ -199,6 +199,7 @@ public class LogUtil {
 	
 	/*
 	 * concatenate all relevant URL request data 
+	 * @todo Benchmark
 	 */
 	public static String getRequestData(Object... arguments) {
 		
@@ -235,24 +236,7 @@ public class LogUtil {
 	 * only display com.wakefern related stack trace info
 	 */
 	public static String getRelevantStackTrace(Exception e) {
-		StringBuffer sb = new StringBuffer();
-		StackTraceElement[] elements = e.getStackTrace();
-	
-		int i = 0;
-		while (i < elements.length) {
-			if (elements[i].toString().contains("com.wakefern")) {
-				sb.append(elements[i] + " -> ");
-			} else {
-				sb.append("truncated other high-level stack traces...");
-				
-				break; // not interested other nested JDK/library stack trace
-			}
-			
-			i++;
-		}
-		
-		return sb.toString();
-		
+		return e.toString();	
 	}
 	
 	
@@ -389,37 +373,13 @@ public class LogUtil {
 	 * Add different exception type into 2 different kinds of error maps for the reporting
 	 */
 	public static void addErrorMaps(Exception e, MwgErrorType mwgErrorType) {
-
-    	if (LogUtil.is4xxError(LogUtil.getExceptionMessage(e))) {
-        	if (!LogUtil.error4xxMap.containsKey(mwgErrorType.toString())) {
-        		LogUtil.error4xxMap.put(mwgErrorType.toString(), 1); 
-        	} else {
-        		LogUtil.error4xxMap.put(mwgErrorType.toString(), LogUtil.error4xxMap.get(mwgErrorType.toString()) + 1);
-        	}
-    	} else {
-        	if (!LogUtil.errorMap.containsKey(mwgErrorType.toString())) {
-        		LogUtil.errorMap.put(mwgErrorType.toString(), 1); 
-        	} else {
-        		LogUtil.errorMap.put(mwgErrorType.toString(), LogUtil.errorMap.get(mwgErrorType.toString()) + 1);
-        	}        		
-    	}
+		logger.info(e.toString());
 	}
 	
 	/*
 	 * To extract userId's in the request URL
 	 */
 	public static String getUserId(String url) {	
-		try {
-	        Map<String, String> urlMap=new HashMap<String, String>();
-	        String queryString=StringUtils.substringAfter(url,"?");
-	        for(String param : queryString.split("&")){
-	            urlMap.put(StringUtils.substringBefore(param, "="),StringUtils.substringAfter(param, "="));
-	        }
-	        
-	        return urlMap.get(MWGApplicationConstants.Requests.Params.Query.userID);
-		} catch (Exception e) {
-	    	logger.error(e.getMessage());
-	    	return null;
-	    }
+		return null;
 	}
 }

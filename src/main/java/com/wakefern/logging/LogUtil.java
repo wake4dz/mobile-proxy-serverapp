@@ -42,11 +42,11 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 public class LogUtil {
 	private final static Logger logger = Logger.getLogger(LogUtil.class);
 	
-	public static boolean isEmailOn = true;
+	public static boolean isEmailOn = false;
 	
 	public static int toEmailAddressMaxSize = 5;
 	
-	public static boolean isUserTrackOn = true;
+	public static boolean isUserTrackOn = false;
 	public static Map<String, String> trackedUserIdsMap = new ConcurrentHashMap<String, String>();
 	
 	public static String mailSmtpUser = null;
@@ -66,6 +66,8 @@ public class LogUtil {
 	public static Map<String, Integer> errorMap = new ConcurrentHashMap<String, Integer>();
 	// for MWG's backend api calling errors for 401, 404, etc
 	public static Map<String, Integer> error4xxMap = new ConcurrentHashMap<String, Integer>();
+	
+	public static boolean isErrorMapUpdatable = false;
 	
 	public static Map<String, String> toEmailAddressesMap = new ConcurrentHashMap<String, String>();
 	
@@ -135,6 +137,8 @@ public class LogUtil {
 					trackedUserIdsMap.put(userId.trim(), userId.trim());
 				}
 			}
+			
+			isErrorMapUpdatable = Boolean.parseBoolean(LogUtil.getPropertyValue("isErrorMapUpdatable").trim());
 	    	
 	    	emailJob = JobBuilder.newJob(EmailReportScheduleJob.class)
 					.withIdentity("emailJob", "emailGroup").build();
@@ -170,24 +174,24 @@ public class LogUtil {
 	    	//                 to prepare for busy weekends if there are many errors.
 	    
 	    	// #1 of 2: for Monday's 3:00am
-	    	// 7:00am in Bluemix's South region = 3:00am EST?
-			emailTrigger = TriggerBuilder.newTrigger()
-					.withIdentity("emailCronTrigger", "emailGroup")
-					//.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(11, 3))
-					.withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(2, 7, 0))
-					.build();
+	    	// 7:00am in Bluemix's South region = 2:00am or 3:00am EST depending on the DTS
+//			emailTrigger = TriggerBuilder.newTrigger()
+//					.withIdentity("emailCronTrigger", "emailGroup")
+//					//.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(11, 3))
+//					.withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(2, 7, 0))
+//					.build();
 
 			// #2 of 2: for Thursday's 3:00am
-			emailTrigger2 = TriggerBuilder.newTrigger()
-					.withIdentity("emailCronTrigger2", "emailGroup")
-					//.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(15, 30))
-					.withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(5, 7, 0))
-					.build();
-		
-			emailScheduler = new StdSchedulerFactory().getScheduler();
-			emailScheduler.start();
-			emailScheduler.scheduleJob(emailJob, emailTrigger);
-			emailScheduler.scheduleJob(emailJob2, emailTrigger2);
+//			emailTrigger2 = TriggerBuilder.newTrigger()
+//					.withIdentity("emailCronTrigger2", "emailGroup")
+//					//.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(15, 30))
+//					.withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(5, 7, 0))
+//					.build();
+//		
+//			emailScheduler = new StdSchedulerFactory().getScheduler();
+//			emailScheduler.start();
+//			emailScheduler.scheduleJob(emailJob, emailTrigger);
+//			emailScheduler.scheduleJob(emailJob2, emailTrigger2);
 
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
@@ -389,24 +393,26 @@ public class LogUtil {
 	 * Add different exception type into 2 different kinds of error maps for the reporting
 	 */
 	public static void addErrorMaps(Exception e, MwgErrorType mwgErrorType) {
-
-    	if (LogUtil.is4xxError(LogUtil.getExceptionMessage(e))) {
-        	if (!LogUtil.error4xxMap.containsKey(mwgErrorType.toString())) {
-        		LogUtil.error4xxMap.put(mwgErrorType.toString(), 1); 
-        	} else {
-        		LogUtil.error4xxMap.put(mwgErrorType.toString(), LogUtil.error4xxMap.get(mwgErrorType.toString()) + 1);
-        	}
-    	} else {
-        	if (!LogUtil.errorMap.containsKey(mwgErrorType.toString())) {
-        		LogUtil.errorMap.put(mwgErrorType.toString(), 1); 
-        	} else {
-        		LogUtil.errorMap.put(mwgErrorType.toString(), LogUtil.errorMap.get(mwgErrorType.toString()) + 1);
-        	}        		
-    	}
+		// set it to be "false" in the logConfig.proproties for the memory issue troubleshooting
+		if (isErrorMapUpdatable) {
+	    	if (LogUtil.is4xxError(LogUtil.getExceptionMessage(e))) {
+	        	if (!LogUtil.error4xxMap.containsKey(mwgErrorType.toString())) {
+	        		LogUtil.error4xxMap.put(mwgErrorType.toString(), 1); 
+	        	} else {
+	        		LogUtil.error4xxMap.put(mwgErrorType.toString(), LogUtil.error4xxMap.get(mwgErrorType.toString()) + 1);
+	        	}
+	    	} else {
+	        	if (!LogUtil.errorMap.containsKey(mwgErrorType.toString())) {
+	        		LogUtil.errorMap.put(mwgErrorType.toString(), 1); 
+	        	} else {
+	        		LogUtil.errorMap.put(mwgErrorType.toString(), LogUtil.errorMap.get(mwgErrorType.toString()) + 1);
+	        	}        		
+	    	}
+		}
 	}
 	
 	/*
-	 * To extract userId's in the request URL
+	 * To extract userId's in the request URL if isUserTrackOn is on. By default, isUserTrackOn is false.
 	 */
 	public static String getUserId(String url) {	
 		try {

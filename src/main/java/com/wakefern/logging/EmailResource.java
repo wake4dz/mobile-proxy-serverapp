@@ -39,6 +39,7 @@ public class EmailResource {
 		
 		sb.append(" --- Current Property Settings ---\n");
 		sb.append("isMailOn=" + LogUtil.isEmailOn + "\n");
+		sb.append("isErrorMapUpdatable=" + LogUtil.isErrorMapUpdatable + "\n");
 		
 		sb.append("fromEmailAddress=" + LogUtil.fromEmailAddress + "\n");
 		StringBuffer emailSb = new StringBuffer();
@@ -154,6 +155,8 @@ public class EmailResource {
 			@QueryParam("mailSmtpPort") Integer mailSmtpPort,
 			
 			@QueryParam("isUserTrackOn") String isUserTrackOn,
+			@QueryParam("isErrorMapUpdatable") String isErrorMapUpdatable,
+			
 			
 			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
 		
@@ -163,6 +166,10 @@ public class EmailResource {
 		
 		if (isEmailOn != null) {
 			LogUtil.isEmailOn = Boolean.parseBoolean(isEmailOn.toLowerCase().trim());
+		}
+		
+		if (isErrorMapUpdatable != null) {
+			LogUtil.isErrorMapUpdatable = Boolean.parseBoolean(isErrorMapUpdatable.toLowerCase().trim());
 		}
 								
 		if ((fromEmailAddress != null) && (fromEmailAddress.trim().length() > 0)){
@@ -223,6 +230,7 @@ public class EmailResource {
 		
 
 		sb.append("isEmailOn=" + LogUtil.isEmailOn + "\n");
+		sb.append("isErrorMapUpdatable=" + LogUtil.isErrorMapUpdatable + "\n");
 		
 		sb.append("fromEmailAddress=" + LogUtil.fromEmailAddress + "\n");
 		sb.append("toEmailAddressMaxSize=" + LogUtil.toEmailAddressMaxSize + "\n");

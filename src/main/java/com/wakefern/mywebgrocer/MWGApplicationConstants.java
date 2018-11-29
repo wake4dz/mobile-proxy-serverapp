@@ -180,6 +180,7 @@ public class MWGApplicationConstants {
 
 		public static class Products {
 			public static final String categories = prefix + "category+json";
+			public static final String categoriesPlugin = prefix + "category-plugin+json";
 			public static final String countries = prefix + "product-country-of-origin+json";
 			public static final String productList = prefix + "product-list+json";
 			public static final String product = prefix + "product+json";
@@ -302,6 +303,7 @@ public class MWGApplicationConstants {
 				public static final String districtID = "districtId";
 				public static final String fulfillType = "fulfillment"; // As in: 'delivery' or 'pickup'
 				public static final String promoCode = "promoCode";
+				public static final String circCategoriesID = "circCategoriesID";
 			}
 
 			// Request Parameters that are part of the URL's query string.
@@ -396,6 +398,9 @@ public class MWGApplicationConstants {
 			public static final String prefix = "/product/v7";
 
 			public static final String categories = "/categories" + storeID;
+			public static final String circCategoriesWeeklySpecials = "/categories" + storeID + "/circular-product-categories/all-weekly-specials";
+			public static final String circCategoriesProductDetail = "/categories" + storeID + "/circular-product-categories/{" + Params.Path.circCategoriesID + "}";
+			
 			public static final String subCategories = parentCatID + storeID + "/categories";
 			public static final String catsWithSales = categories + sales;
 			public static final String subCatsWithSales = subCategories + sales;

@@ -244,6 +244,7 @@ public class MWGApplicationConstants {
 
 		public static class Checkout {
 			public static final String promoCodes = prefix + "promo-code+json";
+			public static final String substitutions = prefix +"substitutions+json";
 			public static final String userFSN = prefix + "frequent-shopper-number+json";
 			public static final String comments = prefix + "comments+json";
 			public static final String links = prefix + "links+json";
@@ -544,6 +545,8 @@ public class MWGApplicationConstants {
 
 			public static final String promoCodes = chainsID + storesID + usersID + "/promocodes";
 			public static final String promoCodeDelete = promoCodes + "/{" + Params.Path.promoCode + "}";
+			
+			public static final String substitutions =  userID +storeID + "/substitutions";
 
 			public static final String fulfillOpts = fflmnts + mwgStoreID;
 			public static final String deliveryInfo = fulfillOpts + deliveryZip;

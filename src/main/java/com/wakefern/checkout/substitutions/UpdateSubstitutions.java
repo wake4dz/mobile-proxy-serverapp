@@ -59,7 +59,7 @@ public class UpdateSubstitutions extends BaseService {
         } catch (Exception e) {
 	        	LogUtil.addErrorMaps(e, MwgErrorType.SUBSTITUTIONS_UPDATE_SUBSTITUTIONS);
 	        	
-	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRevelantStackTrace(e), 
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
 	        			"storeID", storeID, "userID", userID, "authToken", sessionToken, 
 	        			"accept", MWGApplicationConstants.Headers.json, "contentType", MWGApplicationConstants.Headers.Checkout.substitutions);
 	        	

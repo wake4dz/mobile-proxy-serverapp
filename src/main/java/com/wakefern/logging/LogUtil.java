@@ -428,4 +428,16 @@ public class LogUtil {
 	    	return null;
 	    }
 	}
+	
+	
+	/*
+	 * If MWG returns an error HTML content for any REST API call, it would be transformed into a generic JSON error message
+	 */
+	public static String transformHtmlResponse(String response) {
+		if ((response != null) && (response.indexOf("<html") > 0)) {					
+			return "{ \"errorMessage\" : \"An HTML content is returned, something is not right\"} ";
+		} else {
+			return response;
+		}
+	}
 }

@@ -155,9 +155,8 @@ public class EmailResource {
 			@QueryParam("mailSmtpPort") Integer mailSmtpPort,
 			
 			@QueryParam("isUserTrackOn") String isUserTrackOn,
+			
 			@QueryParam("isErrorMapUpdatable") String isErrorMapUpdatable,
-			
-			
 			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
 		
 		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {

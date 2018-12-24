@@ -1,18 +1,23 @@
 package com.wakefern.checkout.chains;
 
-import com.wakefern.global.BaseService;
-import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.models.MWGHeader;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import java.io.IOException;
+import java.util.HashMap;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.util.HashMap;
+import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.mywebgrocer.models.MWGHeader;
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class DeletePromoCode extends BaseService {
@@ -39,9 +44,7 @@ public class DeletePromoCode extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.promoCode) String promoCode,
-    		    		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-    		
     		String jsonData
     		
 	) throws Exception, IOException {
@@ -69,16 +72,15 @@ public class DeletePromoCode extends BaseService {
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
-        	LogUtil.addErrorMaps(e, MwgErrorType.CHAINS_DELETE_PROMO_CODE);
-        	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
-        			"chainID", chainID, "userID", userID, 
-        			"sessionToken", sessionToken, "accept", null, "contentType", null, "httpBody", jsonData );
-        	
-    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+	        	LogUtil.addErrorMaps(e, MwgErrorType.CHAINS_DELETE_PROMO_CODE);
+	        	
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "storeId", storeID, 
+	        			"chainID", chainID, "userID", userID, 
+	        			"sessionToken", sessionToken, "accept", null, "contentType", null, "httpBody", jsonData );
+	        	
+	    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);
-
         }
     }
 }

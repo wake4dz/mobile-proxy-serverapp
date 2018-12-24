@@ -36,6 +36,7 @@ public class CouponAddToPPC extends BaseService {
                                     @HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
                             			@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
                                     @HeaderParam("Authorization") String authToken) {
+
         try {
 	    		this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
 	
@@ -45,6 +46,7 @@ public class CouponAddToPPC extends BaseService {
 	        //Execute Post
 	        ServiceMappings serviceMappings = new ServiceMappings();
 	        serviceMappings.setCouponMapping(this);
+
             return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
         } catch (Exception e){
 

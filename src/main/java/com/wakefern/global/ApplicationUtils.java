@@ -10,4 +10,24 @@ public class ApplicationUtils {
         }
         return false;
     }
+    
+    public static StringBuilder constructCouponUrl(String pathUrl, String fsnReqParam) {
+    		StringBuilder sb = new StringBuilder();
+        	sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURL);
+        	sb.append(pathUrl);
+    		sb.append("?fsn=");
+    		sb.append(fsnReqParam);
+    		return sb;
+    }
+    
+//public static String constructCouponUrl(String pathUrl, String fsnReqParam, String queryKey, String queryValue) {
+//    		StringBuilder sb = new StringBuilder();
+//        	sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURL);
+//        	sb.append(pathUrl);
+//    		sb.append("?fsn=");
+//    		sb.append(fsnReqParam);
+//    		sb.append(queryKey);
+//    		sb.append(queryValue);
+//    		return sb.toString();
+//    }
 }

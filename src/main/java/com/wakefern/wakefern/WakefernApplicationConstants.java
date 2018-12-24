@@ -55,7 +55,40 @@ public class WakefernApplicationConstants {
             public static final String requirementDescription = "requirement_description";
         }
     }
-    
+
+	public static class CouponsV2 {
+        public static final String baseURL = "https://couponapis.shoprite.com/api";
+        public static final String baseURLAuth = "https://couponapis.shoprite.com";
+
+        public static class Headers{
+            public static final String CouponAuthenticationToken	  = "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM1NjgzODAsImVtYWlsIjoiS0VWSU4uSkFOR0BXQUtFRkVSTi5DT00iLCJmdWxsTmFtZSI6ImNvdXBvbldlYlVzZXJzIiwiaWF0IjoxNTI1ODg4MzgwfQ.Numfi4df5nSvfR9Rt2POzA4Fki-iw7CAQT6rmjb32IY";
+        }
+
+        public static class PathInfo{
+            public static final String CouponId     = "/getCouponIDListBySR";
+            public static final String CouponByPPC  = "/getCouponIDListByPPC";
+            public static final String CouponAddPPC = "/addCouponToPPC";
+            public static final String UserLogin = "/auth/v2/userLogin";
+            public static final String CouponMetadata = "/v2/getCouponMetadata";
+            public static final String CouponIDListByPPC_SEC = "/v2/getCouponIDListByPPC_SEC";
+            public static final String AddCouponToPPC_SEC = "/v2/addCouponToPPC_SEC";
+            public static final String RemoveCouponFromPPC = "/v2/removeCouponFromPPC";
+            public static final String GetCouponByUPC = "/v2/getCouponByUPC";
+            public static final String GetUPCListByCouponID = "/v2/getUPCListByCouponID";
+            public static final String GetHistoryMetadata = "/v2/getHistoryMetadata";
+            public static final String GetHistoryCouponByPPC = "/v2/getHistoryCouponByPPC";
+            public static final String fsn = "fsn";
+            public static final String upc = "upc";
+            public static final String coupon_id = "coupon_id";
+        }
+
+        public static class QueryParam{
+            public static final String CouponParam = "&coupon_id=";
+            public static final String UPCParam = "&upc=";
+            public static final String ClipSource = "&clip_source=APP_SR";
+        }
+    }
+	
     public static class ItemLocator {
         public static final String Aisle = "Aisle";
         public static final String area_desc = "wf_area_desc";

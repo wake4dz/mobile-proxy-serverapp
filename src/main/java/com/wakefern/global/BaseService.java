@@ -409,7 +409,6 @@ public class BaseService {
 			//logger.error("[getItemLocations]::Exception processing item locator: ", e);
 			logger.error("[getItemLocations]::Exception processing item locator. The error message: " + LogUtil.getExceptionMessage(e) 
 							+ ", exception location: " +  LogUtil.getRelevantStackTrace(e));
-			
 			return origRespStr;
 		}
 	}

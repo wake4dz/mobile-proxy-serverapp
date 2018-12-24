@@ -76,7 +76,7 @@ public class CreateOrders extends BaseService {
 			}
 			
 			// On 9/24/2018, per Loi's request, we log the log below for every order in addition to the userTrackOn feature
-    		logger.info("[CreateOrders::getResponse]::processing time-"+(endTime - startTime)+" - "+mwgStoreID+" - "+jsonResponse);
+    			logger.info("[CreateOrders::getResponse]::processing time-"+(endTime - startTime)+" - "+mwgStoreID+" - "+jsonResponse);
             
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
@@ -86,15 +86,15 @@ public class CreateOrders extends BaseService {
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {
-        	endTime = System.currentTimeMillis();
-        	
-        	LogUtil.addErrorMaps(e, MwgErrorType.ORDERS_CREATE_ORDERS);
-        	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
-        			"mwgStoreID", mwgStoreID, "processTime", (endTime - startTime),  "userID", userID, "sessionToken", sessionToken, "httpBody", jsonString);
-        	
-     
-    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e) );
+	        	endTime = System.currentTimeMillis();
+	        	
+	        	LogUtil.addErrorMaps(e, MwgErrorType.ORDERS_CREATE_ORDERS);
+	        	
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
+	        			"mwgStoreID", mwgStoreID, "processTime", (endTime - startTime),  "userID", userID, "sessionToken", sessionToken, "httpBody", jsonString);
+	        	
+	     
+	    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e) );
 
             return this.createErrorResponse(errorData, e);
         }

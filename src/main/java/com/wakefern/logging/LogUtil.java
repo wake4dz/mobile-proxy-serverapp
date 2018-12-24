@@ -47,6 +47,7 @@ public class LogUtil {
 	public static int toEmailAddressMaxSize = 5;
 	
 	public static boolean isUserTrackOn = false;
+
 	public static Map<String, String> trackedUserIdsMap = new ConcurrentHashMap<String, String>();
 	
 	public static String mailSmtpUser = null;
@@ -68,7 +69,6 @@ public class LogUtil {
 	public static Map<String, Integer> error4xxMap = new ConcurrentHashMap<String, Integer>();
 	
 	public static boolean isErrorMapUpdatable = false;
-	
 	public static Map<String, String> toEmailAddressesMap = new ConcurrentHashMap<String, String>();
 	
 	public static JobDetail emailJob;
@@ -137,22 +137,22 @@ public class LogUtil {
 					trackedUserIdsMap.put(userId.trim(), userId.trim());
 				}
 			}
-			
+
 			isErrorMapUpdatable = Boolean.parseBoolean(LogUtil.getPropertyValue("isErrorMapUpdatable").trim());
 	    	
-	    	emailJob = JobBuilder.newJob(EmailReportScheduleJob.class)
-					.withIdentity("emailJob", "emailGroup").build();
-	    	
-	    	emailJob2 = JobBuilder.newJob(EmailReportScheduleJob.class)
-					.withIdentity("emailJob", "emailGroup").build();
-
-			jobKey = new JobKey("emailJob", "emailGroup");
-	    	emailJob = JobBuilder.newJob(EmailReportScheduleJob.class)
-			.withIdentity(jobKey).build();
-
-	    	jobKey2 = new JobKey("emailJob2", "emailGroup");
-	    	emailJob2 = JobBuilder.newJob(EmailReportScheduleJob.class)
-			.withIdentity(jobKey2).build();
+		    	emailJob = JobBuilder.newJob(EmailReportScheduleJob.class)
+						.withIdentity("emailJob", "emailGroup").build();
+		    	
+		    	emailJob2 = JobBuilder.newJob(EmailReportScheduleJob.class)
+						.withIdentity("emailJob", "emailGroup").build();
+	
+				jobKey = new JobKey("emailJob", "emailGroup");
+		    	emailJob = JobBuilder.newJob(EmailReportScheduleJob.class)
+				.withIdentity(jobKey).build();
+	
+		    	jobKey2 = new JobKey("emailJob2", "emailGroup");
+		    	emailJob2 = JobBuilder.newJob(EmailReportScheduleJob.class)
+				.withIdentity(jobKey2).build();
 	    	
 			// for repeating every 5 seconds
 			//.withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
@@ -393,21 +393,22 @@ public class LogUtil {
 	 * Add different exception type into 2 different kinds of error maps for the reporting
 	 */
 	public static void addErrorMaps(Exception e, MwgErrorType mwgErrorType) {
+
 		// set it to be "false" in the logConfig.proproties for the memory issue troubleshooting
 		if (isErrorMapUpdatable) {
-	    	if (LogUtil.is4xxError(LogUtil.getExceptionMessage(e))) {
-	        	if (!LogUtil.error4xxMap.containsKey(mwgErrorType.toString())) {
-	        		LogUtil.error4xxMap.put(mwgErrorType.toString(), 1); 
-	        	} else {
-	        		LogUtil.error4xxMap.put(mwgErrorType.toString(), LogUtil.error4xxMap.get(mwgErrorType.toString()) + 1);
-	        	}
-	    	} else {
-	        	if (!LogUtil.errorMap.containsKey(mwgErrorType.toString())) {
-	        		LogUtil.errorMap.put(mwgErrorType.toString(), 1); 
-	        	} else {
-	        		LogUtil.errorMap.put(mwgErrorType.toString(), LogUtil.errorMap.get(mwgErrorType.toString()) + 1);
-	        	}        		
-	    	}
+		    	if (LogUtil.is4xxError(LogUtil.getExceptionMessage(e))) {
+		        	if (!LogUtil.error4xxMap.containsKey(mwgErrorType.toString())) {
+		        		LogUtil.error4xxMap.put(mwgErrorType.toString(), 1); 
+		        	} else {
+		        		LogUtil.error4xxMap.put(mwgErrorType.toString(), LogUtil.error4xxMap.get(mwgErrorType.toString()) + 1);
+		        	}
+		    	} else {
+		        	if (!LogUtil.errorMap.containsKey(mwgErrorType.toString())) {
+		        		LogUtil.errorMap.put(mwgErrorType.toString(), 1); 
+		        	} else {
+		        		LogUtil.errorMap.put(mwgErrorType.toString(), LogUtil.errorMap.get(mwgErrorType.toString()) + 1);
+		        	}        		
+		    	}
 		}
 	}
 	
@@ -424,8 +425,8 @@ public class LogUtil {
 	        
 	        return urlMap.get(MWGApplicationConstants.Requests.Params.Query.userID);
 		} catch (Exception e) {
-	    	logger.error(e.getMessage());
-	    	return null;
+		    	logger.error(e.getMessage());
+		    	return null;
 	    }
 	}
 }

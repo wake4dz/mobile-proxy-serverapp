@@ -99,13 +99,10 @@ public class HTTPRequest {
 				return response;
 			
 			} else {
-				// 2018-07-30 DZ thinks it is a redundant error log
-				// logger.error("[executePut]::response code: "+responseCode+", msg: "+response+", URL: "+requestURL);
-				
 				String msg;
 				
 				if (response.length() > 0) {
-					msg = responseCode + "," + response;
+					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}
@@ -213,13 +210,10 @@ public class HTTPRequest {
 				return response;
 			
 			} else {
-				// 2018-07-30 DZ thinks it is a redundant error log
-				// logger.error("[executePost]::response code: " + responseCode + ", msg: " + response + ", URL: " + requestURL);
-
 				String msg;
 				
 				if (response.length() > 0) {
-					msg = responseCode + "," + response;
+					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}
@@ -411,14 +405,10 @@ public class HTTPRequest {
 				return response;
 			
 			} else {
-				// 2018-07-30 DZ thinks it is a redundant error log
-				// logger.error("[executeRequest]::response code: " + connection.getResponseCode() + " , msg: " + connection.getResponseMessage() + 
-				// 		" , URL:" + requestURL);
-				
 				String msg;
 				
 				if (response.length() > 0) {
-					msg = responseCode + "," + response;
+					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}

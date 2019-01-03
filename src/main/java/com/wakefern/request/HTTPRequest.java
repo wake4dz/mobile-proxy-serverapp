@@ -405,12 +405,19 @@ public class HTTPRequest {
 				return response;
 			
 			} else {
+				// 2018-07-30 DZ thinks it is a redundant error log
+				// logger.error("[executeRequest]::response code: " + connection.getResponseCode() + " , msg: " + connection.getResponseMessage() + 
+				// 		" , URL:" + requestURL);
 				String msg;
-				
-				if (response.length() > 0) {
-					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
+				if(responseCode == 403) {
+					msg = "401,"+(response.length() > 0 ? response : connection.getResponseMessage());
+					logger.info("Convert 403 error into 401.. URL: " + requestURL + " resp: " + response);
 				} else {
-					msg = responseCode + "," + connection.getResponseMessage();
+					if (response.length() > 0) {
+						msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
+					} else {
+						msg = responseCode + "," + connection.getResponseMessage();
+					}
 				}
 				
 				throw new Exception(msg);

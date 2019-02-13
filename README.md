@@ -8,6 +8,20 @@ A simple Java application which uses the WebSphere Liberty's jax-rs feature to i
 
 ## Deploy this application
 
+## Bluemix's Environment Variable
+
+###chain=ShopRiteProd
+	Set the destination for api calls, ShopRiteProd for calling MWG production, ShopRiteStage for calling MWG staging service
+
+###cors=true
+	Strictly for development usage, bypassing the CORS requirement in webapp browser run
+
+###url=mobile
+	Set mwg api endpoint, mobile for calling mobileapi.shoprite.com, web for calling api.shoprite.com (default is mobile)
+	
+###checkoutv3=true
+	For calling MWG Checkout v3 service, MWG is combining all charges for pickup & delivery into one fee vs scattered fee in v3. Previously, MWG's v2 service is returning "Service Fee Total" attribute, the new v3 is returning "Combined Service Fee Total",Wakefern will translate "Combined Service Fee Total" to "Service Fee" for pickup and "Service and Delivery Fee" for delivery & display it in mobile UI.
+
 #### Option 1: Eclipse
 
 Import and deploy to Bluemix and/or a local Liberty server using [Eclipse for Java EE](http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/keplersr2) with the [Bluemix plugin](https://marketplace.eclipse.org/content/ibm-eclipse-tools-bluemix). In your local Liberty server, be sure to add the jaxrs-2.0 feature to your server.xml

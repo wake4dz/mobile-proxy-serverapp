@@ -1,0 +1,9 @@
+---
+applications:
+- name: srmobileproddep02
+  env:
+    chain: ShopRiteProd
+    checkoutv3: true
+    url: mobile
+  services:
+  - srnewrelic

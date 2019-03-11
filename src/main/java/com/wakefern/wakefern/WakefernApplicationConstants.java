@@ -9,6 +9,11 @@ public class WakefernApplicationConstants {
     public static final String srAuthToken = "e9d69feb-012b-45e1-bf10-eea13424495d"; // v2 product recommendation for ShopRite
     public static final String tfgAuthToken = "17a7139d-7268-4548-a441-29dbb380a592"; // v2 product recommendation for TheFreshGrocer
 
+    public static class Chains {
+		public static final String FreshGrocer = "FreshGrocer";
+		public static final String ShopRite = "ShopRite";
+    }
+
 	public static class Coupons {
         public static final String baseURL = "http://couponprodwest.azure-mobile.net/api";
 
@@ -60,8 +65,12 @@ public class WakefernApplicationConstants {
         public static final String baseURL = "https://couponapis.shoprite.com/api";
         public static final String baseURLAuth = "https://couponapis.shoprite.com";
 
-        public static class Headers{
-            public static final String CouponAuthenticationToken	  = "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM1NjgzODAsImVtYWlsIjoiS0VWSU4uSkFOR0BXQUtFRkVSTi5DT00iLCJmdWxsTmFtZSI6ImNvdXBvbldlYlVzZXJzIiwiaWF0IjoxNTI1ODg4MzgwfQ.Numfi4df5nSvfR9Rt2POzA4Fki-iw7CAQT6rmjb32IY";
+        public static class Headers {
+            public static final String CouponAuthenticationToken = "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM1NjgzODAsImVtYWlsIjoiS0VWSU4uSkFOR0BXQUtFRkVSTi5DT00iLCJmdWxsTmFtZSI6ImNvdXBvbldlYlVzZXJzIiwiaWF0IjoxNTI1ODg4MzgwfQ.Numfi4df5nSvfR9Rt2POzA4Fki-iw7CAQT6rmjb32IY";
+            public static final String clip_source = "clip_source";
+            public static final String clip_token = "clip_token";
+            public static final String coupon_id = "coupon_id";
+            public static final String fsn = "fsn";
         }
 
         public static class PathInfo{
@@ -71,8 +80,11 @@ public class WakefernApplicationConstants {
             public static final String UserLogin = "/auth/v2/userLogin";
             public static final String CouponMetadata = "/v2/getCouponMetadata";
             public static final String CouponIDListByPPC_SEC = "/v2/getCouponIDListByPPC_SEC";
+            public static final String CouponIDListByPPC_SEC_FG = "/v2/getCouponIDListByPPC_SEC_FG";
             public static final String AddCouponToPPC_SEC = "/v2/addCouponToPPC_SEC";
+            public static final String AddCouponToPPC_SEC_FG = "/v2/addCouponToPPC_SEC_FG";
             public static final String RemoveCouponFromPPC = "/v2/removeCouponFromPPC";
+            public static final String RemoveCouponFromPPC_FG = "/v2/removeCouponFromPPC_FG";
             public static final String GetCouponByUPC = "/v2/getCouponByUPC";
             public static final String GetUPCListByCouponID = "/v2/getUPCListByCouponID";
             public static final String GetHistoryMetadata = "/v2/getHistoryMetadata";
@@ -80,12 +92,18 @@ public class WakefernApplicationConstants {
             public static final String fsn = "fsn";
             public static final String upc = "upc";
             public static final String coupon_id = "coupon_id";
+            public static final String clip_token = "clip_token";
         }
 
         public static class QueryParam{
             public static final String CouponParam = "&coupon_id=";
             public static final String UPCParam = "&upc=";
-            public static final String ClipSource = "&clip_source=APP_SR";
+            public static final String ClipSource = "&clip_source=";
+        }
+
+        public static class ParamValues {
+			public static final String ClipAppSource_FG = "APP_FG";
+			public static final String ClipAppSource_SR = "APP_SR";
         }
     }
 	

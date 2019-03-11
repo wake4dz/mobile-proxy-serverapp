@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -24,35 +23,47 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Created by loicao on 10/16/18.
+ * Edited by philmayer on 2/27/19.
  */
 @Path(ApplicationConstants.Requests.CouponsV2.RemoveCouponFromPPC)
 public class RemoveCouponFromPPC extends BaseService {
 	private final static Logger logger = Logger.getLogger(RemoveCouponFromPPC.class);
 
-    @POST
-    @Consumes(MWGApplicationConstants.Headers.json)
-    @Produces(MWGApplicationConstants.Headers.json)
-    public Response getInfoResponse(@HeaderParam("Authorization") String authToken,
-    									@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType, 
-    									@QueryParam(ApplicationConstants.Requests.CouponsV2.fsn) String fsn, 
-    									@QueryParam(ApplicationConstants.Requests.CouponsV2.coupon_id) String coupon_id, 
-    									String jsonString) throws Exception, IOException {
-        //Execute POST
-        StringBuilder sb = ApplicationUtils.constructCouponUrl(ApplicationConstants.Requests.CouponsV2.RemoveCouponFromPPC, fsn);
-		sb.append(WakefernApplicationConstants.CouponsV2.QueryParam.CouponParam);
-		sb.append(coupon_id);
-		sb.append(WakefernApplicationConstants.CouponsV2.QueryParam.ClipSource);
-        Map<String, String> headerMap = new HashMap<String, String>();
-        headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
-        headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+	@POST
+	@Consumes(MWGApplicationConstants.Headers.json)
+	@Produces(MWGApplicationConstants.Headers.json)
+	public Response getInfoResponse(@HeaderParam("Authorization") String authToken,
+			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
+			@QueryParam(ApplicationConstants.Requests.CouponsV2.fsn) String fsn,
+			@QueryParam(ApplicationConstants.Requests.CouponsV2.coupon_id) String couponId,
+			String jsonString) throws Exception, IOException {
 
-        try {
-        		String response = HTTPRequest.executePostJSON(sb.toString(), jsonString, headerMap, 0);
-            return this.createValidResponse(response);
-        } catch (Exception e){
+		// If the application is in Fresh Grocer mode, we need to attribute a different clip source for analysis.
+		String appMode = MWGApplicationConstants.getApplicationMode();
+		String targetCouponEndpoint = appMode.equals(WakefernApplicationConstants.Chains.FreshGrocer)
+				? ApplicationConstants.Requests.CouponsV2.RemoveCouponFromPPC_FG
+				: ApplicationConstants.Requests.CouponsV2.RemoveCouponFromPPC;
+		String clipSource = appMode.equals(WakefernApplicationConstants.Chains.FreshGrocer)
+				? WakefernApplicationConstants.CouponsV2.ParamValues.ClipAppSource_FG
+				: WakefernApplicationConstants.CouponsV2.ParamValues.ClipAppSource_SR;
+
+		//Execute POST
+		String url = ApplicationConstants.Requests.CouponsV2.BaseCouponURL + targetCouponEndpoint;
+
+		Map<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
+		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+		headerMap.put(WakefernApplicationConstants.CouponsV2.Headers.clip_source, clipSource);
+		headerMap.put(WakefernApplicationConstants.CouponsV2.Headers.coupon_id, couponId);
+		headerMap.put(WakefernApplicationConstants.CouponsV2.Headers.fsn, fsn);
+
+		try {
+			String response = HTTPRequest.executePostJSON(url, jsonString, headerMap, 0);
+			return this.createValidResponse(response);
+		} catch (Exception e){
 			String errorData = LogUtil.getRequestData("RemoveCouponFromPPC::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            return this.createErrorResponse(e);
-        }
-    }
+			return this.createErrorResponse(e);
+		}
+	}
 }

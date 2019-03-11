@@ -127,7 +127,19 @@ public class MWGApplicationConstants {
 		// FreshGrocer Staging : fgStage
 		targetAPI = (targetAPI == null) ? srStage : targetAPI;
 
-		return targetAPI;
+		 return targetAPI;
+	}
+
+	/**
+	 * Retrieve the current brand mode based on the current MWG target API.
+	 *
+	 * @return
+	 */
+	public static String getApplicationMode() {
+		String targetAPI = getTargetAPI();
+		return targetAPI.equals(fgStage) || targetAPI.equals(fgProd)
+			? WakefernApplicationConstants.Chains.FreshGrocer
+			: WakefernApplicationConstants.Chains.ShopRite;
 	}
 	
 	/**

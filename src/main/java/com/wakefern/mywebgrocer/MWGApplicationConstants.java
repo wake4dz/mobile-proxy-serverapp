@@ -151,15 +151,6 @@ public class MWGApplicationConstants {
 	
 	}
 	
-	
-	/**
-	 * The generic way to get the system property value
-	 */
-	public static String getSystemProperytyValue(String key) {
-		return  java.lang.System.getenv(key.trim());
-	
-	}
-	
 	/**
 	 * Check the Bluemix Environment Variable, indicating which MWG API this
 	 * instance of the Wakefern Java API should be talking to.

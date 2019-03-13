@@ -42,13 +42,23 @@ public class GetEntryResourcesByChain extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) {
         try {
-			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Shop.links, MWGApplicationConstants.Headers.json, sessionToken);
-			this.requestParams = new HashMap<String, String>();
-		
-			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
-			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
-		
-			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.shop.GetEntryResourcesByChain");
+//			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Shop.links, MWGApplicationConstants.Headers.json, sessionToken);
+//			this.requestParams = new HashMap<String, String>();
+//		
+//			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
+//			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
+//		
+//			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.shop.GetEntryResourcesByChain");
+        	
+        	/**
+        	 * TODO: this is a temporary patch to the shop entry api call not allowing new registered user to checkout;
+        	 *  unfortunately, shop entry by chain fix in v5 is no longer worked in v7, have to call shop entry by store in v7.
+        	 *  once frontend's code is updated, revert this change to its original implementation
+        	 *   (take out line below & uncomment code snippet above) 
+        	 */
+        		//assign Aberdeen's store ID - DA87780 as default store, since api is not taking in store ID
+			logger.info("routing user to new shop entry api: "+userID);
+			String jsonResponse = new GetEntryResourcesByStore().getInfo(userID, "DA87780", sessionToken);
 			
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
@@ -61,12 +71,12 @@ public class GetEntryResourcesByChain extends BaseService {
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e){
-        	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_ENTRY_RESOURCES_BY_CHAIN);
-        	
-        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
-        			"userID", userID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
-        	
-    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+	        	LogUtil.addErrorMaps(e, MwgErrorType.SHOP_GET_ENTRY_RESOURCES_BY_CHAIN);
+	        	
+	        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "chainId", chainID, 
+	        			"userID", userID, "sessionToken", sessionToken, "accept", accept, "contentType", contentType );
+	        	
+	    		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);
         }

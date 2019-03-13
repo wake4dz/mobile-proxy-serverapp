@@ -74,7 +74,7 @@ public class GetContents extends BaseService {
             // only call item locator when 'In-Store Checklist' option is selected, prevent unnecessary call.
             if(itemLocator!= null && !itemLocator.isEmpty()) {
             		if(itemLocator.equalsIgnoreCase("log")) { //only log cart response when user select 'Cart' Module
-            			logger.debug("Cart Response: "+jsonResponse);
+            			logger.info("Cart Response: "+jsonResponse);
             		} else { // log the cart resp anyway, since not many user select 'In-Store Checklist' option
             			
                 		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);

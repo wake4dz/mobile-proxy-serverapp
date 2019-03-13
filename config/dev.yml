@@ -1,0 +1,3 @@
+---
+SRMOBILE_CORS: true
+SRMOBILE_PAPERTRAIL: srmobilelog-dev

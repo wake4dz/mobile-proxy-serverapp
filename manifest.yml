@@ -4,6 +4,9 @@ applications:
   env:
     chain: ShopRiteProd
     checkoutv3: true
+    cors: ((SRMOBILE_CORS))
     url: mobile
+    plastic_bag_fee: BF80788
   services:
   - srnewrelic
+  - ((SRMOBILE_PAPERTRAIL))

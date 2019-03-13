@@ -142,6 +142,15 @@ public class MWGApplicationConstants {
 			: WakefernApplicationConstants.Chains.ShopRite;
 	}
 	
+	
+	/**
+	 * The generic way to get the system property value
+	 */
+	public static String getSystemProperytyValue(String key) {
+		return  java.lang.System.getenv(key.trim());
+	
+	}
+	
 	/**
 	 * Check the Bluemix Environment Variable, indicating which MWG API this
 	 * instance of the Wakefern Java API should be talking to.
@@ -486,6 +495,11 @@ public class MWGApplicationConstants {
 			public static final String updateRecipe = userRecipes + id;
 		}
 
+		public static class PlasticBagFee {
+			public static final String prefix = "/bagFee";
+			public static final String storeIds = "/storeIds";
+		}
+		
 		public static class Shop {
 			private static final String shop = "/shop";
 			private static final String storeID = "/store" + "/{" + Params.Path.storeID + "}";

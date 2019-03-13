@@ -7,28 +7,45 @@
 	<link rel="stylesheet" href="style.css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Mobile App's Back-end Release Info</title>
-	<style>	
-		p {
+	<style>
+	    p {
 		    text-align: center;
+		}
+		
+		#envVariable {
+		  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+		  border-collapse: collapse;
+		  width: 700px;
+		  margin-left: auto;
+		  margin-right: auto;
+		}
+		
+		#envVariable td, #envVariable th {
+		  border: 1px solid #ddd;
+		  padding: 8px;
+		}
+		
+		#envVariable tr:nth-child(even){background-color: gray;}
+		
+		#envVariable tr:hover {background-color: #ddd;}
+		
+		#envVariable th {
+		  padding-top: 12px;
+		  padding-bottom: 12px;
+		  text-align: Center;
+		  background-color: #4CAF50;
+		  color: white;
 		}
 	</style>
 </head>
 <body>
 	<br /> <br /> <br /> <br /> <br />
-	<h1>The Mobile App Back-end Status Info</h1>
+	<h1>Server Status</h1>
 	
-	<br /> <br /> <br />
+	<br /> 
 	<%
-		int index = 0;
-		for (String message : LogUtil.getWelcomeMessages()) {
-			if (index == 0 || (index == LogUtil.getWelcomeMessages().size() -1) ) {
-				out.println("<h2>" + message + "<br /> </h2>");
-			} else {
-				out.println("<p>" + message + "<br /> </p>");
-			}
-			
-			
-			index++;
+		for (String message : LogUtil.getWelcomeHtmlMessages()) {
+				out.println(message);;
 		}
 	%>
 

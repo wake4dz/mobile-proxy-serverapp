@@ -345,20 +345,27 @@ public class LogUtil {
 	
 	
 	/*
-	 * get the welcome message for the index.jsp and the console
+	 * get the welcome message for the the console
 	 */
 	public static List<String> getWelcomeMessages() {
 		List<String> messages = new ArrayList<String>();
 		
-		messages.add(StringUtils.rightPad("The current APIs env:", 33) + MWGApplicationConstants.getTargetAPI());
 		messages.add("");
-		messages.add(StringUtils.rightPad("The current release version:", 33) + 
-				ReleaseUtil.getReleases().get((ReleaseUtil.getReleases().size() -1)).getReleaseLevel());
-		messages.add(StringUtils.rightPad("The current release date:", 33) + 
-				ReleaseUtil.getReleases().get((ReleaseUtil.getReleases().size() -1)).getReleaseDate());
-		messages.add(StringUtils.rightPad("The current release description:", 33) + 
-				ReleaseUtil.getReleases().get((ReleaseUtil.getReleases().size() -1)).getReleaseDescription());
-		messages.add(StringUtils.rightPad("The current IP address:", 33) + ipAddress);
+		
+		messages.add(StringUtils.rightPad("The 'chain' system property:", 40) + 
+				MWGApplicationConstants.getSystemProperytyValue("chain"));
+		messages.add(StringUtils.rightPad("The 'url' system property:", 40) + 
+				MWGApplicationConstants.getSystemProperytyValue("url"));
+		messages.add(StringUtils.rightPad("The 'cors' system property:", 40) + 
+				MWGApplicationConstants.getSystemProperytyValue("cors"));
+		messages.add(StringUtils.rightPad("The 'checkoutv3' system property:", 40) + 
+				MWGApplicationConstants.getSystemProperytyValue("checkoutv3"));
+		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 40) + 
+				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
+		messages.add("");
+		
+		messages.add(StringUtils.rightPad("The current IP address:", 25) + ipAddress);
+		
 		messages.add("");
 		messages.add("The mobile app's back-end is ready to serve...");
 		
@@ -366,6 +373,40 @@ public class LogUtil {
 		
 	}
 	
+	
+	/*
+	 * get the welcome message for the index.jsp
+	 */
+	public static List<String> getWelcomeHtmlMessages() {
+		List<String> messages = new ArrayList<String>();
+		
+		messages.add("</br> <table id=\"envVariable\">");
+		messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
+		
+		messages.add("<tr><td>chain</td>" + "<td>" +
+				MWGApplicationConstants.getSystemProperytyValue("chain") + "</td> </tr>");
+
+		messages.add("<tr><td>url</td>" + "<td>" +
+				MWGApplicationConstants.getSystemProperytyValue("url") + "</td> </tr>");
+		
+		messages.add("<tr><td>cors</td>" + "<td>" +
+				MWGApplicationConstants.getSystemProperytyValue("cors") + "</td> </tr>");
+		
+		messages.add("<tr><td>checkoutv3</td>" + "<td>" +
+				MWGApplicationConstants.getSystemProperytyValue("checkoutv3") + "</td> </tr>");
+		
+		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
+				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee") + "</td> </tr>");
+		
+		messages.add("</table> </br> </br>");
+		
+		messages.add("<h2>The current IP address: " + ipAddress + "</h2>");
+		
+		messages.add("<h1>The mobile app's back-end is ready to serve...</h1>");
+		
+		return messages;
+		
+	}
 	
 	/*
 	 * to determine if we need to log any errors from MWG's backend services with the HTTP codes of

@@ -68,6 +68,10 @@ public class MWGApplicationConstants {
 
 		return baseURL;
 	}
+	
+	public static String getSRWebURL(){
+		return shopRiteProdWeb;
+	}
 
 	/**
 	 * Return the appropriate Application Token.

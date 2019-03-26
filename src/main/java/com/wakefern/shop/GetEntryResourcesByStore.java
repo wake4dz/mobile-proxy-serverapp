@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.request.HTTPRequest;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 @Path(MWGApplicationConstants.Requests.Shop.prefix)
 public class GetEntryResourcesByStore extends BaseService {
@@ -62,13 +64,35 @@ public class GetEntryResourcesByStore extends BaseService {
 					contentType);
 
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-
 			return this.createErrorResponse(errorData, e);
 		}
 	}
 	
 	public String getInfo(String userID, String storeID, String sessionToken) throws IOException, Exception {
 		return this.activateMWGShopEntry(userID, storeID, sessionToken);
+	}
+  
+	/**
+	 * make request to api.shoprite.com instead of mobileapi.shoprite.com for response. This is a temporary patch to the
+	 * shop-entry api call to mobileapi does not actually activate the user's shopping privilege in Cart, api.shoprite.com does
+	 * @param userID
+	 * @param storeID
+	 * @param sessionToken
+	 * @return
+	 * @throws IOException
+	 * @throws Exception
+	 */
+	public String getShopEntryFromSRWeb(String userID, String storeID, String sessionToken) throws IOException, Exception {
+		
+		String path = MWGApplicationConstants.getSRWebURL() + "/shop/v7/shop/user/"+userID+"/store/"+storeID;
+		
+		Map<String, String> reqHeader = new HashMap<String, String>();
+		reqHeader.put(MWGApplicationConstants.Headers.Params.accept, MWGApplicationConstants.Headers.Shop.entry);
+		reqHeader.put(MWGApplicationConstants.Headers.Params.auth, sessionToken);
+		
+		String response = HTTPRequest.executeGet(path, reqHeader, 0);
+
+		return response;
 	}
 	
 	private String activateMWGShopEntry(String userID, String storeID, String sessionToken) throws IOException, Exception {

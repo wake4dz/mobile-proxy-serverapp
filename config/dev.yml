@@ -1,3 +1,4 @@
 ---
 SRMOBILE_CORS: true
+SRMOBILE_CHAIN: ShopRiteStage
 SRMOBILE_PAPERTRAIL: srmobilelog-dev

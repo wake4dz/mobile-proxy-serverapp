@@ -1,3 +1,4 @@
 ---
 SRMOBILE_CORS: false
+SRMOBILE_CHAIN: ShopRiteProd
 SRMOBILE_PAPERTRAIL: srapplog-prod

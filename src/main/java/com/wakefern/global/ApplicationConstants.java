@@ -17,6 +17,7 @@ public final class ApplicationConstants {
         public static final String sort = "&sort=";
         public static final String store = "/store";
         public static final String takeAmp = "&take=";
+        public static final String wakefernApplication = "wakefern application";
     }
 
     public static class Requests {
@@ -26,6 +27,7 @@ public final class ApplicationConstants {
             public static final String contentType  = "Content-Type";
             public static final String contentAccept = "Accept";
             public static final String contentAuthorization = "Authorization";
+            public static final String userAgent = "User-Agent";
         }
 
         public static class Tokens {

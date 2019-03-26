@@ -23,6 +23,8 @@ public class MWGHeader extends Header {
 	public MWGHeader(String accepts, String contentType, String sessionToken) {
 		Map<String, String> authMap = new HashMap<>();
 
+		authMap.put(ApplicationConstants.Requests.Header.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
+		
 		authMap.put(ApplicationConstants.Requests.Header.contentAccept, accepts);
 		authMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
@@ -39,6 +41,9 @@ public class MWGHeader extends Header {
 	 */
 	public MWGHeader(String sessionToken) {
 		Map<String, String> authMap = new HashMap<>();
+		
+		authMap.put(ApplicationConstants.Requests.Header.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
+		
 		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
 
 		setAllMaps(authMap);		

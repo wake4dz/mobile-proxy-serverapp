@@ -1,5 +1,6 @@
 package com.wakefern.shop;
 
+import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
@@ -89,7 +90,8 @@ public class GetEntryResourcesByStore extends BaseService {
 		Map<String, String> reqHeader = new HashMap<String, String>();
 		reqHeader.put(MWGApplicationConstants.Headers.Params.accept, MWGApplicationConstants.Headers.Shop.entry);
 		reqHeader.put(MWGApplicationConstants.Headers.Params.auth, sessionToken);
-		
+		reqHeader.put(ApplicationConstants.Requests.Header.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
+
 		String response = HTTPRequest.executeGet(path, reqHeader, 0);
 
 		return response;

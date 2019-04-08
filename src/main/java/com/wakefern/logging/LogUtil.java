@@ -352,6 +352,12 @@ public class LogUtil {
 		
 		messages.add("");
 		
+		messages.add("" + ReleaseUtil.getReleaseLines().get(0));
+		messages.add("" + ReleaseUtil.getReleaseLines().get(1));
+		messages.add("" + ReleaseUtil.getReleaseLines().get(2));
+		
+		messages.add("");
+		
 		messages.add(StringUtils.rightPad("The 'chain' system property:", 40) + 
 				MWGApplicationConstants.getSystemProperytyValue("chain"));
 		messages.add(StringUtils.rightPad("The 'url' system property:", 40) + 
@@ -363,6 +369,7 @@ public class LogUtil {
 		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 40) + 
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
 		messages.add("");
+
 		
 		messages.add(StringUtils.rightPad("The current IP address:", 25) + ipAddress);
 		
@@ -380,7 +387,21 @@ public class LogUtil {
 	public static List<String> getWelcomeHtmlMessages() {
 		List<String> messages = new ArrayList<String>();
 		
-		messages.add("</br> <table id=\"envVariable\">");
+		messages.add("<table id=\"envVariable\">");
+		messages.add("<tr> <th>Release Property Name</th> <th>Release Property Value</th></tr>");
+		
+		messages.add("<tr><td>version</td>" + "<td>" +
+				ReleaseUtil.getReleaseLines().get(0).substring(ReleaseUtil.getReleaseLines().get(0).indexOf("=") + 1).trim() + "</td> </tr>");		
+
+		messages.add("<tr><td>date</td>" + "<td>" +
+				ReleaseUtil.getReleaseLines().get(1).substring(ReleaseUtil.getReleaseLines().get(1).indexOf("=") + 1).trim() + "</td> </tr>");	
+		
+		messages.add("<tr><td>branch</td>" + "<td>" +
+				ReleaseUtil.getReleaseLines().get(2).substring(ReleaseUtil.getReleaseLines().get(2).indexOf("=") + 1).trim() + "</td> </tr>");	
+		
+		messages.add("</table> <br /> <br />");
+		
+		messages.add("<table id=\"envVariable\">");
 		messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
 		
 		messages.add("<tr><td>chain</td>" + "<td>" +
@@ -398,7 +419,8 @@ public class LogUtil {
 		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee") + "</td> </tr>");
 		
-		messages.add("</table> </br> </br>");
+		messages.add("</table> <br /> <br />");
+		
 		
 		messages.add("<h2>The current IP address: " + ipAddress + "</h2>");
 		

@@ -17,6 +17,7 @@ public class AppStartup implements ServletContextListener  {
     	for (String message : LogUtil.getWelcomeMessages()) {
     		logger.info(message);
     	}
+    	
     }
     
     public void contextDestroyed(ServletContextEvent sce) {

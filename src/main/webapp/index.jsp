@@ -39,7 +39,7 @@
 	</style>
 </head>
 <body>
-	<br /> <br /> <br /> <br /> <br />
+	<br /> <br /> 
 	<h1>Server Status</h1>
 	
 	<br /> 

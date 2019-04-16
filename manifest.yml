@@ -3,7 +3,6 @@ applications:
 - name: srmobileproddep02
   env:
     chain: ((SRMOBILE_CHAIN)) 
-    checkoutv3: true
     cors: ((SRMOBILE_CORS))
     url: mobile
     plastic_bag_fee: BF80788

@@ -42,8 +42,7 @@ public class GetCheckoutState extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) {
 		try {
-			this.requestHeader = new MWGHeader(
-					isCheckoutv3() ? MWGApplicationConstants.Headers.Checkout.checkoutV3 : MWGApplicationConstants.Headers.Checkout.checkoutV2, 
+			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.checkoutV3,
 					MWGApplicationConstants.Headers.json, sessionToken);
 			this.requestParams = new HashMap<String, String>();
 			
@@ -59,20 +58,22 @@ public class GetCheckoutState extends BaseService {
              * Previously, MWG's v2 service is returning "Service Fee Total" attribute, the new v3 is returning "Combined Service Fee Total",
              * Wakefern will translate "Combined Service Fee Total" to "Service Fee" for pickup and "Service and Delivery Fee" for delivery
              *  & display it in mobile UI
+             *  
+             *  on 4/8/2019 with enh/remove-checkoutv3-vcap branch, checkoutv3 is now permanent
              */
             try {
-                if(isCheckoutv3()) {
-                		String combinedServiceFee = "Combined Service Fee Total";
-                		String pickupServiceFee = "Service Fee";
-                		String deliveryServiceFee = "Service and Delivery Fee";
-                		
-                		String[] respArr = jsonResponse.split("\"payment\"");
-                		if(respArr.length>1) {
-                			jsonResponse = respArr[1].contains("Pickup") ? jsonResponse.replaceFirst(combinedServiceFee, pickupServiceFee) : jsonResponse.replaceFirst(combinedServiceFee, deliveryServiceFee);
-                		} else {
-                    		logger.error("error geting Checkout fee - " + jsonResponse);
-                		}
-                }
+
+        		String combinedServiceFee = "Combined Service Fee Total";
+        		String pickupServiceFee = "Service Fee";
+        		String deliveryServiceFee = "Service and Delivery Fee";
+        		
+        		String[] respArr = jsonResponse.split("\"payment\"");
+        		if(respArr.length>1) {
+        			jsonResponse = respArr[1].contains("Pickup") ? jsonResponse.replaceFirst(combinedServiceFee, pickupServiceFee) : jsonResponse.replaceFirst(combinedServiceFee, deliveryServiceFee);
+        		} else {
+            		logger.error("error geting Checkout fee - " + jsonResponse);
+        		}
+        
             } catch(Exception e) {
             		//Error in looking for "payment" keyword, proceed as this feature is not affecting checkout
             		logger.error("Combined Service Fee error - " + e.getMessage() + jsonResponse);
@@ -100,14 +101,7 @@ public class GetCheckoutState extends BaseService {
         }
     }
 	
-	/**
-	 * is checkout v3 configured?
-	 * @return
-	 */
-	private boolean isCheckoutv3() {
-		String isCheckoutv3 = System.getenv("checkoutv3");
-		return (isCheckoutv3 != null && isCheckoutv3.equalsIgnoreCase("true"));
-	}
+
 }
 
 

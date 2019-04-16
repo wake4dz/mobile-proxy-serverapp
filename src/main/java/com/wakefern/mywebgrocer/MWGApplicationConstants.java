@@ -290,7 +290,7 @@ public class MWGApplicationConstants {
 			public static final String fulfillSlot = prefix + "fulfillment-slot+json"; // User-specific fulfillment time slots.
 			
 			public static final String deliveryInfoV2 = prefix + "delivery-info-v2+json";
-			public static final String checkoutV2 = prefix + "checkout-v2+json";
+			//public static final String checkoutV2 = prefix + "checkout-v2+json";
 			public static final String checkoutV3 = prefix + "checkout-v3+json";
 			public static final String paymentsV3 = prefix + "payments-v3+json";
 			public static final String checkoutResults = prefix + "checkout-results+json";

@@ -364,8 +364,6 @@ public class LogUtil {
 				MWGApplicationConstants.getSystemProperytyValue("url"));
 		messages.add(StringUtils.rightPad("The 'cors' system property:", 40) + 
 				MWGApplicationConstants.getSystemProperytyValue("cors"));
-		messages.add(StringUtils.rightPad("The 'checkoutv3' system property:", 40) + 
-				MWGApplicationConstants.getSystemProperytyValue("checkoutv3"));
 		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 40) + 
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
 		messages.add("");
@@ -412,9 +410,6 @@ public class LogUtil {
 		
 		messages.add("<tr><td>cors</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("cors") + "</td> </tr>");
-		
-		messages.add("<tr><td>checkoutv3</td>" + "<td>" +
-				MWGApplicationConstants.getSystemProperytyValue("checkoutv3") + "</td> </tr>");
 		
 		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee") + "</td> </tr>");

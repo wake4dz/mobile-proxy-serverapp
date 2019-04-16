@@ -74,7 +74,9 @@ public class GetContents extends BaseService {
             // only call item locator when 'In-Store Checklist' option is selected, prevent unnecessary call.
             if(itemLocator!= null && !itemLocator.isEmpty()) {
             		if(itemLocator.equalsIgnoreCase("log")) { //only log cart response when user select 'Cart' Module
-            			logger.info("Cart Response: "+jsonResponse);
+            			// 2019-04-12 DZ: change from INFO to DEBUG log4j level since isUserTrackOn feature is already including jsonResponse data.   
+            			// JIRA ticket #: DMAU-607
+            			logger.debug("Cart Response: "+jsonResponse);
             		} else { // log the cart resp anyway, since not many user select 'In-Store Checklist' option
             			
                 		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);

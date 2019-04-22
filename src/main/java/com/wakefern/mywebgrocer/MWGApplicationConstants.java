@@ -297,6 +297,8 @@ public class MWGApplicationConstants {
 			public static final String addressV2 = prefix + "address-v2+json";
 
 			public static final String orders = prefix + "orders+json";
+			public static final String changedOrder = prefix + "changed-order+json";
+			public static final String changeOrderMsg = prefix + "message+json";
 			public static final String orderV3 = prefix + "order-detail-v3+json";
 			public static final String orderResults = prefix + "order-results+json";
 		}
@@ -615,7 +617,10 @@ public class MWGApplicationConstants {
 			public static final String payments = "/payments" + mwgStoreID + "/{" + Params.Path.fulfillType + "}";
 
 			public static final String paymentOpts = userID + mwgStoreID + "/payment";
+			
+			public static final String changedOrder = userID + mwgStoreID + "/changed/order";
 
+			public static final String changeOrderMsg = orderID + userID + mwgStoreID + "/to/cart";
 			// Legacy. Used by com.wakefern.payment.GetToken
 			public static final String UserCheckout = "/checkout/v5/user";
 		}

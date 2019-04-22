@@ -163,6 +163,10 @@ public class ServiceMappings {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.storeID, path, serviceObj);
 			}
 			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.orderID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.orderID, path, serviceObj);
+			}
+			
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.regionID)) {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.regionID, path, serviceObj);
 			}

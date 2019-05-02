@@ -29,7 +29,7 @@ public class HTTPRequest {
 
 	/**
 	 * Trigger HTTP GET request.
-	 * 
+	 *  
 	 * @param requestURL
 	 * @param requestHeaders
 	 * @param timeOut
@@ -259,6 +259,8 @@ public class HTTPRequest {
 		HttpURLConnection connection = null;
 		long startTime, endTime;
 		
+		BufferedReader br = null;
+		
 		try {
 			startTime = System.currentTimeMillis();
 			
@@ -305,7 +307,7 @@ public class HTTPRequest {
 			connection.connect();
 
 			int status = connection.getResponseCode();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			br = new BufferedReader(new InputStreamReader(status < 400 ? connection.getInputStream() : connection.getErrorStream()));
 			StringBuilder sb = new StringBuilder();
 
 			switch (status) {
@@ -318,7 +320,6 @@ public class HTTPRequest {
 				while ((read = br.read(chars)) != -1) {
 					sb.append(chars, 0, read);
 				}
-				br.close();
 				break;
 			default:
 				// sb.append(status);
@@ -345,6 +346,8 @@ public class HTTPRequest {
 			throw ex;
 		
 		} finally {
+			br.close();
+			
 			if (connection != null) {
 				try {
 					connection.disconnect();

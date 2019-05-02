@@ -1,10 +1,27 @@
-# Order Management APIs
+# Push Notification Server Scaling Logs
 
+| Impacted Servers          | Server Type        | 
+|---------------------------|--------------------|
+| shopritemobileproddep01   | Main, Primary      |
+| shopritemobileproddep02   | Main, Secondary    |
+|                           |                    |
+| shopritecouponproddep01   | Coupon, Primary    |
+| shopritecouponproddep02   | Coupon, Secondary  |
 
-## GET Orders
+## 4/24/19 Campaign
 ```sh
-https://{DEV}.mybluemix.net/api/checkout/v7/orders/user/{userID}/store/{storeID}
+Title:	4 Day Digital Savings Start NOW! ⏲️ 💰
+Subtitle:
+Message:	Today thru Saturday only, get digital coupons on Prego Pasta Sauce, Turkey Hill Ice Cream, Kevita Kombucha and more! Tap to load offers to your card.
 ```
+
+| Servers                   |  scaling value | Remarks                                                  |
+|---------------------------|----------------|----------------------------------------------------------|
+| shopritemobileproddep01   |       2        |
+| shopritemobileproddep02   |       5        |
+|                           |                |
+| shopritecouponproddep01   |       2        |
+| shopritecouponproddep02   |       3        |
 
 | Key             | Value                                                  |
 |-----------------|--------------------------------------------------------|

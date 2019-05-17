@@ -86,6 +86,7 @@ public class WakefernApplicationConstants {
             public static final String RemoveCouponFromPPC = "/v2/removeCouponFromPPC";
             public static final String RemoveCouponFromPPC_FG = "/v2/removeCouponFromPPC_FG";
             public static final String GetCouponByUPC = "/v2/getCouponByUPC";
+            public static final String GetCouponIDByPromoCode = "/v2/getCouponIDByPromoCode";
             public static final String GetUPCListByCouponID = "/v2/getUPCListByCouponID";
             public static final String GetHistoryMetadata = "/v2/getHistoryMetadata";
             public static final String GetHistoryCouponByPPC = "/v2/getHistoryCouponByPPC";

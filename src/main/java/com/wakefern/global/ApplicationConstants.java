@@ -63,6 +63,7 @@ public final class ApplicationConstants {
             public static final String RemoveCouponFromPPC = WakefernApplicationConstants.CouponsV2.PathInfo.RemoveCouponFromPPC;
             public static final String RemoveCouponFromPPC_FG = WakefernApplicationConstants.CouponsV2.PathInfo.RemoveCouponFromPPC_FG;
             public static final String GetCouponByUPC = WakefernApplicationConstants.CouponsV2.PathInfo.GetCouponByUPC;
+            public static final String GetCouponIDByPromoCode = WakefernApplicationConstants.CouponsV2.PathInfo.GetCouponIDByPromoCode;
             public static final String GetUPCListByCouponID = WakefernApplicationConstants.CouponsV2.PathInfo.GetUPCListByCouponID;
             public static final String GetHistoryMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryMetadata;
             public static final String GetHistoryCouponByPPC = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryCouponByPPC;

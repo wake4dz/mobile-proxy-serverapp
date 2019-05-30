@@ -2,10 +2,7 @@
 applications:
 - name: srmobileproddep02
   env:
-    chain: ((SRMOBILE_CHAIN)) 
-    cors: ((SRMOBILE_CORS))
+    chain: ShopRiteProd
+    cors: true
     url: mobile
     plastic_bag_fee: BF80788
-  services:
-  - srnewrelic
-  - ((SRMOBILE_PAPERTRAIL))

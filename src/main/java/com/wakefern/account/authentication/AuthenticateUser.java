@@ -93,7 +93,7 @@ public class AuthenticateUser extends BaseService {
     				logger.warn("The API call took " + actualTime + " ms to process the request, the warn time is " +
     						MwgApiWarnTime.AUTHENTICATION_AUTHENTICATE_USER.getWarnTime() + " ms.");
     			}
-        		logger.debug("com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
+        		logger.error("com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
         		return this.createValidResponse(responseJSON);
 	        		
 	        } catch (Exception e) {

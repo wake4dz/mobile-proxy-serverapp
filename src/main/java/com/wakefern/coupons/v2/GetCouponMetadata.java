@@ -1,7 +1,9 @@
 package com.wakefern.coupons.v2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -13,7 +15,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.wakefern.dao.couponv2.CouponDAOV2;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
@@ -28,6 +34,9 @@ import com.wakefern.request.HTTPRequest;
 public class GetCouponMetadata extends BaseService {
 	private final static Logger logger = Logger.getLogger(GetCouponMetadata.class);
 
+	public JSONObject matchedObjects;
+	private long startTime, endTime;
+	
     @POST
     @Consumes(MWGApplicationConstants.Headers.json)
     @Produces(MWGApplicationConstants.Headers.json)
@@ -42,11 +51,38 @@ public class GetCouponMetadata extends BaseService {
         headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         
         try {
-        		String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, 0);
-            return this.createValidResponse(response);
+			startTime = System.currentTimeMillis();
+			matchedObjects = new JSONObject();
+			
+        	String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, 0);
+
+			endTime = System.currentTimeMillis();
+			logger.trace("[Coupons]::Total process time (ms): " + (endTime - startTime));
+
+			ObjectMapper mapper = new ObjectMapper();
+			CouponDAOV2[] couponDaoArr = mapper.readValue(response, CouponDAOV2[].class);
+
+			ObjectWriter writer = mapper.writer();
+			
+			for(CouponDAOV2 couponDao : couponDaoArr){
+				if(couponDao.getExternalId().equalsIgnoreCase("992632")){
+					List<String> upcList = new ArrayList<String>() {
+						{
+							add("04119006152");
+							add("04119006154");
+							add("04119006153");
+							add("04119005584");
+						}
+					};
+					couponDao.getRequirementUpcs().addAll(upcList);
+				}
+			}
+			
+			String processedCouponResp = writer.writeValueAsString(couponDaoArr);
+            return this.createValidResponse(processedCouponResp);
         } catch (Exception e){
-    			String errorData = LogUtil.getRequestData("GetCouponMetadata::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
-    			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			String errorData = LogUtil.getRequestData("GetCouponMetadata::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
+			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return this.createErrorResponse(e);
         }
     }

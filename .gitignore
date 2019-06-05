@@ -4,4 +4,4 @@ shopritemobileapplication.iml
 /.apt_generated/
 .settings/
 .factorypath
-
+.DS_Store

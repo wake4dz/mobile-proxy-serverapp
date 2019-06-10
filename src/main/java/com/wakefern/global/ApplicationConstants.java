@@ -78,8 +78,13 @@ public final class ApplicationConstants {
 //            public static final String BaseUPCRecommendationsURL = "https://vp.shoprite.com";
 
         }
+
+        public static class Reports {
+            public static final String NotFoundTokenURL = "/reports/notFound/token";
+            public static final String NotFoundProductURL = "/reports/notFound/product";
+        }
     }
-    
+
     public static class Logging {
 		public static final String Logging = "/logging";
 		public static final String log = "log";

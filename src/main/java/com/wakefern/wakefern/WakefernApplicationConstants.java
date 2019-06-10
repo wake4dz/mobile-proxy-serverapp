@@ -1,5 +1,7 @@
 package com.wakefern.wakefern;
 
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+
 /**
  * Created by brandyn.brosemer on 9/13/16.
  */
@@ -8,6 +10,19 @@ public class WakefernApplicationConstants {
     public static final String authToken = "7bd4a45d-4fef-4edf-a74d-c2214c0b7b54"; // Used by legacy Wakefern endpoints.
     public static final String srAuthToken = "e9d69feb-012b-45e1-bf10-eea13424495d"; // v2 product recommendation for ShopRite
     public static final String tfgAuthToken = "17a7139d-7268-4548-a441-29dbb380a592"; // v2 product recommendation for TheFreshGrocer
+
+	// Wakefern APIs
+	private static final String wakefernApiStage = "https://wfcapi.staging.shoprite.com";
+	private static final String wakefernApiProd = "https://wfcapi.shoprite.com";
+
+	public static String getBaseWakefernApiUrl() {
+		String targetAPI = MWGApplicationConstants.getTargetAPI();
+		if (targetAPI.equals("ShopRiteStage") || targetAPI.equals("FreshGrocerStage")) {
+			return wakefernApiStage;
+		}
+
+		return wakefernApiProd;
+	}
 
     public static class Chains {
 		public static final String FreshGrocer = "FreshGrocer";
@@ -132,6 +147,18 @@ public class WakefernApplicationConstants {
         public static final String authPath = "/wfctoken/auth/gentoken";
     }
     
+	public static class Reports {
+
+		public static class NotFound {
+			public static final String contextPath = "/notfound/api/v1";
+			public static final String authenticate = contextPath + "/authenticate/user";
+			public static final String product = contextPath + "/product";
+
+			public static final String authUsername = "ZzntD70b0dKNjRrfTOmb4FP08bd9fWsX";
+			public static final String authPassword = "ZDn7RrcRhN+ByAnDCPTU";
+		}
+	}
+
     public static class UserProfile {
     		public static final String Address = "Addresses";
     		public static final String IsDefaultBilling = "IsDefaultBilling";

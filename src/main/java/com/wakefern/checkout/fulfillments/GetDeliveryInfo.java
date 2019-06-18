@@ -42,7 +42,7 @@ public class GetDeliveryInfo extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) {
         try {	
-			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.fulfillOptsV2, MWGApplicationConstants.Headers.json, sessionToken);
+			this.requestHeader = new MWGHeader(accept, MWGApplicationConstants.Headers.json, sessionToken);
 			this.requestParams = new HashMap<String, String>();
 			
 			// Build the Map of Request Path parameters

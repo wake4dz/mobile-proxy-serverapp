@@ -285,6 +285,7 @@ public class MWGApplicationConstants {
 
 			public static final String fulfillments = prefix + "fulfillments+json";
 			public static final String fulfillOptsV2 = prefix + "fulfillment-options-v2+json";
+			public static final String fulfillOpts = prefix + "fulfillment-options+json";
 			public static final String fulfillDates = prefix + "fulfillment-dates+json"; // Available fulfillment dates.
 			public static final String fulfillTimes = prefix + "fulfillment-times+json"; // Available fulfillment times.
 			public static final String fulfillSlot = prefix + "fulfillment-slot+json"; // User-specific fulfillment time slots.

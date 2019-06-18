@@ -554,6 +554,10 @@ public class MWGApplicationConstants {
 			public static final String copyLimit = "/duplicate/limit";
 		}
 
+		public static class Vendor {
+			public static final String review = userID + storeID +"/review";
+		}
+		
 		public static class Cart {
 			private static final String itemID = "/item" + "/{" + Params.Path.itemID + "}";
 

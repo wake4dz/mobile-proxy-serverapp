@@ -26,7 +26,9 @@ public class MWGHeader extends Header {
 		authMap.put(ApplicationConstants.Requests.Header.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 		
 		authMap.put(ApplicationConstants.Requests.Header.contentAccept, accepts);
-		authMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
+		if(contentType != null){
+			authMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
+		}
 		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
 
 		setAllMaps(authMap);		

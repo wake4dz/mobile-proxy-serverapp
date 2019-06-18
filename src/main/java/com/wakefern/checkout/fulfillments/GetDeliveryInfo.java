@@ -42,6 +42,17 @@ public class GetDeliveryInfo extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) {
         try {	
+        	/**
+        	 * This is to solve the discrepancy between front & backend, frontend sent accept header application/vnd.mywebgrocer.fulfillment-options+json
+        	 * and backend hardcoded the accept header to be: application/vnd.mywebgrocer.fulfillment-options+json-v2.
+        	 * The resolution is to support district (DMAU-319), we'll add 'v1' (application/vnd.mywebgrocer.fulfillment-options-v1+json) 
+        	 * to req header & BE will map it to correct value (ie. application/vnd.mywebgrocer.fulfillment-options+json)
+        	 */
+        	if(accept.contains("v1")){ // has resp json value: "Name": "Hidden Brook at Franklin Residents",
+        		accept = MWGApplicationConstants.Headers.Checkout.fulfillOpts;
+        	} else{ // has resp json value:  "Name": "dates.available", [for ver <= 3.8.0]
+        		accept = MWGApplicationConstants.Headers.Checkout.fulfillOptsV2;
+        	}
 			this.requestHeader = new MWGHeader(accept, MWGApplicationConstants.Headers.json, sessionToken);
 			this.requestParams = new HashMap<String, String>();
 			

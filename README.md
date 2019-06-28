@@ -14,6 +14,9 @@ The current runtime environment is:
 - [ibm websphere liberty](https://github.com/wakefern/ibm-websphere-liberty-buildpack) for application server
 - [ibm bluemix](https://www.ibm.com/cloud-computing/bluemix/node/4471) for application hosting
 
+## Bluemix's App Server Scaling
+Please refer to [Server Scaling](./docs/server-scaling.md) document for detail.
+
 ## Bluemix's Environment Variable
 | Env Name   | Description                                                                                                                                                                                                                                                                                                                                                                                                        | Default Value | Possible Values                                                           |
 |------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------|
@@ -21,8 +24,6 @@ The current runtime environment is:
 | cors       | Strictly for development usage, bypassing the CORS requirement in webapp browser run                                                                                                                                                                                                                                                                                                                               | True          | [**True**, False]                                                         |
 | url        | Set mwg api endpoint, mobile for calling mobileapi.shoprite.com, web for calling api.shoprite.com (default is mobile)                                                                                                                                                                                                                                                                                              | mobile        | [**mobile**, web]                                                         |                                                       |
 | plastic_bag_fee | List of pseudo store ids delimited by comma that require plastic bag fees | BF80788 | [<...store_id>] |
-
-## Deploy this application
 
 ### Production Release
 
@@ -50,8 +51,6 @@ cd srmobile-serverapp
 mvn install
 cf push srmobile-serverapp --vars-file=./config/prod.yml -p target/shopritemobileapplication.war
 ```
-
-
 
 ### Development Release
 

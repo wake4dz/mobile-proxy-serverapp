@@ -22,6 +22,7 @@ import com.wakefern.dao.sku.ImageLink;
 import com.wakefern.dao.sku.Item;
 import com.wakefern.dao.sku.ProductSKUsDAO;
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
 import com.wakefern.logging.LogUtil;
@@ -97,7 +98,7 @@ public class ProductsRecommendation extends BaseService {
         		ArrayList<String> skuList = new ArrayList<String>();
         		for(String upcStr : upcList){
         			try{
-        				skuList.add(upcStr.substring(2));
+        				skuList.add(ApplicationUtils.skuScrubber(upcStr, ApplicationUtils.upcLength));
         			} catch(Exception e) {
         				//error
         			}
@@ -143,5 +144,24 @@ public class ProductsRecommendation extends BaseService {
 
             return this.createErrorResponse(errorData, e);
         }
-    }
+    }    
+	
+	public static void main(String[]args){
+		String skuStrless = "00015396";
+		System.out.println("skuStrless "+skuStrless.length());
+		System.out.println("skuStrless "+skuStrless);
+		skuStrless = ApplicationUtils.skuScrubber(skuStrless, ApplicationUtils.upcLength);
+
+		System.out.println("skuStrless "+skuStrless.length());
+		System.out.println("skuStrless "+skuStrless);
+
+
+		skuStrless = "0001539700000";
+		System.out.println("skuStrless "+skuStrless.length());
+		System.out.println("skuStrless "+skuStrless);
+		skuStrless = ApplicationUtils.skuScrubber(skuStrless, ApplicationUtils.upcLength);
+		System.out.println("skuStrless "+skuStrless.length());
+		System.out.println("skuStrless "+skuStrless);
+	}
+	
 }

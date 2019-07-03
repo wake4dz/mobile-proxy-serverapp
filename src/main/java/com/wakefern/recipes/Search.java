@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Recipes.prefix)
@@ -57,8 +58,15 @@ public class Search extends BaseService {
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
+			
+			// DZ: 2019-07-02 The MWG endpoint will puke if the Search Term contains spaces, replace any spaces with a "+" sign.
+			if (term != null && !term.isEmpty()) {
+				term = URLEncoder.encode(term, "UTF-8");
+			}
+			
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchTerm, term);
-			     
+
+
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.recipes.Search");
             return this.createValidResponse(jsonResponse);
         

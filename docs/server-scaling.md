@@ -11,6 +11,14 @@ Server scaling enables ShopRite backend app to handle more incoming load/traffic
 | shopritecouponproddep01   | mybluemix.net      | Primary, Coupon     |
 | shopritecouponproddep02   | mybluemix.net      | Secondary, Coupon   |
 
+## Scaling APIs:
+- The APIs allow create/view/update/delete the scaling policy, view the historic scaling & percentage figures for throughput/response time.
+- To get started, run the below command to get auth token to be used in the APIs' header
+```sh
+cf oauth-token
+```
+- [APIs Documentation](https://github.com/cloudfoundry/app-autoscaler/blob/master/docs/Public_API.rst)
+
 ## Scaling server commands (for manual scaling)
 To scale out the server manually, run the below command, the command will scale out primary main server to 6 instances
 ```sh
@@ -44,6 +52,26 @@ Following is the sample scale out policy json, setting server to scale out, incr
 }
 ```
 
+Following is sample to schedule scaling on the server, after the scheduled time expired, the server will scale back down to 3 instances.
+```sh
+{
+	"instance_min_count": 2,
+	"instance_max_count": 3,
+	"schedules": {
+		"timezone": "America/New_York",
+		"specific_date": [
+			{
+				"start_date_time": "2019-07-02T08:30",
+				"end_date_time": "2019-07-02T22:00",
+				"instance_min_count": 3,
+				"instance_max_count": 7,
+				"initial_min_instance_count": 6
+			}
+		]
+	}
+}
+```
+
 ## Auto Scaling Policy Commands
 To print server app's scaling policy
 ```sh
@@ -53,6 +81,11 @@ cf autoscaling-policy [APP NAME]
 To output scaling policy to json file to current directory
 ```sh
 cf autoscaling-policy [APP NAME] > scaling-policy.json
+```
+
+To upload scaling policy to server's app name
+```sh
+ cf attach-autoscaling-policy [APP_NAME] [scaling_policy_file_name].json                          
 ```
 
 To update scaling policy through command line, donwload [Bluemix CLI](https://cloud.ibm.com/docs/cli?topic=cloud-cli-getting-started)

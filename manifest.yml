@@ -1,6 +1,6 @@
 ---
 applications:
-- name: srmobileproddep02
+- name: srmobile-devops
   env:
     chain: ShopRiteProd
     cors: true

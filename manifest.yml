@@ -1,6 +1,7 @@
 ---
 applications:
 - name: srmobile-devops
+  buildpack: https://github.com/cloudfoundry/ibm-websphere-liberty-buildpack.git
   env:
     chain: ShopRiteProd
     cors: true

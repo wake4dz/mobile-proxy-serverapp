@@ -1,9 +1,9 @@
 ---
 applications:
-- name: srmobileproddep02
+- name: srmobile-devops
   env:
-    chain: ((SRMOBILE_CHAIN)) 
-    cors: ((SRMOBILE_CORS))
+    chain: ShopRiteProd
+    cors: true
     url: mobile
     plastic_bag_fee: BF80788
   path: target/shopritemobileapplication.war

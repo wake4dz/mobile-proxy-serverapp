@@ -23,6 +23,16 @@ public class WakefernApplicationConstants {
 
 		return wakefernApiProd;
 	}
+	
+	public static class VCAPKeys{
+		public static final String sr_product_recommendation_auth = "sr_product_recommendation_auth";
+		public static final String tfg_product_recommendation_auth = "tfg_product_recommendation_auth";
+		public static final String coupon_v2_auth = "coupon_v2_auth";
+		public static final String sr_mwg_app_key_stage = "sr_mwg_app_key_stage";
+		public static final String sr_mwg_app_key_prod = "sr_mwg_app_key_prod";
+		public static final String tfg_mwg_app_key_prod = "tfg_mwg_app_key_prod";
+		public static final String item_locator_auth = "item_locator_auth";
+	}
 
     public static class Chains {
 		public static final String FreshGrocer = "FreshGrocer";

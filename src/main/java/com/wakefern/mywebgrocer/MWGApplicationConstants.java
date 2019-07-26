@@ -86,17 +86,17 @@ public class MWGApplicationConstants {
 		switch (targetAPI) {
 		case fgStage:
 		case fgProd:
-			appToken = freshGrocerStageToken;
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_mwg_app_key_prod);//freshGrocerStageToken;
 			break;
 
 //		case srDev:
 //			appToken = shopRiteDevToken;
 //			break;
 		case srStage:
-			appToken = shopRiteStageToken;
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_app_key_stage);//shopRiteStageToken;
 			break;
 		case srProd:
-			appToken = shopRiteProdToken;
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_app_key_prod);//shopRiteProdToken;
 			break;
 
 		default:
@@ -116,8 +116,10 @@ public class MWGApplicationConstants {
 		String targetAPI = getTargetAPI();
 		
 		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd)) 
-				? WakefernApplicationConstants.tfgAuthToken
-				: WakefernApplicationConstants.srAuthToken;
+				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_product_recommendation_auth)
+				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_product_recommendation_auth);
+//				? WakefernApplicationConstants.tfgAuthToken
+//				: WakefernApplicationConstants.srAuthToken;
 
 		return appToken;
 	}

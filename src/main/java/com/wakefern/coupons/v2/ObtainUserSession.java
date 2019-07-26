@@ -19,6 +19,7 @@ import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Created by loicao on 10/11/18.
@@ -42,7 +43,9 @@ public class ObtainUserSession extends BaseService {
 
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
-		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, Requests.Tokens.couponV2Token);
+//		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, Requests.Tokens.couponV2Token);
+		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, 
+				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.coupon_v2_auth));
 
 		try {
 			// Execute PUT

@@ -85,7 +85,8 @@ public class GetEntryResourcesByStore extends BaseService {
 	 */
 	public String getShopEntryFromSRWeb(String userID, String storeID, String sessionToken) throws IOException, Exception {
 		
-		String path = MWGApplicationConstants.getSRWebURL() + "/shop/v7/shop/user/"+userID+"/store/"+storeID;
+		String path = MWGApplicationConstants.getBaseURL() + "/shop/v7/shop/user/"+userID+"/store/"+storeID;
+		logger.info("Shop Entry url: "+path);
 		
 		Map<String, String> reqHeader = new HashMap<String, String>();
 		reqHeader.put(MWGApplicationConstants.Headers.Params.accept, MWGApplicationConstants.Headers.Shop.entry);

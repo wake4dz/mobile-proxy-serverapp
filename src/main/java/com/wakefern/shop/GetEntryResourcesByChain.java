@@ -57,7 +57,6 @@ public class GetEntryResourcesByChain extends BaseService {
         	 *   (take out line below & uncomment code snippet above) 
         	 */
         		//assign Aberdeen's store ID - DA87780 as default store, since api is not taking in store ID
-            logger.info("calling shop entry web: "+userID);
             String jsonResponse = new GetEntryResourcesByStore().getShopEntryFromSRWeb(userID, "DA87780", sessionToken);
 
             if(LogUtil.isUserTrackOn) {

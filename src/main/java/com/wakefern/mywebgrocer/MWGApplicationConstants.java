@@ -131,7 +131,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	public static String getTargetAPI() {
-		String targetAPI = java.lang.System.getenv("chain");
+		String targetAPI = java.lang.System.getenv(WakefernApplicationConstants.VCAPKeys.chain);
 
 		// On a local Dev server, the environment variable won't exist unless you have
 		// specifically set it up yourself.
@@ -173,7 +173,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	private static String getTargetProdURL() {
-		String targetProdURL = java.lang.System.getenv("url");
+		String targetProdURL = java.lang.System.getenv(WakefernApplicationConstants.VCAPKeys.url);
 
 		// Assigning mwg production api for cloud server to call..
 		//

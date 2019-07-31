@@ -25,6 +25,9 @@ public class WakefernApplicationConstants {
 	}
 	
 	public static class VCAPKeys{
+		public static final String cors = "cors";
+		public static final String chain = "chain";
+		public static final String url = "url";
 		public static final String sr_product_recommendation_auth = "sr_product_recommendation_auth";
 		public static final String tfg_product_recommendation_auth = "tfg_product_recommendation_auth";
 		public static final String coupon_v2_auth = "coupon_v2_auth";

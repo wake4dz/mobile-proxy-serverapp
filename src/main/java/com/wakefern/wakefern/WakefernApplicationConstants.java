@@ -28,13 +28,13 @@ public class WakefernApplicationConstants {
 		public static final String cors = "cors";
 		public static final String chain = "chain";
 		public static final String url = "url";
-		public static final String sr_product_recommendation_auth = "sr_product_recommendation_auth";
-		public static final String tfg_product_recommendation_auth = "tfg_product_recommendation_auth";
-		public static final String coupon_v2_auth = "coupon_v2_auth";
+		public static final String sr_product_recommendation_token = "sr_product_recommendation_token";
+		public static final String tfg_product_recommendation_token = "tfg_product_recommendation_token";
+		public static final String coupon_v2_token = "coupon_v2_token";
 		public static final String sr_mwg_app_key_stage = "sr_mwg_app_key_stage";
 		public static final String sr_mwg_app_key_prod = "sr_mwg_app_key_prod";
 		public static final String tfg_mwg_app_key_prod = "tfg_mwg_app_key_prod";
-		public static final String item_locator_auth = "item_locator_auth";
+		public static final String item_locator_token = "item_locator_token";
 	}
 
     public static class Chains {

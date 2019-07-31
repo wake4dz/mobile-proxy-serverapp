@@ -294,8 +294,7 @@ public class BaseService {
 
 					WakefernAuth auth = new WakefernAuth();
 					String authString = auth.getInfo(
-							WakefernApplicationConstants.VCAPKeys.item_locator_auth);
-							//WakefernApplicationConstants.ItemLocator.WakefernAuth);
+							WakefernApplicationConstants.VCAPKeys.item_locator_token);
 					
 					// Can't get Item Location Data w/o a valid Wakefern Auth String.
 					if (!authString.isEmpty()) {

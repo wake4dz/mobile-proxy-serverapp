@@ -118,8 +118,6 @@ public class MWGApplicationConstants {
 		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd)) 
 				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_product_recommendation_auth)
 				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_product_recommendation_auth);
-//				? WakefernApplicationConstants.tfgAuthToken
-//				: WakefernApplicationConstants.srAuthToken;
 
 		return appToken;
 	}

@@ -43,9 +43,8 @@ public class ObtainUserSession extends BaseService {
 
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
-//		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, Requests.Tokens.couponV2Token);
 		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, 
-				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.coupon_v2_auth));
+				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.coupon_v2_token));
 
 		try {
 			// Execute PUT

@@ -37,20 +37,12 @@ public class CouponIdListByPPC extends BaseService {
                                     @HeaderParam("Authorization") String authToken) {
        
     	try {
-	    	this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
+    		// for /getCouponIDListByPPC endpoint
 	
-	        if (ppcParam.equals("")) {
-	            return this.createResponse(400);
-	        }
-	
-	        matchedObjects = new JSONObject();
-	        prepareResponse(ppcParam);
-	
-	        //Execute Post
-	        ServiceMappings serviceMappings = new ServiceMappings();
-	        serviceMappings.setCouponMapping(this);
-
-            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
+    		String mockCoupon = "{ \"available_ids_array\": [\"1\"],  \"clipped_active_ids_array\": []}";
+    		
+        	return this.createValidResponse(mockCoupon);	
+    		
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_LIST_BY_PPC);
         	

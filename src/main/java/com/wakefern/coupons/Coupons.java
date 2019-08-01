@@ -55,85 +55,71 @@ public class Coupons extends BaseService {
 		) {
 
 		try {
-			this.requestToken = ApplicationConstants.Requests.Tokens.couponToken;
-	
-			startTime = System.currentTimeMillis();
-			matchedObjects = new JSONObject();
-			
-			this.requestPath = ApplicationConstants.Requests.Coupons.BaseCouponURL
-					+ ApplicationConstants.Requests.Coupons.GetCoupons
-					+ WakefernApplicationConstants.Coupons.Metadata.PPCQuery + ppcParam;
-	
-			// Execute Post
-			ServiceMappings serviceMappings = new ServiceMappings();
-			serviceMappings.setCouponMapping(this);
-
-		
-			String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
-
-			endTime = System.currentTimeMillis();
-			logger.trace("[Coupons]::Total process time (ms): " + (endTime - startTime));
+			// for /getCouponMetadata endpoint
 
 			ObjectMapper mapper = new ObjectMapper();
-			CouponDAO[] couponDaoArr = mapper.readValue(coupons, CouponDAO[].class);
+			
+        	// return this.createValidResponse(mockCoupon);	
+			String[] couponOmittedValuesArr = { 
+					"coupon_id", 
+					"requirement_description", 
+					"brand_name",
+					"short_description", 
+					"image_url", 
+					"total_downloads", 
+					"external_id", 
+					"pos_live_date",
+					"display_start_date", 
+					"display_end_date", 
+					"Category", 
+					"requirement_upcs", 
+					"expiration_date",
+					"coupon_value", 
+					"targeting_buckets" 
+			};
 
-			if (query.isEmpty()) {
-
-				String[] couponOmittedValuesArr = { 
-						"coupon_id", 
-						"requirement_description", 
-						"brand_name",
-						"short_description", 
-						"image_url", 
-						"total_downloads", 
-						"external_id", 
-						"pos_live_date",
-						"display_start_date", 
-						"display_end_date", 
-						"Category", 
-						"requirement_upcs", 
-						"expiration_date",
-						"coupon_value", 
-						"targeting_buckets" 
-				};
-
-				FilterProvider filterCouponFields = new SimpleFilterProvider().addFilter("filterByValue", SimpleBeanPropertyFilter.filterOutAllExcept(couponOmittedValuesArr));
-				
-				ObjectWriter writer = mapper.writer(filterCouponFields);
-				
-				for (CouponDAO couponDao : couponDaoArr) {
-					try {
-						// "short_description": "Save $.50 On Crystal Farms Chunk Cheese"
-						String[] shortDesc = couponDao.getShortDescription().split(" ");
-						
-						if (shortDesc[1].contains("$"))
-							couponDao.setCouponValue(shortDesc[1]);
-						
-						else if (shortDesc[0].contains("$")) {
-							couponDao.setCouponValue(shortDesc[0]);
-						
-						} else {
-							for (String value : shortDesc) {
-								if (value.contains("$")) {
-									couponDao.setCouponValue(value);
-									break;
-								}
-							}
-						}
+			FilterProvider filterCouponFields = new SimpleFilterProvider().addFilter("filterByValue", SimpleBeanPropertyFilter.filterOutAllExcept(couponOmittedValuesArr));
+			
+			ObjectWriter writer = mapper.writer(filterCouponFields);
+			
+			CouponDAO[] couponDaoArr = new CouponDAO[1];
+			CouponDAO couponDao = new CouponDAO();
+			
+			couponDao.setCouponId("1");
+			couponDao.setBrandName("Attention: Update Required!");
+			couponDao.setShortDescription("This app is outdated. Please update to the latest version for optimal performance and to ensure coupons will load to your card.");
+			couponDao.setCouponValue("$0.00");
+			
+			couponDao.setId("1");
+			couponDao.setFeatured("N");
+			couponDao.setRequirementDescription("This app is outdated. Please update to the latest version for optimal performance and to ensure coupons will load to your card.");
+			couponDao.setImageUrl("");
+			couponDao.setRewardUpcs("");
+			couponDao.setTotalDownloads("0");
+			couponDao.setTargetingBuckets("");
+			couponDao.setTargetedOffer("N");
+			couponDao.setTags("");
+			couponDao.setEnabled("N");
+			couponDao.setPosLiveDate("");
+			couponDao.setDisplayStartDate("");
+			couponDao.setDisplayEndDate("");
+			couponDao.setOfferType("0");
+			couponDao.setCategory("ShopRite");
+			couponDao.setPublicationId("1");
+			couponDao.setLongDescription("");
+			couponDao.setRequirementUpcs("");
+			couponDao.setSubcategory("");
+			couponDao.setOfferPriority("99999");
+			couponDao.setExpirationDate("");
+			couponDao.setLongDescriptionHeader("ShopRite Announcement");
+			
 					
-					} catch (Exception e) {
-						logger.error("[getInfoResponse]::Exception retrieved coupon ppc: " + ppcParam + ", msg: " + e.toString());
-						
-					}
-				}
+			couponDaoArr[0] = couponDao;
+			
+			String cnrDaoStr = writer.writeValueAsString(couponDaoArr);
 
-				String cnrDaoStr = writer.writeValueAsString(couponDaoArr);
-
-				return this.createValidResponse(cnrDaoStr);
-			}
-
-			JSONArray matchedObjects2 = new JSONArray();
-			return this.createValidResponse(search(coupons, query, matchedObjects2).toString());
+			return this.createValidResponse(cnrDaoStr);
+			
 		
 		} catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPONS);

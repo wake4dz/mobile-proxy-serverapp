@@ -17,13 +17,7 @@ public class MWGApplicationConstants {
 	//private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
 	
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
-	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer
-																											// Staging
-
-	private static final String freshGrocerStageToken = "62081B21-0885-4544-8849-326195C8F9CD";
-	//private static final String shopRiteDevToken = "56BF02A1-074E-4767-9801-73447DC64928";
-	private static final String shopRiteStageToken = "13B4312E-D431-4C53-A16C-5998B2F53482";
-	private static final String shopRiteProdToken = "b5e4d368-d5ee-47ce-9c7d-423de1c879e6";
+	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
 
 	private static final String fgStage = "FreshGrocerStage";
 	private static final String fgProd = "FreshGrocerProd";
@@ -86,21 +80,20 @@ public class MWGApplicationConstants {
 		switch (targetAPI) {
 		case fgStage:
 		case fgProd:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_mwg_app_key_prod);//freshGrocerStageToken;
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_mwg_prod_token);
 			break;
-
 //		case srDev:
 //			appToken = shopRiteDevToken;
 //			break;
 		case srStage:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_app_key_stage);//shopRiteStageToken;
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_stage_token);
 			break;
 		case srProd:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_app_key_prod);//shopRiteProdToken;
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_prod_token);
 			break;
 
 		default:
-			appToken = shopRiteProdToken;
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_prod_token);
 		}
 
 		return appToken;
@@ -116,8 +109,8 @@ public class MWGApplicationConstants {
 		String targetAPI = getTargetAPI();
 		
 		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd)) 
-				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_product_recommendation_auth)
-				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_product_recommendation_auth);
+				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_product_recommendation_token)
+				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_product_recommendation_token);
 
 		return appToken;
 	}
@@ -129,7 +122,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	public static String getTargetAPI() {
-		String targetAPI = java.lang.System.getenv(WakefernApplicationConstants.VCAPKeys.chain);
+		String targetAPI = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.chain);
 
 		// On a local Dev server, the environment variable won't exist unless you have
 		// specifically set it up yourself.
@@ -171,7 +164,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	private static String getTargetProdURL() {
-		String targetProdURL = java.lang.System.getenv(WakefernApplicationConstants.VCAPKeys.url);
+		String targetProdURL = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.url);
 
 		// Assigning mwg production api for cloud server to call..
 		//

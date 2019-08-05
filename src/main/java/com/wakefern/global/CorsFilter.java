@@ -7,6 +7,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
@@ -18,7 +19,7 @@ public class CorsFilter implements ContainerResponseFilter {
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext response) throws IOException {
-		final String shouldEnableCors = java.lang.System.getenv(WakefernApplicationConstants.VCAPKeys.cors);
+		final String shouldEnableCors = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.cors);
 		
 		if (shouldEnableCors != null && shouldEnableCors.equals("true")) {
 			response.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:7000"); // allow cross-origin requests from frontend dev server

@@ -1,11 +1,20 @@
 ---
 applications:
-- name: srmobileproddep02
+- name: srmobilecors
   env:
     chain: ((SRMOBILE_CHAIN)) 
-    cors: ((SRMOBILE_CORS))
+    cors: true
     url: mobile
-    plastic_bag_fee: BF80788
-  services:
-  - srnewrelic
-  - ((SRMOBILE_PAPERTRAIL))
+    plastic_bag_fee: BF80788,d98f3954,d673799,6cf33992,bfde400,959a639,92273195,3fca5171,40583953,a4214012,88ea3952,ec50123779,c627119202,abc5389,caf9123797,504c3951,d367123778,a1ab4009,647f3989
+    coupon_v2_token: ((COUPON_V2_TOKEN))
+    sr_mwg_stage_token: ((SR_MWG_STG_TOKEN))
+    sr_mwg_prod_token: ((SR_MWG_PRD_TOKEN))
+    tfg_mwg_prod_token: ((TFG_MWG_PRD_TOKEN))
+    item_locator_token: ((ITEM_LOC_TOKEN))
+    prod_not_found_login: ((PROD_NOT_FND_LOGIN))
+    sr_product_recommendation_token: ((SR_PROD_REC_TOKEN))
+    tfg_product_recommendation_token: ((TFG_PROD_REC_TOKEN))
+  buildpacks:
+  - liberty-for-java
+  path: target/SRApp_v7vcappass.war
+  

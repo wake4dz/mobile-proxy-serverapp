@@ -52,8 +52,10 @@ public class GetToken extends BaseService {
 			headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 
 			Map<String, String> requestBodyMap = new HashMap<>(2);
-			requestBodyMap.put("UserName", WakefernApplicationConstants.Reports.NotFound.authUsername);
-			requestBodyMap.put("Password", WakefernApplicationConstants.Reports.NotFound.authPassword);
+			
+			String[] userPass = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.prod_not_found_login).split(":");
+			requestBodyMap.put("UserName", userPass[0]);
+			requestBodyMap.put("Password", userPass[1]);
 			String requestBodyJson = new ObjectMapper().writeValueAsString(requestBodyMap);
 
 			String responseBody = HTTPRequest.executePost(authenticateUrl, requestBodyJson, headerMap);

@@ -95,7 +95,7 @@ public class HTTPRequest {
 			int responseCode = connection.getResponseCode();
 			String response  = ResponseHandler.getResponse(connection);
 
-			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
+			if (responseCode == 200 || responseCode == 201 || responseCode == 202 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
 			
 			} else {
@@ -206,7 +206,7 @@ public class HTTPRequest {
 			int responseCode = connection.getResponseCode();
 			String response  = ResponseHandler.getResponse(connection);
 
-			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
+			if (responseCode == 200 || responseCode == 201 || responseCode == 202 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
 			
 			} else {
@@ -481,6 +481,7 @@ public class HTTPRequest {
 			switch (status) {
 				case 200:
 				case 201:
+                case 202:
 				case 204:
 					return status + " Success";
 				case 205:

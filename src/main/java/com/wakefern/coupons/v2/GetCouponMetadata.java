@@ -35,7 +35,6 @@ public class GetCouponMetadata extends BaseService {
 	private final static Logger logger = Logger.getLogger(GetCouponMetadata.class);
 
 	public JSONObject matchedObjects;
-	private long startTime, endTime;
 	
     @POST
     @Consumes(MWGApplicationConstants.Headers.json)
@@ -51,35 +50,10 @@ public class GetCouponMetadata extends BaseService {
         headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         
         try {
-			startTime = System.currentTimeMillis();
-			matchedObjects = new JSONObject();
 			
         	String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, 0);
 
-			endTime = System.currentTimeMillis();
-			logger.trace("[Coupons]::Total process time (ms): " + (endTime - startTime));
-
-			ObjectMapper mapper = new ObjectMapper();
-			CouponDAOV2[] couponDaoArr = mapper.readValue(response, CouponDAOV2[].class);
-
-			ObjectWriter writer = mapper.writer();
-			
-			for(CouponDAOV2 couponDao : couponDaoArr){
-				if(couponDao.getExternalId().equalsIgnoreCase("992632")){
-					List<String> upcList = new ArrayList<String>() {
-						{
-							add("04119006152");
-							add("04119006154");
-							add("04119006153");
-							add("04119005584");
-						}
-					};
-					couponDao.getRequirementUpcs().addAll(upcList);
-				}
-			}
-			
-			String processedCouponResp = writer.writeValueAsString(couponDaoArr);
-            return this.createValidResponse(processedCouponResp);
+            return this.createValidResponse(response);
         } catch (Exception e){
 			String errorData = LogUtil.getRequestData("GetCouponMetadata::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

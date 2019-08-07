@@ -5,7 +5,7 @@ applications:
     chain: ((SRMOBILE_CHAIN)) 
     cors: ((SRMOBILE_CORS))
     url: mobile
-    plastic_bag_fee: BF80788
+    plastic_bag_fee: BF80788,d98f3954,d673799,6cf33992,bfde400,959a639,92273195,3fca5171,40583953,a4214012,88ea3952,ec50123779,c627119202,abc5389,caf9123797,504c3951,d367123778,a1ab4009,647f3989,4c7d797,888b3955
   services:
   - srnewrelic
   - ((SRMOBILE_PAPERTRAIL))

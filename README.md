@@ -20,7 +20,7 @@ See [Server Scaling](./docs/server-scaling.md) document for detail.
 ## Bluemix's Environment Variable
 See [Bluemix VCAP](./docs/manifest-vcaps.md) document for detail.
 
-### Production Release
+## Production Release
 
 The [Blue-Green](https://docs.cloudfoundry.org/devguide/deploy-apps/blue-green.html) deployment steps are as follows:
 
@@ -47,7 +47,7 @@ mvn install
 cf push srmobile-serverapp --vars-file=./config/prod.yml -p target/shopritemobileapplication.war
 ```
 
-### Development Release
+## Development Release
 
 1. Set CF Space to `ShopRite Mobile App - Dev`
 
@@ -57,7 +57,7 @@ Follow steps from production release. When pushing the war file to bluemix, upda
 cf push srmobile-serverapp --vars-file=./config/dev.yml -p target/shopritemobileapplication.war
 ```
 
-### Future Enhancements
+## Future Enhancements
 
 - [ ] update manifest.yml to have the correct app name
 - [ ] add build date as environmental variable
@@ -66,7 +66,7 @@ cf push srmobile-serverapp --vars-file=./config/dev.yml -p target/shopritemobile
 - [ ] consolidate release steps into a single executable
 - [ ] [rolling deployment](https://docs.cloudfoundry.org/devguide/deploy-apps/rolling-deploy.html)
 
-### To add additional mapping to the current app server
+## To add additional mapping to the current app server
 
 > Run this cmd to map & extend resources of the current active app server.
 

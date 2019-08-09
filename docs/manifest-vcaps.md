@@ -16,6 +16,6 @@ Bluemix's VCAP keeps track of the server's configurations. It directed the outbo
 | sr_mwg_prod_token | The authorization token key to MI9 PRODUCTION environment for ShopRite | [hidden..] |
 | tfg_mwg_prod_token | The authorization token key to MI9 staging environment for The Fresh Grocer | [hidden..] |
 | item_locator_token | Contains the Item Locator service authorization token for ShopRite | [hidden..] |
-| prod_not_found_login | Login credentials to Business Intelligent to log product not found SKU for analysis | username:password |
+| prod_not_found_login | Login credentials to Business Intelligent to log product not found SKU for analysis | [username:password] |
 | sr_product_recommendation_token | Contains the Product Recommendation service authorization token for ShopRite | [hidden..] |
 | tfg_product_recommendation_token | Contains the Product Recommendation service authorization token for The Fresh Grocer | [hidden..] |

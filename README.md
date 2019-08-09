@@ -54,8 +54,9 @@ cf push srmobile-serverapp --vars-file=./config/prod.yml -p target/shopritemobil
 Follow steps from production release. When pushing the war file to bluemix, update your `--vars-file` to use the ```config/dev.yml``` file:
 
 ```sh
-cf push srmobile-serverapp --vars-file=./config/dev.yml -p target/shopritemobileapplication.war
+cf push srmobile-serverapp --vars-file ./config/dev.yml --vars-file ./config/auths.yml-p target/shopritemobileapplication.war
 ```
+- Note: auth.yml contains authorization tokens used in SR application, managed by Mark Covello, Danny Zheng, Loi Cao. Please seek assistant if new server deployment is performed.
 
 ## Future Enhancements
 

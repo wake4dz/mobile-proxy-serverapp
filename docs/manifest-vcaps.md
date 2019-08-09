@@ -3,7 +3,7 @@
 Bluemix's VCAP keeps track of the server's configurations. It directed the outbound traffic to correct MI9's endpoint for service; retains authorization token of the services used in the application, ie. Product Recommendations, Item Locator, Coupon... 
 
 ## Authorization Token Variables
-
+- Note: auth.yml contains authorization tokens used in SR application, managed by Mark Covello, Danny Zheng, Loi Cao. Please seek assistant if new server deployment is performed.
 
 | Env Name   | Description                                                                                                                                                                                                          | Default Value | Possible Values                                                           |
 |------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------|

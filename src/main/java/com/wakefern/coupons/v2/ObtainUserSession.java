@@ -15,10 +15,10 @@ import org.apache.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Created by loicao on 10/11/18.
@@ -42,7 +42,8 @@ public class ObtainUserSession extends BaseService {
 
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
-		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, Requests.Tokens.couponV2Token);
+		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, 
+				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.coupon_v2_key));
 
 		try {
 			// Execute PUT
@@ -53,5 +54,25 @@ public class ObtainUserSession extends BaseService {
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);
 		}
+	}
+	
+	public String getCouponV2Token(String jsonData){
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURLAuth);
+		sb.append(ApplicationConstants.Requests.CouponsV2.UserLogin);
+
+		Map<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
+		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, 
+				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.coupon_v2_key));
+		String response = "";
+		try{
+			response = HTTPRequest.executePut(sb.toString(), jsonData, headerMap);
+		} catch(Exception e){
+			response = "{\"error\":\"fail to get token\"}";
+		}
+		return response;
+		
 	}
 }

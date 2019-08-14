@@ -83,6 +83,8 @@ public final class ApplicationConstants {
             public static final String NotFoundTokenURL = "/reports/notFound/token";
             public static final String NotFoundProductURL = "/reports/notFound/product";
         }
+        public static final String VerifyServices = "/wakefern/services/v7/verify";
+
     }
 
     public static class Logging {

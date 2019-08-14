@@ -15,17 +15,12 @@ The current runtime environment is:
 - [ibm bluemix](https://www.ibm.com/cloud-computing/bluemix/node/4471) for application hosting
 
 ## Bluemix's App Server Scaling
-Please refer to [Server Scaling](./docs/server-scaling.md) document for detail.
+See [Server Scaling](./docs/server-scaling.md) document for detail.
 
 ## Bluemix's Environment Variable
-| Env Name   | Description                                                                                                                                                                                                                                                                                                                                                                                                        | Default Value | Possible Values                                                           |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------|
-| chain      | Set the destination for api calls, ShopRiteProd for calling MWG production, ShopRiteStage for calling MWG staging service                                                                                                                                                                                                                                                                                          | ShopRiteProd  | [ShopRiteProd,ShopRiteStage,FreshGrocerStage,FreshGrocerProd] |
-| cors       | Strictly for development usage, bypassing the CORS requirement in webapp browser run                                                                                                                                                                                                                                                                                                                               | True          | [**True**, False]                                                         |
-| url        | Set mwg api endpoint, mobile for calling mobileapi.shoprite.com, web for calling api.shoprite.com (default is mobile)                                                                                                                                                                                                                                                                                              | mobile        | [**mobile**, web]                                                         |                                                       |
-| plastic_bag_fee | List of pseudo store ids delimited by comma that require plastic bag fees | BF80788 | [<...store_id>] |
+See [Bluemix VCAP](./docs/manifest-vcaps.md) document for detail.
 
-### Production Release
+## Production Release
 
 The [Blue-Green](https://docs.cloudfoundry.org/devguide/deploy-apps/blue-green.html) deployment steps are as follows:
 
@@ -52,17 +47,18 @@ mvn install
 cf push srmobile-serverapp --vars-file=./config/prod.yml -p target/shopritemobileapplication.war
 ```
 
-### Development Release
+## Development Release
 
 1. Set CF Space to `ShopRite Mobile App - Dev`
 
 Follow steps from production release. When pushing the war file to bluemix, update your `--vars-file` to use the ```config/dev.yml``` file:
 
 ```sh
-cf push srmobile-serverapp --vars-file=./config/dev.yml -p target/shopritemobileapplication.war
+cf push srmobile-serverapp --vars-file ./config/dev.yml --vars-file ./config/auths.yml -p target/shopritemobileapplication.war
 ```
+- Note: auth.yml contains authorization tokens used in SR application, managed by Mark Covello, Danny Zheng, Loi Cao. Please seek assistant if new server deployment is performed.
 
-### Future Enhancements
+## Future Enhancements
 
 - [ ] update manifest.yml to have the correct app name
 - [ ] add build date as environmental variable
@@ -71,7 +67,7 @@ cf push srmobile-serverapp --vars-file=./config/dev.yml -p target/shopritemobile
 - [ ] consolidate release steps into a single executable
 - [ ] [rolling deployment](https://docs.cloudfoundry.org/devguide/deploy-apps/rolling-deploy.html)
 
-### To add additional mapping to the current app server
+## To add additional mapping to the current app server
 
 > Run this cmd to map & extend resources of the current active app server.
 

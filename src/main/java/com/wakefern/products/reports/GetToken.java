@@ -52,8 +52,10 @@ public class GetToken extends BaseService {
 			headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 
 			Map<String, String> requestBodyMap = new HashMap<>(2);
-			requestBodyMap.put("UserName", WakefernApplicationConstants.Reports.NotFound.authUsername);
-			requestBodyMap.put("Password", WakefernApplicationConstants.Reports.NotFound.authPassword);
+			
+			String[] userPass = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.prod_not_found_login).split(":");
+			requestBodyMap.put("UserName", userPass[0]);
+			requestBodyMap.put("Password", userPass[1]);
 			String requestBodyJson = new ObjectMapper().writeValueAsString(requestBodyMap);
 
 			String responseBody = HTTPRequest.executePost(authenticateUrl, requestBodyJson, headerMap);
@@ -63,5 +65,27 @@ public class GetToken extends BaseService {
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(exception));
 			return this.createErrorResponse(exception);
 		}
+	}
+	
+	public String getProdNotFoundLogin(){
+		String responseBody = "";
+		try{
+			String authenticateUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.NotFound.authenticate;
+			Map<String, String> headerMap = new HashMap<String, String>(1);
+			headerMap.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
+			headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
+	
+			Map<String, String> requestBodyMap = new HashMap<>(2);
+			
+			String[] userPass = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.prod_not_found_login).split(":");
+			requestBodyMap.put("UserName", userPass[0]);
+			requestBodyMap.put("Password", userPass[1]);
+			String requestBodyJson = new ObjectMapper().writeValueAsString(requestBodyMap);
+	
+			responseBody = HTTPRequest.executePost(authenticateUrl, requestBodyJson, headerMap);
+		} catch (Exception exception) {
+			responseBody = "{\"error\":\"fail to get BI token\"}";
+		}
+		return responseBody;
 	}
 }

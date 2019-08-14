@@ -6,10 +6,6 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
  * Created by brandyn.brosemer on 9/13/16.
  */
 public class WakefernApplicationConstants {
-	
-    public static final String authToken = "7bd4a45d-4fef-4edf-a74d-c2214c0b7b54"; // Used by legacy Wakefern endpoints.
-    public static final String srAuthToken = "e9d69feb-012b-45e1-bf10-eea13424495d"; // v2 product recommendation for ShopRite
-    public static final String tfgAuthToken = "17a7139d-7268-4548-a441-29dbb380a592"; // v2 product recommendation for TheFreshGrocer
 
 	// Wakefern APIs
 	private static final String wakefernApiStage = "https://wfcapi.staging.shoprite.com";
@@ -22,6 +18,20 @@ public class WakefernApplicationConstants {
 		}
 
 		return wakefernApiProd;
+	}
+	
+	public static class VCAPKeys{
+		public static final String cors = "cors";
+		public static final String chain = "chain";
+		public static final String url = "url";
+		public static final String coupon_v2_key = "coupon_v2_key";
+		public static final String sr_mwg_stage_key = "sr_mwg_stage_key";
+		public static final String sr_mwg_prod_key = "sr_mwg_prod_key";
+		public static final String tfg_mwg_prod_key = "tfg_mwg_prod_key";
+		public static final String jwt_public_key = "jwt_public_key"; //use for digital receipt & item locator
+		public static final String prod_not_found_login = "prod_not_found_login";
+		public static final String sr_product_recommendation_key = "sr_product_recommendation_key";
+		public static final String tfg_product_recommendation_key = "tfg_product_recommendation_key";
 	}
 
     public static class Chains {
@@ -81,7 +91,6 @@ public class WakefernApplicationConstants {
         public static final String baseURLAuth = "https://couponapis.shoprite.com";
 
         public static class Headers {
-            public static final String CouponAuthenticationToken = "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM1NjgzODAsImVtYWlsIjoiS0VWSU4uSkFOR0BXQUtFRkVSTi5DT00iLCJmdWxsTmFtZSI6ImNvdXBvbldlYlVzZXJzIiwiaWF0IjoxNTI1ODg4MzgwfQ.Numfi4df5nSvfR9Rt2POzA4Fki-iw7CAQT6rmjb32IY";
             public static final String clip_source = "clip_source";
             public static final String clip_token = "clip_token";
             public static final String coupon_id = "coupon_id";
@@ -141,7 +150,6 @@ public class WakefernApplicationConstants {
         public static final String Sale = "Sale";
         public static final String LimitText = "LimitText";
         
-        public static final String WakefernAuth    = "eyJleHAiOjE0NzYxMDQyMTM1NDYsInN1YiI6InNmamMxcGFzc3dkIiwiaXNzIjoiaHR0cDovL3dha2VmZXJuLmNvbSJ9";
         public static final String baseURL = "https://api.wakefern.com";
         public static final String locationPath = "/itemlocator/item/location";
         public static final String authPath = "/wfctoken/auth/gentoken";
@@ -153,9 +161,6 @@ public class WakefernApplicationConstants {
 			public static final String contextPath = "/notfound/api/v1";
 			public static final String authenticate = contextPath + "/authenticate/user";
 			public static final String product = contextPath + "/product";
-
-			public static final String authUsername = "ZzntD70b0dKNjRrfTOmb4FP08bd9fWsX";
-			public static final String authPassword = "ZDn7RrcRhN+ByAnDCPTU";
 		}
 	}
 

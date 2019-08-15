@@ -5,3 +5,4 @@ shopritemobileapplication.iml
 .settings/
 .factorypath
 .DS_Store
+/config/auths.yml

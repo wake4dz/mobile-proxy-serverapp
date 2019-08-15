@@ -1,4 +1,4 @@
-package com.wakefern.Recommendations;
+package com.wakefern.recommendations;
 
 import java.util.ArrayList;
 import java.util.List;

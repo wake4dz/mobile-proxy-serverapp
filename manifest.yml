@@ -15,5 +15,4 @@ applications:
     sr_product_recommendation_key: ((SR_PROD_REC_KEY))
     tfg_product_recommendation_key: ((TFG_PROD_REC_KEY))
   services:
-  - srnewrelic
   - ((SRMOBILE_PAPERTRAIL))

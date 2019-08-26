@@ -166,6 +166,29 @@ public class WakefernApplicationConstants {
     	public static final String itemLocatorPath = itemInfo_storePath + itemInfo_upcsPath;
     }
     
+	public static class Receipt {
+		// Wakefern's APIs	
+		public static final String DigitalReceipt = "/receipt";
+		
+		public static final String Summary = "/summary";
+		public static final String Detail = "/detail";
+		
+		public static final String BaseURL = "https://api.wakefern.com";		
+		public static final String User = "/digitalreceipt/users";
+
+	}
+	
+	public static class JwtToken {
+		// Wakefern's APIs
+		public static final String JwtToken = "/jwtToken";
+		public static final String TokenGen = "/generation";
+		
+		public static final String BaseURL = "https://api.wakefern.com";
+
+		 public static final String authPath = "/wfctoken/auth/gentoken";
+
+	}
+	
 	public static class Reports {
 
 		public static class NotFound {

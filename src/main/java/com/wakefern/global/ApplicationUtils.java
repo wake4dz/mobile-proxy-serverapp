@@ -1,5 +1,7 @@
 package com.wakefern.global;
 
+import com.wakefern.wakefern.WakefernApplicationConstants;
+
 /**
  * Created by brandyn.brosemer on 9/13/16.
  */
@@ -20,14 +22,14 @@ public class ApplicationUtils {
     		return sb;
     }
     
-//public static String constructCouponUrl(String pathUrl, String fsnReqParam, String queryKey, String queryValue) {
-//    		StringBuilder sb = new StringBuilder();
-//        	sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURL);
-//        	sb.append(pathUrl);
-//    		sb.append("?fsn=");
-//    		sb.append(fsnReqParam);
-//    		sb.append(queryKey);
-//    		sb.append(queryValue);
-//    		return sb.toString();
-//    }
+    public static String constructItemLocatorUrl(String storeId, String upcs) {
+		StringBuilder sb = new StringBuilder();
+    	sb.append(WakefernApplicationConstants.ItemLocator.baseURL);
+    	sb.append(WakefernApplicationConstants.ItemLocator.prefix);
+		sb.append("/store/");
+    	sb.append(storeId);
+		sb.append("/upc/");
+		sb.append(upcs);
+		return sb.toString();
+    }
 }

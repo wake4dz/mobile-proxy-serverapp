@@ -26,7 +26,7 @@ public class ApplicationUtils {
 		StringBuilder sb = new StringBuilder();
     	sb.append(WakefernApplicationConstants.ItemLocator.baseURL);
     	sb.append(WakefernApplicationConstants.ItemLocator.prefix);
-		sb.append("/store/");
+		sb.append("/secure/itemData/store/");
     	sb.append(storeId);
 		sb.append("/upc/");
 		sb.append(upcs);

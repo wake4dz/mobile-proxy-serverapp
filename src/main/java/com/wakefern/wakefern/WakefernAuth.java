@@ -37,16 +37,18 @@ public class WakefernAuth extends BaseService {
      * @throws Exception
      * @throws IOException
      */
-    public String getItemInfo() throws Exception, IOException {
+    public String getItemInfo(String appCode) throws Exception, IOException {
         Map<String, String> wkfn = new HashMap<>();
 
-        String path = WakefernApplicationConstants.ItemLocator.baseURL + WakefernApplicationConstants.ItemLocator.itemInfo_authPath;
+        String path = WakefernApplicationConstants.ItemLocator.baseURL + WakefernApplicationConstants.ItemLocator.prefix + WakefernApplicationConstants.ItemLocator.itemInfo_tokenPath;
         
         wkfn.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
         wkfn.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
-        wkfn.put(ApplicationConstants.Requests.Header.appCode, WakefernApplicationConstants.ItemLocator.itemInfo_appCode);
+//        wkfn.put(ApplicationConstants.Requests.Header.appCode, WakefernApplicationConstants.ItemLocator.itemInfo_appCode);
+        wkfn.put(ApplicationConstants.Requests.Header.appCode, appCode); //appCode = KPC1
 
-    	String response = getToken(HTTPRequest.executePost(path, "{}", wkfn));
+//    	String response = getToken(HTTPRequest.executePost(path, "{}", wkfn)); //leave the getToken implementation for future interal cart impl to get item locator..
+    	String response = HTTPRequest.executePost(path, "{}", wkfn);
     	return response;
     }
     

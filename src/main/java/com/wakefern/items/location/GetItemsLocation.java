@@ -1,6 +1,5 @@
 package com.wakefern.items.location;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +23,6 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import com.wakefern.wakefern.WakefernAuth;
 
 /**
  * Created by loicao on 08/19/19.
@@ -39,11 +37,11 @@ public class GetItemsLocation extends BaseService {
     @Produces(MWGApplicationConstants.Headers.json)
     @Path(WakefernApplicationConstants.ItemLocator.itemLocatorPath)
     public Response getItemLocatorResponse(@HeaderParam(ApplicationConstants.Requests.Header.contentAccept) String acceptType, 
-    						    	@PathParam(WakefernApplicationConstants.ItemLocator.storeId) String mwgStoreID,
-    						    	@PathParam(WakefernApplicationConstants.ItemLocator.upcs) String upcs,
-    								String jsonString) {
+    				@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String authToken,
+    				@PathParam(WakefernApplicationConstants.ItemLocator.storeId) String mwgStoreID,
+    				@PathParam(WakefernApplicationConstants.ItemLocator.upcs) String upcs) {
         try {
-	        String response = this.getItemLocatorResp(mwgStoreID, upcs, acceptType);
+	        String response = this.getItemLocatorResp(mwgStoreID, upcs, acceptType, authToken);
             return this.createValidResponse(response);
         } catch (Exception e){
 			String errorData = LogUtil.getRequestData("getItemLocatorResponse::Exception", LogUtil.getRelevantStackTrace(e), "storeId", mwgStoreID, "upcs", upcs);
@@ -60,10 +58,7 @@ public class GetItemsLocation extends BaseService {
      * @return
      * @throws Exception
      */
-    private String getItemLocatorResp(String mwgStoreID, String upcs, String acceptType) throws Exception{
-		// get authorization token to be used in item locator service call.
-		String authString = this.getItemInfoAuthToken();
-		
+    private String getItemLocatorResp(String mwgStoreID, String upcs, String acceptType, String auth) throws Exception{
 		// split upcs into batch of 6, for that's the limit for item info api to take in
 		List<String> upcList = this.splitUPCs(upcs);
 		JSONObject upcsObj = new JSONObject();
@@ -73,7 +68,7 @@ public class GetItemsLocation extends BaseService {
             this.requestPath = ApplicationUtils.constructItemLocatorUrl(mwgStoreID, upcsStr);
             Map<String, String> headerMap = new HashMap<String, String>();
             headerMap.put(ApplicationConstants.Requests.Header.contentAccept, acceptType);
-            headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authString);
+            headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, auth);
             
         	response = HTTPRequest.executeGet(this.requestPath, headerMap, 0);
         	JSONObject rdObj = new JSONObject(response).getJSONObject("returnData");
@@ -129,16 +124,5 @@ public class GetItemsLocation extends BaseService {
     		upcList.add(sb.toString());
     	}
     	return upcList;
-    }
-    
-    /**
-     * obtaining authorization token to get item locations.
-     * @return
-     * @throws Exception 
-     * @throws IOException 
-     */
-    private String getItemInfoAuthToken() throws IOException, Exception{
-		WakefernAuth auth = new WakefernAuth();
-		return auth.getItemInfo();
     }
 }

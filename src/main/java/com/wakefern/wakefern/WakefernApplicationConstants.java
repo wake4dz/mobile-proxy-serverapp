@@ -154,16 +154,16 @@ public class WakefernApplicationConstants {
         public static final String locationPath = "/itemlocator/item/location";
         public static final String authPath = "/wfctoken/auth/gentoken";
         
-    	public static final String prefix = "/iteminfo/v1/secure/itemData";
-    	public static final String storeId = "storeId";
-    	public static final String upcs = "upcs";
-    	
-    	public static final String itemInfo_appCode = "KPC1";
-    	public static final String itemInfo_authPath = "/iteminfo/v1/tokens";
-    	public static final String itemInfo_storePath = "/store/{storeId}";
-    	public static final String itemInfo_upcsPath = "/upc/{upcs}";
-    	public static final String itemLocatorArr = "itemLocator";
-    	public static final String itemLocatorPath = itemInfo_storePath + itemInfo_upcsPath;
+        public static final String prefix = "/iteminfo/v1";
+        public static final String storeId = "storeId";
+        public static final String upcs = "upcs";
+
+        public static final String itemInfo_appCode = "KPC1";
+        public static final String itemInfo_tokenPath = "/tokens";
+        public static final String itemInfo_storePath = "/store/{storeId}";
+        public static final String itemInfo_upcsPath = "/upc/{upcs}";
+        public static final String itemLocatorArr = "itemLocator";
+        public static final String itemLocatorPath = "/secure/itemData" + itemInfo_storePath + itemInfo_upcsPath;
     }
     
 	public static class Receipt {

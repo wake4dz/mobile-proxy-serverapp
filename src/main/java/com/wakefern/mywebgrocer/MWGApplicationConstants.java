@@ -390,6 +390,8 @@ public class MWGApplicationConstants {
 
 			// Register a new user
 			public static final String register = chainsID + "/users";
+			
+			public static final String forgotFsn = "/User/SendForgotFsnEmail";
 		}
 
 		public static class Authentication {

@@ -185,8 +185,6 @@ public class MWGApplicationConstants {
 		public static class Params {
 			public static final String auth = "Authorization";
 			public static final String accept = "Accept";
-			public static final String jwtToken = "JWT-Token";
-      
 			public static final String contentType = "Content-Type";
 		}
 

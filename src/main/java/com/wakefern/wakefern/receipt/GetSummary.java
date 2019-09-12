@@ -42,7 +42,7 @@ public class GetSummary extends BaseService {
 	public Response getInfoResponse(@PathParam("ppc") String ppc, 
 			@QueryParam(MWGApplicationConstants.Requests.Params.Query.startDate) String startDate,
 			@QueryParam(MWGApplicationConstants.Requests.Params.Query.endDate) String endDate,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.jwtToken) String jwtToken) {
+			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String jwtToken) {
 
 		try {
 			// This is the Digital Receipt service provided and maintained by Wakefern.	        

@@ -23,7 +23,11 @@ public class CorsFilter implements ContainerResponseFilter {
 		
 		if (shouldEnableCors != null && shouldEnableCors.equals("true")) {
 			response.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:7000"); // allow cross-origin requests from frontend dev server
-			response.getHeaders().add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, Token");
+			
+			// on 2019-09-08 DZ removed the HTTP headers of "Origin" and "Token" from the CORS filter list
+			response.getHeaders().add("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
+			//response.getHeaders().add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, Token");
+			
 			response.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 			response.getHeaders().add("Access-Control-Max-Age", "1209600");
 		}

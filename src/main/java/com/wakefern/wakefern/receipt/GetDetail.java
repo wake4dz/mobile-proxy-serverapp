@@ -41,7 +41,7 @@ public class GetDetail extends BaseService {
 	@Path("/{ppc}" + WakefernApplicationConstants.Receipt.Detail + "/{receiptId}" )
 	public Response getInfoResponse(@PathParam("ppc") String ppc, 	
 			@PathParam("receiptId") String receiptId,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.jwtToken) String jwtToken) {
+			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String jwtToken) {
 
 		try {
 			// We are not going to a MWG endpoint with this request.

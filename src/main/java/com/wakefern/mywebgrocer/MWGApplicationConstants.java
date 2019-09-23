@@ -256,6 +256,7 @@ public class MWGApplicationConstants {
 			public static final String item = prefix + "list-item+json";
 			public static final String items = prefix + "list-items+json";
 			public static final String wakefernItems = prefix + "wakefern-list-items+json";
+			public static final String wakefernEmail = prefix + "wakefern-list-email+json";
 		}
 
 		public static class Cart {
@@ -304,6 +305,7 @@ public class MWGApplicationConstants {
 		private static final String userID = "/user/" + "{" + Params.Path.userID + "}";
 		private static final String storeID = "/store/" + "{" + Params.Path.storeID + "}";
 		private static final String storesID = "/stores/" + "{" + Params.Path.storeID + "}";
+		private static final String listsID = "/lists/" + "{" + Params.Path.listID + "}";
 
 		// Request Parameters
 		public static class Params {
@@ -539,7 +541,9 @@ public class MWGApplicationConstants {
 			public static final String items = list + "/items";
 			public static final String item = items + "/{" + Params.Path.listItemID + "}";
 			public static final String copy = list + "/duplicate";
-
+			
+			public static final String emailList = chainsID + storesID + usersID + listsID; 
+			
 			// These items are specific to the Duplicate List functionality
 			//
 			// The Default Limit for the number of items to copy from an existing Shopping List to a new duplicate list.

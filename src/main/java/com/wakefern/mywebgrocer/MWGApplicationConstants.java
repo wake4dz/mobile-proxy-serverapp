@@ -192,6 +192,7 @@ public class MWGApplicationConstants {
 			public static final String login = prefix + "account-authentication+json";
 
 			public static final String profile = prefix + "account-profile-full+json";
+			public static final String address = prefix + "account-profile-address+json";
 			public static final String register = prefix + "account-profile-register+json";
 			public static final String prefStore = prefix + "account-online-shopping-store+json";
 		}
@@ -388,6 +389,10 @@ public class MWGApplicationConstants {
 			// Get a user's full profile
 			public static final String profile = chainsID + usersID;
 
+
+			// Get a user's full profile
+			public static final String addresses = chainsID + usersID + "/addresses";
+			
 			// Register a new user
 			public static final String register = chainsID + "/users";
 			

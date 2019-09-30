@@ -32,6 +32,7 @@ public class WakefernApplicationConstants {
 		public static final String prod_not_found_login = "prod_not_found_login";
 		public static final String sr_product_recommendation_key = "sr_product_recommendation_key";
 		public static final String tfg_product_recommendation_key = "tfg_product_recommendation_key";
+		public static final String apim_ppc_email_key = "apim_ppc_email_key";
 	}
 
     public static class Chains {
@@ -131,6 +132,28 @@ public class WakefernApplicationConstants {
 			public static final String ClipAppSource_SR = "APP_SR";
         }
     }
+
+	public static class APIM {
+		public static final String apimBaseURL = "https://apimprod.wakefern.com";
+		public static final String ppcByEmail = "/WebAndClient/V1/LMWPPC_R_ByEmail";
+		
+		public static final String sub_key_header = "Ocp-Apim-Subscription-Key";
+		public static final String email = "Email";
+
+		public static final String resultSet_output = "ResultSet 1 Output";
+		public static final String ppc_acct_id = "PPC_ACCT_ID";
+
+		public static final String notFoundStatus="PPC number not found. Please contact our Customer Care Center at 1-800-ShopRite (1-800-746-7748).";
+//				+ "Customer Care Associates are available to assist you Monday through Friday from 8 AM to 6 PM, and Saturday and Sunday from 9 AM to 5 PM.";
+		public static final String foundStatus = "An email has been sent to you with your Price Plus card number. Please allow a few moments for the email to arrive.";
+	
+		public static final String mi9_fsn_key="Fsn";
+		public static final String mi9_first_name="FirstName";
+		public static final String mi9_last_name="LastName";
+		
+		public static final String mi9_fName_value="Valued";
+		public static final String mi9_lName_value="Customer";
+	}
 	
     public static class ItemLocator {
         public static final String Aisle = "Aisle";

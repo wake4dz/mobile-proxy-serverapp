@@ -28,7 +28,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 
 /**
- * Created by loicao on 10/15/18.
+ * Created by loicao on 10/10/19.
  */
 @Path(ApplicationConstants.Requests.CouponsV2.CouponMetadata)
 public class GetCouponMetadata extends BaseService {
@@ -41,6 +41,7 @@ public class GetCouponMetadata extends BaseService {
     @Produces(MWGApplicationConstants.Headers.json)
     public Response getInfoResponse(@HeaderParam("Authorization") String authToken,
     									@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType, 
+    									@HeaderParam(ApplicationConstants.Requests.Header.appVersion) String appVersion, 
     									@QueryParam(ApplicationConstants.Requests.CouponsV2.fsn) String fsn, 
     									String jsonString) throws Exception, IOException {
         //Execute POST
@@ -50,14 +51,72 @@ public class GetCouponMetadata extends BaseService {
         headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         
         try {
-			
         	String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, 0);
-
+        	try{
+            	if(isFilterCoupon(appVersion)){ // if appVersion is empty or less than 3.16
+            		response = this.filterCouponType(response);
+            	}
+        	} catch (Exception e){
+        		logger.error("[GetCouponMetadata]::getInfoResponse - "+e.getMessage());
+        	}
             return this.createValidResponse(response);
         } catch (Exception e){
 			String errorData = LogUtil.getRequestData("GetCouponMetadata::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return this.createErrorResponse(e);
         }
+    }
+    
+    /**
+     * filter out coupon with offer type 14, currently set globally, future use will be filter by app version number,
+     * app version # will be sent via request header.
+     * @param resp
+     * @return
+     * @throws IOException 
+     */
+    private String filterCouponType(String response) throws IOException{
+        final String offer_type_exclude="14";
+        
+    	ObjectMapper mapper = new ObjectMapper();
+    	CouponDAOV2[] couponDaoArr = mapper.readValue(response, CouponDAOV2[].class);
+    	ObjectWriter writer = mapper.writer();
+    	List<CouponDAOV2> couponList = new ArrayList<CouponDAOV2>();
+    	for(CouponDAOV2 couponDaoV2Obj : couponDaoArr){
+    		if(couponDaoV2Obj.getOfferType().equals(offer_type_exclude)){
+    			continue;
+    		}
+			couponList.add(couponDaoV2Obj);
+    	}
+    	return writer.writeValueAsString(couponList);
+    }
+
+    /**
+     * Check coupon version to initiate coupon filter out offer_type 14, 
+     * if no appVersion or appVersion in request is < 3.16,
+     * 	then filter out the coupon
+     * 	else not filter
+     * @param appVerHeader
+     * @return true if need filter, false otherwise.
+     */
+    private boolean isFilterCoupon(String appVerHeader){
+    	boolean isFilter = true;
+    	// filter out coupon below 3.16
+    	int majorVerToNotFilter = 3;
+    	int minorVerToNotFilter = 16;
+    	
+    	if(appVerHeader != null && !appVerHeader.isEmpty()){
+    		logger.info("[GetCouponMetadata]::isFilterCoupon::Version-" + appVerHeader);
+    		String[] headerVerArr = appVerHeader.split("\\.");
+    		int majorVerHeader = Integer.parseInt(headerVerArr[0]);
+    		// check major version
+    		if(majorVerHeader > majorVerToNotFilter){ // header major ver above 3..
+    			isFilter = false;
+    		} else if(majorVerHeader == majorVerToNotFilter){ // check minor version
+    			if(Integer.parseInt(headerVerArr[1]) >= minorVerToNotFilter){
+    				isFilter = false;
+    			}
+    		}
+    	}
+    	return isFilter;
     }
 }

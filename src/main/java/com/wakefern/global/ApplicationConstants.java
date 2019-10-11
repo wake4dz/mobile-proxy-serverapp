@@ -30,6 +30,7 @@ public final class ApplicationConstants {
             public static final String userAgent = "User-Agent";
             public static final String appCode = "appCode";
             public static final String jwtToken = "JWT-Token";
+            public static final String appVersion  = "AppVersion";
         }
 
         public static class Tokens {

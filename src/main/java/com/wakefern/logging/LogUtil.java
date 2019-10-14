@@ -33,6 +33,7 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.global.VcapProcessor;
 
 /*
  *  author: Danny Zheng
@@ -358,14 +359,20 @@ public class LogUtil {
 		
 		messages.add("");
 		
-		messages.add(StringUtils.rightPad("The 'chain' system property:", 40) + 
+		messages.add(StringUtils.rightPad("The 'chain' system property:", 45) + 
 				MWGApplicationConstants.getSystemProperytyValue("chain"));
-		messages.add(StringUtils.rightPad("The 'url' system property:", 40) + 
+		messages.add(StringUtils.rightPad("The 'url' system property:", 45) + 
 				MWGApplicationConstants.getSystemProperytyValue("url"));
-		messages.add(StringUtils.rightPad("The 'cors' system property:", 40) + 
+		messages.add(StringUtils.rightPad("The 'cors' system property:", 45) + 
 				MWGApplicationConstants.getSystemProperytyValue("cors"));
-		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 40) + 
+		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 45) + 
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
+		messages.add(StringUtils.rightPad("The 'api_high_timeout' system property:", 45) + 
+				VcapProcessor.getApiHighTimeout());
+		messages.add(StringUtils.rightPad("The 'api_medium_timeout' system property:", 45) + 
+				VcapProcessor.getApiMediumTimeout());
+		messages.add(StringUtils.rightPad("The 'api_low_timeout' system property:", 45) + 
+				VcapProcessor.getApiLowTimeout());
 		messages.add("");
 
 		
@@ -397,6 +404,7 @@ public class LogUtil {
 		messages.add("<tr><td>branch</td>" + "<td>" +
 				ReleaseUtil.getReleaseLines().get(2).substring(ReleaseUtil.getReleaseLines().get(2).indexOf("=") + 1).trim() + "</td> </tr>");	
 		
+		
 		messages.add("</table> <br /> <br />");
 		
 		messages.add("<table id=\"envVariable\">");
@@ -410,6 +418,15 @@ public class LogUtil {
 		
 		messages.add("<tr><td>cors</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("cors") + "</td> </tr>");
+		
+		messages.add("<tr><td>api_high_timeout</td>" + "<td>" +
+				VcapProcessor.getApiHighTimeout() + "</td> </tr>");
+
+		messages.add("<tr><td>api_medium_timeout</td>" + "<td>" +
+				VcapProcessor.getApiMediumTimeout() + "</td> </tr>");
+		
+		messages.add("<tr><td>api_low_timeout</td>" + "<td>" +
+				VcapProcessor.getApiLowTimeout() + "</td> </tr>");
 		
 		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee") + "</td> </tr>");

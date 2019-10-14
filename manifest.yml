@@ -15,5 +15,8 @@ applications:
     sr_product_recommendation_key: ((SR_PROD_REC_KEY))
     tfg_product_recommendation_key: ((TFG_PROD_REC_KEY))
     apim_ppc_email_key: ((APIM_PPC_EMAIL_KEY))
+    api_high_timeout: ((API_HIGH_TIMEOUT))
+    api_medium_timeout: ((API_MEDIUM_TIMEOUT))
+    api_low_timeout: ((API_LOW_TIMEOUT))
   services:
   - ((SRMOBILE_PAPERTRAIL))

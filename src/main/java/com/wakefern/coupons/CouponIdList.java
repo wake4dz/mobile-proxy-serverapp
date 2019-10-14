@@ -3,6 +3,7 @@ package com.wakefern.coupons;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -46,7 +47,7 @@ public class CouponIdList extends BaseService {
 	        ServiceMappings serviceMappings = new ServiceMappings();
 	        serviceMappings.setCouponMapping(this);
 
-            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0));
+            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), VcapProcessor.getApiLowTimeout()));
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_LIST);
         	

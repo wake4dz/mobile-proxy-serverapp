@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
@@ -46,7 +47,7 @@ public class GetCouponByUPC extends BaseService {
         headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         
         try {
-        		String response = HTTPRequest.executePostJSON(sb.toString(), jsonString, headerMap, 0);//No match coupon found for the UPC
+        		String response = HTTPRequest.executePostJSON(sb.toString(), jsonString, headerMap, VcapProcessor.getApiLowTimeout());//No match coupon found for the UPC
         		if(response.contains("{")){
                     return this.createValidResponse(response);
         		} else {

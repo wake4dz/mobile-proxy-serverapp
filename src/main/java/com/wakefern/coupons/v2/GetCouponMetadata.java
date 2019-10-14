@@ -23,6 +23,7 @@ import com.wakefern.dao.couponv2.CouponDAOV2;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
@@ -51,7 +52,7 @@ public class GetCouponMetadata extends BaseService {
         headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
         
         try {
-        	String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, 0);
+        	String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, VcapProcessor.getApiHighTimeout());
         	try{
             	if(isFilterCoupon(appVersion)){ // if appVersion is empty or less than 3.16
             		response = this.filterCouponType(response);

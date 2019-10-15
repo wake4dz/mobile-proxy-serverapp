@@ -73,10 +73,10 @@ public class GetContents extends BaseService {
 			}
 			
             // invoking item locator service if 'true' value in request parameter & vcap env variable
-            if(itemLocator!= null && itemLocator.trim().equalsIgnoreCase(
+            if(itemLocator.trim().equalsIgnoreCase(
             		ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.enable_item_locator, defaultILValue))){
+    			logger.info("Calling Item Locator..");
         		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
-    			logger.debug("Getting In-Store Checklist: "+userID);
             }
 
 			if(LogUtil.isUserTrackOn) {

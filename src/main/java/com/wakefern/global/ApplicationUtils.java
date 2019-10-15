@@ -1,5 +1,6 @@
 package com.wakefern.global;
 
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
@@ -31,5 +32,16 @@ public class ApplicationUtils {
 		sb.append("/upc/");
 		sb.append(upcs);
 		return sb.toString();
+    }
+    
+    public static String getVcapValue(String vcapKeyName, String defaultValue){
+    	String vcapValue = "";
+    	try{
+	    	String highTimeObj = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName);
+			vcapValue = highTimeObj !=null ? highTimeObj.trim() : defaultValue;
+    	} catch(Exception e){
+    		vcapValue = defaultValue;
+    	}
+    	return vcapValue;
     }
 }

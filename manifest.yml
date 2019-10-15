@@ -15,5 +15,6 @@ applications:
     sr_product_recommendation_key: ((SR_PROD_REC_KEY))
     tfg_product_recommendation_key: ((TFG_PROD_REC_KEY))
     apim_ppc_email_key: ((APIM_PPC_EMAIL_KEY))
+    enable_item_locator: ((ENABLE_ITEM_LOCATOR))
   services:
   - ((SRMOBILE_PAPERTRAIL))

@@ -1,5 +1,7 @@
 package com.wakefern.global;
 
+import org.apache.log4j.Logger;
+
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -7,6 +9,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  * Created by brandyn.brosemer on 9/13/16.
  */
 public class ApplicationUtils {
+	private final static Logger logger = Logger.getLogger(ApplicationUtils.class);
     public static Boolean isEmpty(String str){
         if(str.isEmpty() || str == null){
             return true;
@@ -35,13 +38,14 @@ public class ApplicationUtils {
     }
     
     public static String getVcapValue(String vcapKeyName, String defaultValue){
-    	String vcapValue = "";
     	try{
 	    	String highTimeObj = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName);
-			vcapValue = highTimeObj !=null ? highTimeObj.trim() : defaultValue;
+	    	if(highTimeObj !=null){
+	    		defaultValue = highTimeObj.trim();
+	    	}
     	} catch(Exception e){
-    		vcapValue = defaultValue;
+    		logger.error("[ApplicationUtils]::getVcapValue::Failed! Exception " + vcapKeyName + e.getMessage());
     	}
-    	return vcapValue;
+    	return defaultValue;
     }
 }

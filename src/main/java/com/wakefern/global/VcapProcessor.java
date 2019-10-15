@@ -64,8 +64,8 @@ public class VcapProcessor {
 	 * @return
 	 */
 	private static int getVcapValue(String vcapKeyName) throws Exception{
-		Object highTimeObj = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName);
-		return highTimeObj !=null && !((String)highTimeObj).isEmpty() ? Integer.valueOf(MWGApplicationConstants.getSystemProperytyValue(vcapKeyName).trim()) : 0;
+		String highTimeObj = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName);
+		return highTimeObj !=null && !highTimeObj.trim().isEmpty() ? Integer.valueOf(highTimeObj.trim()) : 0;
 	}
 	
 	

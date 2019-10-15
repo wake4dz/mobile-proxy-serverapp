@@ -20,7 +20,7 @@ public class VcapProcessor {
 	//this static code is not run until the class is loaded into the memory for the first time
 	static {  
 		try {
-			apiHighTimeout = Integer.valueOf(MWGApplicationConstants.getSystemProperytyValue("api_high_timeout").trim());
+			apiHighTimeout = getVcapValue("api_high_timeout");
 			
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
@@ -29,7 +29,7 @@ public class VcapProcessor {
 		
 		
 		try {
-			apiMediumTimeout = Integer.valueOf(MWGApplicationConstants.getSystemProperytyValue("api_medium_timeout").trim());
+			apiMediumTimeout = getVcapValue("api_medium_timeout");
 
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
@@ -37,7 +37,7 @@ public class VcapProcessor {
 		}
 		
 		try {
-			apiLowTimeout = Integer.valueOf(MWGApplicationConstants.getSystemProperytyValue("api_low_timeout").trim());
+			apiLowTimeout = getVcapValue("api_low_timeout");
 			
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
@@ -45,7 +45,6 @@ public class VcapProcessor {
 		}
 		
 	}
-	
 	
 	public static int getApiHighTimeout() {
 		return apiHighTimeout;
@@ -57,6 +56,16 @@ public class VcapProcessor {
 	
 	public static int getApiLowTimeout() {
 		return apiLowTimeout;
+	}
+	
+	/**
+	 * get vcap value for api time out, return 0 if no vcap value found.
+	 * @param vcapKeyName
+	 * @return
+	 */
+	private static int getVcapValue(String vcapKeyName) throws Exception{
+		Object highTimeObj = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName);
+		return highTimeObj !=null && !((String)highTimeObj).isEmpty() ? Integer.valueOf(MWGApplicationConstants.getSystemProperytyValue(vcapKeyName).trim()) : 0;
 	}
 	
 	

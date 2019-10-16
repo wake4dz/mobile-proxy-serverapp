@@ -33,7 +33,7 @@ public class WakefernApplicationConstants {
 		public static final String sr_product_recommendation_key = "sr_product_recommendation_key";
 		public static final String tfg_product_recommendation_key = "tfg_product_recommendation_key";
 		public static final String apim_ppc_email_key = "apim_ppc_email_key";
-		public static final String enable_item_locator = "enable_item_locator";
+		public static final String enable_cart_item_locator = "enable_cart_item_locator";
 	}
 
     public static class Chains {

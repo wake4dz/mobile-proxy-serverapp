@@ -37,15 +37,13 @@ public class ApplicationUtils {
 		return sb.toString();
     }
     
-    public static String getVcapValue(String vcapKeyName, String defaultValue){
+    public static String getVcapValue(String vcapKeyName){
+    	String vcapValue = "";
     	try{
-	    	String highTimeObj = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName);
-	    	if(highTimeObj !=null){
-	    		defaultValue = highTimeObj.trim();
-	    	}
+    		vcapValue = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName).trim();
     	} catch(Exception e){
     		logger.error("[ApplicationUtils]::getVcapValue::Failed! Exception " + vcapKeyName + e.getMessage());
     	}
-    	return defaultValue;
+    	return vcapValue;
     }
 }

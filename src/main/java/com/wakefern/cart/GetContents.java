@@ -48,7 +48,6 @@ public class GetContents extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) {
 		long startTime, endTime, actualTime;
-		String defaultILValue = "false";
 		
 		try {
 			this.requestHeader = new MWGHeader(accept, contentType, sessionToken);
@@ -73,8 +72,8 @@ public class GetContents extends BaseService {
 			}
 			
             // invoking item locator service if 'true' value in request parameter & vcap env variable
-            if(itemLocator.trim().equalsIgnoreCase(
-            		ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.enable_item_locator, defaultILValue))){
+            if(!itemLocator.isEmpty() && itemLocator.trim().equalsIgnoreCase(
+            		ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.enable_cart_item_locator))){
     			logger.info("Calling Item Locator..");
         		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
             }

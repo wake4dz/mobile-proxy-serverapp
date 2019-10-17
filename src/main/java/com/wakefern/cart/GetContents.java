@@ -1,10 +1,12 @@
 package com.wakefern.cart;
 
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgApiWarnTime;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -48,6 +50,7 @@ public class GetContents extends BaseService {
 		long startTime, endTime, actualTime;
 		
 		try {
+			itemLocator = itemLocator.trim();
 			this.requestHeader = new MWGHeader(accept, contentType, sessionToken);
 			this.requestParams = new HashMap<String, String>();
 			
@@ -68,20 +71,11 @@ public class GetContents extends BaseService {
 				logger.warn("The API call took " + actualTime + " ms to process the request, the warn time is " +
 						MwgApiWarnTime.CART_GET_CONTENTS.getWarnTime() + " ms. The track data: " + trackData);
 			}
-			
-            // Item Location data provided by MWG is never up-to-date.
-            // Used Wakefern-supplied Item Location data instead.
-            // only call item locator when 'In-Store Checklist' option is selected, prevent unnecessary call.
-            if(itemLocator!= null && !itemLocator.isEmpty()) {
-            		if(itemLocator.equalsIgnoreCase("log")) { //only log cart response when user select 'Cart' Module
-            			// 2019-04-12 DZ: change from INFO to DEBUG log4j level since isUserTrackOn feature is already including jsonResponse data.   
-            			// JIRA ticket #: DMAU-607
-            			logger.debug("Cart Response: "+jsonResponse);
-            		} else { // log the cart resp anyway, since not many user select 'In-Store Checklist' option
-            			
-                		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
-            			logger.debug("Getting In-Store Checklist: "+userID);
-            		}
+            // invoking item locator service if 'true' value returned from req parameter & vcap env variable
+            if(!itemLocator.isEmpty() && !itemLocator.equalsIgnoreCase("log") && itemLocator.equalsIgnoreCase(
+            		ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.enable_cart_item_locator))){
+    			logger.info("Calling Item Locator..");
+        		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
             }
 
 			if(LogUtil.isUserTrackOn) {

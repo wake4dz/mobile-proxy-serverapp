@@ -1,11 +1,15 @@
 package com.wakefern.global;
 
+import org.apache.log4j.Logger;
+
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
  */
 public class ApplicationUtils {
+	private final static Logger logger = Logger.getLogger(ApplicationUtils.class);
     public static Boolean isEmpty(String str){
         if(str.isEmpty() || str == null){
             return true;
@@ -31,5 +35,15 @@ public class ApplicationUtils {
 		sb.append("/upc/");
 		sb.append(upcs);
 		return sb.toString();
+    }
+    
+    public static String getVcapValue(String vcapKeyName){
+    	String vcapValue = "";
+    	try{
+    		vcapValue = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName).trim();
+    	} catch(Exception e){
+    		logger.error("[ApplicationUtils]::getVcapValue::Failed! Exception " + vcapKeyName + e.getMessage());
+    	}
+    	return vcapValue;
     }
 }

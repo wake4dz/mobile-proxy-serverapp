@@ -50,6 +50,7 @@ public class GetContents extends BaseService {
 		long startTime, endTime, actualTime;
 		
 		try {
+			itemLocator = itemLocator.trim();
 			this.requestHeader = new MWGHeader(accept, contentType, sessionToken);
 			this.requestParams = new HashMap<String, String>();
 			
@@ -70,9 +71,8 @@ public class GetContents extends BaseService {
 				logger.warn("The API call took " + actualTime + " ms to process the request, the warn time is " +
 						MwgApiWarnTime.CART_GET_CONTENTS.getWarnTime() + " ms. The track data: " + trackData);
 			}
-			
-            // invoking item locator service if 'true' value in request parameter & vcap env variable
-            if(!itemLocator.isEmpty() && itemLocator.trim().equalsIgnoreCase(
+            // invoking item locator service if 'true' value returned from req parameter & vcap env variable
+            if(!itemLocator.isEmpty() && !itemLocator.equalsIgnoreCase("log") && itemLocator.equalsIgnoreCase(
             		ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.enable_cart_item_locator))){
     			logger.info("Calling Item Locator..");
         		jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);

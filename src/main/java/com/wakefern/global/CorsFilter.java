@@ -9,28 +9,48 @@ import javax.ws.rs.ext.Provider;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
+import com.wakefern.global.ApplicationConstants;
 
 /**
- * Add CORS headers to ShopRiteStage server responses for localhost:7000.
- * This allows frontend development in the browser to successfully make cross-origin requests to this server.
+ * Add CORS headers to ShopRiteStage server responses.
+
+ * Note: this does not prevent clients that ignore CORS headers from interacting with the server
  */
 @Provider
 public class CorsFilter implements ContainerResponseFilter {
+	private static final String[] ALLOWED_ORIGINS = { "http://localhost:7000", "http://localhost:7001" };
+	private static final String ALLOWED_HEADERS = "Content-Type, Accept, Authorization, " + ApplicationConstants.Requests.Header.appVersion;
+	private static final String ALLOWED_METHODS = "GET, POST, PUT, DELETE, OPTIONS, HEAD";
+	private static final String MAX_AGE = "1209600";
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext response) throws IOException {
 		final String shouldEnableCors = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.cors);
+		final String origin = requestContext.getHeaderString("Origin");
 		
-		if (shouldEnableCors != null && shouldEnableCors.equals("true")) {
-			response.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:7000"); // allow cross-origin requests from frontend dev server
-			
-			// on 2019-09-08 DZ removed the HTTP headers of "Origin" and "Token" from the CORS filter list
-			response.getHeaders().add("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
-			//response.getHeaders().add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, Token");
-			
-			response.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-			response.getHeaders().add("Access-Control-Max-Age", "1209600");
+		if (shouldEnableCors != null && shouldEnableCors.equals("true") && isAcceptedOrigin(origin)) {
+			response.getHeaders().add("Access-Control-Allow-Origin", origin);
+			response.getHeaders().add("Access-Control-Allow-Headers", ALLOWED_HEADERS);
+			response.getHeaders().add("Access-Control-Allow-Methods", ALLOWED_METHODS);
+			response.getHeaders().add("Access-Control-Max-Age", MAX_AGE);
 		}
    }
 
+   	/**
+	 * Returns a boolean that represents whether or not the origin
+	 * should be served by the server. Checks origins in the ALLOWED_ORIGINS
+	 * string array.
+	 *
+	 * @param origin value of the "Origin" HTTP request header
+	 * @return if the origin is allowed to be served by the server
+	 */
+	private static Boolean isAcceptedOrigin(String origin) {
+		for (int i = 0; i < ALLOWED_ORIGINS.length; i++) {
+			if (ALLOWED_ORIGINS[i].equals(origin)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

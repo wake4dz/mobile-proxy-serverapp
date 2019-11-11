@@ -92,27 +92,27 @@ public class GetCouponMetadata extends BaseService {
 
     /**
      * Check coupon version to initiate coupon filter out offer_type 14, 
-     * if no appVersion or appVersion in request is < 3.16,
+     * if no AppVersion or AppVersion in request is < 3.18,
      * 	then filter out the coupon
      * 	else not filter
      * @param appVerHeader
      * @return true if need filter, false otherwise.
      */
-    private boolean isFilterCoupon(String appVerHeader){
+    private boolean isFilterCoupon(String appVerHeader) {
     	boolean isFilter = true;
-    	// filter out coupon below 3.16
+    	// filter out coupon below 3.18
     	int majorVerToNotFilter = 3;
-    	int minorVerToNotFilter = 16;
+    	int minorVerToNotFilter = 18;
     	
-    	if(appVerHeader != null && !appVerHeader.isEmpty()){
+    	if (appVerHeader != null && !appVerHeader.isEmpty()) {
     		logger.info("[GetCouponMetadata]::isFilterCoupon::Version-" + appVerHeader);
     		String[] headerVerArr = appVerHeader.split("\\.");
     		int majorVerHeader = Integer.parseInt(headerVerArr[0]);
     		// check major version
-    		if(majorVerHeader > majorVerToNotFilter){ // header major ver above 3..
+    		if (majorVerHeader > majorVerToNotFilter) { // header major ver above 3..
     			isFilter = false;
-    		} else if(majorVerHeader == majorVerToNotFilter){ // check minor version
-    			if(Integer.parseInt(headerVerArr[1]) >= minorVerToNotFilter){
+    		} else if (majorVerHeader == majorVerToNotFilter) { // check minor version
+    			if (Integer.parseInt(headerVerArr[1]) >= minorVerToNotFilter) {
     				isFilter = false;
     			}
     		}

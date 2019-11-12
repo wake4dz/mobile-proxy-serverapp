@@ -18,12 +18,12 @@ public class ApplicationUtils {
     }
     
     public static StringBuilder constructCouponUrl(String pathUrl, String fsnReqParam) {
-    		StringBuilder sb = new StringBuilder();
-        	sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURL);
-        	sb.append(pathUrl);
-    		sb.append("?fsn=");
-    		sb.append(fsnReqParam);
-    		return sb;
+		StringBuilder sb = new StringBuilder();
+    	sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURL);
+    	sb.append(pathUrl);
+		sb.append("?fsn=");
+		sb.append(fsnReqParam);
+		return sb;
     }
     
     public static String constructItemLocatorUrl(String storeId, String upcs) {
@@ -45,5 +45,18 @@ public class ApplicationUtils {
     		logger.error("[ApplicationUtils]::getVcapValue::Failed! Exception " + vcapKeyName + e.getMessage());
     	}
     	return vcapValue;
+    }
+    
+    /**
+     * returns either coupon production or staging url endpoint
+     * @param vcapKeyName coupon_service vcap [Staging/Production] keyword
+     * @return
+     */
+    public static String getCouponServiceEndpoint(String vcapKeyName){
+    	String coupon_service = getVcapValue(vcapKeyName);
+    	String coupon_domain = (!coupon_service.isEmpty() && coupon_service.equalsIgnoreCase(WakefernApplicationConstants.CouponsV2.coupon_staging)) ? 
+    			WakefernApplicationConstants.CouponsV2.baseURL_staging : WakefernApplicationConstants.CouponsV2.baseURL;
+		logger.info("[ApplicationUtils]::getCouponServiceEndpoint::coupon_domain " + coupon_domain);
+    	return coupon_domain;
     }
 }

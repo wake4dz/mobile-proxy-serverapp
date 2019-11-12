@@ -24,6 +24,7 @@ public class WakefernApplicationConstants {
 		public static final String cors = "cors";
 		public static final String chain = "chain";
 		public static final String url = "url";
+		public static final String coupon_service = "coupon_service";
 		public static final String coupon_v2_key = "coupon_v2_key";
 		public static final String sr_mwg_stage_key = "sr_mwg_stage_key";
 		public static final String sr_mwg_prod_key = "sr_mwg_prod_key";
@@ -89,8 +90,10 @@ public class WakefernApplicationConstants {
     }
 
 	public static class CouponsV2 {
+		public static final String coupon_staging = "Staging";
         public static final String baseURL = "https://couponapis.shoprite.com/api";
-        public static final String baseURLAuth = "https://couponapis.shoprite.com";
+        public static final String baseURL_staging = "https://couponapis.staging.shoprite.com/api";
+        public static final String context_root = "/api";
 
         public static class Headers {
             public static final String clip_source = "clip_source";

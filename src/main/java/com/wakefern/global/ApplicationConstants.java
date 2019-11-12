@@ -51,8 +51,8 @@ public final class ApplicationConstants {
         }
         
         public static final class CouponsV2 {
-            public static final String BaseCouponURL = WakefernApplicationConstants.CouponsV2.baseURL;
-            public static final String BaseCouponURLAuth = WakefernApplicationConstants.CouponsV2.baseURLAuth;
+            public static final String BaseCouponURL = ApplicationUtils.getCouponServiceEndpoint(WakefernApplicationConstants.VCAPKeys.coupon_service);
+            public static final String BaseCouponURLAuth = BaseCouponURL.replace(WakefernApplicationConstants.CouponsV2.context_root, "");
             public static final String UserLogin = WakefernApplicationConstants.CouponsV2.PathInfo.UserLogin;
             public static final String CouponMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.CouponMetadata;
             public static final String fsn = WakefernApplicationConstants.CouponsV2.PathInfo.fsn;

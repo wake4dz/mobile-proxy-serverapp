@@ -194,15 +194,17 @@ public class WakefernApplicationConstants {
     }
     
 	public static class Receipt {
-		// Wakefern's APIs	
-		public static final String DigitalReceipt = "/receipt";
-		
-		public static final String Summary = "/summary";
-		public static final String Detail = "/detail";
-		
-		public static final String BaseURL = "https://api.wakefern.com";		
-		public static final String User = "/digitalreceipt/users";
 
+        public static class Proxy {
+            public static final String Path = "users/{userId}/{ppc}/receipts";
+            public static final String Detail = "/{receiptId}";
+        }
+
+        // Wakefern's APIs
+		public static class Upstream {
+            public static final String BaseURL = "https://api.wakefern.com";
+            public static final String User = "/digitalreceipt/users";
+        }
 	}
 	
 	public static class JwtToken {

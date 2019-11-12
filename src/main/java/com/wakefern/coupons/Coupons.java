@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.ServiceMappings;
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -147,7 +148,7 @@ public class Coupons extends BaseService {
 		ServiceMappings serviceMappings = new ServiceMappings();
 		serviceMappings.setCouponMapping(this);
 
-		String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
+		String coupons = HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), VcapProcessor.getApiLowTimeout());
 
 		if (query.isEmpty()) {// == "") {
 			return coupons;

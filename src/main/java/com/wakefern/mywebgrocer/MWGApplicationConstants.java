@@ -5,17 +5,17 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 public class MWGApplicationConstants {
 	private static final String shopRiteProd = "https://mobileapi.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteProdWeb = "https://api.shoprite.com/api"; // ShopRite Production
-	
-	//TODO 
+
+	//TODO
 	//    There is no reliable ShopRiteDev environment from MWG, so we disabled all dev related configurations.
 	//    Note: if chain=ShopRiteStage, it is pointed to the mobile version regardless what "url" is set
 	//    This Java file needs to be re-factored in the future to streamline the process
-	
+
 	//private static final String shopRiteStageWeb = "https://api-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
 	private static final String shopRiteStage = "https://mobileapi-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
-	
+
 	//private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
-	
+
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
 	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
 
@@ -24,14 +24,14 @@ public class MWGApplicationConstants {
 	private static final String srStage = "ShopRiteStage";
 	private static final String srProd = "ShopRiteProd";
 	//private static final String srDev = "ShopRiteDev";
-	
+
 	//By default, mobile is calling mobileapi.shoprite.com, when value 'web' is specified
 	//	in vcap env var 'url', mobile will call api.shoprite.com
 	private static final String mwgWeb = "web";
 
 	/**
 	 * Return the appropriate Base URL.
-	 * 
+	 *
 	 * @return String
 	 */
 	public static String getBaseURL() {
@@ -62,14 +62,14 @@ public class MWGApplicationConstants {
 
 		return baseURL;
 	}
-	
+
 	public static String getSRWebURL(){
 		return shopRiteProdWeb;
 	}
 
 	/**
 	 * Return the appropriate Application Token.
-	 * 
+	 *
 	 * @return String
 	 */
 	public static String getAppToken() {
@@ -101,14 +101,14 @@ public class MWGApplicationConstants {
 
 	/**
 	 * Return auth token for The Fresh Grocer or ShopRite
-	 * 
+	 *
 	 * @return
 	 */
 	public static String getProductRecmdAuthToken() {
 		String appToken;
 		String targetAPI = getTargetAPI();
-		
-		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd)) 
+
+		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd))
 				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_product_recommendation_key)
 				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_product_recommendation_key);
 
@@ -118,7 +118,7 @@ public class MWGApplicationConstants {
 	/**
 	 * Check the Bluemix Environment Variable, indicating which MWG API this
 	 * instance of the Wakefern Java API should be talking to.
-	 * 
+	 *
 	 * @return String
 	 */
 	public static String getTargetAPI() {
@@ -147,20 +147,20 @@ public class MWGApplicationConstants {
 			? WakefernApplicationConstants.Chains.FreshGrocer
 			: WakefernApplicationConstants.Chains.ShopRite;
 	}
-	
-	
+
+
 	/**
 	 * The generic way to get the system property value
 	 */
 	public static String getSystemProperytyValue(String key) {
 		return  java.lang.System.getenv(key.trim());
-	
+
 	}
-	
+
 	/**
 	 * Check the Bluemix Environment Variable, indicating which MWG API this
 	 * instance of the Wakefern Java API should be talking to.
-	 * 
+	 *
 	 * @return String
 	 */
 	private static String getTargetProdURL() {
@@ -186,6 +186,7 @@ public class MWGApplicationConstants {
 			public static final String auth = "Authorization";
 			public static final String accept = "Accept";
 			public static final String contentType = "Content-Type";
+			public static final String reservedTimeslot = "X-Reserved-Timeslot";
 		}
 
 		public static class Account {
@@ -284,7 +285,7 @@ public class MWGApplicationConstants {
 			public static final String fulfillDates = prefix + "fulfillment-dates+json"; // Available fulfillment dates.
 			public static final String fulfillTimes = prefix + "fulfillment-times+json"; // Available fulfillment times.
 			public static final String fulfillSlot = prefix + "fulfillment-slot+json"; // User-specific fulfillment time slots.
-			
+
 			public static final String deliveryInfoV2 = prefix + "delivery-info-v2+json";
 			//public static final String checkoutV2 = prefix + "checkout-v2+json";
 			public static final String checkoutV3 = prefix + "checkout-v3+json";
@@ -392,10 +393,10 @@ public class MWGApplicationConstants {
 
 			// Get a user's full profile
 			public static final String addresses = chainsID + usersID + "/addresses";
-			
+
 			// Register a new user
 			public static final String register = chainsID + "/users";
-			
+
 			public static final String forgotFsn = "/User/SendForgotFsnEmail";
 		}
 
@@ -443,7 +444,7 @@ public class MWGApplicationConstants {
 			public static final String categories = "/categories" + storeID;
 			public static final String circCategoriesWeeklySpecials = "/categories" + storeID + "/circular-product-categories/all-weekly-specials";
 			public static final String circCategoriesProductDetail = "/categories" + storeID + "/circular-product-categories/{" + Params.Path.circCategoriesID + "}";
-			
+
 			public static final String subCategories = parentCatID + storeID + "/categories";
 			public static final String catsWithSales = categories + sales;
 			public static final String subCatsWithSales = subCategories + sales;
@@ -519,7 +520,7 @@ public class MWGApplicationConstants {
 			public static final String prefix = "/bagFee";
 			public static final String storeIds = "/storeIds";
 		}
-		
+
 		public static class Shop {
 			private static final String shop = "/shop";
 			private static final String storeID = "/store" + "/{" + Params.Path.storeID + "}";
@@ -546,9 +547,9 @@ public class MWGApplicationConstants {
 			public static final String items = list + "/items";
 			public static final String item = items + "/{" + Params.Path.listItemID + "}";
 			public static final String copy = list + "/duplicate";
-			
-			public static final String emailList = chainsID + storesID + usersID + listsID; 
-			
+
+			public static final String emailList = chainsID + storesID + usersID + listsID;
+
 			// These items are specific to the Duplicate List functionality
 			//
 			// The Default Limit for the number of items to copy from an existing Shopping List to a new duplicate list.
@@ -563,7 +564,7 @@ public class MWGApplicationConstants {
 		public static class Vendor {
 			public static final String review = userID + storeID +"/review";
 		}
-		
+
 		public static class Cart {
 			private static final String itemID = "/item" + "/{" + Params.Path.itemID + "}";
 
@@ -598,7 +599,7 @@ public class MWGApplicationConstants {
 
 			public static final String promoCodes = chainsID + storesID + usersID + "/promocodes";
 			public static final String promoCodeDelete = promoCodes + "/{" + Params.Path.promoCode + "}";
-			
+
 			public static final String substitutions =  userID +storeID + "/substitutions";
 
 			public static final String fulfillOpts = fflmnts + mwgStoreID;
@@ -628,7 +629,7 @@ public class MWGApplicationConstants {
 			public static final String payments = "/payments" + mwgStoreID + "/{" + Params.Path.fulfillType + "}";
 
 			public static final String paymentOpts = userID + mwgStoreID + "/payment";
-			
+
 			public static final String changedOrder = userID + mwgStoreID + "/changed/order";
 
 			public static final String changeOrderMsg = orderID + userID + mwgStoreID + "/to/cart";
@@ -642,30 +643,30 @@ public class MWGApplicationConstants {
 			public static final String Points = "/rewards/api/v1/points";
 			public static final String baseURL = "https://wfcapi.shoprite.com";
 		}
-		
+
 	}
-	
+
 	public static class Log {
 		public static final String log = "/log";
-		
+
 		public static final String email = log + "/email";
 		public static final String status = "/status";
 		public static final String address = "/address" + "/{addresses}";
 		public static final String updateSetting = "/updateSettings";
 		public static final String trackUserId = "/trackUserId/{userIds}";
-		
+
 		public static final String error = log + "/error";
 		public static final String errorList = "/list";
 		public static final String errorReset = "/reset";
-		
+
 		public static final String logger = log + "/logger";
 		public static final String changeLevel = "/level/{logLevel}";
 		public static final String getLevel = "/level";
 		public static final String appenderList = "/appender/list";
-		
+
 		public static final String release = log + "/release";
 		public static final String releaseLevel = "/level";
-		
-		
+
+
 	}
 }

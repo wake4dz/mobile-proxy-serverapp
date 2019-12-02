@@ -61,8 +61,8 @@ public class AuthenticateUser extends BaseService {
         
         JSONObject jsonData = new JSONObject(jsonBody);
         
-        String userEmail = (jsonData.has(emailKey)) ? jsonData.getString(emailKey) : ""; 
-        String password  = (jsonData.has(pwKey))    ? jsonData.getString(pwKey)    : "";
+        String userEmail = jsonData.has(emailKey) ? jsonData.getString(emailKey) : "";
+        String password  = jsonData.has(pwKey)    ? jsonData.getString(pwKey)    : "";
         
         int appVer = (jsonData.has(appVerKey)) ? Integer.parseInt(jsonData.getString(appVerKey).split("\\.")[0]) : 0;
         
@@ -77,7 +77,7 @@ public class AuthenticateUser extends BaseService {
         
         } else {
         	this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.Account.login, sessionToken);
-			this.requestParams = new HashMap<String, String>();    			
+			this.requestParams = new HashMap<>();
 			
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainId);
 	        
@@ -90,10 +90,11 @@ public class AuthenticateUser extends BaseService {
     			endTime = System.currentTimeMillis();
     			actualTime = endTime - startTime;
     			if (actualTime > MwgApiWarnTime.AUTHENTICATION_AUTHENTICATE_USER.getWarnTime()) {
-    				logger.warn("The API call took " + actualTime + " ms to process the request, the warn time is " +
+    				logger.warn("com.wakefern.authentication.AuthenticateUser::getResponse() - The API call took "
+							+ actualTime + " ms to process the request, the warn time is " +
     						MwgApiWarnTime.AUTHENTICATION_AUTHENTICATE_USER.getWarnTime() + " ms.");
     			}
-        		logger.error("com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
+        		logger.info("com.wakefern.authentication.AuthenticateUser::getResponse() - " + responseJSON);
         		return this.createValidResponse(responseJSON);
 	        		
 	        } catch (Exception e) {

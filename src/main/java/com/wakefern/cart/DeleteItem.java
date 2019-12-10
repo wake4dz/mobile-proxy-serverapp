@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -51,7 +52,7 @@ public class DeleteItem extends BaseService {
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.itemID, itemID);
 
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, "com.wakefern.cart.DeleteItem");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, MI9TimeoutService.CART_DELETE_ITEM, MI9TimeoutService.getTimeout(MI9TimeoutService.CART_DELETE_ITEM));
             
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {

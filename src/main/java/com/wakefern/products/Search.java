@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -86,8 +87,8 @@ public class Search extends BaseService {
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchBySound, searchBySound);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, takeCount);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.userID, userID);
-
-			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.Search");
+      
+			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_SEARCH, MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_SEARCH));
 
 			if (LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {

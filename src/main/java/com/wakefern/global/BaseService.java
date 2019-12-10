@@ -1,14 +1,5 @@
 package com.wakefern.global;
 
-import com.wakefern.global.errorHandling.ExceptionHandler;
-import com.wakefern.logging.LogUtil;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.request.HTTPRequest;
-import com.wakefern.request.models.Header;
-import com.wakefern.wakefern.WakefernApplicationConstants;
-import com.wakefern.wakefern.WakefernAuth;
-import com.wakefern.wakefern.itemLocator.ItemLocatorArray;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +9,15 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.wakefern.global.errorHandling.ExceptionHandler;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.request.HTTPRequest;
+import com.wakefern.request.models.Header;
+import com.wakefern.wakefern.WakefernApplicationConstants;
+import com.wakefern.wakefern.WakefernAuth;
+import com.wakefern.wakefern.itemLocator.ItemLocatorArray;
 
 public class BaseService {
     protected HashMap<String, String> requestParams = null;
@@ -32,10 +32,10 @@ public class BaseService {
     
     private final static Logger logger = Logger.getLogger(BaseService.class);
     
-    protected void setTimeout(int timeout) {
-    		this.timeout = timeout;
+    protected String mwgRequest(ReqType reqType, String reqData, String endpointName, int timeout) throws IOException, Exception{
+    	this.timeout = timeout;
+    	return mwgRequest(reqType, reqData, endpointName);
     }
-
     /**
      * Trigger a request to the MyWebGrocer REST API.
      * 
@@ -78,7 +78,7 @@ public class BaseService {
         			
             		switch (reqType) {
 	        			case GET : 
-	        				response = HTTPRequest.executeGet(reqURL, reqHead, 0);
+	        				response = HTTPRequest.executeGet(reqURL, reqHead, this.timeout);
 	        				break;
 	        			case POST :
 	        				reqBody  = sm.getGenericBody();
@@ -86,10 +86,10 @@ public class BaseService {
 	        				break;
 	        			case PUT :
 	        				reqBody  = sm.getGenericBody();
-	        				response = HTTPRequest.executePut(reqURL, reqBody, reqHead);
+	        				response = HTTPRequest.executePut(reqURL, reqBody, reqHead, this.timeout);
 	        				break;
 	        			case DELETE :
-	        				response = HTTPRequest.executeDelete(reqURL, reqHead, 0);
+	        				response = HTTPRequest.executeDelete(reqURL, reqHead, this.timeout);
 	        				break;
         				default :
         					response = "{}"; // This should never actually happen.  BUT just in case...

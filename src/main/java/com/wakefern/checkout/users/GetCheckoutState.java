@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -50,7 +51,7 @@ public class GetCheckoutState extends BaseService {
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.checkout.users.GetCheckoutState");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.CHECKOUT_GET_STATE, MI9TimeoutService.getTimeout(MI9TimeoutService.CHECKOUT_GET_STATE));
             
             /**
              * DMAU-533-Checkout Combined Service Fee, MWG is combining all charges for pickup & delivery into one fee vs scattered fee,

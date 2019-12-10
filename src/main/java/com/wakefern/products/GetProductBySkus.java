@@ -22,6 +22,7 @@ import com.wakefern.dao.sku.ProductSKUsDAO;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 
@@ -170,6 +171,6 @@ public class GetProductBySkus extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.sku,
 				skuStr.substring(0, skuStr.length() - "&sku=".length()));
 
-		return this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetProductsBySKUs");
+		return this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_GET_BY_SKUS, MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_GET_BY_SKUS));
 	}
 }

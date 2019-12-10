@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -54,7 +55,7 @@ public class UpdateItem extends BaseService {
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.itemID, itemID);
 			
 
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData, "com.wakefern.cart.UpdateItem");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.PUT, jsonData, MI9TimeoutService.CART_UPDATE_ITEM, MI9TimeoutService.getTimeout(MI9TimeoutService.CART_UPDATE_ITEM));
             
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {

@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -49,7 +50,7 @@ public class GetNutritionById extends BaseService {
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.productID, productID);
 
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetNutritionById");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_GET_NUTRITION_BY_ID, MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_GET_NUTRITION_BY_ID));
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

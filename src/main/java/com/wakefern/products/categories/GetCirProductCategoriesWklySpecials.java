@@ -18,6 +18,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetCirProductCategoriesWklySpecials extends BaseService {
@@ -52,7 +53,7 @@ public class GetCirProductCategoriesWklySpecials extends BaseService {
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);
 			
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.categories.GetCirProductCategoriesWklySpecials");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.CIRCULAR_GET_PRODUCT_CATEGORY_WKLY_SPECIALS, MI9TimeoutService.getTimeout(MI9TimeoutService.CIRCULAR_GET_PRODUCT_CATEGORY_WKLY_SPECIALS));
 			
             return this.createValidResponse(jsonResponse);
         

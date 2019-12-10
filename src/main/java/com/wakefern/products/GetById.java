@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -55,7 +56,7 @@ public class GetById extends BaseService {
 			// Build the Map of Query String parameters
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.isMember, isMember);
 
-			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.products.GetById");
+			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_GET_BY_ID, MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_GET_BY_ID));
 
 			return this.createValidResponse(jsonResponse);
 

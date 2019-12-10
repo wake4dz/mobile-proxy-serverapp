@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -68,7 +69,7 @@ public class GetCircularItemProducts extends BaseService {
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 
 			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null,
-					"com.wakefern.products.GetCircularItemProducts");
+					MI9TimeoutService.CIRCULAR_GET_ITEM_PRODUCTS, MI9TimeoutService.getTimeout(MI9TimeoutService.CIRCULAR_GET_ITEM_PRODUCTS));
 			return this.createValidResponse(jsonResponse);
 
 		} catch (Exception e) {

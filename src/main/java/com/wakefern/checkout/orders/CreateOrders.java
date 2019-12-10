@@ -18,12 +18,12 @@ import com.wakefern.logging.MwgApiWarnTime;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class CreateOrders extends BaseService {
 	
-	private int timeout = 40000;
 	private final static Logger logger = Logger.getLogger(CreateOrders.class);
 	
 	//-------------------------------------------------------------------------
@@ -62,8 +62,7 @@ public class CreateOrders extends BaseService {
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
        
-			this.setTimeout(timeout);
-			String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonString, "package com.wakefern.checkout.orders.CreateOrders");
+			String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonString, MI9TimeoutService.CHECKOUT_CREATE_ORDERS, MI9TimeoutService.getTimeout(MI9TimeoutService.CHECKOUT_CREATE_ORDERS));
 			endTime = System.currentTimeMillis();
       
 			String trackData = LogUtil.getRequestData("mwgStoreID", mwgStoreID, "userID", userID, 

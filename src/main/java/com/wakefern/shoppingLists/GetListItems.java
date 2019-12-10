@@ -19,6 +19,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class GetListItems extends BaseService {
@@ -77,7 +78,7 @@ public class GetListItems extends BaseService {
 		}
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.shoppingLists.GetListItems");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.SHOPPINGLIST_GET_LIST_ITEMS, MI9TimeoutService.getTimeout(MI9TimeoutService.SHOPPINGLIST_GET_LIST_ITEMS));
             
             // Item Location data provided by MWG is never up-to-date.
             // Used Wakefern-supplied Item Location data instead.

@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -60,7 +61,7 @@ public class CreateListItems extends BaseService {
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
 
         try {
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, "com.wakefern.shoppingLists.CreateListItems");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.POST, jsonData, MI9TimeoutService.SHOPPINGLIST_CREATE_LIST_ITEMS, MI9TimeoutService.getTimeout(MI9TimeoutService.SHOPPINGLIST_CREATE_LIST_ITEMS));
             
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {

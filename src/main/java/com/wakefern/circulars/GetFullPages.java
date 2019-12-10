@@ -4,6 +4,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -62,8 +63,7 @@ public class GetFullPages extends BaseService {
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		
-     
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.circulars.GetFullPages");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.CIRCULARS_GET_FULL_PAGES, MI9TimeoutService.getTimeout(MI9TimeoutService.CIRCULARS_GET_FULL_PAGES));
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

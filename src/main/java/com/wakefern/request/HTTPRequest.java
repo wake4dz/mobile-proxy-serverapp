@@ -40,6 +40,9 @@ public class HTTPRequest {
 		return executeRequest(requestURL, requestHeaders, null, "GET", timeOut);
 	}
 	
+	public static String executePut(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeOut) throws Exception {
+		return executePut(requestURL, requestBody, requestHeaders);
+	}
 	/**
 	 * Trigger HTTP PUT request.
 	 * 

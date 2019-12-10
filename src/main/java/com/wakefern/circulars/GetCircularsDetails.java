@@ -1,17 +1,24 @@
 package com.wakefern.circulars;
 
-import com.wakefern.global.BaseService;
-import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.models.MWGHeader;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import java.util.HashMap;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
+import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
+import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 
 @Path(MWGApplicationConstants.Requests.Circulars.prefix)
 public class GetCircularsDetails extends BaseService {
@@ -55,7 +62,7 @@ public class GetCircularsDetails extends BaseService {
 			// Map of the Query String parameters
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.runState, runState);
 			
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.circulars.GetCircularsDetails");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.CIRCULARS_GET_DETAILS, MI9TimeoutService.getTimeout(MI9TimeoutService.CIRCULARS_GET_DETAILS));
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

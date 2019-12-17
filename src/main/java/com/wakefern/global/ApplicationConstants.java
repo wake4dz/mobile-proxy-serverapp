@@ -94,4 +94,12 @@ public final class ApplicationConstants {
 		public static final String log = "log";
 		public static final String LoggingAuth = "wakefern-shoprite-auth";
     }
+    
+    public static class CheckoutNotify {
+    	public static final String CheckoutNotifyURL = "/checkout/notify";
+    	public static final String SuccessPathURL = "/success/{query}";
+    	public static final String FailurePathURL = "/failure/{query}";
+    	public static final String SuccessCallbackURL = "wakefernshopriteapp://checkoutSuccess";
+    	public static final String FailureCallbackURL = "wakefernshopriteapp://checkoutFailure";
+    }
 }

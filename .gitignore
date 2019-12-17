@@ -6,3 +6,5 @@ shopritemobileapplication.iml
 .factorypath
 .DS_Store
 /config/auths.yml
+.classpath
+.project

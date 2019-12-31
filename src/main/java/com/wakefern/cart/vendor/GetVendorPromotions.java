@@ -1,10 +1,11 @@
-package com.wakefern.vendor;
+package com.wakefern.cart.vendor;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgApiWarnTime;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
@@ -54,7 +55,7 @@ public class GetVendorPromotions extends BaseService {
         	String trackData = LogUtil.getRequestData("mwgStoreID", mwgStoreID, "userID", userID, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType);
       
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.vendor.GetVendorPromotions");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.CART_GET_VENDOR_PROMOTIONS, MI9TimeoutService.getTimeout(MI9TimeoutService.CART_GET_VENDOR_PROMOTIONS));
 
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {

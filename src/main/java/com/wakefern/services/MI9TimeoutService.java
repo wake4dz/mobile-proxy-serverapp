@@ -26,6 +26,9 @@ public class MI9TimeoutService {
 	public static final String CART_CREATE_ITEM = "com.wakefern.cart.CreateItem"; 	// add to cart, takes 7.9%
 	public static final String CART_UPDATE_ITEM = "com.wakefern.cart.UpdateItem"; 	// takes 3% of total time
 	public static final String CART_DELETE_ITEM = "com.wakefern.cart.DeleteItem"; 	// takes 2.6%
+	public static final String CART_GET_VENDOR_PROMOTIONS = "com.wakefern.cart.vendor.GetVendorPromotions";
+	public static final String CART_GET_VENDOR_PRODUCTS_PROMO = "com.wakefern.cart.vendor.GetVendorProductsPromotion";
+	
 	//CIRCULAR
 	public static final String CIRCULARS_GET_DETAILS = "com.wakefern.circulars.GetCircularsDetails"; //takes 2.3%
 	public static final String CIRCULARS_GET_FULL_PAGES = "com.wakefern.circulars.GetFullPages";	 //takes 1.7%
@@ -45,6 +48,7 @@ public class MI9TimeoutService {
 	public static final String CHECKOUT_GET_STATE = "com.wakefern.checkout.users.GetCheckoutState";			//takes 6.6%
 	public static final String CHECKOUT_UPDATE_STATE = "com.wakefern.checkout.users.UpdateCheckoutState";	//takes 1.6%
 	public static final String CHECKOUT_CREATE_ORDERS = "package com.wakefern.checkout.orders.CreateOrders";
+	
 	private static Map<String, Integer> serviceTimeoutMap = null;
 	
 	/**
@@ -54,10 +58,12 @@ public class MI9TimeoutService {
 		logger.info(TAG + "::load timeout config for MI9 APIs..");
 		serviceTimeoutMap = new HashMap<String, Integer>();
 		//CART
-		serviceTimeoutMap.put(CART_GET_CONTENTS, HIGH_TO);
-		serviceTimeoutMap.put(CART_CREATE_ITEM, HIGH_TO);
+		serviceTimeoutMap.put(CART_GET_CONTENTS, MEDIUM_TO);
+		serviceTimeoutMap.put(CART_CREATE_ITEM, MEDIUM_TO);
 		serviceTimeoutMap.put(CART_UPDATE_ITEM, MEDIUM_TO);
 		serviceTimeoutMap.put(CART_DELETE_ITEM, MEDIUM_TO);
+		serviceTimeoutMap.put(CART_GET_VENDOR_PROMOTIONS, LOW_TO);
+		serviceTimeoutMap.put(CART_GET_VENDOR_PRODUCTS_PROMO, LOW_TO);
 		
 		//CIRCULAR
 		serviceTimeoutMap.put(CIRCULARS_GET_DETAILS, MEDIUM_TO);

@@ -563,6 +563,7 @@ public class MWGApplicationConstants {
 
 		public static class Vendor {
 			public static final String review = userID + storeID +"/review";
+			public static final String promos = userID + storeID +"/promos";
 		}
 
 		public static class Cart {

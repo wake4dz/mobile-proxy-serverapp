@@ -116,7 +116,7 @@ public class GetServicesStatus extends BaseService{
 	    	try {
 			WakefernAuth auth = new WakefernAuth();
 			String itemLocResp = auth.getInfo(
-					MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.jwt_public_key));
+					MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
 			serviceStatus = "active";
 	    	} catch(Exception e) {
 	    		logger.error("[GetServicesStatus]:: Item Locator exception resp: "+e.getMessage());
@@ -187,11 +187,11 @@ public class GetServicesStatus extends BaseService{
      */
     private String checkVCAPNames() {
     		StringBuilder sb = new StringBuilder();
-    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.coupon_v2_key, sb);
-    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.sr_mwg_prod_key, sb);
-    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.jwt_public_key, sb);
-    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.prod_not_found_login, sb);
-    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.sr_product_recommendation_key, sb);
+    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.COUPON_V2_KEY, sb);
+    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY, sb);
+    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY, sb);
+    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN, sb);
+    		verifyVCAP(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY, sb);
 		return !sb.toString().isEmpty() 
 				? "{\"VCAP names\":\""+sb.toString()+"\",\"description\":\"ATTENTION!!! Please check Bluemix VCAP, the listed VCAP name(s) are empty or null.\"},"
 				: "";

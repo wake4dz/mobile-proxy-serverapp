@@ -51,7 +51,7 @@ public final class ApplicationConstants {
         }
         
         public static final class CouponsV2 {
-            public static final String BaseCouponURL = ApplicationUtils.getCouponServiceEndpoint(WakefernApplicationConstants.VCAPKeys.coupon_service);
+            public static final String BaseCouponURL = ApplicationUtils.getCouponServiceEndpoint(WakefernApplicationConstants.VCAPKeys.COUPON_SERVICE);
             public static final String BaseCouponURLAuth = BaseCouponURL.replace(WakefernApplicationConstants.CouponsV2.context_root, "");
             public static final String UserLogin = WakefernApplicationConstants.CouponsV2.PathInfo.UserLogin;
             public static final String CouponMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.CouponMetadata;
@@ -93,6 +93,23 @@ public final class ApplicationConstants {
 		public static final String Logging = "/logging";
 		public static final String log = "log";
 		public static final String LoggingAuth = "wakefern-shoprite-auth";
+    }
+    
+    public static class NewRelic {
+		public static final String NewRelicURL = "https://api.newrelic.com/v2";
+		public static final String NewRelicDeployments = "/deployments.json";
+		public static final String Applications = "/applications/";
+		public static final String Deployments = "{appId}/deployments";
+
+		public static final String NewRelicHeaderKey = "X-Api-Key";
+		
+		public static final String Deployment = "deployment";
+		public static final String Revision = "revision";
+		public static final String Changelog = "changelog";
+		public static final String Description = "description";
+		public static final String User = "user";
+		public static final String UserWFCAdmin = "WFCAdmin";
+		public static final String Timestamp = "timestamp";
     }
     
     public static class CheckoutNotify {

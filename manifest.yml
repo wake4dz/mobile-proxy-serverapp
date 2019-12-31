@@ -20,5 +20,6 @@ applications:
     api_medium_timeout: ((API_MEDIUM_TIMEOUT))
     api_low_timeout: ((API_LOW_TIMEOUT))
     enable_cart_item_locator: ((ENABLE_CART_ITEM_LOCATOR))
+    new_relic_key: ((NEW_RELIC_KEY))
   services:
   - ((SRMOBILE_PAPERTRAIL))

@@ -26,7 +26,7 @@ public class ObtainFsnByEmail extends BaseService{
         Map<String, String> headerMap = new HashMap<String, String>();
         headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
         headerMap.put(WakefernApplicationConstants.APIM.sub_key_header, 
-        		MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.apim_ppc_email_key));
+        		MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.APIM_PPC_EMAIL_KEY));
         JSONObject apimJsonStr = new JSONObject();
         apimJsonStr.put("email_addr", email);
 	    String response = "";

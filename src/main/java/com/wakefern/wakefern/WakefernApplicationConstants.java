@@ -21,20 +21,21 @@ public class WakefernApplicationConstants {
 	}
 	
 	public static class VCAPKeys{
-		public static final String cors = "cors";
-		public static final String chain = "chain";
-		public static final String url = "url";
-		public static final String coupon_service = "coupon_service";
-		public static final String coupon_v2_key = "coupon_v2_key";
-		public static final String sr_mwg_stage_key = "sr_mwg_stage_key";
-		public static final String sr_mwg_prod_key = "sr_mwg_prod_key";
-		public static final String tfg_mwg_prod_key = "tfg_mwg_prod_key";
-		public static final String jwt_public_key = "jwt_public_key"; //use for digital receipt & item locator
-		public static final String prod_not_found_login = "prod_not_found_login";
-		public static final String sr_product_recommendation_key = "sr_product_recommendation_key";
-		public static final String tfg_product_recommendation_key = "tfg_product_recommendation_key";
-		public static final String apim_ppc_email_key = "apim_ppc_email_key";
-		public static final String enable_cart_item_locator = "enable_cart_item_locator";
+		public static final String CORS = "cors";
+		public static final String CHAIN = "chain";
+		public static final String URL = "url";
+		public static final String COUPON_SERVICE = "coupon_service";
+		public static final String COUPON_V2_KEY = "coupon_v2_key";
+		public static final String SR_MWG_STAGE_KEY = "sr_mwg_stage_key";
+		public static final String SR_MWG_PROD_KEY = "sr_mwg_prod_key";
+		public static final String TFG_MWG_PROD_KEY = "tfg_mwg_prod_key";
+		public static final String JWT_PUBLIC_KEY = "jwt_public_key"; //use for digital receipt & item locator
+		public static final String PROD_NOT_FOUND_LOGIN = "prod_not_found_login";
+		public static final String SR_PRODUCT_RECOMMENDATION_KEY = "sr_product_recommendation_key";
+		public static final String TFG_PRODUCT_RECOMMENDATION_KEY = "tfg_product_recommendation_key";
+		public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
+		public static final String ENABLE_CART_ITEM_LOCATOR = "enable_cart_item_locator";
+		public static final String NEW_RELIC_KEY = "new_relic_key";
 	}
 
     public static class Chains {

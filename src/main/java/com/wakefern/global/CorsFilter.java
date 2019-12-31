@@ -33,7 +33,7 @@ public class CorsFilter implements ContainerResponseFilter {
 	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext response)
 			throws IOException {
 		final String shouldEnableCors = MWGApplicationConstants
-				.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.cors);
+				.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.CORS);
 		final String origin = requestContext.getHeaderString("Origin");
 
 		if (shouldEnableCors != null && shouldEnableCors.equals("true") && isAcceptedOrigin(origin)) {

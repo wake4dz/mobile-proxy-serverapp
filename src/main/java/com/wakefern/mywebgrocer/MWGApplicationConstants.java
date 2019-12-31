@@ -80,20 +80,20 @@ public class MWGApplicationConstants {
 		switch (targetAPI) {
 		case fgStage:
 		case fgProd:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_mwg_prod_key);
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.TFG_MWG_PROD_KEY);
 			break;
 //		case srDev:
 //			appToken = shopRiteDevToken;
 //			break;
 		case srStage:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_stage_key);
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_STAGE_KEY);
 			break;
 		case srProd:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_prod_key);
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
 			break;
 
 		default:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_mwg_prod_key);
+			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
 		}
 
 		return appToken;
@@ -109,8 +109,8 @@ public class MWGApplicationConstants {
 		String targetAPI = getTargetAPI();
 
 		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd))
-				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.tfg_product_recommendation_key)
-				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.sr_product_recommendation_key);
+				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.TFG_PRODUCT_RECOMMENDATION_KEY)
+				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
 		return appToken;
 	}
@@ -122,7 +122,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	public static String getTargetAPI() {
-		String targetAPI = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.chain);
+		String targetAPI = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.CHAIN);
 
 		// On a local Dev server, the environment variable won't exist unless you have
 		// specifically set it up yourself.
@@ -164,7 +164,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	private static String getTargetProdURL() {
-		String targetProdURL = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.url);
+		String targetProdURL = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.URL);
 
 		// Assigning mwg production api for cloud server to call..
 		//

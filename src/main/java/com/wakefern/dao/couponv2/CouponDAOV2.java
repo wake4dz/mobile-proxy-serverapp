@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "long_description",
     "requirement_description",
     "tags",
+    "wfc_tags",
     "long_description_header",
     "targeting_buckets",
     "category",
@@ -89,6 +90,8 @@ public class CouponDAOV2 {
     private String requirementDescription;
     @JsonProperty("tags")
     private List<Tag> tags = null;
+    @JsonProperty("wfc_tags")
+    private List<Tag> wfcTags = null;
     @JsonProperty("long_description_header")
     private String longDescriptionHeader;
     @JsonProperty("targeting_buckets")
@@ -328,6 +331,16 @@ public class CouponDAOV2 {
     @JsonProperty("tags")
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    @JsonProperty("wfc_tags")
+    public List<Tag> getWfcTags() {
+        return wfcTags;
+    }
+
+    @JsonProperty("tags")
+    public void setWfcTags(List<Tag> wfcTags) {
+        this.wfcTags = wfcTags;
     }
 
     @JsonProperty("long_description_header")

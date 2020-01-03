@@ -50,7 +50,7 @@ public class GetCouponMetadata extends BaseService {
     	tagMap.put("PROMO1", "ShopRite from Home:#EB2305");
     	tagMap.put("PROMO3", "Limit 4:#762FA0");
     	tagMap.put("PROMO5", "Procter & Gamble:#0740A3");
-    	tagMap.put("PROMO8", "");
+    	tagMap.put("PROMO8", "Click, Don't Cut:#67c8ff");
     	tagMap.put("","");
 	}
 	

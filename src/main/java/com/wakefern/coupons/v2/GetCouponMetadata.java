@@ -20,6 +20,9 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wakefern.dao.couponv2.CouponDAOV2;
+import com.wakefern.dao.couponv2.Tag;
+import com.wakefern.dao.couponv2.TargetingBucket;
+import com.wakefern.dao.couponv2.WfcTag;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
@@ -36,6 +39,20 @@ public class GetCouponMetadata extends BaseService {
 	private final static Logger logger = Logger.getLogger(GetCouponMetadata.class);
 
 	public JSONObject matchedObjects;
+
+	static Map<String, String> tagMap = new HashMap<String, String>();
+	
+	static{
+    	tagMap.put("ForYou", "For You:#EB2305"); //coupon.targeting_buckets[description=ForYou]
+    	tagMap.put("Y", "In Circular:#909090"); //coupon.featured = 'Y'
+    	tagMap.put("NATL", "");
+    	tagMap.put("EMPOFFER", "");
+    	tagMap.put("PROMO1", "ShopRite from Home:#EB2305");
+    	tagMap.put("PROMO3", "Limit 4:#762FA0");
+    	tagMap.put("PROMO5", "Procter & Gamble:#0740A3");
+    	tagMap.put("PROMO8", "");
+    	tagMap.put("","");
+	}
 	
     @POST
     @Consumes(MWGApplicationConstants.Headers.json)
@@ -83,6 +100,9 @@ public class GetCouponMetadata extends BaseService {
     	ObjectWriter writer = mapper.writer();
     	List<CouponDAOV2> couponList = new ArrayList<CouponDAOV2>();
     	for(CouponDAOV2 couponDaoV2Obj : couponDaoArr){
+    		couponDaoV2Obj.getTargetingBuckets();//.getTargetingBuckets()
+    		// set WFC coupon filter label
+    		couponDaoV2Obj.setWfcTags(setCouponFilterOption(couponDaoV2Obj.getTags(), couponDaoV2Obj.getFeatured(), couponDaoV2Obj.getTargetingBuckets()));
     		if(couponDaoV2Obj.getOfferType().equals(offer_type_exclude)){
     			continue;
     		}
@@ -119,5 +139,35 @@ public class GetCouponMetadata extends BaseService {
     		}
     	}
     	return isFilter;
+    }
+    
+    private List<WfcTag> setCouponFilterOption(List<Tag> mi9TagsList, String featured, List<TargetingBucket> tbList){
+    	List<WfcTag> wfcTags = new ArrayList<WfcTag>();
+    	if(!mi9TagsList.isEmpty()){
+    		for(Tag mi9Tag : mi9TagsList){
+    			wfcTags.add(getWfcTags(mi9Tag.getTag()));
+    		}
+    	}
+    	if(featured.equalsIgnoreCase("Y")){
+			wfcTags.add(getWfcTags(featured.toUpperCase()));
+    	}
+    	if(!tbList.isEmpty()){
+    		for(TargetingBucket tb : tbList){
+    			wfcTags.add(getWfcTags(tb.getDescription()));
+    		}
+    	}
+    	
+    	return wfcTags;
+    }
+    
+    /**
+     * retrieve value from predefined Map of coupon label
+     * @param mi9Tag
+     * @return
+     */
+    private WfcTag getWfcTags(String mi9Tag){
+    	WfcTag wfcTag = new WfcTag();
+    	wfcTag.setTag(tagMap.get(mi9Tag));
+    	return wfcTag;
     }
 }

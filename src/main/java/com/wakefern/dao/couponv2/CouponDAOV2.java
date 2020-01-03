@@ -91,11 +91,11 @@ public class CouponDAOV2 {
     @JsonProperty("tags")
     private List<Tag> tags = null;
     @JsonProperty("wfc_tags")
-    private List<Tag> wfcTags = null;
+    private List<WfcTag> wfcTags = null;
     @JsonProperty("long_description_header")
     private String longDescriptionHeader;
     @JsonProperty("targeting_buckets")
-    private List<Object> targetingBuckets = null;
+    private List<TargetingBucket> targetingBuckets = null;
     @JsonProperty("category")
     private String category;
     @JsonProperty("subcategory")
@@ -334,12 +334,12 @@ public class CouponDAOV2 {
     }
 
     @JsonProperty("wfc_tags")
-    public List<Tag> getWfcTags() {
+    public List<WfcTag> getWfcTags() {
         return wfcTags;
     }
 
-    @JsonProperty("tags")
-    public void setWfcTags(List<Tag> wfcTags) {
+    @JsonProperty("wfc_tags")
+    public void setWfcTags(List<WfcTag> wfcTags) {
         this.wfcTags = wfcTags;
     }
 
@@ -354,12 +354,12 @@ public class CouponDAOV2 {
     }
 
     @JsonProperty("targeting_buckets")
-    public List<Object> getTargetingBuckets() {
+    public List<TargetingBucket> getTargetingBuckets() {
         return targetingBuckets;
     }
 
     @JsonProperty("targeting_buckets")
-    public void setTargetingBuckets(List<Object> targetingBuckets) {
+    public void setTargetingBuckets(List<TargetingBucket> targetingBuckets) {
         this.targetingBuckets = targetingBuckets;
     }
 

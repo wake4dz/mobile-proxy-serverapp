@@ -56,7 +56,7 @@ Follow steps from production release. When pushing the war file to bluemix, upda
 ```sh
 cf push srmobile-serverapp --vars-file ./config/dev.yml --vars-file ./config/auths.yml -p target/shopritemobileapplication.war
 ```
-- Note: auth.yml contains authorization tokens used in SR application, managed by Mark Covello, Danny Zheng, Loi Cao. Please seek assistant if new server deployment is performed.
+- Note: auth.yml contains authorization tokens used in SR application. Please contact srmobileappteam@wakefern.com for server deployment.
 
 ## Future Enhancements
 

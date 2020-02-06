@@ -71,6 +71,8 @@ public class GetContents extends BaseService {
 			startTime = System.currentTimeMillis();
 			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.CART_GET_CONTENTS, MI9TimeoutService.getTimeout(MI9TimeoutService.CART_GET_CONTENTS));
 
+			logger.trace("mi9 jsonResponse: " + jsonResponse );
+			
 			// for warning any API call time exceeding its own upper limited time defined in
 			// mwgApiWarnTime.java
 			endTime = System.currentTimeMillis();
@@ -83,8 +85,9 @@ public class GetContents extends BaseService {
 			// vcap env variable
 			if (!itemLocator.isEmpty() && !itemLocator.equalsIgnoreCase("log") && itemLocator.equalsIgnoreCase(
 					ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.ENABLE_CART_ITEM_LOCATOR))) {
-				logger.info("Calling Item Locator..");
+				logger.trace("Calling Item Locator..");
 				jsonResponse = this.getItemLocations(jsonResponse, wfStoreID);
+				logger.trace("item locator jsonResponse: " + jsonResponse );
 			}
 
 			if (LogUtil.isUserTrackOn) {

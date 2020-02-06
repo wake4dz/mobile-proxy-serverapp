@@ -26,6 +26,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Created by loicao on 08/19/19.
+ * 
+ * Danny's note on 2/5/2020: it is not used currently
  */
 @Path(WakefernApplicationConstants.ItemLocator.prefix)
 public class GetItemsLocation extends BaseService {

@@ -49,13 +49,13 @@ class AisleAreaJSONComparator implements Comparator<JSONObject> {
 
 	@Override
 	public int compare(JSONObject o1, JSONObject o2) {
-		Integer seq1 = (Integer) o1.get("AisleAreaSeqNum");
-		Integer seq2 = (Integer) o2.get("AisleAreaSeqNum");
+		int seq1 = o1.getInt("AisleAreaSeqNum");
+		int seq2 = o2.getInt("AisleAreaSeqNum");
 
 		if (seq1 < 0) {
 			return 1;
 		} else {
-			return seq1.compareTo(seq2);
+			return (seq1 - seq2);
 		}
 	}
 

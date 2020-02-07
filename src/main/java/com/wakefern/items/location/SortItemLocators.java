@@ -29,7 +29,7 @@ public class SortItemLocators {
 		List<JSONObject> list = new ArrayList<>();
 
 		for (int i = 0; i < jsonArray.length(); i++) {
-			list.add((JSONObject) jsonArray.get(i));
+			list.add(jsonArray.getJSONObject(i));
 		}
 
 		Collections.sort(list, new AisleAreaJSONComparator());

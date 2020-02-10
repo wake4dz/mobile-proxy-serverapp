@@ -19,6 +19,8 @@ import com.wakefern.wakefern.WakefernAuth;
 
 /**
  * Created by loicao on 09/03/19.
+ * 
+ * Danny's note on 2/5/2020: it is not used currently
  */
 @Path(WakefernApplicationConstants.ItemLocator.prefix)
 public class ObtainItemsInfoToken extends BaseService {

@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.wakefern.global.errorHandling.ExceptionHandler;
+import com.wakefern.items.location.SortItemLocators;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
@@ -274,7 +275,7 @@ public class BaseService {
 		try {
 			JSONObject origRespJObj = new JSONObject(origRespStr);
 			storeID = (storeID == null) ? "" : storeID;
-		
+
 			if (origRespJObj.has(WakefernApplicationConstants.ItemLocator.Items) && storeID.length() > 0) {
 				JSONArray itemsJArray = (JSONArray) origRespJObj.get(WakefernApplicationConstants.ItemLocator.Items);
 				
@@ -323,8 +324,9 @@ public class BaseService {
 						ItemLocatorArray itemLocatorArray = new ItemLocatorArray();
 						String locatorArray = itemLocatorArray.getInfo(storeID, strItemSkuList, authString);
 						
-						HashMap<Long, Object> itemLocatorData = new HashMap<>();
-						HashMap<Long, Object> areaSeqNumData = new HashMap<>();
+						
+						Map<Long, Object> itemLocatorData = new HashMap<>();
+						Map<Long, Object> areaSeqNumData = new HashMap<>();
 
 						try {
 							JSONArray jsonArray = new JSONArray(locatorArray);
@@ -363,6 +365,19 @@ public class BaseService {
 							throw ex;
 						}
 
+						logger.trace("itemLocatorData:");
+						for(Object key : itemLocatorData.keySet()) {
+						    Object value = itemLocatorData.get(key);
+						    logger.trace("key: " + key + "; value: " + value );
+						}
+
+						logger.trace("areaSeqNumData:");
+						for(Object key : areaSeqNumData.keySet()) {
+						    Object value = areaSeqNumData.get(key);
+						    logger.trace("key: " + key + "; value: " + value );
+						}
+						
+						
 						for (int i = 0; i < itemsJArray.length(); i++) {
 							JSONObject item = itemsJArray.getJSONObject(i);
 							String itemId = item.get(WakefernApplicationConstants.ItemLocator.Sku).toString();
@@ -373,13 +388,19 @@ public class BaseService {
 							
 							if (areaSeqInt > 0) {
 								item.put(WakefernApplicationConstants.ItemLocator.Aisle, itemLocatorData.get(Long.parseLong(upc)).toString());
+								item.put("AisleAreaSeqNum", areaSeqInt);
 							
 							} else { // area_seq_num = 0, -1, or -999 - INVALID
 								item.put(WakefernApplicationConstants.ItemLocator.Aisle, WakefernApplicationConstants.ItemLocator.Other);
+								item.put("AisleAreaSeqNum", Integer.MAX_VALUE);				
 							}
-							
+												
 							retvalJObj.append(WakefernApplicationConstants.ItemLocator.Items, item);
 						}
+						
+						// pre-sort by AisleAreaSeqNum to ease the UI processing 
+						JSONArray itemsSortArray = (JSONArray) retvalJObj.get(WakefernApplicationConstants.ItemLocator.Items);
+						retvalJObj.put(WakefernApplicationConstants.ItemLocator.Items, SortItemLocators.sortItems(itemsSortArray));
 						
 						return retvalJObj.toString();
 					

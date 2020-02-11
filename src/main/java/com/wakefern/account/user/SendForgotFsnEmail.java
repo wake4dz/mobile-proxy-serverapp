@@ -53,7 +53,6 @@ public class SendForgotFsnEmail extends BaseService {
     		String jsonData
 	) {
 		try {
-
 			JSONObject emailObj  = new JSONObject(jsonData);
 			String emailStr = emailObj.getString(WakefernApplicationConstants.APIM.email);
 			
@@ -112,8 +111,7 @@ public class SendForgotFsnEmail extends BaseService {
 			}
 			*/
 		}
-		String [] msg={ppcStr.trim(), status, message};
-		return msg;
+		return new String[]{ppcStr.trim(), status, message};
 	}
 }
 

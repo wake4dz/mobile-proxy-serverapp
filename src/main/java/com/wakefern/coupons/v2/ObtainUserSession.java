@@ -1,6 +1,5 @@
 package com.wakefern.coupons.v2;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +18,8 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by loicao on 10/11/18.
@@ -34,7 +35,8 @@ public class ObtainUserSession extends BaseService {
 	public Response getInfoResponse(
 			@HeaderParam("Authorization") String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
-			String jsonString) throws Exception, IOException {
+			@HeaderParam(ApplicationConstants.Requests.Header.appVersion) String appVersion,
+			String jsonString) {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURLAuth);
@@ -45,7 +47,20 @@ public class ObtainUserSession extends BaseService {
 		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, 
 				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.COUPON_V2_KEY));
 
+		JSONObject jsonObject;
 		try {
+			jsonObject = new JSONObject(jsonString);
+		} catch (JSONException ex) {
+			logger.error("ObtainUserSession::Exception -> Error creating json object from request payload: "
+					+ ex.getMessage());
+			jsonObject = new JSONObject();
+		}
+		try {
+			// Log payload for debugging purposes.
+			logger.info("ObtainUserSession appVersion: " + appVersion
+					+ " payload: " + jsonString
+					+ " fsn: " + jsonObject.optString("fsn")
+					+ " email: " + jsonObject.optString("email"));
 			// Execute PUT
 			String response = HTTPRequest.executePut(sb.toString(), jsonString, headerMap);
 			return this.createValidResponse(response);
@@ -56,7 +71,7 @@ public class ObtainUserSession extends BaseService {
 		}
 	}
 	
-	public String getCouponV2Token(String jsonData){
+	public String getCouponV2Token(String jsonData) {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURLAuth);

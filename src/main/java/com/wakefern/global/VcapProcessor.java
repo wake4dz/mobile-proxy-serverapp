@@ -16,7 +16,8 @@ public class VcapProcessor {
 	private static int apiHighTimeout = 0;
 	private static int apiMediumTimeout = 0;
 	private static int apiLowTimeout = 0;
-	
+
+	// TODO: these vcap keys need to be constants.
 	//this static code is not run until the class is loaded into the memory for the first time
 	static {  
 		try {

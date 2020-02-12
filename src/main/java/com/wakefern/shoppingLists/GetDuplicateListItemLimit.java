@@ -6,8 +6,6 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
-
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class GetDuplicateListItemLimit extends BaseService {

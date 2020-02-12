@@ -41,7 +41,7 @@ public class RequestTrackingFilter implements ContainerRequestFilter, ContainerR
     }
 
     /**
-     * Print a user friendly 
+     * Print a user friendly
      * @param request
      * @param response
      * @throws IOException

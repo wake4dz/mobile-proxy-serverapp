@@ -2,7 +2,6 @@ package com.wakefern.recipes;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 

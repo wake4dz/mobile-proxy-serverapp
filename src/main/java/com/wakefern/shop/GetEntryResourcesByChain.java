@@ -3,15 +3,12 @@ package com.wakefern.shop;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-
-import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Shop.prefix)
 public class GetEntryResourcesByChain extends BaseService {

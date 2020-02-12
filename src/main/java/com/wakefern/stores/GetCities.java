@@ -15,8 +15,11 @@ import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Stores.prefix)
 public class GetCities extends BaseService {
-	
+	/**
+	 * Constants
+	 */
 	private final static Logger logger = Logger.getLogger(GetCities.class);
+	private static final String TAG = GetCities.class.getName();
 	
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -46,8 +49,8 @@ public class GetCities extends BaseService {
         
 		try {
 			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Stores.cities, MWGApplicationConstants.Headers.json, sessionToken);
-			this.requestParams = new HashMap<String, String>();
-			this.queryParams   = new HashMap<String, String>();
+			this.requestParams = new HashMap<>();
+			this.queryParams   = new HashMap<>();
 			
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
@@ -58,7 +61,7 @@ public class GetCities extends BaseService {
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, skip);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 			
-            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.stores.GetCities");
+            String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, TAG);
             return this.createValidResponse(jsonResponse);
         
         } catch (Exception e) {

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-import com.wakefern.account.user.SendForgotFsnEmail;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;

@@ -29,7 +29,7 @@ public class BaseService {
     protected String requestToken  = null;
     private int timeout = 30000; //default
     
-    protected static enum ReqType { GET, POST, PUT, DELETE };
+    protected enum ReqType { GET, POST, PUT, DELETE };
     
     private final static Logger logger = Logger.getLogger(BaseService.class);
     

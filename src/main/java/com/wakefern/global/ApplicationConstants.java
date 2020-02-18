@@ -31,6 +31,7 @@ public final class ApplicationConstants {
             public static final String appCode = "appCode";
             public static final String jwtToken = "JWT-Token";
             public static final String appVersion  = "AppVersion";
+            public static final String correlationId = "X-SR-Correlation-Id";
         }
 
         public static class Tokens {

@@ -1,5 +1,6 @@
 package com.wakefern.global.middleware;
 
+import com.wakefern.global.ApplicationConstants;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.container.ContainerRequestContext;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 /**
  * Filter to run before every request in order to create request identifier
- * to allow for better log tracing during a request.
+ * to allow for improved log tracing during a request.
  *
  * Create a correlation id if it does not exist to trace a request or collection of requests.
  */
@@ -21,11 +22,6 @@ public class RequestTrackingFilter implements ContainerRequestFilter, ContainerR
 
     private static Logger logger = Logger.getLogger(RequestTrackingFilter.class);
     /**
-     * Custom header name for the proxy correlation/request identifier
-     */
-    private static final String CORRELATION_ID = "X-SR-Correlation-Id";
-
-    /**
      * Add the X-SR-Correlation-Id header to the incoming request, or use it if it already exists.
      * @param request
      * @throws IOException
@@ -33,10 +29,10 @@ public class RequestTrackingFilter implements ContainerRequestFilter, ContainerR
     @Override
     public void filter(ContainerRequestContext request) throws IOException {
         // Get the request correlation id header value
-        String correlationId = request.getHeaderString(CORRELATION_ID);
+        String correlationId = request.getHeaderString(ApplicationConstants.Requests.Header.correlationId);
         if (correlationId == null || correlationId.isEmpty()) {
             correlationId = generateCorrelationId();
-            request.getHeaders().add(CORRELATION_ID, correlationId);
+            request.getHeaders().add(ApplicationConstants.Requests.Header.correlationId, correlationId);
         }
     }
 
@@ -49,10 +45,12 @@ public class RequestTrackingFilter implements ContainerRequestFilter, ContainerR
     @Override
     public void filter(ContainerRequestContext request, final ContainerResponseContext response) throws IOException {
         // Get the request correlation id header value
-        String correlationId = request.getHeaderString(CORRELATION_ID);
+        String correlationId = request.getHeaderString(ApplicationConstants.Requests.Header.correlationId);
         if (correlationId == null || correlationId.isEmpty()) {
             correlationId = generateCorrelationId();
         }
+        // Add the correlation id to the response.
+        response.getHeaders().add(ApplicationConstants.Requests.Header.correlationId, correlationId);
         logger.trace(String.format("correlation_id=%s req_method=%s req_path=%s res_status=%d res_length=%d",
                 request.getMethod(), request.getUriInfo(), correlationId, response.getStatus(),
                 response.getLength()));

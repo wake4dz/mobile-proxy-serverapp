@@ -21,8 +21,9 @@ import java.util.UUID;
 public class RequestTrackingFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
     private static Logger logger = Logger.getLogger(RequestTrackingFilter.class);
+
     /**
-     * Add the X-SR-Correlation-Id header to the incoming request, or use it if it already exists.
+     * Add the "X-SR-Correlation-Id" header to the incoming request, or use it if it already exists.
      * @param request
      * @throws IOException
      */
@@ -30,6 +31,7 @@ public class RequestTrackingFilter implements ContainerRequestFilter, ContainerR
     public void filter(ContainerRequestContext request) throws IOException {
         // Get the request correlation id header value
         String correlationId = request.getHeaderString(ApplicationConstants.Requests.Header.correlationId);
+        // If the header does not exist, generate a new correlationId and attach to the request.
         if (correlationId == null || correlationId.isEmpty()) {
             correlationId = generateCorrelationId();
             request.getHeaders().add(ApplicationConstants.Requests.Header.correlationId, correlationId);
@@ -37,7 +39,7 @@ public class RequestTrackingFilter implements ContainerRequestFilter, ContainerR
     }
 
     /**
-     * Print a user friendly
+     * Print a user friendly trace message with the correlation id and info about the request and response.
      * @param request
      * @param response
      * @throws IOException

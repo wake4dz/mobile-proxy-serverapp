@@ -35,7 +35,7 @@ public class CouponAddToPPC extends BaseService {
     public Response getInfoResponse(@DefaultValue("") @QueryParam(WakefernApplicationConstants.Coupons.Metadata.PPC) String ppcParam,
                                     @DefaultValue("") @QueryParam(WakefernApplicationConstants.Coupons.Metadata.CouponId) String couponId,
                                     @HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
-                            			@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
+                                    @HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
                                     @HeaderParam("Authorization") String authToken) {
 
         try {	

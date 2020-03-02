@@ -359,20 +359,24 @@ public class LogUtil {
 		
 		messages.add("");
 		
-		messages.add(StringUtils.rightPad("The 'chain' system property:", 45) + 
+		messages.add(StringUtils.rightPad("The 'chain' system property:", 50) + 
 				MWGApplicationConstants.getSystemProperytyValue("chain"));
-		messages.add(StringUtils.rightPad("The 'url' system property:", 45) + 
+		messages.add(StringUtils.rightPad("The 'url' system property:", 50) + 
 				MWGApplicationConstants.getSystemProperytyValue("url"));
-		messages.add(StringUtils.rightPad("The 'cors' system property:", 45) + 
+		messages.add(StringUtils.rightPad("The 'cors' system property:", 50) + 
 				MWGApplicationConstants.getSystemProperytyValue("cors"));
-		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 45) + 
-				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
-		messages.add(StringUtils.rightPad("The 'api_high_timeout' system property:", 45) + 
+		messages.add(StringUtils.rightPad("The 'enable_cart_item_locator' system property:", 50) + 
+				MWGApplicationConstants.getSystemProperytyValue("enable_cart_item_locator"));
+		
+		messages.add(StringUtils.rightPad("The 'api_high_timeout' system property:", 50) + 
 				VcapProcessor.getApiHighTimeout());
-		messages.add(StringUtils.rightPad("The 'api_medium_timeout' system property:", 45) + 
+		messages.add(StringUtils.rightPad("The 'api_medium_timeout' system property:", 50) + 
 				VcapProcessor.getApiMediumTimeout());
-		messages.add(StringUtils.rightPad("The 'api_low_timeout' system property:", 45) + 
+		messages.add(StringUtils.rightPad("The 'api_low_timeout' system property:", 50) + 
 				VcapProcessor.getApiLowTimeout());
+		
+		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 50) + 
+				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
 		messages.add("");
 
 		
@@ -418,6 +422,9 @@ public class LogUtil {
 		
 		messages.add("<tr><td>cors</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("cors") + "</td> </tr>");
+
+		messages.add("<tr><td>enable_cart_item_locator</td>" + "<td>" +
+				MWGApplicationConstants.getSystemProperytyValue("enable_cart_item_locator") + "</td> </tr>");
 		
 		messages.add("<tr><td>api_high_timeout</td>" + "<td>" +
 				VcapProcessor.getApiHighTimeout() + "</td> </tr>");
@@ -429,7 +436,7 @@ public class LogUtil {
 				VcapProcessor.getApiLowTimeout() + "</td> </tr>");
 		
 		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
-				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee") + "</td> </tr>");
+				formatStores(MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee")) + "</td> </tr>");
 		
 		messages.add("</table> <br /> <br />");
 		
@@ -515,5 +522,36 @@ public class LogUtil {
 		} else {
 			return response;
 		}
+	}
+	
+	/*
+	 * format into 5-store per HTML line
+	 */
+	private static String formatStores(String storeStr) {
+		final int numberOfStoresPerLine = 5;
+		String[] storeArray = storeStr.split(",");
+
+		StringBuffer sb = new StringBuffer();
+		int htmlLines = storeArray.length / numberOfStoresPerLine;
+		if (storeArray.length % numberOfStoresPerLine > 0) {
+			htmlLines++;
+		}
+
+		logger.trace("Platic Fee Bag store #:" + storeArray.length + " which has: " + htmlLines + " HTML lines");
+
+		for (int i = 0; i < htmlLines; i++) {
+			for (int j = 0; j < numberOfStoresPerLine; j++) {
+				if ((i * numberOfStoresPerLine + j) < storeArray.length) {
+					logger.trace("store id: " + storeArray[i * numberOfStoresPerLine + j]);
+					sb.append(storeArray[i * numberOfStoresPerLine + j] + ", ");
+				} else {
+					break;
+				}
+			}
+
+			sb.append(" <br //>");
+		}
+
+		return sb.toString();
 	}
 }

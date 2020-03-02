@@ -363,6 +363,8 @@ public class LogUtil {
 				MWGApplicationConstants.getSystemProperytyValue("chain"));
 		messages.add(StringUtils.rightPad("The 'url' system property:", 50) + 
 				MWGApplicationConstants.getSystemProperytyValue("url"));
+		messages.add(StringUtils.rightPad("The 'coupon_service' system property:", 50) + 
+				MWGApplicationConstants.getSystemProperytyValue("coupon_service"));
 		messages.add(StringUtils.rightPad("The 'cors' system property:", 50) + 
 				MWGApplicationConstants.getSystemProperytyValue("cors"));
 		messages.add(StringUtils.rightPad("The 'enable_cart_item_locator' system property:", 50) + 
@@ -419,6 +421,9 @@ public class LogUtil {
 
 		messages.add("<tr><td>url</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("url") + "</td> </tr>");
+
+		messages.add("<tr><td>coupon_service</td>" + "<td>" +
+				MWGApplicationConstants.getSystemProperytyValue("coupon_service") + "</td> </tr>");
 		
 		messages.add("<tr><td>cors</td>" + "<td>" +
 				MWGApplicationConstants.getSystemProperytyValue("cors") + "</td> </tr>");

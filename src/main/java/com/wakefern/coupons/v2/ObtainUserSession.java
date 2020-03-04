@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -19,25 +20,30 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by loicao on 10/11/18.
- * Edited by philmayer on 2/27/19.
+ * Edited by matt-miller7 on 2/20/20.
  */
 @Path(ApplicationConstants.Requests.CouponsV2.UserLogin)
 public class ObtainUserSession extends BaseService {
 	private final static Logger logger = Logger.getLogger(ObtainUserSession.class);
 
+	// TODO: refactor response building to not be parsing comma separated strings.
+	private static final String badRequestMessage = "400,Premature rejection,Bad Request: Missing frequent shopper number.";
+
+	private static final String fsnKey = "fsn";
+
 	@PUT
 	@Consumes(MWGApplicationConstants.Headers.json)
 	@Produces(MWGApplicationConstants.Headers.json)
 	public Response getInfoResponse(
-			@HeaderParam("Authorization") String authToken,
+			@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
 			@HeaderParam(ApplicationConstants.Requests.Header.appVersion) String appVersion,
-			String jsonString) {
+			String body) {
 
+		// Coupon server response if no "fsn" field in json data.
 		StringBuilder sb = new StringBuilder();
 		sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURLAuth);
 		sb.append(ApplicationConstants.Requests.CouponsV2.UserLogin);
@@ -48,21 +54,30 @@ public class ObtainUserSession extends BaseService {
 				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.COUPON_V2_KEY));
 
 		JSONObject jsonObject;
+		boolean validated;
 		try {
-			jsonObject = new JSONObject(jsonString);
-		} catch (JSONException ex) {
-			logger.error("ObtainUserSession::Exception -> Error creating json object from request payload: "
-					+ ex.getMessage());
-			jsonObject = new JSONObject();
-		}
-		try {
-			// Log payload for debugging purposes.
-			logger.info("ObtainUserSession appVersion: " + appVersion
-					+ " payload: " + jsonString
-					+ " fsn: " + jsonObject.optString("fsn")
-					+ " email: " + jsonObject.optString("email"));
+			try {
+				jsonObject = new JSONObject(body);
+				// Check if the request body is valid (has PPC number)
+				validated = isValidRequestBody(jsonObject);
+			} catch (JSONException ex) {
+				logger.error("ObtainUserSession::Exception -> JSONException creating json object from request payload: "
+						+ ex.getMessage());
+				throw new Exception(badRequestMessage);
+			}
+
 			// Execute PUT
-			String response = HTTPRequest.executePut(sb.toString(), jsonString, headerMap);
+			String response = HTTPRequest.executePut(sb.toString(), body, headerMap);
+
+			if (!validated) {
+				// Log payload for debugging purposes.
+				logger.info("ObtainUserSession::invalid request: appVersion: " + appVersion
+						+ " payload: " + body
+						+ " fsn: " + jsonObject.optString("fsn")
+						+ " email: " + jsonObject.optString("email"));
+				throw new Exception(badRequestMessage);
+			}
+
 			return this.createValidResponse(response);
 		} catch (Exception e){
 			String errorData = LogUtil.getRequestData("ObtainUserSession::Exception", LogUtil.getRelevantStackTrace(e));
@@ -70,14 +85,22 @@ public class ObtainUserSession extends BaseService {
 			return this.createErrorResponse(e);
 		}
 	}
-	
-	public String getCouponV2Token(String jsonData) {
 
+	/**
+	 * Validate the request body
+	 * @param  jsonObject JSONObject
+	 * @return boolean True if the request body is valid, false otherwise.
+	 */
+	private static boolean isValidRequestBody(JSONObject jsonBody){
+		return jsonBody != null && !jsonBody.optString(fsnKey).trim().isEmpty();
+	}
+	
+	public String getCouponV2Token(String jsonData){
 		StringBuilder sb = new StringBuilder();
 		sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURLAuth);
 		sb.append(ApplicationConstants.Requests.CouponsV2.UserLogin);
 
-		Map<String, String> headerMap = new HashMap<String, String>();
+		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
 		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, 
 				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.COUPON_V2_KEY));
@@ -88,6 +111,5 @@ public class ObtainUserSession extends BaseService {
 			response = "{\"error\":\"fail to get token\"}";
 		}
 		return response;
-		
 	}
 }

@@ -353,11 +353,11 @@ public class BaseService {
 									Object upc13 = itemLocations.getJSONObject(j).get(WakefernApplicationConstants.ItemLocator.upc_13_num);
 									
 									try { //if wf_area_code is found from item locator response
-										Object wfAreaCode = itemLocations.getJSONObject(j).get(WakefernApplicationConstants.ItemLocator.wf_area_code);
+										String wfAreaCode = itemLocations.getJSONObject(j).getString(WakefernApplicationConstants.ItemLocator.wf_area_code);
 
 										areaSeqNumData.put(
 												Long.parseLong(upc13.toString()), 
-												(wfAreaCode != null && wfAreaCode.toString().trim().equals("0") ? "0" : areaSeqNum)
+												(wfAreaCode != null && wfAreaCode.trim().equals("0") ? "0" : areaSeqNum)
 										);
 
 									} catch(Exception exx) {
@@ -365,10 +365,10 @@ public class BaseService {
 									}
 									
 									try {
-										Object wfSectDesc = itemLocations.getJSONObject(j).get(WakefernApplicationConstants.ItemLocator.wf_sect_desc);
+										String wfSectDesc = itemLocations.getJSONObject(j).getString(WakefernApplicationConstants.ItemLocator.wf_sect_desc);
 										wfSectDescData.put(
 												Long.parseLong(upc13.toString()), 
-												(wfSectDesc != null && wfSectDesc.toString().trim().equals("") ? JSONObject.NULL : wfSectDesc)
+												(wfSectDesc != null && wfSectDesc.trim().equals("") ? JSONObject.NULL : wfSectDesc)
 										);
 									} catch (Exception e) {
 										//ignore input item doesn't have "wf_sect_desc" data from Wakefern Item Locator's API call (namely, not found)

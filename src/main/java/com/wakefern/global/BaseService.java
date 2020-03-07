@@ -387,22 +387,25 @@ public class BaseService {
 							throw ex;
 						}
 
-						logger.trace("itemLocatorData:");
-						for(Object key : itemLocatorData.keySet()) {
-						    Object value = itemLocatorData.get(key);
-						    logger.trace("key: " + key + "; value: " + value );
-						}
-
-						logger.trace("areaSeqNumData:");
-						for(Object key : areaSeqNumData.keySet()) {
-						    Object value = areaSeqNumData.get(key);
-						    logger.trace("key: " + key + "; value: " + value );
-						}
-
-						logger.trace("wfSectDescData:");
-						for(Object key : wfSectDescData.keySet()) {
-						    Object value = wfSectDescData.get(key);
-						    logger.trace("key: " + key + "; value: " + value );
+						// display some trace/debug info 
+						if (logger.isTraceEnabled()) {
+							logger.trace("itemLocatorData:");
+							for(Object key : itemLocatorData.keySet()) {
+							    Object value = itemLocatorData.get(key);
+							    logger.trace("key: " + key + "; value: " + value );
+							}
+	
+							logger.trace("areaSeqNumData:");
+							for(Object key : areaSeqNumData.keySet()) {
+							    Object value = areaSeqNumData.get(key);
+							    logger.trace("key: " + key + "; value: " + value );
+							}
+	
+							logger.trace("wfSectDescData:");
+							for(Object key : wfSectDescData.keySet()) {
+							    Object value = wfSectDescData.get(key);
+							    logger.trace("key: " + key + "; value: " + value );
+							}
 						}
 						
 						for (int i = 0; i < itemsJArray.length(); i++) {

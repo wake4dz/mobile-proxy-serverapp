@@ -170,6 +170,7 @@ public class WakefernApplicationConstants {
         public static final String item_locations = "item_locations";
         public static final String area_seq_num = "area_seq_num";
         public static final String wf_area_code = "wf_area_code";
+        public static final String wf_sect_desc = "wf_sect_desc";
         public static final String TotalPrice = "TotalPrice";
         public static final String RegularPrice = "RegularPrice";
         public static final String Quantity = "Quantity";

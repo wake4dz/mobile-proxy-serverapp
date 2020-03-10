@@ -34,6 +34,7 @@ public class WakefernApplicationConstants {
 		public static final String SR_PRODUCT_RECOMMENDATION_KEY = "sr_product_recommendation_key";
 		public static final String TFG_PRODUCT_RECOMMENDATION_KEY = "tfg_product_recommendation_key";
 		public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
+		public static final String APIM_NUTRITION_KEY = "apim_nutrition_key";
 		public static final String ENABLE_CART_ITEM_LOCATOR = "enable_cart_item_locator";
 		public static final String NEW_RELIC_KEY = "new_relic_key";
 	}
@@ -140,8 +141,12 @@ public class WakefernApplicationConstants {
 
 	public static class APIM {
 		public static final String apimBaseURL = "https://apimprod.wakefern.com";
+		public static final String apimDevBaseURL = "https://apimdev.wakefern.com";
 		public static final String ppcByEmail = "/WebAndClient/V1/LMWPPC_R_ByEmail";
+		public static final String nutritionBySkuStoreId = "/WebAndClient/V1/mwgmenulabeling";
 		
+		public static final String apimWakefernProduct = "/wakefern/product";
+		public static final String apimNutritionUrl = "/nutrition/{skuStoreId}";
 		public static final String sub_key_header = "Ocp-Apim-Subscription-Key";
 		public static final String email = "Email";
 
@@ -158,6 +163,8 @@ public class WakefernApplicationConstants {
 		
 		public static final String mi9_fName_value="Valued";
 		public static final String mi9_lName_value="Customer";
+		
+		
 	}
 	
     public static class ItemLocator {

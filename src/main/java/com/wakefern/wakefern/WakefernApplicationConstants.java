@@ -37,6 +37,9 @@ public class WakefernApplicationConstants {
 		public static final String APIM_NUTRITION_KEY = "apim_nutrition_key";
 		public static final String ENABLE_CART_ITEM_LOCATOR = "enable_cart_item_locator";
 		public static final String NEW_RELIC_KEY = "new_relic_key";
+
+		// subscription key to APIM SMS Enrollments API
+		public static final String APIM_SMS_ENROLLMENTS_KEY = "apim_sms_enrollments_key";
 	}
 
     public static class Chains {
@@ -203,7 +206,6 @@ public class WakefernApplicationConstants {
     }
     
 	public static class Receipt {
-
         public static class Proxy {
             public static final String Path = "users/{userId}/{ppc}/receipts";
             public static final String Detail = "/{receiptId}";
@@ -215,6 +217,20 @@ public class WakefernApplicationConstants {
             public static final String User = "/digitalreceipt/users";
         }
 	}
+
+    public static class SmsEnrollment {
+        public static class Proxy {
+            public static final String Path = "users/{userId}/{ppc}/enrollments/sms/";
+        }
+
+        public static class Upstream {
+            public static final String BaseURL = APIM.apimBaseURL;
+            public static final String Path = "/srfh/rest/ecom/sms/enrollment";
+            public static final String MimeType = "application/vnd.wakefern.selection.api.v3+json";
+            public static final String ApiVersion = "v1";
+            public static final String ApiVersionHeaderKey = "Api-Version";
+        }
+    }
 	
 	public static class JwtToken {
 		// Wakefern's APIs
@@ -223,8 +239,7 @@ public class WakefernApplicationConstants {
 		
 		public static final String BaseURL = "https://api.wakefern.com";
 
-		 public static final String authPath = "/wfctoken/auth/gentoken";
-
+		public static final String authPath = "/wfctoken/auth/gentoken";
 	}
 	
 	public static class Reports {

@@ -534,29 +534,33 @@ public class LogUtil {
 	 */
 	private static String formatStores(String storeStr) {
 		final int numberOfStoresPerLine = 5;
-		String[] storeArray = storeStr.split(",");
-
 		StringBuffer sb = new StringBuffer();
-		int htmlLines = storeArray.length / numberOfStoresPerLine;
-		if (storeArray.length % numberOfStoresPerLine > 0) {
-			htmlLines++;
-		}
-
-		logger.trace("Platic Fee Bag store #:" + storeArray.length + " which has: " + htmlLines + " HTML lines");
-
-		for (int i = 0; i < htmlLines; i++) {
-			for (int j = 0; j < numberOfStoresPerLine; j++) {
-				if ((i * numberOfStoresPerLine + j) < storeArray.length) {
-					logger.trace("store id: " + storeArray[i * numberOfStoresPerLine + j]);
-					sb.append(storeArray[i * numberOfStoresPerLine + j] + ", ");
-				} else {
-					break;
-				}
+		
+		
+		if ((storeStr != null) && (storeStr.trim().length() > 0)) {
+			String[] storeArray = storeStr.split(",");
+			
+			int htmlLines = storeArray.length / numberOfStoresPerLine;
+			if (storeArray.length % numberOfStoresPerLine > 0) {
+				htmlLines++;
 			}
-
-			sb.append(" <br //>");
+	
+			logger.trace("Platic Fee Bag store #:" + storeArray.length + " which has: " + htmlLines + " HTML lines");
+	
+			for (int i = 0; i < htmlLines; i++) {
+				for (int j = 0; j < numberOfStoresPerLine; j++) {
+					if ((i * numberOfStoresPerLine + j) < storeArray.length) {
+						logger.trace("store id: " + storeArray[i * numberOfStoresPerLine + j]);
+						sb.append(storeArray[i * numberOfStoresPerLine + j] + ", ");
+					} else {
+						break;
+					}
+				}
+	
+				sb.append(" <br //>");
+			}
 		}
-
+		
 		return sb.toString();
 	}
 }

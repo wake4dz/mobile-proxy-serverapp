@@ -16,12 +16,56 @@ import org.apache.log4j.Logger;
 import com.wakefern.global.errorHandling.ResponseHandler;
 import com.wakefern.logging.LogUtil;
 
-
 public class HTTPRequest {
 
 	private final static Logger logger = Logger.getLogger(HTTPRequest.class);
-	
-	private static int timeOutInt = 30000; // 30 seconds time out
+
+	/**
+	 * A default read timeout for outgoing HTTP requests.
+	 */
+	private static final int DEFAULT_READ_TIMEOUT_MS = 30000;
+
+	/**
+	 * A default connect timeout for outgoing HTTP requests.
+	 */
+	private static final int DEFAULT_CONNECTION_TIMEOUT_MS = 5000;
+
+	/**
+	 * Set connection timeout and read timeout.
+	 */
+	private static final int sConnectionTimeoutMs, sReadTimeoutMs;
+
+	/**
+	 * Environment variable names for conditional initialization.
+	 */
+	public static final String HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME = "http_default_connect_timeout_ms";
+	public static final String HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME = "http_default_read_timeout_ms";
+
+	/**
+	 * Static initialization for timeout, read from environment vars/VCAP if applicable.
+	 */
+	static {
+		logger.info("Reading default connection and read timeout values from env");
+
+		int connTimeout = 0, readTimeout = 0;
+		// Read environment values
+		try {
+			connTimeout = Integer.parseInt(System.getenv(HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME));
+		} catch (Exception e) {
+			logger.error("Error reading default connection timeout from env");
+		}
+
+		try {
+			readTimeout = Integer.parseInt(System.getenv(HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME));
+		} catch (Exception e) {
+			logger.error("Error reading default connection timeout from env");
+		}
+
+		sReadTimeoutMs = readTimeout > 0 ? readTimeout : DEFAULT_READ_TIMEOUT_MS;
+		sConnectionTimeoutMs = connTimeout > 0 ? connTimeout : DEFAULT_CONNECTION_TIMEOUT_MS;
+		logger.info("HTTPRequest default connection timeout: " + sConnectionTimeoutMs);
+		logger.info("HTTPRequest default read timeout: " + sReadTimeoutMs);
+	}
 
 	//-------------------------------------------------------------------------
 	// Public Methods
@@ -32,27 +76,40 @@ public class HTTPRequest {
 	 *  
 	 * @param requestURL
 	 * @param requestHeaders
-	 * @param timeOut
+	 * @param readTimeoutMs
 	 * @return
 	 * @throws Exception
 	 */
-	public static String executeGet(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception {
-		return executeRequest(requestURL, requestHeaders, null, "GET", timeOut);
+	public static String executeGet(String requestURL, Map<String, String> requestHeaders, int readTimeoutMs) throws Exception {
+		return executeRequest(requestURL, requestHeaders, null, "GET", readTimeoutMs);
 	}
-	
-	public static String executePut(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeOut) throws Exception {
-		return executePut(requestURL, requestBody, requestHeaders);
+
+    /**
+     * Trigger HTTP PUT request.
+     * @param requestURL
+     * @param requestBody
+     * @param requestHeaders
+     * @return
+     * @throws Exception
+     */
+	public static String executePut(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
+		return executePut(requestURL, requestBody, requestHeaders, sReadTimeoutMs);
 	}
+
 	/**
-	 * Trigger HTTP PUT request.
+	 * Trigger HTTP PUT request with a specified timeout.
 	 * 
 	 * @param requestURL
 	 * @param requestBody
 	 * @param requestHeaders
+	 * @param readTimeoutMs
 	 * @return
 	 * @throws Exception
 	 */
-	public static String executePut(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
+	public static String executePut(String requestURL,
+                                    String requestBody,
+                                    Map<String, String> requestHeaders,
+                                    int readTimeoutMs) throws Exception {
 		HttpURLConnection connection = null;
 
 		try {
@@ -67,8 +124,12 @@ public class HTTPRequest {
 				connection.setUseCaches(false);
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
-				connection.setConnectTimeout(timeOutInt);
-				connection.setReadTimeout(timeOutInt);
+
+				if (readTimeoutMs == 0) {
+					readTimeoutMs = sReadTimeoutMs;
+				}
+				connection.setConnectTimeout(sConnectionTimeoutMs);
+				connection.setReadTimeout(readTimeoutMs);
 
 				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
 					connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -147,7 +208,7 @@ public class HTTPRequest {
 	 * @throws Exception
 	 */
 	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
-		return executePost(requestURL, requestBody, requestHeaders, timeOutInt);
+		return executePost(requestURL, requestBody, requestHeaders, sReadTimeoutMs);
 	}
 	
 
@@ -159,10 +220,14 @@ public class HTTPRequest {
 	 * @param requestURL
 	 * @param requestBody
 	 * @param requestHeaders
+	 * @param readTimeoutMs
 	 * @return
 	 * @throws Exception
 	 */
-	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeout) throws Exception {
+	public static String executePost(String requestURL,
+                                     String requestBody,
+                                     Map<String, String> requestHeaders,
+                                     int readTimeoutMs) throws Exception {
 
 		HttpURLConnection connection = null;
 
@@ -178,8 +243,12 @@ public class HTTPRequest {
 				connection.setUseCaches(false);
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
-				connection.setConnectTimeout(timeout);
-				connection.setReadTimeout(timeout);
+
+				if (readTimeoutMs == 0) {
+					readTimeoutMs = sReadTimeoutMs;
+				}
+				connection.setConnectTimeout(sConnectionTimeoutMs);
+				connection.setReadTimeout(readTimeoutMs);
 				
 				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
 					connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -254,11 +323,14 @@ public class HTTPRequest {
 	 * @param requestURL
 	 * @param requestBody
 	 * @param requestHeaders
-	 * @param timeOut
+	 * @param readTimeoutMs
 	 * @return
 	 * @throws Exception
 	 */
-	public static String executePostJSON(String requestURL, String requestBody, Map<String, String> requestHeaders, int timeOut) throws Exception {
+	public static String executePostJSON(String requestURL,
+										 String requestBody,
+										 Map<String, String> requestHeaders,
+										 int readTimeoutMs) throws Exception {
 		HttpURLConnection connection = null;
 		long startTime, endTime;
 		
@@ -278,12 +350,12 @@ public class HTTPRequest {
 				connection.setUseCaches(false);
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
-				timeOut = (timeOut == 0) ? timeOutInt : timeOut;
 
-				logger.trace("[executePostJSON]::Timeout: " +  timeOut);
-				
-				connection.setConnectTimeout(timeOut);
-				connection.setReadTimeout(timeOut);
+				if (readTimeoutMs == 0) {
+					readTimeoutMs = sReadTimeoutMs;
+				}
+				connection.setConnectTimeout(sConnectionTimeoutMs);
+				connection.setReadTimeout(readTimeoutMs);
 
 				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
 					connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -373,21 +445,18 @@ public class HTTPRequest {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String executeRequest(
-		String requestURL, 
-		Map<String, String> requestHeaders,
-		Map<String, String> requestParameters, 
-		String requestMethod, 
-		int timeOut
-	) throws Exception {
-		
+	public static String executeRequest(String requestURL,
+										Map<String, String> requestHeaders,
+										Map<String, String> requestParameters,
+										String requestMethod,
+										int readTimeoutMs) throws Exception {
 		HttpURLConnection connection = null;
 
 		try {
 			long startTime, endTime;
 			
 			startTime = System.currentTimeMillis();
-			connection = createConnection(requestURL, requestHeaders, requestParameters, requestMethod, timeOut);
+			connection = createConnection(requestURL, requestHeaders, requestParameters, requestMethod, readTimeoutMs);
 			int responseCode = connection.getResponseCode();
 			endTime = System.currentTimeMillis();
 
@@ -453,7 +522,17 @@ public class HTTPRequest {
 		}
 	}
 
-	public static String executeDelete(String requestURL, Map<String, String> requestHeaders, int timeOut) throws Exception {
+	/**
+	 * Execute a DELETE http request.
+	 * @param requestURL
+	 * @param requestHeaders
+	 * @param readTimeoutMs
+	 * @return
+	 * @throws Exception
+	 */
+	public static String executeDelete(String requestURL,
+									   Map<String, String> requestHeaders,
+									   int readTimeoutMs) throws Exception {
 		HttpURLConnection connection = null;
 		long startTime, endTime;
 
@@ -464,9 +543,12 @@ public class HTTPRequest {
 			URL url = new URL(requestURL);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("DELETE");
-			timeOut = timeOutInt;
-			connection.setConnectTimeout(timeOut);
-			connection.setReadTimeout(timeOut);
+
+			if (readTimeoutMs == 0) {
+				readTimeoutMs = sReadTimeoutMs;
+			}
+			connection.setConnectTimeout(sConnectionTimeoutMs);
+			connection.setReadTimeout(readTimeoutMs);
 
 			for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
 				connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -550,7 +632,7 @@ public class HTTPRequest {
 	 * @param requestHeaders
 	 * @param requestParameters
 	 * @param requestMethod
-	 * @param timeOut
+	 * @param readTimeoutMs
 	 * @return
 	 * @throws IOException
 	 * @throws URISyntaxException
@@ -560,7 +642,7 @@ public class HTTPRequest {
 			Map<String, String> requestHeaders,
 			Map<String, String> requestParameters, 
 			String requestMethod, 
-			int timeOut) throws IOException, URISyntaxException {
+			int readTimeoutMs) throws IOException, URISyntaxException {
 		
 		HttpURLConnection connection = null;
 		URI uri = new URI(requestURL);
@@ -574,13 +656,12 @@ public class HTTPRequest {
 		URL url = uri.toURL();
 		connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod(requestMethod);
-		
-		if (timeOut == 0) {
-			timeOut = timeOutInt;
+
+		if (readTimeoutMs == 0) {
+			readTimeoutMs = sReadTimeoutMs;
 		}
-		
-		connection.setConnectTimeout(timeOut);
-		connection.setReadTimeout(timeOut);
+		connection.setConnectTimeout(sConnectionTimeoutMs);
+		connection.setReadTimeout(readTimeoutMs);
 
 		if (requestHeaders != null) {
 			for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {

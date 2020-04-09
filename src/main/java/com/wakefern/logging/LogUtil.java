@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import com.wakefern.request.HTTPRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -343,13 +344,17 @@ public class LogUtil {
 	public static String getExceptionMessage(Exception e) {
 		return ((e instanceof NullPointerException) ? "NullPointerException" : e.getMessage());
 	}
-	
-	
+
+	private static final int FORMAT_RIGHT_PADDING = 60;
+	private static String pad(String str) {
+		return StringUtils.rightPad(str, FORMAT_RIGHT_PADDING);
+	}
+
 	/*
 	 * get the welcome message for the the console
 	 */
 	public static List<String> getWelcomeMessages() {
-		List<String> messages = new ArrayList<String>();
+		List<String> messages = new ArrayList<>();
 		
 		messages.add("");
 		
@@ -359,44 +364,45 @@ public class LogUtil {
 		
 		messages.add("");
 		
-		messages.add(StringUtils.rightPad("The 'chain' system property:", 50) + 
+		messages.add(pad("The 'chain' system property:") +
 				MWGApplicationConstants.getSystemProperytyValue("chain"));
-		messages.add(StringUtils.rightPad("The 'url' system property:", 50) + 
+		messages.add(pad("The 'url' system property:") +
 				MWGApplicationConstants.getSystemProperytyValue("url"));
-		messages.add(StringUtils.rightPad("The 'coupon_service' system property:", 50) + 
+		messages.add(pad("The 'coupon_service' system property:") +
 				MWGApplicationConstants.getSystemProperytyValue("coupon_service"));
-		messages.add(StringUtils.rightPad("The 'cors' system property:", 50) + 
+		messages.add(pad("The 'cors' system property:") +
 				MWGApplicationConstants.getSystemProperytyValue("cors"));
-		messages.add(StringUtils.rightPad("The 'enable_cart_item_locator' system property:", 50) + 
+		messages.add(pad("The 'enable_cart_item_locator' system property:") +
 				MWGApplicationConstants.getSystemProperytyValue("enable_cart_item_locator"));
 		
-		messages.add(StringUtils.rightPad("The 'api_high_timeout' system property:", 50) + 
+		messages.add(pad("The 'api_high_timeout' system property:") +
 				VcapProcessor.getApiHighTimeout());
-		messages.add(StringUtils.rightPad("The 'api_medium_timeout' system property:", 50) + 
+		messages.add(pad("The 'api_medium_timeout' system property:") +
 				VcapProcessor.getApiMediumTimeout());
-		messages.add(StringUtils.rightPad("The 'api_low_timeout' system property:", 50) + 
+		messages.add(pad("The 'api_low_timeout' system property:") +
 				VcapProcessor.getApiLowTimeout());
+		messages.add(pad("The 'http_default_connect_timeout_ms' system property:") +
+				System.getenv(HTTPRequest.HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME));
+		messages.add(pad("The 'http_default_read_timeout_ms' system property:") +
+				System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME));
 		
-		messages.add(StringUtils.rightPad("The 'plastic_bag_fee' system property:", 50) + 
+		messages.add(pad("The 'plastic_bag_fee' system property:") +
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
 		messages.add("");
 
-		
-		messages.add(StringUtils.rightPad("The current IP address:", 25) + ipAddress);
+		messages.add(pad("The current IP address:") + ipAddress);
 		
 		messages.add("");
 		messages.add("The mobile app's back-end is ready to serve...");
 		
 		return messages;
-		
 	}
-	
-	
+
 	/*
 	 * get the welcome message for the index.jsp
 	 */
 	public static List<String> getWelcomeHtmlMessages() {
-		List<String> messages = new ArrayList<String>();
+		List<String> messages = new ArrayList<>();
 		
 		messages.add("<table id=\"envVariable\">");
 		messages.add("<tr> <th>Release Property Name</th> <th>Release Property Value</th></tr>");
@@ -439,19 +445,23 @@ public class LogUtil {
 		
 		messages.add("<tr><td>api_low_timeout</td>" + "<td>" +
 				VcapProcessor.getApiLowTimeout() + "</td> </tr>");
+
+		messages.add("<tr><td>http_default_connect_timeout_ms</td><td>"+
+				System.getenv(HTTPRequest.HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME) + "</td></tr>");
+
+		messages.add("<tr><td>http_default_read_timeout_ms</td><td>"+
+				System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME) + "</td></tr>");
 		
 		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
 				formatStores(MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee")) + "</td> </tr>");
 		
 		messages.add("</table> <br /> <br />");
-		
-		
+
 		messages.add("<h2>The current IP address: " + ipAddress + "</h2>");
 		
 		messages.add("<h1>The mobile app's back-end is ready to serve...</h1>");
 		
 		return messages;
-		
 	}
 	
 	/*
@@ -467,13 +477,7 @@ public class LogUtil {
 	 *  	408 - request timeout
 	 */
 	public static boolean is4xxError(String exceptionMsg) {
-		
-		if (exceptionMsg.contains("401") || (exceptionMsg.contains("404"))) {
-			return true;
-		} else {
-			return false;
-		}
-		
+		return exceptionMsg.contains("401") || (exceptionMsg.contains("404"));
 	}
 	
 	/*

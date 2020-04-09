@@ -71,7 +71,8 @@ public class GetItemsLocation extends BaseService {
             Map<String, String> headerMap = new HashMap<String, String>();
             headerMap.put(ApplicationConstants.Requests.Header.contentAccept, acceptType);
             headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, auth);
-            
+
+            // TODO: there should not be a read timeout of 0 on this.
         	response = HTTPRequest.executeGet(this.requestPath, headerMap, 0);
         	JSONObject rdObj = new JSONObject(response).getJSONObject("returnData");
         	Iterator<String> upcIterator = rdObj.keys();

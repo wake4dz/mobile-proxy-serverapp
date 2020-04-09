@@ -25,6 +25,8 @@ applications:
     new_relic_key: ((NEW_RELIC_KEY))
     apim_nutrition_key: ((APIM_NUTRITION_KEY))
     apim_sms_enrollments_key: ((APIM_SMS_ENROLLMENTS_KEY))
+    http_default_connect_timeout_ms: ((HTTP_DEFAULT_CONNECT_TIMEOUT_MS))
+    http_default_read_timeout_ms: ((HTTP_DEFAULT_READ_TIMEOUT_MS))
     timeout: 180 # ibmcloud health check timeout
   services:
   - ((SRMOBILE_PAPERTRAIL))

@@ -578,7 +578,6 @@ public class MWGApplicationConstants {
 
 			public static final String item = cart + itemID;
 			public static final String items = cart + "/items";
-			public static final String review = cart + "/review";
 
 			public static final String mergeList = cart + "/merge-from/list" + "/{" + Params.Path.srcListID + "}";
 		}

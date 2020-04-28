@@ -22,7 +22,7 @@ public class ItemLocatorArray extends BaseService {
 	
 	private final static Logger logger = Logger.getLogger(ItemLocatorArray.class);
 
-    public String getInfo( String storeId, String upc, String authToken) {
+    public String getInfo(String storeId, String upc, String authToken) {
         Map<String, String> wkfn = new HashMap<>();
 
         try {

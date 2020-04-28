@@ -28,5 +28,10 @@ applications:
     http_default_connect_timeout_ms: ((HTTP_DEFAULT_CONNECT_TIMEOUT_MS))
     http_default_read_timeout_ms: ((HTTP_DEFAULT_READ_TIMEOUT_MS))
     timeout: 180 # ibmcloud health check timeout
+    recipe_service: ((RECIPE_SERVICE))
+    recipe_client_id_stage_key: ((RECIPE_CLIENT_ID_STG_KEY))
+    recipe_api_stage_key: ((RECIPE_API_STG_KEY))
+    recipe_client_id_prod_key: ((RECIPE_CLIENT_ID_PRD_KEY))
+    recipe_api_prod_key: ((RECIPE_API_PRD_KEY))
   services:
   - ((SRMOBILE_PAPERTRAIL))

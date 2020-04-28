@@ -44,6 +44,7 @@ public class MI9TimeoutService {
 	public static final String SHOPPINGLIST_GET_LISTS = "com.wakefern.shoppingLists.GetLists"; 					//takes 2.1%
 	public static final String SHOPPINGLIST_GET_LIST_ITEMS = "com.wakefern.shoppingLists.GetListItems"; 		// takes 4.2%
 	public static final String SHOPPINGLIST_CREATE_LIST_ITEMS = "com.wakefern.shoppingLists.CreateListItems"; 	//takes 1.5%
+	public static final String SHOPPINGLIST_GET_SHARED_LIST_ITEMS = "com.wakefern.shoppingLists.GetSharedListItems";
 	//CHECKOUT
 	public static final String CHECKOUT_GET_STATE = "com.wakefern.checkout.users.GetCheckoutState";			//takes 6.6%
 	public static final String CHECKOUT_UPDATE_STATE = "com.wakefern.checkout.users.UpdateCheckoutState";	//takes 1.6%
@@ -81,6 +82,7 @@ public class MI9TimeoutService {
 		serviceTimeoutMap.put(PRODUCTS_SEARCH, LOW_TO);
 		serviceTimeoutMap.put(SHOPPINGLIST_GET_LISTS, LOW_TO);
 		serviceTimeoutMap.put(SHOPPINGLIST_GET_LIST_ITEMS, LOW_TO);
+		serviceTimeoutMap.put(SHOPPINGLIST_GET_SHARED_LIST_ITEMS, LOW_TO);
 		serviceTimeoutMap.put(SHOPPINGLIST_CREATE_LIST_ITEMS, LOW_TO);
 		
 		//CHECKOUT

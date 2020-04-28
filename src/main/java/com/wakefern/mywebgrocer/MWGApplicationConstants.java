@@ -259,6 +259,8 @@ public class MWGApplicationConstants {
 			public static final String items = prefix + "list-items+json";
 			public static final String wakefernItems = prefix + "wakefern-list-items+json";
 			public static final String wakefernEmail = prefix + "wakefern-list-email+json";
+			public static final String wfc_list = prefix + "wakefern-list+json";
+			public static final String wfc_list_items = prefix + "wakefern-list-items+json";
 		}
 
 		public static class Cart {

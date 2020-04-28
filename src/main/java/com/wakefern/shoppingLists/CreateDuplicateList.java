@@ -44,7 +44,8 @@ public class CreateDuplicateList extends BaseService {
     		
     		@DefaultValue(MWGApplicationConstants.Requests.ShoppingList.strDupeCap)
     		@QueryParam(MWGApplicationConstants.Requests.Params.Query.take) String take,
-    		    		
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.storeID) String storeID,
+    		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
@@ -67,7 +68,7 @@ public class CreateDuplicateList extends BaseService {
 		// * Update the new list with the items from the original list
 		
 		try {			
-			JSONObject respObj = getListItems(chainID, userID, listID, sessionToken);
+			JSONObject respObj = getListItems(chainID, userID, listID, storeID, sessionToken);
 			JSONArray  respArr = getNewList(chainID, userID, sessionToken, jsonData);
 			
 			String newListID = respArr.getJSONObject(0).getString("Id");
@@ -118,34 +119,43 @@ public class CreateDuplicateList extends BaseService {
 	//-------------------------------------------------------------------------
 	
 	/**
-	 * Get List Items.
-	 * 
+	 * Since we are introducing shared list feature to user's List, and we know or assume that
+	 * 	personal list will get called more than shared list, we'll call get personal list first, 
+	 * 	if personal list throws exception, we'll then call get shared list.
 	 * @param chainID
 	 * @param userID
 	 * @param listID
-	 * @param sessionToken
-	 * @return JSONObject
+	 * @param storeID
+	 * @param token
+	 * @return
 	 * @throws Exception
 	 */
-	private JSONObject getListItems(String chainID, String userID, String listID, String token) throws Exception {
-		this.requestPath   = MWGApplicationConstants.Requests.ShoppingList.prefix + MWGApplicationConstants.Requests.ShoppingList.items;
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.items, MWGApplicationConstants.Headers.generic, token);
-		this.requestParams = new HashMap<String, String>();
-		this.queryParams   = new HashMap<String, String>();
+	private JSONObject getListItems(String chainID, String userID, String listID, String storeID, String token) throws Exception {
+		//Get user's personal list
+
+		String strResp = null;
+		try{
+			strResp = this.getItemsFromList(chainID, userID, listID, storeID, MWGApplicationConstants.Headers.ShoppingList.items, token);
+		} catch(Exception e){
+			if(strResp == null){
+				//get Wakefern list, which contains Shared List & personal list
+				strResp = this.getItemsFromList(chainID, userID, listID, storeID, MWGApplicationConstants.Headers.ShoppingList.wfc_list_items, token);
+			} else{
+				//rethrowing the exception
+				throw e;
+			}
+		}
 		
-		// GetListItems path parameters
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
-		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.listID, listID);
-		
-		// GetListItems query parameters.
-//		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.skip, "0");
-//		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, "9999");
-		
-		String     strResp = this.mwgRequest(BaseService.ReqType.GET, null, THIS);
 		JSONObject objResp = new JSONObject(strResp);
-		
 		return objResp;
+	}
+	
+	private String getItemsFromList(String chainID, String userID, String listID, String storeID, String accept, String token) throws Exception {
+		this.queryParams = new HashMap<String, String>();
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
+		String strResp = new GetSharedListItems().getListItems(this.queryParams, chainID, userID, listID, accept, token);
+		
+		return strResp;
 	}
 	
 	/**

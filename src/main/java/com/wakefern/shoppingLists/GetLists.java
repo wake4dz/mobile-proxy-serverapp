@@ -45,9 +45,9 @@ public class GetLists extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) {
         		
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.ShoppingList.list, MWGApplicationConstants.Headers.json, sessionToken);
-		this.requestParams = new HashMap<String, String>();
-		this.queryParams   = new HashMap<String, String>();
+		this.requestHeader = new MWGHeader(accept, MWGApplicationConstants.Headers.json, sessionToken);
+		this.requestParams = new HashMap<>();
+		this.queryParams   = new HashMap<>();
 		
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);

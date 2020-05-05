@@ -19,45 +19,47 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-
 /**  
-* A proxy API to access Locai's 'Complete Recipes' API
+* A proxy API to access Locai's 'Set User Profile' API
 *   
 * @author  Danny Zheng
 *
 */ 
 
 @Path(WakefernApplicationConstants.RecipeLocai.Proxy.path)
-public class CompleteRecipes extends BaseService {
+public class SetUserProfile extends BaseService {
 
-    private final static Logger logger = Logger.getLogger(CompleteRecipes.class);
-
+    private final static Logger logger = Logger.getLogger(SetUserProfile.class);
+    
     @POST
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.completeRecipes)
+    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.setUserProfile)
     public Response getResponse(
+    		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.auth) String jwtToken,
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {
 
         Map<String, String> headers = new HashMap<>();
 
         try {
-        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint() 
-        			+ "/recipes/completion/batch?clientId=" + VcapProcessor.getRecipeClientId() 
+        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
+        			+ "/users/profile/set?clientId=" + VcapProcessor.getRecipeClientId()
         			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
         			
-            headers.put("Content-Type", contentType);
-
+        	headers.put("Content-Type", contentType);
+            headers.put("Authorization", jwtToken);
+            
             return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_LOCAI_COMPLETE_RECIPES);
+            LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_LOCAI_SET_USER_PROFILE);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"contentType", contentType, "httpBody", jsonBody);
+            		"contentType", contentType, "HttpBody", jsonBody);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);
         }
     }
+
 }

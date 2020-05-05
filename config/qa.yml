@@ -9,4 +9,4 @@ API_MEDIUM_TIMEOUT: 10000
 API_LOW_TIMEOUT: 3000
 HTTP_DEFAULT_CONNECT_TIMEOUT_MS: 5000
 HTTP_DEFAULT_READ_TIMEOUT_MS: 30000
-RECIPE_SERVICE: Production
+RECIPE_SERVICE: Staging    # Locai doesn't have a Prod system for us yet, will set to be 'Production' once it becomes available

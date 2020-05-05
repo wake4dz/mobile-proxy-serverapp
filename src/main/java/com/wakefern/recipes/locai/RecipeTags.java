@@ -1,7 +1,11 @@
 package com.wakefern.recipes.locai;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
@@ -14,8 +18,15 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
+/**  
+* A proxy API to access Locai's 'Recipe Tags' API
+*   
+* @author  Danny Zheng
+*
+*/ 
 
-@Path("recipeshop/recipeTags")
+@Path(WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class RecipeTags extends BaseService {
 
     private final static Logger logger = Logger.getLogger(RecipeTags.class);
@@ -23,19 +34,26 @@ public class RecipeTags extends BaseService {
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path("/")
-    public Response getResponse() {
+    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.recipeTags)
+    public Response getResponse(
+    		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType) {
         
+    	Map<String, String> headers = new HashMap<>();
+    	
         try {
-            //String path = WakefernApplicationConstants.APIM.apimBaseURL + WakefernApplicationConstants.APIM.nutritionBySkuStoreId + "/" + skuStoreId;
-        	String path =  "https://cookit-api-stg.locai.io/v1" + "/recipes/tags?clientId=" + "b35a28e9-4116-41fa-88ca-0aaaebaaa33b" +
-        					"&apiKey=" + "ixvlsNKAvUN30Ah03pN2F7Y3gGWEJLpE";
+            
+        	String path = VcapProcessor.getTargetRecipeLocaiServiceEndpoint() + 
+        			"/recipes/tags?clientId=" + VcapProcessor.getRecipeClientId()
+        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
        
-            return this.createValidResponse(HTTPRequest.executeGet(path, null, VcapProcessor.getApiMediumTimeout()));
+        	headers.put("Content-Type", contentType);
+        	
+            return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.NUTRITION_GET_NUTRITION);
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
+            LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_LOCAI_RECIPE_TAGS);
+            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+            		"contentType", contentType);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);

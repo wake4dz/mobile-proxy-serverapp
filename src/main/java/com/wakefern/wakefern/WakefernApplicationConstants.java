@@ -40,6 +40,17 @@ public class WakefernApplicationConstants {
 
 		// subscription key to APIM SMS Enrollments API
 		public static final String APIM_SMS_ENROLLMENTS_KEY = "apim_sms_enrollments_key";
+		
+		public static final String API_HIGH_TIMEOUT = "api_high_timeout";
+		public static final String API_MEDIUM_TIMEOUT = "api_medium_timeout";
+		public static final String API_LOW_TIMEOUT = "api_low_timeout";
+		
+		// Locai's Recipe Shop
+		public static final String RECIPE_SERVICE = "recipe_service";
+		public static final String RECIPE_CLIENT_ID_KEY = "recipe_client_id_key";
+		public static final String RECIPE_API_STAGE_KEY = "recipe_api_stage_key";
+		public static final String RECIPE_API_PROD_KEY = "recipe_api_prod_key";
+		
 	}
 
     public static class Chains {
@@ -254,5 +265,53 @@ public class WakefernApplicationConstants {
     public static class UserProfile {
     		public static final String Address = "Addresses";
     		public static final String IsDefaultBilling = "IsDefaultBilling";
+    }
+    
+
+    public static class RecipeLocai {
+        public static class Proxy {
+            public static final String path = "recipes/locai/";
+            
+            public static final String recipeTags = "recipeTags";
+            public static final String lookupRecipes = "lookupRecipes";
+            public static final String searchRecipes = "searchRecipes";
+            public static final String completeRecipes = "completeRecipes";
+            public static final String productLookup = "productLookup";
+            public static final String productDetails = "productDetails";
+            public static final String getUserInfo = "getUserInfo";
+            public static final String getUserProfile = "getUserProfile";
+            public static final String setUserProfile = "setUserProfile";
+            public static final String getUserFavorites = "getUserFavorites/users/{userId}";
+            public static final String saveDishFavorite = "saveDishFavorite/users/{userId}/dishes/{dishId}";
+            public static final String getRecipeCategories = "getRecipeCategories";
+        }
+        
+        public static class RequestParamsQuery {
+        	public static final String sessionToken = "sessionToken";
+        	public static final String accountId = "accountId";
+        }
+        
+        public static class HeadersParams {
+        	public static final String auth = "Authorization";
+        	public static final String contentType = "Content-Type";
+
+        }
+        
+        public static class RequestsParamsPath {
+        	public static final String userId = "userId";
+        	public static final String dishId = "dishId";
+
+        }
+
+        
+        public static class Upstream {
+    		public static final String version = "/v1";
+    		
+    		public static final String prodBaseURL = "";
+    		public static final String stagingBaseURL = "https://cookit-api-stg.locai.io" + version;
+    		
+
+    		
+        }
     }
 }

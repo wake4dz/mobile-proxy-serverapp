@@ -40,6 +40,11 @@ public class WakefernApplicationConstants {
 
 		// subscription key to APIM SMS Enrollments API
 		public static final String APIM_SMS_ENROLLMENTS_KEY = "apim_sms_enrollments_key";
+		
+		// Wakefern's internal Wallet API
+		public static final String WALLET_SERVICE = "wallet_service";
+		public static final String SR_WALLET_PROD_KEY = "sr_wallet_prod_key";
+		public static final String SR_WALLET_STAGE_KEY = "sr_wallet_stage_key";
 	}
 
     public static class Chains {
@@ -254,5 +259,19 @@ public class WakefernApplicationConstants {
     public static class UserProfile {
     		public static final String Address = "Addresses";
     		public static final String IsDefaultBilling = "IsDefaultBilling";
+    }
+    
+    public static class Wallet {
+        public static class Proxy {
+            public static final String Path = "wallet/userpass/{device}/{userId}/{sessionToken}";
+        }
+
+        public static class Upstream {
+            public static final String ProdBaseURL = "https://wfcapi.shoprite.com/passbook/api/";
+            public static final String StageBaseURL = "https://wfcapi.staging.shoprite.com/passbook/api/";
+            public static final String ApiVersion = "v1";
+            public static final String Path = ApiVersion +"/userpass/";
+
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /*
  *  author:     Danny Zheng
@@ -16,6 +17,10 @@ public class VcapProcessor {
 	private static int apiHighTimeout = 0;
 	private static int apiMediumTimeout = 0;
 	private static int apiLowTimeout = 0;
+	
+	private static String walletService = null;
+	private static String srWalletKeyProd = null;
+	private static String srWalletKeyStaging = null;
 	
 	//this static code is not run until the class is loaded into the memory for the first time
 	static {  
@@ -44,6 +49,39 @@ public class VcapProcessor {
 			throw new RuntimeException("api_low_timeout must have an integer value in milliseconds");
 		}
 		
+		try {
+			walletService = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.WALLET_SERVICE);
+
+			if ((walletService == null) || (walletService.trim().length() == 0)) {
+				throw new RuntimeException();
+			}
+		} catch (Exception e) {
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+			throw new RuntimeException("wallet_service must have a non-empty value");
+		}
+		
+		try {
+			srWalletKeyProd = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_WALLET_PROD_KEY);
+
+			if ((srWalletKeyProd == null) || (srWalletKeyProd.trim().length() == 0)) {
+				throw new RuntimeException();
+			}
+		} catch (Exception e) {
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+			throw new RuntimeException("xxx must have a non-empty value");
+		}
+		
+		try {
+			srWalletKeyStaging = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_WALLET_STAGE_KEY);
+
+			if ((srWalletKeyStaging == null) || (srWalletKeyStaging.trim().length() == 0)) {
+				throw new RuntimeException();
+			}
+		} catch (Exception e) {
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+			throw new RuntimeException("xxx must have a non-empty value");
+		}
+		
 	}
 	
 	public static int getApiHighTimeout() {
@@ -66,6 +104,18 @@ public class VcapProcessor {
 	private static int getVcapValue(String vcapKeyName) throws Exception{
 		String highTimeObj = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName);
 		return highTimeObj !=null && !highTimeObj.trim().isEmpty() ? Integer.valueOf(highTimeObj.trim()) : 0;
+	}
+
+	public static String getWalletService() {
+		return walletService;
+	}
+
+	public static String getSrWalletKeyProd() {
+		return srWalletKeyProd;
+	}
+
+	public static String getSrWalletKeyStaging() {
+		return srWalletKeyStaging;
 	}
 	
 	

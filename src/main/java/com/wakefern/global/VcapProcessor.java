@@ -48,48 +48,26 @@ public class VcapProcessor {
 			throw new RuntimeException("api_low_timeout must have an integer value in milliseconds");
 		}
 		
-		try {
-			recipeService = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_SERVICE);
-
-			if ((recipeService == null) || (recipeService.trim().length() == 0)) {
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+		recipeService = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_SERVICE);
+		if ((recipeService == null) || (recipeService.trim().length() == 0)) {	
 			throw new RuntimeException("recipe_service must have a non-empty value");
 		}
-		
-		try {
-			recipeClientId = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_CLIENT_ID_KEY);
 
-			if ((recipeClientId == null) || (recipeClientId.trim().length() == 0)) {
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+		recipeClientId = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_CLIENT_ID_KEY);
+		if ((recipeClientId == null) || (recipeClientId.trim().length() == 0)) {
 			throw new RuntimeException("recipe_client_id_key must have a non-empty value");
 		}
-		
-		try {
-			 recipeApiKeyStaging = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_API_STAGE_KEY);
-			if (( recipeApiKeyStaging == null) || ( recipeApiKeyStaging.trim().length() == 0)) {
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+
+		recipeApiKeyStaging = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_API_STAGE_KEY);
+		if (( recipeApiKeyStaging == null) || ( recipeApiKeyStaging.trim().length() == 0)) {
 			throw new RuntimeException("recipe_api_stage_key must have a non-empty value");
 		}
-		
-		try {
-			recipeApiKeyProd = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_API_PROD_KEY);
-			if ((recipeApiKeyProd == null) || (recipeApiKeyProd.trim().length() == 0)) {
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+
+		recipeApiKeyProd = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_API_PROD_KEY);
+		if ((recipeApiKeyProd == null) || (recipeApiKeyProd.trim().length() == 0)) {
 			throw new RuntimeException("recipe_api_prod_key must have a non-empty value");
 		}
-		
+
 	}
 	
 	public static int getApiHighTimeout() {

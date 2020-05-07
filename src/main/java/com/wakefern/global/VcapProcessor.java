@@ -49,38 +49,21 @@ public class VcapProcessor {
 			throw new RuntimeException("api_low_timeout must have an integer value in milliseconds");
 		}
 		
-		try {
-			walletService = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.WALLET_SERVICE);
-
-			if ((walletService == null) || (walletService.trim().length() == 0)) {
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
+		walletService = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.WALLET_SERVICE);
+		if ((walletService == null) || (walletService.trim().length() == 0)) {
 			throw new RuntimeException("wallet_service must have a non-empty value");
 		}
-		
-		try {
-			srWalletKeyProd = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_WALLET_PROD_KEY);
-
-			if ((srWalletKeyProd == null) || (srWalletKeyProd.trim().length() == 0)) {
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
-			throw new RuntimeException("xxx must have a non-empty value");
+	
+		srWalletKeyProd = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_WALLET_PROD_KEY);
+		if ((srWalletKeyProd == null) || (srWalletKeyProd.trim().length() == 0)) {
+			throw new RuntimeException("sr_wallet_prod_key must have a non-empty value");
 		}
-		
-		try {
-			srWalletKeyStaging = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_WALLET_STAGE_KEY);
 
-			if ((srWalletKeyStaging == null) || (srWalletKeyStaging.trim().length() == 0)) {
-				throw new RuntimeException();
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));	
-			throw new RuntimeException("xxx must have a non-empty value");
+		srWalletKeyStaging = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_WALLET_STAGE_KEY);
+		if ((srWalletKeyStaging == null) || (srWalletKeyStaging.trim().length() == 0)) {
+			throw new RuntimeException("sr_wallet_stage_key must have a non-empty value");
 		}
+
 		
 	}
 	
@@ -118,5 +101,21 @@ public class VcapProcessor {
 		return srWalletKeyStaging;
 	}
 	
+
+	public static String getTargetWalletServiceEndpoint() {
+		if (walletService.trim().equalsIgnoreCase("staging")) {
+			return WakefernApplicationConstants.Wallet.Upstream.StageBaseURL;
+		} else {
+			return WakefernApplicationConstants.Wallet.Upstream.ProdBaseURL;
+		}
+	}
+		
+	public static String getTargetWalletAuthorizationKey() {
+		if (walletService.trim().equalsIgnoreCase("staging")) {
+			return srWalletKeyStaging;
+		} else {
+			return srWalletKeyProd;
+		}
+	}
 	
 }

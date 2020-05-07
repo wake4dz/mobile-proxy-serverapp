@@ -263,15 +263,24 @@ public class WakefernApplicationConstants {
     
     public static class Wallet {
         public static class Proxy {
-            public static final String Path = "wallet/userpass/{device}/{userId}/{sessionToken}";
+        	public static final String Path = "/wallet";
+            public static final String GetWallet = "/userpass/{device}/{accountId}/{sessionToken}";
         }
 
         public static class Upstream {
-            public static final String ProdBaseURL = "https://wfcapi.shoprite.com/passbook/api/";
-            public static final String StageBaseURL = "https://wfcapi.staging.shoprite.com/passbook/api/";
-            public static final String ApiVersion = "v1";
-            public static final String Path = ApiVersion +"/userpass/";
+            public static final String ProdBaseURL = "https://wfcapi.shoprite.com/passbook/api/v1/userpass";
+            public static final String StageBaseURL = "https://wfcapi.staging.shoprite.com/passbook/api/v1/userpass";
+        }
+        
+        public static class HeadersParams {
+        	public static final String Auth = "Authorization";
+        	public static final String ContentType = "Content-Type";
+        }
 
+        public static class RequestParamsPath {
+        	public static final String Device = "device";
+        	public static final String AccountId = "accountId";
+        	public static final String SessionToken = "sessionToken";
         }
     }
 }

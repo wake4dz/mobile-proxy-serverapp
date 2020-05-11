@@ -45,6 +45,9 @@ public class WakefernApplicationConstants {
 		public static final String WALLET_SERVICE = "wallet_service";
 		public static final String SR_WALLET_PROD_KEY = "sr_wallet_prod_key";
 		public static final String SR_WALLET_STAGE_KEY = "sr_wallet_stage_key";
+
+		// Wakefern's Digital Receipt preferences API
+		public static final String DIGITAL_RECEIPT_USER_SETTINGS_KEY = "digital_receipt_user_settings_key";
 	}
 
     public static class Chains {
@@ -221,6 +224,18 @@ public class WakefernApplicationConstants {
             public static final String BaseURL = "https://api.wakefern.com";
             public static final String User = "/digitalreceipt/users";
         }
+	}
+
+	public static class ReceiptUserSettings {
+		public static class Proxy {
+			public static final String Path = "users/{userId}/{ppc}/settings/receipts";
+		}
+
+		public static class Upstream {
+			public static final String BaseURL = getBaseWakefernApiUrl();
+			public static final String FetchPath = "/digitalreceipt/api/v1/option/";
+			public static final String UpdatePath = "/digitalreceipt/api/v1/editoption/";
+		}
 	}
 
     public static class SmsEnrollment {

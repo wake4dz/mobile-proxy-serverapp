@@ -28,5 +28,9 @@ applications:
     http_default_connect_timeout_ms: ((HTTP_DEFAULT_CONNECT_TIMEOUT_MS))
     http_default_read_timeout_ms: ((HTTP_DEFAULT_READ_TIMEOUT_MS))
     timeout: 180 # ibmcloud health check timeout
+    
+    wallet_service: ((WALLET_SERVICE))
+    sr_wallet_prod_key: ((SR_WALLET_PRD_KEY))
+    sr_wallet_stage_key: ((SR_WALLET_STG_KEY))
   services:
   - ((SRMOBILE_PAPERTRAIL))

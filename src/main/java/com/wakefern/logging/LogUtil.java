@@ -388,6 +388,10 @@ public class LogUtil {
 		
 		messages.add(pad("The 'plastic_bag_fee' system property:") +
 				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
+		
+		messages.add(pad("The 'wallet_service' system property:") +
+				VcapProcessor.getWalletService());
+		
 		messages.add("");
 
 		messages.add(pad("The current IP address:") + ipAddress);
@@ -454,6 +458,9 @@ public class LogUtil {
 		
 		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
 				formatStores(MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee")) + "</td> </tr>");
+		
+		messages.add("<tr><td>wallet_service</td>" + "<td>" +
+				VcapProcessor.getWalletService() + "</td> </tr>");
 		
 		messages.add("</table> <br /> <br />");
 

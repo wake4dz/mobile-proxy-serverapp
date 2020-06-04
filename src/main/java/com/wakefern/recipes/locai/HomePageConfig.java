@@ -36,8 +36,7 @@ public class HomePageConfig extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Path(WakefernApplicationConstants.RecipeLocai.Proxy.homepageConfig)
     public Response getResponse(
-    		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
-    		String jsonBody) {
+    		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType ) {
 
         Map<String, String> headers = new HashMap<>();
 
@@ -53,7 +52,7 @@ public class HomePageConfig extends BaseService {
         } catch (Exception e) {
             LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_LOCAI_HOMEPAGE_CONFIG);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		 "contentType", contentType, "HttpBody", jsonBody);
+            		 "contentType", contentType);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);

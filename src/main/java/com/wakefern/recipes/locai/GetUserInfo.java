@@ -39,6 +39,7 @@ public class GetUserInfo extends BaseService {
     public Response getResponse(
     		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.sessionToken) String sessionToken,
     		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.accountId) String accountId,
+    		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.clientBrand) String clientBrand,
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {
 
@@ -49,6 +50,7 @@ public class GetUserInfo extends BaseService {
         			+ "/shoprite/getUserInfo"
         			+ "?sessionToken=" + sessionToken
         			+ "&accountId=" + accountId
+        			+ "&clientBrand=" + clientBrand
         			+ "&clientId=" + VcapProcessor.getRecipeClientId()
         			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
         			
@@ -59,7 +61,7 @@ public class GetUserInfo extends BaseService {
         } catch (Exception e) {
             LogUtil.addErrorMaps(e, MwgErrorType.RECIPES_LOCAI_GET_USER_INFO);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"sessionToken", sessionToken, "accountId", accountId, "contentType", contentType, "HttpBody", jsonBody);
+            		"sessionToken", sessionToken, "accountId", accountId, "clientBrand", clientBrand, "contentType", contentType, "HttpBody", jsonBody);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);

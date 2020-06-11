@@ -290,6 +290,7 @@ public class WakefernApplicationConstants {
         public static class RequestParamsQuery {
         	public static final String sessionToken = "sessionToken";
         	public static final String accountId = "accountId";
+        	public static final String clientBrand = "clientBrand";
         }
         
         public static class HeadersParams {

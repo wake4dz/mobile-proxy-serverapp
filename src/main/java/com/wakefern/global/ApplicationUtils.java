@@ -40,7 +40,7 @@ public class ApplicationUtils {
     public static String getVcapValue(String vcapKeyName){
     	String vcapValue = "";
     	try{
-    		vcapValue = MWGApplicationConstants.getSystemProperytyValue(vcapKeyName).trim();
+    		vcapValue = MWGApplicationConstants.getSystemPropertyValue(vcapKeyName).trim();
     	} catch(Exception e){
     		logger.error("[ApplicationUtils]::getVcapValue::Failed! Exception " + vcapKeyName + e.getMessage());
     	}

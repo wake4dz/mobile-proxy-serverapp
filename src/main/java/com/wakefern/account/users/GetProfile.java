@@ -55,16 +55,16 @@ public class GetProfile extends BaseService {
     		String jsonBody) {
 			
 		try {
-			String jsonResponse = makeRequest(sessionToken, MWGApplicationConstants.Headers.Account.profile, chainID, userID);
+			String jsonResponse = getProfile(sessionToken, MWGApplicationConstants.Headers.Account.profile, chainID, userID);
 			
-			if(LogUtil.isUserTrackOn) {
+			if (LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
 		        	String trackData = LogUtil.getRequestData("chainId", chainID, "userID", userID, "sessionToken", sessionToken );
 					logger.info("Tracking data for " + userID + ": " + trackData + "; jsonResponse: " + jsonResponse);
 				}
 			}
 			
-			return this.createValidResponse(assignPrimaryAddress(jsonResponse, userID));
+			return this.createValidResponse(jsonResponse);
 		
 		} catch (Exception e) {
         	LogUtil.addErrorMaps(e, MwgErrorType.USERS_GET_PROFILE);
@@ -82,14 +82,16 @@ public class GetProfile extends BaseService {
 	// Private Methods
 	//-------------------------------------------------------------------------
 
-    private String makeRequest(String sessionToken, String acceptType, String chainID, String userID) throws Exception, IOException {
-    		this.requestParams = new HashMap<String, String>();
+    public String getProfile(String sessionToken, String acceptType, String chainID, String userID) throws Exception, IOException {
+		this.requestParams = new HashMap<String, String>();
         this.requestHeader = new MWGHeader(acceptType, MWGApplicationConstants.Headers.json, sessionToken);
     	        
         this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.chainID, chainID);
         this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
         
-        return this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.account.users.GetProfile");
+        final String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.account.users.GetProfile");
+        
+        return assignPrimaryAddress(jsonResponse, userID);
     }
     
     /**
@@ -142,7 +144,7 @@ public class GetProfile extends BaseService {
 			}
 		} catch(Exception e) {
 			logger.error("[assignPrimaryAddress]::Exception - Get user profile.  Message: " + e.getMessage());
-		}
+        }
 		return resp;
-    }
+	}
 }

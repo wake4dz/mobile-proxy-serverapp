@@ -203,8 +203,11 @@ public class LogUtil {
     
 	}
 	
-	/*
-	 * concatenate all relevant URL request data 
+	/**
+	 * Concatenate all relevant URL request data
+	 * 
+	 * @param arguments
+	 * @return
 	 */
 	public static String getRequestData(Object... arguments) {
 		
@@ -365,15 +368,15 @@ public class LogUtil {
 		messages.add("");
 		
 		messages.add(pad("The 'chain' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("chain"));
+				MWGApplicationConstants.getSystemPropertyValue("chain"));
 		messages.add(pad("The 'url' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("url"));
+				MWGApplicationConstants.getSystemPropertyValue("url"));
 		messages.add(pad("The 'coupon_service' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("coupon_service"));
+				MWGApplicationConstants.getSystemPropertyValue("coupon_service"));
 		messages.add(pad("The 'cors' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("cors"));
+				MWGApplicationConstants.getSystemPropertyValue("cors"));
 		messages.add(pad("The 'enable_cart_item_locator' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("enable_cart_item_locator"));
+				MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator"));
 		
 		messages.add(pad("The 'api_high_timeout' system property:") +
 				VcapProcessor.getApiHighTimeout());
@@ -387,7 +390,7 @@ public class LogUtil {
 				System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME));
 		
 		messages.add(pad("The 'plastic_bag_fee' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
+				MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee"));
 		
 		messages.add(pad("The 'wallet_service' system property:") +
 				VcapProcessor.getWalletService());
@@ -429,19 +432,19 @@ public class LogUtil {
 			messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
 			
 			messages.add("<tr><td>chain</td>" + "<td>" +
-					MWGApplicationConstants.getSystemProperytyValue("chain") + "</td> </tr>");
+					MWGApplicationConstants.getSystemPropertyValue("chain") + "</td> </tr>");
 	
 			messages.add("<tr><td>url</td>" + "<td>" +
-					MWGApplicationConstants.getSystemProperytyValue("url") + "</td> </tr>");
+					MWGApplicationConstants.getSystemPropertyValue("url") + "</td> </tr>");
 	
 			messages.add("<tr><td>coupon_service</td>" + "<td>" +
-					MWGApplicationConstants.getSystemProperytyValue("coupon_service") + "</td> </tr>");
+					MWGApplicationConstants.getSystemPropertyValue("coupon_service") + "</td> </tr>");
 			
 			messages.add("<tr><td>cors</td>" + "<td>" +
-					MWGApplicationConstants.getSystemProperytyValue("cors") + "</td> </tr>");
+					MWGApplicationConstants.getSystemPropertyValue("cors") + "</td> </tr>");
 	
 			messages.add("<tr><td>enable_cart_item_locator</td>" + "<td>" +
-					MWGApplicationConstants.getSystemProperytyValue("enable_cart_item_locator") + "</td> </tr>");
+					MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator") + "</td> </tr>");
 			
 			messages.add("<tr><td>api_high_timeout</td>" + "<td>" +
 					VcapProcessor.getApiHighTimeout() + "</td> </tr>");
@@ -459,7 +462,7 @@ public class LogUtil {
 					System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME) + "</td></tr>");
 			
 			messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
-					formatStores(MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee")) + "</td> </tr>");
+					formatStores(MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee")) + "</td> </tr>");
 			
 			messages.add("<tr><td>wallet_service</td>" + "<td>" +
 					VcapProcessor.getWalletService() + "</td> </tr>");

@@ -116,7 +116,7 @@ public class GetServicesStatus extends BaseService{
 	    	try {
 			WakefernAuth auth = new WakefernAuth();
 			String itemLocResp = auth.getInfo(
-					MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+					MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
 			serviceStatus = "active";
 	    	} catch(Exception e) {
 	    		logger.error("[GetServicesStatus]:: Item Locator exception resp: "+e.getMessage());
@@ -198,7 +198,7 @@ public class GetServicesStatus extends BaseService{
     }
     
     private void verifyVCAP(String vcapName, StringBuilder sb) {
-    		if(!notNullEmpty(MWGApplicationConstants.getSystemProperytyValue(vcapName))){
+    		if(!notNullEmpty(MWGApplicationConstants.getSystemPropertyValue(vcapName))){
 			sb.append(vcapName); sb.append(" / ");
     		}
     }

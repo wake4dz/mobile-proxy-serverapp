@@ -9,3 +9,4 @@
 config/auths.yml
 shopritemobileapplication.iml
 target/
+bin/

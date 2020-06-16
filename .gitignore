@@ -8,3 +8,4 @@ shopritemobileapplication.iml
 /config/auths.yml
 .classpath
 .project
+bin/

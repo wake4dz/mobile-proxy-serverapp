@@ -302,18 +302,14 @@ public class WakefernApplicationConstants {
         public static class RequestsParamsPath {
         	public static final String userId = "userId";
         	public static final String dishId = "dishId";
-
         }
 
         
         public static class Upstream {
     		public static final String version = "/v1";
     		
-    		public static final String prodBaseURL = "";
+    		public static final String prodBaseURL = "http://cookit-api.locai.io" + version;
     		public static final String stagingBaseURL = "https://cookit-api-stg.locai.io" + version;
-    		
-
-    		
         }
     }
 }

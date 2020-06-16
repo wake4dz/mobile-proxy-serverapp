@@ -38,8 +38,6 @@ public class GetPointsForPPC extends BaseService {
 	@Consumes(MWGApplicationConstants.Headers.generic)
 	@Path("/{ppc}")
 	public Response getInfoResponseV2(@PathParam("ppc") String ppc) {
-		logger.info("NEW ppc points");
-
 		return this.getPoints(ppc);
 	}
 

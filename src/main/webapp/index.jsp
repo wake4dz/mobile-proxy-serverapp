@@ -40,11 +40,8 @@
 </head>
 <body>
 	<br /> <br /> 
-	<h1>Server Status</h1>
-	
-	<br /> 
 	<%
-		for (String message : LogUtil.getWelcomeHtmlMessages()) {
+		for (String message : LogUtil.getWelcomeHtmlMessages(request.getRemoteAddr())) {
 				out.println(message);;
 		}
 	%>

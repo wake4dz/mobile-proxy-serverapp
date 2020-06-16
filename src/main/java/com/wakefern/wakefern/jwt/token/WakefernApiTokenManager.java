@@ -112,7 +112,7 @@ public class WakefernApiTokenManager {
 
             wkfn.put(ApplicationConstants.Requests.Header.contentType, "text/plain");
             wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization,
-                    MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+                    MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
 
             String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiLowTimeout());
             logger.debug("Response from wakefern api: " + response);

@@ -47,7 +47,7 @@ public class SmsEnrollment extends BaseService{
         headerMap.put(WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersionHeaderKey,
 				WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersion);
 		headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
-				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
+				MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
 		try {
 			URIBuilder builder = new URIBuilder(WakefernApplicationConstants.SmsEnrollment.Upstream.BaseURL);
 			builder.setPath( WakefernApplicationConstants.SmsEnrollment.Upstream.Path)
@@ -81,7 +81,7 @@ public class SmsEnrollment extends BaseService{
 		headerMap.put(ApplicationConstants.Requests.Header.contentAccept,
 				WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType);
 		headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
-				MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
+				MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
 
 		try {
 			JSONObject payload = new JSONObject();

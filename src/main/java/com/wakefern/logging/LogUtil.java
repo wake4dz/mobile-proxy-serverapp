@@ -203,8 +203,11 @@ public class LogUtil {
     
 	}
 	
-	/*
-	 * concatenate all relevant URL request data 
+	/**
+	 * Concatenate all relevant URL request data
+	 * 
+	 * @param arguments
+	 * @return
 	 */
 	public static String getRequestData(Object... arguments) {
 		
@@ -365,15 +368,15 @@ public class LogUtil {
 		messages.add("");
 		
 		messages.add(pad("The 'chain' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("chain"));
+				MWGApplicationConstants.getSystemPropertyValue("chain"));
 		messages.add(pad("The 'url' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("url"));
+				MWGApplicationConstants.getSystemPropertyValue("url"));
 		messages.add(pad("The 'coupon_service' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("coupon_service"));
+				MWGApplicationConstants.getSystemPropertyValue("coupon_service"));
 		messages.add(pad("The 'cors' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("cors"));
+				MWGApplicationConstants.getSystemPropertyValue("cors"));
 		messages.add(pad("The 'enable_cart_item_locator' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("enable_cart_item_locator"));
+				MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator"));
 		
 		messages.add(pad("The 'api_high_timeout' system property:") +
 				VcapProcessor.getApiHighTimeout());
@@ -387,10 +390,13 @@ public class LogUtil {
 				System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME));
 		
 		messages.add(pad("The 'plastic_bag_fee' system property:") +
-				MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee"));
+				MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee"));
 		
 		messages.add(pad("The 'recipe_service' system property:") +
 				VcapProcessor.getRecipeService());
+
+		messages.add(pad("The 'wallet_service' system property:") +
+				VcapProcessor.getWalletService());
 		
 		messages.add("");
 
@@ -405,68 +411,74 @@ public class LogUtil {
 	/*
 	 * get the welcome message for the index.jsp
 	 */
-	public static List<String> getWelcomeHtmlMessages() {
+	public static List<String> getWelcomeHtmlMessages(String clientIp) {
 		List<String> messages = new ArrayList<>();
 		
-		messages.add("<table id=\"envVariable\">");
-		messages.add("<tr> <th>Release Property Name</th> <th>Release Property Value</th></tr>");
-		
-		messages.add("<tr><td>version</td>" + "<td>" +
-				ReleaseUtil.getReleaseLines().get(0).substring(ReleaseUtil.getReleaseLines().get(0).indexOf("=") + 1).trim() + "</td> </tr>");		
-
-		messages.add("<tr><td>date</td>" + "<td>" +
-				ReleaseUtil.getReleaseLines().get(1).substring(ReleaseUtil.getReleaseLines().get(1).indexOf("=") + 1).trim() + "</td> </tr>");	
-		
-		messages.add("<tr><td>branch</td>" + "<td>" +
-				ReleaseUtil.getReleaseLines().get(2).substring(ReleaseUtil.getReleaseLines().get(2).indexOf("=") + 1).trim() + "</td> </tr>");	
-		
-		
-		messages.add("</table> <br /> <br />");
-		
-		messages.add("<table id=\"envVariable\">");
-		messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
-		
-		messages.add("<tr><td>chain</td>" + "<td>" +
-				MWGApplicationConstants.getSystemProperytyValue("chain") + "</td> </tr>");
-
-		messages.add("<tr><td>url</td>" + "<td>" +
-				MWGApplicationConstants.getSystemProperytyValue("url") + "</td> </tr>");
-
-		messages.add("<tr><td>coupon_service</td>" + "<td>" +
-				MWGApplicationConstants.getSystemProperytyValue("coupon_service") + "</td> </tr>");
-		
-		messages.add("<tr><td>cors</td>" + "<td>" +
-				MWGApplicationConstants.getSystemProperytyValue("cors") + "</td> </tr>");
-
-		messages.add("<tr><td>enable_cart_item_locator</td>" + "<td>" +
-				MWGApplicationConstants.getSystemProperytyValue("enable_cart_item_locator") + "</td> </tr>");
-		
-		messages.add("<tr><td>api_high_timeout</td>" + "<td>" +
-				VcapProcessor.getApiHighTimeout() + "</td> </tr>");
-
-		messages.add("<tr><td>api_medium_timeout</td>" + "<td>" +
-				VcapProcessor.getApiMediumTimeout() + "</td> </tr>");
-		
-		messages.add("<tr><td>api_low_timeout</td>" + "<td>" +
-				VcapProcessor.getApiLowTimeout() + "</td> </tr>");
-
-		messages.add("<tr><td>http_default_connect_timeout_ms</td><td>"+
-				System.getenv(HTTPRequest.HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME) + "</td></tr>");
-
-		messages.add("<tr><td>http_default_read_timeout_ms</td><td>"+
-				System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME) + "</td></tr>");
-		
-		messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
-				formatStores(MWGApplicationConstants.getSystemProperytyValue("plastic_bag_fee")) + "</td> </tr>");
-		
-		messages.add("<tr><td>recipe_service</td>" + "<td>" +
-				VcapProcessor.getRecipeService() + "</td> </tr>");
-		
-		messages.add("</table> <br /> <br />");
-
-		messages.add("<h2>The current IP address: " + ipAddress + "</h2>");
-		
-		messages.add("<h1>The mobile app's back-end is ready to serve...</h1>");
+		if (isAuthorized(clientIp) ) {
+			messages.add("<h1> Server Status </h1> <br />");
+			messages.add("<table id=\"envVariable\">");
+			messages.add("<tr> <th>Release Property Name</th> <th>Release Property Value</th></tr>");
+			
+			messages.add("<tr><td>version</td>" + "<td>" +
+					ReleaseUtil.getReleaseLines().get(0).substring(ReleaseUtil.getReleaseLines().get(0).indexOf("=") + 1).trim() + "</td> </tr>");		
+	
+			messages.add("<tr><td>date</td>" + "<td>" +
+					ReleaseUtil.getReleaseLines().get(1).substring(ReleaseUtil.getReleaseLines().get(1).indexOf("=") + 1).trim() + "</td> </tr>");	
+			
+			messages.add("<tr><td>branch</td>" + "<td>" +
+					ReleaseUtil.getReleaseLines().get(2).substring(ReleaseUtil.getReleaseLines().get(2).indexOf("=") + 1).trim() + "</td> </tr>");	
+			
+			
+			messages.add("</table> <br /> <br />");
+			
+			messages.add("<table id=\"envVariable\">");
+			messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
+			
+			messages.add("<tr><td>chain</td>" + "<td>" +
+					MWGApplicationConstants.getSystemPropertyValue("chain") + "</td> </tr>");
+	
+			messages.add("<tr><td>url</td>" + "<td>" +
+					MWGApplicationConstants.getSystemPropertyValue("url") + "</td> </tr>");
+	
+			messages.add("<tr><td>coupon_service</td>" + "<td>" +
+					MWGApplicationConstants.getSystemPropertyValue("coupon_service") + "</td> </tr>");
+			
+			messages.add("<tr><td>cors</td>" + "<td>" +
+					MWGApplicationConstants.getSystemPropertyValue("cors") + "</td> </tr>");
+	
+			messages.add("<tr><td>enable_cart_item_locator</td>" + "<td>" +
+					MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator") + "</td> </tr>");
+			
+			messages.add("<tr><td>api_high_timeout</td>" + "<td>" +
+					VcapProcessor.getApiHighTimeout() + "</td> </tr>");
+	
+			messages.add("<tr><td>api_medium_timeout</td>" + "<td>" +
+					VcapProcessor.getApiMediumTimeout() + "</td> </tr>");
+			
+			messages.add("<tr><td>api_low_timeout</td>" + "<td>" +
+					VcapProcessor.getApiLowTimeout() + "</td> </tr>");
+	
+			messages.add("<tr><td>http_default_connect_timeout_ms</td><td>"+
+					System.getenv(HTTPRequest.HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME) + "</td></tr>");
+	
+			messages.add("<tr><td>http_default_read_timeout_ms</td><td>"+
+					System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME) + "</td></tr>");
+			
+			messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
+					formatStores(MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee")) + "</td> </tr>");
+			
+			messages.add("<tr><td>wallet_service</td>" + "<td>" +
+					VcapProcessor.getWalletService() + "</td> </tr>");
+			
+			messages.add("</table> <br /> <br />");
+	
+			messages.add("<h2>The current IP address: " + ipAddress + "</h2>");
+			
+			messages.add("<h1>The mobile app's back-end is ready to serve...</h1>");
+			
+		} else {
+			// nothing displayed as Mark wants this way
+		}
 		
 		return messages;
 	}
@@ -573,5 +585,37 @@ public class LogUtil {
 		}
 		
 		return sb.toString();
+	}
+	
+	// to check if a client IP address is either from a local Dev env or Wakefern's Intranet/VPN
+	// Mark Covello on 5/27/2020 states the Wakefern IP range is from 65.51.66.0  to 65.51.66.255 as externally facing
+	public static boolean isAuthorized(String clientIp) {
+		boolean isAuthorized = false;
+		
+		//determine ipv4 or ipv6
+		int dotCount = 0; 
+		for (int i = 0; i < clientIp.length(); i++) {
+		    if (clientIp.charAt(i) == '.') {
+		        dotCount++;
+		    }
+		}
+		
+		if (clientIp.equalsIgnoreCase("127.0.0.1")) {
+			isAuthorized = true;
+		} else if (dotCount == 3) { //ipv4 format
+			String[] ipRanges = clientIp.split("\\.");
+			
+			// Wakefern IP range is from 65.51.66.0  to 65.51.66.255 
+			if (Integer.valueOf(ipRanges[0]) == 65 && Integer.valueOf(ipRanges[1]) == 51 && Integer.valueOf(ipRanges[2]) == 66 &&
+					(Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 255 ))) {
+				isAuthorized = true;
+			} 
+		} else { //ipv6 format
+			isAuthorized = false;
+		}
+		
+		logger.info("The client IP of " + clientIp + "'s authorizatin is: " + isAuthorized);
+		
+		return isAuthorized;
 	}
 }

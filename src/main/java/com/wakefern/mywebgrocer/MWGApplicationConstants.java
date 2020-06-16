@@ -80,20 +80,20 @@ public class MWGApplicationConstants {
 		switch (targetAPI) {
 		case fgStage:
 		case fgProd:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.TFG_MWG_PROD_KEY);
+			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.TFG_MWG_PROD_KEY);
 			break;
 //		case srDev:
 //			appToken = shopRiteDevToken;
 //			break;
 		case srStage:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_STAGE_KEY);
+			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_STAGE_KEY);
 			break;
 		case srProd:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
+			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
 			break;
 
 		default:
-			appToken = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
+			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
 		}
 
 		return appToken;
@@ -109,8 +109,8 @@ public class MWGApplicationConstants {
 		String targetAPI = getTargetAPI();
 
 		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd))
-				?  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.TFG_PRODUCT_RECOMMENDATION_KEY)
-				:  MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
+				?  MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.TFG_PRODUCT_RECOMMENDATION_KEY)
+				:  MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
 		return appToken;
 	}
@@ -122,7 +122,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	public static String getTargetAPI() {
-		String targetAPI = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.CHAIN);
+		String targetAPI = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.CHAIN);
 
 		// On a local Dev server, the environment variable won't exist unless you have
 		// specifically set it up yourself.
@@ -152,8 +152,8 @@ public class MWGApplicationConstants {
 	/**
 	 * The generic way to get the system property value
 	 */
-	public static String getSystemProperytyValue(String key) {
-		return  java.lang.System.getenv(key.trim());
+	public static String getSystemPropertyValue(String key) {
+		return java.lang.System.getenv(key.trim());
 
 	}
 
@@ -164,7 +164,7 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	private static String getTargetProdURL() {
-		String targetProdURL = MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.URL);
+		String targetProdURL = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.URL);
 
 		// Assigning mwg production api for cloud server to call..
 		//
@@ -180,7 +180,7 @@ public class MWGApplicationConstants {
 
 		public static final String generic = "application/*";
 		public static final String json = "application/json";
-		public static final String wakefern_services = "application/wakefern-services";
+		public static final String wakefernV1 = "application/vnd.wakefern.v1+json";
 
 		public static class Params {
 			public static final String auth = "Authorization";

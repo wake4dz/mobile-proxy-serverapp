@@ -470,6 +470,9 @@ public class LogUtil {
 			messages.add("<tr><td>wallet_service</td>" + "<td>" +
 					VcapProcessor.getWalletService() + "</td> </tr>");
 			
+			messages.add("<tr><td>recipe_service</td>" + "<td>" +
+					VcapProcessor.getRecipeService() + "</td> </tr>");
+			
 			messages.add("</table> <br /> <br />");
 	
 			messages.add("<h2>The current IP address: " + ipAddress + "</h2>");

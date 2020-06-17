@@ -334,9 +334,7 @@ public class WakefernApplicationConstants {
         public static class Upstream {
     		public static final String version_1 = "/v1";
     		
-    		//@TODO will need the https protocol from Locai's Prod system
-    		public static final String prodBaseURL = "http://cookit-api.locai.io" + version_1;
-    		
+    		public static final String prodBaseURL = "https://cookit-api.locai.io" + version_1;
     		public static final String stagingBaseURL = "https://cookit-api-stg.locai.io" + version_1;
         }
     }

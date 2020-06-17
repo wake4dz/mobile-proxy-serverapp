@@ -17,18 +17,23 @@ public class VcapProcessor {
 	private static int apiHighTimeout = 0;
 	private static int apiMediumTimeout = 0;
 	private static int apiLowTimeout = 0;
-
+	
+	private static String recipeService = null;
+	private static String recipeClientId = null;
+	private static String recipeApiKeyStaging = null;
+	private static String recipeApiKeyProd = null;
+	
 	private static String walletService = null;
 	private static String srWalletKeyProd = null;
 	private static String srWalletKeyStaging = null;
 
 	private static String userJwtSecret = null;
-
-	// this static code is not run until the class is loaded into the memory for the
-	// first time
-	static {
+	
+	//this static code is not run until the class is loaded into the memory for the first time
+	//system settings are fetched once, store them in the heap memory for quick access
+	static {  
 		try {
-			apiHighTimeout = getVcapValue("api_high_timeout");
+			apiHighTimeout = getVcapValue(WakefernApplicationConstants.VCAPKeys.API_HIGH_TIMEOUT);
 
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
@@ -36,19 +41,37 @@ public class VcapProcessor {
 		}
 
 		try {
-			apiMediumTimeout = getVcapValue("api_medium_timeout");
-
+			apiMediumTimeout = getVcapValue(WakefernApplicationConstants.VCAPKeys.API_MEDIUM_TIMEOUT);
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
 			throw new RuntimeException("api_medium_timeout must have an integer value in millisecond!");
 		}
 
 		try {
-			apiLowTimeout = getVcapValue("api_low_timeout");
-
+			apiLowTimeout = getVcapValue(WakefernApplicationConstants.VCAPKeys.API_LOW_TIMEOUT);
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
 			throw new RuntimeException("api_low_timeout must have an integer value in milliseconds");
+		}
+	
+		recipeService = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_SERVICE);
+		if ((recipeService == null) || (recipeService.trim().length() == 0)) {	
+			throw new RuntimeException("recipe_service must have a non-empty value");
+		}
+
+		recipeClientId = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_CLIENT_ID_KEY);
+		if ((recipeClientId == null) || (recipeClientId.trim().length() == 0)) {
+			throw new RuntimeException("recipe_client_id_key must have a non-empty value");
+		}
+
+		recipeApiKeyStaging = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_API_STAGE_KEY);
+		if (( recipeApiKeyStaging == null) || ( recipeApiKeyStaging.trim().length() == 0)) {
+			throw new RuntimeException("recipe_api_stage_key must have a non-empty value");
+		}
+
+		recipeApiKeyProd = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.RECIPE_API_PROD_KEY);
+		if ((recipeApiKeyProd == null) || (recipeApiKeyProd.trim().length() == 0)) {
+			throw new RuntimeException("recipe_api_prod_key must have a non-empty value");
 		}
 
 		walletService = MWGApplicationConstants
@@ -75,6 +98,7 @@ public class VcapProcessor {
 			throw new RuntimeException(
 					WakefernApplicationConstants.VCAPKeys.USER_JWT_SECRET + " must have a non-empty value");
 		}
+
 	}
 
 	public static int getApiHighTimeout() {
@@ -87,6 +111,26 @@ public class VcapProcessor {
 
 	public static int getApiLowTimeout() {
 		return apiLowTimeout;
+	}
+
+	public static String getRecipeService() {
+		return recipeService;
+	}
+
+	public static String getRecipeClientId() {
+		return recipeClientId;
+	}
+
+	public static String getRecipeApiKeyStaging() {
+		return recipeApiKeyStaging;
+	}
+
+	public static void setRecipeApiKeyStaging(String recipeApiKeyStaging) {
+		VcapProcessor.recipeApiKeyStaging = recipeApiKeyStaging;
+	}
+
+	public static String getRecipeApiKeyProd() {
+		return recipeApiKeyProd;
 	}
 
 	/**
@@ -131,4 +175,22 @@ public class VcapProcessor {
 	public static String getUserJwtSecret() {
 		return userJwtSecret;
 	}
+
+	public static String getTargetRecipeLocaiServiceEndpoint() {
+		if (recipeService.trim().equalsIgnoreCase("staging")) {
+			return WakefernApplicationConstants.RecipeLocai.Upstream.stagingBaseURL;
+		} else {
+			return WakefernApplicationConstants.RecipeLocai.Upstream.prodBaseURL;
+		}
+	}
+		
+	
+	public static String getTargetRecipeLocaiApiKey() {
+		if (recipeService.trim().equalsIgnoreCase("staging")) {
+			return recipeApiKeyStaging;
+		} else {
+			return recipeApiKeyProd;
+		}
+	}
+
 }

@@ -28,9 +28,16 @@ applications:
     http_default_connect_timeout_ms: ((HTTP_DEFAULT_CONNECT_TIMEOUT_MS))
     http_default_read_timeout_ms: ((HTTP_DEFAULT_READ_TIMEOUT_MS))
     timeout: 180 # ibmcloud health check timeout
+
+    recipe_service: ((RECIPE_SERVICE))
+    recipe_client_id_key: ((RECIPE_CLIENT_ID_KEY))
+    recipe_api_stage_key: ((RECIPE_API_STG_KEY))
+    recipe_api_prod_key: ((RECIPE_API_PRD_KEY))
+
     wallet_service: ((WALLET_SERVICE))
     sr_wallet_prod_key: ((SR_WALLET_PRD_KEY))
     sr_wallet_stage_key: ((SR_WALLET_STG_KEY))
     user_jwt_secret: ((USER_JWT_SECRET))
+
   services:
   - ((SRMOBILE_PAPERTRAIL))

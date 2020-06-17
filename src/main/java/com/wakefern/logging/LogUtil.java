@@ -392,6 +392,9 @@ public class LogUtil {
 		messages.add(pad("The 'plastic_bag_fee' system property:") +
 				MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee"));
 		
+		messages.add(pad("The 'recipe_service' system property:") +
+				VcapProcessor.getRecipeService());
+
 		messages.add(pad("The 'wallet_service' system property:") +
 				VcapProcessor.getWalletService());
 		
@@ -466,6 +469,9 @@ public class LogUtil {
 			
 			messages.add("<tr><td>wallet_service</td>" + "<td>" +
 					VcapProcessor.getWalletService() + "</td> </tr>");
+			
+			messages.add("<tr><td>recipe_service</td>" + "<td>" +
+					VcapProcessor.getRecipeService() + "</td> </tr>");
 			
 			messages.add("</table> <br /> <br />");
 	

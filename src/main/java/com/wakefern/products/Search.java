@@ -54,7 +54,7 @@ public class Search extends BaseService {
 			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
 			@HeaderParam(MWGApplicationConstants.Headers.Params.reservedTimeslot) String reservedTimeslot) {
 		try {
-			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.productList,
+			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.wakefernProductList,
 					MWGApplicationConstants.Headers.json, sessionToken, reservedTimeslot);
 			this.requestParams = new HashMap<String, String>();
 			this.queryParams = new HashMap<String, String>();
@@ -87,8 +87,9 @@ public class Search extends BaseService {
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.searchBySound, searchBySound);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, takeCount);
 			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.userID, userID);
-      
-			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_SEARCH, MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_SEARCH));
+
+			String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_SEARCH,
+					MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_SEARCH));
 
 			if (LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {

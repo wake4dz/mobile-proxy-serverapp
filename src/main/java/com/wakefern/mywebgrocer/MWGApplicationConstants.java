@@ -6,27 +6,37 @@ public class MWGApplicationConstants {
 	private static final String shopRiteProd = "https://mobileapi.shoprite.com/api"; // ShopRite Production
 	private static final String shopRiteProdWeb = "https://api.shoprite.com/api"; // ShopRite Production
 
-	//TODO
-	//    There is no reliable ShopRiteDev environment from MWG, so we disabled all dev related configurations.
-	//    Note: if chain=ShopRiteStage, it is pointed to the mobile version regardless what "url" is set
-	//    This Java file needs to be re-factored in the future to streamline the process
+	// TODO
+	// There is no reliable ShopRiteDev environment from MWG, so we disabled all dev
+	// related configurations.
+	// Note: if chain=ShopRiteStage, it is pointed to the mobile version regardless
+	// what "url" is set
+	// This Java file needs to be re-factored in the future to streamline the
+	// process
 
-	//private static final String shopRiteStageWeb = "https://api-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
-	private static final String shopRiteStage = "https://mobileapi-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api"; // ShopRite Staging
+	// private static final String shopRiteStageWeb =
+	// "https://api-sr75stg.staging.shoprite.com/api";//"https://api-sr75stg.staging.shoprite.com/api";
+	// // ShopRite Staging
+	private static final String shopRiteStage = "https://mobileapi-sr75stg.staging.shoprite.com/api";// "https://api-sr75stg.staging.shoprite.com/api";
+																										// // ShopRite
+																										// Staging
 
-	//private static final String shopRiteDev = "https://api.dev.shoprite.com/api"; // ShopRite Development
+	// private static final String shopRiteDev = "https://api.dev.shoprite.com/api";
+	// // ShopRite Development
 
 	private static final String freshGrocerProd = "https://api.thefreshgrocer.com/api"; // FreshGrocer Production
-	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer Staging
+	private static final String freshGrocerStage = "https://api-fg75stg.staging.thefreshgrocer.com/api"; // FreshGrocer
+																											// Staging
 
 	private static final String fgStage = "FreshGrocerStage";
 	private static final String fgProd = "FreshGrocerProd";
 	private static final String srStage = "ShopRiteStage";
 	private static final String srProd = "ShopRiteProd";
-	//private static final String srDev = "ShopRiteDev";
+	// private static final String srDev = "ShopRiteDev";
 
-	//By default, mobile is calling mobileapi.shoprite.com, when value 'web' is specified
-	//	in vcap env var 'url', mobile will call api.shoprite.com
+	// By default, mobile is calling mobileapi.shoprite.com, when value 'web' is
+	// specified
+	// in vcap env var 'url', mobile will call api.shoprite.com
 	private static final String mwgWeb = "web";
 
 	/**
@@ -63,7 +73,7 @@ public class MWGApplicationConstants {
 		return baseURL;
 	}
 
-	public static String getSRWebURL(){
+	public static String getSRWebURL() {
 		return shopRiteProdWeb;
 	}
 
@@ -80,20 +90,24 @@ public class MWGApplicationConstants {
 		switch (targetAPI) {
 		case fgStage:
 		case fgProd:
-			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.TFG_MWG_PROD_KEY);
+			appToken = MWGApplicationConstants
+					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.TFG_MWG_PROD_KEY);
 			break;
 //		case srDev:
 //			appToken = shopRiteDevToken;
 //			break;
 		case srStage:
-			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_STAGE_KEY);
+			appToken = MWGApplicationConstants
+					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_STAGE_KEY);
 			break;
 		case srProd:
-			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
+			appToken = MWGApplicationConstants
+					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
 			break;
 
 		default:
-			appToken = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
+			appToken = MWGApplicationConstants
+					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY);
 		}
 
 		return appToken;
@@ -109,8 +123,10 @@ public class MWGApplicationConstants {
 		String targetAPI = getTargetAPI();
 
 		appToken = (targetAPI.equals(fgStage) || targetAPI.equals(fgProd))
-				?  MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.TFG_PRODUCT_RECOMMENDATION_KEY)
-				:  MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
+				? MWGApplicationConstants
+						.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.TFG_PRODUCT_RECOMMENDATION_KEY)
+				: MWGApplicationConstants
+						.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
 		return appToken;
 	}
@@ -133,7 +149,7 @@ public class MWGApplicationConstants {
 		// FreshGrocer Staging : fgStage
 		targetAPI = (targetAPI == null) ? srStage : targetAPI;
 
-		 return targetAPI;
+		return targetAPI;
 	}
 
 	/**
@@ -143,11 +159,9 @@ public class MWGApplicationConstants {
 	 */
 	public static String getApplicationMode() {
 		String targetAPI = getTargetAPI();
-		return targetAPI.equals(fgStage) || targetAPI.equals(fgProd)
-			? WakefernApplicationConstants.Chains.FreshGrocer
-			: WakefernApplicationConstants.Chains.ShopRite;
+		return targetAPI.equals(fgStage) || targetAPI.equals(fgProd) ? WakefernApplicationConstants.Chains.FreshGrocer
+				: WakefernApplicationConstants.Chains.ShopRite;
 	}
-
 
 	/**
 	 * The generic way to get the system property value
@@ -164,13 +178,15 @@ public class MWGApplicationConstants {
 	 * @return String
 	 */
 	private static String getTargetProdURL() {
-		String targetProdURL = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.URL);
+		String targetProdURL = MWGApplicationConstants
+				.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.URL);
 
 		// Assigning mwg production api for cloud server to call..
 		//
 		// ShopRite Prod Mobile or other keywords: https://mobileapi.shoprite.com/api
 		// ShopRite Prod Web : https://api.shoprite.com/api
-		targetProdURL = (targetProdURL != null && targetProdURL.equalsIgnoreCase(mwgWeb)) ? shopRiteProdWeb : shopRiteProd;
+		targetProdURL = (targetProdURL != null && targetProdURL.equalsIgnoreCase(mwgWeb)) ? shopRiteProdWeb
+				: shopRiteProd;
 
 		return targetProdURL;
 	}
@@ -211,6 +227,7 @@ public class MWGApplicationConstants {
 			public static final String categories = prefix + "category+json";
 			public static final String categoriesPlugin = prefix + "category-plugin+json";
 			public static final String countries = prefix + "product-country-of-origin+json";
+			public static final String wakefernProductList = prefix + "wakefern-product-list+json";
 			public static final String productList = prefix + "product-list+json";
 			public static final String product = prefix + "product+json";
 			public static final String accept = prefix + "grocery-list+json";
@@ -276,7 +293,7 @@ public class MWGApplicationConstants {
 
 		public static class Checkout {
 			public static final String promoCodes = prefix + "promo-code+json";
-			public static final String substitutions = prefix +"substitutions+json";
+			public static final String substitutions = prefix + "substitutions+json";
 			public static final String userFSN = prefix + "frequent-shopper-number+json";
 			public static final String comments = prefix + "comments+json";
 			public static final String links = prefix + "links+json";
@@ -286,10 +303,11 @@ public class MWGApplicationConstants {
 			public static final String fulfillOpts = prefix + "fulfillment-options+json";
 			public static final String fulfillDates = prefix + "fulfillment-dates+json"; // Available fulfillment dates.
 			public static final String fulfillTimes = prefix + "fulfillment-times+json"; // Available fulfillment times.
-			public static final String fulfillSlot = prefix + "fulfillment-slot+json"; // User-specific fulfillment time slots.
+			public static final String fulfillSlot = prefix + "fulfillment-slot+json"; // User-specific fulfillment time
+																						// slots.
 
 			public static final String deliveryInfoV2 = prefix + "delivery-info-v2+json";
-			//public static final String checkoutV2 = prefix + "checkout-v2+json";
+			// public static final String checkoutV2 = prefix + "checkout-v2+json";
 			public static final String checkoutV3 = prefix + "checkout-v3+json";
 			public static final String paymentsV3 = prefix + "payments-v3+json";
 			public static final String checkoutResults = prefix + "checkout-results+json";
@@ -392,7 +410,6 @@ public class MWGApplicationConstants {
 			// Get a user's full profile
 			public static final String profile = chainsID + usersID;
 
-
 			// Get a user's full profile
 			public static final String addresses = chainsID + usersID + "/addresses";
 
@@ -408,7 +425,8 @@ public class MWGApplicationConstants {
 			// Retrieve Session Token & Guest User ID
 			public static final String authorize = "/authorization";
 
-			// The "token" path param here is the "secret" provided by MWG to the Mobile App.
+			// The "token" path param here is the "secret" provided by MWG to the Mobile
+			// App.
 			public static final String checkout = authorize + "/{" + Params.Path.token + "}/authenticate";
 			public static final String delete = authorize + "/{" + Params.Path.token + "}";
 		}
@@ -444,8 +462,10 @@ public class MWGApplicationConstants {
 			public static final String prefix = "/product/v7";
 
 			public static final String categories = "/categories" + storeID;
-			public static final String circCategoriesWeeklySpecials = "/categories" + storeID + "/circular-product-categories/all-weekly-specials";
-			public static final String circCategoriesProductDetail = "/categories" + storeID + "/circular-product-categories/{" + Params.Path.circCategoriesID + "}";
+			public static final String circCategoriesWeeklySpecials = "/categories" + storeID
+					+ "/circular-product-categories/all-weekly-specials";
+			public static final String circCategoriesProductDetail = "/categories" + storeID
+					+ "/circular-product-categories/{" + Params.Path.circCategoriesID + "}";
 
 			public static final String subCategories = parentCatID + storeID + "/categories";
 			public static final String catsWithSales = categories + sales;
@@ -468,9 +488,11 @@ public class MWGApplicationConstants {
 			public static final String featuredProdsByCat = products + categoryID + storeID + featured;
 			public static final String saleItemsByCat = products + categoryID + storeID + sales;
 
-			// This is a Products endpoint, but it's only used as part of the Circular functionality.
+			// This is a Products endpoint, but it's only used as part of the Circular
+			// functionality.
 			// Used to get all Products associated with a given Circular Item.
-			public static final String circItemProds = products + storeID + "/circular-item/{" + Params.Path.circItemID + "}";
+			public static final String circItemProds = products + storeID + "/circular-item/{" + Params.Path.circItemID
+					+ "}";
 		}
 
 		public static class Circulars {
@@ -554,18 +576,21 @@ public class MWGApplicationConstants {
 
 			// These items are specific to the Duplicate List functionality
 			//
-			// The Default Limit for the number of items to copy from an existing Shopping List to a new duplicate list.
-			// Each item has to be added to the new list via a separate request to the MWG API.
+			// The Default Limit for the number of items to copy from an existing Shopping
+			// List to a new duplicate list.
+			// Each item has to be added to the new list via a separate request to the MWG
+			// API.
 			// Which can result in a ridiculous number of requests for large lists.
-			// Wakefern's work-around is to cap the number of items that can be duplicated from one list to the next.
+			// Wakefern's work-around is to cap the number of items that can be duplicated
+			// from one list to the next.
 			public static final String strDupeCap = "20";
 			public static final int intDupeCap = Integer.parseInt(strDupeCap);
 			public static final String copyLimit = "/duplicate/limit";
 		}
 
 		public static class Vendor {
-			public static final String review = userID + storeID +"/review";
-			public static final String promos = userID + storeID +"/promos";
+			public static final String review = userID + storeID + "/review";
+			public static final String promos = userID + storeID + "/promos";
 		}
 
 		public static class Cart {
@@ -602,7 +627,7 @@ public class MWGApplicationConstants {
 			public static final String promoCodes = chainsID + storesID + usersID + "/promocodes";
 			public static final String promoCodeDelete = promoCodes + "/{" + Params.Path.promoCode + "}";
 
-			public static final String substitutions =  userID +storeID + "/substitutions";
+			public static final String substitutions = userID + storeID + "/substitutions";
 
 			public static final String fulfillOpts = fflmnts + mwgStoreID;
 			public static final String deliveryInfo = fulfillOpts + deliveryZip;
@@ -668,7 +693,6 @@ public class MWGApplicationConstants {
 
 		public static final String release = log + "/release";
 		public static final String releaseLevel = "/level";
-
 
 	}
 }

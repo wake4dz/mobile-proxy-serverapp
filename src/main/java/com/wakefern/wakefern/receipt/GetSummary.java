@@ -48,13 +48,11 @@ public class GetSummary extends BaseService {
 	@ValidatePPCWithJWT
 	@Produces(WakefernApplicationConstants.Headers.Accept.v1)
 	@Consumes(MWGApplicationConstants.Headers.generic)
-	@Path("/")
+	@Path("/v2")
 	public Response getInfoResponseV2(@PathParam("ppc") String ppc,
 			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String token,
 			@QueryParam(MWGApplicationConstants.Requests.Params.Query.startDate) String startDate,
 			@QueryParam(MWGApplicationConstants.Requests.Params.Query.endDate) String endDate) {
-
-		logger.info("NEW get receipts");
 		return this.getReceipts(ppc, startDate, endDate);
 	}
 

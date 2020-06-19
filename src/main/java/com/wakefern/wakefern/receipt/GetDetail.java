@@ -46,7 +46,7 @@ public class GetDetail extends BaseService {
 	@ValidatePPCWithJWT
 	@Produces(WakefernApplicationConstants.Headers.Accept.v1)
 	@Consumes(MWGApplicationConstants.Headers.generic)
-	@Path(WakefernApplicationConstants.Receipt.Proxy.Detail)
+	@Path("v2" + WakefernApplicationConstants.Receipt.Proxy.Detail)
 	public Response getInfoResponseV2(@PathParam("ppc") String ppc, @PathParam("receiptId") String receiptId) {
 		return this.getReceipt(ppc, receiptId);
 	}

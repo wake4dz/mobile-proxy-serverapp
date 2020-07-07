@@ -28,11 +28,17 @@ public class WakefernApplicationConstants {
 		public static final String COUPON_V2_KEY = "coupon_v2_key";
 		public static final String SR_MWG_STAGE_KEY = "sr_mwg_stage_key";
 		public static final String SR_MWG_PROD_KEY = "sr_mwg_prod_key";
+		
+		// 2020-06-29 remove The Fresh Grocer key/value in manifest.yml since we are not going to support it
 		public static final String TFG_MWG_PROD_KEY = "tfg_mwg_prod_key";
+		
 		public static final String JWT_PUBLIC_KEY = "jwt_public_key"; // use for digital receipt & item locator
 		public static final String PROD_NOT_FOUND_LOGIN = "prod_not_found_login";
 		public static final String SR_PRODUCT_RECOMMENDATION_KEY = "sr_product_recommendation_key";
+		
+		// 2020-06-29 remove The Fresh Grocer key/value in manifest.yml since we are not going to support it
 		public static final String TFG_PRODUCT_RECOMMENDATION_KEY = "tfg_product_recommendation_key";
+		
 		public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
 		public static final String APIM_NUTRITION_KEY = "apim_nutrition_key";
 		public static final String ENABLE_CART_ITEM_LOCATOR = "enable_cart_item_locator";

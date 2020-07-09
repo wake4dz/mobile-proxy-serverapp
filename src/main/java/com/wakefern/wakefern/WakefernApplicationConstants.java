@@ -317,6 +317,7 @@ public class WakefernApplicationConstants {
             public static final String saveDishFavorite = "saveDishFavorite/users/{userId}/dishes/{dishId}";
             public static final String getRecipeCategories = "getRecipeCategories";
             public static final String homepageConfig = "homepageConfig";
+            public static final String recipeTracking = "recipeTracking";
         }
         
         public static class RequestParamsQuery {

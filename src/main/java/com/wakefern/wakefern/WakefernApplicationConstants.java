@@ -369,4 +369,15 @@ public class WakefernApplicationConstants {
 			public static final String SessionToken = "sessionToken";
 		}
 	}
+
+	public static class MobileApp {
+		public static class AppUpdate {
+			public static final String Path = "app/updates";
+
+			public static class Upstream {
+				public static final String BaseURL = "https://itunes.apple.com/lookup?bundleId=";
+				public static final String AppBundleID = "com.wakefern.shoprite.shopriteapp";
+			}
+		}
+	}
 }

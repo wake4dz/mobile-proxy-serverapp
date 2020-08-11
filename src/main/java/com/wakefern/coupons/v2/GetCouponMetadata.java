@@ -15,7 +15,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -35,8 +34,6 @@ import com.wakefern.request.HTTPRequest;
 public class GetCouponMetadata extends BaseService {
 	private final static Logger logger = Logger.getLogger(GetCouponMetadata.class);
 
-	public JSONObject matchedObjects;
-	
     @POST
     @Consumes(MWGApplicationConstants.Headers.json)
     @Produces(MWGApplicationConstants.Headers.json)
@@ -44,7 +41,7 @@ public class GetCouponMetadata extends BaseService {
     									@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType, 
     									@HeaderParam(ApplicationConstants.Requests.Header.appVersion) String appVersion, 
     									@QueryParam(ApplicationConstants.Requests.CouponsV2.fsn) String fsn, 
-    									String jsonString) throws Exception, IOException {
+    									String jsonString) {
         //Execute POST
         this.requestPath = ApplicationUtils.constructCouponUrl(ApplicationConstants.Requests.CouponsV2.CouponMetadata, fsn).toString();
         Map<String, String> headerMap = new HashMap<String, String>();

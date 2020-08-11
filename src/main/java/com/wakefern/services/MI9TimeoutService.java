@@ -48,7 +48,7 @@ public class MI9TimeoutService {
 	//CHECKOUT
 	public static final String CHECKOUT_GET_STATE = "com.wakefern.checkout.users.GetCheckoutState";			//takes 6.6%
 	public static final String CHECKOUT_UPDATE_STATE = "com.wakefern.checkout.users.UpdateCheckoutState";	//takes 1.6%
-	public static final String CHECKOUT_CREATE_ORDERS = "package com.wakefern.checkout.orders.CreateOrders";
+	public static final String CHECKOUT_CREATE_ORDER = "package com.wakefern.checkout.orders.CreateOrder";
 	
 	private static Map<String, Integer> serviceTimeoutMap = null;
 	
@@ -88,7 +88,7 @@ public class MI9TimeoutService {
 		//CHECKOUT
 		serviceTimeoutMap.put(CHECKOUT_GET_STATE, MEDIUM_TO);
 		serviceTimeoutMap.put(CHECKOUT_UPDATE_STATE, HIGH_TO);
-		serviceTimeoutMap.put(CHECKOUT_CREATE_ORDERS, 40000);
+		serviceTimeoutMap.put(CHECKOUT_CREATE_ORDER, 40000);
 	}
 	
 	

@@ -69,6 +69,20 @@ public class UserJWT {
 	}
 
 	/**
+	 * Checks validity of JWT and returns PPC number (subject)
+	 */
+	public static String getPpcFromToken(String bearerToken) throws Exception {
+		String jws = bearerToken.replaceAll("Bearer ", "");
+
+		try {
+			String ppc = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jws).getBody().getSubject();
+			return ppc;
+		} catch (Exception e) {
+			throw new Exception("Failed to extract PPC");
+		}
+	}
+
+	/**
 	 * Returns a date instance 4 days later than the provided date
 	 * 
 	 * @param date

@@ -47,9 +47,9 @@ public class ProductSKUsDAO {
     private Integer skip;
     @JsonProperty("Take")
     private Integer take;
-    @JsonProperty("TotalPrice")
+    @JsonProperty("TotalPrice") // value appears to always be null
     private Object totalPrice;
-    @JsonProperty("TotalQuantity")
+    @JsonProperty("TotalQuantity") // value appears to always be 0
     private Integer totalQuantity;
     @JsonProperty("ItemCount")
     private Integer itemCount;

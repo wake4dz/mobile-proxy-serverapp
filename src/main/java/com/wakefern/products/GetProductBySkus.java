@@ -1,8 +1,11 @@
 package com.wakefern.products;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,15 +19,13 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wakefern.dao.sku.Item;
 import com.wakefern.dao.sku.ProductSKUsDAO;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
-import com.wakefern.services.MI9TimeoutService;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.services.MI9TimeoutService;
 
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetProductBySkus extends BaseService {
@@ -48,42 +49,33 @@ public class GetProductBySkus extends BaseService {
 	@Produces(MWGApplicationConstants.Headers.Products.accept)
 	@Path(MWGApplicationConstants.Requests.Products.prodsBySKUs)
 	public Response getResponse(@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String mwgStoreID,
-			@QueryParam(MWGApplicationConstants.Requests.Params.Path.productSKU) ArrayList<String> skus,
+			@QueryParam(MWGApplicationConstants.Requests.Params.Path.productSKU) List<String> skus,
 
 			@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
 			@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
 			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
 			@HeaderParam(MWGApplicationConstants.Headers.Params.reservedTimeslot) String reservedTimeslot) {
 		try {
-			/**
-			 * MWG only allows max of 128 SKUs request for product detail, if # of sku
-			 * exceeds 128, cut it into 2 and
-			 */
 			ObjectMapper mapper = new ObjectMapper();
-			List<List<String>> listOfSkuList = new ArrayList<List<String>>();
+			ProductSKUsDAO skusDao = null;
 
-			if (skus.size() > 128) {
-				logger.debug("SKU size more than 128: " + skus.toString());
-			}
-			// divide sku list into 127 sku batch
-			getSkusList(listOfSkuList, skus);
+			// divide sku list into 127 sku batch to avoid url length limits
+			List<List<String>> skuList = getSkusList(this.formatSkus(skus));
 
-			String jsonResponse = makeRequest(mwgStoreID, listOfSkuList.get(0), sessionToken, reservedTimeslot);
-			ProductSKUsDAO primSkusDao = mapper.readValue(jsonResponse, ProductSKUsDAO.class);
+			for (List<String> skusBatch : skuList) {
+				ProductSKUsDAO newSkusDao = mapper.readValue(
+						makeRequest(mwgStoreID, skusBatch, sessionToken, reservedTimeslot), ProductSKUsDAO.class);
 
-			for (int i = 1; i < listOfSkuList.size(); i++) {
-				jsonResponse = makeRequest(mwgStoreID, listOfSkuList.get(i), sessionToken, reservedTimeslot);
-				ProductSKUsDAO secSkusDao = mapper.readValue(jsonResponse, ProductSKUsDAO.class);
-				for (Item item : secSkusDao.getItems()) {
-					primSkusDao.getItems().add(item);
+				if (skusDao == null) {
+					// the Source uri in response will only reflect the first request
+					skusDao = newSkusDao;
+				} else {
+					skusDao.getItems().addAll(newSkusDao.getItems());
+					skusDao.setItemCount(skusDao.getItemCount() + newSkusDao.getItemCount());
 				}
-				primSkusDao.setItemCount(primSkusDao.getItemCount() + secSkusDao.getItemCount());
 			}
 
-			ObjectWriter writer = mapper.writer();
-			jsonResponse = writer.writeValueAsString(primSkusDao);
-
-			return this.createValidResponse(jsonResponse);
+			return this.createValidResponse(mapper.writer().writeValueAsString(skusDao));
 
 		} catch (Exception e) {
 			LogUtil.addErrorMaps(e, MwgErrorType.PRODUCTS_GET_PRODUCT_BY_SKUS);
@@ -99,22 +91,22 @@ public class GetProductBySkus extends BaseService {
 	}
 
 	/**
-	 * If the Sku list has more than MWG allowable 128 Sku, recursively break it
-	 * down into 127 sku batch to prepare for multiple sku call
+	 * Break up the skus list into 127 skus per batch to prepare for multiple sku
+	 * call
 	 *
 	 * @param listOfSkuList
 	 * @param skuList
 	 * @return
 	 */
-	private List<List<String>> getSkusList(List<List<String>> listOfSkuList, List<String> skuList) {
-		if (skuList.size() < 128) {
-			listOfSkuList.add(skuList);
-			return listOfSkuList;
-		}
-		List<String> secSku = new ArrayList<String>(skuList.subList(127, skuList.size()));
-		skuList.subList(127, skuList.size()).clear();
-		listOfSkuList.add(skuList);
-		return getSkusList(listOfSkuList, secSku);
+	private List<List<String>> getSkusList(List<String> skuList) {
+		final int chunkSize = 127;
+		final int skuListSize = skuList.size();
+
+		return IntStream.range(0, (skuListSize - 1) / chunkSize + 1).mapToObj(i -> {
+			int startIndex = i * chunkSize;
+			return skuList.subList(startIndex,
+					skuListSize - chunkSize >= startIndex ? startIndex + chunkSize : skuListSize);
+		}).collect(Collectors.toList());
 	}
 
 	/**
@@ -159,18 +151,32 @@ public class GetProductBySkus extends BaseService {
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, mwgStoreID);
 
-		StringBuilder sb = new StringBuilder();
-		String skuStr = "";
-		for (String prodSKUsStr : productSKUs) {
-			sb.append(prodSKUsStr);
-			sb.append("&sku=");
-		}
-		skuStr = sb.toString();
+		// Join skus into format: sku1,sku2,...,skuN
+		final String skusString = productSKUs.stream().collect(Collectors.joining(","));
 
 		// Build the Map of Request Query parameters
-		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.sku,
-				skuStr.substring(0, skuStr.length() - "&sku=".length()));
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.sku, skusString);
 
-		return this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_GET_BY_SKUS, MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_GET_BY_SKUS));
+		return this.mwgRequest(BaseService.ReqType.GET, null, MI9TimeoutService.PRODUCTS_GET_BY_SKUS,
+				MI9TimeoutService.getTimeout(MI9TimeoutService.PRODUCTS_GET_BY_SKUS));
+	}
+
+	/**
+	 * Format (flatten) skus to a multi-element string sku array supporting both
+	 * formats:
+	 * 
+	 * 1. sku=sku1,sku2,...,skuN ([[sku1,sku2,...,skuN]] 2. sku=sku1&sku=sku2
+	 * ([sku1,sku2,...,skuN])
+	 * 
+	 * @param skus
+	 * @return
+	 */
+	private List<String> formatSkus(List<String> skus) {
+		if (skus.size() == 1) {
+			return Arrays.asList(skus.get(0).split(","));
+		}
+
+		// 0 or more than 1 (already proper format)
+		return skus;
 	}
 }

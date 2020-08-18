@@ -56,6 +56,7 @@ public final class ApplicationConstants {
             public static final String UserLogin = WakefernApplicationConstants.CouponsV2.PathInfo.UserLogin;
             public static final String CouponMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.CouponMetadata;
             public static final String fsn = WakefernApplicationConstants.CouponsV2.PathInfo.fsn;
+            public static final String rule = WakefernApplicationConstants.CouponsV2.PathInfo.rule;
             public static final String upc = WakefernApplicationConstants.CouponsV2.PathInfo.upc;
             public static final String coupon_id = WakefernApplicationConstants.CouponsV2.PathInfo.coupon_id;
             public static final String clip_token = WakefernApplicationConstants.CouponsV2.PathInfo.clip_token;
@@ -70,6 +71,8 @@ public final class ApplicationConstants {
             public static final String GetUPCListByCouponID = WakefernApplicationConstants.CouponsV2.PathInfo.GetUPCListByCouponID;
             public static final String GetHistoryMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryMetadata;
             public static final String GetHistoryCouponByPPC = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryCouponByPPC;
+            public static final String GetSpecialOfferByRule = WakefernApplicationConstants.CouponsV2.PathInfo.GetSpecialOfferByRule;
+            
         }
 
         public static class Recommendations {

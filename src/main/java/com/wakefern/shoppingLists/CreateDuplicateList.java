@@ -68,7 +68,7 @@ public class CreateDuplicateList extends BaseService {
 		// * Update the new list with the items from the original list
 		
 		try {			
-			JSONObject respObj = getListItems(chainID, userID, listID, storeID, sessionToken);
+			JSONObject respObj = getListItems(chainID, userID, listID, storeID, sessionToken, take);
 			JSONArray  respArr = getNewList(chainID, userID, sessionToken, jsonData);
 			
 			String newListID = respArr.getJSONObject(0).getString("Id");
@@ -127,10 +127,11 @@ public class CreateDuplicateList extends BaseService {
 	 * @param listID
 	 * @param storeID
 	 * @param token
+	 * @param take
 	 * @return
 	 * @throws Exception
 	 */
-	private JSONObject getListItems(String chainID, String userID, String listID, String storeID, String token) throws Exception {
+	private JSONObject getListItems(String chainID, String userID, String listID, String storeID, String token, String take) throws Exception {
 		//Get user's personal list
 
 		String strResp = null;

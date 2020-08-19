@@ -27,6 +27,12 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Description: get employee, social or store coupon offers
  * 
+ * 	   Rule samples:
+ *     1. Employee only rule - user_type|1
+ *     2. Social offer rule  - Channel|Oreo_Only
+ *     3. Store only rule    - store|B865333
+ * 
+ * 
  * Created by Danny Zheng on 8/18/2020
  */
 @Path(ApplicationConstants.Requests.CouponsV2.GetSpecialOfferByRule)
@@ -57,7 +63,7 @@ public class GetSpecialOfferByRule extends BaseService {
 					VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_LIST);
+			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_SPECIAL_OFFER_BY_RULE);
 			
 			String errorData = LogUtil.getRequestData("exceptionLocation",
 					LogUtil.getRelevantStackTrace(e), "fsn", fsn, "rule", rule);

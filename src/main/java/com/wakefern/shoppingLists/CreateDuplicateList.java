@@ -136,11 +136,11 @@ public class CreateDuplicateList extends BaseService {
 
 		String strResp = null;
 		try{
-			strResp = this.getItemsFromList(chainID, userID, listID, storeID, MWGApplicationConstants.Headers.ShoppingList.items, token);
+			strResp = this.getItemsFromList(chainID, userID, listID, storeID, MWGApplicationConstants.Headers.ShoppingList.items, token, take);
 		} catch(Exception e){
 			if(strResp == null){
 				//get Wakefern list, which contains Shared List & personal list
-				strResp = this.getItemsFromList(chainID, userID, listID, storeID, MWGApplicationConstants.Headers.ShoppingList.wfc_list_items, token);
+				strResp = this.getItemsFromList(chainID, userID, listID, storeID, MWGApplicationConstants.Headers.ShoppingList.wfc_list_items, token, take);
 			} else{
 				//rethrowing the exception
 				throw e;
@@ -151,9 +151,10 @@ public class CreateDuplicateList extends BaseService {
 		return objResp;
 	}
 	
-	private String getItemsFromList(String chainID, String userID, String listID, String storeID, String accept, String token) throws Exception {
+	private String getItemsFromList(String chainID, String userID, String listID, String storeID, String accept, String token, String take) throws Exception {
 		this.queryParams = new HashMap<String, String>();
 		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.storeID, storeID);
+		this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.take, take);
 		String strResp = new GetSharedListItems().getListItems(this.queryParams, chainID, userID, listID, accept, token);
 		
 		return strResp;

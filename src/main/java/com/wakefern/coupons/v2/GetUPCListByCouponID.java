@@ -19,6 +19,7 @@ import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -39,8 +40,8 @@ public class GetUPCListByCouponID extends BaseService {
     									@QueryParam(ApplicationConstants.Requests.CouponsV2.coupon_id) String couponId, 
     									String jsonString) throws Exception, IOException {
         //Execute POST
-    		StringBuilder sb = ApplicationUtils.constructCouponUrl(ApplicationConstants.Requests.CouponsV2.GetUPCListByCouponID, fsn);
-    		sb.append(WakefernApplicationConstants.CouponsV2.QueryParam.CouponParam); sb.append(couponId);
+    	StringBuilder sb = ApplicationUtils.constructCouponUrl(ApplicationConstants.Requests.CouponsV2.GetUPCListByCouponID, fsn);
+    	sb.append(WakefernApplicationConstants.CouponsV2.QueryParam.CouponParam); sb.append(couponId);
     		
         Map<String, String> headerMap = new HashMap<String, String>();
         headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
@@ -50,7 +51,9 @@ public class GetUPCListByCouponID extends BaseService {
         		String response = HTTPRequest.executePostJSON(sb.toString(), jsonString, headerMap, VcapProcessor.getApiLowTimeout());
             return this.createValidResponse(response);
         } catch (Exception e){
-			String errorData = LogUtil.getRequestData("GetUPCListByCouponID::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn, "coupon_id", couponId);
+        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_UPC_LIST_BY_COUPON_ID);
+        	
+			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn, "coupon_id", couponId);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return this.createErrorResponse(e);
         }

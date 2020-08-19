@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -51,7 +52,7 @@ public class ObtainUserSession extends BaseService {
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, 
-				MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.COUPON_V2_KEY));
+		MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.COUPON_V2_KEY));
 
 		JSONObject jsonObject;
 		boolean validated;
@@ -80,7 +81,9 @@ public class ObtainUserSession extends BaseService {
 
 			return this.createValidResponse(response);
 		} catch (Exception e){
-			String errorData = LogUtil.getRequestData("ObtainUserSession::Exception", LogUtil.getRelevantStackTrace(e));
+			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_OBTAIN_USER_SESSION);
+			
+			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);
 		}

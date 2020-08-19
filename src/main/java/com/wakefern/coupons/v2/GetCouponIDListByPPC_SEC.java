@@ -19,6 +19,7 @@ import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -56,7 +57,9 @@ public class GetCouponIDListByPPC_SEC extends BaseService {
 			String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, VcapProcessor.getApiHighTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e){
-			String errorData = LogUtil.getRequestData("GetCouponIDListByPPC_SEC::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
+			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_COUPON_ID_LIST_BY_PPC_SEC);
+			
+			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);
 		}

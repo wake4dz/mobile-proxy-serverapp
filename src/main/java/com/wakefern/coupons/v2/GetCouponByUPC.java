@@ -19,6 +19,7 @@ import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -55,8 +56,10 @@ public class GetCouponByUPC extends BaseService {
         			
         		}
         } catch (Exception e){
-        		String errorData = LogUtil.getRequestData("GetCouponByUPC::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn, "upc", upc);
-        		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_COUPON_BY_UPC);
+        	
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn, "upc", upc);
+        	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return this.createErrorResponse(e);
         }
     }

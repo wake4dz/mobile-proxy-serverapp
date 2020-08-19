@@ -19,6 +19,7 @@ import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -56,7 +57,9 @@ public class GetSpecialOfferByRule extends BaseService {
 					VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("GetSpecialOfferByRule::Exception",
+			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_LIST);
+			
+			String errorData = LogUtil.getRequestData("exceptionLocation",
 					LogUtil.getRelevantStackTrace(e), "fsn", fsn, "rule", rule);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);

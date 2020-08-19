@@ -96,9 +96,8 @@ public class CreateOrder extends BaseService {
 	}
 
 	/**
-	 * Create and place an order. Replaced by create order with SMS subscription.
+	 * Create and place an order. 
 	 * 
-	 * @deprecated
 	 * @see #createOrderWithSmsSubscription()
 	 */
 	@POST

@@ -19,6 +19,7 @@ import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 
@@ -46,7 +47,9 @@ public class GetHistoryCouponByPPC extends BaseService {
         		String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, VcapProcessor.getApiLowTimeout());
             return this.createValidResponse(response);
         } catch (Exception e){
-			String errorData = LogUtil.getRequestData("GetHistoryCouponByPPC::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
+        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_HISTORY_COUPON_BY_PPC);
+        	
+			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return this.createErrorResponse(e);
         }

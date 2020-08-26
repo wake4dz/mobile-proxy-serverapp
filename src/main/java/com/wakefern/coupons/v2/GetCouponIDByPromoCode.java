@@ -1,6 +1,5 @@
 package com.wakefern.coupons.v2;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +15,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 
@@ -43,8 +43,9 @@ public class GetCouponIDByPromoCode extends BaseService {
 	        return this.createValidResponse(response);
 			
         } catch (Exception e){
+        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_COUPON_ID_BY_PROMO_CODE);
         	
-        	String errorData = LogUtil.getRequestData("GetCouponIDByPromoCode::Exception", LogUtil.getRelevantStackTrace(e));
+        	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return this.createErrorResponse(e);
             

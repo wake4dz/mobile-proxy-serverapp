@@ -18,6 +18,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -65,7 +66,9 @@ public class AddCouponToPPC_SEC extends BaseService {
 			String response = HTTPRequest.executePostJSON(url, jsonString, headerMap, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e){
-			String errorData = LogUtil.getRequestData("AddCouponToPPC_SEC::Exception", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
+			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_ADD_COUPON_TO_PPC_SEC);
+			
+			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);
 		}

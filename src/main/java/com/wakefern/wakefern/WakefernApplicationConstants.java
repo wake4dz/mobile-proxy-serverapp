@@ -159,7 +159,9 @@ public class WakefernApplicationConstants {
 			public static final String GetUPCListByCouponID = "/v2/getUPCListByCouponID";
 			public static final String GetHistoryMetadata = "/v2/getHistoryMetadata";
 			public static final String GetHistoryCouponByPPC = "/v2/getHistoryCouponByPPC";
+			public static final String GetSpecialOfferByRule = "/v2/getSpecialOfferByRule";
 			public static final String fsn = "fsn";
+			public static final String rule = "rule";
 			public static final String upc = "upc";
 			public static final String coupon_id = "coupon_id";
 			public static final String clip_token = "clip_token";
@@ -169,6 +171,7 @@ public class WakefernApplicationConstants {
 			public static final String CouponParam = "&coupon_id=";
 			public static final String UPCParam = "&upc=";
 			public static final String ClipSource = "&clip_source=";
+			public static final String RuleParam = "&rule=";
 		}
 
 		public static class ParamValues {

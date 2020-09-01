@@ -318,6 +318,7 @@ public class MWGApplicationConstants {
 			public static final String changeOrderMsg = prefix + "message+json";
 			public static final String orderV3 = prefix + "order-detail-v3+json";
 			public static final String orderResults = prefix + "order-results+json";
+			public static final String concurrentOrders = prefix + "wakefern-concurrent-orders+json";
 		}
 	}
 
@@ -652,6 +653,7 @@ public class MWGApplicationConstants {
 
 			public static final String orders = "/orders" + userID + mwgStoreID;
 			public static final String order = orderID + userID;
+			public static final String concurrentOrders = mwgStoresID + usersID;
 
 			public static final String payments = "/payments" + mwgStoreID + "/{" + Params.Path.fulfillType + "}";
 

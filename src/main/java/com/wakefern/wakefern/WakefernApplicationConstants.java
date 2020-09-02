@@ -384,4 +384,8 @@ public class WakefernApplicationConstants {
 			}
 		}
 	}
+	
+	public static class HealthCheck {
+		public static final String Path = "ping";
+	}
 }

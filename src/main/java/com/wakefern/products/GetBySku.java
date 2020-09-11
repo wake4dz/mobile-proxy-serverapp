@@ -48,7 +48,7 @@ public class GetBySku extends BaseService {
 		long startTime, endTime, actualTime;
 
 		try {
-			String jsonResponse = makeRequest(mwgStoreID, productSKU, isMember, sessionToken, reservedTimeslot);
+			String jsonResponse = makeRequest(mwgStoreID, productSKU, isMember, sessionToken, reservedTimeslot, accept);
 
 			// Item Location data provided by MWG is never up-to-date.
 			// Used Wakefern-supplied Item Location data instead.
@@ -83,7 +83,6 @@ public class GetBySku extends BaseService {
 	// -------------------------------------------------------------------------
 	// Private Methods
 	// -------------------------------------------------------------------------
-
 	/**
 	 * Trigger the request to the MWG API.
 	 *
@@ -95,11 +94,14 @@ public class GetBySku extends BaseService {
 	 * @throws Exception
 	 */
 	private String makeRequest(String mwgStoreID, String productSKU, String isMember, String sessionToken,
-			String reservedTimeslot) throws Exception {
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.product,
+			String reservedTimeslot, String accept) throws Exception {
+		final String mimeType = accept == null ?
+				MWGApplicationConstants.Headers.Products.product : accept;
+
+		this.requestHeader = new MWGHeader(mimeType,
 				MWGApplicationConstants.Headers.json, sessionToken, reservedTimeslot);
-		this.requestParams = new HashMap<String, String>();
-		this.queryParams = new HashMap<String, String>();
+		this.requestParams = new HashMap<>();
+		this.queryParams = new HashMap<>();
 
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, mwgStoreID);

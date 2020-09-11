@@ -29,7 +29,7 @@ public class BaseService {
     protected String requestToken  = null;
     private int timeout = 30000; //default
     
-    protected static enum ReqType { GET, POST, PUT, DELETE };
+    protected enum ReqType { GET, POST, PUT, DELETE };
     
     private final static Logger logger = Logger.getLogger(BaseService.class);
     
@@ -48,71 +48,51 @@ public class BaseService {
      * @throws IOException
      */
     protected String mwgRequest(ReqType reqType, String reqData, String endpointName) throws Exception, IOException {
-    		String reqTypeStr;
-    		String reqBody;
-    		String response;
-    		
-    		boolean isValidType = true;
-    		
-    		switch (reqType) {
-    			case GET    : reqTypeStr = "GET";    break;
-    			case POST   : reqTypeStr = "POST";   break;
-    			case PUT    : reqTypeStr = "PUT";    break;
-    			case DELETE : reqTypeStr = "DELETE"; break;
-    			default     : 
-    				reqTypeStr  = ""; 
-    				isValidType = false;
-    		}
-    		
-    		if ((requestPath == null) || (requestHeader == null)) {
-    			throw new Exception("Unable to execute " + reqTypeStr + " request.  Missing required data.");
-    			
-    		} else {
-    			if (!isValidType) {
-    				throw new Exception("Unable to execute request. Invalid request type.");
-    				
-    			} else {
-    				ServiceMappings sm = getServiceMapping(reqType, reqData);
-    				
-    				String reqURL = sm.getPath();
-        			Map<String, String> reqHead = sm.getgenericHeader();
-        			
-            		switch (reqType) {
-	        			case GET : 
-	        				response = HTTPRequest.executeGet(reqURL, reqHead, this.timeout);
-	        				break;
-	        			case POST :
-	        				reqBody  = sm.getGenericBody();
-	        				response = HTTPRequest.executePost(reqURL, reqBody, reqHead, this.timeout);
-	        				break;
-	        			case PUT :
-	        				reqBody  = sm.getGenericBody();
-	        				response = HTTPRequest.executePut(reqURL, reqBody, reqHead, this.timeout);
-	        				break;
-	        			case DELETE :
-	        				response = HTTPRequest.executeDelete(reqURL, reqHead, this.timeout);
-	        				break;
-        				default :
-        					response = "{}"; // This should never actually happen.  BUT just in case...
-            		}
-            		
-            		logger.debug("[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
-            		
-        			//Note: Since only about 75% of APIs has the userId query parameter, this log message may not print
-        			//      even if isUserTrackOn=on. Just be aware of this fact.
-        			//      This block of code is more useful in the future when every API call has the userId parameter.
-            		if(LogUtil.isUserTrackOn) {
-            			if ((queryParams != null) && queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID) != null) {
-		    				if (LogUtil.trackedUserIdsMap.containsKey(queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID))) {
-								logger.info("Tracking data for " + queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID) + ": " 
-										+ "[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
-		    				}
-            			}
-            		}
-            		
-            		return response;
-    			}
-    		}
+		if (reqType == null) {
+			throw new Exception("Unable to execute request. Invalid request type.");
+		}
+		if ((requestPath == null) || (requestHeader == null)) {
+			throw new Exception("Unable to execute " + reqType.name() + " request. Missing required request path and/or header.");
+		}
+		final String reqBody;
+		final String response;
+		ServiceMappings sm = getServiceMapping(reqType, reqData);
+		String reqURL = sm.getPath();
+		Map<String, String> reqHead = sm.getgenericHeader();
+
+		switch (reqType) {
+			case GET:
+				response = HTTPRequest.executeGet(reqURL, reqHead, this.timeout);
+				break;
+			case POST:
+				reqBody = sm.getGenericBody();
+				response = HTTPRequest.executePost(reqURL, reqBody, reqHead, this.timeout);
+				break;
+			case PUT:
+				reqBody = sm.getGenericBody();
+				response = HTTPRequest.executePut(reqURL, reqBody, reqHead, this.timeout);
+				break;
+			case DELETE:
+				response = HTTPRequest.executeDelete(reqURL, reqHead, this.timeout);
+				break;
+			default:
+				response = "{}"; // This should never actually happen.  BUT just in case...
+		}
+
+		logger.debug("[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
+
+		//Note: Since only about 75% of APIs has the userId query parameter, this log message may not print
+		//      even if isUserTrackOn=on. Just be aware of this fact.
+		//      This block of code is more useful in the future when every API call has the userId parameter.
+		if (LogUtil.isUserTrackOn) {
+			if ((queryParams != null) && queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID) != null) {
+				if (LogUtil.trackedUserIdsMap.containsKey(queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID))) {
+					logger.info("Tracking data for " + queryParams.get(MWGApplicationConstants.Requests.Params.Query.userID) + ": "
+							+ "[BaseService::mwgRequest]::" + this.requestPath + "--" + reqType);
+				}
+			}
+		}
+		return response;
     }
         
     /**

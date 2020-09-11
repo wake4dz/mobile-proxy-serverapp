@@ -53,10 +53,10 @@ public class GetByCategory extends BaseService {
 			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
 			@HeaderParam(MWGApplicationConstants.Headers.Params.reservedTimeslot) String reservedTimeslot) {
 		try {
-			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.productList,
+			this.requestHeader = new MWGHeader(accept == null ? MWGApplicationConstants.Headers.Products.productList : accept,
 					MWGApplicationConstants.Headers.json, sessionToken, reservedTimeslot);
-			this.requestParams = new HashMap<String, String>();
-			this.queryParams = new HashMap<String, String>();
+			this.requestParams = new HashMap<>();
+			this.queryParams = new HashMap<>();
 
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);

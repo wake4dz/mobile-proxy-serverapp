@@ -45,8 +45,8 @@ public class GetProductBySkus extends BaseService {
 	}
 
 	@GET
-	@Consumes(MWGApplicationConstants.Headers.Products.accept)
-	@Produces(MWGApplicationConstants.Headers.Products.accept)
+	@Consumes(MWGApplicationConstants.Headers.Products.groceryList)
+	@Produces(MWGApplicationConstants.Headers.Products.groceryList)
 	@Path(MWGApplicationConstants.Requests.Products.prodsBySKUs)
 	public Response getResponse(@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String mwgStoreID,
 			@QueryParam(MWGApplicationConstants.Requests.Params.Path.productSKU) List<String> skus,
@@ -94,9 +94,8 @@ public class GetProductBySkus extends BaseService {
 	 * Break up the skus list into 127 skus per batch to prepare for multiple sku
 	 * call
 	 *
-	 * @param listOfSkuList
 	 * @param skuList
-	 * @return
+	 * @return List<List<String>>
 	 */
 	private List<List<String>> getSkusList(List<String> skuList) {
 		final int chunkSize = 127;
@@ -115,9 +114,9 @@ public class GetProductBySkus extends BaseService {
 	 * Get Product info by SKU.
 	 *
 	 * @param mwgStoreID
-	 * @param productSKU
-	 * @param isMember
+	 * @param productSKUs
 	 * @param sessionToken
+	 * @param reservedTimeslot
 	 * @return
 	 * @throws Exception
 	 */
@@ -134,19 +133,18 @@ public class GetProductBySkus extends BaseService {
 	 * Trigger the request to the MWG API.
 	 *
 	 * @param mwgStoreID
-	 * @param productSKU
-	 * @param isMember
+	 * @param productSKUs
 	 * @param sessionToken
+	 * @param reservedTimeslot
 	 * @return
 	 * @throws Exception
 	 */
 	private String makeRequest(String mwgStoreID, List<String> productSKUs, String sessionToken,
 			String reservedTimeslot) throws Exception {
-
-		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.accept,
+		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Products.groceryList,
 				MWGApplicationConstants.Headers.json, sessionToken, reservedTimeslot);
-		this.requestParams = new HashMap<String, String>();
-		this.queryParams = new HashMap<String, String>();
+		this.requestParams = new HashMap<>();
+		this.queryParams = new HashMap<>();
 
 		// Build the Map of Request Path parameters
 		this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, mwgStoreID);

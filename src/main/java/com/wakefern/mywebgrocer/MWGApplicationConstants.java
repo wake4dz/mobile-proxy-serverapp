@@ -230,7 +230,8 @@ public class MWGApplicationConstants {
 			public static final String wakefernProductList = prefix + "wakefern-product-list+json";
 			public static final String productList = prefix + "product-list+json";
 			public static final String product = prefix + "product+json";
-			public static final String accept = prefix + "grocery-list+json";
+			public static final String groceryList = prefix + "grocery-list+json";
+			public static final String wakefernProduct = prefix + "wakefern-product+json";
 
 			// This is a Products header, but it's used by the Circular functionality.
 			public static final String circItemProds = prefix + "grocery-list-plugin+json";
@@ -473,6 +474,7 @@ public class MWGApplicationConstants {
 			public static final String subCatsWithSales = subCategories + sales;
 
 			public static final String countries = chainsID + "/countries";
+			public static final String wakefernProductBySku = chainsID + storesID +"/skus/{sku}";
 
 			public static final String prodByID = productID + storeID;
 			public static final String prodsByCat = products + categoryID + storeID;

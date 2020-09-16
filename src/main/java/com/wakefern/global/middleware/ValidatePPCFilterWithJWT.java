@@ -9,7 +9,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.log4j.Logger;
 
-import com.wakefern.account.authentication.UserJWT;
+import com.wakefern.api.mi9.v7.account.authentication.UserJWT;
 import com.wakefern.global.annotations.ValidatePPCWithJWT;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 

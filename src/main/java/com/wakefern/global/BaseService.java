@@ -10,8 +10,8 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.wakefern.api.wakefern.items.location.SortItemLocators;
 import com.wakefern.global.errorHandling.ExceptionHandler;
-import com.wakefern.items.location.SortItemLocators;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;

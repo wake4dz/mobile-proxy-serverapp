@@ -58,8 +58,11 @@ public class BaseService {
 		final String response;
 		ServiceMappings sm = getServiceMapping(reqType, reqData);
 		String reqURL = sm.getPath();
-		Map<String, String> reqHead = sm.getgenericHeader();
+		Map<String, String> reqHead = sm.getGenericHeader();
 
+		logger.debug("reqURL: " + reqURL);
+		logger.debug("reqHead: " + reqHead);
+		
 		switch (reqType) {
 			case GET:
 				response = HTTPRequest.executeGet(reqURL, reqHead, this.timeout);

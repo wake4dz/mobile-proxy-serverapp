@@ -47,7 +47,7 @@ public class CouponIdList extends BaseService {
 	        ServiceMappings serviceMappings = new ServiceMappings();
 	        serviceMappings.setCouponMapping(this);
 
-            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), VcapProcessor.getApiLowTimeout()));
+            return this.createValidResponse(HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getGenericHeader(), VcapProcessor.getApiLowTimeout()));
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_COUPON_ID_LIST);
         	
@@ -72,7 +72,7 @@ public class CouponIdList extends BaseService {
         ServiceMappings serviceMappings = new ServiceMappings();
         serviceMappings.setCouponMapping(this);
 
-        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getgenericHeader(), 0);
+        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "", serviceMappings.getGenericHeader(), 0);
     }
 
     public CouponIdList() {     this.requestHeader = new WakefernHeader();    }

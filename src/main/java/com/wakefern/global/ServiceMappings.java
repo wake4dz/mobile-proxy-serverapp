@@ -18,11 +18,11 @@ public class ServiceMappings {
 	// Public Methods
 	//-------------------------------------------------------------------------
 
-	public Map<String, String> getgenericHeader() {
+	public Map<String, String> getGenericHeader() {
 		return genericHeader;
 	}
 	
-	public void setgenericHeader(Map<String, String> genericHeader) {
+	public void setGenericHeader(Map<String, String> genericHeader) {
 		this.genericHeader = genericHeader;
 	}
 
@@ -110,7 +110,7 @@ public class ServiceMappings {
 	 */
 	private void buildPostRequest(BaseService serviceObject, MWGBody body, String jsonBody) {
 		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
-		setgenericHeader(header.getMap());
+		setGenericHeader(header.getMap());
 		
 		String reqURL = buildURL(serviceObject);
 		
@@ -126,7 +126,7 @@ public class ServiceMappings {
 	 */
 	private void buildGetRequest(BaseService serviceObject) {
 		MWGHeader header = (MWGHeader) serviceObject.requestHeader;
-		setgenericHeader(header.getMap());
+		setGenericHeader(header.getMap());
 		
 		String reqURL = buildURL(serviceObject);
 		
@@ -246,6 +246,10 @@ public class ServiceMappings {
 			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.circCategoriesID)) {
 				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.circCategoriesID, path, serviceObj);
 			}
+			
+			if (serviceObj.requestParams.containsKey(MWGApplicationConstants.Requests.Params.Path.subscriptionID)) {
+				path = replacePathParam(MWGApplicationConstants.Requests.Params.Path.subscriptionID, path, serviceObj);
+			}
 		}
 		
 		// Build the query string, if there are any query parameters
@@ -292,14 +296,14 @@ public class ServiceMappings {
 	// Used for Coupons
 	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
 		wakefernHeader.cuponAuth(serviceObject.requestToken);
-		setgenericHeader(wakefernHeader.getMap());
+		setGenericHeader(wakefernHeader.getMap());
 		setPath(serviceObject.requestPath);
 	}
 	
 	// Used for Recommendations & Rewards
 	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
 		header.authenticate(serviceObject.requestToken);
-		setgenericHeader(header.getMap());
+		setGenericHeader(header.getMap());
 		setPath(baseURL + serviceObject.requestPath);
 	}
 }

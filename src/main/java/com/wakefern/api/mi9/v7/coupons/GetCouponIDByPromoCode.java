@@ -92,7 +92,7 @@ public class GetCouponIDByPromoCode extends BaseService {
 	    ServiceMappings serviceMappings = new ServiceMappings();
 	    serviceMappings.setCouponMapping(this);
 
-        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "{}", serviceMappings.getgenericHeader(), VcapProcessor.getApiLowTimeout());
+        return HTTPRequest.executePostJSON(serviceMappings.getPath(), "{}", serviceMappings.getGenericHeader(), VcapProcessor.getApiLowTimeout());
     }
 
     public GetCouponIDByPromoCode() {     this.requestHeader = new WakefernHeader();    }

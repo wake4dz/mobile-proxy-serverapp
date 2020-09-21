@@ -320,6 +320,8 @@ public class MWGApplicationConstants {
 			public static final String orderV3 = prefix + "order-detail-v3+json";
 			public static final String orderResults = prefix + "order-results+json";
 			public static final String concurrentOrders = prefix + "wakefern-concurrent-orders+json";
+			
+			public static final String subscription = prefix + "subscription-state+json";
 		}
 	}
 
@@ -330,7 +332,8 @@ public class MWGApplicationConstants {
 		private static final String storeID = "/store/" + "{" + Params.Path.storeID + "}";
 		private static final String storesID = "/stores/" + "{" + Params.Path.storeID + "}";
 		private static final String listsID = "/lists/" + "{" + Params.Path.listID + "}";
-
+		private static final String subscriptionID = "/program/" + "{" + Params.Path.subscriptionID + "}";
+		
 		// Request Parameters
 		public static class Params {
 
@@ -362,6 +365,7 @@ public class MWGApplicationConstants {
 				public static final String fulfillType = "fulfillment"; // As in: 'delivery' or 'pickup'
 				public static final String promoCode = "promoCode";
 				public static final String circCategoriesID = "circCategoriesID";
+				public static final String subscriptionID = "subscriptionId";
 			}
 
 			// Request Parameters that are part of the URL's query string.
@@ -666,6 +670,13 @@ public class MWGApplicationConstants {
 			public static final String changeOrderMsg = orderID + userID + mwgStoreID + "/to/cart";
 			// Legacy. Used by com.wakefern.payment.GetToken
 			public static final String UserCheckout = "/checkout/v5/user";
+			
+			//subscription APIs
+			public static final String getSubscriptions = userID + storeID + "/subscription";
+			//public static final String createSubscription = userID + storeID + "/subscription/program/370";
+			public static final String createSubscription = userID + storeID + "/subscription" + subscriptionID;
+			public static final String removeSubscription = userID + storeID + "/subscription" + subscriptionID;
+			
 		}
 
 		public static class Rewards {
@@ -699,4 +710,5 @@ public class MWGApplicationConstants {
 		public static final String releaseLevel = "/level";
 
 	}
+	
 }

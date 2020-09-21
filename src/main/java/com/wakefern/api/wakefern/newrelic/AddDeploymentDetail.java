@@ -58,7 +58,7 @@ public class AddDeploymentDetail extends BaseService {
 					ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.NEW_RELIC_KEY));
 			nrHeader.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
 			nrHeader.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
-			secondMapping.setgenericHeader(nrHeader);
+			secondMapping.setGenericHeader(nrHeader);
 			
 			JSONObject bodyObj = new JSONObject();
 			JSONObject bodyDeployObj = new JSONObject();
@@ -71,7 +71,7 @@ public class AddDeploymentDetail extends BaseService {
 					
 			bodyObj.put(NewRelic.Deployment,	bodyDeployObj);
 
-			String jsonResp = HTTPRequest.executePost(secondMapPath, bodyObj.toString(), secondMapping.getgenericHeader());
+			String jsonResp = HTTPRequest.executePost(secondMapPath, bodyObj.toString(), secondMapping.getGenericHeader());
 
 			return this.createValidResponse(jsonResp);
 

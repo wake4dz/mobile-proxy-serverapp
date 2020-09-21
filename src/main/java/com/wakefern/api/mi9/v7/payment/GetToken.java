@@ -122,7 +122,7 @@ public class GetToken extends BaseService {
 			
 			logger.debug("[getInfo][GetToken]::req: " + retval.toString());
 		
-			String resp = HTTPRequest.executePut(path, secondMapping.getGenericBody(), secondMapping.getgenericHeader());
+			String resp = HTTPRequest.executePut(path, secondMapping.getGenericBody(), secondMapping.getGenericHeader());
 			
 			if(LogUtil.isUserTrackOn) {
 				if ((userId != null) && LogUtil.trackedUserIdsMap.containsKey(userId.trim())) {

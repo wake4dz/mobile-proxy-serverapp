@@ -78,7 +78,7 @@ public class GetPointsForPPC extends BaseService {
 
 			String srvPath = srvMap.getPath();
 
-			Map<String, String> srvHead = srvMap.getgenericHeader();
+			Map<String, String> srvHead = srvMap.getGenericHeader();
 			srvHead.remove(ApplicationConstants.Requests.Header.contentType);
 
 			String response = HTTPRequest.executeGet(srvPath, srvHead, 0);

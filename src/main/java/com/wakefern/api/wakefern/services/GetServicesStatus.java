@@ -154,7 +154,7 @@ public class GetServicesStatus extends BaseService{
 			String secondMapPath = secondMapping.getPath();
 		
 			// CALL & GET LIST OF RECOMMENDED SKUs
-			String prodRecmdResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getgenericHeader(), 0);
+			String prodRecmdResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getGenericHeader(), 0);
 			logger.info("[GetServicesStatus]:: Product Recommendation resp: "+prodRecmdResp);
     			serviceStatus = "active";
 	    	} catch (Exception ex) {

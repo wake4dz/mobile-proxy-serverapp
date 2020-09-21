@@ -68,7 +68,7 @@ public class ProductsRecommendation extends BaseService {
 			String secondMapPath = secondMapping.getPath();
 
 			// CALL & GET LIST OF RECOMMENDED SKUs
-			String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getgenericHeader(), 0);
+			String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getGenericHeader(), 0);
 			RecommendVPUPCsDAO recUPCDao = mapper.readValue(jsonResp, RecommendVPUPCsDAO.class);
 			List<String> upcList = recUPCDao.getProducts();
 

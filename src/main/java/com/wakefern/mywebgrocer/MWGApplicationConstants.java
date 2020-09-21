@@ -673,7 +673,6 @@ public class MWGApplicationConstants {
 			
 			//subscription APIs
 			public static final String getSubscriptions = userID + storeID + "/subscription";
-			//public static final String createSubscription = userID + storeID + "/subscription/program/370";
 			public static final String createSubscription = userID + storeID + "/subscription" + subscriptionID;
 			public static final String removeSubscription = userID + storeID + "/subscription" + subscriptionID;
 			

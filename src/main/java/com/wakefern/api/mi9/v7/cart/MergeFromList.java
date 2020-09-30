@@ -42,10 +42,10 @@ public class MergeFromList extends BaseService {
     		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken
 	) {
-        		
 		try {
-			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, sessionToken);
-			this.requestParams = new HashMap<String, String>();
+			logger.info("accept header = " + accept);
+			this.requestHeader = new MWGHeader(accept == null ? MWGApplicationConstants.Headers.json : accept, MWGApplicationConstants.Headers.json, sessionToken);
+			this.requestParams = new HashMap<>();
 			
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.storeID, storeID);

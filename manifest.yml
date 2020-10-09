@@ -19,7 +19,7 @@ applications:
     api_high_timeout: ((API_HIGH_TIMEOUT))
     api_medium_timeout: ((API_MEDIUM_TIMEOUT))
     api_low_timeout: ((API_LOW_TIMEOUT))
-    enable_cart_item_locator: ((ENABLE_CART_ITEM_LOCATOR))
+
     new_relic_key: ((NEW_RELIC_KEY))
     apim_nutrition_key: ((APIM_NUTRITION_KEY))
     apim_sms_enrollments_key: ((APIM_SMS_ENROLLMENTS_KEY))

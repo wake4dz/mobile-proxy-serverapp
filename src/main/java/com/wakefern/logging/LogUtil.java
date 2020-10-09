@@ -380,8 +380,6 @@ public class LogUtil {
 		
 		messages.add(pad("The 'cors' system property:") +
 				MWGApplicationConstants.getSystemPropertyValue("cors"));
-		messages.add(pad("The 'enable_cart_item_locator' system property:") +
-				MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator"));
 		
 		messages.add(pad("The 'api_high_timeout' system property:") +
 				VcapProcessor.getApiHighTimeout());
@@ -450,9 +448,6 @@ public class LogUtil {
 			
 			messages.add("<tr><td>cors</td>" + "<td>" +
 					MWGApplicationConstants.getSystemPropertyValue("cors") + "</td> </tr>");
-	
-			messages.add("<tr><td>enable_cart_item_locator</td>" + "<td>" +
-					MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator") + "</td> </tr>");
 			
 			messages.add("<tr><td>api_high_timeout</td>" + "<td>" +
 					VcapProcessor.getApiHighTimeout() + "</td> </tr>");

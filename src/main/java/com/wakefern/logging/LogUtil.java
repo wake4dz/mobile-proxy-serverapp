@@ -373,10 +373,13 @@ public class LogUtil {
 				MWGApplicationConstants.getSystemPropertyValue("url"));
 		messages.add(pad("The 'coupon_service' system property:") +
 				MWGApplicationConstants.getSystemPropertyValue("coupon_service"));
+		messages.add(pad("The 'recipe_service' system property:") +
+				VcapProcessor.getRecipeService());
+		messages.add(pad("The 'wallet_service' system property:") +
+				VcapProcessor.getWalletService());
+		
 		messages.add(pad("The 'cors' system property:") +
 				MWGApplicationConstants.getSystemPropertyValue("cors"));
-		messages.add(pad("The 'enable_cart_item_locator' system property:") +
-				MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator"));
 		
 		messages.add(pad("The 'api_high_timeout' system property:") +
 				VcapProcessor.getApiHighTimeout());
@@ -391,13 +394,7 @@ public class LogUtil {
 		
 		messages.add(pad("The 'plastic_bag_fee' system property:") +
 				MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee"));
-		
-		messages.add(pad("The 'recipe_service' system property:") +
-				VcapProcessor.getRecipeService());
-
-		messages.add(pad("The 'wallet_service' system property:") +
-				VcapProcessor.getWalletService());
-		
+				
 		messages.add("");
 
 		messages.add(pad("The current IP address:") + ipAddress);
@@ -443,11 +440,14 @@ public class LogUtil {
 			messages.add("<tr><td>coupon_service</td>" + "<td>" +
 					MWGApplicationConstants.getSystemPropertyValue("coupon_service") + "</td> </tr>");
 			
+			messages.add("<tr><td>wallet_service</td>" + "<td>" +
+					VcapProcessor.getWalletService() + "</td> </tr>");
+			
+			messages.add("<tr><td>recipe_service</td>" + "<td>" +
+					VcapProcessor.getRecipeService() + "</td> </tr>");
+			
 			messages.add("<tr><td>cors</td>" + "<td>" +
 					MWGApplicationConstants.getSystemPropertyValue("cors") + "</td> </tr>");
-	
-			messages.add("<tr><td>enable_cart_item_locator</td>" + "<td>" +
-					MWGApplicationConstants.getSystemPropertyValue("enable_cart_item_locator") + "</td> </tr>");
 			
 			messages.add("<tr><td>api_high_timeout</td>" + "<td>" +
 					VcapProcessor.getApiHighTimeout() + "</td> </tr>");
@@ -466,12 +466,6 @@ public class LogUtil {
 			
 			messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
 					formatStores(MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee")) + "</td> </tr>");
-			
-			messages.add("<tr><td>wallet_service</td>" + "<td>" +
-					VcapProcessor.getWalletService() + "</td> </tr>");
-			
-			messages.add("<tr><td>recipe_service</td>" + "<td>" +
-					VcapProcessor.getRecipeService() + "</td> </tr>");
 			
 			messages.add("</table> <br /> <br />");
 	

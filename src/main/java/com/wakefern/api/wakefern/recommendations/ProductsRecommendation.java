@@ -31,6 +31,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
 import com.wakefern.request.HTTPRequest;
 
+import org.json.JSONObject;
+
 @Path(ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2)
 public class ProductsRecommendation extends BaseService {
 
@@ -69,6 +71,14 @@ public class ProductsRecommendation extends BaseService {
 
 			// CALL & GET LIST OF RECOMMENDED SKUs
 			String jsonResp = HTTPRequest.executeGet(secondMapPath, secondMapping.getGenericHeader(), 0);
+			logger.trace("jsonResp from calling Recommendation API: " + jsonResp);
+			
+			JSONObject prodJSON = new JSONObject(jsonResp);
+			if ((prodJSON.get("products") == null) || (prodJSON.get("products").equals(""))) {
+				//Recommendation API doesn't return any products
+				return this.createValidResponse("");
+			}
+		
 			RecommendVPUPCsDAO recUPCDao = mapper.readValue(jsonResp, RecommendVPUPCsDAO.class);
 			List<String> upcList = recUPCDao.getProducts();
 
@@ -83,6 +93,7 @@ public class ProductsRecommendation extends BaseService {
 			 * 17, 2018", "coupon_id": "", "ItemKey": "product~179860~0.8 lb", "ItemType":
 			 * "Product"
 			 */
+			
 			ArrayList<String> skuList = new ArrayList<String>();
 			for (String upcStr : upcList) {
 				try {

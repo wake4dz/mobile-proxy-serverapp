@@ -1,4 +1,4 @@
-package com.wakefern.api.mi9.v7.coupons.v2;
+package com.wakefern.api.wakefern.coupons.v2;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,13 +25,19 @@ import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
- * Created by loicao on 10/15/18.
- * Edited by philmayer on 2/27/19.
+ * Description: get employee, social or store coupon offers
+ * 
+ * 	   Rule samples:
+ *     1. Employee only rule - user_type|1
+ *     2. Social offer rule  - Channel|Oreo_Only
+ *     3. Store only rule    - store|B865333
+ * 
+ * 
+ * Created by Danny Zheng on 8/18/2020
  */
-@Path(ApplicationConstants.Requests.CouponsV2.CouponIDListByPPC_SEC)
-public class GetCouponIDListByPPC_SEC extends BaseService {
-
-	private final static Logger logger = Logger.getLogger(GetCouponIDListByPPC_SEC.class);
+@Path(ApplicationConstants.Requests.CouponsV2.GetSpecialOfferByRule)
+public class GetSpecialOfferByRule extends BaseService {
+	private final static Logger logger = Logger.getLogger(GetSpecialOfferByRule.class);
 
 	@POST
 	@Consumes(MWGApplicationConstants.Headers.json)
@@ -39,27 +45,28 @@ public class GetCouponIDListByPPC_SEC extends BaseService {
 	public Response getInfoResponse(@HeaderParam("Authorization") String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
 			@QueryParam(ApplicationConstants.Requests.CouponsV2.fsn) String fsn,
-			String jsonString) throws Exception, IOException {
+			@QueryParam(ApplicationConstants.Requests.CouponsV2.rule) String rule, String jsonString)
+			throws Exception, IOException {
+		
+		StringBuilder sb = ApplicationUtils
+				.constructCouponUrl(ApplicationConstants.Requests.CouponsV2.GetSpecialOfferByRule, fsn);
+		sb.append(WakefernApplicationConstants.CouponsV2.QueryParam.RuleParam);
+		sb.append(rule);
 
-		// If the application is in Fresh Grocer mode, we need to use a different coupon API endpoint.
-		String appMode = MWGApplicationConstants.getApplicationMode();
-		String targetCouponEndpoint = appMode.equals(WakefernApplicationConstants.Chains.FreshGrocer)
-			? ApplicationConstants.Requests.CouponsV2.CouponIDListByPPC_SEC_FG
-			: ApplicationConstants.Requests.CouponsV2.CouponIDListByPPC_SEC;
-
-		//Execute POST
-		this.requestPath = ApplicationUtils.constructCouponUrl(targetCouponEndpoint, fsn).toString();
 		Map<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
 		try {
-			String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, VcapProcessor.getApiHighTimeout());
+			String response = HTTPRequest.executePostJSON(sb.toString(), jsonString, headerMap,
+					VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
-		} catch (Exception e){
-			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_COUPON_ID_LIST_BY_PPC_SEC);
+		} catch (Exception e) {
+			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_SPECIAL_OFFER_BY_RULE);
 			
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
+			String errorData = LogUtil.getRequestData("exceptionLocation",
+					LogUtil.getRelevantStackTrace(e), "fsn", fsn, "rule", rule);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);
 		}

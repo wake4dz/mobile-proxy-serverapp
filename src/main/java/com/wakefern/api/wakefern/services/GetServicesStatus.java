@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.api.mi9.v7.account.authentication.AuthenticateUI;
-import com.wakefern.api.mi9.v7.coupons.v2.ObtainUserSession;
+import com.wakefern.api.wakefern.coupons.v2.ObtainUserSession;
 import com.wakefern.api.wakefern.products.reports.GetToken;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;

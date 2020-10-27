@@ -60,8 +60,9 @@ public class BaseService {
 		String reqURL = sm.getPath();
 		Map<String, String> reqHead = sm.getGenericHeader();
 
-		logger.debug("reqURL: " + reqURL);
-		logger.debug("reqHead: " + reqHead);
+		logger.trace("reqURL: " + reqURL);
+		logger.trace("reqHead: " + reqHead);
+		logger.trace("endPointName: " + endpointName);
 		
 		switch (reqType) {
 			case GET:
@@ -184,6 +185,7 @@ public class BaseService {
             }
             
             if (Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403) {
+            //if (Integer.parseInt(array[0]) == 401) {
                 buildError = jsonErrStart + ApplicationConstants.Requests.forbiddenError + jsonErrEnd;
             
             } else {	

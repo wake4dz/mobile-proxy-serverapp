@@ -392,6 +392,9 @@ public class LogUtil {
 		messages.add(pad("The 'http_default_read_timeout_ms' system property:") +
 				System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME));
 		
+		messages.add(pad("The 'timeslot_search_radius_in_mile' system property:") +
+				VcapProcessor.getTimeslotSearchRadiusInMile());
+		
 		messages.add(pad("The 'plastic_bag_fee' system property:") +
 				MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee"));
 				
@@ -463,6 +466,9 @@ public class LogUtil {
 	
 			messages.add("<tr><td>http_default_read_timeout_ms</td><td>"+
 					System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME) + "</td></tr>");
+			
+			messages.add("<tr><td>timeslot_search_radius_in_mile</td><td>"+
+					VcapProcessor.getTimeslotSearchRadiusInMile() + "</td></tr>");
 			
 			messages.add("<tr><td>plastic_bag_fee</td>" + "<td>" +
 					formatStores(MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee")) + "</td> </tr>");

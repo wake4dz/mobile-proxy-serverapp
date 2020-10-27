@@ -322,6 +322,10 @@ public class MWGApplicationConstants {
 			public static final String concurrentOrders = prefix + "wakefern-concurrent-orders+json";
 			
 			public static final String subscription = prefix + "subscription-state+json";
+			
+			public static final String timeslotByRadiusContentType = prefix + "wakefern-search-fulfillment-slot+json";
+			public static final String timeslotByRadiusAccept = prefix + "wakefern-store-fulfillment-slots+json";
+			
 		}
 	}
 
@@ -675,6 +679,9 @@ public class MWGApplicationConstants {
 			public static final String getSubscriptions = userID + storeID + "/subscription";
 			public static final String createSubscription = userID + storeID + "/subscription" + subscriptionID;
 			public static final String removeSubscription = userID + storeID + "/subscription" + subscriptionID;
+			
+			public static final String pickupTimeslotByRadius = chainsID + storesID + fflmnt + "/pickup";
+			public static final String deliveryTimeslotByRadius = chainsID + storesID + fflmnt + "/delivery";
 			
 		}
 

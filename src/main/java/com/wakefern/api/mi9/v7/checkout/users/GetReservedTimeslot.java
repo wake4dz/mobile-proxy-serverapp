@@ -44,7 +44,7 @@ public class GetReservedTimeslot extends BaseService {
 	) {
         try {
 			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.fulfillSlot, MWGApplicationConstants.Headers.json, sessionToken);
-			this.requestParams = new HashMap<String, String>();
+			this.requestParams = new HashMap<>();
 			
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);

@@ -709,5 +709,9 @@ public class MWGApplicationConstants {
 		public static final String releaseLevel = "/level";
 
 	}
+
+	public static class ErrorCodes {
+		public static final String TOO_MANY_REQUESTS = "TooManyRequests";
+	}
 	
 }

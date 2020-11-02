@@ -46,6 +46,9 @@ public final class AppVersion implements Comparable<AppVersion> {
 
     @Override
     public int compareTo(AppVersion o) {
+        if (o == null) {
+            return 1;
+        }
         if (o.major > major) {
             return -1;
         }

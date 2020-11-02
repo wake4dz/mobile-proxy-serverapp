@@ -21,7 +21,7 @@ public final class ApplicationConstants {
     }
 
     public static class Requests {
-        public static String forbiddenError = "Session is not valid";
+        public static String unauthorizedError = "Session is not valid";
 
         public static class Header {
             public static final String contentType  = "Content-Type";

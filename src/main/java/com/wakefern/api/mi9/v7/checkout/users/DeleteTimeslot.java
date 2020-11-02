@@ -44,7 +44,7 @@ public class DeleteTimeslot extends BaseService {
 	) {
 		try {	
 			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.json, MWGApplicationConstants.Headers.json, sessionToken);
-			this.requestParams = new HashMap<String, String>();
+			this.requestParams = new HashMap<>();
 			
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);

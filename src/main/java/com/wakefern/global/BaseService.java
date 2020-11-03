@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -106,87 +107,32 @@ public class BaseService {
      * @return
      */
     protected Response createErrorResponse(Exception e) {
-        ExceptionHandler exceptionHandler = new ExceptionHandler();
-        
-        try {
-        		String jsonErrStart = "{\"ErrorMessage\":\"";
-        		String jsonErrEnd   = "\"}";
-        		
-            String[] array = e.getMessage().split(",");
-            String buildError;
-            
-            if (e.getMessage().contains("400")) {
-                return Response.status(400).entity(exceptionHandler.exceptionMessageJson(e)).build();
-            }
-            
-            if (Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403) {
-                buildError = jsonErrStart + ApplicationConstants.Requests.forbiddenError + jsonErrEnd;
-            
-            } else {	
-            		StringBuilder sb = new StringBuilder();
-            		
-            		// We have to allow for the possibility that there's more than one "," in the exception's error message.
-            		// For example, the error message may actually be a JSON string.
-            		for (int i = 1; i < array.length; i++) {
-            			sb.append(array[i] + ",");
-            		}
-            		
-            		// Strip off the trailing comma & convert to a String
-            		sb.deleteCharAt(sb.length() - 1);
-            		String respBody = sb.toString();
-            		
-            		// Test to see if the response is already a valid JSON string.
-            		// If so, just assign it to the 'buildError' var.
-            		// If it's not, assemble the 'buildError' var as a JSON string.
-            		try {
-            			new JSONObject(respBody);
-            			buildError = respBody;
-        			
-            		} catch (Exception ex) {
-            			try {
-            				new JSONArray(respBody);
-            				buildError = respBody;
-            			
-            			} catch (Exception exx) {
-            				logger.error("MWG returned an unexpected, non-JSON compliant error: " + respBody);
-
-            				// The error is in an unexpected format.
-            				// Respond with a default text message.
-            				buildError = jsonErrStart + "MWG returned an unexpected, non-JSON compliant error." + jsonErrEnd;
-            			}
-        			}
-            }
-
-            return Response.status(Integer.parseInt(array[0])).entity(buildError).build();
-        
-        } catch (Exception stringError) {
-            return Response.status(500).entity(exceptionHandler.exceptionMessageJson(e)).build();
-        }
+		return createErrorResponse(null, e);
     }
     
     /**
      * Create a standardized Error Response (HTTP 5xx / 4xx) to pass back to the UI.
      * 
-     * @param e
+     * @param errorData String
+	 * @param e	Exception
      * @return
      */
     protected Response createErrorResponse(String errorData, Exception e) {
-        ExceptionHandler exceptionHandler = new ExceptionHandler();
-        
         try {
         	String jsonErrStart = "{\"ErrorMessage\":\"";
         	String jsonErrEnd   = "\"}";
         		
             String[] array = e.getMessage().split(",");
             String buildError;
+
+            final int statusCode = Integer.parseInt(array[0]);
             
             if (e.getMessage().contains("400")) {
-                return Response.status(400).entity(exceptionHandler.exceptionMessageJson(e)).build();
+                return Response.status(400).entity(ExceptionHandler.fromException(e)).build();
             }
             
-            if (Integer.parseInt(array[0]) == 401 || Integer.parseInt(array[0]) == 403) {
-            //if (Integer.parseInt(array[0]) == 401) {
-                buildError = jsonErrStart + ApplicationConstants.Requests.forbiddenError + jsonErrEnd;
+            if (statusCode == 401) {
+                buildError = jsonErrStart + ApplicationConstants.Requests.unauthorizedError + jsonErrEnd;
             
             } else {	
             		StringBuilder sb = new StringBuilder();
@@ -194,7 +140,7 @@ public class BaseService {
             		// We have to allow for the possibility that there's more than one "," in the exception's error message.
             		// For example, the error message may actually be a JSON string.
             		for (int i = 1; i < array.length; i++) {
-            			sb.append(array[i] + ",");
+            			sb.append(array[i]).append(",");
             		}
             		
             		// Strip off the trailing comma & convert to a String
@@ -214,7 +160,10 @@ public class BaseService {
             				buildError = respBody;
             			
             			} catch (Exception exx) {
-                    		logger.error("MWG returned an unexpected, non-JSON compliant error: " + errorData + " - " + respBody);
+            				logger.error(errorData != null ?
+									"MWG returned an unexpected, non-JSON compliant error: " + errorData + " - " + respBody
+									: "MWG returned an unexpected, non-JSON compliant error: " + respBody);
+
             				
             				// The error is in an unexpected format.
             				// Respond with a default text message.
@@ -223,10 +172,10 @@ public class BaseService {
         			}
             }
 
-            return Response.status(Integer.parseInt(array[0])).entity(buildError).build();
+            return Response.status(statusCode).entity(buildError).build();
         
         } catch (Exception stringError) {
-            return Response.status(500).entity(exceptionHandler.exceptionMessageJson(e)).build();
+            return Response.status(500).entity(ExceptionHandler.fromException(e)).build();
         }
     }
     
@@ -237,7 +186,7 @@ public class BaseService {
      * @return
      */
     protected Response createValidResponse(String jsonResponse) {
-    		return Response.status(200).entity(jsonResponse).build();
+    	return Response.status(200).entity(jsonResponse).build();
     }
         
     /**

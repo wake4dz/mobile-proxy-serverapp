@@ -73,7 +73,7 @@ public class HTTPRequest {
 
 	/**
 	 * Trigger HTTP GET request.
-	 *  
+	 *
 	 * @param requestURL
 	 * @param requestHeaders
 	 * @param readTimeoutMs
@@ -84,21 +84,22 @@ public class HTTPRequest {
 		return executeRequest(requestURL, requestHeaders, null, "GET", readTimeoutMs);
 	}
 
-    /**
-     * Trigger HTTP PUT request.
-     * @param requestURL
-     * @param requestBody
-     * @param requestHeaders
-     * @return
-     * @throws Exception
-     */
+	/**
+	 * Trigger HTTP PUT request.
+	 *
+	 * @param requestURL
+	 * @param requestBody
+	 * @param requestHeaders
+	 * @return
+	 * @throws Exception
+	 */
 	public static String executePut(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
 		return executePut(requestURL, requestBody, requestHeaders, sReadTimeoutMs);
 	}
 
 	/**
 	 * Trigger HTTP PUT request with a specified timeout.
-	 * 
+	 *
 	 * @param requestURL
 	 * @param requestBody
 	 * @param requestHeaders
@@ -107,9 +108,9 @@ public class HTTPRequest {
 	 * @throws Exception
 	 */
 	public static String executePut(String requestURL,
-                                    String requestBody,
-                                    Map<String, String> requestHeaders,
-                                    int readTimeoutMs) throws Exception {
+									String requestBody,
+									Map<String, String> requestHeaders,
+									int readTimeoutMs) throws Exception {
 		HttpURLConnection connection = null;
 
 		try {
@@ -140,13 +141,13 @@ public class HTTPRequest {
 				try {
 					oStream = connection.getOutputStream();
 					oStream.write(requestBody.getBytes("UTF-8"));
-				}finally {
-					if(oStream != null) {
+				} finally {
+					if (oStream != null) {
 						try {
 							oStream.close();
-						} catch(Exception ex) {
-    						logger.error("[HTTPRequest]::executePut::Exception close stream: " + ex.getMessage());
-    						throw ex;
+						} catch (Exception ex) {
+							logger.error("[HTTPRequest]::executePut::Exception close stream: " + ex.getMessage());
+							throw ex;
 						}
 					}
 				}
@@ -157,41 +158,33 @@ public class HTTPRequest {
 
 			// Handle the response
 			int responseCode = connection.getResponseCode();
-			String response  = ResponseHandler.getResponse(connection);
+			String response = ResponseHandler.getResponse(connection);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 202 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
-			
+
 			} else {
 				String msg;
-				
+
 				if (response.length() > 0) {
 					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}
-				
+
 				throw new Exception(msg);
 			}
 
-		} catch (MalformedURLException ex) {
-			logger.error(getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL));
-			throw ex;
-		
-		} catch (IOException ex) {
-			logger.error(getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL));
-			throw ex;
-		
 		} catch (Exception ex) {
-			logger.error(getErrorMsg("[executePut]::Exception: "+ ex.getMessage(), requestURL));
+			logger.error(getErrorMsg("[executePut]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
-		
+
 		} finally {
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.error("[executePut]::Exception closing connection, URL: "+ requestURL);
+					logger.error("[executePut]::Exception closing connection, URL: " + requestURL);
 					throw ex;
 				}
 			}
@@ -199,8 +192,8 @@ public class HTTPRequest {
 	}
 
 	/**
-	 * Trigger HTTP POST request, with timeout=30 seconds. 
-	 * 
+	 * Trigger HTTP POST request, with timeout=30 seconds.
+	 *
 	 * @param requestURL
 	 * @param requestBody
 	 * @param requestHeaders
@@ -210,13 +203,13 @@ public class HTTPRequest {
 	public static String executePost(String requestURL, String requestBody, Map<String, String> requestHeaders) throws Exception {
 		return executePost(requestURL, requestBody, requestHeaders, sReadTimeoutMs);
 	}
-	
+
 
 	/**
 	 * Trigger HTTP POST request, with timeout as input, currently being used by create order api.
-	 * 	The create order api, in some cases, requires more than 30 seconds to return success response from MWG;
-	 * 	therefore setting timeout = 40 seconds for create order api
-	 * 
+	 * The create order api, in some cases, requires more than 30 seconds to return success response from MWG;
+	 * therefore setting timeout = 40 seconds for create order api
+	 *
 	 * @param requestURL
 	 * @param requestBody
 	 * @param requestHeaders
@@ -225,9 +218,9 @@ public class HTTPRequest {
 	 * @throws Exception
 	 */
 	public static String executePost(String requestURL,
-                                     String requestBody,
-                                     Map<String, String> requestHeaders,
-                                     int readTimeoutMs) throws Exception {
+									 String requestBody,
+									 Map<String, String> requestHeaders,
+									 int readTimeoutMs) throws Exception {
 
 		HttpURLConnection connection = null;
 
@@ -249,7 +242,7 @@ public class HTTPRequest {
 				}
 				connection.setConnectTimeout(sConnectionTimeoutMs);
 				connection.setReadTimeout(readTimeoutMs);
-				
+
 				for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
 					connection.addRequestProperty(entry.getKey(), entry.getValue());
 				}
@@ -260,10 +253,10 @@ public class HTTPRequest {
 					oStream = connection.getOutputStream();
 					oStream.write(requestBody.getBytes("UTF-8"));
 				} finally {
-					if(oStream != null) {
+					if (oStream != null) {
 						try {
 							oStream.close();
-						} catch(Exception ex) {
+						} catch (Exception ex) {
 							logger.error("[HTTPRequest]::executePost::Exception close stream: " + ex.getMessage());
 							throw ex;
 						}
@@ -276,41 +269,41 @@ public class HTTPRequest {
 
 			// Handle the response
 			int responseCode = connection.getResponseCode();
-			String response  = ResponseHandler.getResponse(connection);
+			String response = ResponseHandler.getResponse(connection);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 202 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
-			
+
 			} else {
 				String msg;
-				
+
 				if (response.length() > 0) {
 					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}
-				
+
 				throw new Exception(msg);
 			}
-		
+
 		} catch (MalformedURLException ex) {
-			logger.error(getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL));
+			logger.error(getErrorMsg("[executePost]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
-		
+
 		} catch (IOException ex) {
-			logger.error(getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL));
+			logger.error(getErrorMsg("[executePost]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
-		
+
 		} catch (Exception ex) {
-			logger.error(getErrorMsg("[executePost]::Exception: "+ ex.getMessage(), requestURL));
+			logger.error(getErrorMsg("[executePost]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
-		
+
 		} finally {
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.error("[executePost]::Exception closing connection, path: "+ requestURL);
+					logger.error("[executePost]::Exception closing connection, path: " + requestURL);
 					throw ex;
 				}
 			}
@@ -319,7 +312,7 @@ public class HTTPRequest {
 
 	/**
 	 * Used by com.wakefern.coupons
-	 * 
+	 *
 	 * @param requestURL
 	 * @param requestBody
 	 * @param requestHeaders
@@ -333,12 +326,12 @@ public class HTTPRequest {
 										 int readTimeoutMs) throws Exception {
 		HttpURLConnection connection = null;
 		long startTime, endTime;
-		
+
 		BufferedReader br = null;
-		
+
 		try {
 			startTime = System.currentTimeMillis();
-			
+
 			// Create connection
 			URL url = new URL(requestURL);
 			connection = (HttpURLConnection) url.openConnection();
@@ -363,14 +356,14 @@ public class HTTPRequest {
 
 				// Set JSON as body of request
 				OutputStream oStream = null;
-				try{
+				try {
 					oStream = connection.getOutputStream();
 					oStream.write(requestBody.getBytes("UTF-8"));
 				} finally {
-					if(oStream != null) {
+					if (oStream != null) {
 						try {
 							oStream.close();
-						} catch(Exception ex) {
+						} catch (Exception ex) {
 							logger.error("[HTTPRequest]::executePostJSON::Exception close stream: " + ex.getMessage());
 							throw ex;
 						}
@@ -386,48 +379,40 @@ public class HTTPRequest {
 			StringBuilder sb = new StringBuilder();
 
 			switch (status) {
-			case 200:
-			case 201:
-			case 204:
-				// sb.append(status);
-				int read;
-				char[] chars = new char[1024];
-				while ((read = br.read(chars)) != -1) {
-					sb.append(chars, 0, read);
-				}
-				break;
-			default:
-				// sb.append(status);
-				throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
+				case 200:
+				case 201:
+				case 204:
+					// sb.append(status);
+					int read;
+					char[] chars = new char[1024];
+					while ((read = br.read(chars)) != -1) {
+						sb.append(chars, 0, read);
+					}
+					break;
+				default:
+					// sb.append(status);
+					throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
 			}
-			
+
 			endTime = System.currentTimeMillis();
 
-			logger.trace("[executePostJSON]::Total process time: " + (endTime - startTime) + " ms, path: "+requestURL);
-			
+			logger.trace("[executePostJSON]::Total process time: " + (endTime - startTime) + " ms, path: " + requestURL);
+
 			// return body to auth
 			return sb.toString();
 
-		} catch (MalformedURLException ex) {
-			logger.error(getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL));
-			throw ex;
-		
-		} catch (IOException ex) {
-			logger.error(getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL));
-			throw ex;
-		
 		} catch (Exception ex) {
-			logger.error(getErrorMsg("[executePostJSON]::Exception: "+ ex.getMessage(), requestURL));
+			logger.error(getErrorMsg("[executePostJSON]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
-		
+
 		} finally {
 			br.close();
-			
+
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.error("[executePostJSON]::Exception closing connection: "+ex.getMessage()+", URL: "+requestURL);
+					logger.error("[executePostJSON]::Exception closing connection: " + ex.getMessage() + ", URL: " + requestURL);
 					throw ex;
 				}
 			}
@@ -436,7 +421,7 @@ public class HTTPRequest {
 
 	/**
 	 * Execute HTTP Request
-	 * 
+	 *
 	 * @param requestURL
 	 * @param requestHeaders
 	 * @param requestParameters
@@ -454,68 +439,54 @@ public class HTTPRequest {
 
 		try {
 			long startTime, endTime;
-			
+
 			startTime = System.currentTimeMillis();
 			connection = createConnection(requestURL, requestHeaders, requestParameters, requestMethod, readTimeoutMs);
 			int responseCode = connection.getResponseCode();
 			endTime = System.currentTimeMillis();
 
-			logger.trace("[executeRequest]::Total process time for "+requestMethod+": "+(endTime - startTime)+" ms, URL: "+requestURL);
-			
+			logger.trace("[executeRequest]::Total process time for " + requestMethod + ": " + (endTime - startTime) + " ms, URL: " + requestURL);
+
 			//Note: Since only about 75% of APIs has the userId query parameter, this log message may not print
 			//      even if isUserTrackOn=on. Just be aware of this fact.
 			//      This block of code is more useful in the future when every API call has the userId parameter.
-    		if(LogUtil.isUserTrackOn) {
-    			if ((requestURL != null) && (LogUtil.getUserId(requestURL) != null ) ) {
-    				if (LogUtil.trackedUserIdsMap.containsKey(LogUtil.getUserId(requestURL).trim())) {
-						logger.info("Tracking data for " + LogUtil.getUserId(requestURL).trim() + ": " 
-								+ "[executeRequest]::Total process time for " +requestMethod+ ": "+ (endTime - startTime) + " ms, URL: " + requestURL);
-    				}
-    			}
-    		}
-			
+			if (LogUtil.isUserTrackOn) {
+				if ((requestURL != null) && (LogUtil.getUserId(requestURL) != null)) {
+					if (LogUtil.trackedUserIdsMap.containsKey(LogUtil.getUserId(requestURL).trim())) {
+						logger.info("Tracking data for " + LogUtil.getUserId(requestURL).trim() + ": "
+								+ "[executeRequest]::Total process time for " + requestMethod + ": " + (endTime - startTime) + " ms, URL: " + requestURL);
+					}
+				}
+			}
+
 			String response = ResponseHandler.getResponse(connection);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;
-			
+
 			} else {
-				// 2018-07-30 DZ thinks it is a redundant error log
-				// logger.error("[executeRequest]::response code: " + connection.getResponseCode() + " , msg: " + connection.getResponseMessage() + 
-				// 		" , URL:" + requestURL);
 				String msg;
-				if(responseCode == 403) {
-					msg = "401,"+(response.length() > 0 ? response : connection.getResponseMessage());
-					logger.info("Convert 403 error into 401.. URL: " + requestURL + " resp: " + response);
+
+				if (response.length() > 0) {
+					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
 				} else {
-					if (response.length() > 0) {
-						msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
-					} else {
-						msg = responseCode + "," + connection.getResponseMessage();
-					}
+					msg = responseCode + "," + connection.getResponseMessage();
 				}
-				
+
+
 				throw new Exception(msg);
 			}
-		
-		} catch (IOException e) {
-			logger.error(getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL));
-			throw e;
-		
-		} catch (URISyntaxException e) {
-			logger.error(getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL));
-			throw e;
-		
+
 		} catch (Exception e) {
-			logger.error(getErrorMsg("[executeRequest]::Exception: "+ e.getMessage(), requestURL));
+			logger.error(getErrorMsg("[executeRequest]::Exception: " + e.getMessage(), requestURL));
 			throw e;
-			
+
 		} finally {
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception ex) {
-					logger.error(getErrorMsg("[executeRequest]::Exception: "+ ex.getMessage(), requestURL));
+					logger.error(getErrorMsg("[executeRequest]::Exception: " + ex.getMessage(), requestURL));
 					throw ex;
 				}
 			}
@@ -524,6 +495,7 @@ public class HTTPRequest {
 
 	/**
 	 * Execute a DELETE http request.
+	 *
 	 * @param requestURL
 	 * @param requestHeaders
 	 * @param readTimeoutMs
@@ -536,7 +508,7 @@ public class HTTPRequest {
 		HttpURLConnection connection = null;
 		long startTime, endTime;
 
-		try {			
+		try {
 			startTime = System.currentTimeMillis();
 
 			// Create connection
@@ -561,47 +533,47 @@ public class HTTPRequest {
 			endTime = System.currentTimeMillis();
 
 			logger.trace("[executeDelete]::Total process time: " + (endTime - startTime) + " ms, URL: " +
-					requestURL + ", response code: " + connection.getResponseCode() + ", msg: " +  connection.getResponseMessage());
+					requestURL + ", response code: " + connection.getResponseCode() + ", msg: " + connection.getResponseMessage());
 
 			switch (status) {
 				case 200:
 				case 201:
-                case 202:
+				case 202:
 				case 204:
 					return status + " Success";
 				case 205:
-					return status + " - "+connection.getResponseMessage();
+					return status + " - " + connection.getResponseMessage();
 				default:
 					throw new Exception(connection.getResponseCode() + "," + connection.getResponseMessage());
 			}
-		
+
 		} catch (MalformedURLException ex) {
 			logger.error("[executeDelete]::MalformedURLException: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
-		
+
 		} catch (IOException ex) {
 			logger.error("[executeDelete]::IOException: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
-		
+
 		} catch (Exception ex) {
 			logger.error("[executeDelete]::Exception: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
-		
+
 		} finally {
 			if (connection != null) {
 				try {
 					connection.disconnect();
-				
+
 				} catch (Exception ex) {
 					logger.error("[executeDelete]::Exception: " + ex.getMessage() + ", URL: " + requestURL +
 							", response code: " + connection.getResponseCode() + ", msg: " + connection.getResponseMessage());
-					
+
 					throw ex;
 				}
 			}
 		}
 	}
-	
+
 	//-------------------------------------------------------------------------
 	// Private Methods
 	//-------------------------------------------------------------------------
@@ -609,7 +581,7 @@ public class HTTPRequest {
 
 	/**
 	 * Return a formatted error message
-	 * 
+	 *
 	 * @param msg
 	 * @param url
 	 * @param respCode
@@ -621,13 +593,13 @@ public class HTTPRequest {
 			// remove the new line marker
 			return msg.trim() + ", url: " + url;
 		} else {
-			return "a null" + ", url: " + url; 
+			return "a null" + ", url: " + url;
 		}
 	}
-	   
+
 	/**
 	 * Create HTTP Connection.
-	 * 
+	 *
 	 * @param requestURL
 	 * @param requestHeaders
 	 * @param requestParameters
@@ -638,15 +610,15 @@ public class HTTPRequest {
 	 * @throws URISyntaxException
 	 */
 	private static HttpURLConnection createConnection(
-			String requestURL, 
+			String requestURL,
 			Map<String, String> requestHeaders,
-			Map<String, String> requestParameters, 
-			String requestMethod, 
+			Map<String, String> requestParameters,
+			String requestMethod,
 			int readTimeoutMs) throws IOException, URISyntaxException {
-		
+
 		HttpURLConnection connection = null;
 		URI uri = new URI(requestURL);
-		
+
 		if (requestParameters != null) {
 			for (Map.Entry<String, String> entry : requestParameters.entrySet()) {
 				uri = appendUri(uri.toString(), entry.getKey() + "=" + entry.getValue());
@@ -677,7 +649,7 @@ public class HTTPRequest {
 
 	/**
 	 * Append query string to a URL.
-	 * 
+	 *
 	 * @param uri
 	 * @param appendQuery
 	 * @return
@@ -687,15 +659,13 @@ public class HTTPRequest {
 		URI oldUri = new URI(uri);
 
 		String newQuery = oldUri.getQuery();
-		
+
 		if (newQuery == null) {
 			newQuery = appendQuery;
 		} else {
 			newQuery += "&" + appendQuery;
 		}
 
-		URI newUri = new URI(oldUri.getScheme(), oldUri.getAuthority(), oldUri.getPath(), newQuery, oldUri.getFragment());
-
-		return newUri;
+		return new URI(oldUri.getScheme(), oldUri.getAuthority(), oldUri.getPath(), newQuery, oldUri.getFragment());
 	}
 }

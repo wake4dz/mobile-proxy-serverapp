@@ -126,10 +126,6 @@ public class BaseService {
 
             final int statusCode = Integer.parseInt(array[0]);
             
-            if (e.getMessage().contains("400")) {
-                return Response.status(400).entity(ExceptionHandler.fromException(e)).build();
-            }
-            
             if (statusCode == 401) {
                 buildError = jsonErrStart + ApplicationConstants.Requests.unauthorizedError + jsonErrEnd;
             

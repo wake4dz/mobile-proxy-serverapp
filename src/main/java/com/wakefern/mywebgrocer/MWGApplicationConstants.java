@@ -203,6 +203,7 @@ public class MWGApplicationConstants {
 			public static final String accept = "Accept";
 			public static final String contentType = "Content-Type";
 			public static final String reservedTimeslot = "X-Reserved-Timeslot";
+			public static final String xForwardedFor = "X-Forwarded-For";
 		}
 
 		public static class Account {

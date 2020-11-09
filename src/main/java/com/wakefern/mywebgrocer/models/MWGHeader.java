@@ -21,13 +21,38 @@ public class MWGHeader extends Header {
 	 * @param contentType
 	 * @param sessionToken
 	 * @param reservedTimeslot user's reserved timeslot date in ticks
+	 * @param xforwardedFor for Mi9 timeslot with radius APIs
 	 */
-	public MWGHeader(String accepts, String contentType, String sessionToken, String reservedTimeslot) {
+	public MWGHeader(String accepts, String contentType, String sessionToken, String reservedTimeslot, String xForwardedFor) {
 		Map<String, String> authMap = new HashMap<>();
 
 		authMap.put(ApplicationConstants.Requests.Header.userAgent,
 				ApplicationConstants.StringConstants.wakefernApplication);
 
+		authMap.put(ApplicationConstants.Requests.Header.contentAccept, accepts);
+
+		if (contentType != null) {
+			authMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
+		}
+
+		authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
+
+		if (reservedTimeslot != null) {
+			authMap.put(MWGApplicationConstants.Headers.Params.reservedTimeslot, reservedTimeslot);
+		}
+
+		if (xForwardedFor != null) {
+			authMap.put(MWGApplicationConstants.Headers.Params.xForwardedFor, xForwardedFor);
+		}
+		
+		setAllMaps(authMap);
+	}
+	public MWGHeader(String accepts, String contentType, String sessionToken, String reservedTimeslot) {
+		Map<String, String> authMap = new HashMap<>();
+
+		authMap.put(ApplicationConstants.Requests.Header.userAgent,
+				ApplicationConstants.StringConstants.wakefernApplication);
+		
 		authMap.put(ApplicationConstants.Requests.Header.contentAccept, accepts);
 
 		if (contentType != null) {

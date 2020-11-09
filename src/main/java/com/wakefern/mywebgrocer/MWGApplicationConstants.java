@@ -30,7 +30,7 @@ public class MWGApplicationConstants {
 
 	private static final String fgStage = "FreshGrocerStage";
 	private static final String fgProd = "FreshGrocerProd";
-	private static final String srStage = "ShopRiteStage";
+	public static final String srStage = "ShopRiteStage";
 	private static final String srProd = "ShopRiteProd";
 	// private static final String srDev = "ShopRiteDev";
 

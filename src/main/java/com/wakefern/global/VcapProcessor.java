@@ -57,7 +57,7 @@ public class VcapProcessor {
 		}
 	
 		try {
-			timeslotSearchRadiusInMile = getVcapValue(WakefernApplicationConstants.VCAPKeys.TIMEOUT_SEARCH_RADIUN_IN_MILE);
+			timeslotSearchRadiusInMile = getVcapValue(WakefernApplicationConstants.VCAPKeys.TIMEOUT_SEARCH_RADIUS_IN_MILE);
 
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));

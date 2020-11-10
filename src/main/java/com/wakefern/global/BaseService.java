@@ -61,8 +61,9 @@ public class BaseService {
 		String reqURL = sm.getPath();
 		Map<String, String> reqHead = sm.getGenericHeader();
 
-		logger.debug("reqURL: " + reqURL);
-		logger.debug("reqHead: " + reqHead);
+		logger.trace("reqURL: " + reqURL);
+		logger.trace("reqHead: " + reqHead);
+		logger.trace("endPointName: " + endpointName);
 		
 		switch (reqType) {
 			case GET:

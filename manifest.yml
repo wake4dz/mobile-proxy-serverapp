@@ -36,6 +36,8 @@ applications:
     sr_wallet_prod_key: ((SR_WALLET_PRD_KEY))
     sr_wallet_stage_key: ((SR_WALLET_STG_KEY))
     user_jwt_secret: ((USER_JWT_SECRET))
+    
+    timeslot_search_radius_in_mile: 30
 
   services:
   - ((SRMOBILE_PAPERTRAIL))

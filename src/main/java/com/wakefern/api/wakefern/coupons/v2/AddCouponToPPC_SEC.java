@@ -1,4 +1,4 @@
-package com.wakefern.api.mi9.v7.coupons.v2;
+package com.wakefern.api.wakefern.coupons.v2;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,9 +27,9 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  * Created by loicao on 10/16/18.
  * Edited by philmayer on 2/27/19.
  */
-@Path(ApplicationConstants.Requests.CouponsV2.RemoveCouponFromPPC)
-public class RemoveCouponFromPPC extends BaseService {
-	private final static Logger logger = Logger.getLogger(RemoveCouponFromPPC.class);
+@Path(ApplicationConstants.Requests.CouponsV2.AddCouponToPPC_SEC)
+public class AddCouponToPPC_SEC extends BaseService {
+	private final static Logger logger = Logger.getLogger(AddCouponToPPC_SEC.class);
 
 	@POST
 	@Consumes(MWGApplicationConstants.Headers.json)
@@ -37,33 +37,36 @@ public class RemoveCouponFromPPC extends BaseService {
 	public Response getInfoResponse(@HeaderParam("Authorization") String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
 			@QueryParam(ApplicationConstants.Requests.CouponsV2.fsn) String fsn,
+			@QueryParam(ApplicationConstants.Requests.CouponsV2.clip_token) String clipToken,
 			@QueryParam(ApplicationConstants.Requests.CouponsV2.coupon_id) String couponId,
 			String jsonString) throws Exception, IOException {
 
-		// If the application is in Fresh Grocer mode, we need to attribute a different clip source for analysis.
+		// If the application is in Fresh Grocer mode, we need to use a different coupon API endpoint.
 		String appMode = MWGApplicationConstants.getApplicationMode();
 		String targetCouponEndpoint = appMode.equals(WakefernApplicationConstants.Chains.FreshGrocer)
-				? ApplicationConstants.Requests.CouponsV2.RemoveCouponFromPPC_FG
-				: ApplicationConstants.Requests.CouponsV2.RemoveCouponFromPPC;
+			? ApplicationConstants.Requests.CouponsV2.AddCouponToPPC_SEC_FG
+			: ApplicationConstants.Requests.CouponsV2.AddCouponToPPC_SEC;
 		String clipSource = appMode.equals(WakefernApplicationConstants.Chains.FreshGrocer)
-				? WakefernApplicationConstants.CouponsV2.ParamValues.ClipAppSource_FG
-				: WakefernApplicationConstants.CouponsV2.ParamValues.ClipAppSource_SR;
+			? WakefernApplicationConstants.CouponsV2.ParamValues.ClipAppSource_FG
+			: WakefernApplicationConstants.CouponsV2.ParamValues.ClipAppSource_SR;
 
-		//Execute POST
+		// Note: this coupon API endpoint takes no URL parameters. All data passed via headers.
 		String url = ApplicationConstants.Requests.CouponsV2.BaseCouponURL + targetCouponEndpoint;
 
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 		headerMap.put(WakefernApplicationConstants.CouponsV2.Headers.clip_source, clipSource);
+		headerMap.put(WakefernApplicationConstants.CouponsV2.Headers.clip_token, clipToken);
 		headerMap.put(WakefernApplicationConstants.CouponsV2.Headers.coupon_id, couponId);
 		headerMap.put(WakefernApplicationConstants.CouponsV2.Headers.fsn, fsn);
 
 		try {
+			// Execute POST
 			String response = HTTPRequest.executePostJSON(url, jsonString, headerMap, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e){
-			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_REMOVE_COUPON_FROM_PPC);
+			LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_ADD_COUPON_TO_PPC_SEC);
 			
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

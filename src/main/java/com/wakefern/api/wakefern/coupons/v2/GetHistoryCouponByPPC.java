@@ -1,4 +1,4 @@
-package com.wakefern.api.mi9.v7.coupons.v2;
+package com.wakefern.api.wakefern.coupons.v2;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,14 +22,13 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
-import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
- * Created by loicao on 10/15/18.
+ * Created by loicao on 10/16/18.
  */
-@Path(ApplicationConstants.Requests.CouponsV2.GetUPCListByCouponID)
-public class GetUPCListByCouponID extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetUPCListByCouponID.class);
+@Path(ApplicationConstants.Requests.CouponsV2.GetHistoryCouponByPPC)
+public class GetHistoryCouponByPPC extends BaseService {
+	private final static Logger logger = Logger.getLogger(GetHistoryCouponByPPC.class);
 
     @POST
     @Consumes(MWGApplicationConstants.Headers.json)
@@ -37,23 +36,20 @@ public class GetUPCListByCouponID extends BaseService {
     public Response getInfoResponse(@HeaderParam("Authorization") String authToken,
     									@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType, 
     									@QueryParam(ApplicationConstants.Requests.CouponsV2.fsn) String fsn, 
-    									@QueryParam(ApplicationConstants.Requests.CouponsV2.coupon_id) String couponId, 
     									String jsonString) throws Exception, IOException {
         //Execute POST
-    	StringBuilder sb = ApplicationUtils.constructCouponUrl(ApplicationConstants.Requests.CouponsV2.GetUPCListByCouponID, fsn);
-    	sb.append(WakefernApplicationConstants.CouponsV2.QueryParam.CouponParam); sb.append(couponId);
-    		
+        this.requestPath = ApplicationUtils.constructCouponUrl(ApplicationConstants.Requests.CouponsV2.GetHistoryCouponByPPC, fsn).toString();
         Map<String, String> headerMap = new HashMap<String, String>();
         headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
         headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
-        
+
         try {
-        		String response = HTTPRequest.executePostJSON(sb.toString(), jsonString, headerMap, VcapProcessor.getApiLowTimeout());
+        		String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, VcapProcessor.getApiLowTimeout());
             return this.createValidResponse(response);
         } catch (Exception e){
-        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_UPC_LIST_BY_COUPON_ID);
+        	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_HISTORY_COUPON_BY_PPC);
         	
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn, "coupon_id", couponId);
+			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "fsn", fsn);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return this.createErrorResponse(e);
         }

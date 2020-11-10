@@ -30,7 +30,7 @@ public class MWGApplicationConstants {
 
 	private static final String fgStage = "FreshGrocerStage";
 	private static final String fgProd = "FreshGrocerProd";
-	private static final String srStage = "ShopRiteStage";
+	public static final String srStage = "ShopRiteStage";
 	private static final String srProd = "ShopRiteProd";
 	// private static final String srDev = "ShopRiteDev";
 
@@ -203,6 +203,7 @@ public class MWGApplicationConstants {
 			public static final String accept = "Accept";
 			public static final String contentType = "Content-Type";
 			public static final String reservedTimeslot = "X-Reserved-Timeslot";
+			public static final String xForwardedFor = "X-Forwarded-For";
 		}
 
 		public static class Account {
@@ -322,6 +323,10 @@ public class MWGApplicationConstants {
 			public static final String concurrentOrders = prefix + "wakefern-concurrent-orders+json";
 			
 			public static final String subscription = prefix + "subscription-state+json";
+			
+			public static final String timeslotByRadiusContentType = prefix + "wakefern-search-fulfillment-slot+json";
+			public static final String timeslotByRadiusAccept = prefix + "wakefern-store-fulfillment-slots+json";
+			
 		}
 	}
 
@@ -675,6 +680,9 @@ public class MWGApplicationConstants {
 			public static final String getSubscriptions = userID + storeID + "/subscription";
 			public static final String createSubscription = userID + storeID + "/subscription" + subscriptionID;
 			public static final String removeSubscription = userID + storeID + "/subscription" + subscriptionID;
+			
+			public static final String pickupTimeslotByRadius = chainsID + storesID + fflmnt + "/pickup";
+			public static final String deliveryTimeslotByRadius = chainsID + storesID + fflmnt + "/delivery";
 			
 		}
 

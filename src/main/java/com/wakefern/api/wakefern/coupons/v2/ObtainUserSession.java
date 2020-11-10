@@ -1,4 +1,4 @@
-package com.wakefern.api.mi9.v7.coupons.v2;
+package com.wakefern.api.wakefern.coupons.v2;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -39,17 +39,6 @@ public final class ApplicationConstants {
             public static final String planningToken = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
         }
 
-        public static final class Coupons {
-            public static final String GetPPCCoupons = WakefernApplicationConstants.Coupons.Metadata.PPCCoupons;
-            public static final String GetCoupons = WakefernApplicationConstants.Coupons.Metadata.Metadata;
-            public static final String GetCouponId = WakefernApplicationConstants.Coupons.ListId.CouponId;
-            public static final String GetCouponIdByPPC = WakefernApplicationConstants.Coupons.ListId.CouponByPPC;
-            public static final String CouponIDByPromoCode = WakefernApplicationConstants.Coupons.ListId.CouponIDByPromoCode;
-            public static final String CouponAddPPC = WakefernApplicationConstants.Coupons.ListId.CouponAddPPC;
-            public static final String BaseCouponURL = WakefernApplicationConstants.Coupons.baseURL;
-            public static final String GetCouponsRecommendations = WakefernApplicationConstants.Coupons.Metadata.MetadataRecommendations;
-        }
-        
         public static final class CouponsV2 {
             public static final String BaseCouponURL = ApplicationUtils.getCouponServiceEndpoint(WakefernApplicationConstants.VCAPKeys.COUPON_SERVICE);
             public static final String BaseCouponURLAuth = BaseCouponURL.replace(WakefernApplicationConstants.CouponsV2.context_root, "");

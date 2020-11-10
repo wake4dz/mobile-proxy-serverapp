@@ -69,6 +69,8 @@ public class WakefernApplicationConstants {
 
 		// Secret for signing JWT used to secure PPC endpoints
 		public static final String USER_JWT_SECRET = "user_jwt_secret";
+		
+		public static final String TIMEOUT_SEARCH_RADIUS_IN_MILE = "timeslot_search_radius_in_mile";
 	}
 
 	public static class Chains {

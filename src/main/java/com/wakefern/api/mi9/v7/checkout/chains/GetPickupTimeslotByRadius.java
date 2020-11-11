@@ -52,14 +52,9 @@ public class GetPickupTimeslotByRadius extends BaseService {
 		JSONObject jsonData = new JSONObject();
 		
         try {	
-        	// This Mi9 API needs the "X-Forwarded-For:10.0.0.1" as HTTP header key/value for the staging server only
-        	if (MWGApplicationConstants.getTargetAPI().trim().equalsIgnoreCase(MWGApplicationConstants.srStage)) {
-        		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.timeslotByRadiusAccept, 
-					MWGApplicationConstants.Headers.Checkout.timeslotByRadiusContentType, sessionToken, null, "10.0.0.1");
-        	} else {
-        		this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.timeslotByRadiusAccept, 
-					MWGApplicationConstants.Headers.Checkout.timeslotByRadiusContentType, sessionToken);
-        	}
+
+        	this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.timeslotByRadiusAccept, 
+				MWGApplicationConstants.Headers.Checkout.timeslotByRadiusContentType, sessionToken);
         	
 			this.requestParams = new HashMap<String, String>();
 			

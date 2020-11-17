@@ -10,6 +10,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -50,6 +52,39 @@ public class GetOptions extends BaseService {
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.fulfillType, fulfillType);
 			
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, "com.wakefern.checkout.payments.GetOptions");
+            
+            logger.debug("jsonResponse in GetOptions(): " + jsonResponse);
+            
+            // 11/17/2020 Danny Zheng
+            // In the emergency release of v3.23.1 to filter out the Thanksgiving payment option 
+            try {
+	            JSONObject responseObj = new JSONObject(jsonResponse);
+	            JSONArray paymentMethodsArray = responseObj.getJSONArray("PaymentMethods");
+	            
+				int paymentsSize = paymentMethodsArray.length();
+				for (int i = 0; i < paymentsSize; i++) {
+					if (paymentMethodsArray.get(i) instanceof JSONObject) {
+						JSONObject paymentObj = paymentMethodsArray.getJSONObject(i);
+						if (paymentObj.getInt("Id") == 8) {
+							logger.debug(paymentObj.getInt("Id"));
+							logger.debug(paymentObj.getString("Name"));
+							logger.debug(paymentObj.getString("PaymentMethodMessage"));
+							
+							// found it, remove it, break out the for loop
+							paymentMethodsArray.remove(i);
+							break;
+						}
+					}
+				}
+	            
+				logger.debug("jsonResponse after filter out Thanksgiving payment option in GetOptions(): " + responseObj.toString());
+				
+				jsonResponse = responseObj.toString();
+				
+            } catch (Exception error) {
+            	logger.error("Something went wrong in filtering out the Thanksgiving payment option: " + LogUtil.getRelevantStackTrace(error));;
+            	// jsonResponse is the original data returned from Mi9, no filtering just in case something is not right
+            }
             
             return this.createValidResponse(jsonResponse);
         

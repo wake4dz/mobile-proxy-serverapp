@@ -13,7 +13,6 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 
 /**
  * Filter to map certain client http error codes (4XX) to other status codes
@@ -68,11 +67,6 @@ public class ClientErrorRewriteFilter implements ContainerResponseFilter {
 			}
 			final AppVersion clientAppVersion = parsedAppVersion;
 
-			// Skip 403 to 401 conversion if the AppVersion header is newer than last supported app version.
-			if (clientAppVersion == null  || clientAppVersion.compareTo(sLastSupportedAppVersion) > 0) {
-				sLogger.debug("Skipping 403 to 401 conversion on app version greater than " + sLastSupportedAppVersion + " or unknown app version");
-				return;
-			}
 			if (responseContext.hasEntity()) {
 				final Object responseEntity = responseContext.getEntity();
 				final String entityString = responseEntity.toString();
@@ -82,7 +76,9 @@ public class ClientErrorRewriteFilter implements ContainerResponseFilter {
 
 				// For app versions less than 4.13.0
 				// This will hopefully be sunsetted once older versions of the app are no longer supported.
-				if (isRatelimitErrorMessage && clientAppVersion.compareTo(sLastSupportedAppVersion) < 0) {
+				if (isRatelimitErrorMessage &&
+						clientAppVersion != null &&
+						clientAppVersion.compareTo(sLastSupportedAppVersion) < 0) {
 					responseContext.setStatus(SC_TOO_MANY_REQUESTS);
 				} else if (!isRatelimitErrorMessage) {
 					responseContext.setStatus(HttpStatus.SC_UNAUTHORIZED);

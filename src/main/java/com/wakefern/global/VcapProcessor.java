@@ -29,6 +29,11 @@ public class VcapProcessor {
 
 	private static String userJwtSecret = null;
 	
+	private static String citrusService = null;
+	private static String citrusCatalogIdStaging = null;
+	private static String citrusContentStandardIdStaging = null;
+	private static String citrusApiKeyStaging = null;
+	
 	private static int timeslotSearchRadiusInMile = 0;
 	
 	//this static code is not run until the class is loaded into the memory for the first time
@@ -109,6 +114,17 @@ public class VcapProcessor {
 					WakefernApplicationConstants.VCAPKeys.USER_JWT_SECRET + " must have a non-empty value");
 		}
 
+		citrusService = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.CITRUS_SERVICE);
+		checkVcapKeyExists(WakefernApplicationConstants.VCAPKeys.CITRUS_SERVICE, citrusService);
+		
+		citrusCatalogIdStaging = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CATALOG_ID);
+		checkVcapKeyExists(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CATALOG_ID, citrusCatalogIdStaging);
+		
+		citrusContentStandardIdStaging = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CONTENT_STANDARD_ID);
+		checkVcapKeyExists(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CONTENT_STANDARD_ID, citrusContentStandardIdStaging);
+		
+		citrusApiKeyStaging = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_KEY);
+		checkVcapKeyExists(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_KEY, citrusApiKeyStaging);
 	}
 
 	public static int getApiHighTimeout() {
@@ -205,5 +221,43 @@ public class VcapProcessor {
 	public static int getTimeslotSearchRadiusInMile() {
 		return timeslotSearchRadiusInMile;
 	}
+	
+	public static String getCitrusApiKey() {
+		if (citrusService.trim().equalsIgnoreCase("staging")) {
+			return citrusApiKeyStaging;
+		} else {
+			return citrusApiKeyStaging; // TODO: prod value
+		}
+	}
+	
+	public static String getCitrusCatalogId() {
+		if (citrusService.trim().equalsIgnoreCase("staging")) {
+			return citrusCatalogIdStaging;
+		} else {
+			return citrusCatalogIdStaging; // TODO: prod value
+		}
+	}
+	
+	public static String getCitrusContentStandardId() {
+		if (citrusService.trim().equalsIgnoreCase("staging")) {
+			return citrusContentStandardIdStaging;
+		} else {
+			return citrusContentStandardIdStaging; // TODO: prod value
+		}
+	}
 
+	/**
+	 * Utility function to check that a Vcap value is defined
+	 * @param name name of Vcap key
+	 * @param value Vcap key value to validate
+	 * @return boolean
+	 * @throws RuntimeException
+	 */
+	private static boolean checkVcapKeyExists(String name, String value) throws RuntimeException {
+		if ((value == null) || (value.trim().length() == 0)) {
+			throw new RuntimeException(name + " must have a non-empty value");
+		}
+		
+		return true;
+	}
 }

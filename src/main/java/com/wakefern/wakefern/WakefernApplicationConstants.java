@@ -71,6 +71,12 @@ public class WakefernApplicationConstants {
 		public static final String USER_JWT_SECRET = "user_jwt_secret";
 		
 		public static final String TIMEOUT_SEARCH_RADIUS_IN_MILE = "timeslot_search_radius_in_mile";
+		
+		// Citrus Ads
+		public static final String CITRUS_SERVICE = "citrus_service";
+		public static final String CITRUS_STG_CATALOG_ID = "citrus_stg_catalog_id";
+		public static final String CITRUS_STG_CONTENT_STANDARD_ID = "citrus_stg_content_standard_id";
+		public static final String CITRUS_STG_KEY = "citrus_stg_key";
 	}
 
 	public static class Chains {

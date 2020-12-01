@@ -200,6 +200,10 @@ public class VcapProcessor {
 	public static int getTimeslotSearchRadiusInMile() {
 		return timeslotSearchRadiusInMile;
 	}
+	
+	public static String getCitrusService() {
+		return citrusService;
+	}
 
 	public static String getCitrusApiKey() {
 		if (citrusService.trim().equalsIgnoreCase("staging")) {

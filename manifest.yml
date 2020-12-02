@@ -39,9 +39,9 @@ applications:
     
     timeslot_search_radius_in_mile: 30
 
-	citrus_service: ((CITRUS_SERVICE))
-	citrus_stg_catalog_id: ((CITRUS_STG_CATALOG_ID))
-	citrus_stg_content_standard_id: ((CITRUS_STG_CONTENT_STANDARD_ID))
-	citrus_stg_key: ((CITRUS_STG_KEY))
+    citrus_service: ((CITRUS_SERVICE))
+    citrus_stg_catalog_id: ((CITRUS_STG_CATALOG_ID))
+    citrus_stg_content_standard_id: ((CITRUS_STG_CONTENT_STANDARD_ID))
+    citrus_stg_key: ((CITRUS_STG_KEY))
   services:
   - ((SRMOBILE_PAPERTRAIL))

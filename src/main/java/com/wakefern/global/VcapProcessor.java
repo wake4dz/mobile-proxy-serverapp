@@ -200,9 +200,17 @@ public class VcapProcessor {
 	public static int getTimeslotSearchRadiusInMile() {
 		return timeslotSearchRadiusInMile;
 	}
-	
+
 	public static String getCitrusService() {
 		return citrusService;
+	}
+
+	public static String getCitrusServiceEndpoint() {
+		if (citrusService.trim().equalsIgnoreCase("staging")) {
+			return WakefernApplicationConstants.CitrusAds.Upstream.stagingBaseUrl;
+		} else {
+			return ""; // TODO: prod value
+		}
 	}
 
 	public static String getCitrusApiKey() {

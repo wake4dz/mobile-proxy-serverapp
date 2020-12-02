@@ -69,9 +69,9 @@ public class WakefernApplicationConstants {
 
 		// Secret for signing JWT used to secure PPC endpoints
 		public static final String USER_JWT_SECRET = "user_jwt_secret";
-		
+
 		public static final String TIMEOUT_SEARCH_RADIUS_IN_MILE = "timeslot_search_radius_in_mile";
-		
+
 		// Citrus Ads
 		public static final String CITRUS_SERVICE = "citrus_service";
 		public static final String CITRUS_STG_CATALOG_ID = "citrus_stg_catalog_id";
@@ -392,7 +392,20 @@ public class WakefernApplicationConstants {
 			}
 		}
 	}
-	
+
+	public static class CitrusAds {
+		public static final String path = "/banner-ads";
+
+		public static class Upstream {
+			public static final String stagingBaseUrl = "https://staging-integration.citrusad.com";
+			// TODO: prodBaseUrl
+		}
+
+		public static class Proxy {
+			public static final String getAds = "/v1/ads/generate";
+		}
+	}
+
 	public static class HealthCheck {
 		public static final String Path = "ping";
 	}

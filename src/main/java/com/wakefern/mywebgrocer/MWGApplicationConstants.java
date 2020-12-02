@@ -327,6 +327,10 @@ public class MWGApplicationConstants {
 			public static final String timeslotByRadiusContentType = prefix + "wakefern-search-fulfillment-slot+json";
 			public static final String timeslotByRadiusAccept = prefix + "wakefern-store-fulfillment-slots+json";
 			
+			public static final String nextTimeslotContentType = prefix + "wakefern-book-fulfillment-slot+json";
+			public static final String nextTimeslotAccept = prefix + "wakefern-booked-fulfillment-slot+json";
+	
+			
 		}
 	}
 
@@ -371,6 +375,7 @@ public class MWGApplicationConstants {
 				public static final String promoCode = "promoCode";
 				public static final String circCategoriesID = "circCategoriesID";
 				public static final String subscriptionID = "subscriptionId";
+				public static final String timeslotID = "timeslotId";
 			}
 
 			// Request Parameters that are part of the URL's query string.
@@ -633,6 +638,7 @@ public class MWGApplicationConstants {
 			private static final String deliveryZip = "/delivery/" + "{" + Params.Path.zipCode + "}";
 			private static final String districtID = "/district/" + "{" + Params.Path.districtID + "}";
 			private static final String orderID = "/order/" + "{" + Params.Path.orderID + "}";
+			private static final String timeslotID = "/{" + Params.Path.timeslotID + "}";
 
 			public static final String prefix = "/checkout/v7";
 
@@ -684,6 +690,12 @@ public class MWGApplicationConstants {
 			public static final String pickupTimeslotByRadius = chainsID + storesID + fflmnt + "/pickup";
 			public static final String deliveryTimeslotByRadius = chainsID + storesID + fflmnt + "/delivery";
 			
+			// 11/25/2020 for Next Available Timeslot feature
+			public static final String getNextTimeBookings = usersID + mwgStoresID + "/book-timeslot";
+			public static final String bookNextTimeBookings = usersID + mwgStoresID + "/book-timeslot";
+			public static final String removeNextTimeslot = usersID + mwgStoresID + "/book-timeslot" + timeslotID + fflmnt + "/pickup";
+			public static final String removeNextAllTimeslots = usersID + mwgStoresID + "/book-timeslot" + fflmnt + "/pickup";
+								
 		}
 
 		public static class Rewards {

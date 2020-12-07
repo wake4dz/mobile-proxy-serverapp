@@ -639,6 +639,7 @@ public class MWGApplicationConstants {
 			private static final String districtID = "/district/" + "{" + Params.Path.districtID + "}";
 			private static final String orderID = "/order/" + "{" + Params.Path.orderID + "}";
 			private static final String timeslotID = "/{" + Params.Path.timeslotID + "}";
+			private static final String fulfillmentType = "/{" + Params.Path.fulfillType + "}";
 
 			public static final String prefix = "/checkout/v7";
 
@@ -693,8 +694,9 @@ public class MWGApplicationConstants {
 			// 11/25/2020 for Next Available Timeslot feature
 			public static final String getNextTimeBookings = usersID + mwgStoresID + "/book-timeslot";
 			public static final String bookNextTimeBookings = usersID + mwgStoresID + "/book-timeslot";
-			public static final String removeNextTimeslot = usersID + mwgStoresID + "/book-timeslot" + timeslotID + fflmnt + "/pickup";
-			public static final String removeNextAllTimeslots = usersID + mwgStoresID + "/book-timeslot" + fflmnt + "/pickup";
+			// fulfillmentType: pickup or delivery 
+			public static final String removeNextTimeslot = usersID + mwgStoresID + "/book-timeslot" + timeslotID + fflmnt + fulfillmentType;
+			public static final String removeNextAllTimeslots = usersID + mwgStoresID + "/book-timeslot" + fflmnt + fulfillmentType;
 								
 		}
 

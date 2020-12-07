@@ -49,6 +49,7 @@ public class DeleteTimeslot extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.timeslotID) String timeslotID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.fulfillType) String fulfillmentType,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) {
@@ -61,12 +62,14 @@ public class DeleteTimeslot extends BaseService {
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.timeslotID, timeslotID);
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.fulfillType, fulfillmentType);
 
             String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, TAG);
             
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
-		        	String trackData = LogUtil.getRequestData("mwgStoreID", mwgStoreID, "userID", userID, "timeslotID", timeslotID,
+		        	String trackData = LogUtil.getRequestData("mwgStoreID", mwgStoreID, "userID", userID, 
+		        			"timeslotID", timeslotID, "fulfillmentType", fulfillmentType,
 		        			"sessionToken", sessionToken, "accept", MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept, 
 		        			"contentType", MWGApplicationConstants.Headers.Checkout.nextTimeslotContentType );
 					logger.info("Tracking data for " + userID + ": " + trackData + "; jsonResponse: " + jsonResponse);
@@ -79,8 +82,8 @@ public class DeleteTimeslot extends BaseService {
         	LogUtil.addErrorMaps(e, MwgErrorType.NEXT_TIMESLOT_DELETE_TIMESLOT);
         	
         	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
-        			"mwgStoreID", mwgStoreID, "userID", userID, "timeslotID", timeslotID, "sessionToken", 
-        			sessionToken, "accept", MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept, 
+        			"mwgStoreID", mwgStoreID, "userID", userID, "timeslotID", timeslotID, "fulfillmentType", fulfillmentType, 
+        			"sessionToken", sessionToken, "accept", MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept, 
         			"contentType", MWGApplicationConstants.Headers.Checkout.nextTimeslotContentType );
 
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

@@ -47,6 +47,7 @@ public class DeleteAllTimeslots extends BaseService {
     public Response getResponse(
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
+    		@PathParam(MWGApplicationConstants.Requests.Params.Path.fulfillType) String fulfillmentType,
     		
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
 	) {
@@ -58,12 +59,13 @@ public class DeleteAllTimeslots extends BaseService {
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
+			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.fulfillType, fulfillmentType);
 
             String jsonResponse = this.mwgRequest(BaseService.ReqType.DELETE, null, TAG);
             
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
-		        	String trackData = LogUtil.getRequestData("mwgStoreID", mwgStoreID, "userID", userID, 
+		        	String trackData = LogUtil.getRequestData("mwgStoreID", mwgStoreID, "userID", userID, "fulfillmentType", fulfillmentType,
 		        			"sessionToken", sessionToken, "accept", MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept, 
 		        			"contentType", MWGApplicationConstants.Headers.Checkout.nextTimeslotContentType );
 					logger.info("Tracking data for " + userID + ": " + trackData + "; jsonResponse: " + jsonResponse);
@@ -76,7 +78,7 @@ public class DeleteAllTimeslots extends BaseService {
         	LogUtil.addErrorMaps(e, MwgErrorType.NEXT_TIMESLOT_DELETE_ALL_TIMESLOTS);
         	
         	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
-        			"mwgStoreID", mwgStoreID, "userID", userID, "sessionToken", 
+        			"mwgStoreID", mwgStoreID, "userID", userID, "fulfillmentType", fulfillmentType, "sessionToken", 
         			sessionToken, "accept", MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept, 
         			"contentType", MWGApplicationConstants.Headers.Checkout.nextTimeslotContentType);
 

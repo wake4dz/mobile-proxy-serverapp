@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>com.ibm.tools.target</groupId>
 			<artifactId>was-liberty</artifactId>
-			<version>8.5.5.1</version>
+			<version>8.5.x.1</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>

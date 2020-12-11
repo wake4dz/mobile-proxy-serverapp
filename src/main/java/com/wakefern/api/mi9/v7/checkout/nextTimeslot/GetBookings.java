@@ -8,6 +8,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
@@ -48,22 +49,27 @@ public class GetBookings extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userID,
     		
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
+    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken, 
+    		@QueryParam(MWGApplicationConstants.Requests.Params.Query.allStores) String allStores
 	) {
 		try {
 			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept,
 					MWGApplicationConstants.Headers.json, sessionToken);
 			this.requestParams = new HashMap<String, String>();
+			this.queryParams   = new HashMap<String, String>();
 			
 			// Build the Map of Request Path parameters
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.mwgStoreID, mwgStoreID);
 			this.requestParams.put(MWGApplicationConstants.Requests.Params.Path.userID, userID);
 
+			this.queryParams.put(MWGApplicationConstants.Requests.Params.Query.allStores, allStores);
+			
             String jsonResponse = this.mwgRequest(BaseService.ReqType.GET, null, TAG);
             
 			if(LogUtil.isUserTrackOn) {
 				if ((userID != null) && LogUtil.trackedUserIdsMap.containsKey(userID.trim())) {
 		        	String trackData = LogUtil.getRequestData("mwgStoreID", mwgStoreID, "userID", userID, 
+		        			MWGApplicationConstants.Requests.Params.Path.userID, allStores,
 		        			"sessionToken", sessionToken, "accept", MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept, 
 		        			"contentType", MWGApplicationConstants.Headers.json );
 					logger.info("Tracking data for " + userID + ": " + trackData + "; jsonResponse: " + jsonResponse);
@@ -77,6 +83,7 @@ public class GetBookings extends BaseService {
         	
         	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"mwgStoreID", mwgStoreID, "userID", userID, "sessionToken", 
+        			MWGApplicationConstants.Requests.Params.Path.userID, allStores,
         			sessionToken, "accept", MWGApplicationConstants.Headers.Checkout.nextTimeslotAccept, 
         			"contentType", MWGApplicationConstants.Headers.json );
 

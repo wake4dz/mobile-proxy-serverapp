@@ -414,6 +414,8 @@ public class MWGApplicationConstants {
 				public static final String sku = "sku";
 				public static final String startDate = "startDate";
 				public static final String endDate = "endDate";
+				
+				public static final String allStores = "allStores";
 			}
 		}
 

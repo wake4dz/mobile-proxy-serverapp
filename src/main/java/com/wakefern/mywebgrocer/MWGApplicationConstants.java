@@ -322,7 +322,7 @@ public class MWGApplicationConstants {
 			public static final String orderResults = prefix + "order-results+json";
 			public static final String concurrentOrders = prefix + "wakefern-concurrent-orders+json";
 			
-			public static final String subscription = prefix + "subscription-state+json";
+			public static final String subscription = prefix + "wakefern-subscription-state+json";
 			
 			public static final String timeslotByRadiusContentType = prefix + "wakefern-search-fulfillment-slot+json";
 			public static final String timeslotByRadiusAccept = prefix + "wakefern-store-fulfillment-slots+json";
@@ -341,7 +341,7 @@ public class MWGApplicationConstants {
 		private static final String storeID = "/store/" + "{" + Params.Path.storeID + "}";
 		private static final String storesID = "/stores/" + "{" + Params.Path.storeID + "}";
 		private static final String listsID = "/lists/" + "{" + Params.Path.listID + "}";
-		private static final String subscriptionID = "/program/" + "{" + Params.Path.subscriptionID + "}";
+		private static final String subscriptionID = "/{" + Params.Path.subscriptionID + "}";
 		
 		// Request Parameters
 		public static class Params {
@@ -686,9 +686,9 @@ public class MWGApplicationConstants {
 			public static final String UserCheckout = "/checkout/v5/user";
 			
 			//subscription APIs
-			public static final String getSubscriptions = userID + storeID + "/subscription";
-			public static final String createSubscription = userID + storeID + "/subscription" + subscriptionID;
-			public static final String removeSubscription = userID + storeID + "/subscription" + subscriptionID;
+			public static final String getSubscriptions = userID + storeID + "/subscriptions";
+			public static final String createSubscription = userID + storeID + "/subscriptions" + subscriptionID;
+			public static final String removeSubscription = userID + storeID + "/subscriptions" + subscriptionID;
 			
 			public static final String pickupTimeslotByRadius = chainsID + storesID + fflmnt + "/pickup";
 			public static final String deliveryTimeslotByRadius = chainsID + storesID + fflmnt + "/delivery";

@@ -13,6 +13,10 @@ import java.util.HashMap;
 
 /**
  * Remove an existing subscription
+ * Special note: this API can't work alone in Postman,
+ *               the session token has to be associated with a timeslot first in the checkout process
+ *               because this API needs to be associated with a fulfillment type either Pickup or Delivery
+ *               https://mi9retail.atlassian.net/browse/WFD-27351
  */
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)

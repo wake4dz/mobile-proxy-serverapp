@@ -75,7 +75,7 @@ public class AuthenticateUser extends BaseService {
 
 		// {"AccountId":"...","FirstName":"..."}
 		final JSONObject loginObj = new JSONObject(loginResponse.getEntity().toString());
-		logger.info(loginObj.toString());
+		logger.info(loginObj.toString() + ", sessionToken=" + sessionToken);
 
 		String profile = null;
 

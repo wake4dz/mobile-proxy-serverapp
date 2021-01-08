@@ -13,6 +13,10 @@ import java.util.HashMap;
 
 /**
  * Get a list of subscriptions for a store
+ * Special note: this API can't work alone in Postman,
+ *               the session token has to be associated with a timeslot first in the checkout process
+ *               because this API needs to be associated with a fulfillment type either Pickup or Delivery
+ *               https://mi9retail.atlassian.net/browse/WFD-27351
  */
 
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
@@ -42,8 +46,7 @@ public class GetSubscriptions extends BaseService {
 			@PathParam(MWGApplicationConstants.Requests.Params.Path.userID) String userId,
 			@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeId,
 
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept) {
+			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken) {
 		
 		try {
 			this.requestHeader = new MWGHeader(MWGApplicationConstants.Headers.Checkout.subscription, MWGApplicationConstants.Headers.json, sessionToken);
@@ -64,7 +67,7 @@ public class GetSubscriptions extends BaseService {
 					LogUtil.getRelevantStackTrace(e),
 					"storeId", storeId,
 					"userId", userId,
-					"accept", accept,
+					"accept", MWGApplicationConstants.Headers.Checkout.subscription,
 					"sessionToken", sessionToken);
 
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

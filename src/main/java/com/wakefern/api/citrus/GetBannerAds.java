@@ -16,6 +16,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -53,6 +54,7 @@ public class GetBannerAds extends BaseService {
 			// extract banners array for client
 			return this.createValidResponse(responseJSON.getJSONArray("banners").toString());
 		} catch (Exception e) {
+			LogUtil.addErrorMaps(e, MwgErrorType.CITRUS_GET_BANNER_ADS);
 			String errorData = LogUtil.getRequestData("GetBannerAds$getAds::Exception",
 					LogUtil.getRelevantStackTrace(e), "body", jsonString);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

@@ -1,4 +1,4 @@
-package com.wakefern.api.wakefern.citrus;
+package com.wakefern.api.citrus;
 
 import java.util.HashMap;
 import java.util.Map;

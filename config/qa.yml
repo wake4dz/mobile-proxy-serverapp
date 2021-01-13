@@ -12,4 +12,4 @@ HTTP_DEFAULT_READ_TIMEOUT_MS: 30000
 # RECIPE_SERVICE & SRMOBILE_CHAIN must be consistent since some Locai's back-end APIs access Mi9's API server
 RECIPE_SERVICE: Production
 WALLET_SERVICE: Production
-CITRUS_SERVICE: Production # TODO
+CITRUS_SERVICE: Production

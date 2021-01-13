@@ -446,6 +446,8 @@ public class LogUtil {
 
 			messages.add("<tr><td>recipe_service</td>" + "<td>" + VcapProcessor.getRecipeService() + "</td> </tr>");
 
+			messages.add("<tr><td>citrus_service</td>" + "<td>" + VcapProcessor.getCitrusService() + "</td> </tr>");
+			
 			messages.add("<tr><td>cors</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("cors")
 					+ "</td> </tr>");
 

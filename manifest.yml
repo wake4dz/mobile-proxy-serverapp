@@ -43,5 +43,8 @@ applications:
     citrus_stg_catalog_id: ((CITRUS_STG_CATALOG_ID))
     citrus_stg_content_standard_id: ((CITRUS_STG_CONTENT_STANDARD_ID))
     citrus_stg_key: ((CITRUS_STG_KEY))
+    citrus_prod_catalog_id: ((CITRUS_PROD_CATALOG_ID))
+    citrus_prod_content_standard_id: ((CITRUS_PROD_CONTENT_STANDARD_ID))
+    citrus_prod_key: ((CITRUS_PROD_KEY))
   services:
   - ((SRMOBILE_PAPERTRAIL))

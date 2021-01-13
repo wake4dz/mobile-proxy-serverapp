@@ -77,6 +77,9 @@ public class WakefernApplicationConstants {
 		public static final String CITRUS_STG_CATALOG_ID = "citrus_stg_catalog_id";
 		public static final String CITRUS_STG_CONTENT_STANDARD_ID = "citrus_stg_content_standard_id";
 		public static final String CITRUS_STG_KEY = "citrus_stg_key";
+		public static final String CITRUS_PROD_CATALOG_ID = "citrus_prod_catalog_id";
+		public static final String CITRUS_PROD_CONTENT_STANDARD_ID = "citrus_prod_content_standard_id";
+		public static final String CITRUS_PROD_KEY = "citrus_prod_key";
 	}
 
 	public static class Chains {
@@ -398,7 +401,7 @@ public class WakefernApplicationConstants {
 
 		public static class Upstream {
 			public static final String stagingBaseUrl = "https://staging-integration.citrusad.com";
-			// TODO: prodBaseUrl
+			public static final String prodBaseUrl = "https://us-integration.citrusad.com";
 		}
 
 		public static class Proxy {

@@ -33,6 +33,9 @@ public class VcapProcessor {
 	private static String citrusCatalogIdStaging = null;
 	private static String citrusContentStandardIdStaging = null;
 	private static String citrusApiKeyStaging = null;
+	private static String citrusCatalogIdProd = null;
+	private static String citrusContentStandardIdProd = null;
+	private static String citrusApiKeyProd = null;
 
 	private static int timeslotSearchRadiusInMile = 0;
 
@@ -87,6 +90,10 @@ public class VcapProcessor {
 		citrusContentStandardIdStaging = getVcapValueString(
 				WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CONTENT_STANDARD_ID);
 		citrusApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_KEY);
+		citrusCatalogIdProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_CATALOG_ID);
+		citrusContentStandardIdProd = getVcapValueString(
+				WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_CONTENT_STANDARD_ID);
+		citrusApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_KEY);
 	}
 
 	public static int getApiHighTimeout() {
@@ -209,7 +216,7 @@ public class VcapProcessor {
 		if (citrusService.trim().equalsIgnoreCase("staging")) {
 			return WakefernApplicationConstants.CitrusAds.Upstream.stagingBaseUrl;
 		} else {
-			return ""; // TODO: prod value
+			return WakefernApplicationConstants.CitrusAds.Upstream.prodBaseUrl;
 		}
 	}
 
@@ -217,7 +224,7 @@ public class VcapProcessor {
 		if (citrusService.trim().equalsIgnoreCase("staging")) {
 			return citrusApiKeyStaging;
 		} else {
-			return citrusApiKeyStaging; // TODO: prod value
+			return citrusApiKeyProd;
 		}
 	}
 
@@ -225,7 +232,7 @@ public class VcapProcessor {
 		if (citrusService.trim().equalsIgnoreCase("staging")) {
 			return citrusCatalogIdStaging;
 		} else {
-			return citrusCatalogIdStaging; // TODO: prod value
+			return citrusCatalogIdProd;
 		}
 	}
 
@@ -233,7 +240,7 @@ public class VcapProcessor {
 		if (citrusService.trim().equalsIgnoreCase("staging")) {
 			return citrusContentStandardIdStaging;
 		} else {
-			return citrusContentStandardIdStaging; // TODO: prod value
+			return citrusContentStandardIdProd;
 		}
 	}
 }

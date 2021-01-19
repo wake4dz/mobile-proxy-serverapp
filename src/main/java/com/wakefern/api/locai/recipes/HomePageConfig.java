@@ -185,7 +185,7 @@ public class HomePageConfig extends BaseService {
 			
 			// special note: current server time is 5-hr earlier than EST, but start/stop datetime are also 5-hrs earlier in server
 			// so, we are still comparing apple to apple in term of the timezone.
-			logger.info("IsValid?: " + isValid + ", shelf title: " + shelfTitle + " [start datetime: " + shelfStart+ ", start datetime in server: " + startServerDateTime + ", "
+			logger.debug("IsValid?: " + isValid + ", shelf title: " + shelfTitle + " [start datetime: " + shelfStart+ ", start datetime in server: " + startServerDateTime + ", "
 					+ "stop datetime: " + shelfStop + ", stop datetime in server: " + stopServerDateTime + ", current server datetime: " + currentServerDateTime + "]");
 
 		} catch (Exception e) {

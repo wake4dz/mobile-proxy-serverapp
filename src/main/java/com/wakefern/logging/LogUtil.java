@@ -372,6 +372,8 @@ public class LogUtil {
 		messages.add(pad("The 'recipe_service' system property:") + VcapProcessor.getRecipeService());
 		messages.add(pad("The 'wallet_service' system property:") + VcapProcessor.getWalletService());
 		messages.add(pad("The 'citrus_service' system property:") + VcapProcessor.getCitrusService());
+    messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
+		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
 
 		messages.add(pad("The 'cors' system property:") + MWGApplicationConstants.getSystemPropertyValue("cors"));
 
@@ -448,6 +450,10 @@ public class LogUtil {
 
 			messages.add("<tr><td>citrus_service</td>" + "<td>" + VcapProcessor.getCitrusService() + "</td> </tr>");
 			
+      messages.add("<tr><td>srfh_orders_service</td><td>" + VcapProcessor.getSrfhOrdersService() + "</td></tr>");
+
+			messages.add("<tr><td>srfh_curbside_service</td><td>" + VcapProcessor.getSrfhCurbsideService() + "</td></tr>");
+
 			messages.add("<tr><td>cors</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("cors")
 					+ "</td> </tr>");
 

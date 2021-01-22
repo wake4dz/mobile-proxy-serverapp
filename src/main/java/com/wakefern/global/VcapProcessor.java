@@ -29,6 +29,13 @@ public class VcapProcessor {
 
 	private static String userJwtSecret = null;
 
+	private static String srfhOrdersService = null;
+	private static String srfhCurbsideService = null;
+	private static String srfhOrdersApiKeyStaging = null;
+	private static String srfhOrdersApiKeyProd = null;
+	private static String srfhCurbsideApiKeyStaging = null;
+	private static String srfhCurbsideApiKeyProd = null;
+	
 	private static String citrusService = null;
 	private static String citrusCatalogIdStaging = null;
 	private static String citrusContentStandardIdStaging = null;
@@ -85,6 +92,14 @@ public class VcapProcessor {
 
 		userJwtSecret = getVcapValueString(WakefernApplicationConstants.VCAPKeys.USER_JWT_SECRET);
 
+		srfhOrdersService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_ORDERS_SERVICE);
+		srfhOrdersApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_ORDERS_STG_API_KEY);
+		srfhOrdersApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_ORDERS_PROD_API_KEY);
+
+		srfhCurbsideService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_SERVICE);
+		srfhCurbsideApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_STG_API_KEY);
+		srfhCurbsideApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_PROD_API_KEY);
+
 		citrusService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_SERVICE);
 		citrusCatalogIdStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CATALOG_ID);
 		citrusContentStandardIdStaging = getVcapValueString(
@@ -136,7 +151,7 @@ public class VcapProcessor {
 	 */
 	private static int getVcapValueInt(String vcapKeyName) throws Exception {
 		String highTimeObj = MWGApplicationConstants.getSystemPropertyValue(vcapKeyName);
-		return highTimeObj != null && !highTimeObj.trim().isEmpty() ? Integer.valueOf(highTimeObj.trim()) : 0;
+		return highTimeObj != null && !highTimeObj.trim().isEmpty() ? Integer.parseInt(highTimeObj.trim()) : 0;
 	}
 
 	/**
@@ -204,6 +219,46 @@ public class VcapProcessor {
 		}
 	}
 
+	public static String getTargetSRFHOrdersBaseUrl() {
+		if (srfhOrdersService.trim().equalsIgnoreCase("staging")) {
+			return WakefernApplicationConstants.APIM.apimDevBaseURL;
+		} else {
+			return WakefernApplicationConstants.APIM.apimBaseURL;
+		}
+	}
+
+	public static String getTargetSRFHOrdersApiKey() {
+		if (srfhOrdersService.trim().equalsIgnoreCase("staging")) {
+			return srfhOrdersApiKeyStaging;
+		} else {
+			return srfhOrdersApiKeyProd;
+		}
+	}
+
+	public static String getTargetSRFHCurbsideBaseUrl() {
+		if (srfhCurbsideService.trim().equalsIgnoreCase("staging")) {
+			return WakefernApplicationConstants.APIM.apimDevBaseURL;
+		} else {
+			return WakefernApplicationConstants.APIM.apimBaseURL;
+		}
+	}
+
+	public static String getTargetSRFHCurbsideApiKey() {
+		if (srfhCurbsideService.trim().equalsIgnoreCase("staging")) {
+			return srfhCurbsideApiKeyStaging;
+		} else {
+			return srfhCurbsideApiKeyProd;
+		}
+	}
+
+	public static String getSrfhOrdersService() {
+		return srfhOrdersService;
+	}
+
+	public static String getSrfhCurbsideService() {
+		return srfhCurbsideService;
+  }
+  
 	public static int getTimeslotSearchRadiusInMile() {
 		return timeslotSearchRadiusInMile;
 	}

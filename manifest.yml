@@ -36,8 +36,16 @@ applications:
     sr_wallet_prod_key: ((SR_WALLET_PRD_KEY))
     sr_wallet_stage_key: ((SR_WALLET_STG_KEY))
     user_jwt_secret: ((USER_JWT_SECRET))
-    
+
     timeslot_search_radius_in_mile: 30
+
+    srfh_orders_service: ((SRFH_ORDERS_SERVICE))
+    srfh_orders_prd_api_key: ((SRFH_ORDERS_PRD_API_KEY))
+    srfh_orders_stg_api_key: ((SRFH_ORDERS_STG_API_KEY))
+
+    srfh_curbside_service: ((SRFH_CURBSIDE_SERVICE))
+    srfh_curbside_prd_api_key: ((SRFH_CURBSIDE_PRD_API_KEY))
+    srfh_curbside_stg_api_key: ((SRFH_CURBSIDE_STG_API_KEY))
 
     citrus_service: ((CITRUS_SERVICE))
     citrus_stg_catalog_id: ((CITRUS_STG_CATALOG_ID))
@@ -46,5 +54,6 @@ applications:
     citrus_prod_catalog_id: ((CITRUS_PROD_CATALOG_ID))
     citrus_prod_content_standard_id: ((CITRUS_PROD_CONTENT_STANDARD_ID))
     citrus_prod_key: ((CITRUS_PROD_KEY))
+
   services:
   - ((SRMOBILE_PAPERTRAIL))

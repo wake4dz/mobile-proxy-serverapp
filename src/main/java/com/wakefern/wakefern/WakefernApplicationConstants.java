@@ -70,6 +70,16 @@ public class WakefernApplicationConstants {
 		// Secret for signing JWT used to secure PPC endpoints
 		public static final String USER_JWT_SECRET = "user_jwt_secret";
 
+		// SRFH Orders API
+		public static final String SRFH_ORDERS_STG_API_KEY = "srfh_orders_stg_api_key";
+		public static final String SRFH_ORDERS_PROD_API_KEY = "srfh_orders_prd_api_key";
+		public static final String SRFH_ORDERS_SERVICE = "srfh_orders_service";
+
+		// SRFH curbside API
+		public static final String SRFH_CURBSIDE_STG_API_KEY = "srfh_curbside_stg_api_key";
+		public static final String SRFH_CURBSIDE_PROD_API_KEY = "srfh_curbside_prd_api_key";
+		public static final String SRFH_CURBSIDE_SERVICE = "srfh_curbside_service";
+		
 		public static final String TIMEOUT_SEARCH_RADIUS_IN_MILE = "timeslot_search_radius_in_mile";
 
 		// Citrus Ads
@@ -291,6 +301,36 @@ public class WakefernApplicationConstants {
 
 			public static final String enrollmentPath = "/selection-ecom/rest/ecom/sms/enrollment";
 			public static final String orderSubscriptionPath = "/selection-ecom/rest/ecom/sms/registerOrder";
+		}
+	}
+
+	public static class UpcomingOrders {
+		public static class Proxy {
+			public static final String Path = "users/{ppc}/pickup/upcoming-orders";
+		}
+
+		public static class Upstream {
+			public static final String MimeType = "application/vnd.wakefern.selection.api.v3+json";
+			public static final String upcomingOrdersPath = "/selection-ecom/rest/ecom/customer/upcomingOrders/";
+		}
+
+		public static class RequestParamsQuery {
+			public static final String frequentShopperNumber = "frequentShopperNumber";
+			public static final String fulfillmentDate = "fulfillmentDate";
+		}
+	}
+
+	public static class CurbsideSession {
+		public static class Proxy {
+			public static final String Path = "users/{ppc}/pickup/curbside/session";
+		}
+
+		public static class Upstream {
+			public static final String Path = "/selection-external/rest/ext/curbside/session";
+		}
+
+		public static class RequestParamsQuery {
+			public static final String key = "key";
 		}
 	}
 

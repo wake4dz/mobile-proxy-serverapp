@@ -4,11 +4,13 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWT;
+import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.log4j.Logger;
 
@@ -52,7 +54,8 @@ public class UpdateCurbsideSession extends BaseService {
 			LogUtil.addErrorMaps(e, MwgErrorType.APIM_SRFH_UPDATE_CURBSIDE_SESSION);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc, "key", key);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			return createErrorResponse(errorData, e);
+			Response response = createErrorResponse(errorData, e);
+			return UpstreamErrorHandler.handleResponse(response);
 		}
 	}
 }

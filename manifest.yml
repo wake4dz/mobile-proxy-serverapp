@@ -55,5 +55,6 @@ applications:
     citrus_prod_content_standard_id: ((CITRUS_PROD_CONTENT_STANDARD_ID))
     citrus_prod_key: ((CITRUS_PROD_KEY))
 
+	in_circular_conversion: true
   services:
   - ((SRMOBILE_PAPERTRAIL))

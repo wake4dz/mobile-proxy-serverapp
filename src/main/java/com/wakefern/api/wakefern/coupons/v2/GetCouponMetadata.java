@@ -15,6 +15,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -51,13 +53,23 @@ public class GetCouponMetadata extends BaseService {
         
         try {
         	String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, VcapProcessor.getApiHighTimeout());
+        	
         	try{
             	if(isFilterCoupon(appVersion)){ // if appVersion is empty or less than 3.16
             		response = this.filterCouponType(response);
             	}
+            	
+            	//Note: this is a temp solution for the existing old mobile app UI out in the production as of 2/9/2021
+            	if (VcapProcessor.isInCircularConversion()) {
+            		response = convertInCircular(response);
+            	}
+            	
+            	logger.debug("After filtered response: " + response);
+            	
         	} catch (Exception e){
         		logger.error("[GetCouponMetadata]::getInfoResponse - "+e.getMessage());
         	}
+        
             return this.createValidResponse(response);
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_COUPON_METADATA);
@@ -119,5 +131,42 @@ public class GetCouponMetadata extends BaseService {
     		}
     	}
     	return isFilter;
+    }
+    
+    /**
+     * As of 2/9/2021, any in-circular coupon items are marked with "featured=Y" in the ShopRite mobile app UI. 
+     * The coupon supplier of Inmar is planning to use "featured=Y" for any featured items in the future,
+     * 	and tag any in-circular coupon items with a tag value of "promo2" instead.
+     * 
+     * Due to many old apps out in the Prod, we try to set "feature=Y" when we see a tag value of "promo2" for any
+     * in-circular items. But this creates some UI discrepancies issue for combining featured items and in-circular items in 
+     * the same UI display location.
+     */
+    private String convertInCircular(String response) {
+    	JSONArray couponArray = new JSONArray(response);
+    	JSONArray updatedCouponArray = new JSONArray();
+    	
+    	logger.debug("Coupon array size: " + couponArray.length());
+    	for (int i = 0; i < couponArray.length(); i++) {
+			JSONObject coupon = couponArray.getJSONObject(i);
+			JSONArray tagArray = coupon.optJSONArray("tags");
+			
+			if ((tagArray != null) && (tagArray.length() > 0)) {
+				for (int j = 0; j < tagArray.length(); j++) {
+					JSONObject tag = tagArray.getJSONObject(j);
+					if (tag.getString("tag").equalsIgnoreCase("promo2")) {
+						logger.debug("tag value: " + tag.getString("tag") + ",    featured:" + coupon.getString("featured"));
+						coupon.remove("featured");
+						coupon.put("featured", "Y");
+						
+						//no need to check the rest of tag values
+						break;
+					}
+				}
+			}
+			updatedCouponArray.put(coupon);
+    	}
+    	
+    	return updatedCouponArray.toString();
     }
 }

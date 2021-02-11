@@ -10,7 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -21,13 +20,19 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
+/*
+ * Author: Danny Zheng
+ * Date:   2/10/2021
+ * Release:3.26.0
+ * JIRA:   https://wakefern.atlassian.net/browse/DMAU-1470
+ * Desc:   The final phase of the Citrus Ad integration, send all order info to Citrus
+ */
 @Path(WakefernApplicationConstants.CitrusAds.Path)
-public class GetBannerAds extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetBannerAds.class);
-	private final static String catalogId = VcapProcessor.getCitrusCatalogId();
-	private final static String contentStandardId = VcapProcessor.getCitrusContentStandardId();
+public class SyncOrderInfo extends BaseService {
+	private final static Logger logger = Logger.getLogger(SyncOrderInfo.class);
+
 	private final static String requestURL = VcapProcessor.getCitrusServiceEndpoint()
-			+ WakefernApplicationConstants.CitrusAds.Proxy.GetAds;
+			+ WakefernApplicationConstants.CitrusAds.Proxy.SyncOrderInfo;
 	private final static Map<String, String> headerMap = new HashMap<String, String>();
 	private final static int timeout = VcapProcessor.getApiLowTimeout();
 
@@ -41,21 +46,14 @@ public class GetBannerAds extends BaseService {
 	@POST
 	@Consumes(MWGApplicationConstants.Headers.json)
 	@Produces(MWGApplicationConstants.Headers.json)
-	public Response getAds(String jsonString) {
+	@Path(WakefernApplicationConstants.CitrusAds.SyncOrderInfo)
+	public Response syncOrder(String jsonString) {
 		try {
-			// add environment fields to Citrus upstream request
-			JSONObject requestJSON = new JSONObject(jsonString);
-			requestJSON.put("catalogId", catalogId);
-			requestJSON.put("contentStandardId", contentStandardId);
-
-			String response = HTTPRequest.executePostJSON(requestURL, requestJSON.toString(), headerMap, timeout);
-			JSONObject responseJSON = new JSONObject(response);
-
-			// extract banners array for client
-			return this.createValidResponse(responseJSON.getJSONArray("banners").toString());
+			String response = HTTPRequest.executePostJSON(requestURL, jsonString, headerMap, timeout);
+			return this.createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.CITRUS_GET_BANNER_ADS);
-			String errorData = LogUtil.getRequestData("GetBannerAds$getAds::Exception",
+			LogUtil.addErrorMaps(e, MwgErrorType.CITRUS_SYNC_ORDER_INFO);
+			String errorData = LogUtil.getRequestData("ExceptionLocation",
 					LogUtil.getRelevantStackTrace(e), "body", jsonString);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);

@@ -437,15 +437,17 @@ public class WakefernApplicationConstants {
 	}
 
 	public static class CitrusAds {
-		public static final String path = "/banner-ads";
-
+		public static final String Path = "/banner-ads";
+		public static final String SyncOrderInfo = "/syncOrderInfo";
+		
 		public static class Upstream {
 			public static final String stagingBaseUrl = "https://staging-integration.citrusad.com";
 			public static final String prodBaseUrl = "https://us-integration.citrusad.com";
 		}
 
 		public static class Proxy {
-			public static final String getAds = "/v1/ads/generate";
+			public static final String GetAds = "/v1/ads/generate";
+			public static final String SyncOrderInfo = "/v1/orders";
 		}
 	}
 

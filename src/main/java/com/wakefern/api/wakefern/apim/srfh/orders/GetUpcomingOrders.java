@@ -4,6 +4,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWT;
+import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -53,7 +54,8 @@ public class GetUpcomingOrders extends BaseService {
 			LogUtil.addErrorMaps(e, MwgErrorType.APIM_SRFH_GET_UPCOMING_ORDERS);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc, "fulfillmentDate", fulfillmentDate);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			return createErrorResponse(errorData, e);
+			Response response = createErrorResponse(errorData, e);
+			return UpstreamErrorHandler.handleResponse(response);
 		}
 	}
 }

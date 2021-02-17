@@ -57,5 +57,5 @@ applications:
 
     in_circular_conversion: true
 
-services:
-- ((SRMOBILE_PAPERTRAIL))
+  services:
+  - ((SRMOBILE_PAPERTRAIL))

@@ -91,7 +91,6 @@ public class WakefernApplicationConstants {
 		public static final String CITRUS_PROD_CONTENT_STANDARD_ID = "citrus_prod_content_standard_id";
 		public static final String CITRUS_PROD_KEY = "citrus_prod_key";
 		
-		public static final String IN_CIRCULAR_CONVERSION = "in_circular_conversion";
 	}
 
 	public static class Chains {

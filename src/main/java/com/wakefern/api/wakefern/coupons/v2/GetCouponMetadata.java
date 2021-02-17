@@ -58,9 +58,9 @@ public class GetCouponMetadata extends BaseService {
             	if(isFilterCoupon(appVersion)){ // if appVersion is empty or less than 3.16
             		response = this.filterCouponType(response);
             	}
-            	
-            	//Note: this is a temp solution for the existing old mobile app UI out in the production as of 2/9/2021
-            	if (VcapProcessor.isInCircularConversion()) {
+
+            	// in-circular coupon conversion if the UI release is < 4.17.0
+            	if (isConvertedCoupon(appVersion)) {
             		response = convertInCircular(response);
             	}
             	
@@ -118,7 +118,7 @@ public class GetCouponMetadata extends BaseService {
     	int minorVerToNotFilter = 18;
     	
     	if (appVerHeader != null && !appVerHeader.isEmpty()) {
-    		logger.info("[GetCouponMetadata]::isFilterCoupon::Version-" + appVerHeader);
+    		logger.debug("[GetCouponMetadata]::isFilterCoupon::Version-" + appVerHeader);
     		String[] headerVerArr = appVerHeader.split("\\.");
     		int majorVerHeader = Integer.parseInt(headerVerArr[0]);
     		// check major version
@@ -131,6 +131,35 @@ public class GetCouponMetadata extends BaseService {
     		}
     	}
     	return isFilter;
+    }
+    
+    /**
+     * if no AppVersion or AppVersion in request is < 4.17,
+     * 	then convert in-circular coupon
+     * 	else no conversion
+     * @param appVerHeader
+     * @return true if need a conversion, false otherwise.
+     */
+    private boolean isConvertedCoupon(String appVerHeader) {
+    	boolean isConverted = true;
+    	// filter out coupon below 4.17
+    	int majorVerToNotFilter = 4;
+    	int minorVerToNotFilter = 17;
+    	
+    	if (appVerHeader != null && !appVerHeader.isEmpty()) {
+    		logger.debug("[GetCouponMetadata]::isConvertedCoupon::Version-" + appVerHeader);
+    		String[] headerVerArr = appVerHeader.split("\\.");
+    		int majorVerHeader = Integer.parseInt(headerVerArr[0]);
+    		// check major version
+    		if (majorVerHeader > majorVerToNotFilter) { // header major ver above 4..
+    			isConverted = false;
+    		} else if (majorVerHeader == majorVerToNotFilter) { // check minor version
+    			if (Integer.parseInt(headerVerArr[1]) >= minorVerToNotFilter) {
+    				isConverted = false;
+    			}
+    		}
+    	}
+    	return isConverted;
     }
     
     /**

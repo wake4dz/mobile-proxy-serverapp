@@ -45,8 +45,6 @@ public class VcapProcessor {
 	private static String citrusApiKeyProd = null;
 
 	private static int timeslotSearchRadiusInMile = 0;
-	
-	private static String inCircularConversion = null;
 
 	// this static code is not run until the class is loaded into the memory for the
 	// first time system settings are fetched once, store them in the heap memory
@@ -112,7 +110,6 @@ public class VcapProcessor {
 				WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_CONTENT_STANDARD_ID);
 		citrusApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_KEY);
 		
-		inCircularConversion = getVcapValueString(WakefernApplicationConstants.VCAPKeys.IN_CIRCULAR_CONVERSION);
 	}
 
 	public static int getApiHighTimeout() {
@@ -303,11 +300,4 @@ public class VcapProcessor {
 		}
 	}
 	
-	public static boolean isInCircularConversion() {
-		if (inCircularConversion.trim().equalsIgnoreCase("true")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 }

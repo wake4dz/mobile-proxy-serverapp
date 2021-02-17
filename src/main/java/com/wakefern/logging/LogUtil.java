@@ -376,7 +376,6 @@ public class LogUtil {
 		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
 
 		messages.add(pad("The 'cors' system property:") + MWGApplicationConstants.getSystemPropertyValue("cors"));
-		messages.add(pad("The 'in_circular_conversion' system property:") + VcapProcessor.isInCircularConversion());
 		
 		messages.add(pad("The 'api_high_timeout' system property:") + VcapProcessor.getApiHighTimeout());
 		messages.add(pad("The 'api_medium_timeout' system property:") + VcapProcessor.getApiMediumTimeout());
@@ -457,10 +456,6 @@ public class LogUtil {
 
 			messages.add("<tr><td>cors</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("cors")
 					+ "</td> </tr>");
-			
-			messages.add("<tr><td>in_circular_conversion</td>" + "<td>" + VcapProcessor.isInCircularConversion()
-			+ "</td> </tr>");
-
 
 			messages.add("<tr><td>api_high_timeout</td>" + "<td>" + VcapProcessor.getApiHighTimeout() + "</td> </tr>");
 

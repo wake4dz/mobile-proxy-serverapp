@@ -134,11 +134,11 @@ public class GetCouponMetadata extends BaseService {
     }
     
     /**
-     * As of 2/9/2021, any in-circular coupon items are marked with "featured=Y" in the ShopRite mobile app UI. 
+     * As of 2/17/2021, any in-circular coupon items are marked with "featured=Y" in the ShopRite mobile app UI. 
      * The coupon supplier of Inmar is planning to use "featured=Y" for any featured items in the future,
-     * 	and tag any in-circular coupon items with a tag value of "promo2" instead.
+     * 	and tag any in-circular coupon items with a tag value of "circular" instead.
      * 
-     * Due to many old apps out in the Prod, we try to set "feature=Y" when we see a tag value of "promo2" for any
+     * Due to many old apps out in the Prod, we try to set "feature=Y" when we see a tag value of "circular" for any
      * in-circular items. But this creates some UI discrepancies issue for combining featured items and in-circular items in 
      * the same UI display location.
      */
@@ -154,7 +154,7 @@ public class GetCouponMetadata extends BaseService {
 			if ((tagArray != null) && (tagArray.length() > 0)) {
 				for (int j = 0; j < tagArray.length(); j++) {
 					JSONObject tag = tagArray.getJSONObject(j);
-					if (tag.getString("tag").equalsIgnoreCase("promo2")) {
+					if (tag.getString("tag").equalsIgnoreCase("CIRCULAR")) {
 						logger.debug("tag value: " + tag.getString("tag") + ",    featured:" + coupon.getString("featured"));
 						coupon.remove("featured");
 						coupon.put("featured", "Y");

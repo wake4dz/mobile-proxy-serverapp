@@ -183,7 +183,7 @@ public class GetCouponMetadata extends BaseService {
 			if ((tagArray != null) && (tagArray.length() > 0)) {
 				for (int j = 0; j < tagArray.length(); j++) {
 					JSONObject tag = tagArray.getJSONObject(j);
-					if (tag.getString("tag").equalsIgnoreCase("CIRCULAR")) {
+					if (tag.getString("tag").trim().equalsIgnoreCase("CIRCULAR")) {
 						logger.debug("tag value: " + tag.getString("tag") + ",    featured:" + coupon.getString("featured"));
 						coupon.remove("featured");
 						coupon.put("featured", "Y");

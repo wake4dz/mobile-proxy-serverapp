@@ -15,6 +15,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -51,13 +53,23 @@ public class GetCouponMetadata extends BaseService {
         
         try {
         	String response = HTTPRequest.executePostJSON(this.requestPath, jsonString, headerMap, VcapProcessor.getApiHighTimeout());
+        	
         	try{
             	if(isFilterCoupon(appVersion)){ // if appVersion is empty or less than 3.16
             		response = this.filterCouponType(response);
             	}
+
+            	// in-circular coupon conversion if the UI release is < 4.17.0
+            	if (isConvertedCoupon(appVersion)) {
+            		response = convertInCircular(response);
+            	}
+            	
+            	logger.debug("After filtered response: " + response);
+            	
         	} catch (Exception e){
         		logger.error("[GetCouponMetadata]::getInfoResponse - "+e.getMessage());
         	}
+        
             return this.createValidResponse(response);
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.COUPONS_V2_GET_COUPON_METADATA);
@@ -106,7 +118,7 @@ public class GetCouponMetadata extends BaseService {
     	int minorVerToNotFilter = 18;
     	
     	if (appVerHeader != null && !appVerHeader.isEmpty()) {
-    		logger.info("[GetCouponMetadata]::isFilterCoupon::Version-" + appVerHeader);
+    		logger.debug("[GetCouponMetadata]::isFilterCoupon::Version-" + appVerHeader);
     		String[] headerVerArr = appVerHeader.split("\\.");
     		int majorVerHeader = Integer.parseInt(headerVerArr[0]);
     		// check major version
@@ -119,5 +131,71 @@ public class GetCouponMetadata extends BaseService {
     		}
     	}
     	return isFilter;
+    }
+    
+    /**
+     * if no AppVersion or AppVersion in request is < 4.17,
+     * 	then convert in-circular coupon
+     * 	else no conversion
+     * @param appVerHeader
+     * @return true if need a conversion, false otherwise.
+     */
+    private boolean isConvertedCoupon(String appVerHeader) {
+    	boolean isConverted = true;
+    	// filter out coupon below 4.17
+    	int majorVerToNotFilter = 4;
+    	int minorVerToNotFilter = 17;
+    	
+    	if (appVerHeader != null && !appVerHeader.isEmpty()) {
+    		logger.debug("[GetCouponMetadata]::isConvertedCoupon::Version-" + appVerHeader);
+    		String[] headerVerArr = appVerHeader.split("\\.");
+    		int majorVerHeader = Integer.parseInt(headerVerArr[0]);
+    		// check major version
+    		if (majorVerHeader > majorVerToNotFilter) { // header major ver above 4..
+    			isConverted = false;
+    		} else if (majorVerHeader == majorVerToNotFilter) { // check minor version
+    			if (Integer.parseInt(headerVerArr[1]) >= minorVerToNotFilter) {
+    				isConverted = false;
+    			}
+    		}
+    	}
+    	return isConverted;
+    }
+    
+    /**
+     * As of 2/17/2021, any in-circular coupon items are marked with "featured=Y" in the ShopRite mobile app UI. 
+     * The coupon supplier of Inmar is planning to use "featured=Y" for any featured items in the future,
+     * 	and tag any in-circular coupon items with a tag value of "circular" instead.
+     * 
+     * Due to many old apps out in the Prod, we try to set "feature=Y" when we see a tag value of "circular" for any
+     * in-circular items. But this creates some UI discrepancies issue for combining featured items and in-circular items in 
+     * the same UI display location.
+     */
+    private String convertInCircular(String response) {
+    	JSONArray couponArray = new JSONArray(response);
+    	JSONArray updatedCouponArray = new JSONArray();
+    	
+    	logger.debug("Coupon array size: " + couponArray.length());
+    	for (int i = 0; i < couponArray.length(); i++) {
+			JSONObject coupon = couponArray.getJSONObject(i);
+			JSONArray tagArray = coupon.optJSONArray("tags");
+			
+			if ((tagArray != null) && (tagArray.length() > 0)) {
+				for (int j = 0; j < tagArray.length(); j++) {
+					JSONObject tag = tagArray.getJSONObject(j);
+					if (tag.getString("tag").equalsIgnoreCase("CIRCULAR")) {
+						logger.debug("tag value: " + tag.getString("tag") + ",    featured:" + coupon.getString("featured"));
+						coupon.remove("featured");
+						coupon.put("featured", "Y");
+						
+						//no need to check the rest of tag values
+						break;
+					}
+				}
+			}
+			updatedCouponArray.put(coupon);
+    	}
+    	
+    	return updatedCouponArray.toString();
     }
 }

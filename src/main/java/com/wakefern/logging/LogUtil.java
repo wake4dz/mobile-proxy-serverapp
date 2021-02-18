@@ -372,11 +372,11 @@ public class LogUtil {
 		messages.add(pad("The 'recipe_service' system property:") + VcapProcessor.getRecipeService());
 		messages.add(pad("The 'wallet_service' system property:") + VcapProcessor.getWalletService());
 		messages.add(pad("The 'citrus_service' system property:") + VcapProcessor.getCitrusService());
-    messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
+        messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
 		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
 
 		messages.add(pad("The 'cors' system property:") + MWGApplicationConstants.getSystemPropertyValue("cors"));
-
+		
 		messages.add(pad("The 'api_high_timeout' system property:") + VcapProcessor.getApiHighTimeout());
 		messages.add(pad("The 'api_medium_timeout' system property:") + VcapProcessor.getApiMediumTimeout());
 		messages.add(pad("The 'api_low_timeout' system property:") + VcapProcessor.getApiLowTimeout());

@@ -109,6 +109,7 @@ public class VcapProcessor {
 		citrusContentStandardIdProd = getVcapValueString(
 				WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_CONTENT_STANDARD_ID);
 		citrusApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_KEY);
+		
 	}
 
 	public static int getApiHighTimeout() {
@@ -298,4 +299,5 @@ public class VcapProcessor {
 			return citrusContentStandardIdProd;
 		}
 	}
+	
 }

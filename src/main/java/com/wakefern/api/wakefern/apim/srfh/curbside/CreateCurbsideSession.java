@@ -31,10 +31,12 @@ public class CreateCurbsideSession extends BaseService {
 	@Consumes(MWGApplicationConstants.Headers.generic)
 	public Response getInfo(@PathParam("ppc") String ppc,
 							String body) {
-		logger.debug("Create curbside session for " + ppc + " body: " + body);
+		logger.debug("Create curbside session for " + ppc
+					+ " body: " + body);
 		try {
 			URIBuilder uriBuilder = new URIBuilder(VcapProcessor.getTargetSRFHCurbsideBaseUrl()
 					+ WakefernApplicationConstants.CurbsideSession.Upstream.Path);
+
 			final String requestURI = uriBuilder.build().toString();
 			Map<String, String> headers = new HashMap<>();
 			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHCurbsideApiKey());

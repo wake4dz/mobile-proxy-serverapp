@@ -332,6 +332,9 @@ public class WakefernApplicationConstants {
 
 		public static class RequestParamsQuery {
 			public static final String key = "key";
+			public static final String orderNumber = "orderNumber";
+			public static final String storeNumber = "storeNumber";
+			public static final String frequentShopperNumber = "frequentShopperNumber";
 		}
 	}
 

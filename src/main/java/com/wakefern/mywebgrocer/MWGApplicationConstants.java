@@ -329,7 +329,9 @@ public class MWGApplicationConstants {
 			
 			public static final String nextTimeslotContentType = prefix + "wakefern-book-fulfillment-slot+json";
 			public static final String nextTimeslotAccept = prefix + "wakefern-booked-fulfillment-slot+json";
-	
+			
+			public static final String alcoholAccept = prefix + "wakefern-alcohol-restrictions+json";
+			public static final String alcoholContentType = prefix + "wakefern-alcohol-restrictions+json";
 			
 		}
 	}
@@ -699,6 +701,8 @@ public class MWGApplicationConstants {
 			// fulfillmentType: pickup or delivery 
 			public static final String removeNextTimeslot = usersID + mwgStoresID + "/book-timeslot" + timeslotID + fflmnt + fulfillmentType;
 			public static final String removeNextAllTimeslots = usersID + mwgStoresID + "/book-timeslot" + fflmnt + fulfillmentType;
+			
+			public static final String alcohol = usersID + mwgStoresID;
 								
 		}
 

@@ -442,6 +442,7 @@ public class WakefernApplicationConstants {
 
 	public static class CitrusAds {
 		public static final String Path = "/banner-ads";
+		public static final String AdsPath = "/ads";
 		public static final String SyncOrderInfo = "/syncOrderInfo";
 		
 		public static class Upstream {

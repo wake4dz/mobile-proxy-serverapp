@@ -1,5 +1,7 @@
 package com.wakefern.api.mi9.v7.checkout.payments;
 
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
@@ -39,6 +41,7 @@ public class GetOptions extends BaseService {
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.mwgStoreID) String mwgStoreID,
     		@PathParam(MWGApplicationConstants.Requests.Params.Path.fulfillType) String fulfillType,
     		
+    		@HeaderParam(ApplicationConstants.Requests.Header.appVersion) String appVersion, 
     		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
     		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken    		
@@ -59,26 +62,27 @@ public class GetOptions extends BaseService {
             // In the emergency release of v3.23.1 to filter out the Thanksgiving payment option 
             try {
 	            JSONObject responseObj = new JSONObject(jsonResponse);
-	            JSONArray paymentMethodsArray = responseObj.getJSONArray("PaymentMethods");
 	            
-				int paymentsSize = paymentMethodsArray.length();
-				for (int i = 0; i < paymentsSize; i++) {
-					if (paymentMethodsArray.get(i) instanceof JSONObject) {
-						JSONObject paymentObj = paymentMethodsArray.getJSONObject(i);
-						if (paymentObj.getInt("Id") == 8) {
-							logger.debug(paymentObj.getInt("Id"));
-							logger.debug(paymentObj.getString("Name"));
-							logger.debug(paymentObj.getString("PaymentMethodMessage"));
-							
-							// found it, remove it, break out the for loop
-							paymentMethodsArray.remove(i);
-							break;
+	            if (ApplicationUtils.isReleaseApplicable(appVersion, 4, 21)) { // for any UI app release < 4.21
+		            JSONArray paymentMethodsArray = responseObj.getJSONArray("PaymentMethods");  
+					int paymentsSize = paymentMethodsArray.length();
+					for (int i = 0; i < paymentsSize; i++) {
+						if (paymentMethodsArray.get(i) instanceof JSONObject) {
+							JSONObject paymentObj = paymentMethodsArray.getJSONObject(i);
+							if (paymentObj.getInt("Id") == 8) {
+								logger.debug(paymentObj.getInt("Id"));
+								logger.debug(paymentObj.getString("Name"));
+								logger.debug(paymentObj.getString("PaymentMethodMessage"));
+								
+								// found it, remove it, break out the for loop
+								paymentMethodsArray.remove(i);
+								break;
+							}
 						}
 					}
-				}
+					logger.debug("jsonResponse after filter out Thanksgiving payment option in GetOptions(): " + responseObj.toString());
+	            }
 	            
-				logger.debug("jsonResponse after filter out Thanksgiving payment option in GetOptions(): " + responseObj.toString());
-				
 				jsonResponse = responseObj.toString();
 				
             } catch (Exception error) {
@@ -92,7 +96,7 @@ public class GetOptions extends BaseService {
         	LogUtil.addErrorMaps(e, MwgErrorType.PAYMENTS_GET_OPTIONS);
         	
         	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
-        			"mwgStoreID", mwgStoreID, "fulfillType", fulfillType, 
+        			"mwgStoreID", mwgStoreID, "appVersion", appVersion, "fulfillType", fulfillType, 
         			"sessionToken", sessionToken, "accept", accept, "contentType", contentType );
         	
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
@@ -100,6 +104,7 @@ public class GetOptions extends BaseService {
             return this.createErrorResponse(errorData, e);
         }
     }
+	
 }
 
 

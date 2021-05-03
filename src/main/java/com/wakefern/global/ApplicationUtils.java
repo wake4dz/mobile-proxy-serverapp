@@ -59,4 +59,31 @@ public class ApplicationUtils {
 		logger.info("[ApplicationUtils]::getCouponServiceEndpoint::coupon_domain " + coupon_domain);
     	return coupon_domain;
     }
+    
+    
+	
+    /**
+     * if no AppVersion or AppVersion in request is < majorVersion.minorVersion  (Important note: < is the key )
+     * 	then applicable
+     * 	else not 
+     * @param appVerHeader
+     * @return true if applicable, false otherwise.
+     */
+    public static boolean isReleaseApplicable(String appVerHeader, int majorVersion, int minorVersion) {
+    	boolean isApplicable = true;
+    	
+    	if (appVerHeader != null && !appVerHeader.isEmpty()) {
+    		String[] headerVerArr = appVerHeader.split("\\.");
+    		int majorVerHeader = Integer.parseInt(headerVerArr[0]);
+ 
+    		if (majorVerHeader > majorVersion) { // header major version
+    			isApplicable = false;
+    		} else if (majorVerHeader == majorVersion) { // check minor version
+    			if (Integer.parseInt(headerVerArr[1]) >= minorVersion) {
+    				isApplicable = false;
+    			}
+    		}
+    	}
+    	return isApplicable;
+    }
 }

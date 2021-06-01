@@ -388,8 +388,6 @@ public class LogUtil {
 		messages.add(pad("The 'timeslot_search_radius_in_mile' system property:")
 				+ VcapProcessor.getTimeslotSearchRadiusInMile());
 
-		messages.add(pad("The 'plastic_bag_fee' system property:")
-				+ MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee"));
 
 		messages.add("");
 
@@ -472,9 +470,6 @@ public class LogUtil {
 
 			messages.add("<tr><td>timeslot_search_radius_in_mile</td><td>"
 					+ VcapProcessor.getTimeslotSearchRadiusInMile() + "</td></tr>");
-
-			messages.add("<tr><td>plastic_bag_fee</td>" + "<td>"
-					+ formatStores(MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee")) + "</td> </tr>");
 
 			messages.add("</table> <br /> <br />");
 

@@ -391,7 +391,7 @@ public class LogUtil {
 
 		messages.add("");
 
-		messages.add(pad("The current IP address:") + ipAddress);
+		messages.add(pad("The server IP address:") + ipAddress);
 
 		messages.add("");
 		messages.add("The mobile app's back-end is ready to serve...");
@@ -473,8 +473,9 @@ public class LogUtil {
 
 			messages.add("</table> <br /> <br />");
 
-			messages.add("<h2>The current IP address: " + ipAddress + "</h2>");
-
+			messages.add("<h2>The client IP address: " + clientIp + "</h2>");
+			messages.add("<h2>The server IP address: " + ipAddress + "</h2>");
+			
 			messages.add("<h1>The mobile app's back-end is ready to serve...</h1>");
 
 		} else {
@@ -591,6 +592,8 @@ public class LogUtil {
 	// Intranet/VPN
 	// Mark Covello on 5/27/2020 states the Wakefern IP range is from 65.51.66.0 to
 	// 65.51.66.255 as externally facing
+	
+
 	public static boolean isAuthorized(String clientIp) {
 		boolean isAuthorized = false;
 
@@ -607,12 +610,14 @@ public class LogUtil {
 		} else if (dotCount == 3) { // ipv4 format
 			String[] ipRanges = clientIp.split("\\.");
 
-			// Wakefern IP range is from 65.51.66.0 to 65.51.66.255
-			if (Integer.valueOf(ipRanges[0]) == 65 && Integer.valueOf(ipRanges[1]) == 51
-					&& Integer.valueOf(ipRanges[2]) == 66
-					&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 255))) {
-				isAuthorized = true;
+			// Wakefern IP range is from 165.225.39.0/255 if Zscaler is ON 
+			// Unofficial IP ranges from Danny's research on 2021/06/11 for Wakefern's new security implementations of Split Tunneling and Zscaler
+			if ((Integer.valueOf(ipRanges[0]) == 165 && Integer.valueOf(ipRanges[1]) == 225 && Integer.valueOf(ipRanges[2]) == 39
+					&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 255)))) {
+					
+					isAuthorized = true;
 			}
+				
 		} else { // ipv6 format
 			isAuthorized = false;
 		}
@@ -621,4 +626,6 @@ public class LogUtil {
 
 		return isAuthorized;
 	}
+	
+	
 }

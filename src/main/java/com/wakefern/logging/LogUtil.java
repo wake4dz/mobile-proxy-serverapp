@@ -613,7 +613,31 @@ public class LogUtil {
 			// Wakefern IP range is from 165.225.39.0/255 if Zscaler is ON 
 			// Unofficial IP ranges from Danny's research on 2021/06/11 for Wakefern's new security implementations of Split Tunneling and Zscaler
 			if ((Integer.valueOf(ipRanges[0]) == 165 && Integer.valueOf(ipRanges[1]) == 225 && Integer.valueOf(ipRanges[2]) == 39
-					&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 255)))) {
+					&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 255)))
+					
+				/* 
+				 * Mark/Joe got these ranges from SOC team initially, but none seems to be valid as of 2021-06-16. Mark still want to include them anyway.
+				 * 104.129.192.0/20 
+				 * 165.225.0.0/16 
+				 * 136.226.0.0/16 
+				 * 137.83.128.0/18 
+				 * 128.177.125.0/24 
+				 */
+				||
+				((Integer.valueOf(ipRanges[0]) == 104 && Integer.valueOf(ipRanges[1]) == 129 && Integer.valueOf(ipRanges[2]) == 192
+				&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 20))))
+				||
+				((Integer.valueOf(ipRanges[0]) == 165 && Integer.valueOf(ipRanges[1]) == 225 && Integer.valueOf(ipRanges[2]) == 0
+				&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 16))))
+				||
+				((Integer.valueOf(ipRanges[0]) == 136 && Integer.valueOf(ipRanges[1]) == 226 && Integer.valueOf(ipRanges[2]) == 0
+				&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 16))))
+				||
+				((Integer.valueOf(ipRanges[0]) == 137 && Integer.valueOf(ipRanges[1]) == 83 && Integer.valueOf(ipRanges[2]) == 128
+				&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 18))))
+				||
+				((Integer.valueOf(ipRanges[0]) == 128 && Integer.valueOf(ipRanges[1]) == 177 && Integer.valueOf(ipRanges[2]) == 125
+				&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 24)))) ) {
 					
 					isAuthorized = true;
 			}

@@ -388,12 +388,10 @@ public class LogUtil {
 		messages.add(pad("The 'timeslot_search_radius_in_mile' system property:")
 				+ VcapProcessor.getTimeslotSearchRadiusInMile());
 
-		messages.add(pad("The 'plastic_bag_fee' system property:")
-				+ MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee"));
 
 		messages.add("");
 
-		messages.add(pad("The current IP address:") + ipAddress);
+		messages.add(pad("The server IP address:") + ipAddress);
 
 		messages.add("");
 		messages.add("The mobile app's back-end is ready to serve...");
@@ -473,13 +471,11 @@ public class LogUtil {
 			messages.add("<tr><td>timeslot_search_radius_in_mile</td><td>"
 					+ VcapProcessor.getTimeslotSearchRadiusInMile() + "</td></tr>");
 
-			messages.add("<tr><td>plastic_bag_fee</td>" + "<td>"
-					+ formatStores(MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee")) + "</td> </tr>");
-
 			messages.add("</table> <br /> <br />");
 
-			messages.add("<h2>The current IP address: " + ipAddress + "</h2>");
-
+			messages.add("<h2>The client IP address: " + clientIp + "</h2>");
+			messages.add("<h2>The server IP address: " + ipAddress + "</h2>");
+			
 			messages.add("<h1>The mobile app's back-end is ready to serve...</h1>");
 
 		} else {
@@ -596,6 +592,8 @@ public class LogUtil {
 	// Intranet/VPN
 	// Mark Covello on 5/27/2020 states the Wakefern IP range is from 65.51.66.0 to
 	// 65.51.66.255 as externally facing
+	
+
 	public static boolean isAuthorized(String clientIp) {
 		boolean isAuthorized = false;
 
@@ -612,12 +610,38 @@ public class LogUtil {
 		} else if (dotCount == 3) { // ipv4 format
 			String[] ipRanges = clientIp.split("\\.");
 
-			// Wakefern IP range is from 65.51.66.0 to 65.51.66.255
-			if (Integer.valueOf(ipRanges[0]) == 65 && Integer.valueOf(ipRanges[1]) == 51
-					&& Integer.valueOf(ipRanges[2]) == 66
-					&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 255))) {
-				isAuthorized = true;
+			/* 
+			 * Mark/Joe got these CIDR ranges from the SOC team for the Zscaler implementation
+			 * 104.129.192.0/20 
+			 * 165.225.0.0/16 
+			 * 136.226.0.0/16 
+			 * 137.83.128.0/18 
+			 * 128.177.125.0/24 
+			 * 
+			 * These are CIDR (Classless Inter-Domain Routing) at https://www.ipaddressguide.com/cidr
+			 */
+			
+				//165.225.0.0/16
+			if ((Integer.valueOf(ipRanges[0]) == 165 && Integer.valueOf(ipRanges[1]) == 225 )
+				||
+				//136.226.0.0/16 
+				((Integer.valueOf(ipRanges[0]) == 136 && Integer.valueOf(ipRanges[1]) == 226 ))
+				||
+				//128.177.125.0/24
+				((Integer.valueOf(ipRanges[0]) == 128 && Integer.valueOf(ipRanges[1]) == 177 && Integer.valueOf(ipRanges[2]) == 125
+				&& (Integer.valueOf(ipRanges[3]) >= 0 || (Integer.valueOf(ipRanges[3]) <= 16))))
+				||
+				//104.129.192.0/20 
+				((Integer.valueOf(ipRanges[0]) == 104 && Integer.valueOf(ipRanges[1]) == 129 
+				&& (Integer.valueOf(ipRanges[2]) >= 192 || (Integer.valueOf(ipRanges[2]) <= 207))))
+				||
+				//137.83.128.0/18
+				((Integer.valueOf(ipRanges[0]) == 137 && Integer.valueOf(ipRanges[1]) == 83
+				&& (Integer.valueOf(ipRanges[2]) >= 128 || (Integer.valueOf(ipRanges[2]) <= 191)))) ) {
+					
+					isAuthorized = true;
 			}
+				
 		} else { // ipv6 format
 			isAuthorized = false;
 		}
@@ -626,4 +650,6 @@ public class LogUtil {
 
 		return isAuthorized;
 	}
+	
+	
 }

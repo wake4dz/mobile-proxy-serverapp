@@ -333,6 +333,8 @@ public class MWGApplicationConstants {
 			public static final String alcoholAccept = prefix + "wakefern-alcohol-restrictions+json";
 			public static final String alcoholContentType = prefix + "wakefern-alcohol-restrictions+json";
 			
+			public static final String creditCardsAccept = prefix + "payments-card+json";
+			
 		}
 	}
 
@@ -703,6 +705,8 @@ public class MWGApplicationConstants {
 			public static final String removeNextAllTimeslots = usersID + mwgStoresID + "/book-timeslot" + fflmnt + fulfillmentType;
 			
 			public static final String alcohol = usersID + mwgStoresID;
+			
+			public static final String getCreditCards = usersID + storesID + "/cards";
 								
 		}
 

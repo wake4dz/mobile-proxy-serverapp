@@ -79,7 +79,7 @@ public class MI9TimeoutRegistry {
 		serviceTimeoutMap.put(PRODUCTS_GET_NUTRITION_BY_ID, LOW_TO);
 		
 		//SHOPPING LIST
-		serviceTimeoutMap.put(PRODUCTS_SEARCH, LOW_TO);
+		serviceTimeoutMap.put(PRODUCTS_SEARCH, MEDIUM_TO);
 		serviceTimeoutMap.put(SHOPPINGLIST_GET_LISTS, LOW_TO);
 		serviceTimeoutMap.put(SHOPPINGLIST_GET_LIST_ITEMS, LOW_TO);
 		serviceTimeoutMap.put(SHOPPINGLIST_GET_SHARED_LIST_ITEMS, LOW_TO);

@@ -44,6 +44,10 @@ public class VcapProcessor {
 	private static String citrusContentStandardIdProd = null;
 	private static String citrusApiKeyProd = null;
 
+	private static String prodxService = null;
+	private static String prodxApiKeyStaging = null;
+	private static String prodxApiKeyProd = null;
+
 	private static int timeslotSearchRadiusInMile = 0;
 
 	// this static code is not run until the class is loaded into the memory for the
@@ -109,7 +113,10 @@ public class VcapProcessor {
 		citrusContentStandardIdProd = getVcapValueString(
 				WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_CONTENT_STANDARD_ID);
 		citrusApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_KEY);
-		
+
+		prodxService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_SERVICE);
+		prodxApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
+		prodxApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_STG_API_KEY);
 	}
 
 	public static int getApiHighTimeout() {
@@ -298,6 +305,24 @@ public class VcapProcessor {
 		} else {
 			return citrusContentStandardIdProd;
 		}
+	}
+
+	public static String getProdxService() {
+		return prodxService;
+	}
+
+	public static String getProdxServiceEndpoint() {
+		if (prodxService.trim().equalsIgnoreCase("staging")) {
+			return WakefernApplicationConstants.Prodx.Complements.Upstream.stagingBaseUrl;
+		}
+		return WakefernApplicationConstants.Prodx.Complements.Upstream.prodBaseUrl;
+	}
+
+	public static String getProdxApiKey() {
+		if (prodxService.trim().equalsIgnoreCase("staging")) {
+			return prodxApiKeyStaging;
+		}
+		return prodxApiKeyProd;
 	}
 	
 }

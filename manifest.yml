@@ -55,5 +55,10 @@ applications:
     citrus_prod_content_standard_id: ((CITRUS_PROD_CONTENT_STANDARD_ID))
     citrus_prod_key: ((CITRUS_PROD_KEY))
 
+    prodx_service: ((PRODX_SERVICE))
+    prodx_complements_stg_api_key: ((PRODX_COMPLEMENTS_STG_API_KEY))
+    prodx_complements_prod_api_key: ((PRODX_COMPLEMENTS_PROD_API_KEY))
+
+
   services:
   - ((SRMOBILE_PAPERTRAIL))

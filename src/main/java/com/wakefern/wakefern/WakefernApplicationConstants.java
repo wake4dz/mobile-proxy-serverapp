@@ -90,6 +90,11 @@ public class WakefernApplicationConstants {
 		public static final String CITRUS_PROD_CATALOG_ID = "citrus_prod_catalog_id";
 		public static final String CITRUS_PROD_CONTENT_STANDARD_ID = "citrus_prod_content_standard_id";
 		public static final String CITRUS_PROD_KEY = "citrus_prod_key";
+
+		// Prodx
+		public static final String PRODX_SERVICE = "prodx_service";
+		public static final String PRODX_COMPLEMENTS_STG_API_KEY = "prodx_complements_stg_api_key";
+		public static final String PRODX_COMPLEMENTS_PROD_API_KEY = "prodx_complements_prod_api_key";
 		
 	}
 
@@ -458,5 +463,19 @@ public class WakefernApplicationConstants {
 
 	public static class HealthCheck {
 		public static final String Path = "ping";
+	}
+
+	public static class Prodx {
+		public static class Complements {
+			public static class Upstream {
+				public static final String prodBaseUrl = "https://apis.prodx.com/";
+				public static final String stagingBaseUrl = "https://apis-dev.prodx.com/";
+
+				public static final String GetComplementsPath = "complements/v1.0/catalogs/WAKEFERN/products/{productId}/complements";
+			}
+			public static class Proxy {
+				public static final String GetProductComplements = "/products/{productId}/complements";
+			}
+		}
 	}
 }

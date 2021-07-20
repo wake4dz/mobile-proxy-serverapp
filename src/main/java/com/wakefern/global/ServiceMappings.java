@@ -80,15 +80,6 @@ public class ServiceMappings {
 		}
 	}
 	
-	// Used for Coupons
-	public void setCouponMapping(Object serviceObject){
-		BaseService aService = (BaseService) serviceObject;
-		if (aService.requestHeader instanceof WakefernHeader){
-			WakefernHeader wakefernHeader = new WakefernHeader();
-			sendCouponMapping((BaseService) serviceObject, wakefernHeader);
-		}
-	}
-	
 	// Used for Recommendations & Rewards
 	public void setMappingWithURL(Object serviceObject, String baseURL) {
 		BaseService aService = (BaseService) serviceObject;
@@ -297,13 +288,6 @@ public class ServiceMappings {
 		return path.replace("{" + pathParam + "}", serviceObj.requestParams.get(pathParam));
 	}
 
-	// Used for Coupons
-	private void sendCouponMapping(BaseService serviceObject, WakefernHeader wakefernHeader){
-		wakefernHeader.cuponAuth(serviceObject.requestToken);
-		setGenericHeader(wakefernHeader.getMap());
-		setPath(serviceObject.requestPath);
-	}
-	
 	// Used for Recommendations & Rewards
 	private void sendRequestWithURL(BaseService serviceObject,MWGHeader header, String baseURL){
 		header.authenticate(serviceObject.requestToken);

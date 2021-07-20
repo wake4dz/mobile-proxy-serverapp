@@ -33,12 +33,6 @@ public final class ApplicationConstants {
 			public static final String appVersion = "AppVersion";
 		}
 
-		public static class Tokens {
-			public static final String couponToken = "noowhTBIYfzVrXOcFrNSwIFbkMoqRh19";
-			public static final String couponV2Token = "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM1NjgzODAsImVtYWlsIjoiS0VWSU4uSkFOR0BXQUtFRkVSTi5DT00iLCJmdWxsTmFtZSI6ImNvdXBvbldlYlVzZXJzIiwiaWF0IjoxNTI1ODg4MzgwfQ.Numfi4df5nSvfR9Rt2POzA4Fki-iw7CAQT6rmjb32IY";
-			public static final String planningToken = "486806CF-CF9A-4087-8C05-ED1B0008AF03";
-		}
-
 		public static final class CouponsV2 {
 			public static final String BaseCouponURL = ApplicationUtils
 					.getCouponServiceEndpoint(WakefernApplicationConstants.VCAPKeys.COUPON_SERVICE);
@@ -63,7 +57,31 @@ public final class ApplicationConstants {
 			public static final String GetHistoryMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryMetadata;
 			public static final String GetHistoryCouponByPPC = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryCouponByPPC;
 			public static final String GetSpecialOfferByRule = WakefernApplicationConstants.CouponsV2.PathInfo.GetSpecialOfferByRule;
+		}
 
+		public static final class CouponsV3 {
+			public static final String BaseCouponURL = ApplicationUtils
+					.getCouponV3ServiceEndpoint(WakefernApplicationConstants.VCAPKeys.COUPON_SERVICE);
+			public static final String UserLogin = "/coupons/v3/login";
+			public static final String CouponList = "/coupons/v3/list";
+			public static final String AvailableCoupons = "/coupons/v3/available";
+			public static final String ExpiredCoupons = "/coupons/v3/expired";
+			public static final String ClippedCoupons = "/coupons/v3/clipped";
+			public static final String RedeemedCoupons = "/coupons/v3/redeemed";
+			public static final String GetCouponByPromoCode = "/coupons/v3/promocode/{promoCode}";
+			public static final String AddCouponToPPC = "/coupons/v3/clip";
+			public static final String RemoveCouponFromPPC = "/coupons/v3/unclip";
+			public static final String GetCouponByUPC = "/coupons/v3/upc/{upc}";
+			public static final String GetUPCsByCouponId = "/coupons/v3/upcList/{couponId}";
+			public static final String GetCouponByExternalCouponIds = "/coupons/v3/couponIds/{externalCouponIds}";
+			public static final String GetCouponsByStoreId = "/coupons/v3/storeId/{storeId}";
+			public static final String GetSocialOffersByQuery = "/coupons/v3/socialoffers/{query}";
+
+			public static final String banner = "shoprite";
+			public static final String couponId = WakefernApplicationConstants.CouponsV3.PathInfo.couponId;
+			public static final String couponIds = WakefernApplicationConstants.CouponsV3.PathInfo.couponIds;
+			public static final String externalCouponIds = "externalCouponIds";
+			public static final String upc = WakefernApplicationConstants.CouponsV3.PathInfo.upc;
 		}
 
 		public static class Recommendations {

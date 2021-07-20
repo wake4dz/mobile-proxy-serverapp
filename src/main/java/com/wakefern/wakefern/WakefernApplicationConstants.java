@@ -26,6 +26,7 @@ public class WakefernApplicationConstants {
 		public static final String URL = "url";
 		public static final String COUPON_SERVICE = "coupon_service";
 		public static final String COUPON_V2_KEY = "coupon_v2_key";
+		public static final String COUPON_V3_KEY = "coupon_v3_key";
 		public static final String SR_MWG_STAGE_KEY = "sr_mwg_stage_key";
 		public static final String SR_MWG_PROD_KEY = "sr_mwg_prod_key";
 
@@ -109,53 +110,6 @@ public class WakefernApplicationConstants {
 		}
 	}
 
-	public static class Coupons {
-		public static final String baseURL = "http://couponprodwest.azure-mobile.net/api";
-
-		public static class Headers {
-			public static final String CouponAuthenticationToken = "noowhTBIYfzVrXOcFrNSwIFbkMoqRh19";
-			public static final String CouponAuthenticationTokenHeader = "X-ZUMO-APPLICATION";
-		}
-
-		public static class ListId {
-			public static final String CouponId = "/getCouponIDListBySR";
-			public static final String CouponByPPC = "/getCouponIDListByPPC";
-			public static final String CouponAddPPC = "/addCouponToPPC";
-			public static final String CouponIDByPromoCode = "/getCouponIDByPromoCode";
-		}
-
-		public static class Metadata {
-			public static final String PPCCoupons = "/getPPCCoupons";
-			public static final String Metadata = "/getCouponMetadata";
-			public static final String MetadataRecommendations = "/getCouponsRecommendations";
-			public static final String PPC = "ppc_number";
-			public static final String PPC_All = "all";
-			public static final String PPCQuery = "?ppc_number=";
-			public static final String CouponId = "coupon_id";
-			public static final String CouponParam = "&coupon_id=";
-			public static final String ClipSource = "&clip_source=";
-			public static final String ClipSource_App_SR = "APP_SR";
-			public static final String PromoteCode = "code";
-			public static final String PromoteCodeParam = "&code=";
-			public static final String PromoteCodeAdd = "add";
-			public static final String PromoteCodeAddParam = "&add=";
-
-			// For Coupon and recommendation
-			public static final String store = "?storeId=";
-			public static final String pseudo = "&pseudo=";
-			public static final String email = "&email=";
-			public static final String ppcNo = "&ppc_number=";
-		}
-
-		public static class Search {
-			public static final String brandName = "brand_name";
-			public static final String category = "Category";
-			public static final String longDescription = "long_description";
-			public static final String shortDescription = "short_description";
-			public static final String requirementDescription = "requirement_description";
-		}
-	}
-
 	public static class CouponsV2 {
 		public static final String coupon_staging = "Staging";
 		public static final String baseURL = "https://couponapis.shoprite.com/api";
@@ -204,6 +158,34 @@ public class WakefernApplicationConstants {
 		public static class ParamValues {
 			public static final String ClipAppSource_FG = "APP_FG";
 			public static final String ClipAppSource_SR = "APP_SR";
+		}
+	}
+
+	public static class CouponsV3 {
+		public static final String coupon_staging = "Staging";
+		public static final String baseURL = "https://couponapis.brands.wakefern.com/api";
+		public static final String baseURL_staging = "https://couponapis.staging.brands.wakefern.com/api";
+
+		public static class PathInfo {
+			public static final String UserLogin = "/v3/auth/login";
+			public static final String AvailableCoupons = "/v3/{banner}/coupons/available";
+			public static final String CouponsList = "/v3/{banner}/coupons/list";
+			public static final String AddCouponToPPC = "/v3/{banner}/coupons/clip";
+			public static final String RemoveCouponFromPPC = "/v3/{banner}/coupons/unclip";
+			public static final String ExpiredCoupons = "/v3/{banner}/coupons/expired";
+			public static final String ClippedCoupons = "/v3/{banner}/coupons/clipped";
+			public static final String RedeemedCoupons = "/v3/{banner}/coupons/redeemed";
+			public static final String GetCouponByPromoCode = "/v3/{banner}/coupons/promocode/{promoCode}";
+			public static final String GetCouponsByUPC = "/v3/{banner}/coupons/upc/{upcCode}";
+			public static final String GetUPCListByCouponId = "/v3/{banner}/coupons/upcList/{couponId}";
+			public static final String GetCouponByCouponId = "/v3/{banner}/coupons/couponIds/{couponIds}";
+			public static final String GetCouponListByStoreId = "/v3/{banner}/coupons/storeId/{storeId}";
+			public static final String GetCouponListByQuery = "/v3/{banner}/coupons/socialoffers/{query}";
+
+			public static final String upc = "upc";
+			public static final String banner = "banner";
+			public static final String couponId = "couponId";
+			public static final String couponIds = "couponIds";
 		}
 	}
 

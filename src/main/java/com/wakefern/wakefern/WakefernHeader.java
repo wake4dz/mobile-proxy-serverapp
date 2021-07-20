@@ -25,6 +25,7 @@ public class WakefernHeader extends Header {
         setMap( aMap );
     }
 
+    // TODO: all of this is unused. Think about removing in a separate branch.
     public void authenticate(){
         Map<String, String> authMap = new HashMap<>();
 
@@ -49,14 +50,6 @@ public class WakefernHeader extends Header {
         Map<String, String> authMap = new HashMap<>();
         authMap.put(ApplicationConstants.Requests.Header.contentType, ApplicationConstants.xmlAcceptType);
         authMap.put(ApplicationConstants.Requests.Header.contentAuthorization, token);
-
-        setAllMaps(authMap);
-    }
-
-    public void cuponAuth(String token){
-        Map<String, String> authMap = new HashMap<>();
-        authMap.put(WakefernApplicationConstants.Coupons.Headers.CouponAuthenticationTokenHeader,
-                token);
 
         setAllMaps(authMap);
     }

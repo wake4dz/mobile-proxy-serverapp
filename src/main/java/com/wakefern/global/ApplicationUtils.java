@@ -5,6 +5,11 @@ import org.apache.log4j.Logger;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by brandyn.brosemer on 9/13/16.
  */
@@ -25,6 +30,23 @@ public class ApplicationUtils {
 		sb.append(fsnReqParam);
 		return sb;
     }
+
+	public static String constructCouponV3Url(String path) {
+		return constructCouponV3Url(path, null);
+	}
+
+	public static String constructCouponV3Url(String path, Map<String, String> params) {
+		if (params == null) {
+			params = new HashMap<>();
+		}
+		// Always append banner information
+		params.put(WakefernApplicationConstants.CouponsV3.PathInfo.banner,
+				ApplicationConstants.Requests.CouponsV3.banner);
+		String url = ApplicationConstants.Requests.CouponsV3.BaseCouponURL + path;
+		UriBuilder builder = UriBuilder.fromPath(url);
+		URI output = builder.buildFromMap(params);
+		return output.toASCIIString();
+	}
     
     public static String constructItemLocatorUrl(String storeId, String upcs) {
 		StringBuilder sb = new StringBuilder();
@@ -59,9 +81,20 @@ public class ApplicationUtils {
 		logger.info("[ApplicationUtils]::getCouponServiceEndpoint::coupon_domain " + coupon_domain);
     	return coupon_domain;
     }
-    
-    
-	
+
+	/**
+	 * returns either coupon production or staging url endpoint
+	 * @param vcapKeyName coupon_service vcap [Staging/Production] keyword
+	 * @return
+	 */
+	public static String getCouponV3ServiceEndpoint(String vcapKeyName){
+		String coupon_service = getVcapValue(vcapKeyName);
+		String coupon_domain = (!coupon_service.isEmpty() && coupon_service.equalsIgnoreCase(WakefernApplicationConstants.CouponsV3.coupon_staging)) ?
+				WakefernApplicationConstants.CouponsV3.baseURL_staging : WakefernApplicationConstants.CouponsV3.baseURL;
+		logger.info("[ApplicationUtils]::getCouponV3ServiceEndpoint::coupon_domain " + coupon_domain);
+		return coupon_domain;
+	}
+
     /**
      * if no AppVersion or AppVersion in request is < majorVersion.minorVersion  (Important note: < is the key )
      * 	then applicable

@@ -52,7 +52,7 @@ public class GetToken extends BaseService {
 			headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 
 			Map<String, String> requestBodyMap = new HashMap<>(2);
-			
+
 			String[] userPass = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN).split(":");
 			requestBodyMap.put("UserName", userPass[0]);
 			requestBodyMap.put("Password", userPass[1]);
@@ -76,7 +76,7 @@ public class GetToken extends BaseService {
 			headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
 	
 			Map<String, String> requestBodyMap = new HashMap<>(2);
-			
+
 			String[] userPass = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN).split(":");
 			requestBodyMap.put("UserName", userPass[0]);
 			requestBodyMap.put("Password", userPass[1]);

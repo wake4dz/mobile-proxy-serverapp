@@ -14,24 +14,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.util.TreeMap;
 
-import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.impl.StdSchedulerFactory;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.global.VcapProcessor;
@@ -372,8 +367,10 @@ public class LogUtil {
 		messages.add(pad("The 'recipe_service' system property:") + VcapProcessor.getRecipeService());
 		messages.add(pad("The 'wallet_service' system property:") + VcapProcessor.getWalletService());
 		messages.add(pad("The 'citrus_service' system property:") + VcapProcessor.getCitrusService());
-        messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
+		messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
 		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
+		messages.add(pad("The 'push2device_service' system property:") +
+				VcapProcessor.getPush2DeviceService());
 		messages.add(pad("The 'prodx_service' system property:") + VcapProcessor.getProdxService());
 		messages.add(pad("The 'cors' system property:") + MWGApplicationConstants.getSystemPropertyValue("cors"));
 		
@@ -447,9 +444,13 @@ public class LogUtil {
 			messages.add("<tr><td>recipe_service</td>" + "<td>" + VcapProcessor.getRecipeService() + "</td> </tr>");
 
 			messages.add("<tr><td>citrus_service</td>" + "<td>" + VcapProcessor.getCitrusService() + "</td> </tr>");
+
 			messages.add("<tr><td>srfh_orders_service</td><td>" + VcapProcessor.getSrfhOrdersService() + "</td></tr>");
 
 			messages.add("<tr><td>srfh_curbside_service</td><td>" + VcapProcessor.getSrfhCurbsideService() + "</td></tr>");
+
+			messages.add("<tr><td>push2device_service</td>" + "<td>" +
+					MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_SERVICE) + "</td> </tr>");
 
 			messages.add("<tr><td>prodx_service</td><td>" + VcapProcessor.getProdxService() + "</td></tr>");
 
@@ -647,7 +648,7 @@ public class LogUtil {
 			isAuthorized = false;
 		}
 
-		logger.info("The client IP of " + clientIp + "'s authorizatin is: " + isAuthorized);
+		logger.info("The client IP of " + clientIp + "'s authorization is: " + isAuthorized);
 
 		return isAuthorized;
 	}

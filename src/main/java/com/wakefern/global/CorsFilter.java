@@ -9,7 +9,6 @@ import javax.ws.rs.ext.Provider;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import com.wakefern.global.ApplicationConstants;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-import com.wakefern.api.mi9.v7.account.user.SendForgotFsnEmail;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
@@ -25,7 +24,7 @@ public class ObtainFsnByEmail extends BaseService{
 	    
         Map<String, String> headerMap = new HashMap<String, String>();
         headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
-        headerMap.put(WakefernApplicationConstants.APIM.sub_key_header, 
+        headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
         		MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.APIM_PPC_EMAIL_KEY));
         JSONObject apimJsonStr = new JSONObject();
         apimJsonStr.put("email_addr", email);

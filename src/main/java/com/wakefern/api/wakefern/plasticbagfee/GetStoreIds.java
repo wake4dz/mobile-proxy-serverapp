@@ -39,7 +39,7 @@ public class GetStoreIds extends BaseService{
 		try {	
 
         	storeIds = MWGApplicationConstants.getSystemPropertyValue("plastic_bag_fee");
-        	
+
         	// Defense code for some edge cases
         	// 1. If plastic_bag_fee is not defined
         	// 2. If plastic_bag_fee has the empty value

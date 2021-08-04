@@ -15,13 +15,7 @@ import java.util.Map;
  */
 public class ApplicationUtils {
 	private final static Logger logger = Logger.getLogger(ApplicationUtils.class);
-    public static Boolean isEmpty(String str){
-        if(str.isEmpty() || str == null){
-            return true;
-        }
-        return false;
-    }
-    
+
     public static StringBuilder constructCouponUrl(String pathUrl, String fsnReqParam) {
 		StringBuilder sb = new StringBuilder();
     	sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURL);
@@ -52,7 +46,7 @@ public class ApplicationUtils {
 		StringBuilder sb = new StringBuilder();
     	sb.append(WakefernApplicationConstants.ItemLocator.baseURL);
     	sb.append(WakefernApplicationConstants.ItemLocator.prefix);
-		  sb.append("/secure/itemData/store/");
+    	sb.append("/secure/itemData/store/");
     	sb.append(storeId);
 		sb.append("/upc/");
 		sb.append(upcs);
@@ -61,13 +55,28 @@ public class ApplicationUtils {
     
     public static String getVcapValue(String vcapKeyName){
     	String vcapValue = "";
-    	try{
+    	try {
     		vcapValue = MWGApplicationConstants.getSystemPropertyValue(vcapKeyName).trim();
     	} catch(Exception e){
     		logger.error("[ApplicationUtils]::getVcapValue::Failed! Exception " + vcapKeyName + e.getMessage());
     	}
     	return vcapValue;
     }
+
+	/**
+	 * Method overload for getting environment variable values with a default.
+	 * @param name
+	 * @param defaultValue
+	 * @return
+	 */
+    public static String getVcapValue(String name, String defaultValue) {
+    	try {
+    		return MWGApplicationConstants.getSystemPropertyValue(name).trim();
+		} catch (Exception e) {
+			logger.error("[ApplicationUtils]::getVcapValue::Failed for key " + name + ". Exception " + e.getMessage());
+			return defaultValue;
+		}
+	}
     
     /**
      * returns either coupon production or staging url endpoint

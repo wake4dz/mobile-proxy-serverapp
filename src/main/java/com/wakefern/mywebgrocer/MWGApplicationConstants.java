@@ -168,7 +168,6 @@ public class MWGApplicationConstants {
 	 */
 	public static String getSystemPropertyValue(String key) {
 		return java.lang.System.getenv(key.trim());
-
 	}
 
 	/**

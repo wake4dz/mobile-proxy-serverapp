@@ -28,6 +28,10 @@ applications:
     http_default_read_timeout_ms: ((HTTP_DEFAULT_READ_TIMEOUT_MS))
     timeout: 180 # ibmcloud health check timeout
 
+    push2device_service: ((PUSH2DEVICE_SERVICE))
+    push2device_stg_api_key: ((PUSH2DEVICE_STG_API_KEY))
+    push2device_prod_api_key: ((PUSH2DEVICE_PROD_API_KEY))
+
     recipe_service: ((RECIPE_SERVICE))
     recipe_client_id_key: ((RECIPE_CLIENT_ID_KEY))
     recipe_api_stage_key: ((RECIPE_API_STG_KEY))

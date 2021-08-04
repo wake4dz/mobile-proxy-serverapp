@@ -87,7 +87,6 @@ public class SmsEnrollment extends BaseService {
 				WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType);
 		headerMap.put(WakefernApplicationConstants.APIM.sub_key_header, MWGApplicationConstants
 				.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
-
 		try {
 			JSONObject payload = new JSONObject();
 			String phoneNumber;

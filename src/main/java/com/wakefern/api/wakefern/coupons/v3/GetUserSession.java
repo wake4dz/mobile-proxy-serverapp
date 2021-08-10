@@ -24,6 +24,7 @@ public class GetUserSession extends BaseService {
 
 	// TODO: refactor response building to not be parsing comma separated strings.
 	private static final String badRequestMessage = "400,Premature rejection,Bad Request: Missing frequent shopper number.";
+	private static final String unauthorizedMessage = "401,Unauthorized";
 
 	private static final String fsnKey = "ppc";
 
@@ -77,9 +78,9 @@ public class GetUserSession extends BaseService {
 		return jsonBody != null && !jsonBody.optString(fsnKey).trim().isEmpty();
 	}
 
-	private static boolean validatePPCWithJWT(final String ppc, final String jwtToken) {
+	private static boolean validatePPCWithJWT(final String ppc, final String jwtToken) throws Exception {
 		if (!UserJWT.isValid(jwtToken, ppc)) {
-			throw new NotAuthorizedException("Not authorized");
+			throw new Exception(unauthorizedMessage);
 		} else {
 			logger.debug("Validate PPC passed for ppc: " + ppc);
 		}

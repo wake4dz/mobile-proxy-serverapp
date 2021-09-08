@@ -10,7 +10,6 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.log4j.Logger;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -46,19 +45,23 @@ public class GetUserSession extends BaseService {
 		JSONObject jsonObject;
 		boolean containsPPC;
 		try {
-			try {
-				jsonObject = new JSONObject(body);
-				containsPPC = bodyContainsPPC(jsonObject);
-			} catch (JSONException ex) {
-				logger.error("ObtainUserSession::Exception -> JSONException creating json object from request payload: "
-						+ ex.getMessage());
-				throw new Exception(badRequestMessage);
-			}
-
-			if (containsPPC) {
-				final String ppc = jsonObject.optString("ppc");
-				validatePPCWithJWT(ppc, authToken);
-			}
+			
+			/* 2021-09-08 Since this doesn't apply to the Mi9 V8 API any more.
+			 * We leave this functionality out until we find a good solution for identify verification, 
+			 */
+//			try {
+//				jsonObject = new JSONObject(body);
+//				containsPPC = bodyContainsPPC(jsonObject);
+//			} catch (JSONException ex) {
+//				logger.error("ObtainUserSession::Exception -> JSONException creating json object from request payload: "
+//						+ ex.getMessage());
+//				throw new Exception(badRequestMessage);
+//			}
+//
+//			if (containsPPC) {
+//				final String ppc = jsonObject.optString("ppc");
+//				validatePPCWithJWT(ppc, authToken);
+//			}
 
 			String response = HTTPRequest.executePost(url, body, headerMap);
 			return this.createValidResponse(response);

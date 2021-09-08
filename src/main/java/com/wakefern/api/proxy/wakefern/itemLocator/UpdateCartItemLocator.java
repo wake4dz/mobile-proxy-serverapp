@@ -39,9 +39,6 @@ public class UpdateCartItemLocator extends BaseService {
 			//jsonString is the JSON response data from calling Mi9's GetContents() API for a shopping cart data
 			//then updateCartItems() is to call Wakefern's ItemLocator API to get additional data and sort the items in a way
 			// that suits with the UI app requirements.
-			// 1. wf_area_code
-			// 2. wf_area_desc
-			// 3. wf_sect_desc
 			String response = updateCartItems(jsonString, storeId);
 			return this.createValidResponse(response);
 		} catch (Exception e) {
@@ -58,8 +55,16 @@ public class UpdateCartItemLocator extends BaseService {
     /**
      * Get Item Location data and add it to the Shopping Cart JSON Response Data.
      * 
-     * @param respData
-     * @return
+     * 	 Mi9 returns a JSON response with "Items" property with all items in a shopping cart.
+     *   For each SKU, we remove the check digit, string them with a comma, and call Wakefern Item Locator's API with a wakefern store id
+     *   Add/update these 3 properties
+     *   	Aisle            → wf_area_desc
+	 *      AisleAreaSeqNum  → area_seq_num
+	 *		AisleSectionDesc → wf_sect_desc
+     * 
+     * 	 Sort all SKUs with AisleAreaSeqNum asc order
+     * 	 Lastly, return the sorted JSON string back to the UI to display 
+     * 
      */
 	protected String updateCartItems(String cartResponseData, String storeId) {
 		try {

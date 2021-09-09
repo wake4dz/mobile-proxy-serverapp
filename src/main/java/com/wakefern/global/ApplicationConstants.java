@@ -100,6 +100,8 @@ public final class ApplicationConstants {
 		}
 
 		public static final String VerifyServices = "/wakefern/services/v7/verify";
+		
+		public static final String Proxy = "/proxy";
 	}
 
 	public static class Logging {

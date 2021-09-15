@@ -63,6 +63,7 @@ applications:
     prodx_service: ((PRODX_SERVICE))
     prodx_complements_stg_api_key: ((PRODX_COMPLEMENTS_STG_API_KEY))
     prodx_complements_prod_api_key: ((PRODX_COMPLEMENTS_PROD_API_KEY))
+    prodx_aisle_id: ((PRODX_AISLE_ID))
 
 
   services:

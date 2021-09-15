@@ -101,7 +101,7 @@ public class WakefernApplicationConstants {
 		public static final String PRODX_SERVICE = "prodx_service";
 		public static final String PRODX_COMPLEMENTS_STG_API_KEY = "prodx_complements_stg_api_key";
 		public static final String PRODX_COMPLEMENTS_PROD_API_KEY = "prodx_complements_prod_api_key";
-		
+		public static final String PRODX_AISLE_ID = "prodx_aisle_id";
 	}
 
 	public static class Chains {
@@ -470,6 +470,7 @@ public class WakefernApplicationConstants {
 
 	public static class Prodx {
 		public static class Complements {
+			public static final String AISLE_ID = "aisleId";
 			public static class Upstream {
 				public static final String prodBaseUrl = "https://apis.prodx.com/";
 				public static final String stagingBaseUrl = "https://apis-dev.prodx.com/";

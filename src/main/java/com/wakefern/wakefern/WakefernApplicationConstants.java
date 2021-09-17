@@ -472,7 +472,7 @@ public class WakefernApplicationConstants {
 		public static class Complements {
 			public static final String AISLE_ID = "aisleId";
 			public static class Upstream {
-				public static final String prodBaseUrl = "https://apis.prodx.com/";
+				public static final String prodBaseUrl = "https://apis-main-two.prodx.com/";
 				public static final String stagingBaseUrl = "https://apis-dev.prodx.com/";
 
 				public static final String GetComplementsPath = "complements/v1.0/catalogs/WAKEFERN/products/{productId}/complements";

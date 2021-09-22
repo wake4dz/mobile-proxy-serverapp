@@ -52,6 +52,8 @@ public class VcapProcessor {
 	private static String prodxApiKeyStaging = null;
 	private static String prodxApiKeyProd = null;
 
+	private static String mi9v8Service = null;
+	
 	private static int timeslotSearchRadiusInMile = 0;
 
 	// this static code is not run until the class is loaded into the memory for the
@@ -125,6 +127,8 @@ public class VcapProcessor {
 		prodxService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_SERVICE);
 		prodxApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
 		prodxApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_STG_API_KEY);
+		
+		mi9v8Service = getVcapValueString(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
 	}
 
 	public static int getApiHighTimeout() {
@@ -364,4 +368,15 @@ public class VcapProcessor {
 		}
 		return prodxApiKeyProd;
 	}
+
+	public static String getMi9v8Service() {
+		return mi9v8Service;
+	}
+
+	public static void setMi9v8Service(String mi9v8Service) {
+		VcapProcessor.mi9v8Service = mi9v8Service;
+	}
+	
+	
+	
 }

@@ -102,6 +102,7 @@ public class WakefernApplicationConstants {
 		public static final String PRODX_COMPLEMENTS_STG_API_KEY = "prodx_complements_stg_api_key";
 		public static final String PRODX_COMPLEMENTS_PROD_API_KEY = "prodx_complements_prod_api_key";
 		
+		public static final String MI9V8_SERVICE = "mi9v8_service";
 	}
 
 	public static class Chains {
@@ -194,6 +195,17 @@ public class WakefernApplicationConstants {
 		}
 	}
 
+	public static class Mi9V8 {
+		public static final String mi9v8Staging = "Staging";
+		public static final String baseURL = "tbd";
+		public static final String baseURLStaging = "https://mobile-gateway.staging.brands.wakefern.com/api";
+
+		public static class PathInfo {
+			public static final String GetPlanning = "/lists/planning/{storeId}";
+
+		}
+	}
+	
 	public static class APIM {
 		public static final String apimBaseURL = "https://apimprod.wakefern.com";
 		public static final String apimDevBaseURL = "https://apimdev.wakefern.com";
@@ -256,6 +268,43 @@ public class WakefernApplicationConstants {
 		public static final String itemLocatorPath = "/secure/itemData" + itemInfo_storePath + itemInfo_upcsPath;
 	}
 
+	
+	public static class Mi9V8ItemLocator {
+		public static final String Aisle = "aisle";
+		public static final String area_desc = "wf_area_desc";
+		public static final String Items = "items";
+		public static final String Other = "OTHER";
+		public static final String Sku = "sku";
+		public static final String upc_13_num = "upc_13_num";
+		public static final String item_locations = "item_locations";
+		public static final String area_seq_num = "area_seq_num";
+		public static final String wf_area_code = "wf_area_code";
+		public static final String wf_sect_desc = "wf_sect_desc";
+		public static final String TotalPrice = "TotalPrice";
+		public static final String RegularPrice = "RegularPrice";
+		public static final String Quantity = "Quantity";
+		public static final String CurrentPrice = "CurrentPrice";
+		public static final String Size = "Size";
+		public static final String Sale = "Sale";
+		public static final String LimitText = "LimitText";
+
+		public static final String baseURL = "https://api.wakefern.com";
+		public static final String locationPath = "/itemlocator/item/location";
+		public static final String authPath = "/wfctoken/auth/gentoken";
+
+		public static final String prefix = "/iteminfo/v1";
+		public static final String storeId = "storeId";
+		public static final String upcs = "upcs";
+
+		public static final String itemInfo_appCode = "KPC1";
+		public static final String itemInfo_tokenPath = "/tokens";
+		public static final String itemInfo_storePath = "/store/{storeId}";
+		public static final String itemInfo_upcsPath = "/upc/{upcs}";
+		public static final String itemLocatorArr = "itemLocator";
+		public static final String itemLocatorPath = "/secure/itemData" + itemInfo_storePath + itemInfo_upcsPath;
+	}
+	
+	
 	public static class Receipt {
 		public static class Proxy {
 			public static final String Path = "users/{userId}/{ppc}/receipts";

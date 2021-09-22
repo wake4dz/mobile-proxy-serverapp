@@ -104,6 +104,21 @@ public class ApplicationUtils {
 		return coupon_domain;
 	}
 
+	
+	/**
+	 * returns either mi9v8 production or staging url endpoint
+	 * @param vcapKeyName mi9v8_service vcap [Staging/Production] keyword
+	 * @return
+	 */
+	public static String getMi9v8ServiceEndpoint(String vcapKeyName){
+		String mi9v8Service = getVcapValue(vcapKeyName);
+		String mi9v8Domain = (!mi9v8Service.isEmpty() && mi9v8Service.equalsIgnoreCase(WakefernApplicationConstants.Mi9V8.mi9v8Staging)) ?
+				WakefernApplicationConstants.Mi9V8.baseURLStaging : WakefernApplicationConstants.Mi9V8.baseURL;
+		logger.info("[ApplicationUtils]::getMi9V8ServiceEndpoint::mi9v8Domain " + mi9v8Domain);
+		return mi9v8Domain;
+	}
+
+	
     /**
      * if no AppVersion or AppVersion in request is < majorVersion.minorVersion  (Important note: < is the key )
      * 	then applicable

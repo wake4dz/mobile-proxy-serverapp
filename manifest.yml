@@ -64,6 +64,6 @@ applications:
     prodx_complements_stg_api_key: ((PRODX_COMPLEMENTS_STG_API_KEY))
     prodx_complements_prod_api_key: ((PRODX_COMPLEMENTS_PROD_API_KEY))
 
-
+    mi9v8_service: ((MI9V8_SERVICE))
   services:
   - ((SRMOBILE_PAPERTRAIL))

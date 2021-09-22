@@ -51,6 +51,7 @@ public class VcapProcessor {
 	private static String prodxService = null;
 	private static String prodxApiKeyStaging = null;
 	private static String prodxApiKeyProd = null;
+	private static String prodxAisleId = null;
 
 	private static String mi9v8Service = null;
 	
@@ -127,8 +128,10 @@ public class VcapProcessor {
 		prodxService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_SERVICE);
 		prodxApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
 		prodxApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_STG_API_KEY);
-		
+		prodxAisleId = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_AISLE_ID);
+	
 		mi9v8Service = getVcapValueString(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
+
 	}
 
 	public static int getApiHighTimeout() {
@@ -373,10 +376,11 @@ public class VcapProcessor {
 		return mi9v8Service;
 	}
 
+	public static String getProdxAisleId() { return prodxAisleId; }
+
 	public static void setMi9v8Service(String mi9v8Service) {
 		VcapProcessor.mi9v8Service = mi9v8Service;
 	}
 	
-	
-	
+
 }

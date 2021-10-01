@@ -199,7 +199,7 @@ public class WakefernApplicationConstants {
 
 	public static class Mi9V8 {
 		public static final String mi9v8Staging = "Staging";
-		public static final String baseURL = "tbd";
+		public static final String baseURL = "https://mobile-gateway.brands.wakefern.com/api";
 		public static final String baseURLStaging = "https://mobile-gateway.staging.brands.wakefern.com/api";
 
 		public static class PathInfo {

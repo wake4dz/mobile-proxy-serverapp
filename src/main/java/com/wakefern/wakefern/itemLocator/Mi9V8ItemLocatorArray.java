@@ -33,9 +33,8 @@ public class Mi9V8ItemLocatorArray extends BaseService {
 	        wkfn.put("Authentication", authToken);
 
 	        logger.trace("path = " + path);
-	        throw new Exception("Danny triggered it");
-	        
-            //return HTTPRequest.executeGet(path, wkfn, 0);
+	     
+            return HTTPRequest.executeGet(path, wkfn, 0);
         } catch (Exception e){
         	LogUtil.addErrorMaps(e, MwgErrorType.PROXY_MI9V8_ITEM_LOCATOR_ARRAY);
         	

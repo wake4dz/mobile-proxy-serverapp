@@ -1,5 +1,7 @@
 package com.wakefern.wakefern;
 
+import org.json.JSONObject;
+
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 /**
@@ -277,33 +279,19 @@ public class WakefernApplicationConstants {
 		public static final String Items = "items";
 		public static final String Other = "OTHER";
 		public static final String Sku = "sku";
+		public static final String AisleSectionDesc = "aisleSectionDesc";
+		public static final String AisleAreaSeqNum = "aisleAreaSeqNum";
+		public static final String ItemLocator = "itemLocator";
 		public static final String upc_13_num = "upc_13_num";
 		public static final String item_locations = "item_locations";
 		public static final String area_seq_num = "area_seq_num";
 		public static final String wf_area_code = "wf_area_code";
 		public static final String wf_sect_desc = "wf_sect_desc";
-		public static final String TotalPrice = "TotalPrice";
-		public static final String RegularPrice = "RegularPrice";
-		public static final String Quantity = "Quantity";
-		public static final String CurrentPrice = "CurrentPrice";
-		public static final String Size = "Size";
-		public static final String Sale = "Sale";
-		public static final String LimitText = "LimitText";
 
 		public static final String baseURL = "https://api.wakefern.com";
 		public static final String locationPath = "/itemlocator/item/location";
 		public static final String authPath = "/wfctoken/auth/gentoken";
 
-		public static final String prefix = "/iteminfo/v1";
-		public static final String storeId = "storeId";
-		public static final String upcs = "upcs";
-
-		public static final String itemInfo_appCode = "KPC1";
-		public static final String itemInfo_tokenPath = "/tokens";
-		public static final String itemInfo_storePath = "/store/{storeId}";
-		public static final String itemInfo_upcsPath = "/upc/{upcs}";
-		public static final String itemLocatorArr = "itemLocator";
-		public static final String itemLocatorPath = "/secure/itemData" + itemInfo_storePath + itemInfo_upcsPath;
 	}
 	
 	

@@ -260,24 +260,23 @@ public class GetShoppingCartItemLocator extends BaseService {
 				if (areaSeqInt > 0) {
 					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
 							itemLocatorData.get(Long.parseLong(upc)).toString());
-					newItemLocator.put("aisleAreaSeqNum", areaSeqInt);
+					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, areaSeqInt);
 
 				} else { // area_seq_num = 0, -1, or -999 - INVALID
 					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
 							WakefernApplicationConstants.Mi9V8ItemLocator.Other);
-					newItemLocator.put("aisleAreaSeqNum", Integer.MAX_VALUE - 100); // list before shopping personal
-																					// note section
+					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, Integer.MAX_VALUE - 100); 
 				}
 
 				// for aisleSectionDesc
 				Object wfSectDesc = wfSectDescData.get(Long.parseLong(upc));
 				if (wfSectDesc == null) {
-					newItemLocator.put("aisleSectionDesc", JSONObject.NULL);
+					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
 				} else {
-					newItemLocator.put("aisleSectionDesc", wfSectDescData.get(Long.parseLong(upc)));
+					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, wfSectDescData.get(Long.parseLong(upc)));
 				}
 
-				item.put("itemLocator", newItemLocator);
+				item.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, newItemLocator);
 
 				retvalJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, item);
 			}
@@ -289,14 +288,14 @@ public class GetShoppingCartItemLocator extends BaseService {
 
 			return retvalJObj.toString();
 
-		} catch (Exception e) {
-			// Item Locator done gone and blowed up.
-			// Return the original response string.
+		} catch (Exception e) {	
 			logger.error("[updateCartItems::Exception processing item locator. The error message: "
 					+ LogUtil.getExceptionMessage(e) + ", exception location: " + LogUtil.getRelevantStackTrace(e));
 			
-			return addFakeItemLocator(cartResponseData);
-			//throw new Exception(LogUtil.getExceptionMessage(e));
+			// if there is an exception, we try to return the Mi9 shopping cart info + empty item locator for each sku.
+			// if addEmptyItemLocator() also throw an exception, the caller would get a HTTP 500 with a brief error message
+			return addEmptyItemLocator(cartResponseData);
+
 		}
 	}
 
@@ -313,10 +312,47 @@ public class GetShoppingCartItemLocator extends BaseService {
 	
 	
 	/*
-	 * add fake item locator for each sku if something goes wrong 
+	 * add empty item locator for each sku if something goes wrong 
 	 */
-	private String addFakeItemLocator(String mi9ResponseData) {
+	private String addEmptyItemLocator(String mi9ResponseData) throws Exception{
+		try {
+			JSONObject origRespJObj = new JSONObject(mi9ResponseData);
+			
+			JSONArray itemsJArray = (JSONArray) origRespJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
+
+			JSONObject retvalJObj = new JSONObject();
+
+			// Set up retval with all non-items data
+			for (Object key : origRespJObj.keySet()) {
+				String keyStr = (String) key;
+
+				if (!keyStr.equals(WakefernApplicationConstants.Mi9V8ItemLocator.Items)) {
+					Object keyvalue = origRespJObj.get(keyStr);
+					retvalJObj.put(keyStr, keyvalue);
+				}
+			}
+			
+			for (int i = 0; i < itemsJArray.length(); i++) {
+				JSONObject item = itemsJArray.getJSONObject(i);
+
+				JSONObject newItemLocator = new JSONObject();
+
+				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle, WakefernApplicationConstants.Mi9V8ItemLocator.Other );
+				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
+				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, 888888);
+				
+				item.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, newItemLocator);
+
+				retvalJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, item);
+			}
+			
+			return retvalJObj.toString();
+		} catch (Exception e) {
+			logger.error("[addEmptyItemLocator::Exception adding item locator. The error message: "
+					+ LogUtil.getExceptionMessage(e) + ", exception location: " + LogUtil.getRelevantStackTrace(e));
+			
+			throw new Exception(LogUtil.getExceptionMessage(e));
+		}
 		
-		return mi9ResponseData;
 	}
 }

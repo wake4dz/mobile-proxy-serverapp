@@ -378,9 +378,4 @@ public class VcapProcessor {
 
 	public static String getProdxAisleId() { return prodxAisleId; }
 
-	public static void setMi9v8Service(String mi9v8Service) {
-		VcapProcessor.mi9v8Service = mi9v8Service;
-	}
-	
-
 }

@@ -3,13 +3,10 @@ package com.wakefern.api.proxy.mi9.v8.shopping.cart;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
@@ -18,17 +15,15 @@ import org.json.JSONObject;
 
 import com.wakefern.api.wakefern.items.location.SortMi9V8ItemLocators;
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
-import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernAuth;
-import com.wakefern.wakefern.itemLocator.ItemLocatorArray;
 import com.wakefern.wakefern.itemLocator.Mi9V8ItemLocatorArray;
 
 /**
@@ -115,8 +110,9 @@ public class GetShoppingCartItemLocator extends BaseService {
 			}
 
 			JSONArray itemsJArray = (JSONArray) origRespJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
+			final int itemSize = itemsJArray.length();
 
-			if (itemsJArray.length() == 0) {
+			if (itemSize == 0) {
 				// The Items Array is empty (no products).
 				return cartResponseData;
 			}
@@ -150,11 +146,11 @@ public class GetShoppingCartItemLocator extends BaseService {
 
 			// Get the items in the array and make a comma separated string of them as well
 			// trim the first and last digit
-			for (int i = 0, size = itemsJArray.length(); i < size; i++) {
+			for (int i = 0, size = itemSize; i < size; i++) {
 				JSONObject itemJObj = (JSONObject) itemsJArray.get(i);
 
 				String itemId = itemJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Sku).toString();
-				String sku = this.updateUPC(itemId);
+				String sku = updateUPC(itemId);
 
 				if (sku.matches("[0-9]+")) {
 					strItemSkuList += sku + ",";
@@ -163,12 +159,6 @@ public class GetShoppingCartItemLocator extends BaseService {
 				}
 			}
 
-			if (itemsJObj.length() == 0) {
-				// for a shopping cart has one item only which is a personal shopping note.
-				// 2021-09-21 not sure if this would apply to the V8-based mobile app?
-				logger.debug("itemsJObj: is empty, return to the UI now");
-				return retvalJObj.toString();
-			}
 
 			itemsJArray = (JSONArray) itemsJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
 			strItemSkuList = strItemSkuList.substring(0, strItemSkuList.length() - 1); // remove trailing comma
@@ -246,10 +236,10 @@ public class GetShoppingCartItemLocator extends BaseService {
 				}
 			}
 
-			for (int i = 0; i < itemsJArray.length(); i++) {
+			for (int i = 0; i < itemSize; i++) {
 				JSONObject item = itemsJArray.getJSONObject(i);
 				String itemId = item.get(WakefernApplicationConstants.Mi9V8ItemLocator.Sku).toString();
-				String upc = this.updateUPC(itemId);
+				String upc = updateUPC(itemId);
 
 				JSONObject newItemLocator = new JSONObject();
 
@@ -306,7 +296,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 	 * @param sku
 	 * @return
 	 */
-	private String updateUPC(String sku) {
+	private static String updateUPC(String sku) {
 		return sku.substring(0, sku.length() - 1);
 	}
 	
@@ -314,7 +304,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 	/*
 	 * add empty item locator for each sku if something goes wrong 
 	 */
-	private String addEmptyItemLocator(String mi9ResponseData) throws Exception{
+	private static String addEmptyItemLocator(String mi9ResponseData) throws Exception{
 		try {
 			JSONObject origRespJObj = new JSONObject(mi9ResponseData);
 			

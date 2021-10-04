@@ -46,7 +46,7 @@ public class GetItemLocator extends BaseService {
 	        
             return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 0));
         } catch (Exception e){
-        	LogUtil.addErrorMaps(e, MwgErrorType.PROXY_GET_ITEM_LOCATOR);
+        	LogUtil.addErrorMaps(e, MwgErrorType.PROXY_ITEMLOCATOR_GET_ITEM_LOCATOR);
         	
         	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), 
         			"authToken", authToken, "contentType", "application/json" );

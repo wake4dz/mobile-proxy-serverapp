@@ -65,6 +65,6 @@ applications:
     prodx_complements_prod_api_key: ((PRODX_COMPLEMENTS_PROD_API_KEY))
     prodx_aisle_id: ((PRODX_AISLE_ID))
 
-
+    mi9v8_service: ((MI9V8_SERVICE))
   services:
   - ((SRMOBILE_PAPERTRAIL))

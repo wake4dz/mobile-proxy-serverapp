@@ -362,6 +362,8 @@ public class LogUtil {
 
 		messages.add(pad("The 'chain' system property:") + MWGApplicationConstants.getSystemPropertyValue("chain"));
 		messages.add(pad("The 'url' system property:") + MWGApplicationConstants.getSystemPropertyValue("url"));
+		messages.add(pad("The 'mi9v8_service' system property:")
+				+ MWGApplicationConstants.getSystemPropertyValue("mi9v8_service"));
 		messages.add(pad("The 'coupon_service' system property:")
 				+ MWGApplicationConstants.getSystemPropertyValue("coupon_service"));
 		messages.add(pad("The 'recipe_service' system property:") + VcapProcessor.getRecipeService());
@@ -436,6 +438,9 @@ public class LogUtil {
 			messages.add("<tr><td>url</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("url")
 					+ "</td> </tr>");
 
+			messages.add("<tr><td>mi9v8_service</td>" + "<td>"
+					+ MWGApplicationConstants.getSystemPropertyValue("mi9v8_service") + "</td> </tr>");
+			
 			messages.add("<tr><td>coupon_service</td>" + "<td>"
 					+ MWGApplicationConstants.getSystemPropertyValue("coupon_service") + "</td> </tr>");
 

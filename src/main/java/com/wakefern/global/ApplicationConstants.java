@@ -18,6 +18,7 @@ public final class ApplicationConstants {
 		public static final String store = "/store";
 		public static final String takeAmp = "&take=";
 		public static final String wakefernApplication = "wakefern application";
+			
 	}
 
 	public static class Requests {
@@ -31,6 +32,7 @@ public final class ApplicationConstants {
 			public static final String appCode = "appCode";
 			public static final String jwtToken = "JWT-Token";
 			public static final String appVersion = "AppVersion";
+			public static final String xSiteHost = "x-site-host";
 		}
 
 		public static final class CouponsV2 {
@@ -99,6 +101,15 @@ public final class ApplicationConstants {
 			public static final String NotFoundProductURL = "/reports/notFound/product";
 		}
 
+		
+		public static final class Mi9V8 {
+			public static final String BaseURL = ApplicationUtils
+					.getMi9v8ServiceEndpoint(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
+			
+			public static final String ShoppingCartItemLocator = "/mi9/v8/lists/planning/{storeId}";
+
+		}
+		
 		public static final String VerifyServices = "/wakefern/services/v7/verify";
 		
 		public static final String Proxy = "/proxy";

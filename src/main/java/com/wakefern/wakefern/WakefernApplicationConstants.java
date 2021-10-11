@@ -411,6 +411,7 @@ public class WakefernApplicationConstants {
 			public static final String homepageConfig = "homepageConfig";
 			public static final String recipeTracking = "recipeTracking";
 			public static final String productSearchandizing = "productSearchandizing";
+			public static final String searchBySkus = "searchBySkus";
 		}
 
 		public static class RequestParamsQuery {

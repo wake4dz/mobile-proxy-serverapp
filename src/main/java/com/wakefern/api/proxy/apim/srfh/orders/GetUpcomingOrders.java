@@ -3,7 +3,7 @@ package com.wakefern.api.proxy.apim.srfh.orders;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
-import com.wakefern.global.annotations.ValidatePPCWithJWT;
+import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
@@ -27,7 +27,7 @@ public class GetUpcomingOrders extends BaseService {
 	private static final Logger logger = Logger.getLogger(GetUpcomingOrders.class.getName());
 
 	@GET
-	@ValidatePPCWithJWT
+	@ValidatePPCWithJWTV2
 	@Produces(MWGApplicationConstants.Headers.generic)
 	@Consumes(MWGApplicationConstants.Headers.generic)
 	public Response getInfo(@PathParam("ppc") String ppc,

@@ -4,6 +4,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPC;
+import com.wakefern.global.annotations.ValidatePPCWithJWT;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -36,7 +37,7 @@ public class SmsEnrollment extends BaseService {
 	@Consumes(MWGApplicationConstants.Headers.generic)
 	@Produces(MWGApplicationConstants.Headers.generic)
 	@Path("/")
-	@ValidatePPC
+	@ValidatePPCWithJWT
 	public Response getEnrollmentInfo(@PathParam("ppc") String fsn, @QueryParam("phoneNumber") String phoneNumber) {
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);

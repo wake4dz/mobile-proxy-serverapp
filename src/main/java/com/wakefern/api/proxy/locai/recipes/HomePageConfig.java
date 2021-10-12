@@ -34,7 +34,7 @@ import org.json.JSONObject;
  *
  */
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class HomePageConfig extends BaseService {
 
 	private final static Logger logger = Logger.getLogger(HomePageConfig.class);

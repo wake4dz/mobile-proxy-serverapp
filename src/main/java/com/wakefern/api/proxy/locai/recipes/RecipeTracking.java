@@ -29,7 +29,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  * 
  */
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class RecipeTracking extends BaseService {
 
     private final static Logger logger = Logger.getLogger(ProductLookup.class);
@@ -46,7 +46,7 @@ public class RecipeTracking extends BaseService {
 
         try {
         	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
-        			+ "recipes/add-to-cart?clientId=" + VcapProcessor.getRecipeClientId()
+        			+ "/recipes/add-to-cart?clientId=" + VcapProcessor.getRecipeClientId()
         			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
         			
         	headers.put("Content-Type", contentType);

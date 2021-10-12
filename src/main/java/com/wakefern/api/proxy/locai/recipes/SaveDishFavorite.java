@@ -29,7 +29,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class SaveDishFavorite extends BaseService {
 
     private final static Logger logger = Logger.getLogger(SaveDishFavorite.class);

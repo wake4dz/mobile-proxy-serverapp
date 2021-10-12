@@ -27,7 +27,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class SearchBySkus extends BaseService {
 
     private final static Logger logger = Logger.getLogger(SearchBySkus.class);
@@ -40,11 +40,12 @@ public class SearchBySkus extends BaseService {
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {
 
+    	logger.error("dz...");
         Map<String, String> headers = new HashMap<>();
 
         try {
         	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
-        			+ "products/internal-variant-id-lookup-by-sku/batch?clientId=" + VcapProcessor.getRecipeClientId()
+        			+ "/products/internal-variant-id-lookup-by-sku/batch?clientId=" + VcapProcessor.getRecipeClientId()
         			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
         			
         	headers.put("Content-Type", contentType);

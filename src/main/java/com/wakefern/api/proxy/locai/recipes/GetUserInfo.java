@@ -22,13 +22,13 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
-* A proxy API to access Locai's 'Get User Info API, it has a JWT token and userId in its response data.
+* A proxy API to access Locai's 'Get User Info API with Mi9 V8 platform integration, it has a JWT token and userId in its response data.
 *   
 * @author  Danny Zheng
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class GetUserInfo extends BaseService {
 
     private final static Logger logger = Logger.getLogger(GetUserInfo.class);
@@ -38,9 +38,8 @@ public class GetUserInfo extends BaseService {
     @Consumes(MWGApplicationConstants.Headers.generic)
     @Path(WakefernApplicationConstants.RecipeLocai.Proxy.getUserInfo)
     public Response getResponse(
-    		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.sessionToken) String sessionToken,
+    		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.sessionToken) String accessToken,
     		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.accountId) String accountId,
-    		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.clientBrand) String clientBrand,
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {
 
@@ -48,10 +47,9 @@ public class GetUserInfo extends BaseService {
 
         try {
         	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
-        			+ "/shoprite/getUserInfo"
-        			+ "?sessionToken=" + sessionToken
+        			+ "/wakefern/mi9/getUserInfo"
+        			+ "?accessToken=" + accessToken
         			+ "&accountId=" + accountId
-        			+ "&clientBrand=" + clientBrand
         			+ "&clientId=" + VcapProcessor.getRecipeClientId()
         			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
         			
@@ -62,7 +60,10 @@ public class GetUserInfo extends BaseService {
         } catch (Exception e) {
             LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_GET_USER_INFO);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"sessionToken", sessionToken, "accountId", accountId, "clientBrand", clientBrand, "contentType", contentType, "HttpBody", jsonBody);
+            		"sessionToken", accessToken, "accountId", accountId, 
+            		"clientId", VcapProcessor.getRecipeClientId(),
+            		"apiKey", VcapProcessor.getTargetRecipeLocaiApiKey(),
+            		"contentType", contentType, "HttpBody", jsonBody);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);

@@ -1,22 +1,29 @@
 package com.wakefern.api.proxy.apim.srfh.curbside;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.log4j.Logger;
+
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
-import com.wakefern.global.annotations.ValidatePPCWithJWT;
+import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.log4j.Logger;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Proxy endpoint for customer check-in for curbside pickup order (through SRFH API)
@@ -27,7 +34,7 @@ public class UpdateCurbsideSession extends BaseService {
 	private static final Logger logger = Logger.getLogger(UpdateCurbsideSession.class.getName());
 
 	@POST
-	@ValidatePPCWithJWT
+	@ValidatePPCWithJWTV2
 	@Produces(MWGApplicationConstants.Headers.generic)
 	@Consumes(MWGApplicationConstants.Headers.generic)
 	public Response getInfo(@PathParam("ppc") String ppc,

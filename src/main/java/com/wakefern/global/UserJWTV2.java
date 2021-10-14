@@ -19,8 +19,7 @@ import io.jsonwebtoken.security.Keys;
 public class UserJWTV2 {
 
 	private final static Logger logger = Logger.getLogger(UserJWTV2.class);
-	//private final static String userJwtSecret = VcapProcessor.getUserJwtSecret();
-	private final static String userJwtSecret = "LTjIFB4hYakULyUXuW5FRCPfWeAPItyx48QUpRT2Y9FjhZZBGNdlzeanqSsK0VF";
+	private final static String userJwtSecret = VcapProcessor.getUserJwtSecret();
 	private final static SecretKey key = Keys.hmacShaKeyFor(userJwtSecret.getBytes(StandardCharsets.UTF_8));
 
 	

@@ -1,9 +1,9 @@
 package com.wakefern.api.proxy.wakefern.coupon.v3;
 
-import com.wakefern.api.mi9.v7.account.authentication.UserJWT;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
+import com.wakefern.global.UserJWTV2;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -21,8 +21,6 @@ import java.util.Map;
 public class GetUserSession extends BaseService {
 	private final static Logger logger = Logger.getLogger(GetUserSession.class);
 
-	// TODO: refactor response building to not be parsing comma separated strings.
-	private static final String badRequestMessage = "400,Premature rejection,Bad Request: Missing frequent shopper number.";
 	private static final String unauthorizedMessage = "401,Unauthorized";
 
 	private static final String fsnKey = "ppc";
@@ -31,9 +29,8 @@ public class GetUserSession extends BaseService {
 	@Consumes(MWGApplicationConstants.Headers.json)
 	@Produces(MWGApplicationConstants.Headers.json)
 	public Response getInfoResponse(
-			@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String authToken,
-			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
-			String body)
+			@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String bearerToken,
+			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType)
 	{
 		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.UserLogin);
 
@@ -43,50 +40,43 @@ public class GetUserSession extends BaseService {
 				MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.COUPON_V3_KEY));
 
 		JSONObject jsonObject;
-		boolean containsPPC;
 		try {
-			
-			/* 2021-09-08 Since this doesn't apply to the Mi9 V8 API any more.
-			 * We leave this functionality out until we find a good solution for identify verification, 
-			 */
-//			try {
-//				jsonObject = new JSONObject(body);
-//				containsPPC = bodyContainsPPC(jsonObject);
-//			} catch (JSONException ex) {
-//				logger.error("ObtainUserSession::Exception -> JSONException creating json object from request payload: "
-//						+ ex.getMessage());
-//				throw new Exception(badRequestMessage);
-//			}
-//
-//			if (containsPPC) {
-//				final String ppc = jsonObject.optString("ppc");
-//				validatePPCWithJWT(ppc, authToken);
-//			}
+			if (bearerToken == null) {
+				/**
+				 * In the event of not having the JWT token attached, authenticate as a guest with the Coupons V3 API.
+				 * The user will be able to view coupons, but not clip them.
+				 */
+				return createValidResponse(HTTPRequest.executePost(url, (new JSONObject()).toString(), headerMap));
+			}
 
-			String response = HTTPRequest.executePost(url, body, headerMap);
-			return this.createValidResponse(response);
+			final String ppc = validateJWTAndParsePPC(bearerToken);
+			logger.debug("PPC parsed from JWT: " + ppc);
+			jsonObject = new JSONObject();
+			jsonObject.put(fsnKey, ppc);
+
+			return createValidResponse(HTTPRequest.executePost(url, jsonObject.toString(), headerMap));
 		} catch (Exception e) {
 			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_COUPONS_V3_GET_USER_SESSION);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"body", body,
-					"authorization", authToken,
+					"authorization", bearerToken,
 					"contentType", contentType);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return this.createErrorResponse(e);
 		}
 	}
 
-	private static boolean bodyContainsPPC(JSONObject jsonBody) {
-		return jsonBody != null && !jsonBody.optString(fsnKey).trim().isEmpty();
-	}
-
-	private static boolean validatePPCWithJWT(final String ppc, final String jwtToken) throws Exception {
-		if (!UserJWT.isValid(jwtToken, ppc)) {
+	/**
+	 * Validate JWT and return the PPC embedded in the JWT.
+	 * @param jwtToken
+	 * @return String
+	 * @throws Exception
+	 */
+	private static String validateJWTAndParsePPC(final String jwtToken) throws Exception {
+		if (!UserJWTV2.isValid(jwtToken)) {
 			throw new Exception(unauthorizedMessage);
-		} else {
-			logger.debug("Validate PPC passed for ppc: " + ppc);
 		}
-		return true;
+
+		return UserJWTV2.getPpcFromToken(jwtToken);
 	}
 }

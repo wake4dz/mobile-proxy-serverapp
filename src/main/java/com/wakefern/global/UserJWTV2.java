@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.log4j.Logger;
 
 import io.jsonwebtoken.JwtException;
@@ -22,6 +23,23 @@ public class UserJWTV2 {
 	private final static String userJwtSecret = VcapProcessor.getUserJwtSecret();
 	private final static SecretKey key = Keys.hmacShaKeyFor(userJwtSecret.getBytes(StandardCharsets.UTF_8));
 
+  /**
+	 * Validate JWT (is it valid and signed correctly?)
+	 * @param jwt String
+	 * @return true if the JWT is valid, false otherwise.
+	 */
+	public static boolean isValid(String jwt) {
+
+		String jws = jwt.replaceAll("Bearer ", "").trim();
+
+		try {
+			Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jws);
+			return true;
+		} catch (JwtException e) {
+			logger.debug(String.format("JWS: %s, %s", jwt, e.getMessage()));
+			return false;
+		}
+	}
 	
 	/**
 	 * Generate JWT with PPC as subject. 

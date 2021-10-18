@@ -34,7 +34,7 @@ public class GetPpcJwtToken extends BaseService {
 	private final static Logger logger = Logger.getLogger(GetPpcJwtToken.class);
 
 	@GET
-	public Response getShoppingCartItemLocator(
+	public Response getJWT(
 			@HeaderParam(MWGApplicationConstants.Headers.Params.xSiteHost) String xSiteHost,
 			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
 			@QueryParam("expires_in") int expiresInSeconds) {

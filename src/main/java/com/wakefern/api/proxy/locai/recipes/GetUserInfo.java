@@ -51,7 +51,8 @@ public class GetUserInfo extends BaseService {
         			+ "?accessToken=" + accessToken
         			+ "&accountId=" + accountId
         			+ "&clientId=" + VcapProcessor.getRecipeClientId()
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey()
+        			+ "&wakefernTokenType=mobile"; // mobile for the Mi9 V8 mobile-gateway server
         			
         	headers.put("Content-Type", contentType);
 

@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Proxy endpoint for fetching an existing Curbside session via the SRFH api
  */
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.CurbsideSession.Proxy.Path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.CurbsideSession.Proxy.Path)
 public class GetCurbsideSession extends BaseService {
 
 	private static final Logger logger = Logger.getLogger(GetCurbsideSession.class.getName());

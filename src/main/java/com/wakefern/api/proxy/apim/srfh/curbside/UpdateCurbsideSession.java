@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Proxy endpoint for customer check-in for curbside pickup order (through SRFH API)
  */
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.CurbsideSession.Proxy.Path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.CurbsideSession.Proxy.Path)
 public class UpdateCurbsideSession extends BaseService {
 
 	private static final Logger logger = Logger.getLogger(UpdateCurbsideSession.class.getName());

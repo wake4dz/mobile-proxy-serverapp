@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Proxy endpoint for fetching active pickup orders from
  */
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.UpcomingOrders.Proxy.Path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.UpcomingOrders.Proxy.Path)
 public class GetUpcomingOrders extends BaseService {
 
 	private static final Logger logger = Logger.getLogger(GetUpcomingOrders.class.getName());

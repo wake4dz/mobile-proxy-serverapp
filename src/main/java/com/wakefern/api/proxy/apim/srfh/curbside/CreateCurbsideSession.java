@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Proxy endpoint for creating a Curbside session via the SRFH api
  */
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.CurbsideSession.Proxy.Path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.CurbsideSession.Proxy.Path)
 public class CreateCurbsideSession extends BaseService {
 
 	private static final Logger logger = Logger.getLogger(CreateCurbsideSession.class.getName());

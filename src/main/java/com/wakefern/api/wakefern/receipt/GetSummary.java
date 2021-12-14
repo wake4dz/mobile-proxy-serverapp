@@ -12,7 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -33,7 +34,7 @@ import com.wakefern.wakefern.jwt.token.WakefernApiTokenManager;
  */
 @Path(WakefernApplicationConstants.Receipt.Proxy.Path)
 public class GetSummary extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetSummary.class);
+	private final static Logger logger = LogManager.getLogger(GetSummary.class);
 
 	/**
 	 * Get a user's receipts. V2 includes user PPC verification using Bearer token

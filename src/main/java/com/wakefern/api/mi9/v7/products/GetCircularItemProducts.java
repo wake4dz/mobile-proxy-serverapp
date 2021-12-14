@@ -10,7 +10,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
@@ -22,7 +23,7 @@ import java.util.HashMap;
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetCircularItemProducts extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(GetCircularItemProducts.class);
+	private final static Logger logger = LogManager.getLogger(GetCircularItemProducts.class);
 
 	// -------------------------------------------------------------------------
 	// Public Methods

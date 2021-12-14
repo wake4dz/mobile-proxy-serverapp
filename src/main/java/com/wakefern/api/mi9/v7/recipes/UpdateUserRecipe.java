@@ -9,14 +9,15 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Recipes.prefix)
 public class UpdateUserRecipe extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(CreateEmailRequest.class);
+	private final static Logger logger = LogManager.getLogger(CreateEmailRequest.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

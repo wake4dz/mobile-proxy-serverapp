@@ -18,7 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.TreeMap;
 
@@ -37,7 +38,7 @@ import com.wakefern.global.VcapProcessor;
  *  The main log utility class to provide all essential utility methods for the logging functionalities
  */
 public class LogUtil {
-	private final static Logger logger = Logger.getLogger(LogUtil.class);
+	private final static Logger logger = LogManager.getLogger(LogUtil.class);
 
 	public static boolean isEmailOn = false;
 

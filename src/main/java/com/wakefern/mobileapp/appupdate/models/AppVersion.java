@@ -1,12 +1,13 @@
 package com.wakefern.mobileapp.appupdate.models;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Pojo for App Version
  */
 public final class AppVersion implements Comparable<AppVersion> {
-    private static Logger logger = Logger.getLogger(AppVersion.class.getName());
+    private static Logger logger = LogManager.getLogger(AppVersion.class.getName());
     private AppVersion(int major, int minor, int patch) {
         this.major = major;
         this.minor = minor;

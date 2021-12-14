@@ -9,7 +9,8 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,7 +22,7 @@ import java.util.HashMap;
  */
 @Path(WakefernApplicationConstants.ReceiptUserSettings.Proxy.Path)
 public class GetReceiptSettings extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetReceiptSettings.class);
+	private final static Logger logger = LogManager.getLogger(GetReceiptSettings.class);
 
 	@GET
 	@ValidatePPC

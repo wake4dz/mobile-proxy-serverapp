@@ -7,7 +7,8 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.util.Base64;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WakefernApiTokenManager {
-    private final static Logger logger = Logger.getLogger(WakefernApiTokenManager.class);
+    private final static Logger logger = LogManager.getLogger(WakefernApiTokenManager.class);
 
     private static volatile String sWakefernAPIToken = null;
     private static boolean isRefreshing = false;

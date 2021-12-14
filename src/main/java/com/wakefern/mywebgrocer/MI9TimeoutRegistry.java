@@ -3,7 +3,8 @@ package com.wakefern.mywebgrocer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.VcapProcessor;
 
@@ -13,7 +14,7 @@ import com.wakefern.global.VcapProcessor;
  *
  */
 public class MI9TimeoutRegistry {	
-	private final static Logger logger = Logger.getLogger(MI9TimeoutRegistry.class);
+	private final static Logger logger = LogManager.getLogger(MI9TimeoutRegistry.class);
 
 	private static final String TAG = MI9TimeoutRegistry.class.getSimpleName();
 	

@@ -11,7 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
@@ -23,7 +24,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 @Path(MWGApplicationConstants.Requests.Circulars.prefix)
 public class GetCircularsDetails extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(GetCircularsDetails.class);
+	private final static Logger logger = LogManager.getLogger(GetCircularsDetails.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

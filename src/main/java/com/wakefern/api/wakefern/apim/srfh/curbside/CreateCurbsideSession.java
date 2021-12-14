@@ -10,7 +10,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -23,7 +24,7 @@ import java.util.Map;
 @Path(WakefernApplicationConstants.CurbsideSession.Proxy.Path)
 public class CreateCurbsideSession extends BaseService {
 
-	private static final Logger logger = Logger.getLogger(CreateCurbsideSession.class.getName());
+	private static final Logger logger = LogManager.getLogger(CreateCurbsideSession.class.getName());
 
 	@PUT
 	@ValidatePPCWithJWT

@@ -5,7 +5,8 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.mywebgrocer.models.MWGHeader;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class GetSubscriptions extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(GetSubscriptions.class);
+	private final static Logger logger = LogManager.getLogger(GetSubscriptions.class);
 
 	private static final String TAG = GetSubscriptions.class.getName();
 

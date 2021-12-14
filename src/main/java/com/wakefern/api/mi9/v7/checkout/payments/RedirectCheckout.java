@@ -4,7 +4,8 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.net.URI;
 
 /**
@@ -18,7 +19,7 @@ import java.net.URI;
  */
 @Path(ApplicationConstants.CheckoutNotify.CheckoutNotifyURL)
 public class RedirectCheckout extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetOptions.class);
+	private final static Logger logger = LogManager.getLogger(GetOptions.class);
 	private static URI successURI = null;
 	private static URI failureURI = null;
 	

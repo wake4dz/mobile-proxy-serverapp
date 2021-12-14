@@ -8,7 +8,8 @@ import com.wakefern.mobileapp.appupdate.models.AppUpdateInfo;
 import com.wakefern.mobileapp.appupdate.models.AppVersion;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,7 +23,7 @@ import javax.ws.rs.core.Response;
  */
 @Path(WakefernApplicationConstants.MobileApp.AppUpdate.Path)
 public class CheckForAppUpdate extends BaseService {
-    private final static Logger logger = Logger.getLogger(CheckForAppUpdate.class);
+    private final static Logger logger = LogManager.getLogger(CheckForAppUpdate.class);
 
     @GET
     public Response getResponse(@HeaderParam(ApplicationConstants.Requests.Header.appVersion) String appVersion) {

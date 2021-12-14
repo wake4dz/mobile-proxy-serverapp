@@ -9,7 +9,8 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +21,7 @@ import java.util.Map;
 
 @Path(ApplicationConstants.Requests.CouponsV3.UserLogin)
 public class GetUserSession extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetUserSession.class);
+	private final static Logger logger = LogManager.getLogger(GetUserSession.class);
 
 	// TODO: refactor response building to not be parsing comma separated strings.
 	private static final String badRequestMessage = "400,Premature rejection,Bad Request: Missing frequent shopper number.";

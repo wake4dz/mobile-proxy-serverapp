@@ -10,7 +10,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,7 +22,7 @@ import java.util.HashMap;
 public class CreateDuplicateList extends BaseService {
 	private static final String THIS = "com.wakefern.shoppingLists.CreateDuplicateList";
 	
-	private final static Logger logger = Logger.getLogger(CreateDuplicateList.class);
+	private final static Logger logger = LogManager.getLogger(CreateDuplicateList.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

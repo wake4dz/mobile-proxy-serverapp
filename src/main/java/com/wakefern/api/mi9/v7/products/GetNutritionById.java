@@ -10,14 +10,15 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetNutritionById extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(GetNutritionById.class);
+	private final static Logger logger = LogManager.getLogger(GetNutritionById.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

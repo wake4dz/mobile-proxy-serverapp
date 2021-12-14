@@ -4,7 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 */
 
 public class SortMi9V8ItemLocators {
-	private final static Logger logger = Logger.getLogger(SortMi9V8ItemLocators.class);
+	private final static Logger logger = LogManager.getLogger(SortMi9V8ItemLocators.class);
 
 	/*
 	 * 02/03/2020 Purpose: to sort items by AisleAreaSeqNum before return to the UI.

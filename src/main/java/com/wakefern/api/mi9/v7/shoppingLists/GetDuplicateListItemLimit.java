@@ -6,13 +6,14 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class GetDuplicateListItemLimit extends BaseService {
 	
-	//private final static Logger logger = Logger.getLogger(GetDuplicateListItemLimit.class);
+	//private final static Logger logger = LogManager.getLogger(GetDuplicateListItemLimit.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

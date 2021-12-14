@@ -10,7 +10,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.net.URLEncoder;
@@ -18,7 +19,7 @@ import java.net.URLEncoder;
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetSuggestions extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(GetSuggestions.class);
+	private final static Logger logger = LogManager.getLogger(GetSuggestions.class);
 
 	//-------------------------------------------------------------------------
 	// Public Methods

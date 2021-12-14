@@ -12,7 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakefern.api.mi9.v7.products.GetProductBySkus;
@@ -36,7 +37,7 @@ import org.json.JSONObject;
 @Path(ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2)
 public class ProductsRecommendation extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(ProductsRecommendation.class);
+	private final static Logger logger = LogManager.getLogger(ProductsRecommendation.class);
 
 	@GET
 	@Produces(MWGApplicationConstants.Headers.generic)

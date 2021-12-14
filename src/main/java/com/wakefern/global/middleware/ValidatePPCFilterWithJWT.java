@@ -7,7 +7,8 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.api.mi9.v7.account.authentication.UserJWT;
 import com.wakefern.global.annotations.ValidatePPCWithJWT;
@@ -19,7 +20,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 @Provider
 @ValidatePPCWithJWT
 public class ValidatePPCFilterWithJWT implements ContainerRequestFilter {
-	private final static Logger logger = Logger.getLogger(ValidatePPCFilterWithJWT.class);
+	private final static Logger logger = LogManager.getLogger(ValidatePPCFilterWithJWT.class);
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) {

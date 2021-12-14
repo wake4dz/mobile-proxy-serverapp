@@ -10,7 +10,8 @@ import javax.ws.rs.core.*;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.VcapProcessor;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
@@ -20,7 +21,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 @Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.Complements.Proxy.GetProductComplements)
 public class GetProductComplements extends BaseService {
-	private final static Logger logger = Logger.getLogger(com.wakefern.api.wakefern.nutrition.GetWakefernNutrition.class);
+	private final static Logger logger = LogManager.getLogger(com.wakefern.api.wakefern.nutrition.GetWakefernNutrition.class);
 
 	@GET
 	@Consumes(MWGApplicationConstants.Headers.generic)

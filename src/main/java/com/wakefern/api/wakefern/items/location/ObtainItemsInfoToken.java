@@ -7,7 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
@@ -24,7 +25,7 @@ import com.wakefern.wakefern.WakefernAuth;
  */
 @Path(WakefernApplicationConstants.ItemLocator.prefix)
 public class ObtainItemsInfoToken extends BaseService {
-	private final static Logger logger = Logger.getLogger(ObtainItemsInfoToken.class);
+	private final static Logger logger = LogManager.getLogger(ObtainItemsInfoToken.class);
 
 	public JSONObject matchedObjects;
 	

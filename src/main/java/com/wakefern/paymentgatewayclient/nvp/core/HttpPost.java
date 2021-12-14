@@ -91,7 +91,7 @@ final class HttpPost implements Transport {
         	LogToFile.dateLog(HttpPost.class.getName() + methodName + ": "
 									+ "MalformedURLException was thrown - " + ex.getMessage());
         } catch (IOException ex) {
-            //Logger.getLogger(HttpPost.class.getName()).log(Level.SEVERE, null, ex);
+            //LogManager.getLogger(HttpPost.class.getName()).log(Level.SEVERE, null, ex);
         	LogToFile.dateLog(HttpPost.class.getName() + methodName + ": "
         							+ "IOException was thrown - " + ex.getMessage());
         }

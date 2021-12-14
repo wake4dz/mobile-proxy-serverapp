@@ -13,7 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
@@ -36,7 +37,7 @@ import org.json.JSONObject;
 @Path(WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class HomePageConfig extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(HomePageConfig.class);
+	private final static Logger logger = LogManager.getLogger(HomePageConfig.class);
 
 	@GET
 	@Produces(MWGApplicationConstants.Headers.generic)

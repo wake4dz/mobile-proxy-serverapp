@@ -6,11 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ResponseHandler {
 
-	private final static Logger logger = Logger.getLogger(ResponseHandler.class);
+	private final static Logger logger = LogManager.getLogger(ResponseHandler.class);
 	
 	public static String getResponse(HttpURLConnection connection) throws Exception {
         BufferedReader reader = null;

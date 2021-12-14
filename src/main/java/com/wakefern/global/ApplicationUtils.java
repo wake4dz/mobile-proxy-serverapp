@@ -1,6 +1,7 @@
 package com.wakefern.global;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -14,7 +15,7 @@ import java.util.Map;
  * Created by brandyn.brosemer on 9/13/16.
  */
 public class ApplicationUtils {
-	private final static Logger logger = Logger.getLogger(ApplicationUtils.class);
+	private final static Logger logger = LogManager.getLogger(ApplicationUtils.class);
 
     public static StringBuilder constructCouponUrl(String pathUrl, String fsnReqParam) {
 		StringBuilder sb = new StringBuilder();

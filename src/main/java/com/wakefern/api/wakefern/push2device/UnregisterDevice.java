@@ -9,7 +9,8 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 @Path(WakefernApplicationConstants.Push2Device.Proxy.unregisterPath)
 public class UnregisterDevice extends BaseService {
-    private final static Logger logger = Logger.getLogger(RegisterDevice.class);
+    private final static Logger logger = LogManager.getLogger(RegisterDevice.class);
 
     /**
      * Helper method to parse request payload into Push2Device json args.

@@ -10,7 +10,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +25,7 @@ import java.util.Map;
  */
 @Path(WakefernApplicationConstants.SmsEnrollment.Proxy.Path)
 public class SmsEnrollment extends BaseService {
-	private final static Logger logger = Logger.getLogger(SmsEnrollment.class);
+	private final static Logger logger = LogManager.getLogger(SmsEnrollment.class);
 
 	// TODO: refactor response building to not be parsing comma separated strings.
 	private static final String badRequestMessage = "400,Premature rejection,Bad Request: Malformed json.";

@@ -1,6 +1,7 @@
 package com.wakefern.global;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.logging.LogUtil;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
@@ -12,7 +13,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  *  purpose:    to retrieve every VCAP property/value from the IBM Cloud VCAP settings
  */
 public class VcapProcessor {
-	private final static Logger logger = Logger.getLogger(VcapProcessor.class);
+	private final static Logger logger = LogManager.getLogger(VcapProcessor.class);
 
 	private static int apiHighTimeout = 0;
 	private static int apiMediumTimeout = 0;

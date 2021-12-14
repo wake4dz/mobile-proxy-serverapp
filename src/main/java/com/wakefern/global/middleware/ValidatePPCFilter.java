@@ -9,7 +9,8 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 @Provider
 @ValidatePPC
 public class ValidatePPCFilter implements ContainerRequestFilter {
-	private final static Logger logger = Logger.getLogger(ValidatePPCFilter.class);
+	private final static Logger logger = LogManager.getLogger(ValidatePPCFilter.class);
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) {

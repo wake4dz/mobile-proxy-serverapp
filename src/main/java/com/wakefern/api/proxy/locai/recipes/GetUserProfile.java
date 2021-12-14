@@ -10,7 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -31,7 +32,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 @Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class GetUserProfile extends BaseService {
 
-    private final static Logger logger = Logger.getLogger(GetUserProfile.class);
+    private final static Logger logger = LogManager.getLogger(GetUserProfile.class);
 
     @POST
     @Produces(MWGApplicationConstants.Headers.generic)

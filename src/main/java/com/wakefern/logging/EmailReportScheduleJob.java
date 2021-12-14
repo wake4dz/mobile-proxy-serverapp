@@ -3,7 +3,8 @@ package com.wakefern.logging;
 import java.util.Date;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -16,7 +17,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
  *  To generated the error status summary for the email distribution
  */
 public class EmailReportScheduleJob implements Job{ 
-	final static Logger logger = Logger.getLogger(EmailReportScheduleJob.class);
+	final static Logger logger = LogManager.getLogger(EmailReportScheduleJob.class);
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

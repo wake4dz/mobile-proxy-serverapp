@@ -9,7 +9,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 @Path(MWGApplicationConstants.Requests.Stores.prefix)
 public class GetDetails extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(GetDetails.class);
+	private final static Logger logger = LogManager.getLogger(GetDetails.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

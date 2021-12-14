@@ -11,7 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
@@ -22,7 +23,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class DeletePromoCode extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(CreatePromoCode.class);
+	private final static Logger logger = LogManager.getLogger(CreatePromoCode.class);
 	//-------------------------------------------------------------------------
 	// Public Methods
 	//-------------------------------------------------------------------------

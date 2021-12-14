@@ -7,7 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,7 +39,7 @@ import com.wakefern.wakefern.WakefernAuth;
  */
 @Path(ApplicationConstants.Requests.VerifyServices)
 public class GetServicesStatus extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetServicesStatus.class);
+	private final static Logger logger = LogManager.getLogger(GetServicesStatus.class);
 
 	/**
 	 * Custom MIME type for this endpoint.

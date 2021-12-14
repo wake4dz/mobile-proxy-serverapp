@@ -9,7 +9,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
@@ -17,7 +18,7 @@ import java.util.HashMap;
 public class CreateEmail extends BaseService {
 	
 	//TODO this class name is misleading one. MWG's end point name is com.wakefern.cart.UpdateItem
-	private final static Logger logger = Logger.getLogger(CreateEmail.class);
+	private final static Logger logger = LogManager.getLogger(CreateEmail.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

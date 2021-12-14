@@ -7,7 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,7 +23,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 @Path(MWGApplicationConstants.Requests.Account.prefix)
 public class SendForgotFsnEmail extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(SendForgotFsnEmail.class);
+	private final static Logger logger = LogManager.getLogger(SendForgotFsnEmail.class);
 	//-------------------------------------------------------------------------
 	// Public Methods
 	//-------------------------------------------------------------------------

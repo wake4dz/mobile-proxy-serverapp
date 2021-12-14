@@ -9,7 +9,8 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 @Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.RemoveCouponFromPPC)
 public class RemoveCouponFromPPC extends BaseService {
-	private final static Logger logger = Logger.getLogger(RemoveCouponFromPPC.class);
+	private final static Logger logger = LogManager.getLogger(RemoveCouponFromPPC.class);
 
 	@POST
 	@Consumes(MWGApplicationConstants.Headers.json)

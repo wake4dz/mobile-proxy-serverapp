@@ -10,7 +10,8 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class Search extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(Search.class);
+	private final static Logger logger = LogManager.getLogger(Search.class);
 
 	// -------------------------------------------------------------------------
 	// Public Methods

@@ -10,7 +10,8 @@ import javax.ws.rs.core.Response;
 
 import com.wakefern.global.ApplicationConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.BaseService;
@@ -24,7 +25,7 @@ import com.wakefern.request.HTTPRequest;
 @Path("payment/token/user/{userId}/store/{storeId}")
 public class GetToken extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(GetToken.class);
+	private final static Logger logger = LogManager.getLogger(GetToken.class);
 
 	private Map<String, String> paymentMap() {
 		Map returnMap = new LinkedHashMap<>();

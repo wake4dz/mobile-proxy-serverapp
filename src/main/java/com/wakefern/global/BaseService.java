@@ -7,7 +7,8 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,7 +33,7 @@ public class BaseService {
     
     protected enum ReqType { GET, POST, PUT, DELETE };
     
-    private final static Logger logger = Logger.getLogger(BaseService.class);
+    private final static Logger logger = LogManager.getLogger(BaseService.class);
     
     protected String mwgRequest(ReqType reqType, String reqData, String endpointName, int timeout) throws IOException, Exception{
     	this.timeout = timeout;

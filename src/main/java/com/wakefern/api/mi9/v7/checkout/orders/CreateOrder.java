@@ -10,7 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.api.mi9.v7.account.authentication.UserJWT;
@@ -26,7 +27,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class CreateOrder extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(CreateOrder.class);
+	private final static Logger logger = LogManager.getLogger(CreateOrder.class);
 
 	// -------------------------------------------------------------------------
 	// Public Methods

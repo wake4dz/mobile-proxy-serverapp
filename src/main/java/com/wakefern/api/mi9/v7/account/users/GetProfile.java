@@ -12,7 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -29,7 +30,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 @Path(MWGApplicationConstants.Requests.Account.prefix)
 public class GetProfile extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(GetProfile.class);
+	private final static Logger logger = LogManager.getLogger(GetProfile.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

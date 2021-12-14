@@ -7,7 +7,8 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -19,7 +20,7 @@ import io.jsonwebtoken.security.Keys;
  */
 public class UserJWTV2 {
 
-	private final static Logger logger = Logger.getLogger(UserJWTV2.class);
+	private final static Logger logger = LogManager.getLogger(UserJWTV2.class);
 	private final static String userJwtSecret = VcapProcessor.getUserJwtSecret();
 	private final static SecretKey key = Keys.hmacShaKeyFor(userJwtSecret.getBytes(StandardCharsets.UTF_8));
 

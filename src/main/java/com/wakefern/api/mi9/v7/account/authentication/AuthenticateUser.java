@@ -10,7 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.api.mi9.v7.account.users.GetProfile;
@@ -25,7 +26,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 @Path(MWGApplicationConstants.Requests.Account.prefix)
 public class AuthenticateUser extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(AuthenticateUser.class);
+	private final static Logger logger = LogManager.getLogger(AuthenticateUser.class);
 	private final static GetProfile getProfile = new GetProfile();
 	private final static String emailKey = "Email";
 	private final static String pwKey = "Password";

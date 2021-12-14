@@ -9,7 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
@@ -31,7 +32,7 @@ import com.wakefern.request.HTTPRequest;
  */
 @Path(ApplicationConstants.Requests.Proxy + "/ppc/jwt/token")
 public class GetPpcJwtToken extends BaseService {
-	private final static Logger logger = Logger.getLogger(GetPpcJwtToken.class);
+	private final static Logger logger = LogManager.getLogger(GetPpcJwtToken.class);
 
 	@GET
 	public Response getJWT(

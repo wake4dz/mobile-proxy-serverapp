@@ -9,7 +9,8 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +24,7 @@ import java.util.HashMap;
  */
 @Path(WakefernApplicationConstants.ReceiptUserSettings.Proxy.Path)
 public class UpdateReceiptSettings extends BaseService {
-	private final static Logger logger = Logger.getLogger(UpdateReceiptSettings.class);
+	private final static Logger logger = LogManager.getLogger(UpdateReceiptSettings.class);
 
 	private final static String REQUEST_BODY_RECEIPT_OPTION_KEY = "digitalReceiptOption";
 	private final static String REQUEST_BODY_RECEIPT_EMAIL_OPTION_KEY = "digitalReceiptEmailOption";

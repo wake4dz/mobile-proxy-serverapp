@@ -8,7 +8,8 @@ import com.wakefern.logging.MwgErrorType;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import javax.ws.rs.Consumes;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Path(WakefernApplicationConstants.CitrusAds.AdsPath)
 public class GenerateAds extends BaseService {
-	private final static Logger logger = Logger.getLogger(GenerateAds.class);
+	private final static Logger logger = LogManager.getLogger(GenerateAds.class);
 	private final static String catalogId = VcapProcessor.getCitrusCatalogId();
 	private final static String contentStandardId = VcapProcessor.getCitrusContentStandardId();
 	private final static String requestURL = VcapProcessor.getCitrusServiceEndpoint()

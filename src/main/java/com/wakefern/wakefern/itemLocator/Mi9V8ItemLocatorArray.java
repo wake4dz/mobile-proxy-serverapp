@@ -11,7 +11,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *  9/29/2021
@@ -21,7 +22,7 @@ import org.apache.log4j.Logger;
 
 public class Mi9V8ItemLocatorArray extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(Mi9V8ItemLocatorArray.class);
+	private final static Logger logger = LogManager.getLogger(Mi9V8ItemLocatorArray.class);
 
     public String getInfo(String storeId, String upc, String authToken) throws Exception{
         Map<String, String> wkfn = new HashMap<>();

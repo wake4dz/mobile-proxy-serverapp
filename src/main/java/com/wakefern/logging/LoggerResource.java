@@ -1,6 +1,6 @@
 package com.wakefern.logging;
 
-import java.util.Enumeration;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -9,12 +9,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.Level;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import org.apache.logging.log4j.core.config.Configurator;
 
 /* 
  *  author: Danny zheng
@@ -25,7 +27,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 @Path(MWGApplicationConstants.Log.logger)
 public class LoggerResource {
 
-	final static Logger logger = Logger.getLogger(LoggerResource.class);
+	final static Logger logger = LogManager.getLogger(LoggerResource.class);
 
 	@PUT
 	@Path(MWGApplicationConstants.Log.changeLevel)
@@ -66,11 +68,11 @@ public class LoggerResource {
 			logLevel = Level.INFO;
 		}
 
-		if (Logger.getRootLogger().getLevel() == logLevel) { // no changed log level
+		if (LogManager.getRootLogger().getLevel() == logLevel) { // no changed log level
 			outputText = "Log4i log level is " + logLevel + ", which is the same as before"
 					+ ".\nThe available level options: off, trace, debug, info, warn, error, fatal.";			
 		} else {
-			Logger.getRootLogger().setLevel(logLevel);
+			Configurator.setRootLevel(logLevel);
 			outputText = "Log4i log level is now set to be " + logLevel
 					+ ".\nThe available level options: off, trace, debug, info, warn, error, fatal.";
 			logger.warn(outputText);
@@ -89,7 +91,7 @@ public class LoggerResource {
 			return Response.status(401).entity("Not authorized").build();
 		}
 		
-		String output = "Log4i current log level is " + Logger.getRootLogger().getLevel()
+		String output = "Log4i current log level is " + LogManager.getRootLogger().getLevel()
 				+ ".\nThe available level options: off, trace, debug, info, warn, error, fatal.";
 		return Response.status(200).entity(output).build();
 	}
@@ -105,19 +107,18 @@ public class LoggerResource {
 		
 		StringBuffer sb = new StringBuffer();
 
-		Enumeration<?> appendersEnum = Logger.getRootLogger().getAllAppenders();
+		Map<String, Appender> appenderMap = ((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger()).getAppenders();
 
-		while (appendersEnum.hasMoreElements()) {
-			Appender appender = (Appender) appendersEnum.nextElement();
+		for (Appender appender : appenderMap.values()) {
 			sb.append(appender.getName() + ", ");
 		}
-		
+
 		int index = sb.lastIndexOf(",");
 		if (index > 0) {
 			sb.replace(index, index+1, ".");
 		}
 
-		String output = "List current Log4j appenders: " + sb.toString();
+		String output = "List current Log4j appenders: " + sb;
 		return Response.status(200).entity(output).build();
 	}
 

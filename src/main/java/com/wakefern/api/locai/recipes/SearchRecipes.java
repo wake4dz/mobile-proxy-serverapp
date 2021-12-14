@@ -10,7 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
@@ -30,7 +31,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 @Path(WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class SearchRecipes extends BaseService {
 
-    private final static Logger logger = Logger.getLogger(SearchRecipes.class);
+    private final static Logger logger = LogManager.getLogger(SearchRecipes.class);
 
     @POST
     @Produces(MWGApplicationConstants.Headers.generic)

@@ -16,7 +16,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakefern.dao.sku.ProductSKUsDAO;
@@ -30,7 +31,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 @Path(MWGApplicationConstants.Requests.Products.prefix)
 public class GetProductBySkus extends BaseService {
 
-	private final static Logger logger = Logger.getLogger(GetProductBySkus.class);
+	private final static Logger logger = LogManager.getLogger(GetProductBySkus.class);
 
 	// -------------------------------------------------------------------------
 	// Public Methods

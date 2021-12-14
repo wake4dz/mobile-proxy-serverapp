@@ -3,7 +3,8 @@ package com.wakefern.api.wakefern.health.check;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -16,7 +17,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  */
 @Path(WakefernApplicationConstants.HealthCheck.Path)
 public class HealthCheck {
-	final static Logger logger = Logger.getLogger(HealthCheck.class);
+	final static Logger logger = LogManager.getLogger(HealthCheck.class);
 	
 	@GET
 	public String getHealthStatus() {

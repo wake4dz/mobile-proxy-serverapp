@@ -6,7 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 
 import com.wakefern.global.BaseService;
@@ -16,7 +17,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 @Path(MWGApplicationConstants.Requests.PlasticBagFee.prefix)
 public class GetStoreIds extends BaseService{
-	private final static Logger logger = Logger.getLogger(GetStoreIds.class);
+	private final static Logger logger = LogManager.getLogger(GetStoreIds.class);
 
 	/**
 	 * Constructor

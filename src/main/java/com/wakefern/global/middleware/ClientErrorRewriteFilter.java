@@ -4,7 +4,8 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.mobileapp.appupdate.models.AppVersion;
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import org.apache.http.HttpStatus;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,7 +27,7 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 public class ClientErrorRewriteFilter implements ContainerResponseFilter {
-	private static final Logger sLogger = Logger.getLogger(ClientErrorRewriteFilter.class.getSimpleName());
+	private static final Logger sLogger = LogManager.getLogger(ClientErrorRewriteFilter.class.getSimpleName());
 
 	private static final AppVersion sLastSupportedAppVersion;
 	private static final String LAST_SUPPORTED_APP_VERSION_STR = "4.13.0";

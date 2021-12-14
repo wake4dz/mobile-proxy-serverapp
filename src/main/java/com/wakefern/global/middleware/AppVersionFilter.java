@@ -3,7 +3,8 @@ package com.wakefern.global.middleware;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.annotations.AppVersions;
 import com.wakefern.mobileapp.appupdate.models.AppVersion;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ServiceUnavailableException;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 @Provider
 @AppVersions
 public class AppVersionFilter implements ContainerRequestFilter {
-    private final static Logger logger = Logger.getLogger(AppVersionFilter.class);
+    private final static Logger logger = LogManager.getLogger(AppVersionFilter.class);
 
     @Context
     private ResourceInfo resourceInfo;

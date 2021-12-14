@@ -10,14 +10,15 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
 @Path(MWGApplicationConstants.Requests.ShoppingList.prefix)
 public class CreateListItems extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(CreateListItems.class);
+	private final static Logger logger = LogManager.getLogger(CreateListItems.class);
 	
 	//-------------------------------------------------------------------------
 	// Public Methods

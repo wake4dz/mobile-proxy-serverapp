@@ -11,14 +11,15 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.errorHandling.ResponseHandler;
 import com.wakefern.logging.LogUtil;
 
 public class HTTPRequest {
 
-	private final static Logger logger = Logger.getLogger(HTTPRequest.class);
+	private final static Logger logger = LogManager.getLogger(HTTPRequest.class);
 
 	/**
 	 * A default read timeout for outgoing HTTP requests.

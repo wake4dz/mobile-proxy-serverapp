@@ -9,7 +9,8 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
@@ -21,7 +22,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
  */
 @Path(MWGApplicationConstants.Log.error)
 public class ErrorResource {
-	final static Logger logger = Logger.getLogger(ErrorResource.class);
+	final static Logger logger = LogManager.getLogger(ErrorResource.class);
 	
 	@GET
 	@Path(MWGApplicationConstants.Log.errorList)

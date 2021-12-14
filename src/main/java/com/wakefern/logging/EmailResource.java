@@ -13,7 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
@@ -25,7 +26,7 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
  */
 @Path(MWGApplicationConstants.Log.email)
 public class EmailResource {
-	final static Logger logger = Logger.getLogger(EmailResource.class);
+	final static Logger logger = LogManager.getLogger(EmailResource.class);
 
 	@GET
 	@Path(MWGApplicationConstants.Log.status)

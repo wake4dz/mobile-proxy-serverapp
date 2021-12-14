@@ -1,9 +1,10 @@
 package com.wakefern.mobileapp.appupdate.models;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public final class AppUpdateInfo {
-    private static final Logger logger = Logger.getLogger(AppUpdateInfo.class);
+    private static final Logger logger = LogManager.getLogger(AppUpdateInfo.class);
 
     /**
      * App Store release notes

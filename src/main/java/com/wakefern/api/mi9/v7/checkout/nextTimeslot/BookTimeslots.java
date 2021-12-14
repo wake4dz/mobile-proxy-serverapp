@@ -10,7 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
@@ -26,7 +27,7 @@ import com.wakefern.mywebgrocer.models.MWGHeader;
 @Path(MWGApplicationConstants.Requests.Checkout.prefix)
 public class BookTimeslots extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(BookTimeslots.class);
+	private final static Logger logger = LogManager.getLogger(BookTimeslots.class);
 	private static final String TAG = BookTimeslots.class.getName();
 	
 	//-------------------------------------------------------------------------

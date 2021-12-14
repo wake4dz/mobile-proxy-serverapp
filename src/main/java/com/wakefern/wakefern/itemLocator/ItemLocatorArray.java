@@ -12,7 +12,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by zacpuste on 10/18/16.
@@ -20,7 +21,7 @@ import org.apache.log4j.Logger;
 
 public class ItemLocatorArray extends BaseService {
 	
-	private final static Logger logger = Logger.getLogger(ItemLocatorArray.class);
+	private final static Logger logger = LogManager.getLogger(ItemLocatorArray.class);
 
     public String getInfo(String storeId, String upc, String authToken) {
         Map<String, String> wkfn = new HashMap<>();

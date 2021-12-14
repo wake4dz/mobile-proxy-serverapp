@@ -9,7 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
@@ -29,7 +30,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  */
 @Path(WakefernApplicationConstants.CitrusAds.Path)
 public class SyncOrderInfo extends BaseService {
-	private final static Logger logger = Logger.getLogger(SyncOrderInfo.class);
+	private final static Logger logger = LogManager.getLogger(SyncOrderInfo.class);
 
 	private final static String requestURL = VcapProcessor.getCitrusServiceEndpoint()
 			+ WakefernApplicationConstants.CitrusAds.Proxy.SyncOrderInfo;

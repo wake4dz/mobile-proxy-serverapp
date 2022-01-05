@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
 public class SetUserProfile extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(SetUserProfile.class);
@@ -36,7 +36,7 @@ public class SetUserProfile extends BaseService {
     @POST
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.setUserProfile)
+    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.setUserProfile)
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.auth) String jwtToken,
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
@@ -45,11 +45,11 @@ public class SetUserProfile extends BaseService {
         Map<String, String> headers = new HashMap<>();
 
         try {
-        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
-        			+ "/users/profile/set?clientId=" + VcapProcessor.getRecipeClientId()
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
-        			
-        	headers.put("Content-Type", contentType);
+            String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
+                + "/users/profile/set?clientId=" + VcapProcessor.getRecipeClientId()
+                + "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+
+            headers.put("Content-Type", contentType);
             headers.put("Authorization", jwtToken);
             
             return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
@@ -63,5 +63,4 @@ public class SetUserProfile extends BaseService {
             return this.createErrorResponse(errorData, e);
         }
     }
-
 }

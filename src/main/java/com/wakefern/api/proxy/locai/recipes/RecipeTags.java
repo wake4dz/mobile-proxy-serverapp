@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
 public class RecipeTags extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(RecipeTags.class);
@@ -36,19 +36,19 @@ public class RecipeTags extends BaseService {
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.recipeTags)
+    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.recipeTags)
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType) {
         
-    	Map<String, String> headers = new HashMap<>();
+    	  Map<String, String> headers = new HashMap<>();
     	
         try {
             
-        	String path = VcapProcessor.getTargetRecipeLocaiServiceEndpoint() + 
-        			"/recipes/tags?clientId=" + VcapProcessor.getRecipeClientId()
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
-       
-        	headers.put("Content-Type", contentType);
+            String path = VcapProcessor.getTargetRecipeLocaiServiceEndpoint() + 
+                "/recipes/tags?clientId=" + VcapProcessor.getRecipeClientId()
+                + "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+
+            headers.put("Content-Type", contentType);
         	
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiMediumTimeout()));
 
@@ -61,5 +61,4 @@ public class RecipeTags extends BaseService {
             return this.createErrorResponse(errorData, e);
         }
     }
-
 }

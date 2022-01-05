@@ -35,7 +35,7 @@ import org.json.JSONObject;
  *
  */
 
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
 public class HomePageConfig extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(HomePageConfig.class);
@@ -43,7 +43,7 @@ public class HomePageConfig extends BaseService {
 	@GET
 	@Produces(MWGApplicationConstants.Headers.generic)
 	@Consumes(MWGApplicationConstants.Headers.generic)
-	@Path(WakefernApplicationConstants.RecipeLocai.Proxy.homepageConfig)
+	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.homepageConfig)
 	public Response getResponse(
 			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType) {
 
@@ -67,6 +67,23 @@ public class HomePageConfig extends BaseService {
 
 			return this.createErrorResponse(errorData, e);
 		}
+	}
+
+	/**
+	 * Fetch the current homepageConfig.
+	 * @return HomepageConfig
+	 * @throws Exception
+	 */
+	public static JSONObject fetch() throws Exception {
+		Map<String, String> headers = new HashMap<>();
+		String path = VcapProcessor.getTargetRecipeLocaiServiceEndpoint() + "/content/wakefern?" + "&apiKey="
+				+ VcapProcessor.getTargetRecipeLocaiApiKey();
+
+		headers.put("Content-Type", "application/json");
+
+		String response = HTTPRequest.executeGet(path, headers, VcapProcessor.getApiHighTimeout());
+		logger.debug("Locai's response data: " + response);
+		return new JSONObject(filterLayoutsFromResponse(response));
 	}
 
 	/**

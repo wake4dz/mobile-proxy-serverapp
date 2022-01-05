@@ -23,6 +23,7 @@ public class VcapProcessor {
 	private static String recipeClientId = null;
 	private static String recipeApiKeyStaging = null;
 	private static String recipeApiKeyProd = null;
+	private static int recipeShelfThreadPoolSize = 0;
 
 	private static String walletService = null;
 	private static String srWalletKeyProd = null;
@@ -93,6 +94,16 @@ public class VcapProcessor {
 			throw new RuntimeException("timeslotSearchRadiusInMile must have an integer value in mile!");
 		}
 
+		try {
+			recipeShelfThreadPoolSize = getVcapValueInt(WakefernApplicationConstants.VCAPKeys.RECIPE_SHELF_THREAD_POOL_SIZE);
+			if (recipeShelfThreadPoolSize <= 0) {
+				throw new IllegalArgumentException(WakefernApplicationConstants.VCAPKeys.RECIPE_SHELF_THREAD_POOL_SIZE + " needs to be a positive integer");
+			}
+		} catch (Exception e) {
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
+			throw new RuntimeException("recipe_shelf_thread_pool_size must have a positive integer value");
+		}
+
 		recipeService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.RECIPE_SERVICE);
 		recipeClientId = getVcapValueString(WakefernApplicationConstants.VCAPKeys.RECIPE_CLIENT_ID_KEY);
 		recipeApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.RECIPE_API_STAGE_KEY);
@@ -132,7 +143,6 @@ public class VcapProcessor {
 		prodxAisleId = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_AISLE_ID);
 	
 		mi9v8Service = getVcapValueString(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
-
 	}
 
 	public static int getApiHighTimeout() {
@@ -167,13 +177,17 @@ public class VcapProcessor {
 		return recipeApiKeyProd;
 	}
 
+	public static int getRecipeShelfThreadPoolSize() {
+		return recipeShelfThreadPoolSize;
+	}
+
 	/**
 	 * Get vcap value as an integer. Returns 0 if no vcap value is found.
 	 * 
 	 * @param vcapKeyName the key of the vcap value
 	 * @return the vcap value
 	 */
-	private static int getVcapValueInt(String vcapKeyName) throws Exception {
+	private static int getVcapValueInt(String vcapKeyName) {
 		String highTimeObj = MWGApplicationConstants.getSystemPropertyValue(vcapKeyName);
 		return highTimeObj != null && !highTimeObj.trim().isEmpty() ? Integer.parseInt(highTimeObj.trim()) : 0;
 	}

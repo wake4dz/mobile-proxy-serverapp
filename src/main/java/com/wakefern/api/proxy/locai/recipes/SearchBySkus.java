@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
 public class SearchBySkus extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(SearchBySkus.class);
@@ -36,12 +36,10 @@ public class SearchBySkus extends BaseService {
     @POST
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.searchBySkus)
+    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.searchBySkus)
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {
-
-    	logger.error("dz...");
         Map<String, String> headers = new HashMap<>();
 
         try {

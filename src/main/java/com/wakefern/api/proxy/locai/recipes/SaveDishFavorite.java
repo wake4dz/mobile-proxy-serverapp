@@ -30,7 +30,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
 public class SaveDishFavorite extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(SaveDishFavorite.class);
@@ -38,7 +38,7 @@ public class SaveDishFavorite extends BaseService {
     @PUT
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.saveDishFavorite)
+    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.saveDishFavorite)
     public Response getResponse(
     		@PathParam(WakefernApplicationConstants.RecipeLocai.RequestsParamsPath.userId) String userId, 
     		@PathParam(WakefernApplicationConstants.RecipeLocai.RequestsParamsPath.dishId) String dishId,

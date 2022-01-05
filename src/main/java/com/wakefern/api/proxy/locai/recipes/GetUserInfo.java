@@ -29,7 +29,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
 public class GetUserInfo extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(GetUserInfo.class);
@@ -37,7 +37,7 @@ public class GetUserInfo extends BaseService {
     @GET
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.getUserInfo)
+    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getUserInfo)
     public Response getResponse(
     		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.sessionToken) String accessToken,
     		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.accountId) String accountId,

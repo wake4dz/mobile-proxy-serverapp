@@ -388,6 +388,8 @@ public class LogUtil {
 		messages.add(pad("The 'timeslot_search_radius_in_mile' system property:")
 				+ VcapProcessor.getTimeslotSearchRadiusInMile());
 
+		messages.add(pad("The 'recipe_shelf_thread_pool_size' system property:")
+				+ VcapProcessor.getRecipeShelfThreadPoolSize());
 
 		messages.add("");
 
@@ -478,6 +480,8 @@ public class LogUtil {
 
 			messages.add("<tr><td>timeslot_search_radius_in_mile</td><td>"
 					+ VcapProcessor.getTimeslotSearchRadiusInMile() + "</td></tr>");
+
+			messages.add("<tr><td>recipe_shelf_thread_pool_size</td><td>" + VcapProcessor.getRecipeShelfThreadPoolSize() + "</td></tr>");
 
 			messages.add("</table> <br /> <br />");
 

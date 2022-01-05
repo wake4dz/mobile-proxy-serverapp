@@ -29,7 +29,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.RecipeLocai.Proxy.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
 public class CompleteRecipes extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(CompleteRecipes.class);
@@ -37,7 +37,7 @@ public class CompleteRecipes extends BaseService {
     @POST
     @Produces(MWGApplicationConstants.Headers.generic)
     @Consumes(MWGApplicationConstants.Headers.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.completeRecipes)
+    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.completeRecipes)
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {

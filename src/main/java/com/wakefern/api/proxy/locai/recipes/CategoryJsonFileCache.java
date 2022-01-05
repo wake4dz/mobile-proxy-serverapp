@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.wakefern.global.VcapProcessor;
 
 /*
@@ -16,8 +13,6 @@ import com.wakefern.global.VcapProcessor;
  *  purpose:    to retrieve the targeted recipe_xxx.json file in the classpath based on the recipe service setting
  */
 public class CategoryJsonFileCache {
-	private final static Logger logger = LogManager.getLogger(CategoryJsonFileCache.class);
-
 	private static String jsonCache = null;
 	
 	private static String errorMessage = null;

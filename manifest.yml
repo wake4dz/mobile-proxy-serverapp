@@ -36,6 +36,7 @@ applications:
     recipe_client_id_key: ((RECIPE_CLIENT_ID_KEY))
     recipe_api_stage_key: ((RECIPE_API_STG_KEY))
     recipe_api_prod_key: ((RECIPE_API_PRD_KEY))
+    recipe_shelf_thread_pool_size: ((RECIPE_SHELF_THREAD_POOL_SIZE))
 
     wallet_service: ((WALLET_SERVICE))
     sr_wallet_prod_key: ((SR_WALLET_PRD_KEY))

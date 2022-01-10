@@ -108,6 +108,8 @@ public class WakefernApplicationConstants {
 		
 		public static final String MI9V8_SERVICE = "mi9v8_service";
 		
+		public static final String REWARD_POINT_SERVICE = "reward_point_service";
+		
 	}
 
 	public static class Chains {
@@ -545,4 +547,18 @@ public class WakefernApplicationConstants {
 			}
 		}
 	}
+	
+	public static class RewardPoint {
+		public static class Proxy {
+			public static final String rewardPath = "/rewards/points";
+		}
+		
+		// Wakefern home-grown API for reward point program
+		public static class Upstream {
+			public static final String Points = "/rewards/api/v1/points";
+			public static final String baseURL = "https://wfcapi.shoprite.com";
+			public static final String baseStagingURL = "https://wfcapi.staging.shoprite.com";
+		}
+	}
+		
 }

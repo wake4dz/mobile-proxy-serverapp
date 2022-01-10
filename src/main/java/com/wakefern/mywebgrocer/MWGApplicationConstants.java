@@ -720,6 +720,7 @@ public class MWGApplicationConstants {
 			public static final String Points = "/rewards/api/v1/points";
 			public static final String baseURL = "https://wfcapi.shoprite.com";
 		}
+		
 
 	}
 

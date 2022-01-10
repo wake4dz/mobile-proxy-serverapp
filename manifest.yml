@@ -67,5 +67,7 @@ applications:
     prodx_aisle_id: ((PRODX_AISLE_ID))
 
     mi9v8_service: ((MI9V8_SERVICE))
+
+	reward_point_service: ((REWARD_POINT_SERVICE))
   services:
   - ((SRMOBILE_PAPERTRAIL))

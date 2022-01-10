@@ -58,6 +58,8 @@ public class VcapProcessor {
 	private static String mi9v8Service = null;
 	
 	private static int timeslotSearchRadiusInMile = 0;
+	
+	private static String rewardPointService = null;
 
 	// this static code is not run until the class is loaded into the memory for the
 	// first time system settings are fetched once, store them in the heap memory
@@ -143,6 +145,8 @@ public class VcapProcessor {
 		prodxAisleId = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_AISLE_ID);
 	
 		mi9v8Service = getVcapValueString(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
+		
+		rewardPointService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.REWARD_POINT_SERVICE);
 	}
 
 	public static int getApiHighTimeout() {
@@ -393,4 +397,8 @@ public class VcapProcessor {
 
 	public static String getProdxAisleId() { return prodxAisleId; }
 
+
+	public static String getRewardPointService() {
+		return rewardPointService;
+	}
 }

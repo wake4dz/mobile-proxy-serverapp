@@ -375,6 +375,7 @@ public class LogUtil {
 		messages.add(pad("The 'push2device_service' system property:") +
 				VcapProcessor.getPush2DeviceService());
 		messages.add(pad("The 'prodx_service' system property:") + VcapProcessor.getProdxService());
+		messages.add(pad("The 'reward_point_service' system property:") + VcapProcessor.getRewardPointService());
 		messages.add(pad("The 'cors' system property:") + MWGApplicationConstants.getSystemPropertyValue("cors"));
 		
 		messages.add(pad("The 'api_high_timeout' system property:") + VcapProcessor.getApiHighTimeout());
@@ -462,6 +463,8 @@ public class LogUtil {
 
 			messages.add("<tr><td>prodx_service</td><td>" + VcapProcessor.getProdxService() + "</td></tr>");
 
+			messages.add("<tr><td>reward_point_service</td><td>" + VcapProcessor.getRewardPointService() + "</td></tr>");
+			
 			messages.add("<tr><td>cors</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("cors")
 					+ "</td> </tr>");
 

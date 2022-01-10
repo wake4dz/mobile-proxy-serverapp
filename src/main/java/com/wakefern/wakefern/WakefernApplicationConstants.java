@@ -550,7 +550,7 @@ public class WakefernApplicationConstants {
 	
 	public static class RewardPoint {
 		public static class Proxy {
-			public static final String rewardPath = "/reward/point";
+			public static final String rewardPath = "/rewards/points";
 		}
 		
 		// Wakefern home-grown API for reward point program

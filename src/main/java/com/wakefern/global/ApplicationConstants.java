@@ -84,6 +84,7 @@ public final class ApplicationConstants {
 			public static final String couponIds = WakefernApplicationConstants.CouponsV3.PathInfo.couponIds;
 			public static final String externalCouponIds = "externalCouponIds";
 			public static final String upc = WakefernApplicationConstants.CouponsV3.PathInfo.upc;
+			public static final String storeId = "storeId";
 		}
 
 		public static class Recommendations {

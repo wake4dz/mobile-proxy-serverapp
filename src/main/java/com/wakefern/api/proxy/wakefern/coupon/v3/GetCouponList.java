@@ -32,24 +32,32 @@ public class GetCouponList extends BaseService {
 	@Produces(MWGApplicationConstants.Headers.json)
 	public Response getInfoResponse(
 			@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String authToken,
-			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType)
+			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
+			@QueryParam(ApplicationConstants.Requests.CouponsV3.storeId) String storeId)
 	{
-		this.requestPath = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.CouponsList);
+		Map<String, String> queryParams = new HashMap<>();
+
+		if (storeId != null) {
+			queryParams.put(ApplicationConstants.Requests.CouponsV3.storeId, storeId);
+		}
+
+		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.CouponsList, queryParams);
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
 
 		try {
-			String response = HTTPRequest.executeGet(this.requestPath, headerMap, VcapProcessor.getApiHighTimeout());
-			return this.createValidResponse(response);
+			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiHighTimeout());
+			return createValidResponse(response);
 		} catch (Exception e) {
 			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_COUPONS_V3_GET_COUPON_LIST);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"authorization", authToken,
-					"contentType", contentType);
+					"contentType", contentType,
+					"storeId", storeId);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			return this.createErrorResponse(e);
+			return createErrorResponse(e);
 		}
 	}
 }

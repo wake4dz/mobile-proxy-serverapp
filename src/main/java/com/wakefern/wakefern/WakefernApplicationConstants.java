@@ -425,6 +425,7 @@ public class WakefernApplicationConstants {
 			public static final String searchRecipes = "searchRecipes";
 			public static final String completeRecipes = "completeRecipes";
 			public static final String productLookup = "productLookup";
+			public static final String productLookupBySkus = "productLookupBySkus";
 			public static final String productDetails = "productDetails";
 			public static final String getUserInfo = "getUserInfo";
 			public static final String getUserProfile = "getUserProfile";

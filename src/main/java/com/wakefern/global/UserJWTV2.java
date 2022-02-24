@@ -75,11 +75,16 @@ public class UserJWTV2 {
 	 * @return if the bearer token jws is valid
 	 */
 	public static Boolean isValid(String bearerToken, String ppc) {
-		if (ppc == null) {
+		if (ppc == null || bearerToken == null) {
 			return false;
 		}
 
 		String jws = bearerToken.replaceAll("Bearer ", "");
+
+		// Check and return false if the JWS is empty.
+		if (jws.isEmpty() || jws.trim().isEmpty()) {
+			return false;
+		}
 
 		try {
 			Jwts.parserBuilder().requireSubject(ppc).setSigningKey(key).build().parseClaimsJws(jws);

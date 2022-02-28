@@ -328,6 +328,10 @@ public class WakefernApplicationConstants {
 			public static final String Path = "users/{userId}/{ppc}/enrollments/sms/";
 		}
 
+		public static class ProxyV8 {
+			public static final String Path = "users/{ppc}/enrollments/sms/";
+		}
+
 		public static class Upstream {
 			public static final String BaseURL = APIM.apimBaseURL;
 			public static final String MimeType = "application/vnd.wakefern.selection.api.v3+json";

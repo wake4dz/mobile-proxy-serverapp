@@ -169,6 +169,9 @@ public class HTTPRequest {
 
 				if (response.length() > 0) {
 					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
+					if (responseCode == 403) { // could be blocked by Cloudflare
+						logCloudflareId(requestURL, connection);
+					}
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}
@@ -280,6 +283,9 @@ public class HTTPRequest {
 
 				if (response.length() > 0) {
 					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
+					if (responseCode == 403) { // could be blocked by Cloudflare
+						logCloudflareId(requestURL, connection);
+					}
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}
@@ -470,6 +476,9 @@ public class HTTPRequest {
 
 				if (response.length() > 0) {
 					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
+					if (responseCode == 403) { // could be blocked by Cloudflare
+						logCloudflareId(requestURL, connection);
+					}
 				} else {
 					msg = responseCode + "," + connection.getResponseMessage();
 				}
@@ -668,5 +677,24 @@ public class HTTPRequest {
 		}
 
 		return new URI(oldUri.getScheme(), oldUri.getAuthority(), oldUri.getPath(), newQuery, oldUri.getFragment());
+	}
+	
+	/**
+	 * Log a Cloudflare ID if an API call is blocked by Cloudflare
+	 * @param connection
+	 * @return
+	 */
+	private static void logCloudflareId(String requestURL, HttpURLConnection connection) {
+		
+		try {
+			String cloudFlareId = connection.getHeaderField("CF-RAY");
+			
+			if ((cloudFlareId != null) && (cloudFlareId.trim().length() > 0)) {
+				logger.error("CloudFlare Ray ID of " + cloudFlareId + " has been created for " + requestURL);
+			} 
+			
+		} catch (Exception e) { // if an exception is ever thrown here, no logging needed
+		}
+
 	}
 }

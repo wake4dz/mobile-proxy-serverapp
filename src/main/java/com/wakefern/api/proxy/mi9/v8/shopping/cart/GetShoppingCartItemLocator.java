@@ -57,8 +57,8 @@ public class GetShoppingCartItemLocator extends BaseService {
 			Map<String, String> headerMap = new HashMap<String, String>();
 
 			//for the Cloudflare pass-thru
-			//headerMap.put(ApplicationConstants.Requests.Header.userAgent,
-			//		ApplicationConstants.StringConstants.wakefernApplication);
+			headerMap.put(ApplicationConstants.Requests.Header.userAgent,
+					ApplicationConstants.StringConstants.wakefernApplication);
 
 			headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
 			headerMap.put(ApplicationConstants.Requests.Header.contentAccept, accept);

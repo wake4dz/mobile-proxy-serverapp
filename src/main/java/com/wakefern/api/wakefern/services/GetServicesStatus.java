@@ -125,8 +125,7 @@ public class GetServicesStatus extends BaseService {
 	private String getItemLocatorStatus() {
 		String serviceStatus;
 		try {
-			WakefernAuth auth = new WakefernAuth();
-			String itemLocResp = auth.getInfo(
+			String itemLocResp = WakefernAuth.getInfo(
 					MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
 			serviceStatus = "active";
 		} catch (Exception e) {

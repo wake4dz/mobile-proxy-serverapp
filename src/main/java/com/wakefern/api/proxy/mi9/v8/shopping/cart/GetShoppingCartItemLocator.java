@@ -131,8 +131,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 				}
 			}
 
-			WakefernAuth auth = new WakefernAuth();
-			String authString = auth.getInfo(MWGApplicationConstants
+			String authString = WakefernAuth.getInfo(MWGApplicationConstants
 					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
 
 			// Can't get Item Location Data w/o a valid Wakefern Auth String.

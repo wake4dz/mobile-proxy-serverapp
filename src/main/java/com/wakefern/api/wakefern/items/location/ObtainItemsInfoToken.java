@@ -38,8 +38,7 @@ public class ObtainItemsInfoToken extends BaseService {
     							@HeaderParam(ApplicationConstants.Requests.Header.appCode) String appCode,
     							String jsonStr) {
         try {
-    		WakefernAuth auth = new WakefernAuth();
-	        String response = auth.getItemInfo(appCode);
+	        String response = WakefernAuth.getItemInfo(appCode);
             return this.createValidResponse(response);
         } catch (Exception e){
 			String errorData = LogUtil.getRequestData("GetItemsLocationToken::Exception", LogUtil.getRelevantStackTrace(e));

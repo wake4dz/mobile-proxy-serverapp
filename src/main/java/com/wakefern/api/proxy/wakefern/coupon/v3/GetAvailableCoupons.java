@@ -42,8 +42,6 @@ public class GetAvailableCoupons extends BaseService {
 
 		try {
 			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiHighTimeout());
-
-			detectMalformedReponse(response, storeId, authToken);
 			return createValidResponse(response);
 		} catch (Exception e) {
 			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_COUPONS_V3_GET_AVAILABLE_COUPONS);
@@ -54,33 +52,6 @@ public class GetAvailableCoupons extends BaseService {
 					"storeId", storeId);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			return createErrorResponse(e);
-		}
-	}
-
-	private static void detectMalformedReponse(String response, String storeId, String authToken) {
-		if (response == null || response.isEmpty() || response.contentEquals("null")) {
-			logger.error("Detected empty/null string response from coupon API: storeId = "
-					+ storeId + " authToken = " + authToken);
-			return;
-		}
-
-		final String trimmed = response.trim();
-		// Detect empty JSON array string case
-		if (trimmed.contentEquals("[]")) {
-			logger.error("Detected empty JSON array response from coupon API: storeId = "
-					+ storeId + " authToken = " + authToken);
-			return;
-		}
-
-		// Detect other cases, non JSON array response or malformed JSON array response
-		if (!trimmed.startsWith("[") || (trimmed.startsWith("[") && !trimmed.endsWith("]"))) {
-			if (trimmed.length() > 50) {
-				logger.error("Detected malformed JSON array string from coupon API: storeId = " + storeId
-						+ " authToken = " + authToken + " substr (0,50): " + trimmed.substring(0, 50));
-			} else {
-				logger.error("Detected malformed JSON array string from coupon API: storeId = " + storeId
-						+ " authToken = " + authToken + " response: " + trimmed);
-			}
 		}
 	}
 }

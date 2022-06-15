@@ -1,6 +1,8 @@
 package com.wakefern.api.proxy.mi9.v8.shopping.cart;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -9,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import com.wakefern.global.ApplicationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -20,13 +21,13 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
-import com.wakefern.logging.LogUtil;
 import com.wakefern.logging.ErrorType;
-import com.wakefern.wynshop.WynshopApplicationConstants;
+import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernAuth;
-import com.wakefern.wakefern.itemLocator.Mi9V8ItemLocatorArray;
+import com.wakefern.wakefern.itemLocator.Mi9V8ItemLocator;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 
 /**
  * 
@@ -55,7 +56,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 
 			final String url = ApplicationConstants.Requests.Mi9V8.BaseURL + "/lists/planning/" + storeId.trim();
 			
-			Map<String, String> headerMap = new HashMap<>();
+			Map<String, String> headerMap = new HashMap<String, String>();
 
 			//for the Cloudflare pass-thru
 			headerMap.put(ApplicationConstants.Requests.Headers.userAgent,
@@ -102,7 +103,12 @@ public class GetShoppingCartItemLocator extends BaseService {
 	 */
 	private String updateCartItems(String storeId, String cartResponseData) throws Exception{
 		try {
-
+			JSONObject retvalJObj = new JSONObject();
+			
+			//List<JSONObject> processedParttionItems = null;
+			Map<String, JSONObject> processedParttionItems = null;
+			Map<String, JSONObject> itemsMap = new HashMap<String, JSONObject>();
+			
 			JSONObject origRespJObj = new JSONObject(cartResponseData);
 
 			if (!origRespJObj.has(WakefernApplicationConstants.Mi9V8ItemLocator.Items) || storeId.length() < 1) {
@@ -112,15 +118,14 @@ public class GetShoppingCartItemLocator extends BaseService {
 			}
 
 			JSONArray itemsJArray = (JSONArray) origRespJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
-			final int itemSize = itemsJArray.length();
+			final int itemsSize = itemsJArray.length();
 
-			if (itemSize == 0) {
+			if (itemsSize == 0) {
 				// The Items Array is empty (no products).
 				return cartResponseData;
 			}
 
-			JSONObject itemsJObj = new JSONObject();
-			JSONObject retvalJObj = new JSONObject();
+
 
 			// Set up retval with all non-items data
 			for (Object key : origRespJObj.keySet()) {
@@ -131,143 +136,83 @@ public class GetShoppingCartItemLocator extends BaseService {
 					retvalJObj.put(keyStr, keyvalue);
 				}
 			}
+			
+			int partitionNumber = 0;
+			int currentListPositon = 0;
+					
+			// calculate a right partition number
+		    partitionNumber = itemsSize/ WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE;
+		    if (itemsSize % WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE > 0) {
+		    	partitionNumber++;
+		    }
 
-			String authString = WakefernAuth.getInfo(ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+			List<String> partitionItemsList = null;
+			StringBuilder partitionItemsSB = null;
 
-			// Can't get Item Location Data w/o a valid Wakefern Auth String.
-			if ((authString == null) || authString.isEmpty()) {
-				// Failed to get a Wakefern Authentication String.
-				// So we can't get Item Location Data.
-				logger.error("Failed to get a Wakefern Authentication String.");
-				throw new Exception("Failed to get a Wakefern Authentication String.");
+			logger.trace("ITEM_PARTITION_SIZE: " + WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE);
+			
+			for (int i=0; partitionNumber > i; i++) {
+				partitionItemsList = new ArrayList<>();
+				partitionItemsSB = new StringBuilder();
+				
+				// build each partition data to be used for a Wakefern's Item Locator API call
+				while ((WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE * (i + 1) > currentListPositon) && (itemsSize > currentListPositon)) {
+					JSONObject itemJObj = (JSONObject) itemsJArray.get(currentListPositon);
+
+					String itemId = itemJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Sku).toString();
+					String sku = removeCheckSumDigit(itemId);
+						partitionItemsSB.append(sku + ",");
+						partitionItemsList.add(sku);
+						
+						currentListPositon++;
+				}
+		
+				String path = WakefernApplicationConstants.ItemLocator.baseURL
+						+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + partitionItemsSB.toString();
+	
+				Map<String, String> wkfn = new HashMap<>();
+				final String authToken = WakefernAuth.getInfo(WakefernApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+				wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
+				wkfn.put("Authentication", authToken);
+	
+				String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
+	
+				logger.trace("partitonNubmer: " + (i + 1));
+				logger.trace("URL path: " + path);
+				logger.trace("PartitionItemsSB: " + partitionItemsSB.toString());
+				logger.trace("PartitionItemsList: " + partitionItemsList.toString());
+				logger.trace("responseData: " + responseData);
+	
+				processedParttionItems = Mi9V8ItemLocator.generateItemLocator(partitionItemsList, responseData);
+				
+				for (Map.Entry<String, JSONObject> entry : processedParttionItems.entrySet()) {
+					// build up the entire map for lookup later
+					itemsMap.put(entry.getKey(), entry.getValue());
+				}
 			}
-
-			String strItemSkuList = "";
-
-			// Get the items in the array and make a comma separated string of them as well
-			// trim the first and last digit
-			for (int i = 0, size = itemSize; i < size; i++) {
+			
+			
+			for (int i=0; itemsSize > i; i++) {
 				JSONObject itemJObj = (JSONObject) itemsJArray.get(i);
 
 				String itemId = itemJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Sku).toString();
-				String sku = updateUPC(itemId);
+				String sku = removeCheckSumDigit(itemId);
+				
+				if (itemsMap.get(sku) != null) {
+					itemJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, itemsMap.get(sku));
+				} else { //defense code to add dummy data
+					JSONObject newItemLocator = new JSONObject();
 
-				if (sku.matches("[0-9]+")) {
-					strItemSkuList += sku + ",";
-					itemsJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, itemJObj);
-
-				}
-			}
-
-
-			itemsJArray = (JSONArray) itemsJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
-			strItemSkuList = strItemSkuList.substring(0, strItemSkuList.length() - 1); // remove trailing comma
-			// call Wakefern Item Locator API with
-			// 1. a store id
-			// 2. a list of skus with a comma as a delimiter
-			// 3. JWT public key
-			String locatorArray = Mi9V8ItemLocatorArray.getInfo(storeId, strItemSkuList, authString);
-
-			Map<Long, Object> itemLocatorData = new HashMap<>();
-			Map<Long, Object> areaSeqNumData = new HashMap<>();
-			Map<Long, Object> wfSectDescData = new HashMap<>();
-
-			JSONArray jsonArray = new JSONArray(locatorArray);
-			int size = jsonArray.length();
-
-			for (int i = 0; i < size; i++) {
-				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-				Object areaSeqNum = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.area_seq_num);
-				Object areaDesc = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.area_desc);
-				JSONArray itemLocations = jsonObject
-						.getJSONArray(WakefernApplicationConstants.Mi9V8ItemLocator.item_locations);
-
-				for (int j = 0; j < itemLocations.length(); j++) {
-					Object upc13 = itemLocations.getJSONObject(j)
-							.get(WakefernApplicationConstants.Mi9V8ItemLocator.upc_13_num);
-
-					try { // if wf_area_code is found from item locator response
-						String wfAreaCode = itemLocations.getJSONObject(j)
-								.getString(WakefernApplicationConstants.Mi9V8ItemLocator.wf_area_code);
-
-						areaSeqNumData.put(Long.parseLong(upc13.toString()),
-								(wfAreaCode != null && wfAreaCode.trim().equals("0") ? "0" : areaSeqNum));
-
-					} catch (Exception exx) {
-						areaSeqNumData.put(Long.parseLong(upc13.toString()), areaSeqNum);
-					}
-
-					try {
-						String wfSectDesc = itemLocations.getJSONObject(j)
-								.getString(WakefernApplicationConstants.Mi9V8ItemLocator.wf_sect_desc);
-						wfSectDescData.put(Long.parseLong(upc13.toString()),
-								(wfSectDesc != null && wfSectDesc.trim().equals("") ? JSONObject.NULL : wfSectDesc));
-					} catch (Exception e) {
-						// ignore input item doesn't have "wf_sect_desc" data from Wakefern Item
-						// Locator's API call (namely, not found)
-					}
-
-					itemLocatorData.put(Long.parseLong(upc13.toString()),
-							(areaDesc != null && !areaDesc.toString().equals("null")) ? areaDesc
-									: WakefernApplicationConstants.Mi9V8ItemLocator.Other);
-				}
-			}
-
-			// display some trace/debug info
-			if (logger.isTraceEnabled()) {
-				logger.trace("itemLocatorData:");
-				for (Object key : itemLocatorData.keySet()) {
-					Object value = itemLocatorData.get(key);
-					logger.trace("key: " + key + "; value: " + value);
-				}
-
-				logger.trace("areaSeqNumData:");
-				for (Object key : areaSeqNumData.keySet()) {
-					Object value = areaSeqNumData.get(key);
-					logger.trace("key: " + key + "; value: " + value);
-				}
-
-				logger.trace("wfSectDescData:");
-				for (Object key : wfSectDescData.keySet()) {
-					Object value = wfSectDescData.get(key);
-					logger.trace("key: " + key + "; value: " + value);
-				}
-			}
-
-			for (int i = 0; i < itemSize; i++) {
-				JSONObject item = itemsJArray.getJSONObject(i);
-				String itemId = item.get(WakefernApplicationConstants.Mi9V8ItemLocator.Sku).toString();
-				String upc = updateUPC(itemId);
-
-				JSONObject newItemLocator = new JSONObject();
-
-				Object areaSeqNum = areaSeqNumData.get(Long.parseLong(upc));
-				int areaSeqInt = Integer.parseInt(areaSeqNum.toString());
-
-				// aisle and aisleAreaSeqNum
-				if (areaSeqInt > 0) {
-					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
-							itemLocatorData.get(Long.parseLong(upc)).toString());
-					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, areaSeqInt);
-
-				} else { // area_seq_num = 0, -1, or -999 - INVALID
-					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
-							WakefernApplicationConstants.Mi9V8ItemLocator.Other);
-					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, Integer.MAX_VALUE - 100); 
-				}
-
-				// for aisleSectionDesc
-				Object wfSectDesc = wfSectDescData.get(Long.parseLong(upc));
-				if (wfSectDesc == null) {
+					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle, WakefernApplicationConstants.Mi9V8ItemLocator.Other );
 					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
-				} else {
-					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, wfSectDescData.get(Long.parseLong(upc)));
+					newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, 888888);
+					
+					itemJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, newItemLocator);
 				}
-
-				item.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, newItemLocator);
-
-				retvalJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, item);
+				
+				retvalJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, itemJObj);
 			}
+
 
 			// pre-sort by AisleAreaSeqNum to ease the UI processing
 			JSONArray itemsSortArray = (JSONArray) retvalJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
@@ -294,7 +239,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 	 * @param sku
 	 * @return
 	 */
-	private static String updateUPC(String sku) {
+	private static String removeCheckSumDigit(String sku) {
 		return sku.substring(0, sku.length() - 1);
 	}
 	

@@ -225,7 +225,7 @@ public class WakefernApplicationConstants {
 		//Wakefern's ItemLocator API can only take a certain number of UPC at a time
 		//test the partition algorithm by using a small ITEM_PARTITION_SIZE + set log4j level to TRACE
 		//the default ITEM_PARTITION_SIZE is 100 
-		public static final int ITEM_PARTITION_SIZE = 2;
+		public static final int ITEM_PARTITION_SIZE = 100;
 		
 		public static final String Aisle = "aisle";
 		public static final String area_desc = "wf_area_desc";

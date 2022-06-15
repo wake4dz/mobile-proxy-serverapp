@@ -3,62 +3,32 @@ package com.wakefern.global;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 public final class ApplicationConstants {
-
-	public static final String xmlAcceptType = "text/xml";
-	public static final int xmlTabAmount = 4;
 	public static final String ErrorMessage = "ErrorMessage";
 
 	public static class StringConstants {
-		public static final String fq = "&fq=";
-		public static final String isMember = "?isMember";
-		public static final String isMemberAmp = "&isMember";
-		public static final String payment = "/payment";
-		public static final String skip = "&skip=";
-		public static final String sort = "&sort=";
 		public static final String store = "/store";
-		public static final String takeAmp = "&take=";
 		public static final String wakefernApplication = "wakefern application";
-			
 	}
 
 	public static class Requests {
-		public static String unauthorizedError = "Session is not valid";
+		public static final String unauthorizedError = "Session is not valid";
 
-		public static class Header {
+		public static class Headers {
 			public static final String contentType = "Content-Type";
-			public static final String contentAccept = "Accept";
-			public static final String contentAuthorization = "Authorization";
+			public static final String Accept = "Accept";
+			public static final String Authorization = "Authorization";
 			public static final String userAgent = "User-Agent";
 			public static final String appCode = "appCode";
 			public static final String jwtToken = "JWT-Token";
 			public static final String appVersion = "AppVersion";
 			public static final String xSiteHost = "x-site-host";
-		}
+			public static final String reservedTimeslot = "X-Reserved-Timeslot";
+			public static final String xForwardedFor = "X-Forwarded-For";
 
-		public static final class CouponsV2 {
-			public static final String BaseCouponURL = ApplicationUtils
-					.getCouponServiceEndpoint(WakefernApplicationConstants.VCAPKeys.COUPON_SERVICE);
-			public static final String BaseCouponURLAuth = BaseCouponURL
-					.replace(WakefernApplicationConstants.CouponsV2.context_root, "");
-			public static final String UserLogin = WakefernApplicationConstants.CouponsV2.PathInfo.UserLogin;
-			public static final String CouponMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.CouponMetadata;
-			public static final String fsn = WakefernApplicationConstants.CouponsV2.PathInfo.fsn;
-			public static final String rule = WakefernApplicationConstants.CouponsV2.PathInfo.rule;
-			public static final String upc = WakefernApplicationConstants.CouponsV2.PathInfo.upc;
-			public static final String coupon_id = WakefernApplicationConstants.CouponsV2.PathInfo.coupon_id;
-			public static final String clip_token = WakefernApplicationConstants.CouponsV2.PathInfo.clip_token;
-			public static final String CouponIDListByPPC_SEC = WakefernApplicationConstants.CouponsV2.PathInfo.CouponIDListByPPC_SEC;
-			public static final String CouponIDListByPPC_SEC_FG = WakefernApplicationConstants.CouponsV2.PathInfo.CouponIDListByPPC_SEC_FG;
-			public static final String AddCouponToPPC_SEC = WakefernApplicationConstants.CouponsV2.PathInfo.AddCouponToPPC_SEC;
-			public static final String AddCouponToPPC_SEC_FG = WakefernApplicationConstants.CouponsV2.PathInfo.AddCouponToPPC_SEC_FG;
-			public static final String RemoveCouponFromPPC = WakefernApplicationConstants.CouponsV2.PathInfo.RemoveCouponFromPPC;
-			public static final String RemoveCouponFromPPC_FG = WakefernApplicationConstants.CouponsV2.PathInfo.RemoveCouponFromPPC_FG;
-			public static final String GetCouponByUPC = WakefernApplicationConstants.CouponsV2.PathInfo.GetCouponByUPC;
-			public static final String GetCouponIDByPromoCode = WakefernApplicationConstants.CouponsV2.PathInfo.GetCouponIDByPromoCode;
-			public static final String GetUPCListByCouponID = WakefernApplicationConstants.CouponsV2.PathInfo.GetUPCListByCouponID;
-			public static final String GetHistoryMetadata = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryMetadata;
-			public static final String GetHistoryCouponByPPC = WakefernApplicationConstants.CouponsV2.PathInfo.GetHistoryCouponByPPC;
-			public static final String GetSpecialOfferByRule = WakefernApplicationConstants.CouponsV2.PathInfo.GetSpecialOfferByRule;
+			public static class MIMETypes {
+				public static final String generic = "application/*";
+				public static final String json = "application/json";
+			}
 		}
 
 		public static final class CouponsV3 {
@@ -108,7 +78,6 @@ public final class ApplicationConstants {
 					.getMi9v8ServiceEndpoint(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
 			
 			public static final String ShoppingCartItemLocator = "/mi9/v8/lists/planning/{storeId}";
-
 		}
 		
 		public static final String VerifyServices = "/wakefern/services/v7/verify";
@@ -121,6 +90,30 @@ public final class ApplicationConstants {
 		public static final String log = "log";
 		public static final String LoggingAuth = "wakefern-shoprite-auth";
 	}
+
+	public static class Log {
+		public static final String log = "/log";
+
+		public static final String email = log + "/email";
+		public static final String status = "/status";
+		public static final String address = "/address" + "/{addresses}";
+		public static final String updateSetting = "/updateSettings";
+		public static final String trackUserId = "/trackUserId/{userIds}";
+
+		public static final String error = log + "/error";
+		public static final String errorList = "/list";
+		public static final String errorReset = "/reset";
+
+		public static final String logger = log + "/logger";
+		public static final String changeLevel = "/level/{logLevel}";
+		public static final String getLevel = "/level";
+		public static final String appenderList = "/appender/list";
+
+		public static final String release = log + "/release";
+		public static final String releaseLevel = "/level";
+
+	}
+
 
 	public static class NewRelic {
 		public static final String NewRelicURL = "https://api.newrelic.com/v2";
@@ -137,13 +130,5 @@ public final class ApplicationConstants {
 		public static final String User = "user";
 		public static final String UserWFCAdmin = "WFCAdmin";
 		public static final String Timestamp = "timestamp";
-	}
-
-	public static class CheckoutNotify {
-		public static final String CheckoutNotifyURL = "/checkout/notify";
-		public static final String SuccessPathURL = "/success/{query}";
-		public static final String FailurePathURL = "/failure/{query}";
-		public static final String SuccessCallbackURL = "wakefernshopriteapp://checkoutSuccess";
-		public static final String FailureCallbackURL = "wakefernshopriteapp://checkoutFailure";
 	}
 }

@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -38,21 +37,21 @@ public class CreateProductNotFoundEntry extends BaseService {
 	 * @return Response - contains
 	 */
 	@POST
-	@Consumes(MWGApplicationConstants.Headers.json)
-	@Produces(MWGApplicationConstants.Headers.json)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.json)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.json)
 	public Response getResponse(
-			@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String authToken,
-			@HeaderParam(ApplicationConstants.Requests.Header.contentAccept) String accept,
-            @HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Accept) String accept,
+            @HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
 			String requestBody
 	) {
 		try {
 			String productUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.NotFound.product;
 
-			Map<String, String> headerMap = new HashMap<String, String>(3);
-			headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
-			headerMap.put(ApplicationConstants.Requests.Header.contentAccept, accept);
-			headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
+			Map<String, String> headerMap = new HashMap<>(3);
+			headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);
+			headerMap.put(ApplicationConstants.Requests.Headers.Accept, accept);
+			headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 
 			HTTPRequest.executePost(productUrl, requestBody, headerMap);
 

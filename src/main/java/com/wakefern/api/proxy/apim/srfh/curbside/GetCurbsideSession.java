@@ -21,8 +21,7 @@ import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -36,8 +35,8 @@ public class GetCurbsideSession extends BaseService {
 
 	@GET
 	@ValidatePPCWithJWTV2
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	public Response getInfo(@PathParam("ppc") String ppc,
 							@QueryParam("orderNumber") String orderNumber,
 							@QueryParam("storeNumber") String storeNumber)
@@ -56,7 +55,7 @@ public class GetCurbsideSession extends BaseService {
 			String response = HTTPRequest.executeGet(requestURI, headers, VcapProcessor.getApiMediumTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_APIM_SRFH_GET_CURBSIDE_SESSION);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_APIM_SRFH_GET_CURBSIDE_SESSION);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			Response response = createErrorResponse(errorData, e);

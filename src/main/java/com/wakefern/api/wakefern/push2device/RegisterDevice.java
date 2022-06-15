@@ -6,8 +6,7 @@ import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWT;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -48,12 +47,12 @@ public class RegisterDevice extends BaseService {
     }
 
     @POST
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Consumes(MWGApplicationConstants.Headers.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path("/")
     @ValidatePPCWithJWT
     public Response registerDevice(
-            @HeaderParam(ApplicationConstants.Requests.Header.appVersion) String appVersion,
+            @HeaderParam(ApplicationConstants.Requests.Headers.appVersion) String appVersion,
             @PathParam("userId") String userId,
             @PathParam("ppc") String ppc,
             String jsonData)
@@ -67,8 +66,8 @@ public class RegisterDevice extends BaseService {
 
             String apiKey = VcapProcessor.getPush2DeviceApiKey();
 
-            headers.put(ApplicationConstants.Requests.Header.contentType, "application/json");
-            headers.put(ApplicationConstants.Requests.Header.contentAuthorization, "basic " + apiKey);
+            headers.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
+            headers.put(ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey);
 
             JSONObject args = parseBodyIntoArgs(jsonData, appVersion);
             String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, VcapProcessor.getApiLowTimeout());
@@ -76,7 +75,7 @@ public class RegisterDevice extends BaseService {
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " upstream response: " + jsonResponse);
             return this.createResponse(202);
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PUSH2DEVICE_REGISTER);
+            LogUtil.addErrorMaps(e, ErrorType.PUSH2DEVICE_REGISTER);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             Response response = createErrorResponse(errorData, e);

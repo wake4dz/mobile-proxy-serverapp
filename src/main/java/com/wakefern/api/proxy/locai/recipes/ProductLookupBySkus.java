@@ -3,9 +3,8 @@ package com.wakefern.api.proxy.locai.recipes;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -25,8 +24,8 @@ public class ProductLookupBySkus extends BaseService {
     private final static Logger logger = LogManager.getLogger(ProductLookupBySkus.class);
 
     @POST
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Consumes(MWGApplicationConstants.Headers.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.productLookupBySkus)
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
@@ -44,7 +43,7 @@ public class ProductLookupBySkus extends BaseService {
             return createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_PRODUCT_LOOKUP_BY_SKUS);
+            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_PRODUCT_LOOKUP_BY_SKUS);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"contentType", contentType, "HttpBody", jsonBody);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

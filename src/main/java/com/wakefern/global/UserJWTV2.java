@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

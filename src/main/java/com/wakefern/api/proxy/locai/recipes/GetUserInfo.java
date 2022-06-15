@@ -18,8 +18,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
@@ -35,8 +34,8 @@ public class GetUserInfo extends BaseService {
     private final static Logger logger = LogManager.getLogger(GetUserInfo.class);
 
     @GET
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Consumes(MWGApplicationConstants.Headers.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getUserInfo)
     public Response getResponse(
     		@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.sessionToken) String accessToken,
@@ -60,7 +59,7 @@ public class GetUserInfo extends BaseService {
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiHighTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_GET_USER_INFO);
+            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_USER_INFO);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"sessionToken", accessToken, "accountId", accountId, 
             		"clientId", VcapProcessor.getRecipeClientId(),

@@ -18,8 +18,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -36,8 +35,8 @@ public class SaveDishFavorite extends BaseService {
     private final static Logger logger = LogManager.getLogger(SaveDishFavorite.class);
 
     @PUT
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Consumes(MWGApplicationConstants.Headers.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.saveDishFavorite)
     public Response getResponse(
     		@PathParam(WakefernApplicationConstants.RecipeLocai.RequestsParamsPath.userId) String userId, 
@@ -61,7 +60,7 @@ public class SaveDishFavorite extends BaseService {
             return this.createValidResponse(HTTPRequest.executePut(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_SAVE_DISH_FAVORITE);
+            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_SAVE_DISH_FAVORITE);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"userId", userId, "dishId", dishId, "contentType", contentType, "HttpBody", jsonBody);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

@@ -4,8 +4,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -29,8 +28,8 @@ public class GetUserFavorites extends BaseService {
     private final static Logger logger = LogManager.getLogger(GetUserFavorites.class);
 
     @GET
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Consumes(MWGApplicationConstants.Headers.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getUserFavorites)
     public Response getResponse(
     		@PathParam(WakefernApplicationConstants.RecipeLocai.RequestsParamsPath.userId) String userId, 
@@ -39,7 +38,7 @@ public class GetUserFavorites extends BaseService {
         try {
             return createValidResponse(getFavoriteRecipes(userId, contentType, jwtToken));
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_GET_USER_FAVORITES);
+            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_USER_FAVORITES);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"userId", userId, "contentType", contentType);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

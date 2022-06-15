@@ -4,8 +4,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -29,8 +28,8 @@ public class LookupRecipes extends BaseService {
 
 
 	@POST
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.lookupRecipes)
 	public Response getResponse(
 			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
@@ -48,7 +47,7 @@ public class LookupRecipes extends BaseService {
 			return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_LOOKUP_RECIPES);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_LOOKUP_RECIPES);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", contentType, "HttpBody", jsonBody);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

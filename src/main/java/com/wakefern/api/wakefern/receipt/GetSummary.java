@@ -21,8 +21,8 @@ import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPC;
 import com.wakefern.global.annotations.ValidatePPCWithJWT;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.jwt.token.WakefernApiTokenManager;
@@ -48,12 +48,12 @@ public class GetSummary extends BaseService {
 	@GET
 	@ValidatePPCWithJWT
 	@Produces(WakefernApplicationConstants.Headers.Accept.v1)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path("/v2")
 	public Response getInfoResponseV2(@PathParam("ppc") String ppc,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String token,
-			@QueryParam(MWGApplicationConstants.Requests.Params.Query.startDate) String startDate,
-			@QueryParam(MWGApplicationConstants.Requests.Params.Query.endDate) String endDate) {
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String token,
+			@QueryParam(WynshopApplicationConstants.Requests.Params.Query.startDate) String startDate,
+			@QueryParam(WynshopApplicationConstants.Requests.Params.Query.endDate) String endDate) {
 		return this.getReceipts(ppc, startDate, endDate);
 	}
 
@@ -69,12 +69,12 @@ public class GetSummary extends BaseService {
 	 */
 	@GET
 	@ValidatePPC
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path("/")
 	public Response getInfoResponse(@PathParam("ppc") String ppc,
-			@QueryParam(MWGApplicationConstants.Requests.Params.Query.startDate) String startDate,
-			@QueryParam(MWGApplicationConstants.Requests.Params.Query.endDate) String endDate) {
+			@QueryParam(WynshopApplicationConstants.Requests.Params.Query.startDate) String startDate,
+			@QueryParam(WynshopApplicationConstants.Requests.Params.Query.endDate) String endDate) {
 		return this.getReceipts(ppc, startDate, endDate);
 	}
 
@@ -102,15 +102,15 @@ public class GetSummary extends BaseService {
 					+ WakefernApplicationConstants.Receipt.Upstream.User + "/" + ppc + "/receipts?startdate="
 					+ startDate.trim() + "&enddate=" + endDate.trim();
 
-			wkfn.put(ApplicationConstants.Requests.Header.contentType, "text/plain");
-			wkfn.put(ApplicationConstants.Requests.Header.jwtToken, jwt);
+			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "text/plain");
+			wkfn.put(ApplicationConstants.Requests.Headers.jwtToken, jwt);
 
 			String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 
 			return this.createValidResponse(response);
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.RECEIPT_GET_SUMMARY);
+			LogUtil.addErrorMaps(e, ErrorType.RECEIPT_GET_SUMMARY);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc,
 					"startDate", startDate, "endDate", endDate, "jwtToken", jwt);

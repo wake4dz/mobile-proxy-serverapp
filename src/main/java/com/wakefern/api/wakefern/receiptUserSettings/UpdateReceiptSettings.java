@@ -5,8 +5,8 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPC;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -33,18 +33,18 @@ public class UpdateReceiptSettings extends BaseService {
 
 	@PUT
 	@ValidatePPC
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	public Response getReceiptSettings(@PathParam("userId") String userId, @PathParam("ppc") String ppc, String body) {
 		try {
-			final String apiKey = MWGApplicationConstants.getProductRecmdAuthToken();
+			final String apiKey = WynshopApplicationConstants.getProductRecmdAuthToken();
 			HashMap<String, String> headers = new HashMap<>();
 
 			String path = WakefernApplicationConstants.ReceiptUserSettings.Upstream.BaseURL
 					+ WakefernApplicationConstants.ReceiptUserSettings.Upstream.UpdatePath + ppc;
 
-			headers.put(ApplicationConstants.Requests.Header.contentType, MediaType.APPLICATION_JSON);
-			headers.put(ApplicationConstants.Requests.Header.contentAuthorization, apiKey);
+			headers.put(ApplicationConstants.Requests.Headers.contentType, MediaType.APPLICATION_JSON);
+			headers.put(ApplicationConstants.Requests.Headers.Authorization, apiKey);
 
 			JSONObject jsonObject;
 			boolean validated;
@@ -70,7 +70,7 @@ public class UpdateReceiptSettings extends BaseService {
 					headers, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.RECEIPT_UPDATE_USER_SETTINGS);
+			LogUtil.addErrorMaps(e, ErrorType.RECEIPT_UPDATE_USER_SETTINGS);
 			String errorData = LogUtil.getRequestData("exceptionLocation",
 					LogUtil.getRelevantStackTrace(e), "ppc", ppc);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

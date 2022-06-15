@@ -14,8 +14,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
@@ -32,8 +31,8 @@ public class GetRecipeCategories extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetRecipeCategories.class);
 
 	@GET
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getRecipeCategories)
 	public Response getResponse() {
 
@@ -43,7 +42,7 @@ public class GetRecipeCategories extends BaseService {
 			return this.createValidResponse(jsonObject.toString());
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_GET_RECIPE_CATEGORIES);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_RECIPE_CATEGORIES);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 

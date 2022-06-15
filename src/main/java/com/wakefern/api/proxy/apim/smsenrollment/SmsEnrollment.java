@@ -1,12 +1,13 @@
 package com.wakefern.api.proxy.apim.smsenrollment;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.http.client.utils.URIBuilder;
@@ -30,19 +31,19 @@ public class SmsEnrollment extends BaseService {
     private static final String badRequestMessage = "400,Premature rejection,Bad Request: Malformed json.";
 
     @GET
-    @Consumes(MWGApplicationConstants.Headers.generic)
-    @Produces(MWGApplicationConstants.Headers.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path("/")
     @ValidatePPCWithJWTV2
     public Response getEnrollmentInfo(@PathParam("ppc") String fsn, @QueryParam("phoneNumber") String phoneNumber) {
         Map<String, String> headerMap = new HashMap<String, String>();
-        headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
-        headerMap.put(ApplicationConstants.Requests.Header.contentAccept,
+        headerMap.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
+        headerMap.put(ApplicationConstants.Requests.Headers.Accept,
                 WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType);
         headerMap.put(WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersionHeaderKey,
                 WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersion);
-        headerMap.put(WakefernApplicationConstants.APIM.sub_key_header, MWGApplicationConstants
-                .getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
+        headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
+                ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
         try {
             URIBuilder builder = new URIBuilder(WakefernApplicationConstants.SmsEnrollment.Upstream.BaseURL);
             builder.setPath(WakefernApplicationConstants.SmsEnrollment.Upstream.enrollmentPath)
@@ -56,7 +57,7 @@ public class SmsEnrollment extends BaseService {
             // Return the phone number payload
             return createValidResponse(responseData.toString());
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PROXY_APIM_SMS_ENROLLMENTS);
+            LogUtil.addErrorMaps(e, ErrorType.PROXY_APIM_SMS_ENROLLMENTS);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return createErrorResponse(e);
@@ -67,8 +68,8 @@ public class SmsEnrollment extends BaseService {
      * Create order-based SMS subscription.
      */
     @POST
-    @Consumes(MWGApplicationConstants.Headers.generic)
-    @Produces(MWGApplicationConstants.Headers.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path("/")
     @ValidatePPCWithJWTV2
     public Response registerOrderWithEnrollment(@PathParam("ppc") String fsn, String jsonBody) {
@@ -87,11 +88,11 @@ public class SmsEnrollment extends BaseService {
             }
 
             Map<String, String> headerMap = new HashMap<String, String>();
-            headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
-            headerMap.put(ApplicationConstants.Requests.Header.contentAccept,
+            headerMap.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
+            headerMap.put(ApplicationConstants.Requests.Headers.Accept,
                     WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType);
-            headerMap.put(WakefernApplicationConstants.APIM.sub_key_header, MWGApplicationConstants
-                    .getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
+            headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
+                    ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
 
             JSONObject payload = new JSONObject();
 
@@ -106,7 +107,7 @@ public class SmsEnrollment extends BaseService {
             final String response = HTTPRequest.executePostJSON(requestURI, payload.toString(), headerMap, VcapProcessor.getApiLowTimeout());
             return createValidResponse(response);
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PROXY_APIM_SMS_ENROLLMENTS);
+            LogUtil.addErrorMaps(e, ErrorType.PROXY_APIM_SMS_ENROLLMENTS);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return createErrorResponse(e);

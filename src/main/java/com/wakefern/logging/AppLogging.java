@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 @Path(ApplicationConstants.Logging.Logging)
 public class AppLogging extends BaseService{
@@ -20,13 +19,13 @@ public class AppLogging extends BaseService{
 	private final static Logger logger = LogManager.getLogger(AppLogging.class);
 
 	@POST
-    @Consumes(MWGApplicationConstants.Headers.json)
-    @Produces(MWGApplicationConstants.Headers.json)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.json)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.json)
     @Path(ApplicationConstants.Logging.log)
     public Response getResponse(
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
-    		@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
+    		@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String sessionToken,
+    		@HeaderParam(ApplicationConstants.Requests.Headers.Accept) String accept,
+    		@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
     		String jsonData) {
 
 		try {

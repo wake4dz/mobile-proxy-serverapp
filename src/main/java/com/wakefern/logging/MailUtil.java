@@ -50,7 +50,7 @@ public class MailUtil {
 
 			Transport.send(message);
 
-			logger.info("Done sending an email to " + sb.toString());
+			logger.info("Done sending an email to " + sb);
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
 		}

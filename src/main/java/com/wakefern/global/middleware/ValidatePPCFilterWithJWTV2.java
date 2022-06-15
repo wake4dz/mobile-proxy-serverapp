@@ -7,12 +7,12 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
+import com.wakefern.global.ApplicationConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.UserJWTV2;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 
 /**
  * Middleware (Request Filter) to validate a PPC via UserJWT Bearer Token.
@@ -24,7 +24,7 @@ public class ValidatePPCFilterWithJWTV2 implements ContainerRequestFilter {
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) {
-		String authorization = requestContext.getHeaderString(MWGApplicationConstants.Headers.Params.auth);
+		String authorization = requestContext.getHeaderString(ApplicationConstants.Requests.Headers.Authorization);
 		MultivaluedMap<String, String> pathParameters = requestContext.getUriInfo().getPathParameters();
 
 		if (pathParameters == null || pathParameters.isEmpty()) {

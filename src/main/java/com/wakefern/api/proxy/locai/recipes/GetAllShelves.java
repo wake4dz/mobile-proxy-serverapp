@@ -3,8 +3,7 @@ package com.wakefern.api.proxy.locai.recipes;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,8 +22,8 @@ public class GetAllShelves extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetAllShelves.class);
 
 	@POST
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getShelves)
 	public Response getResponse(
 			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
@@ -40,7 +39,7 @@ public class GetAllShelves extends BaseService {
 			JSONArray hydratedLayouts = RecipeUtils.fetchAllShelfRecipes(layouts, jsonBody);
 			return createValidResponse(hydratedLayouts.toString());
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_GET_SHELVES);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_SHELVES);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", contentType);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

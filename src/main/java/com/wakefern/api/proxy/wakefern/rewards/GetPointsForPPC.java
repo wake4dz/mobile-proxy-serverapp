@@ -1,5 +1,6 @@
 package com.wakefern.api.proxy.wakefern.rewards;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -14,12 +15,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 /*
  * The reward point program is maintained by the Wakefern, the program is not always available.
@@ -44,8 +44,8 @@ public class GetPointsForPPC extends BaseService {
 	 */
 	@GET
 	@ValidatePPCWithJWTV2
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path("/{ppc}")
 	public Response getInfoResponse(@PathParam("ppc") String ppc) {
 		try {
@@ -54,33 +54,32 @@ public class GetPointsForPPC extends BaseService {
 			
 			// The Reward Point API key is the same key as the Product Recommendation API
 			// of sr_product_recommendation_key defined manifest.yml
-			this.requestToken = MWGApplicationConstants.getProductRecmdAuthToken();
-			this.requestPath = MWGApplicationConstants.Requests.Rewards.Points + "/" + ppc;
+			final String requestToken = WynshopApplicationConstants.getProductRecmdAuthToken();
 
-			ServiceMappings srvMap = new ServiceMappings();
+			String baseUrl;
 
 			if ((VcapProcessor.getRewardPointService() != null) && (VcapProcessor.getRewardPointService().trim().equalsIgnoreCase("Staging"))) {
-				srvMap.setMappingWithURL(this, WakefernApplicationConstants.RewardPoint.Upstream.baseStagingURL);
+				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseStagingURL;
 			} else { // anything else is for Production
-				srvMap.setMappingWithURL(this, WakefernApplicationConstants.RewardPoint.Upstream.baseURL);
+				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseURL;
 			}
-			
-			String srvPath = srvMap.getPath();
 
-			Map<String, String> srvHead = srvMap.getGenericHeader();
-			srvHead.remove(ApplicationConstants.Requests.Header.contentType);
+			final String srvPath = baseUrl + WakefernApplicationConstants.RewardPoint.Upstream.Points + "/" + ppc;
 
-			String response = HTTPRequest.executeGet(srvPath, srvHead, 0);
-			return this.createValidResponse(response);
+			Map<String, String> headers = new HashMap<>();
+			headers.put(ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);
+			headers.put(ApplicationConstants.Requests.Headers.Authorization, requestToken);
 
+			final String response = HTTPRequest.executeGet(srvPath, headers, 0);
+			return createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_REWARDS_GET_POINTS_FOR_PPC);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_REWARDS_GET_POINTS_FOR_PPC);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
-			return this.createErrorResponse(errorData, e);
+			return createErrorResponse(errorData, e);
 		}
 	}
 

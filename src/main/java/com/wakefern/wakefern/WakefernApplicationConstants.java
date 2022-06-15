@@ -1,8 +1,6 @@
 package com.wakefern.wakefern;
 
-import org.json.JSONObject;
-
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
@@ -14,7 +12,7 @@ public class WakefernApplicationConstants {
 	private static final String wakefernApiProd = "https://wfcapi.shoprite.com";
 
 	public static String getBaseWakefernApiUrl() {
-		String targetAPI = MWGApplicationConstants.getTargetAPI();
+		String targetAPI = WynshopApplicationConstants.getTargetAPI();
 		if (targetAPI.equals("ShopRiteStage") || targetAPI.equals("FreshGrocerStage")) {
 			return wakefernApiStage;
 		}
@@ -22,12 +20,12 @@ public class WakefernApplicationConstants {
 		return wakefernApiProd;
 	}
 
+	// TODO: MM not all these keys are necessary anymore. Review them and purge the ones that are not.
 	public static class VCAPKeys {
 		public static final String CORS = "cors";
 		public static final String CHAIN = "chain";
 		public static final String URL = "url";
 		public static final String COUPON_SERVICE = "coupon_service";
-		public static final String COUPON_V2_KEY = "coupon_v2_key";
 		public static final String COUPON_V3_KEY = "coupon_v3_key";
 		public static final String SR_MWG_STAGE_KEY = "sr_mwg_stage_key";
 		public static final String SR_MWG_PROD_KEY = "sr_mwg_prod_key";
@@ -91,15 +89,6 @@ public class WakefernApplicationConstants {
 		
 		public static final String TIMEOUT_SEARCH_RADIUS_IN_MILE = "timeslot_search_radius_in_mile";
 
-		// Citrus Ads
-		public static final String CITRUS_SERVICE = "citrus_service";
-		public static final String CITRUS_STG_CATALOG_ID = "citrus_stg_catalog_id";
-		public static final String CITRUS_STG_CONTENT_STANDARD_ID = "citrus_stg_content_standard_id";
-		public static final String CITRUS_STG_KEY = "citrus_stg_key";
-		public static final String CITRUS_PROD_CATALOG_ID = "citrus_prod_catalog_id";
-		public static final String CITRUS_PROD_CONTENT_STANDARD_ID = "citrus_prod_content_standard_id";
-		public static final String CITRUS_PROD_KEY = "citrus_prod_key";
-
 		// Prodx
 		public static final String PRODX_SERVICE = "prodx_service";
 		public static final String PRODX_COMPLEMENTS_STG_API_KEY = "prodx_complements_stg_api_key";
@@ -120,57 +109,6 @@ public class WakefernApplicationConstants {
 	public static class Headers {
 		public static class Accept {
 			public static final String v1 = "application/vnd.wakefern.v1+json";
-		}
-	}
-
-	public static class CouponsV2 {
-		public static final String coupon_staging = "Staging";
-		public static final String baseURL = "https://couponapis.shoprite.com/api";
-		public static final String baseURL_staging = "https://couponapis.staging.shoprite.com/api";
-		public static final String context_root = "/api";
-
-		public static class Headers {
-			public static final String clip_source = "clip_source";
-			public static final String clip_token = "clip_token";
-			public static final String coupon_id = "coupon_id";
-			public static final String fsn = "fsn";
-		}
-
-		public static class PathInfo {
-			public static final String CouponId = "/getCouponIDListBySR";
-			public static final String CouponByPPC = "/getCouponIDListByPPC";
-			public static final String CouponAddPPC = "/addCouponToPPC";
-			public static final String UserLogin = "/auth/v2/userLogin";
-			public static final String CouponMetadata = "/v2/getCouponMetadata";
-			public static final String CouponIDListByPPC_SEC = "/v2/getCouponIDListByPPC_SEC";
-			public static final String CouponIDListByPPC_SEC_FG = "/v2/getCouponIDListByPPC_SEC_FG";
-			public static final String AddCouponToPPC_SEC = "/v2/addCouponToPPC_SEC";
-			public static final String AddCouponToPPC_SEC_FG = "/v2/addCouponToPPC_SEC_FG";
-			public static final String RemoveCouponFromPPC = "/v2/removeCouponFromPPC";
-			public static final String RemoveCouponFromPPC_FG = "/v2/removeCouponFromPPC_FG";
-			public static final String GetCouponByUPC = "/v2/getCouponByUPC";
-			public static final String GetCouponIDByPromoCode = "/v2/getCouponIDByPromoCode";
-			public static final String GetUPCListByCouponID = "/v2/getUPCListByCouponID";
-			public static final String GetHistoryMetadata = "/v2/getHistoryMetadata";
-			public static final String GetHistoryCouponByPPC = "/v2/getHistoryCouponByPPC";
-			public static final String GetSpecialOfferByRule = "/v2/getSpecialOfferByRule";
-			public static final String fsn = "fsn";
-			public static final String rule = "rule";
-			public static final String upc = "upc";
-			public static final String coupon_id = "coupon_id";
-			public static final String clip_token = "clip_token";
-		}
-
-		public static class QueryParam {
-			public static final String CouponParam = "&coupon_id=";
-			public static final String UPCParam = "&upc=";
-			public static final String ClipSource = "&clip_source=";
-			public static final String RuleParam = "&rule=";
-		}
-
-		public static class ParamValues {
-			public static final String ClipAppSource_FG = "APP_FG";
-			public static final String ClipAppSource_SR = "APP_SR";
 		}
 	}
 
@@ -492,33 +430,6 @@ public class WakefernApplicationConstants {
 		}
 	}
 
-	public static class MobileApp {
-		public static class AppUpdate {
-			public static final String Path = "app/updates";
-
-			public static class Upstream {
-				public static final String BaseURL = "https://itunes.apple.com/lookup?bundleId=";
-				public static final String AppBundleID = "com.wakefern.shoprite.shopriteapp";
-			}
-		}
-	}
-
-	public static class CitrusAds {
-		public static final String Path = "/banner-ads";
-		public static final String AdsPath = "/ads";
-		public static final String SyncOrderInfo = "/syncOrderInfo";
-		
-		public static class Upstream {
-			public static final String stagingBaseUrl = "https://staging-integration.citrusad.com";
-			public static final String prodBaseUrl = "https://us-integration.citrusad.com";
-		}
-
-		public static class Proxy {
-			public static final String GetAds = "/v1/ads/generate";
-			public static final String SyncOrderInfo = "/v1/orders";
-		}
-	}
-
 	public static class Push2Device {
 		public static class Proxy {
 			public static final String registerPath = "users/{userId}/{ppc}/devices";
@@ -563,6 +474,13 @@ public class WakefernApplicationConstants {
 			public static final String Points = "/rewards/api/v1/points";
 			public static final String baseURL = "https://wfcapi.shoprite.com";
 			public static final String baseStagingURL = "https://wfcapi.staging.shoprite.com";
+		}
+	}
+
+	public static class PlasticBagFee {
+		public static class Proxy {
+			public static final String prefix = "/bagFee";
+			public static final String storeIds = "/storeIds";
 		}
 	}
 		

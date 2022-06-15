@@ -22,12 +22,10 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.ApplicationConstants.NewRelic;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.ServiceMappings;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.logging.ReleaseUtil;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.mywebgrocer.models.MWGHeader;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -37,29 +35,23 @@ public class AddDeploymentDetail extends BaseService {
 	private final static Logger logger = LogManager.getLogger(AddDeploymentDetail.class);
 
 	@POST
-	@Produces(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path(ApplicationConstants.NewRelic.Deployments)
 	public Response getInfoResponse(
 			@PathParam("appId") String appId,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.contentType) String contentType,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Accept) String accept,
+			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
 			String jsonData) {
 
 		try {
-
-			this.requestHeader = new MWGHeader();
-			this.requestPath = ApplicationConstants.NewRelic.Applications +
+			final String path = NewRelic.NewRelicURL + ApplicationConstants.NewRelic.Applications +
 					appId + ApplicationConstants.NewRelic.NewRelicDeployments;
 
-			ServiceMappings secondMapping = new ServiceMappings();
-			secondMapping.setMappingWithURL(this, ApplicationConstants.NewRelic.NewRelicURL);
-			String secondMapPath = secondMapping.getPath();
-			Map<String, String> nrHeader = new HashMap<String, String>();
+			Map<String, String> nrHeader = new HashMap<>();
 			nrHeader.put(ApplicationConstants.NewRelic.NewRelicHeaderKey, 
 					ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.NEW_RELIC_KEY));
-			nrHeader.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
-			nrHeader.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
-			secondMapping.setGenericHeader(nrHeader);
+			nrHeader.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
+			nrHeader.put(ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);
 			
 			JSONObject bodyObj = new JSONObject();
 			JSONObject bodyDeployObj = new JSONObject();
@@ -72,16 +64,14 @@ public class AddDeploymentDetail extends BaseService {
 					
 			bodyObj.put(NewRelic.Deployment,	bodyDeployObj);
 
-			String jsonResp = HTTPRequest.executePost(secondMapPath, bodyObj.toString(), secondMapping.getGenericHeader());
+			String jsonResp = HTTPRequest.executePost(path, bodyObj.toString(), nrHeader);
 
-			return this.createValidResponse(jsonResp);
+			return createValidResponse(jsonResp);
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.NEW_RELIC_DEPLOYMENT);
-
+			LogUtil.addErrorMaps(e, ErrorType.NEW_RELIC_DEPLOYMENT);
 			logger.error("Exception! " + LogUtil.getExceptionMessage(e));
-
-			return this.createErrorResponse("Exception!", e);
+			return createErrorResponse("Exception!", e);
 		}
 	}
 	

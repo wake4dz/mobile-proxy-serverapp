@@ -5,8 +5,8 @@ import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -26,10 +26,10 @@ public class GetCouponByPromoCode extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetCouponByPromoCode.class);
 
 	@GET
-	@Produces(MWGApplicationConstants.Headers.json)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.json)
 	public Response getInfoResponse(
-			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
-			@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String authToken,
+			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@PathParam("promoCode") String promoCode)
 	{
 		try {
@@ -37,14 +37,14 @@ public class GetCouponByPromoCode extends BaseService {
 			params.put("promoCode", promoCode);
 
 			final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponByPromoCode, params);
-			Map<String, String> headerMap = new HashMap<String, String>();
+			Map<String, String> headerMap = new HashMap<>();
 
-			headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
-			headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+			headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
+			headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);
 			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_COUPONS_V3_GET_COUPON_FROM_PROMOCODE);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_COUPONS_V3_GET_COUPON_FROM_PROMOCODE);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"promoCode", promoCode,

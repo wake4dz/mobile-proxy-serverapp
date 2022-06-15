@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.global.ApplicationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -20,8 +21,8 @@ import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernAuth;
@@ -46,23 +47,23 @@ public class GetShoppingCartItemLocator extends BaseService {
 
 	@GET
 	public Response getShoppingCartItemLocator(
-			@HeaderParam(MWGApplicationConstants.Headers.Params.accept) String accept,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.xSiteHost) String xSiteHost,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
-			@PathParam(MWGApplicationConstants.Requests.Params.Path.storeID) String storeId) {
+			@HeaderParam(Requests.Headers.Accept) String accept,
+			@HeaderParam(Requests.Headers.xSiteHost) String xSiteHost,
+			@HeaderParam(Requests.Headers.Authorization) String sessionToken,
+			@PathParam(WynshopApplicationConstants.Requests.Params.Path.storeID) String storeId) {
 		try {
 
 			final String url = ApplicationConstants.Requests.Mi9V8.BaseURL + "/lists/planning/" + storeId.trim();
 			
-			Map<String, String> headerMap = new HashMap<String, String>();
+			Map<String, String> headerMap = new HashMap<>();
 
 			//for the Cloudflare pass-thru
-			headerMap.put(ApplicationConstants.Requests.Header.userAgent,
+			headerMap.put(ApplicationConstants.Requests.Headers.userAgent,
 					ApplicationConstants.StringConstants.wakefernApplication);
 
-			headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
-			headerMap.put(ApplicationConstants.Requests.Header.contentAccept, accept);
-			headerMap.put(ApplicationConstants.Requests.Header.xSiteHost, xSiteHost);
+			headerMap.put(Requests.Headers.Authorization, sessionToken);
+			headerMap.put(Requests.Headers.Accept, accept);
+			headerMap.put(Requests.Headers.xSiteHost, xSiteHost);
 
 			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiMediumTimeout());
 
@@ -73,11 +74,11 @@ public class GetShoppingCartItemLocator extends BaseService {
 			return this.createValidResponse(response);
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_MI9V8_GET_SHOPPING_CART_ITEM_LOCATOR);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_MI9V8_GET_SHOPPING_CART_ITEM_LOCATOR);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					MWGApplicationConstants.Headers.Params.accept, accept, MWGApplicationConstants.Headers.Params.xSiteHost, xSiteHost,
-					MWGApplicationConstants.Headers.Params.auth, sessionToken, MWGApplicationConstants.Requests.Params.Path.storeID, storeId);
+					Requests.Headers.Accept, accept, Requests.Headers.xSiteHost, xSiteHost,
+					Requests.Headers.Authorization, sessionToken, WynshopApplicationConstants.Requests.Params.Path.storeID, storeId);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
 			return this.createErrorResponse(e);
@@ -131,8 +132,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 				}
 			}
 
-			String authString = WakefernAuth.getInfo(MWGApplicationConstants
-					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+			String authString = WakefernAuth.getInfo(ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
 
 			// Can't get Item Location Data w/o a valid Wakefern Auth String.
 			if ((authString == null) || authString.isEmpty()) {
@@ -162,13 +162,11 @@ public class GetShoppingCartItemLocator extends BaseService {
 
 			itemsJArray = (JSONArray) itemsJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
 			strItemSkuList = strItemSkuList.substring(0, strItemSkuList.length() - 1); // remove trailing comma
-			Mi9V8ItemLocatorArray itemLocatorArray = new Mi9V8ItemLocatorArray();
-
 			// call Wakefern Item Locator API with
 			// 1. a store id
 			// 2. a list of skus with a comma as a delimiter
 			// 3. JWT public key
-			String locatorArray = itemLocatorArray.getInfo(storeId, strItemSkuList, authString);
+			String locatorArray = Mi9V8ItemLocatorArray.getInfo(storeId, strItemSkuList, authString);
 
 			Map<Long, Object> itemLocatorData = new HashMap<>();
 			Map<Long, Object> areaSeqNumData = new HashMap<>();

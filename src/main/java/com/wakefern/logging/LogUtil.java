@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +30,7 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.global.VcapProcessor;
 
 /*
@@ -46,7 +47,7 @@ public class LogUtil {
 
 	public static boolean isUserTrackOn = false;
 
-	public static Map<String, String> trackedUserIdsMap = new ConcurrentHashMap<String, String>();
+	public static Map<String, String> trackedUserIdsMap = new ConcurrentHashMap<>();
 
 	public static String mailSmtpUser = null;
 	public static String mailSmtpPassword = null;
@@ -61,12 +62,12 @@ public class LogUtil {
 
 	public static long currentDateTime;
 	// for regular exception types
-	public static Map<String, Integer> errorMap = new ConcurrentHashMap<String, Integer>();
+	public static Map<String, Integer> errorMap = new ConcurrentHashMap<>();
 	// for MWG's backend api calling errors for 401, 404, etc
-	public static Map<String, Integer> error4xxMap = new ConcurrentHashMap<String, Integer>();
+	public static Map<String, Integer> error4xxMap = new ConcurrentHashMap<>();
 
 	public static boolean isErrorMapUpdatable = false;
-	public static Map<String, String> toEmailAddressesMap = new ConcurrentHashMap<String, String>();
+	public static Map<String, String> toEmailAddressesMap = new ConcurrentHashMap<>();
 
 	public static JobDetail emailJob;
 	public static JobDetail emailJob2;
@@ -80,9 +81,9 @@ public class LogUtil {
 	public static Trigger emailTrigger2;
 	public static Scheduler emailScheduler2;
 
-	public static InetAddress ipAddress = null;;
+	public static InetAddress ipAddress = null;
 
-	// this static code is not run until the class is loaded into the memory for the
+    // this static code is not run until the class is loaded into the memory for the
 	// first time
 	// AppStartup is a listener which will be run after the WAS start loading.
 	static {
@@ -115,8 +116,7 @@ public class LogUtil {
 			emailNoErrorSubject = LogUtil.getPropertyValue("emailNoErrorSubject").trim();
 			emailWithErrorSubject = LogUtil.getPropertyValue("emailWithErrorSubject").trim();
 
-			List<String> emailList = Arrays
-					.asList(LogUtil.getPropertyValue("toEmailAddresses").trim().split("\\s*,\\s*"));
+			String[] emailList = LogUtil.getPropertyValue("toEmailAddresses").trim().split("\\s*,\\s*");
 			int index = 0;
 			for (String address : emailList) {
 				if (index < toEmailAddressMaxSize) {
@@ -243,7 +243,7 @@ public class LogUtil {
 		int i = 0;
 		while (i < elements.length) {
 			if (elements[i].toString().contains("com.wakefern")) {
-				sb.append(elements[i] + " -> ");
+				sb.append(elements[i]).append(" -> ");
 			} else {
 				sb.append("truncated other high-level stack traces...");
 
@@ -265,28 +265,26 @@ public class LogUtil {
 		StringBuffer sb = new StringBuffer();
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		Map<String, Integer> treeMap = new TreeMap<String, Integer>(LogUtil.errorMap);
-		Map<String, Integer> tree4xxMap = new TreeMap<String, Integer>(LogUtil.error4xxMap);
+		Map<String, Integer> treeMap = new TreeMap<>(LogUtil.errorMap);
+		Map<String, Integer> tree4xxMap = new TreeMap<>(LogUtil.error4xxMap);
 
 		sb.append("\n\n\t\t *** Error Type Count Report ***\n");
-		sb.append("\t" + sdf.format(LogUtil.currentDateTime) + " to " + sdf.format(new Date()) + "\n");
+		sb.append("\t").append(sdf.format(LogUtil.currentDateTime)).append(" to ").append(sdf.format(new Date())).append("\n");
 
 		if (ipAddress == null) {
 			sb.append("\tCurrent IP Address: " + "null\n\n");
 		} else {
-			sb.append("\tCurrent IP Address: " + ipAddress.toString() + "\n\n");
+			sb.append("\tCurrent IP Address: ").append(ipAddress).append("\n\n");
 		}
 
 		if (treeMap.isEmpty() && tree4xxMap.isEmpty()) {
-			sb.append(
-					"Great news: there is no reported error for this instance of the server from the last email or reset at "
-							+ sdf.format(LogUtil.currentDateTime) + "\n\n");
+			sb.append("Great news: there is no reported error for this instance of the server from the last email or reset at ").append(sdf.format(LogUtil.currentDateTime)).append("\n\n");
 		} else {
 
 			if (!treeMap.isEmpty()) {
 				sb.append("Regular error type:\n");
 				for (Map.Entry<String, Integer> entry : treeMap.entrySet()) {
-					sb.append(StringUtils.rightPad(entry.getKey() + ":", 50) + entry.getValue() + "\n");
+					sb.append(StringUtils.rightPad(entry.getKey() + ":", 50)).append(entry.getValue()).append("\n");
 				}
 				sb.append("\n");
 			}
@@ -294,7 +292,7 @@ public class LogUtil {
 			if (!tree4xxMap.isEmpty()) {
 				sb.append("HTTP 4xx error type:\n");
 				for (Map.Entry<String, Integer> entry : tree4xxMap.entrySet()) {
-					sb.append(StringUtils.rightPad(entry.getKey() + ":", 50) + entry.getValue() + "\n");
+					sb.append(StringUtils.rightPad(entry.getKey() + ":", 50)).append(entry.getValue()).append("\n");
 				}
 			}
 
@@ -348,7 +346,7 @@ public class LogUtil {
 	}
 
 	/*
-	 * get the welcome message for the the console
+	 * get the welcome message for the console
 	 */
 	public static List<String> getWelcomeMessages() {
 		List<String> messages = new ArrayList<>();
@@ -361,23 +359,22 @@ public class LogUtil {
 
 		messages.add("");
 
-		messages.add(pad("The 'chain' system property:") + MWGApplicationConstants.getSystemPropertyValue("chain"));
-		messages.add(pad("The 'url' system property:") + MWGApplicationConstants.getSystemPropertyValue("url"));
+		messages.add(pad("The 'chain' system property:") + ApplicationUtils.getVcapValue("chain"));
+		messages.add(pad("The 'url' system property:") + ApplicationUtils.getVcapValue("url"));
 		messages.add(pad("The 'mi9v8_service' system property:")
-				+ MWGApplicationConstants.getSystemPropertyValue("mi9v8_service"));
+				+ ApplicationUtils.getVcapValue("mi9v8_service"));
 		messages.add(pad("The 'coupon_service' system property:")
-				+ MWGApplicationConstants.getSystemPropertyValue("coupon_service"));
+				+ ApplicationUtils.getVcapValue("coupon_service"));
 		messages.add(pad("The 'recipe_service' system property:") + VcapProcessor.getRecipeService());
 		messages.add(pad("The 'wallet_service' system property:") + VcapProcessor.getWalletService());
-		messages.add(pad("The 'citrus_service' system property:") + VcapProcessor.getCitrusService());
 		messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
 		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
 		messages.add(pad("The 'push2device_service' system property:") +
 				VcapProcessor.getPush2DeviceService());
 		messages.add(pad("The 'prodx_service' system property:") + VcapProcessor.getProdxService());
 		messages.add(pad("The 'reward_point_service' system property:") + VcapProcessor.getRewardPointService());
-		messages.add(pad("The 'cors' system property:") + MWGApplicationConstants.getSystemPropertyValue("cors"));
-		
+		messages.add(pad("The 'cors' system property:") + ApplicationUtils.getVcapValue("cors"));
+
 		messages.add(pad("The 'api_high_timeout' system property:") + VcapProcessor.getApiHighTimeout());
 		messages.add(pad("The 'api_medium_timeout' system property:") + VcapProcessor.getApiMediumTimeout());
 		messages.add(pad("The 'api_low_timeout' system property:") + VcapProcessor.getApiLowTimeout());
@@ -436,36 +433,34 @@ public class LogUtil {
 			messages.add("<table id=\"envVariable\">");
 			messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
 
-			messages.add("<tr><td>chain</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("chain")
+			messages.add("<tr><td>chain</td>" + "<td>" + ApplicationUtils.getVcapValue("chain")
 					+ "</td> </tr>");
 
-			messages.add("<tr><td>url</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("url")
+			messages.add("<tr><td>url</td>" + "<td>" + ApplicationUtils.getVcapValue("url")
 					+ "</td> </tr>");
 
 			messages.add("<tr><td>mi9v8_service</td>" + "<td>"
-					+ MWGApplicationConstants.getSystemPropertyValue("mi9v8_service") + "</td> </tr>");
+					+ ApplicationUtils.getVcapValue("mi9v8_service") + "</td> </tr>");
 			
 			messages.add("<tr><td>coupon_service</td>" + "<td>"
-					+ MWGApplicationConstants.getSystemPropertyValue("coupon_service") + "</td> </tr>");
+					+ ApplicationUtils.getVcapValue("coupon_service") + "</td> </tr>");
 
 			messages.add("<tr><td>wallet_service</td>" + "<td>" + VcapProcessor.getWalletService() + "</td> </tr>");
 
 			messages.add("<tr><td>recipe_service</td>" + "<td>" + VcapProcessor.getRecipeService() + "</td> </tr>");
-
-			messages.add("<tr><td>citrus_service</td>" + "<td>" + VcapProcessor.getCitrusService() + "</td> </tr>");
 
 			messages.add("<tr><td>srfh_orders_service</td><td>" + VcapProcessor.getSrfhOrdersService() + "</td></tr>");
 
 			messages.add("<tr><td>srfh_curbside_service</td><td>" + VcapProcessor.getSrfhCurbsideService() + "</td></tr>");
 
 			messages.add("<tr><td>push2device_service</td>" + "<td>" +
-					MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_SERVICE) + "</td> </tr>");
+					ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_SERVICE) + "</td> </tr>");
 
 			messages.add("<tr><td>prodx_service</td><td>" + VcapProcessor.getProdxService() + "</td></tr>");
 
 			messages.add("<tr><td>reward_point_service</td><td>" + VcapProcessor.getRewardPointService() + "</td></tr>");
-			
-			messages.add("<tr><td>cors</td>" + "<td>" + MWGApplicationConstants.getSystemPropertyValue("cors")
+
+			messages.add("<tr><td>cors</td>" + "<td>" + ApplicationUtils.getVcapValue("cors")
 					+ "</td> </tr>");
 
 			messages.add("<tr><td>api_high_timeout</td>" + "<td>" + VcapProcessor.getApiHighTimeout() + "</td> </tr>");
@@ -516,7 +511,7 @@ public class LogUtil {
 	 * Add different exception type into 2 different kinds of error maps for the
 	 * reporting
 	 */
-	public static void addErrorMaps(Exception e, MwgErrorType mwgErrorType) {
+	public static void addErrorMaps(Exception e, ErrorType mwgErrorType) {
 
 		// set it to be "false" in the logConfig.proproties for the memory issue
 		// troubleshooting
@@ -544,13 +539,13 @@ public class LogUtil {
 	 */
 	public static String getUserId(String url) {
 		try {
-			Map<String, String> urlMap = new HashMap<String, String>();
+			Map<String, String> urlMap = new HashMap<>();
 			String queryString = StringUtils.substringAfter(url, "?");
 			for (String param : queryString.split("&")) {
 				urlMap.put(StringUtils.substringBefore(param, "="), StringUtils.substringAfter(param, "="));
 			}
 
-			return urlMap.get(MWGApplicationConstants.Requests.Params.Query.userID);
+			return urlMap.get(WynshopApplicationConstants.Requests.Params.Query.userID);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			return null;
@@ -590,7 +585,7 @@ public class LogUtil {
 				for (int j = 0; j < numberOfStoresPerLine; j++) {
 					if ((i * numberOfStoresPerLine + j) < storeArray.length) {
 						logger.trace("store id: " + storeArray[i * numberOfStoresPerLine + j]);
-						sb.append(storeArray[i * numberOfStoresPerLine + j] + ", ");
+						sb.append(storeArray[i * numberOfStoresPerLine + j]).append(", ");
 					} else {
 						break;
 					}

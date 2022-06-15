@@ -1,7 +1,5 @@
 package com.wakefern.logging;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.DELETE;
@@ -13,10 +11,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.core.impl.provider.entity.XMLRootObjectProvider;
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.annotations.ValidateAdminToken;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 
 /* 
  *  author: Danny zheng
@@ -24,61 +25,50 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
  *  
  *  To provide REST end points to update the properties configuration
  */
-@Path(MWGApplicationConstants.Log.email)
+@Path(ApplicationConstants.Log.email)
 public class EmailResource {
 	final static Logger logger = LogManager.getLogger(EmailResource.class);
 
 	@GET
-	@Path(MWGApplicationConstants.Log.status)
-	public Response getEmailReportStatus(@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
-		StringBuffer sb = new StringBuffer();
+	@Path(ApplicationConstants.Log.status)
+	@ValidateAdminToken
+	public Response getEmailReportStatus(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
+		StringBuilder sb = new StringBuilder();
 		
 		sb.append(" --- Current Property Settings ---\n");
-		sb.append("isMailOn=" + LogUtil.isEmailOn + "\n");
-		sb.append("isErrorMapUpdatable=" + LogUtil.isErrorMapUpdatable + "\n");
+		sb.append("isMailOn=").append(LogUtil.isEmailOn).append("\n");
+		sb.append("isErrorMapUpdatable=").append(LogUtil.isErrorMapUpdatable).append("\n");
 		
-		sb.append("fromEmailAddress=" + LogUtil.fromEmailAddress + "\n");
-		StringBuffer emailSb = new StringBuffer();
+		sb.append("fromEmailAddress=").append(LogUtil.fromEmailAddress).append("\n");
+		StringBuilder emailSb = new StringBuilder();
 	    for (Map.Entry<String, String> entry : LogUtil.toEmailAddressesMap.entrySet()) {
-            emailSb.append(entry.getKey() + ", " );
+            emailSb.append(entry.getKey()).append(", ");
 	    }
-		sb.append("toEmailAddresses=" + emailSb.toString() + "\n");
+		sb.append("toEmailAddresses=").append(emailSb).append("\n");
 		
-		sb.append("emailWithErrorSubject=" + LogUtil.emailWithErrorSubject + "\n");
-		sb.append("emailNoErrorSubject=" + LogUtil.emailNoErrorSubject + "\n");
-		sb.append("mailSmtpUser=" + LogUtil.mailSmtpUser + "\n");
-		sb.append("mailSmtpAuth=" + LogUtil.mailSmtpAuth + "\n");
-		sb.append("mailSmtpHost=" + LogUtil.mailSmtpHost + "\n");
-		sb.append("mailSmtpPort=" + LogUtil.mailSmtpPort + "\n");
-		sb.append("isUserTrackOn=" + LogUtil.isUserTrackOn + "\n");
+		sb.append("emailWithErrorSubject=").append(LogUtil.emailWithErrorSubject).append("\n");
+		sb.append("emailNoErrorSubject=").append(LogUtil.emailNoErrorSubject).append("\n");
+		sb.append("mailSmtpUser=").append(LogUtil.mailSmtpUser).append("\n");
+		sb.append("mailSmtpAuth=").append(LogUtil.mailSmtpAuth).append("\n");
+		sb.append("mailSmtpHost=").append(LogUtil.mailSmtpHost).append("\n");
+		sb.append("mailSmtpPort=").append(LogUtil.mailSmtpPort).append("\n");
+		sb.append("isUserTrackOn=").append(LogUtil.isUserTrackOn).append("\n");
 		StringBuffer userSb = new StringBuffer();
 	    for (Map.Entry<String, String> entry : LogUtil.trackedUserIdsMap.entrySet()) {
-	    	userSb.append(entry.getKey() + ", " );
+	    	userSb.append(entry.getKey()).append(", ");
 	    }
-		sb.append("trackedUserIds=" + userSb.toString() + "\n");
-
-		
-	
+		sb.append("trackedUserIds=").append(userSb).append("\n");
 		return Response.status(200).entity(sb.toString()).build();
 	}
 	
 	@PUT
-	@Path(MWGApplicationConstants.Log.address)
+	@Path(ApplicationConstants.Log.address)
+	@ValidateAdminToken
 	public Response updateEmailAddress(@PathParam("addresses") String addresses, 
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
-		StringBuffer sb = new StringBuffer();
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
+		StringBuilder sb = new StringBuilder();
 
-		List<String> emailList = Arrays.asList(addresses.split("\\s*,\\s*"));
+		String[] emailList = addresses.split("\\s*,\\s*");
 		
 		for (String address : emailList) {
 			if (LogUtil.toEmailAddressesMap.containsKey(address)) {
@@ -96,52 +86,47 @@ public class EmailResource {
 		
 		sb.append("The current email addresses listed below after the addition:\n");
 		
-		StringBuffer emailSb = new StringBuffer();
+		StringBuilder emailSb = new StringBuilder();
 	    for (Map.Entry<String, String> entry : LogUtil.toEmailAddressesMap.entrySet()) {
-            emailSb.append(entry.getKey() + ", " );
+            emailSb.append(entry.getKey()).append(", ");
 	    }
 	    
-		sb.append("emailAddresses=" + emailSb.toString() + "\n");
+		sb.append("emailAddresses=").append(emailSb).append("\n");
 
 		return Response.status(200).entity(sb.toString()).build();
 	}
 			
 	@DELETE
-	@Path(MWGApplicationConstants.Log.address)
+	@Path(ApplicationConstants.Log.address)
+	@ValidateAdminToken
 	public Response deleteEmailAddress(@PathParam("addresses") String addresses, 
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
-		StringBuffer sb = new StringBuffer();
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
+		StringBuilder sb = new StringBuilder();
 
-		List<String> emailList = Arrays.asList(addresses.split("\\s*,\\s*"));
+		String[] emailList = addresses.split("\\s*,\\s*");
 		
 		for (String address : emailList) {
 			if (LogUtil.toEmailAddressesMap.containsKey(address)) {
 				LogUtil.toEmailAddressesMap.remove(address);
-			} else {
-				// do nothing since it is not in the first place
 			}
 		}
 		
 		sb.append("The current email addresses listed below after the deletion:\n");
 		
-		StringBuffer emailSb = new StringBuffer();
+		StringBuilder emailSb = new StringBuilder();
 	    for (Map.Entry<String, String> entry : LogUtil.toEmailAddressesMap.entrySet()) {
-            emailSb.append(entry.getKey() + ", " );
+            emailSb.append(entry.getKey()).append(", ");
 	    }
 	    
-		sb.append("toEmailAddresses=" + emailSb.toString() + "\n");
+		sb.append("toEmailAddresses=").append(emailSb).append("\n");
 
 		return Response.status(200).entity(sb.toString()).build();
 	}
 	
 	
 	@PUT
-	@Path(MWGApplicationConstants.Log.updateSetting)
+	@Path(ApplicationConstants.Log.updateSetting)
+	@ValidateAdminToken
 	public Response updateEmailSettings(
 			@QueryParam("isEmailOn") String isEmailOn,
 			@QueryParam("fromEmailAddress") String fromEmailAddress,
@@ -158,12 +143,7 @@ public class EmailResource {
 			@QueryParam("isUserTrackOn") String isUserTrackOn,
 			
 			@QueryParam("isErrorMapUpdatable") String isErrorMapUpdatable,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		if (isEmailOn != null) {
 			LogUtil.isEmailOn = Boolean.parseBoolean(isEmailOn.toLowerCase().trim());
 		}
@@ -229,48 +209,44 @@ public class EmailResource {
 		sb.append("The current settings listed below after the update:\n");
 		
 
-		sb.append("isEmailOn=" + LogUtil.isEmailOn + "\n");
-		sb.append("isErrorMapUpdatable=" + LogUtil.isErrorMapUpdatable + "\n");
+		sb.append("isEmailOn=").append(LogUtil.isEmailOn).append("\n");
+		sb.append("isErrorMapUpdatable=").append(LogUtil.isErrorMapUpdatable).append("\n");
 		
-		sb.append("fromEmailAddress=" + LogUtil.fromEmailAddress + "\n");
-		sb.append("toEmailAddressMaxSize=" + LogUtil.toEmailAddressMaxSize + "\n");
+		sb.append("fromEmailAddress=").append(LogUtil.fromEmailAddress).append("\n");
+		sb.append("toEmailAddressMaxSize=").append(LogUtil.toEmailAddressMaxSize).append("\n");
 		StringBuffer emailSb = new StringBuffer();
 	    for (Map.Entry<String, String> entry : LogUtil.toEmailAddressesMap.entrySet()) {
-            emailSb.append(entry.getKey() + ", " );
+            emailSb.append(entry.getKey()).append(", ");
 	    }
-		sb.append("toEmailAddresses=" + emailSb.toString() + "\n");
-		sb.append("emailWithErrorSubject=" + LogUtil.emailWithErrorSubject + "\n");
-		sb.append("emailNoErrorSubject=" + LogUtil.emailNoErrorSubject + "\n");
+		sb.append("toEmailAddresses=").append(emailSb).append("\n");
+		sb.append("emailWithErrorSubject=").append(LogUtil.emailWithErrorSubject).append("\n");
+		sb.append("emailNoErrorSubject=").append(LogUtil.emailNoErrorSubject).append("\n");
 		
-		sb.append("mailSmtpUser=" + LogUtil.mailSmtpUser + "\n");
-		sb.append("mailSmtpPassword=" + LogUtil.mailSmtpPassword + "\n");
-		sb.append("mailSmtpAuth=" + LogUtil.mailSmtpAuth + "\n");
-		sb.append("mailSmtpHost=" + LogUtil.mailSmtpHost + "\n");
-		sb.append("mailSmtpPort=" + LogUtil.mailSmtpPort + "\n");
+		sb.append("mailSmtpUser=").append(LogUtil.mailSmtpUser).append("\n");
+		sb.append("mailSmtpPassword=").append(LogUtil.mailSmtpPassword).append("\n");
+		sb.append("mailSmtpAuth=").append(LogUtil.mailSmtpAuth).append("\n");
+		sb.append("mailSmtpHost=").append(LogUtil.mailSmtpHost).append("\n");
+		sb.append("mailSmtpPort=").append(LogUtil.mailSmtpPort).append("\n");
 		
-		sb.append("isUserTrackOn=" + LogUtil.isUserTrackOn + "\n");
+		sb.append("isUserTrackOn=").append(LogUtil.isUserTrackOn).append("\n");
 		StringBuffer userIdSb = new StringBuffer();
 	    for (Map.Entry<String, String> entry : LogUtil.trackedUserIdsMap.entrySet()) {
-            userIdSb.append(entry.getKey() + ", " );
+            userIdSb.append(entry.getKey()).append(", ");
 	    }
-		sb.append("trackedUserIds=" + userIdSb.toString() + "\n");
+		sb.append("trackedUserIds=").append(userIdSb).append("\n");
 
 		return Response.status(200).entity(sb.toString()).build();
 	}
 		
 	
 	@PUT
-	@Path(MWGApplicationConstants.Log.trackUserId)
+	@Path(ApplicationConstants.Log.trackUserId)
+	@ValidateAdminToken
 	public Response updateTrackedUserIds(@PathParam("userIds") String userIds, 
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		StringBuffer sb = new StringBuffer();
 
-		List<String> userIdList = Arrays.asList(userIds.split("\\s*,\\s*"));
+		String[] userIdList = userIds.split("\\s*,\\s*");
 		
 		for (String userId : userIdList) {
 			if (LogUtil.trackedUserIdsMap.containsKey(userId)) {
@@ -284,32 +260,27 @@ public class EmailResource {
 		
 		StringBuffer userIdSb = new StringBuffer();
 	    for (Map.Entry<String, String> entry : LogUtil.trackedUserIdsMap.entrySet()) {
-            userIdSb.append(entry.getKey() + ", " );
+            userIdSb.append(entry.getKey()).append(", ");
 	    }
 	    
-		sb.append("trackedUserIds=" + userIdSb.toString() + "\n");
+		sb.append("trackedUserIds=").append(userIdSb).append("\n");
 
 		return Response.status(200).entity(sb.toString()).build();
 	}
 			
 	@DELETE
-	@Path(MWGApplicationConstants.Log.trackUserId)
+	@Path(ApplicationConstants.Log.trackUserId)
+	@ValidateAdminToken
 	public Response deleteTrackedUserIds(@PathParam("userIds") String userIds, 
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
-		StringBuffer sb = new StringBuffer();
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 
-		List<String> userIdList = Arrays.asList(userIds.split("\\s*,\\s*"));
+		StringBuilder sb = new StringBuilder();
+
+		String[] userIdList = userIds.split("\\s*,\\s*");
 		
 		for (String userId : userIdList) {
 			if (LogUtil.trackedUserIdsMap.containsKey(userId.trim())) {
 				LogUtil.trackedUserIdsMap.remove(userId.trim());
-			} else {
-				// do nothing since it is not in the first place
 			}
 		}
 		
@@ -317,10 +288,10 @@ public class EmailResource {
 		
 		StringBuffer userIdSb = new StringBuffer();
 	    for (Map.Entry<String, String> entry : LogUtil.trackedUserIdsMap.entrySet()) {
-            userIdSb.append(entry.getKey() + ", " );
+            userIdSb.append(entry.getKey()).append(", ");
 	    }
 	    
-		sb.append("trackedUserIds=" + userIdSb.toString() + "\n");
+		sb.append("trackedUserIds=").append(userIdSb).append("\n");
 
 		return Response.status(200).entity(sb.toString()).build();
 	}

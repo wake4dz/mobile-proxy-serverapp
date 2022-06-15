@@ -10,14 +10,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.global.ApplicationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -36,8 +36,8 @@ public class GetWakefernNutrition extends BaseService {
     private final static Logger logger = LogManager.getLogger(GetWakefernNutrition.class);
 
     @GET
-    @Consumes(MWGApplicationConstants.Headers.generic)
-    @Produces(MWGApplicationConstants.Headers.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.APIM.apimNutritionUrl)
     public Response getResponse(@PathParam("skuStoreId") String skuStoreId) {
 
@@ -47,12 +47,12 @@ public class GetWakefernNutrition extends BaseService {
             String path = WakefernApplicationConstants.APIM.apimBaseURL + WakefernApplicationConstants.APIM.nutritionBySkuStoreId + "/" + skuStoreId;
 
             wkfn.put(WakefernApplicationConstants.APIM.sub_key_header,
-                    MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.APIM_NUTRITION_KEY));
+                    ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_NUTRITION_KEY));
 
             return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 0));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PROXY_NUTRITION_GET_NUTRITION);
+            LogUtil.addErrorMaps(e, ErrorType.PROXY_NUTRITION_GET_NUTRITION);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 

@@ -5,8 +5,8 @@ import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -25,26 +25,26 @@ public class AddCouponToPPC extends BaseService {
 	private final static Logger logger = LogManager.getLogger(AddCouponToPPC.class);
 
 	@POST
-	@Consumes(MWGApplicationConstants.Headers.json)
-	@Produces(MWGApplicationConstants.Headers.json)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.json)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.json)
 	public Response getInfoResponse(
-			@HeaderParam(ApplicationConstants.Requests.Header.contentAuthorization) String authToken,
-			@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
+			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
 			String jsonString)
 			throws Exception
 	{
 		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.AddCouponToPPC);
 
-		Map<String, String> headerMap = new HashMap<String, String>();
-		headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
-		headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, authToken);
+		Map<String, String> headerMap = new HashMap<>();
+		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
+		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);
 
 		try {
 			// Execute POST
 			String response = HTTPRequest.executePostJSON(url, jsonString, headerMap, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_COUPONS_V3_ADD_COUPON_TO_PPC);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_COUPONS_V3_ADD_COUPON_TO_PPC);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"body", jsonString,
 					"authorization", authToken,

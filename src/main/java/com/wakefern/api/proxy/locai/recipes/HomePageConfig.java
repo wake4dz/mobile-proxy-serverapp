@@ -20,8 +20,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.json.JSONArray;
@@ -41,8 +40,8 @@ public class HomePageConfig extends BaseService {
 	private final static Logger logger = LogManager.getLogger(HomePageConfig.class);
 
 	@GET
-	@Produces(MWGApplicationConstants.Headers.generic)
-	@Consumes(MWGApplicationConstants.Headers.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.homepageConfig)
 	public Response getResponse(
 			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType) {
@@ -60,7 +59,7 @@ public class HomePageConfig extends BaseService {
 			return createValidResponse(filterLayoutsFromResponse(response));
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_RECIPES_LOCAI_HOMEPAGE_CONFIG);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_HOMEPAGE_CONFIG);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", contentType);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
@@ -122,7 +121,7 @@ public class HomePageConfig extends BaseService {
 		hit.remove("layout");
 		hit.put("layout", filteredLayouts);
 
-		logger.debug("After filtering the original response data: " + responseObj.toString());
+		logger.debug("After filtering the original response data: " + responseObj);
 
 		return responseObj.toString();
 	}

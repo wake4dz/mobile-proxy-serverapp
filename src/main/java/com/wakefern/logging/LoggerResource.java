@@ -9,13 +9,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.annotations.ValidateAdminToken;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.Level;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import org.apache.logging.log4j.core.config.Configurator;
 
 /* 
@@ -24,22 +25,22 @@ import org.apache.logging.log4j.core.config.Configurator;
  *  
  *  To change some of log4j settings in the real time
  */
-@Path(MWGApplicationConstants.Log.logger)
+@Path(ApplicationConstants.Log.logger)
 public class LoggerResource {
 
 	final static Logger logger = LogManager.getLogger(LoggerResource.class);
 
 	@PUT
-	@Path(MWGApplicationConstants.Log.changeLevel)
+	@Path(ApplicationConstants.Log.changeLevel)
+	@ValidateAdminToken
 	public Response updateLoggerLevel(@PathParam("logLevel") String inputLevel,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		Level logLevel = null;
 		String outputText = "";
+
+		if (inputLevel == null) {
+			return Response.status(Response.Status.BAD_REQUEST).entity("loglevel must not be null").build();
+		}
 
 		inputLevel = inputLevel.trim().toLowerCase();
 
@@ -64,6 +65,7 @@ public class LoggerResource {
 			break;
 		case "fatal":
 			logLevel = Level.FATAL;
+			break;
 		default:
 			logLevel = Level.INFO;
 		}
@@ -78,39 +80,28 @@ public class LoggerResource {
 			logger.warn(outputText);
 		}
 
-		
 		return Response.status(200).entity(outputText).build();
-
 	}
 
 	@GET
-	@Path(MWGApplicationConstants.Log.getLevel)
-	public Response getLoggerLevel(@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
+	@Path(ApplicationConstants.Log.getLevel)
+	@ValidateAdminToken
+	public Response getLoggerLevel(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		String output = "Log4i current log level is " + LogManager.getRootLogger().getLevel()
 				+ ".\nThe available level options: off, trace, debug, info, warn, error, fatal.";
 		return Response.status(200).entity(output).build();
 	}
 
-
 	@GET
-	@Path("/appender/list")
-	public Response listAppenders(@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-		
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
-		StringBuffer sb = new StringBuffer();
+	@Path(ApplicationConstants.Log.appenderList)
+	@ValidateAdminToken
+	public Response listAppenders(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
+		StringBuilder sb = new StringBuilder();
 
 		Map<String, Appender> appenderMap = ((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger()).getAppenders();
 
 		for (Appender appender : appenderMap.values()) {
-			sb.append(appender.getName() + ", ");
+			sb.append(appender.getName()).append(", ");
 		}
 
 		int index = sb.lastIndexOf(",");

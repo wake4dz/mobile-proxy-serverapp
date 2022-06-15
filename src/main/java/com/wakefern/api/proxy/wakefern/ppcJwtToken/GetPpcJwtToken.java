@@ -18,8 +18,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.UserJWTV2;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 
 /**
@@ -36,22 +35,22 @@ public class GetPpcJwtToken extends BaseService {
 
 	@GET
 	public Response getJWT(
-			@HeaderParam(MWGApplicationConstants.Headers.Params.xSiteHost) String xSiteHost,
-			@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String sessionToken,
+			@HeaderParam(ApplicationConstants.Requests.Headers.xSiteHost) String xSiteHost,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String sessionToken,
 			@QueryParam("expires_in") int expiresInSeconds) {
 		try {
 
 			final String url = ApplicationConstants.Requests.Mi9V8.BaseURL + "/customers";
 			
-			Map<String, String> headerMap = new HashMap<String, String>();
+			Map<String, String> headerMap = new HashMap<>();
 
 			//for the Cloudflare pass-thru
-			headerMap.put(ApplicationConstants.Requests.Header.userAgent,
+			headerMap.put(ApplicationConstants.Requests.Headers.userAgent,
 					ApplicationConstants.StringConstants.wakefernApplication);
 
-			headerMap.put(ApplicationConstants.Requests.Header.contentAuthorization, sessionToken);
-			headerMap.put(ApplicationConstants.Requests.Header.contentAccept, "*/*");
-			headerMap.put(ApplicationConstants.Requests.Header.xSiteHost, xSiteHost);
+			headerMap.put(ApplicationConstants.Requests.Headers.Authorization, sessionToken);
+			headerMap.put(ApplicationConstants.Requests.Headers.Accept, "*/*");
+			headerMap.put(ApplicationConstants.Requests.Headers.xSiteHost, xSiteHost);
 
 			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiMediumTimeout());
 
@@ -73,12 +72,12 @@ public class GetPpcJwtToken extends BaseService {
 			return this.createValidResponse(jsonToken.toString());
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_PPCJWTTOKEN_GET_PPC_JWT_TOKEN);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_PPCJWTTOKEN_GET_PPC_JWT_TOKEN);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					MWGApplicationConstants.Headers.Params.accept, "*/*", MWGApplicationConstants.Headers.Params.xSiteHost, xSiteHost,
+					ApplicationConstants.Requests.Headers.Accept, "*/*", ApplicationConstants.Requests.Headers.xSiteHost, xSiteHost,
 					"expiresInSeconds", expiresInSeconds,
-					MWGApplicationConstants.Headers.Params.auth, sessionToken);
+					ApplicationConstants.Requests.Headers.Authorization, sessionToken);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
 			return this.createErrorResponse(e);

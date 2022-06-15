@@ -5,8 +5,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -41,8 +40,8 @@ public class UnregisterDevice extends BaseService {
     }
 
     @DELETE
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Consumes(MWGApplicationConstants.Headers.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path("/")
     public Response unregisterDevice(String jsonData) {
         try {
@@ -51,8 +50,8 @@ public class UnregisterDevice extends BaseService {
             String apiKey= VcapProcessor.getPush2DeviceApiKey();
 
             Map<String, String> headers = new HashMap<>();
-            headers.put(ApplicationConstants.Requests.Header.contentType, "application/json");
-            headers.put(ApplicationConstants.Requests.Header.contentAuthorization, "basic " + apiKey);
+            headers.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
+            headers.put(ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey);
 
             JSONObject args = parseBodyIntoArgs(jsonData);
 
@@ -64,7 +63,7 @@ public class UnregisterDevice extends BaseService {
             return this.createResponse(204);
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.PUSH2DEVICE_UNREGISTER);
+            LogUtil.addErrorMaps(e, ErrorType.PUSH2DEVICE_UNREGISTER);
             String errorData = LogUtil.getRequestData("exceptionLocation",
                     LogUtil.getRelevantStackTrace(e));
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

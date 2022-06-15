@@ -3,7 +3,6 @@ package com.wakefern.global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 import javax.ws.rs.core.UriBuilder;
@@ -16,15 +15,6 @@ import java.util.Map;
  */
 public class ApplicationUtils {
 	private final static Logger logger = LogManager.getLogger(ApplicationUtils.class);
-
-    public static StringBuilder constructCouponUrl(String pathUrl, String fsnReqParam) {
-		StringBuilder sb = new StringBuilder();
-    	sb.append(ApplicationConstants.Requests.CouponsV2.BaseCouponURL);
-    	sb.append(pathUrl);
-		sb.append("?fsn=");
-		sb.append(fsnReqParam);
-		return sb;
-    }
 
 	public static String constructCouponV3Url(String path) {
 		return constructCouponV3Url(path, null);
@@ -53,11 +43,15 @@ public class ApplicationUtils {
 		sb.append(upcs);
 		return sb.toString();
     }
-    
-    public static String getVcapValue(String vcapKeyName){
+
+	private static String getSystemPropertyValue(String key) {
+		return java.lang.System.getenv(key.trim());
+	}
+
+	public static String getVcapValue(String vcapKeyName){
     	String vcapValue = "";
     	try {
-    		vcapValue = MWGApplicationConstants.getSystemPropertyValue(vcapKeyName).trim();
+    		vcapValue = getSystemPropertyValue(vcapKeyName).trim();
     	} catch(Exception e){
     		logger.error("[ApplicationUtils]::getVcapValue::Failed! Exception " + vcapKeyName + e.getMessage());
     	}
@@ -72,25 +66,12 @@ public class ApplicationUtils {
 	 */
     public static String getVcapValue(String name, String defaultValue) {
     	try {
-    		return MWGApplicationConstants.getSystemPropertyValue(name).trim();
+    		return getSystemPropertyValue(name).trim();
 		} catch (Exception e) {
 			logger.error("[ApplicationUtils]::getVcapValue::Failed for key " + name + ". Exception " + e.getMessage());
 			return defaultValue;
 		}
 	}
-    
-    /**
-     * returns either coupon production or staging url endpoint
-     * @param vcapKeyName coupon_service vcap [Staging/Production] keyword
-     * @return
-     */
-    public static String getCouponServiceEndpoint(String vcapKeyName){
-    	String coupon_service = getVcapValue(vcapKeyName);
-    	String coupon_domain = (!coupon_service.isEmpty() && coupon_service.equalsIgnoreCase(WakefernApplicationConstants.CouponsV2.coupon_staging)) ? 
-    			WakefernApplicationConstants.CouponsV2.baseURL_staging : WakefernApplicationConstants.CouponsV2.baseURL;
-		logger.info("[ApplicationUtils]::getCouponServiceEndpoint::coupon_domain " + coupon_domain);
-    	return coupon_domain;
-    }
 
 	/**
 	 * returns either coupon production or staging url endpoint

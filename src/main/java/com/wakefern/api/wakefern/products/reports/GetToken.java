@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.global.ApplicationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,10 +18,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
+// TODO: MM - evaluate this for v8. Is it integrated into Wynshop now?
 /**
  * Endpoint for obtaining a new token for the Wakefern "Product Not Found" API. Used in subsequent
  * calls to create or delete "Product Not Found" entries.
@@ -39,22 +40,22 @@ public class GetToken extends BaseService {
 	 * @return Response - if successful, the body will contain a "token" property
 	 */
 	@GET
-	@Consumes(MWGApplicationConstants.Headers.json)
-	@Produces(MWGApplicationConstants.Headers.json)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.json)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.json)
 	public Response getResponse(
-			@HeaderParam(ApplicationConstants.Requests.Header.contentAccept) String accept,
-    		@HeaderParam(ApplicationConstants.Requests.Header.contentType) String contentType
+			@HeaderParam(ApplicationConstants.Requests.Headers.Accept) String accept,
+    		@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType
     ) {
 		try {
 			String authenticateUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.NotFound.authenticate;
 
-			Map<String, String> headerMap = new HashMap<String, String>(1);
-			headerMap.put(ApplicationConstants.Requests.Header.contentAccept, accept);
-			headerMap.put(ApplicationConstants.Requests.Header.contentType, contentType);
+			Map<String, String> headerMap = new HashMap<>(1);
+			headerMap.put(ApplicationConstants.Requests.Headers.Accept, accept);
+			headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 
 			Map<String, String> requestBodyMap = new HashMap<>(2);
 
-			String[] userPass = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN).split(":");
+			String[] userPass = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN).split(":");
 			requestBodyMap.put("UserName", userPass[0]);
 			requestBodyMap.put("Password", userPass[1]);
 			String requestBodyJson = new ObjectMapper().writeValueAsString(requestBodyMap);
@@ -72,13 +73,13 @@ public class GetToken extends BaseService {
 		String responseBody = "";
 		try{
 			String authenticateUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.NotFound.authenticate;
-			Map<String, String> headerMap = new HashMap<String, String>(1);
-			headerMap.put(ApplicationConstants.Requests.Header.contentAccept, MWGApplicationConstants.Headers.json);
-			headerMap.put(ApplicationConstants.Requests.Header.contentType, MWGApplicationConstants.Headers.json);
+			Map<String, String> headerMap = new HashMap<>(1);
+			headerMap.put(ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);
+			headerMap.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
 	
 			Map<String, String> requestBodyMap = new HashMap<>(2);
 
-			String[] userPass = MWGApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN).split(":");
+			String[] userPass = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN).split(":");
 			requestBodyMap.put("UserName", userPass[0]);
 			requestBodyMap.put("Password", userPass[1]);
 			String requestBodyJson = new ObjectMapper().writeValueAsString(requestBodyMap);

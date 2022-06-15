@@ -35,9 +35,9 @@ public class SortMi9V8ItemLocators {
 		Collections.sort(list, new Mi9V8AisleAreaJSONComparator());
 
 		JSONArray array = new JSONArray();
-		for (int i = 0; i < list.size(); i++) {
-			array.put(list.get(i));
-		}
+        for (JSONObject jsonObject : list) {
+            array.put(jsonObject);
+        }
 		
 		return array;
 

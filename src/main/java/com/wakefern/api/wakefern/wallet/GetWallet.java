@@ -11,14 +11,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.global.ApplicationConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
@@ -34,8 +34,8 @@ public class GetWallet extends BaseService {
     private final static Logger logger = LogManager.getLogger(GetWallet.class);
 
     @GET
-    @Produces(MWGApplicationConstants.Headers.generic)
-    @Consumes(MWGApplicationConstants.Headers.generic)
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.Wallet.Proxy.GetWallet)
     public Response getResponse(
     		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Device) String device, 
@@ -58,7 +58,7 @@ public class GetWallet extends BaseService {
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.WALLET_GET_WALLET);
+            LogUtil.addErrorMaps(e, ErrorType.WALLET_GET_WALLET);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"contentType", contentType, "device", device, "accountId", accountId, "sessionToken", sessionToken);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

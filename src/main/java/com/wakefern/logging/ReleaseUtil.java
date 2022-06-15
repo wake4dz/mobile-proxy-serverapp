@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +18,7 @@ public class ReleaseUtil {
 	
 	private static BufferedReader reader = null;
 	
-	private static List<String> releaseLines = new ArrayList<String>();
+	private static final List<String> releaseLines = new ArrayList<>();
 	
 	static {
 
@@ -25,7 +26,7 @@ public class ReleaseUtil {
 
 			String fileName = "RELEASE_NOTE.properties";
 			input = ReleaseUtil.class.getClassLoader().getResourceAsStream(fileName);	
-			reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+			reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
 			
 			if (reader == null) {
 				logger.error("Sorry, unable to find " + fileName);
@@ -34,7 +35,7 @@ public class ReleaseUtil {
 			String line = reader.readLine();
 			while (line != null) {
 				
-				if ((line == null) || (line.trim().length() == 0) || (line.trim().startsWith("#"))) {
+				if ((line.trim().length() == 0) || (line.trim().startsWith("#"))) {
 					//skip populating
 				} else {
 					releaseLines.add("The current " + line);

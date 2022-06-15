@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -141,7 +142,7 @@ public class HTTPRequest {
 				OutputStream oStream = null;
 				try {
 					oStream = connection.getOutputStream();
-					oStream.write(requestBody.getBytes("UTF-8"));
+					oStream.write(requestBody.getBytes(StandardCharsets.UTF_8));
 				} finally {
 					if (oStream != null) {
 						try {
@@ -255,7 +256,7 @@ public class HTTPRequest {
 				OutputStream oStream = null;
 				try {
 					oStream = connection.getOutputStream();
-					oStream.write(requestBody.getBytes("UTF-8"));
+					oStream.write(requestBody.getBytes(StandardCharsets.UTF_8));
 				} finally {
 					if (oStream != null) {
 						try {
@@ -365,7 +366,7 @@ public class HTTPRequest {
 				OutputStream oStream = null;
 				try {
 					oStream = connection.getOutputStream();
-					oStream.write(requestBody.getBytes("UTF-8"));
+					oStream.write(requestBody.getBytes(StandardCharsets.UTF_8));
 				} finally {
 					if (oStream != null) {
 						try {

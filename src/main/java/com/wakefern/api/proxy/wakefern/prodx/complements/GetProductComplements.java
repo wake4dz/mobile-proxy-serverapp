@@ -14,18 +14,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 @Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.Complements.Proxy.GetProductComplements)
 public class GetProductComplements extends BaseService {
-	private final static Logger logger = LogManager.getLogger(com.wakefern.api.wakefern.nutrition.GetWakefernNutrition.class);
+	private final static Logger logger = LogManager.getLogger(GetProductComplements.class);
 
 	@GET
-	@Consumes(MWGApplicationConstants.Headers.generic)
-	@Produces(MWGApplicationConstants.Headers.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	public Response getResponse(@PathParam("productId") String productId,
 								@QueryParam("storeId") String storeId,
 								@QueryParam("customerId") String customerId,
@@ -51,13 +50,13 @@ public class GetProductComplements extends BaseService {
 
 			final String url = builder.build().toString();
 
-			headers.put(ApplicationConstants.Requests.Header.contentAuthorization,
+			headers.put(ApplicationConstants.Requests.Headers.Authorization,
 					VcapProcessor.getProdxApiKey());
 
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, MwgErrorType.PROXY_PRODX_GET_PRODUCT_COMPLEMENTS);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_PRODX_GET_PRODUCT_COMPLEMENTS);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"productId", productId,
 					"storeId", storeId,

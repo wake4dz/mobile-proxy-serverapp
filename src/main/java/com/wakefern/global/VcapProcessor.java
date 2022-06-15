@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.logging.LogUtil;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /*
@@ -37,14 +36,6 @@ public class VcapProcessor {
 	private static String srfhOrdersApiKeyProd = null;
 	private static String srfhCurbsideApiKeyStaging = null;
 	private static String srfhCurbsideApiKeyProd = null;
-	
-	private static String citrusService = null;
-	private static String citrusCatalogIdStaging = null;
-	private static String citrusContentStandardIdStaging = null;
-	private static String citrusApiKeyStaging = null;
-	private static String citrusCatalogIdProd = null;
-	private static String citrusContentStandardIdProd = null;
-	private static String citrusApiKeyProd = null;
 
 	private static String push2DeviceService = null;
 	private static String push2DeviceApiKeyStaging = null;
@@ -125,16 +116,6 @@ public class VcapProcessor {
 		srfhCurbsideApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_STG_API_KEY);
 		srfhCurbsideApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_PROD_API_KEY);
 
-		citrusService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_SERVICE);
-		citrusCatalogIdStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CATALOG_ID);
-		citrusContentStandardIdStaging = getVcapValueString(
-				WakefernApplicationConstants.VCAPKeys.CITRUS_STG_CONTENT_STANDARD_ID);
-		citrusApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_STG_KEY);
-		citrusCatalogIdProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_CATALOG_ID);
-		citrusContentStandardIdProd = getVcapValueString(
-				WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_CONTENT_STANDARD_ID);
-		citrusApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.CITRUS_PROD_KEY);
-
 		push2DeviceService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_SERVICE);
 		push2DeviceApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_STG_API_KEY);
 		push2DeviceApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_PROD_API_KEY);
@@ -192,7 +173,7 @@ public class VcapProcessor {
 	 * @return the vcap value
 	 */
 	private static int getVcapValueInt(String vcapKeyName) {
-		String highTimeObj = MWGApplicationConstants.getSystemPropertyValue(vcapKeyName);
+		String highTimeObj = ApplicationUtils.getVcapValue(vcapKeyName);
 		return highTimeObj != null && !highTimeObj.trim().isEmpty() ? Integer.parseInt(highTimeObj.trim()) : 0;
 	}
 
@@ -204,7 +185,7 @@ public class VcapProcessor {
 	 * @throws RuntimeException
 	 */
 	private static String getVcapValueString(String key) throws RuntimeException {
-		final String value = MWGApplicationConstants.getSystemPropertyValue(key);
+		final String value = ApplicationUtils.getVcapValue(key);
 
 		if ((value == null) || (value.trim().length() == 0)) {
 			throw new RuntimeException(key + " must have a non-empty value");
@@ -305,42 +286,6 @@ public class VcapProcessor {
 		return timeslotSearchRadiusInMile;
 	}
 
-	public static String getCitrusService() {
-		return citrusService;
-	}
-
-	public static String getCitrusServiceEndpoint() {
-		if (citrusService.trim().equalsIgnoreCase("staging")) {
-			return WakefernApplicationConstants.CitrusAds.Upstream.stagingBaseUrl;
-		} else {
-			return WakefernApplicationConstants.CitrusAds.Upstream.prodBaseUrl;
-		}
-	}
-
-	public static String getCitrusApiKey() {
-		if (citrusService.trim().equalsIgnoreCase("staging")) {
-			return citrusApiKeyStaging;
-		} else {
-			return citrusApiKeyProd;
-		}
-	}
-
-	public static String getCitrusCatalogId() {
-		if (citrusService.trim().equalsIgnoreCase("staging")) {
-			return citrusCatalogIdStaging;
-		} else {
-			return citrusCatalogIdProd;
-		}
-	}
-
-	public static String getCitrusContentStandardId() {
-		if (citrusService.trim().equalsIgnoreCase("staging")) {
-			return citrusContentStandardIdStaging;
-		} else {
-			return citrusContentStandardIdProd;
-		}
-	}
-
 	/**
 	 * Get the version of the push2device service (staging, production)
 	 * @return String
@@ -396,7 +341,6 @@ public class VcapProcessor {
 	}
 
 	public static String getProdxAisleId() { return prodxAisleId; }
-
 
 	public static String getRewardPointService() {
 		return rewardPointService;

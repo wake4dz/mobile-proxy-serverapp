@@ -2,7 +2,7 @@ package com.wakefern.global.middleware;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.annotations.AppVersions;
-import com.wakefern.mobileapp.appupdate.models.AppVersion;
+import com.wakefern.mobileapp.models.AppVersion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +30,7 @@ public class AppVersionFilter implements ContainerRequestFilter {
     @Override
     public void filter(final ContainerRequestContext requestContext) {
         // Read the "AppVersion" header value
-        String appVersionStr = requestContext.getHeaders().getFirst(ApplicationConstants.Requests.Header.appVersion);
+        String appVersionStr = requestContext.getHeaders().getFirst(ApplicationConstants.Requests.Headers.appVersion);
         logger.debug("AppVersion filter, requesting version: " + appVersionStr);
 
         // Get the annotated resource method and filter according to the annotation values.

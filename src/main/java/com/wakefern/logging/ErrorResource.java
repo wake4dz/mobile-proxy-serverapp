@@ -9,10 +9,10 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.annotations.ValidateAdminToken;
 
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
+import com.wakefern.wynshop.WynshopApplicationConstants;
 
 /* 
  *  author: Danny zheng
@@ -20,30 +20,20 @@ import com.wakefern.mywebgrocer.MWGApplicationConstants;
  *  
  *  To provide the error status summary in the REST end point
  */
-@Path(MWGApplicationConstants.Log.error)
+@Path(ApplicationConstants.Log.error)
 public class ErrorResource {
-	final static Logger logger = LogManager.getLogger(ErrorResource.class);
-	
 	@GET
-	@Path(MWGApplicationConstants.Log.errorList)
-	public Response getErrorList(@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-			
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		} 
-		
+	@Path(ApplicationConstants.Log.errorList)
+	@ValidateAdminToken
+	public Response getErrorList(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		return Response.status(200).entity(LogUtil.generateErrorReport()).build();
 	}
 	
 	
 	@DELETE
-	@Path(MWGApplicationConstants.Log.errorReset)
-	public Response resetLogTrackData(@HeaderParam(MWGApplicationConstants.Headers.Params.auth) String authToken) {
-	
-		if (authToken == null || !MiscUtil.checkEnvToken(authToken)) {
-			return Response.status(401).entity("Not authorized").build();
-		}
-		
+	@Path(ApplicationConstants.Log.errorReset)
+	@ValidateAdminToken
+	public Response resetLogTrackData(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		LogUtil.currentDateTime = (new Date()).getTime();
 		
 		LogUtil.errorMap.clear();
@@ -52,6 +42,4 @@ public class ErrorResource {
 
 		return Response.status(200).entity(output).build();
 	}
-	
-
 }

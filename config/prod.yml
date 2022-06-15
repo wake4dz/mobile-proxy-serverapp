@@ -18,7 +18,6 @@ RECIPE_SERVICE: Production
 WALLET_SERVICE: Production
 SRFH_ORDERS_SERVICE: Production
 SRFH_CURBSIDE_SERVICE: Production
-CITRUS_SERVICE: Production
 PRODX_SERVICE: Production
 MI9V8_SERVICE: Production
 

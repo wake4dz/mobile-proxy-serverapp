@@ -149,7 +149,7 @@ public class GetItemLocator extends BaseService {
 			return this.createValidResponse(processedItemsJObj.toString());
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_ITEMLOCATOR_GET_ITEM_LOCATOR);
+			LogUtil.addErrorMaps(e, ErrorType.PROXY_ITEMLOCATOR_GET_CART_ITEM_LOCATOR);
 
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");

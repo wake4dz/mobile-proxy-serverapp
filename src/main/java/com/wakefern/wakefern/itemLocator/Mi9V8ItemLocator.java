@@ -1,6 +1,5 @@
 package com.wakefern.wakefern.itemLocator;
 
-import com.wakefern.global.BaseService;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 import java.util.HashMap;
@@ -13,12 +12,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- *  9/29/2021
+ *  6/15/2022
  *  Danny Zheng
- *  Call Wakefern Item Locator API from V8 GetShopppingCart API; it throws an exception if something goes wrong
  */
 
-public class Mi9V8ItemLocator extends BaseService {
+public class Mi9V8ItemLocator {
 	
 	private final static Logger logger = LogManager.getLogger(Mi9V8ItemLocator.class);
 

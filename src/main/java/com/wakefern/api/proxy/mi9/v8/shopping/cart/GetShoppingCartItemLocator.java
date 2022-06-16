@@ -26,7 +26,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernAuth;
-import com.wakefern.wakefern.itemLocator.Mi9V8ItemLocator;
+import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 import com.wakefern.wynshop.WynshopApplicationConstants;
 
 /**
@@ -125,8 +125,6 @@ public class GetShoppingCartItemLocator extends BaseService {
 				return cartResponseData;
 			}
 
-
-
 			// Set up retval with all non-items data
 			for (Object key : origRespJObj.keySet()) {
 				String keyStr = (String) key;
@@ -177,13 +175,13 @@ public class GetShoppingCartItemLocator extends BaseService {
 	
 				String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 	
-				logger.trace("partitonNubmer: " + (i + 1));
+				logger.trace("partitionNubmer: " + (i + 1));
 				logger.trace("URL path: " + path);
-				logger.trace("PartitionItemsSB: " + partitionItemsSB.toString());
-				logger.trace("PartitionItemsList: " + partitionItemsList.toString());
+				logger.trace("PartitionItemsSB: " + partitionItemsSB);
+				logger.trace("PartitionItemsList: " + partitionItemsList);
 				logger.trace("responseData: " + responseData);
 	
-				processedParttionItems = Mi9V8ItemLocator.generateItemLocator(partitionItemsList, responseData);
+				processedParttionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
 				
 				for (Map.Entry<String, JSONObject> entry : processedParttionItems.entrySet()) {
 					// build up the entire map for lookup later

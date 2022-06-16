@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.wakefern.wakefern.WakefernAuth;
-import com.wakefern.wakefern.itemLocator.Mi9V8ItemLocator;
+import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,7 +67,7 @@ public class GetItemLocator extends BaseService {
 	}
 
 	/*
-	 * for mobile app's items locator info used for a shopping list or a cart list
+	 * for mobile app's items locator info used for a shopping cart
 	 */
 	@POST
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
@@ -121,13 +121,13 @@ public class GetItemLocator extends BaseService {
 	
 				String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 	
-				logger.trace("partitonNubmer: " + (i + 1));
+				logger.trace("partitionNubmer: " + (i + 1));
 				logger.trace("URL path: " + path);
 				logger.trace("PartitionItemsSB: " + partitionItemsSB.toString());
 				logger.trace("PartitionItemsList: " + partitionItemsList.toString());
 				logger.trace("responseData: " + responseData);
 	
-				Map<String, JSONObject> processedParttionItems = Mi9V8ItemLocator.generateItemLocator(partitionItemsList, responseData);
+				Map<String, JSONObject> processedParttionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
 				
 				logger.trace("processedParttionItems: " + processedParttionItems.toString());
 				

@@ -121,7 +121,7 @@ public class GetItemLocator extends BaseService {
 	
 				String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 	
-				logger.trace("partitionNubmer: " + (i + 1));
+				logger.trace("partitionNumber: " + (i + 1));
 				logger.trace("URL path: " + path);
 				logger.trace("PartitionItemsSB: " + partitionItemsSB.toString());
 				logger.trace("PartitionItemsList: " + partitionItemsList.toString());
@@ -129,7 +129,7 @@ public class GetItemLocator extends BaseService {
 	
 				Map<String, JSONObject> processedParttionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
 				
-				logger.trace("processedParttionItems: " + processedParttionItems.toString());
+				logger.trace("processedPartitionItems: " + processedParttionItems.toString());
 				
 				// using for-each loop for iteration over Map.entrySet()
 		        for (Map.Entry<String, JSONObject> entry : processedParttionItems.entrySet())  {

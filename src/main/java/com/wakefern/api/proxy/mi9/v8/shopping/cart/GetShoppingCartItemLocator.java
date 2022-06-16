@@ -106,7 +106,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 			JSONObject retvalJObj = new JSONObject();
 			
 			//List<JSONObject> processedParttionItems = null;
-			Map<String, JSONObject> processedParttionItems = null;
+			Map<String, JSONObject> processedPartitionItems = null;
 			Map<String, JSONObject> itemsMap = new HashMap<String, JSONObject>();
 			
 			JSONObject origRespJObj = new JSONObject(cartResponseData);
@@ -175,15 +175,15 @@ public class GetShoppingCartItemLocator extends BaseService {
 	
 				String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 	
-				logger.trace("partitionNubmer: " + (i + 1));
+				logger.trace("partitionNumber: " + (i + 1));
 				logger.trace("URL path: " + path);
 				logger.trace("PartitionItemsSB: " + partitionItemsSB);
 				logger.trace("PartitionItemsList: " + partitionItemsList);
 				logger.trace("responseData: " + responseData);
 	
-				processedParttionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
+				processedPartitionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
 				
-				for (Map.Entry<String, JSONObject> entry : processedParttionItems.entrySet()) {
+				for (Map.Entry<String, JSONObject> entry : processedPartitionItems.entrySet()) {
 					// build up the entire map for lookup later
 					itemsMap.put(entry.getKey(), entry.getValue());
 				}

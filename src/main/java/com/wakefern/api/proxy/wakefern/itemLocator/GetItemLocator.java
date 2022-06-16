@@ -127,8 +127,22 @@ public class GetItemLocator extends BaseService {
 				logger.trace("PartitionItemsList: " + partitionItemsList.toString());
 				logger.trace("responseData: " + responseData);
 				
-		        processedItemsJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.Items, 
-		        		ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData));
+
+				Map<String, JSONObject> processedParttionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
+				
+				logger.trace("processedPartitionItems: " + processedParttionItems.toString());
+				
+				// using for-each loop for iteration over Map.entrySet()
+		        for (Map.Entry<String, JSONObject> entry : processedParttionItems.entrySet())  {
+		        	JSONObject item = new JSONObject();
+		        	
+		        	logger.trace("entry.getKey(): " + entry.getKey() + ", entry.getValue():" + entry.getValue());
+		        	
+		        	item.put(entry.getKey(), entry.getValue());
+		        	
+		        	processedItemsJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, item);
+		        }
+		        
 			}
 
 			return this.createValidResponse(processedItemsJObj.toString());

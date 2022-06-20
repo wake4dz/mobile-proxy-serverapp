@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.wakefern.api.wakefern.items.location.SortMi9V8ItemLocators;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
@@ -215,7 +214,7 @@ public class GetShoppingCartItemLocator extends BaseService {
 			// pre-sort by AisleAreaSeqNum to ease the UI processing
 			JSONArray itemsSortArray = (JSONArray) retvalJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
 			retvalJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.Items,
-					SortMi9V8ItemLocators.sortItems(itemsSortArray));
+					ItemLocatorUtils.sortItems(itemsSortArray));
 
 			return retvalJObj.toString();
 

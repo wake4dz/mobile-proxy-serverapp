@@ -67,17 +67,16 @@ public class GetItemLocator extends BaseService {
 	}
 
 	/*
-	 * for mobile app's items locator info used for a shopping cart
+	 * Fetch item locator info by cart skus
 	 */
 	@POST
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path("/item/cart/{storeId}")
 	public Response getCartItemLocator(@PathParam("storeId") String storeId, 
-			String jsonBody) { // note: upc's last checksum digit is already removed before calling this API
-		
-		int partitionNumber = 0;
-		int currentListPositon = 0;
+			String jsonBody) {
+
+		int currentListPosition = 0;
 				
 		JSONObject processedItemsJObj = new JSONObject();
 
@@ -85,66 +84,58 @@ public class GetItemLocator extends BaseService {
 			JSONObject itemsJObj = new JSONObject(jsonBody);
 			JSONArray itemsJArray = (JSONArray) itemsJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
 
-			int itemsSize = itemsJArray.length();
-			
-			// calculate a right partition number
-		    partitionNumber = itemsSize/ WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE;
-		    if (itemsSize % WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE > 0) {
-		    	partitionNumber++;
-		    }
+			final int itemsSize = itemsJArray.length();
+			final int numRequests = ItemLocatorUtils.getNumRequests(itemsSize);
 
-			List<String> partitionItemsList = null;
-			StringBuilder partitionItemsSB = null;
+			List<String> partitionItemsList;
+			StringBuilder partitionItemsSB;
 
-			logger.trace("ITEM_PARTITION_SIZE: " + WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE);
-			
-			for (int i=0; partitionNumber > i; i++) {
+			final String authToken = WakefernAuth.getInfo(WakefernApplicationConstants
+					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+
+
+			JSONObject skusToItemLocatorDict = new JSONObject();
+
+			for (int i=0; i < numRequests; i++) {
 				partitionItemsList = new ArrayList<>();
 				partitionItemsSB = new StringBuilder();
 				
 				// build each partition data to be used for a Wakefern's Item Locator API call
-				while ((WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE * (i + 1) > currentListPositon) && (itemsSize > currentListPositon)) {
-						partitionItemsSB.append(itemsJArray.getString(currentListPositon) + ",");
-						partitionItemsList.add(itemsJArray.getString(currentListPositon));
+				while ((WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE * (i + 1) > currentListPosition) && (itemsSize > currentListPosition)) {
+					partitionItemsSB.append(itemsJArray.getString(currentListPosition)).append(",");
+					partitionItemsList.add(itemsJArray.getString(currentListPosition));
 						
-						currentListPositon++;
+					currentListPosition++;
 				}
 		
-				String path = WakefernApplicationConstants.ItemLocator.baseURL
-						+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + partitionItemsSB.toString();
+				final String path = WakefernApplicationConstants.ItemLocator.baseURL
+						+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + partitionItemsSB;
 	
 				Map<String, String> wkfn = new HashMap<>();
-				final String authToken = WakefernAuth.getInfo(WakefernApplicationConstants
-						.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
-				wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
+				wkfn.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
 				wkfn.put("Authentication", authToken);
-	
+
 				String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 	
 				logger.trace("partitionNumber: " + (i + 1));
 				logger.trace("URL path: " + path);
-				logger.trace("PartitionItemsSB: " + partitionItemsSB.toString());
-				logger.trace("PartitionItemsList: " + partitionItemsList.toString());
+				logger.trace("PartitionItemsSB: " + partitionItemsSB);
+				logger.trace("PartitionItemsList: " + partitionItemsList);
 				logger.trace("responseData: " + responseData);
-				
+	
+				Map<String, JSONObject> processedPartitionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
 
-				Map<String, JSONObject> processedParttionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
-				
-				logger.trace("processedPartitionItems: " + processedParttionItems.toString());
+				logger.trace("processedPartitionItems: " + processedPartitionItems);
 				
 				// using for-each loop for iteration over Map.entrySet()
-		        for (Map.Entry<String, JSONObject> entry : processedParttionItems.entrySet())  {
-		        	JSONObject item = new JSONObject();
-		        	
+		        for (Map.Entry<String, JSONObject> entry : processedPartitionItems.entrySet())  {
 		        	logger.trace("entry.getKey(): " + entry.getKey() + ", entry.getValue():" + entry.getValue());
-		        	
-		        	item.put(entry.getKey(), entry.getValue());
-		        	
-		        	processedItemsJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, item);
+					skusToItemLocatorDict.put(entry.getKey(), entry.getValue());
 		        }
-		        
 			}
 
+			// create response object
+			processedItemsJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.Items, skusToItemLocatorDict);
 			return this.createValidResponse(processedItemsJObj.toString());
 
 		} catch (Exception e) {
@@ -158,5 +149,4 @@ public class GetItemLocator extends BaseService {
 			return this.createErrorResponse(errorData, e);
 		}
 	}
-
 }

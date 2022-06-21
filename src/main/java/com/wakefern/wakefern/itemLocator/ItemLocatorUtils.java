@@ -23,13 +23,29 @@ public class ItemLocatorUtils {
 	
 	private final static Logger logger = LogManager.getLogger(ItemLocatorUtils.class);
 
-    
+	/**
+	 * Calculate the number of requests to made to the Item Locator API based on the number of items.
+	 * @param itemsSize
+	 * @return
+	 */
+	public static int getNumRequests(final int itemsSize) {
+		int numRequests = itemsSize / WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE;
+		if (itemsSize % WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE > 0) {
+			numRequests++;
+		}
+
+		logger.trace("ITEM_PARTITION_SIZE: " + WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE);
+
+		return numRequests;
+	}
+
+
 	/**
 	 * Get Item Location data for each SKU in a cart by using a partition of certain SKUs
 	 * 
 	 * 
 	 */
-	public static Map<String, JSONObject> generateItemLocator(List<String> itemList, String itemslocatorResponse) throws Exception {
+	public static Map<String, JSONObject> generateItemLocator(List<String> itemList, String itemslocatorResponse) {
 
 		Map<String, JSONObject> itemsMap = new HashMap<>();
 		
@@ -98,8 +114,8 @@ public class ItemLocatorUtils {
 			}
 		}
 
-		for (int i = 0; i < itemList.size(); i++) {
-			String item = itemList.get(i).trim().toString();
+		for (String s : itemList) {
+			String item = s.trim();
 
 			JSONObject newItemLocator = new JSONObject();
 

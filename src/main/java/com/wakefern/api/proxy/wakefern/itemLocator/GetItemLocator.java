@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.wakefern.WakefernAuth;
 import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 
@@ -62,7 +63,8 @@ public class GetItemLocator extends BaseService {
 
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
-			return this.createErrorResponse(errorData, e);
+			Response response = this.createErrorResponse(errorData, e);
+			return UpstreamErrorHandler.handleResponse(response, true);
 		}
 	}
 
@@ -146,7 +148,8 @@ public class GetItemLocator extends BaseService {
 
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
-			return this.createErrorResponse(errorData, e);
+			Response response = this.createErrorResponse(errorData, e);
+			return UpstreamErrorHandler.handleResponse(response, true);
 		}
 	}
 }

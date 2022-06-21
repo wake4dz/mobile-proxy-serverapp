@@ -19,6 +19,13 @@ public class WakefernApplicationConstants {
 
 		return wakefernApiProd;
 	}
+	
+	/**
+	 * The generic way to get the system property value
+	 */
+	public static String getSystemPropertyValue(String key) {
+		return java.lang.System.getenv(key.trim());
+	}
 
 	// TODO: MM not all these keys are necessary anymore. Review them and purge the ones that are not.
 	public static class VCAPKeys {
@@ -215,6 +222,11 @@ public class WakefernApplicationConstants {
 
 	
 	public static class Mi9V8ItemLocator {
+		//Wakefern's ItemLocator API can only take a certain number of UPC at a time
+		//test the partition algorithm by using a small ITEM_PARTITION_SIZE + set log4j level to TRACE
+		//the default ITEM_PARTITION_SIZE is 100 
+		public static final int ITEM_PARTITION_SIZE = 100;
+		
 		public static final String Aisle = "aisle";
 		public static final String area_desc = "wf_area_desc";
 		public static final String Items = "items";

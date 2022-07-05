@@ -9,8 +9,6 @@ package com.wakefern.logging;
 public enum ErrorType {
 	
 	APIM_FORGOT_FSN_EMAIL,
-	
-	PLASTIC_BAG_FEE_GET_STORE_IDS,
 
 	NEW_RELIC_DEPLOYMENT,
 

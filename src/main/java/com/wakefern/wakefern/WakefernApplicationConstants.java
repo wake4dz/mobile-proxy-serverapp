@@ -488,12 +488,5 @@ public class WakefernApplicationConstants {
 			public static final String baseStagingURL = "https://wfcapi.staging.shoprite.com";
 		}
 	}
-
-	public static class PlasticBagFee {
-		public static class Proxy {
-			public static final String prefix = "/bagFee";
-			public static final String storeIds = "/storeIds";
-		}
-	}
 		
 }

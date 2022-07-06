@@ -247,32 +247,6 @@ public class WakefernApplicationConstants {
 
 	}
 	
-	
-	public static class Receipt {
-		public static class Proxy {
-			public static final String Path = "users/{userId}/{ppc}/receipts";
-			public static final String Detail = "/{receiptId}";
-		}
-
-		// Wakefern's APIs
-		public static class Upstream {
-			public static final String BaseURL = "https://api.wakefern.com";
-			public static final String User = "/digitalreceipt/users";
-		}
-	}
-
-	public static class ReceiptUserSettings {
-		public static class Proxy {
-			public static final String Path = "users/{userId}/{ppc}/settings/receipts";
-		}
-
-		public static class Upstream {
-			public static final String BaseURL = getBaseWakefernApiUrl();
-			public static final String FetchPath = "/digitalreceipt/api/v1/option/";
-			public static final String UpdatePath = "/digitalreceipt/api/v1/editoption/";
-		}
-	}
-
 	public static class SmsEnrollment {
 		public static class Proxy {
 			public static final String Path = "users/{userId}/{ppc}/enrollments/sms/";

@@ -360,7 +360,6 @@ public class LogUtil {
 		messages.add("");
 
 		messages.add(pad("The 'chain' system property:") + ApplicationUtils.getVcapValue("chain"));
-		messages.add(pad("The 'url' system property:") + ApplicationUtils.getVcapValue("url"));
 		messages.add(pad("The 'mi9v8_service' system property:")
 				+ ApplicationUtils.getVcapValue("mi9v8_service"));
 		messages.add(pad("The 'coupon_service' system property:")
@@ -434,9 +433,6 @@ public class LogUtil {
 			messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
 
 			messages.add("<tr><td>chain</td>" + "<td>" + ApplicationUtils.getVcapValue("chain")
-					+ "</td> </tr>");
-
-			messages.add("<tr><td>url</td>" + "<td>" + ApplicationUtils.getVcapValue("url")
 					+ "</td> </tr>");
 
 			messages.add("<tr><td>mi9v8_service</td>" + "<td>"

@@ -1,6 +1,6 @@
 package com.wakefern.wakefern;
 
-import com.wakefern.wynshop.WynshopApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
@@ -12,8 +12,8 @@ public class WakefernApplicationConstants {
 	private static final String wakefernApiProd = "https://wfcapi.shoprite.com";
 
 	public static String getBaseWakefernApiUrl() {
-		String targetAPI = WynshopApplicationConstants.getTargetAPI();
-		if (targetAPI.equals("ShopRiteStage") || targetAPI.equals("FreshGrocerStage")) {
+		String targetAPI = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.CHAIN);
+		if (targetAPI.equalsIgnoreCase("ShopRiteStage") ) {
 			return wakefernApiStage;
 		}
 
@@ -34,20 +34,13 @@ public class WakefernApplicationConstants {
 		public static final String URL = "url";
 		public static final String COUPON_SERVICE = "coupon_service";
 		public static final String COUPON_V3_KEY = "coupon_v3_key";
-		public static final String SR_MWG_STAGE_KEY = "sr_mwg_stage_key";
-		public static final String SR_MWG_PROD_KEY = "sr_mwg_prod_key";
-
-		// 2020-06-29 remove The Fresh Grocer key/value in manifest.yml since we are not
-		// going to support it
-		public static final String TFG_MWG_PROD_KEY = "tfg_mwg_prod_key";
+		
+		public static final String LOG_ADMIN_KEY = "log_admin_key";
 
 		public static final String JWT_PUBLIC_KEY = "jwt_public_key"; // use for digital receipt & item locator
 		public static final String PROD_NOT_FOUND_LOGIN = "prod_not_found_login";
 		public static final String SR_PRODUCT_RECOMMENDATION_KEY = "sr_product_recommendation_key";
 
-		// 2020-06-29 remove The Fresh Grocer key/value in manifest.yml since we are not
-		// going to support it
-		public static final String TFG_PRODUCT_RECOMMENDATION_KEY = "tfg_product_recommendation_key";
 
 		public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
 		public static final String APIM_NUTRITION_KEY = "apim_nutrition_key";
@@ -109,7 +102,6 @@ public class WakefernApplicationConstants {
 	}
 
 	public static class Chains {
-		public static final String FreshGrocer = "FreshGrocer";
 		public static final String ShopRite = "ShopRite";
 	}
 

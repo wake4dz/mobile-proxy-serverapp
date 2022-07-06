@@ -15,7 +15,6 @@ import org.json.JSONObject;
 import com.wakefern.api.wakefern.products.reports.GetToken;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernAuth;
@@ -133,7 +132,7 @@ public class GetServicesStatus extends BaseService {
 	private String getProdRecommendationStatus(String externalStoreId, String ppc) {
 		String serviceStatus;
 		try {
-			final String authToken = WynshopApplicationConstants.getProductRecmdAuthToken();
+			final String authToken = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
 			final String path = ApplicationConstants.Requests.Recommendations.BaseRecommendationsURL
 					+ ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2 + "/" + externalStoreId + "/email//fsn/" + ppc;
@@ -161,7 +160,6 @@ public class GetServicesStatus extends BaseService {
 	private static String checkVCAPNames() {
 		StringBuilder sb = new StringBuilder();
 		verifyVCAP(WakefernApplicationConstants.VCAPKeys.COUPON_V3_KEY, sb);
-		verifyVCAP(WakefernApplicationConstants.VCAPKeys.SR_MWG_PROD_KEY, sb);
 		verifyVCAP(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY, sb);
 		verifyVCAP(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN, sb);
 		verifyVCAP(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY, sb);

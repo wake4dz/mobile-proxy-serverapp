@@ -71,9 +71,6 @@ public class WakefernApplicationConstants {
 		public static final String SR_WALLET_PROD_KEY = "sr_wallet_prod_key";
 		public static final String SR_WALLET_STAGE_KEY = "sr_wallet_stage_key";
 
-		// Wakefern's Digital Receipt preferences API
-		public static final String DIGITAL_RECEIPT_USER_SETTINGS_KEY = "digital_receipt_user_settings_key";
-
 		// Secret for signing JWT used to secure PPC endpoints
 		public static final String USER_JWT_SECRET = "user_jwt_secret";
 
@@ -86,8 +83,6 @@ public class WakefernApplicationConstants {
 		public static final String SRFH_CURBSIDE_STG_API_KEY = "srfh_curbside_stg_api_key";
 		public static final String SRFH_CURBSIDE_PROD_API_KEY = "srfh_curbside_prd_api_key";
 		public static final String SRFH_CURBSIDE_SERVICE = "srfh_curbside_service";
-		
-		public static final String TIMEOUT_SEARCH_RADIUS_IN_MILE = "timeslot_search_radius_in_mile";
 
 		// Prodx
 		public static final String PRODX_SERVICE = "prodx_service";

@@ -7,7 +7,7 @@ applications:
 
     coupon_service: ((COUPON_SERVICE))
 	coupon_v3_key: ((COUPON_V3_KEY))
-	
+
     log_admin_key: ((LOG_ADMIN_KEY))
 
     jwt_public_key: ((JWT_PUBLIC_KEY))

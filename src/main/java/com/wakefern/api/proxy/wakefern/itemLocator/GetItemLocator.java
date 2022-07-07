@@ -13,9 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import com.wakefern.wakefern.WakefernAuth;
-import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -24,10 +21,11 @@ import org.json.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
+import com.wakefern.wakefern.WakefernAuth;
+import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 
 @Path(ApplicationConstants.Requests.Proxy + "/itemlocator")
 public class GetItemLocator extends BaseService {
@@ -55,8 +53,6 @@ public class GetItemLocator extends BaseService {
 
 			return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout()));
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_ITEMLOCATOR_GET_ITEM_LOCATOR);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");
 
@@ -139,8 +135,6 @@ public class GetItemLocator extends BaseService {
 			return this.createValidResponse(processedItemsJObj.toString());
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_ITEMLOCATOR_GET_CART_ITEM_LOCATOR);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");
 

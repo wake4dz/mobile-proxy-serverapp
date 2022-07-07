@@ -18,7 +18,6 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
@@ -59,7 +58,6 @@ public class GetUserInfo extends BaseService {
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiHighTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_USER_INFO);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"sessionToken", accessToken, "accountId", accountId, 
             		"clientId", VcapProcessor.getRecipeClientId(),

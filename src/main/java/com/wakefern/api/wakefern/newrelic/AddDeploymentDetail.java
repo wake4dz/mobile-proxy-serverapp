@@ -19,13 +19,11 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.ApplicationConstants.NewRelic;
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.logging.ReleaseUtil;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -69,7 +67,6 @@ public class AddDeploymentDetail extends BaseService {
 			return createValidResponse(jsonResp);
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.NEW_RELIC_DEPLOYMENT);
 			logger.error("Exception! " + LogUtil.getExceptionMessage(e));
 			return createErrorResponse("Exception!", e);
 		}

@@ -19,8 +19,6 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 /*
  * The reward point program is maintained by the Wakefern, the program is not always available.
@@ -74,8 +72,6 @@ public class GetPointsForPPC extends BaseService {
 			final String response = HTTPRequest.executeGet(srvPath, headers, 0);
 			return createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_REWARDS_GET_POINTS_FOR_PPC);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

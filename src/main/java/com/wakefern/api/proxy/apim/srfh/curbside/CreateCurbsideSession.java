@@ -1,22 +1,27 @@
 package com.wakefern.api.proxy.apim.srfh.curbside;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Proxy endpoint for creating a Curbside session via the SRFH api
@@ -45,7 +50,6 @@ public class CreateCurbsideSession extends BaseService {
 			String response = HTTPRequest.executePut(requestURI, body, headers, VcapProcessor.getApiMediumTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_APIM_SRFH_CREATE_CURBSIDE_SESSION);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			Response response = createErrorResponse(errorData, e);

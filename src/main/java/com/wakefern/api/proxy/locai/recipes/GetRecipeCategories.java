@@ -12,9 +12,7 @@ import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
@@ -42,7 +40,6 @@ public class GetRecipeCategories extends BaseService {
 			return this.createValidResponse(jsonObject.toString());
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_RECIPE_CATEGORIES);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 

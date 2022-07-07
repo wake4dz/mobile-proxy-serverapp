@@ -20,7 +20,6 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -74,8 +73,6 @@ public class GetPlanningListItemLocator extends BaseService {
 			return this.createValidResponse(response);
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_MI9V8_GET_PLANNING_LIST_ITEM_LOCATOR);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					Requests.Headers.Accept, accept, Requests.Headers.xSiteHost, xSiteHost,
 					Requests.Headers.Authorization, sessionToken, WynshopApplicationConstants.Requests.Params.Path.storeID, storeId);

@@ -3,16 +3,14 @@ package com.wakefern.api.wakefern.apim.account;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wakefern.global.ApplicationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -35,7 +33,6 @@ public class ObtainFsnByEmail extends BaseService{
 		try {
 			response = HTTPRequest.executePostJSON(this.requestPath, apimJsonStr.toString(), headerMap, 0);
 		} catch (Exception e) {
-        	LogUtil.addErrorMaps(e, ErrorType.APIM_FORGOT_FSN_EMAIL);
         	String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
     		logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             return response;

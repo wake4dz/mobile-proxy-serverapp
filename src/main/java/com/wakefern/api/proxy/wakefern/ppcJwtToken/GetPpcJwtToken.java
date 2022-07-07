@@ -18,7 +18,6 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.UserJWTV2;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 
 /**
@@ -72,8 +71,6 @@ public class GetPpcJwtToken extends BaseService {
 			return this.createValidResponse(jsonToken.toString());
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_PPCJWTTOKEN_GET_PPC_JWT_TOKEN);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					ApplicationConstants.Requests.Headers.Accept, "*/*", ApplicationConstants.Requests.Headers.xSiteHost, xSiteHost,
 					"expiresInSeconds", expiresInSeconds,

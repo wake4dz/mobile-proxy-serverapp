@@ -6,7 +6,7 @@ applications:
     cors: ((SRMOBILE_CORS))
 
     coupon_service: ((COUPON_SERVICE))
-	coupon_v3_key: ((COUPON_V3_KEY))
+    coupon_v3_key: ((COUPON_V3_KEY))
 
     log_admin_key: ((LOG_ADMIN_KEY))
 

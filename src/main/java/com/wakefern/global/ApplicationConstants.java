@@ -100,10 +100,6 @@ public final class ApplicationConstants {
 		public static final String updateSetting = "/updateSettings";
 		public static final String trackUserId = "/trackUserId/{userIds}";
 
-		public static final String error = log + "/error";
-		public static final String errorList = "/list";
-		public static final String errorReset = "/reset";
-
 		public static final String logger = log + "/logger";
 		public static final String changeLevel = "/level/{logLevel}";
 		public static final String getLevel = "/level";

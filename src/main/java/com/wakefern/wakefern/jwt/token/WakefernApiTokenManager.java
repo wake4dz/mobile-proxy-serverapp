@@ -1,19 +1,19 @@
 package com.wakefern.wakefern.jwt.token;
 
-import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
-import com.wakefern.global.VcapProcessor;
-import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.request.HTTPRequest;
-import com.wakefern.wakefern.WakefernApplicationConstants;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
+import com.wakefern.global.VcapProcessor;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 public class WakefernApiTokenManager {
     private final static Logger logger = LogManager.getLogger(WakefernApiTokenManager.class);
@@ -119,8 +119,6 @@ public class WakefernApiTokenManager {
             logger.debug("Response from wakefern api: " + response);
             sWakefernAPIToken = response;
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, ErrorType.JWT_TOKEN_GET_TOKEN);
-
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             sWakefernAPIToken = null;

@@ -48,8 +48,6 @@ public class VcapProcessor {
 
 	private static String mi9v8Service = null;
 	
-	private static int timeslotSearchRadiusInMile = 0;
-	
 	private static String rewardPointService = null;
 
 	// this static code is not run until the class is loaded into the memory for the
@@ -76,15 +74,6 @@ public class VcapProcessor {
 		} catch (Exception e) {
 			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
 			throw new RuntimeException("api_low_timeout must have an integer value in milliseconds");
-		}
-
-		try {
-			timeslotSearchRadiusInMile = getVcapValueInt(
-					WakefernApplicationConstants.VCAPKeys.TIMEOUT_SEARCH_RADIUS_IN_MILE);
-
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
-			throw new RuntimeException("timeslotSearchRadiusInMile must have an integer value in mile!");
 		}
 
 		try {
@@ -282,10 +271,6 @@ public class VcapProcessor {
 		return srfhCurbsideService;
   }
   
-	public static int getTimeslotSearchRadiusInMile() {
-		return timeslotSearchRadiusInMile;
-	}
-
 	/**
 	 * Get the version of the push2device service (staging, production)
 	 * @return String

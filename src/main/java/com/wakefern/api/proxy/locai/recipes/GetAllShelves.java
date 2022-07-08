@@ -1,17 +1,21 @@
 package com.wakefern.api.proxy.locai.recipes;
 
-import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.BaseService;
-import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.wakefern.WakefernApplicationConstants;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.BaseService;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Custom endpoint that batches calls to Recipe Search to fetch all recipes for a set of shelves (via HomePageConfig.fetch)
@@ -39,7 +43,6 @@ public class GetAllShelves extends BaseService {
 			JSONArray hydratedLayouts = RecipeUtils.fetchAllShelfRecipes(layouts, jsonBody);
 			return createValidResponse(hydratedLayouts.toString());
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_SHELVES);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", contentType);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

@@ -18,7 +18,6 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -60,7 +59,6 @@ public class SaveDishFavorite extends BaseService {
             return this.createValidResponse(HTTPRequest.executePut(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_SAVE_DISH_FAVORITE);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"userId", userId, "dishId", dishId, "contentType", contentType, "HttpBody", jsonBody);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

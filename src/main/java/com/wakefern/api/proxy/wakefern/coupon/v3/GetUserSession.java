@@ -1,22 +1,26 @@
 package com.wakefern.api.proxy.wakefern.coupon.v3;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
+
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.UserJWTV2;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
 
 @Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.UserLogin)
 public class GetUserSession extends BaseService {
@@ -57,8 +61,6 @@ public class GetUserSession extends BaseService {
 
 			return createValidResponse(HTTPRequest.executePost(url, jsonObject.toString(), headerMap));
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_COUPONS_V3_GET_USER_SESSION);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"authorization", bearerToken,
 					"contentType", contentType);

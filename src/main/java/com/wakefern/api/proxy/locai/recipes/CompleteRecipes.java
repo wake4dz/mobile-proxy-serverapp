@@ -17,7 +17,6 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -53,7 +52,6 @@ public class CompleteRecipes extends BaseService {
             return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_COMPLETE_RECIPES);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"contentType", contentType, "httpBody", jsonBody);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

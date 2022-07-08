@@ -14,12 +14,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 /*
  * The reward point program is maintained by the Wakefern, the program is not always available.
@@ -54,7 +53,7 @@ public class GetPointsForPPC extends BaseService {
 			
 			// The Reward Point API key is the same key as the Product Recommendation API
 			// of sr_product_recommendation_key defined manifest.yml
-			final String requestToken = WynshopApplicationConstants.getProductRecmdAuthToken();
+			final String requestToken = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
 			String baseUrl;
 
@@ -73,8 +72,6 @@ public class GetPointsForPPC extends BaseService {
 			final String response = HTTPRequest.executeGet(srvPath, headers, 0);
 			return createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_REWARDS_GET_POINTS_FOR_PPC);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

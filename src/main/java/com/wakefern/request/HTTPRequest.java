@@ -455,18 +455,6 @@ public class HTTPRequest {
 
 			logger.trace("[executeRequest]::Total process time for " + requestMethod + ": " + (endTime - startTime) + " ms, URL: " + requestURL);
 
-			//Note: Since only about 75% of APIs has the userId query parameter, this log message may not print
-			//      even if isUserTrackOn=on. Just be aware of this fact.
-			//      This block of code is more useful in the future when every API call has the userId parameter.
-			if (LogUtil.isUserTrackOn) {
-				if ((requestURL != null) && (LogUtil.getUserId(requestURL) != null)) {
-					if (LogUtil.trackedUserIdsMap.containsKey(LogUtil.getUserId(requestURL).trim())) {
-						logger.info("Tracking data for " + LogUtil.getUserId(requestURL).trim() + ": "
-								+ "[executeRequest]::Total process time for " + requestMethod + ": " + (endTime - startTime) + " ms, URL: " + requestURL);
-					}
-				}
-			}
-
 			String response = ResponseHandler.getResponse(connection);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {

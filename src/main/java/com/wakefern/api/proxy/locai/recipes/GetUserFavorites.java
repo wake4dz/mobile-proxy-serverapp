@@ -1,19 +1,25 @@
 package com.wakefern.api.proxy.locai.recipes;
 
-import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
-import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.request.HTTPRequest;
-import com.wakefern.wakefern.WakefernApplicationConstants;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import java.util.*;
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.BaseService;
+import com.wakefern.global.VcapProcessor;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**  
 * A proxy API to access Locai's 'Get User Favorite' API
@@ -38,7 +44,6 @@ public class GetUserFavorites extends BaseService {
         try {
             return createValidResponse(getFavoriteRecipes(userId, contentType, jwtToken));
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_GET_USER_FAVORITES);
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"userId", userId, "contentType", contentType);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

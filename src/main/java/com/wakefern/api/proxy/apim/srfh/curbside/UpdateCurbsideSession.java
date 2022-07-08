@@ -21,8 +21,6 @@ import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -62,7 +60,6 @@ public class UpdateCurbsideSession extends BaseService {
 			String response = HTTPRequest.executePost(requestURI, body, headers, VcapProcessor.getApiMediumTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_APIM_SRFH_UPDATE_CURBSIDE_SESSION);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"ppc", ppc, "storeNumber", storeNumber, "orderNumber", orderNumber);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

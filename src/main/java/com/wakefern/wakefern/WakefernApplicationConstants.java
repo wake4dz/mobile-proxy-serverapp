@@ -1,6 +1,6 @@
 package com.wakefern.wakefern;
 
-import com.wakefern.wynshop.WynshopApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
 
 /**
  * Created by brandyn.brosemer on 9/13/16.
@@ -12,8 +12,8 @@ public class WakefernApplicationConstants {
 	private static final String wakefernApiProd = "https://wfcapi.shoprite.com";
 
 	public static String getBaseWakefernApiUrl() {
-		String targetAPI = WynshopApplicationConstants.getTargetAPI();
-		if (targetAPI.equals("ShopRiteStage") || targetAPI.equals("FreshGrocerStage")) {
+		String targetAPI = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.CHAIN);
+		if (targetAPI.equalsIgnoreCase("ShopRiteStage") ) {
 			return wakefernApiStage;
 		}
 
@@ -34,20 +34,13 @@ public class WakefernApplicationConstants {
 		public static final String URL = "url";
 		public static final String COUPON_SERVICE = "coupon_service";
 		public static final String COUPON_V3_KEY = "coupon_v3_key";
-		public static final String SR_MWG_STAGE_KEY = "sr_mwg_stage_key";
-		public static final String SR_MWG_PROD_KEY = "sr_mwg_prod_key";
-
-		// 2020-06-29 remove The Fresh Grocer key/value in manifest.yml since we are not
-		// going to support it
-		public static final String TFG_MWG_PROD_KEY = "tfg_mwg_prod_key";
+		
+		public static final String LOG_ADMIN_KEY = "log_admin_key";
 
 		public static final String JWT_PUBLIC_KEY = "jwt_public_key"; // use for digital receipt & item locator
 		public static final String PROD_NOT_FOUND_LOGIN = "prod_not_found_login";
 		public static final String SR_PRODUCT_RECOMMENDATION_KEY = "sr_product_recommendation_key";
 
-		// 2020-06-29 remove The Fresh Grocer key/value in manifest.yml since we are not
-		// going to support it
-		public static final String TFG_PRODUCT_RECOMMENDATION_KEY = "tfg_product_recommendation_key";
 
 		public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
 		public static final String APIM_NUTRITION_KEY = "apim_nutrition_key";
@@ -78,9 +71,6 @@ public class WakefernApplicationConstants {
 		public static final String SR_WALLET_PROD_KEY = "sr_wallet_prod_key";
 		public static final String SR_WALLET_STAGE_KEY = "sr_wallet_stage_key";
 
-		// Wakefern's Digital Receipt preferences API
-		public static final String DIGITAL_RECEIPT_USER_SETTINGS_KEY = "digital_receipt_user_settings_key";
-
 		// Secret for signing JWT used to secure PPC endpoints
 		public static final String USER_JWT_SECRET = "user_jwt_secret";
 
@@ -93,8 +83,6 @@ public class WakefernApplicationConstants {
 		public static final String SRFH_CURBSIDE_STG_API_KEY = "srfh_curbside_stg_api_key";
 		public static final String SRFH_CURBSIDE_PROD_API_KEY = "srfh_curbside_prd_api_key";
 		public static final String SRFH_CURBSIDE_SERVICE = "srfh_curbside_service";
-		
-		public static final String TIMEOUT_SEARCH_RADIUS_IN_MILE = "timeslot_search_radius_in_mile";
 
 		// Prodx
 		public static final String PRODX_SERVICE = "prodx_service";
@@ -109,7 +97,6 @@ public class WakefernApplicationConstants {
 	}
 
 	public static class Chains {
-		public static final String FreshGrocer = "FreshGrocer";
 		public static final String ShopRite = "ShopRite";
 	}
 
@@ -247,32 +234,6 @@ public class WakefernApplicationConstants {
 
 	}
 	
-	
-	public static class Receipt {
-		public static class Proxy {
-			public static final String Path = "users/{userId}/{ppc}/receipts";
-			public static final String Detail = "/{receiptId}";
-		}
-
-		// Wakefern's APIs
-		public static class Upstream {
-			public static final String BaseURL = "https://api.wakefern.com";
-			public static final String User = "/digitalreceipt/users";
-		}
-	}
-
-	public static class ReceiptUserSettings {
-		public static class Proxy {
-			public static final String Path = "users/{userId}/{ppc}/settings/receipts";
-		}
-
-		public static class Upstream {
-			public static final String BaseURL = getBaseWakefernApiUrl();
-			public static final String FetchPath = "/digitalreceipt/api/v1/option/";
-			public static final String UpdatePath = "/digitalreceipt/api/v1/editoption/";
-		}
-	}
-
 	public static class SmsEnrollment {
 		public static class Proxy {
 			public static final String Path = "users/{userId}/{ppc}/enrollments/sms/";
@@ -486,13 +447,6 @@ public class WakefernApplicationConstants {
 			public static final String Points = "/rewards/api/v1/points";
 			public static final String baseURL = "https://wfcapi.shoprite.com";
 			public static final String baseStagingURL = "https://wfcapi.staging.shoprite.com";
-		}
-	}
-
-	public static class PlasticBagFee {
-		public static class Proxy {
-			public static final String prefix = "/bagFee";
-			public static final String storeIds = "/storeIds";
 		}
 	}
 		

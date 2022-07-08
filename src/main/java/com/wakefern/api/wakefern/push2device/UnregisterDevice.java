@@ -1,21 +1,25 @@
 package com.wakefern.api.wakefern.push2device;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
+
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * History:
@@ -63,7 +67,6 @@ public class UnregisterDevice extends BaseService {
             return this.createResponse(204);
 
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, ErrorType.PUSH2DEVICE_UNREGISTER);
             String errorData = LogUtil.getRequestData("exceptionLocation",
                     LogUtil.getRelevantStackTrace(e));
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

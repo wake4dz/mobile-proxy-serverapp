@@ -15,16 +15,15 @@ import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.ErrorType;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * A proxy API to access Locai's 'Homepage Configuration API, which Locai uses a
@@ -59,7 +58,6 @@ public class HomePageConfig extends BaseService {
 			return createValidResponse(filterLayoutsFromResponse(response));
 
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_RECIPES_LOCAI_HOMEPAGE_CONFIG);
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", contentType);
 			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

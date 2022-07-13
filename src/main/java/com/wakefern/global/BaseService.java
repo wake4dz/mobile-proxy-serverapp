@@ -131,4 +131,8 @@ public class BaseService {
     protected Response createResponse(int status) {
         return Response.status(status).build();
     }
+
+    protected Response createResponse(Response.Status status) {
+        return Response.status(status).build();
+    }
 }

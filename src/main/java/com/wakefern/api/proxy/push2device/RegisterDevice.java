@@ -70,7 +70,7 @@ public class RegisterDevice extends BaseService {
             String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, VcapProcessor.getApiLowTimeout());
 
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " upstream response: " + jsonResponse);
-            return this.createResponse(202);
+            return this.createResponse(Response.Status.ACCEPTED);
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

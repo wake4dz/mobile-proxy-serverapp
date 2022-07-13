@@ -62,7 +62,7 @@ public class UnregisterDevice extends BaseService {
             String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, VcapProcessor.getApiLowTimeout());
             logger.debug("[Push2Device::UnregisterDevice] upstream response: " + jsonResponse);
             // Return empty response
-            return this.createResponse(204);
+            return this.createResponse(Response.Status.NO_CONTENT);
 
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation",

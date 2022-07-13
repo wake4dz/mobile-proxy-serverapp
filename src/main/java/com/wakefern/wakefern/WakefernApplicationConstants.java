@@ -398,6 +398,25 @@ public class WakefernApplicationConstants {
         }
     }
 
+    public static class Push2Device {
+        public static class Proxy {
+            public static final String registerPath = "users/{userId}/{ppc}/devices";
+            public static final String unregisterPath = "devices";
+        }
+
+        public static class ProxyV8 {
+            public static final String registerPath = "users/{ppc}/devices";
+            public static final String unregisterPath = "devices";
+        }
+
+        public static class Upstream {
+            public static final String devicesPath = "/api/v1/devices";
+
+            public static final String stagingBaseUrl = "https://srpushservice.azurewebsites.net";
+            public static final String prodBaseUrl = "https://srprodpushservice.azurewebsites.net";
+        }
+    }
+
     public static class RewardPoint {
         public static class Proxy {
             public static final String rewardPath = "/rewards/points";
@@ -442,3 +461,4 @@ public class WakefernApplicationConstants {
     }
 
 }
+

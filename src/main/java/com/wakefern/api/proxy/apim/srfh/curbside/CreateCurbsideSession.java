@@ -46,6 +46,7 @@ public class CreateCurbsideSession extends BaseService {
 			final String requestURI = uriBuilder.build().toString();
 			Map<String, String> headers = new HashMap<>();
 			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHCurbsideApiKey());
+			headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
 
 			String response = HTTPRequest.executePut(requestURI, body, headers, VcapProcessor.getApiMediumTimeout());
 			return createValidResponse(response);

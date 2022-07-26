@@ -40,11 +40,48 @@ public class ItemLocatorUtils {
 	}
 
 	/**
+	 * Create API response data with three fields aisleAreaSeqNum, aisleSectionDesc, aisle
+	 * EX: {"aisleAreaSeqNum":23,"aisleSectionDesc":"BACON & BREAKFAST MEATS (DAIRY)","aisle":"DAIRY DEPARTMENT"}
+	 * @param upc
+	 * @param areaSeqInt
+	 * @param wfSectDescData
+	 * @param itemLocatorData
+	 * @return
+	 */
+	private static JSONObject parseItem(String upc, int areaSeqInt, Object wfSectDescData, Object itemLocatorData) {
+
+		JSONObject newItemLocator = new JSONObject();
+
+		// aisle and aisleAreaSeqNum
+		if (areaSeqInt > 0) {
+			newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
+					itemLocatorData.toString());
+			newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, areaSeqInt);
+
+		} else { // area_seq_num = 0, -1, or -999 - INVALID
+			newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
+					WakefernApplicationConstants.Mi9V8ItemLocator.Other);
+			newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum,
+					Integer.MAX_VALUE - 100);
+		}
+
+		// for aisleSectionDesc
+		if (wfSectDescData == null) {
+			newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
+		} else {
+			newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc,
+					wfSectDescData);
+		}
+
+		return newItemLocator;
+	}
+
+	/**
 	 * Generate an Item Location object for one UPC, given the upstream response
 	 *
 	 * @return
 	 */
-	public static JSONObject generateItemLocator(String upc, String itemlocatorResponse) {
+	public static JSONObject generateItemLocator(String upc, String itemLocatorResponse) {
 		// TODO: refactor this method to create the nice looking API response object
 		// Like this: {"aisleAreaSeqNum":23,"aisleSectionDesc":"BACON & BREAKFAST MEATS (DAIRY)","aisle":"DAIRY DEPARTMENT"}
 		// Constants for the keys of the item locator API response object are defined in WakefernApplicationConstants.Mi9V8ItemLocator
@@ -55,7 +92,7 @@ public class ItemLocatorUtils {
 		Map<Long, Object> areaSeqNumData = new HashMap<>();
 		Map<Long, Object> wfSectDescData = new HashMap<>();
 
-		JSONArray itemsJArray = new JSONArray(itemlocatorResponse);
+		JSONArray itemsJArray = new JSONArray(itemLocatorResponse);
 
 		for (int i = 0; i < itemsJArray.length(); i++) {
 			JSONObject jsonObject = (JSONObject) itemsJArray.get(i);
@@ -117,39 +154,12 @@ public class ItemLocatorUtils {
 			}
 		}
 
-		/*for (String s : itemList) {
-			String item = s.trim();
+		Object areaSeqNum = areaSeqNumData.get(Long.parseLong(upc));
+		int areaSeqInt = Integer.parseInt(areaSeqNum.toString());
+		Object wfSectDesc = wfSectDescData.get(Long.parseLong(upc));
+		Object itemLocator = itemLocatorData.get(Long.parseLong(upc));
 
-			JSONObject newItemLocator = new JSONObject();
-
-			Object areaSeqNum = areaSeqNumData.get(Long.parseLong(item));
-			int areaSeqInt = Integer.parseInt(areaSeqNum.toString());
-
-			// aisle and aisleAreaSeqNum
-			if (areaSeqInt > 0) {
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
-						itemLocatorData.get(Long.parseLong(item)).toString());
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, areaSeqInt);
-
-			} else { // area_seq_num = 0, -1, or -999 - INVALID
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
-						WakefernApplicationConstants.Mi9V8ItemLocator.Other);
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum,
-						Integer.MAX_VALUE - 100);
-			}
-
-			// for aisleSectionDesc
-			Object wfSectDesc = wfSectDescData.get(Long.parseLong(item));
-			if (wfSectDesc == null) {
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
-			} else {
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc,
-						wfSectDescData.get(Long.parseLong(item)));
-			}
-
-			ret.put(item, newItemLocator);
-		}*/
-		return ret;
+		return parseItem(upc, areaSeqInt, wfSectDesc, itemLocator);
 	}
 
 
@@ -237,28 +247,31 @@ public class ItemLocatorUtils {
 			int areaSeqInt = Integer.parseInt(areaSeqNum.toString());
 
 			// aisle and aisleAreaSeqNum
-			if (areaSeqInt > 0) {
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
-						itemLocatorData.get(Long.parseLong(item)).toString());
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, areaSeqInt);
-
-			} else { // area_seq_num = 0, -1, or -999 - INVALID
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
-						WakefernApplicationConstants.Mi9V8ItemLocator.Other);
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum,
-						Integer.MAX_VALUE - 100);
-			}
-
-			// for aisleSectionDesc
+//			if (areaSeqInt > 0) {
+//				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
+//						itemLocatorData.get(Long.parseLong(item)).toString());
+//				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, areaSeqInt);
+//
+//			} else { // area_seq_num = 0, -1, or -999 - INVALID
+//				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
+//						WakefernApplicationConstants.Mi9V8ItemLocator.Other);
+//				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum,
+//						Integer.MAX_VALUE - 100);
+//			}
+//
+//			// for aisleSectionDesc
+//			Object wfSectDesc = wfSectDescData.get(Long.parseLong(item));
+//			if (wfSectDesc == null) {
+//				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
+//			} else {
+//				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc,
+//						wfSectDescData.get(Long.parseLong(item)));
+//			}
 			Object wfSectDesc = wfSectDescData.get(Long.parseLong(item));
-			if (wfSectDesc == null) {
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
-			} else {
-				newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc,
-						wfSectDescData.get(Long.parseLong(item)));
-			}
+			Object itemLocator = itemLocatorData.get(Long.parseLong(item));
+			;
+			itemsMap.put(item, parseItem(item, areaSeqInt, wfSectDesc, itemLocator));
 
-			itemsMap.put(item, newItemLocator);
 		}
 		return itemsMap;
 	}

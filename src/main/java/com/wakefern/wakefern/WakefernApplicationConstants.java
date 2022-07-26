@@ -47,11 +47,6 @@ public class WakefernApplicationConstants {
 
 		public static final String NEW_RELIC_KEY = "new_relic_key";
 
-		// Push2Device
-		public static final String PUSH2DEVICE_SERVICE = "push2device_service";
-		public static final String PUSH2DEVICE_STG_API_KEY = "push2device_stg_api_key";
-		public static final String PUSH2DEVICE_PROD_API_KEY = "push2device_prod_api_key";
-
 		// subscription key to APIM SMS Enrollments API
 		public static final String APIM_SMS_ENROLLMENTS_KEY = "apim_sms_enrollments_key";
 
@@ -400,21 +395,6 @@ public class WakefernApplicationConstants {
 			public static final String Device = "device";
 			public static final String AccountId = "accountId";
 			public static final String SessionToken = "sessionToken";
-		}
-	}
-
-	public static class Push2Device {
-		public static class Proxy {
-			public static final String registerPath = "users/{userId}/{ppc}/devices";
-			public static final String unregisterPath = "devices";
-		}
-
-		public static class Upstream {
-			public static final String devicesPath = "/api/v1/devices";
-			public static final String authPath = "/api/v1/token";
-
-			public static final String stagingBaseUrl = "https://srpushservice.azurewebsites.net";
-			public static final String prodBaseUrl = "https://srprodpushservice.azurewebsites.net";
 		}
 	}
 

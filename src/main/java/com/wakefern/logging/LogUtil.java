@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -170,8 +169,6 @@ public class LogUtil {
 		messages.add(pad("The 'wallet_service' system property:") + VcapProcessor.getWalletService());
 		messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
 		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
-		messages.add(pad("The 'push2device_service' system property:") +
-				VcapProcessor.getPush2DeviceService());
 		messages.add(pad("The 'prodx_service' system property:") + VcapProcessor.getProdxService());
 		messages.add(pad("The 'reward_point_service' system property:") + VcapProcessor.getRewardPointService());
 		messages.add(pad("The 'cors' system property:") + ApplicationUtils.getVcapValue("cors"));
@@ -247,9 +244,6 @@ public class LogUtil {
 			messages.add("<tr><td>srfh_orders_service</td><td>" + VcapProcessor.getSrfhOrdersService() + "</td></tr>");
 
 			messages.add("<tr><td>srfh_curbside_service</td><td>" + VcapProcessor.getSrfhCurbsideService() + "</td></tr>");
-
-			messages.add("<tr><td>push2device_service</td>" + "<td>" +
-					ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_SERVICE) + "</td> </tr>");
 
 			messages.add("<tr><td>prodx_service</td><td>" + VcapProcessor.getProdxService() + "</td></tr>");
 

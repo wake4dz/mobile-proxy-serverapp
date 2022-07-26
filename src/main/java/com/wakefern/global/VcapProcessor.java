@@ -37,10 +37,6 @@ public class VcapProcessor {
 	private static String srfhCurbsideApiKeyStaging = null;
 	private static String srfhCurbsideApiKeyProd = null;
 
-	private static String push2DeviceService = null;
-	private static String push2DeviceApiKeyStaging = null;
-	private static String push2DeviceApiKeyProd = null;
-
 	private static String prodxService = null;
 	private static String prodxApiKeyStaging = null;
 	private static String prodxApiKeyProd = null;
@@ -104,10 +100,6 @@ public class VcapProcessor {
 		srfhCurbsideService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_SERVICE);
 		srfhCurbsideApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_STG_API_KEY);
 		srfhCurbsideApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_PROD_API_KEY);
-
-		push2DeviceService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_SERVICE);
-		push2DeviceApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_STG_API_KEY);
-		push2DeviceApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_PROD_API_KEY);
 
 		prodxService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_SERVICE);
 		prodxApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
@@ -271,38 +263,6 @@ public class VcapProcessor {
 		return srfhCurbsideService;
   }
   
-	/**
-	 * Get the version of the push2device service (staging, production)
-	 * @return String
-	 */
-	public static String getPush2DeviceService() {
-		return push2DeviceService;
-	}
-
-	/**
-	 * Fetch the client secret for Push2Device service
-	 * @return String
-	 */
-	public static String getPush2DeviceApiKey() {
-		if (push2DeviceService.trim().equalsIgnoreCase("staging")) {
-			return push2DeviceApiKeyStaging;
-		} else {
-			return push2DeviceApiKeyProd;
-		}
-	}
-
-	/**
-	 * Get the base url for the push2device service.
-	 * @return
-	 */
-	public static String getPush2DeviceEndpoint() {
-		if (push2DeviceService.trim().equalsIgnoreCase("staging")) {
-			return WakefernApplicationConstants.Push2Device.Upstream.stagingBaseUrl;
-		} else {
-			return WakefernApplicationConstants.Push2Device.Upstream.prodBaseUrl;
-		}
-	}
-
 	public static String getProdxService() {
 		return prodxService;
 	}

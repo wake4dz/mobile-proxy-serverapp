@@ -83,7 +83,7 @@ public class GetItemLocator extends BaseService {
 			logger.trace("URL path: " + path);
 
 			String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
-			JSONObject itemLocatorObj = ItemLocatorUtils.generateItemLocator(upc, response);
+			JSONObject itemLocatorObj = ItemLocatorUtils.generateItemLocatorForUpc(upc, response);
 			return this.createValidResponse(itemLocatorObj.toString());
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
@@ -152,7 +152,7 @@ public class GetItemLocator extends BaseService {
 				logger.trace("PartitionItemsList: " + partitionItemsList);
 				logger.trace("responseData: " + responseData);
 	
-				Map<String, JSONObject> processedPartitionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
+				Map<String, JSONObject> processedPartitionItems = ItemLocatorUtils.generateItemLocatorMap(partitionItemsList, responseData);
 
 				logger.trace("processedPartitionItems: " + processedPartitionItems);
 				

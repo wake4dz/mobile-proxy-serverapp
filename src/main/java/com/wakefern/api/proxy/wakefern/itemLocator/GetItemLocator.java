@@ -86,8 +86,6 @@ public class GetItemLocator extends BaseService {
 			JSONObject itemLocatorObj = ItemLocatorUtils.generateItemLocator(upc, response);
 			return this.createValidResponse(itemLocatorObj.toString());
 		} catch (Exception e) {
-			LogUtil.addErrorMaps(e, ErrorType.PROXY_ITEMLOCATOR_GET_ITEM_LOCATOR_V2);
-
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");
 

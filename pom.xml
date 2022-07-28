@@ -103,13 +103,6 @@
 			<version>1.19.4</version>
 		</dependency>
 
-		<!-- mailgun library for sending/receiving emails -->
-		<dependency>
-			<groupId>net.sargue</groupId>
-			<artifactId>mailgun</artifactId>
-			<version>1.9.0</version>
-		</dependency>
-
 		<!-- JWT library for securing PPC endpoints -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

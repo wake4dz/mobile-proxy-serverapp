@@ -170,7 +170,7 @@ public class GetPlanningListItemLocator extends BaseService {
 				logger.trace("PartitionItemsList: " + partitionItemsList);
 				logger.trace("responseData: " + responseData);
 	
-				processedPartitionItems = ItemLocatorUtils.generateItemLocator(partitionItemsList, responseData);
+				processedPartitionItems = ItemLocatorUtils.generateItemLocatorMap(partitionItemsList, responseData);
 				
 				for (Map.Entry<String, JSONObject> entry : processedPartitionItems.entrySet()) {
 					// build up the entire map for lookup later

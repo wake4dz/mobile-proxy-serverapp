@@ -1,4 +1,4 @@
-package com.wakefern.api.wakefern.products.reports;
+package com.wakefern.api.proxy.wakefern.products.reports;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +24,14 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  * directly accessibly by the Bluemix server.
  *
  * @author philmayer
+ */
+
+/*
+ * 2022-08-01
+ * TODO: This API is used in the V7 mobile app, but not sure if it is needed in the V8 mobile app.
+ * 	     Should delete it after the confirmation. Sherry/BI team said it is up the mobile team.
+ * 	     
+ *       Sherry/BI said this is initially requested by Mark Covello
  */
 @Path(ApplicationConstants.Requests.Reports.NotFoundProductURL)
 public class CreateProductNotFoundEntry extends BaseService {

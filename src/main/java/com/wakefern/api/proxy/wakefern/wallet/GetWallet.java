@@ -1,4 +1,4 @@
-package com.wakefern.api.wakefern.wallet;
+package com.wakefern.api.proxy.wakefern.wallet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,11 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(WakefernApplicationConstants.Wallet.Proxy.Path)
+/*
+ * 2022-08-01
+ * TODO: re-test after Sherry's back-end is ready
+ */
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Wallet.Proxy.Path)
 public class GetWallet extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(GetWallet.class);
@@ -37,8 +41,8 @@ public class GetWallet extends BaseService {
     @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.Wallet.Proxy.GetWallet)
     public Response getResponse(
-    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Device) String device, 
-    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.AccountId) String accountId,
+    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Device) String device, // android or iOs
+    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.CustomerId) String customerId,
     		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.SessionToken) String sessionToken,
     		@HeaderParam(WakefernApplicationConstants.Wallet.HeadersParams.ContentType) String contentType) {
 
@@ -46,8 +50,8 @@ public class GetWallet extends BaseService {
         
         try {
         	String path =  VcapProcessor.getTargetWalletServiceEndpoint() 
-        			+ "/" + device
-        			+ "/" + accountId
+        			+ "/" + device 
+        			+ "/" + customerId
         			+ "/" + sessionToken;
 
             headers.put("Content-Type", contentType);
@@ -58,7 +62,7 @@ public class GetWallet extends BaseService {
 
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"contentType", contentType, "device", device, "accountId", accountId, "sessionToken", sessionToken);
+            		"contentType", contentType, "device", device, "customerId", customerId, "sessionToken", sessionToken);
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 
             return this.createErrorResponse(errorData, e);

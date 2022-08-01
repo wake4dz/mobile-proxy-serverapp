@@ -143,7 +143,7 @@ public class WakefernApplicationConstants {
 	public static class APIM {
 		public static final String apimBaseURL = "https://apimprod.wakefern.com";
 		public static final String apimDevBaseURL = "https://apimdev.wakefern.com";
-		public static final String ppcByEmail = "/WebAndClient/V1/LMWPPC_R_ByEmail";
+
 		public static final String nutritionBySkuStoreId = "/WebAndClient/V1/mwgmenulabeling";
 
 		public static final String apimWakefernProduct = "/wakefern/product";

@@ -1,4 +1,4 @@
-package com.wakefern.api.wakefern.products.reports;
+package com.wakefern.api.proxy.wakefern.products.reports;
 
 import java.util.HashMap;
 import java.util.Map;

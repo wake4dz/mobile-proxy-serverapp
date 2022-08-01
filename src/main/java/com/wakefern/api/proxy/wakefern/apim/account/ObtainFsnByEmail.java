@@ -1,4 +1,4 @@
-package com.wakefern.api.wakefern.apim.account;
+package com.wakefern.api.proxy.wakefern.apim.account;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,11 @@ import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
+
+/*
+ * 2022-08-01
+ * TODO: carried over from the V7, remove it if it is for sure this API won't be used in the V8 mobile app
+ */
 
 public class ObtainFsnByEmail extends BaseService{
 

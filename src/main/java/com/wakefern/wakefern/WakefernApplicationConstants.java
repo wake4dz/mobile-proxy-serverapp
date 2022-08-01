@@ -393,13 +393,14 @@ public class WakefernApplicationConstants {
 
 		public static class RequestParamsPath {
 			public static final String Device = "device";
-			public static final String AccountId = "accountId";
+			//public static final String AccountId = "accountId";
 			public static final String SessionToken = "sessionToken";
+			public static final String CustomerId = "customerId";
 		}
 	}
 
 	public static class HealthCheck {
-		public static final String Path = "ping";
+		public static final String Path = "/ping";
 	}
 
 	public static class Prodx {

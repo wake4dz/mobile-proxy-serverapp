@@ -1,4 +1,4 @@
-package com.wakefern.api.wakefern.newrelic;
+package com.wakefern.api.proxy.wakefern.newrelic;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,7 +27,7 @@ import com.wakefern.logging.ReleaseUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
-@Path(ApplicationConstants.NewRelic.Applications)
+@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.NewRelic.Applications)
 public class AddDeploymentDetail extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(AddDeploymentDetail.class);

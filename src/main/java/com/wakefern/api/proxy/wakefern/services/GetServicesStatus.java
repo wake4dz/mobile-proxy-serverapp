@@ -1,4 +1,4 @@
-package com.wakefern.api.wakefern.services;
+package com.wakefern.api.proxy.wakefern.services;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
-import com.wakefern.api.wakefern.products.reports.GetToken;
+import com.wakefern.api.proxy.wakefern.products.reports.GetToken;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.request.HTTPRequest;
@@ -35,6 +35,12 @@ import java.util.Map;
  *
  * @author sfl1c
  */
+
+/*
+ * 2022-08-01
+ * TODO: After selecting a new host platform for the Proxy server, we probably need to refactor/enhance this verification checking
+ */
+
 @Path(ApplicationConstants.Requests.VerifyServices)
 public class GetServicesStatus extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetServicesStatus.class);

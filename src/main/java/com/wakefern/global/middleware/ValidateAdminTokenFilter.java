@@ -4,7 +4,6 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.annotations.ValidateAdminToken;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import com.wakefern.wynshop.WynshopApplicationConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,6 +44,6 @@ public class ValidateAdminTokenFilter implements ContainerRequestFilter {
 	private static boolean isInvalidAdminToken(final String token) {
 		if (token == null) return true;
 		return !token.trim().equalsIgnoreCase(ApplicationUtils
-				.getVcapValue(WakefernApplicationConstants.VCAPKeys.LOG_ADMIN_KEY));
+				.getVcapValue(WakefernApplicationConstants.VCAPKeys.PROXY_ADMIN_KEY));
 	}
 }

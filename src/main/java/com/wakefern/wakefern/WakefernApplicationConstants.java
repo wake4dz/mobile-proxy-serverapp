@@ -35,7 +35,7 @@ public class WakefernApplicationConstants {
 		public static final String COUPON_SERVICE = "coupon_service";
 		public static final String COUPON_V3_KEY = "coupon_v3_key";
 		
-		public static final String LOG_ADMIN_KEY = "log_admin_key";
+		public static final String PROXY_ADMIN_KEY = "proxy_admin_key";
 
 		public static final String JWT_PUBLIC_KEY = "jwt_public_key"; // use for digital receipt & item locator
 		public static final String PROD_NOT_FOUND_LOGIN = "prod_not_found_login";

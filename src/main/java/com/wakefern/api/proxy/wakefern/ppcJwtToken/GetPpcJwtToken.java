@@ -9,7 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wynshop.WynshopApplicationConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

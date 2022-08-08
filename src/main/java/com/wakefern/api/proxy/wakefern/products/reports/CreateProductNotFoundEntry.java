@@ -33,7 +33,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  * 	     
  *       Sherry/BI said this is initially requested by Mark Covello
  */
-@Path(ApplicationConstants.Requests.Reports.NotFoundProductURL)
+@Path(WakefernApplicationConstants.Reports.Proxy.NotFoundProductURL)
 public class CreateProductNotFoundEntry extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(CreateProductNotFoundEntry.class);
@@ -54,7 +54,7 @@ public class CreateProductNotFoundEntry extends BaseService {
 			String requestBody
 	) {
 		try {
-			String productUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.NotFound.product;
+			final String productUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.Upstream.product;
 
 			Map<String, String> headerMap = new HashMap<>(3);
 			headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

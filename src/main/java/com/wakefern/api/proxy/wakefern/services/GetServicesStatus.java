@@ -140,8 +140,8 @@ public class GetServicesStatus extends BaseService {
 		try {
 			final String authToken = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
-			final String path = ApplicationConstants.Requests.Recommendations.BaseRecommendationsURL
-					+ ApplicationConstants.Requests.Recommendations.ProductRecommendationsv2 + "/" + externalStoreId + "/email//fsn/" + ppc;
+			final String path = WakefernApplicationConstants.Recommendations.BaseRecommendationsURL
+					+ WakefernApplicationConstants.Recommendations.ProductRecommendationsv2 + "/" + externalStoreId + "/email//fsn/" + ppc;
 
 			Map<String, String> headers = new HashMap<>();
 			headers.put(ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);

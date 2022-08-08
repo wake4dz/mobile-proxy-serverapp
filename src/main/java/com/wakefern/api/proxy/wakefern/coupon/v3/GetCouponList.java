@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  * If an unauthenticated token is passed,
  * the returned list cannot be clipped/unclipped.
  */
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.CouponList)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.CouponList)
 public class GetCouponList extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetCouponList.class);
 
@@ -38,15 +38,15 @@ public class GetCouponList extends BaseService {
 	public Response getInfoResponse(
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
-			@QueryParam(ApplicationConstants.Requests.CouponsV3.storeId) String storeId)
+			@QueryParam(CouponUtils.Requests.Params.storeId) String storeId)
 	{
 		Map<String, String> queryParams = new HashMap<>();
 
 		if (storeId != null) {
-			queryParams.put(ApplicationConstants.Requests.CouponsV3.storeId, storeId);
+			queryParams.put(CouponUtils.Requests.Params.storeId, storeId);
 		}
 
-		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.CouponsList, queryParams);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.CouponsList, queryParams);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

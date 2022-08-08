@@ -1,5 +1,6 @@
 package com.wakefern.global;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +14,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  */
 public class VcapProcessor {
 	private final static Logger logger = LogManager.getLogger(VcapProcessor.class);
+
+	private final static String ENV_STAGING = "staging";
 
 	private static int apiHighTimeout = 0;
 	private static int apiMediumTimeout = 0;
@@ -187,20 +190,23 @@ public class VcapProcessor {
 		return srWalletKeyStaging;
 	}
 
+	/**
+	 * Verify if a service is a staging environment or not.
+	 * @param service String
+	 * @return true if the service is a staging environment, false otherwise
+	 */
+	private static boolean isServiceStaging(@NotNull String service) {
+		return service.trim().equalsIgnoreCase(ENV_STAGING);
+	}
+
 	public static String getTargetWalletServiceEndpoint() {
-		if (walletService.trim().equalsIgnoreCase("staging")) {
-			return WakefernApplicationConstants.Wallet.Upstream.StageBaseURL;
-		} else {
-			return WakefernApplicationConstants.Wallet.Upstream.ProdBaseURL;
-		}
+		return isServiceStaging(walletService) ?
+				WakefernApplicationConstants.Wallet.Upstream.StageBaseURL
+				: WakefernApplicationConstants.Wallet.Upstream.ProdBaseURL;
 	}
 
 	public static String getTargetWalletAuthorizationKey() {
-		if (walletService.trim().equalsIgnoreCase("staging")) {
-			return srWalletKeyStaging;
-		} else {
-			return srWalletKeyProd;
-		}
+		return isServiceStaging(walletService) ? srWalletKeyStaging : srWalletKeyProd;
 	}
 
 	public static String getUserJwtSecret() {
@@ -208,51 +214,33 @@ public class VcapProcessor {
 	}
 
 	public static String getTargetRecipeLocaiServiceEndpoint() {
-		if (recipeService.trim().equalsIgnoreCase("staging")) {
-			return WakefernApplicationConstants.RecipeLocai.Upstream.stagingBaseURL;
-		} else {
-			return WakefernApplicationConstants.RecipeLocai.Upstream.prodBaseURL;
-		}
+		return isServiceStaging(recipeService) ?
+				WakefernApplicationConstants.RecipeLocai.Upstream.stagingBaseURL
+				: WakefernApplicationConstants.RecipeLocai.Upstream.prodBaseURL;
 	}
 
 	public static String getTargetRecipeLocaiApiKey() {
-		if (recipeService.trim().equalsIgnoreCase("staging")) {
-			return recipeApiKeyStaging;
-		} else {
-			return recipeApiKeyProd;
-		}
+		return isServiceStaging(recipeService) ? recipeApiKeyStaging : recipeApiKeyProd;
 	}
 
 	public static String getTargetSRFHOrdersBaseUrl() {
-		if (srfhOrdersService.trim().equalsIgnoreCase("staging")) {
-			return WakefernApplicationConstants.APIM.apimDevBaseURL;
-		} else {
-			return WakefernApplicationConstants.APIM.apimBaseURL;
-		}
+		return isServiceStaging(srfhOrdersService) ?
+				WakefernApplicationConstants.APIM.apimDevBaseURL
+				: WakefernApplicationConstants.APIM.apimBaseURL;
 	}
 
 	public static String getTargetSRFHOrdersApiKey() {
-		if (srfhOrdersService.trim().equalsIgnoreCase("staging")) {
-			return srfhOrdersApiKeyStaging;
-		} else {
-			return srfhOrdersApiKeyProd;
-		}
+		return isServiceStaging(srfhOrdersService) ? srfhOrdersApiKeyStaging : srfhOrdersApiKeyProd;
 	}
 
 	public static String getTargetSRFHCurbsideBaseUrl() {
-		if (srfhCurbsideService.trim().equalsIgnoreCase("staging")) {
-			return WakefernApplicationConstants.APIM.apimDevBaseURL;
-		} else {
-			return WakefernApplicationConstants.APIM.apimBaseURL;
-		}
+		return isServiceStaging(srfhCurbsideService) ?
+				WakefernApplicationConstants.APIM.apimDevBaseURL
+				: WakefernApplicationConstants.APIM.apimBaseURL;
 	}
 
 	public static String getTargetSRFHCurbsideApiKey() {
-		if (srfhCurbsideService.trim().equalsIgnoreCase("staging")) {
-			return srfhCurbsideApiKeyStaging;
-		} else {
-			return srfhCurbsideApiKeyProd;
-		}
+		return isServiceStaging(srfhCurbsideService) ? srfhCurbsideApiKeyStaging : srfhCurbsideApiKeyProd;
 	}
 
 	public static String getSrfhOrdersService() {
@@ -262,23 +250,19 @@ public class VcapProcessor {
 	public static String getSrfhCurbsideService() {
 		return srfhCurbsideService;
   }
-  
+
 	public static String getProdxService() {
 		return prodxService;
 	}
 
 	public static String getProdxServiceEndpoint() {
-		if (prodxService.trim().equalsIgnoreCase("staging")) {
-			return WakefernApplicationConstants.Prodx.Complements.Upstream.stagingBaseUrl;
-		}
-		return WakefernApplicationConstants.Prodx.Complements.Upstream.prodBaseUrl;
+		return isServiceStaging(prodxService) ?
+				WakefernApplicationConstants.Prodx.Complements.Upstream.stagingBaseUrl
+				: WakefernApplicationConstants.Prodx.Complements.Upstream.prodBaseUrl;
 	}
 
 	public static String getProdxApiKey() {
-		if (prodxService.trim().equalsIgnoreCase("staging")) {
-			return prodxApiKeyStaging;
-		}
-		return prodxApiKeyProd;
+		return isServiceStaging(prodxService) ? prodxApiKeyStaging : prodxApiKeyProd;
 	}
 
 	public static String getMi9v8Service() {

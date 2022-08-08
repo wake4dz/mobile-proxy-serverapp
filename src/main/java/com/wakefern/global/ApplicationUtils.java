@@ -3,46 +3,11 @@ package com.wakefern.global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wakefern.wakefern.WakefernApplicationConstants;
-
-import javax.ws.rs.core.UriBuilder;
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by brandyn.brosemer on 9/13/16.
  */
 public class ApplicationUtils {
 	private final static Logger logger = LogManager.getLogger(ApplicationUtils.class);
-
-	public static String constructCouponV3Url(String path) {
-		return constructCouponV3Url(path, null);
-	}
-
-	public static String constructCouponV3Url(String path, Map<String, String> params) {
-		if (params == null) {
-			params = new HashMap<>();
-		}
-		// Always append banner information
-		params.put(WakefernApplicationConstants.CouponsV3.PathInfo.banner,
-				ApplicationConstants.Requests.CouponsV3.banner);
-		String url = ApplicationConstants.Requests.CouponsV3.BaseCouponURL + path;
-		UriBuilder builder = UriBuilder.fromPath(url);
-		URI output = builder.buildFromMap(params);
-		return output.toASCIIString();
-	}
-    
-    public static String constructItemLocatorUrl(String storeId, String upcs) {
-		StringBuilder sb = new StringBuilder();
-    	sb.append(WakefernApplicationConstants.ItemLocator.baseURL);
-    	sb.append(WakefernApplicationConstants.ItemLocator.prefix);
-    	sb.append("/secure/itemData/store/");
-    	sb.append(storeId);
-		sb.append("/upc/");
-		sb.append(upcs);
-		return sb.toString();
-    }
 
 	private static String getSystemPropertyValue(String key) {
 		return java.lang.System.getenv(key.trim());
@@ -72,34 +37,6 @@ public class ApplicationUtils {
 			return defaultValue;
 		}
 	}
-
-	/**
-	 * returns either coupon production or staging url endpoint
-	 * @param vcapKeyName coupon_service vcap [Staging/Production] keyword
-	 * @return
-	 */
-	public static String getCouponV3ServiceEndpoint(String vcapKeyName){
-		String coupon_service = getVcapValue(vcapKeyName);
-		String coupon_domain = (!coupon_service.isEmpty() && coupon_service.equalsIgnoreCase(WakefernApplicationConstants.CouponsV3.coupon_staging)) ?
-				WakefernApplicationConstants.CouponsV3.baseURL_staging : WakefernApplicationConstants.CouponsV3.baseURL;
-		logger.info("[ApplicationUtils]::getCouponV3ServiceEndpoint::coupon_domain " + coupon_domain);
-		return coupon_domain;
-	}
-
-	
-	/**
-	 * returns either mi9v8 production or staging url endpoint
-	 * @param vcapKeyName mi9v8_service vcap [Staging/Production] keyword
-	 * @return
-	 */
-	public static String getMi9v8ServiceEndpoint(String vcapKeyName){
-		String mi9v8Service = getVcapValue(vcapKeyName);
-		String mi9v8Domain = (!mi9v8Service.isEmpty() && mi9v8Service.equalsIgnoreCase(WakefernApplicationConstants.Mi9V8.mi9v8Staging)) ?
-				WakefernApplicationConstants.Mi9V8.baseURLStaging : WakefernApplicationConstants.Mi9V8.baseURL;
-		logger.info("[ApplicationUtils]::getMi9V8ServiceEndpoint::mi9v8Domain " + mi9v8Domain);
-		return mi9v8Domain;
-	}
-
 	
     /**
      * if no AppVersion or AppVersion in request is < majorVersion.minorVersion  (Important note: < is the key )

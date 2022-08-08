@@ -1,7 +1,5 @@
 package com.wakefern.global;
 
-import com.wakefern.wakefern.WakefernApplicationConstants;
-
 public final class ApplicationConstants {
 	public static final String ErrorMessage = "ErrorMessage";
 
@@ -31,57 +29,8 @@ public final class ApplicationConstants {
 			}
 		}
 
-		public static final class CouponsV3 {
-			public static final String BaseCouponURL = ApplicationUtils
-					.getCouponV3ServiceEndpoint(WakefernApplicationConstants.VCAPKeys.COUPON_SERVICE);
-			public static final String UserLogin = "/coupons/v3/login";
-			public static final String CouponList = "/coupons/v3/list";
-			public static final String AvailableCoupons = "/coupons/v3/available";
-			public static final String ExpiredCoupons = "/coupons/v3/expired";
-			public static final String ClippedCoupons = "/coupons/v3/clipped";
-			public static final String RedeemedCoupons = "/coupons/v3/redeemed";
-			public static final String GetCouponByPromoCode = "/coupons/v3/promocode/{promoCode}";
-			public static final String AddCouponToPPC = "/coupons/v3/clip";
-			public static final String RemoveCouponFromPPC = "/coupons/v3/unclip";
-			public static final String GetCouponByUPC = "/coupons/v3/upc/{upc}";
-			public static final String GetUPCsByCouponId = "/coupons/v3/upcList/{couponId}";
-			public static final String GetCouponByExternalCouponIds = "/coupons/v3/couponIds/{externalCouponIds}";
-			public static final String GetCouponsByStoreId = "/coupons/v3/storeId/{storeId}";
-			public static final String GetSocialOffersByQuery = "/coupons/v3/socialoffers/{query}";
-
-			public static final String banner = "shoprite";
-			public static final String couponId = WakefernApplicationConstants.CouponsV3.PathInfo.couponId;
-			public static final String couponIds = WakefernApplicationConstants.CouponsV3.PathInfo.couponIds;
-			public static final String externalCouponIds = "externalCouponIds";
-			public static final String upc = WakefernApplicationConstants.CouponsV3.PathInfo.upc;
-			public static final String storeId = "storeId";
-		}
-
-		public static class Recommendations {
-			public static final String ProductRecommendations = "/recommend/api/v1/products/user";
-
-			public static final String ProductRecommendationsv2 = "/recommedation/api/v2/store";
-			public static final String BaseRecommendationsURL = "https://wfcapi.shoprite.com";
-//            public static final String UPCRecommendations = "/api/wfc/store/";
-//            public static final String BaseUPCRecommendationsURL = "https://vp.shoprite.com";
-
-		}
-
-		public static class Reports {
-			public static final String NotFoundTokenURL = "/reports/notFound/token";
-			public static final String NotFoundProductURL = "/reports/notFound/product";
-		}
-
-		
-		public static final class Mi9V8 {
-			public static final String BaseURL = ApplicationUtils
-					.getMi9v8ServiceEndpoint(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
-			
-			public static final String ShoppingCartItemLocator = "/mi9/v8/lists/planning/{storeId}";
-		}
-		
 		public static final String VerifyServices = "/wakefern/services/v7/verify";
-		
+
 		public static final String Proxy = "/proxy";
 	}
 

@@ -24,7 +24,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Remove a coupon from a PPC card.
  */
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.RemoveCouponFromPPC)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.RemoveCouponFromPPC)
 public class RemoveCouponFromPPC extends BaseService {
 	private final static Logger logger = LogManager.getLogger(RemoveCouponFromPPC.class);
 
@@ -37,7 +37,7 @@ public class RemoveCouponFromPPC extends BaseService {
 			String jsonString)
 			throws Exception
 	{
-		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.RemoveCouponFromPPC);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.RemoveCouponFromPPC);
 
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);

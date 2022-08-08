@@ -27,7 +27,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class GetUserProfile extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(GetUserProfile.class);
@@ -35,7 +35,7 @@ public class GetUserProfile extends BaseService {
     @POST
     @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getUserProfile)
+    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.getUserProfile)
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.auth) String jwtToken,
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 

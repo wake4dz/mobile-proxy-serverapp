@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 *
 */ 
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class GetUserFavorites extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(GetUserFavorites.class);
@@ -36,7 +36,7 @@ public class GetUserFavorites extends BaseService {
     @GET
     @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getUserFavorites)
+    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.getUserFavorites)
     public Response getResponse(
     		@PathParam(WakefernApplicationConstants.RecipeLocai.RequestsParamsPath.userId) String userId, 
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 

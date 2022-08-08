@@ -23,7 +23,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
 * A proxy API to access Locai's 'Product Lookup' API by Skus
 **/
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class ProductLookupBySkus extends BaseService {
 
     private final static Logger logger = LogManager.getLogger(ProductLookupBySkus.class);
@@ -31,7 +31,7 @@ public class ProductLookupBySkus extends BaseService {
     @POST
     @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-    @Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.productLookupBySkus)
+    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.productLookupBySkus)
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
     		String jsonBody) {

@@ -25,7 +25,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Get a coupon details by its id
  */
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.GetCouponByExternalCouponIds)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.GetCouponByExternalCouponIds)
 public class GetCouponsByExternalCouponIDs extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(GetCouponsByExternalCouponIDs.class);
@@ -36,12 +36,12 @@ public class GetCouponsByExternalCouponIDs extends BaseService {
 	public Response getInfoResponse(
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
-			@PathParam(ApplicationConstants.Requests.CouponsV3.externalCouponIds) String externalCouponIds)
+			@PathParam(CouponUtils.Requests.Params.externalCouponIds) String externalCouponIds)
 			throws Exception
 	{
 		Map<String, String> params = new HashMap<>();
 		params.put("couponIds", externalCouponIds);
-		this.requestPath = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponByCouponId, params);
+		this.requestPath = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponByCouponId, params);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

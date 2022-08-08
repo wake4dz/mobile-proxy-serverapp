@@ -22,7 +22,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.AvailableCoupons)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.AvailableCoupons)
 public class GetAvailableCoupons extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetAvailableCoupons.class);
 
@@ -32,15 +32,15 @@ public class GetAvailableCoupons extends BaseService {
 	public Response getInfoResponse(
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
-			@QueryParam(ApplicationConstants.Requests.CouponsV3.storeId) String storeId)
+			@QueryParam(CouponUtils.Requests.Params.storeId) String storeId)
 	{
 		Map<String, String> queryParams = new HashMap<>();
 
 		if (storeId != null) {
-			queryParams.put(ApplicationConstants.Requests.CouponsV3.storeId, storeId);
+			queryParams.put(CouponUtils.Requests.Params.storeId, storeId);
 		}
 
-		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.AvailableCoupons, queryParams);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.AvailableCoupons, queryParams);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

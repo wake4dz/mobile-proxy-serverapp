@@ -40,7 +40,7 @@ import com.wakefern.wynshop.WynshopApplicationConstants;
  * 
  * 
  */
-@Path(ApplicationConstants.Requests.Proxy + Requests.Mi9V8.ShoppingCartItemLocator)
+@Path(ApplicationConstants.Requests.Proxy + WynshopApplicationConstants.Requests.Routes.ShoppingCartItemLocator)
 public class GetPlanningListItemLocator extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetPlanningListItemLocator.class);
 
@@ -52,7 +52,7 @@ public class GetPlanningListItemLocator extends BaseService {
 			@PathParam(WynshopApplicationConstants.Requests.Params.Path.storeID) String storeId) {
 		try {
 
-			final String url = ApplicationConstants.Requests.Mi9V8.BaseURL + "/lists/planning/" + storeId.trim();
+			final String url = WynshopApplicationConstants.BaseURL + "/lists/planning/" + storeId.trim();
 			
 			Map<String, String> headerMap = new HashMap<String, String>();
 

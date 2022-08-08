@@ -28,7 +28,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  *
  * @author philmayer
  */
-@Path(ApplicationConstants.Requests.Reports.NotFoundTokenURL)
+@Path(WakefernApplicationConstants.Reports.Proxy.NotFoundTokenURL)
 public class GetToken extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(GetToken.class);
@@ -47,7 +47,8 @@ public class GetToken extends BaseService {
     		@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType
     ) {
 		try {
-			String authenticateUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.NotFound.authenticate;
+			final String authenticateUrl = WakefernApplicationConstants.getBaseWakefernApiUrl()
+					+ WakefernApplicationConstants.Reports.Upstream.authenticate;
 
 			Map<String, String> headerMap = new HashMap<>(1);
 			headerMap.put(ApplicationConstants.Requests.Headers.Accept, accept);
@@ -72,7 +73,7 @@ public class GetToken extends BaseService {
 	public String getProdNotFoundLogin(){
 		String responseBody = "";
 		try{
-			String authenticateUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.NotFound.authenticate;
+			final String authenticateUrl = WakefernApplicationConstants.getBaseWakefernApiUrl() + WakefernApplicationConstants.Reports.Upstream.authenticate;
 			Map<String, String> headerMap = new HashMap<>(1);
 			headerMap.put(ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);
 			headerMap.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);

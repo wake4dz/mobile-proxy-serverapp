@@ -23,7 +23,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  *
  */
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class GetRecipeCategories extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(GetRecipeCategories.class);
@@ -31,7 +31,7 @@ public class GetRecipeCategories extends BaseService {
 	@GET
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getRecipeCategories)
+	@Path(WakefernApplicationConstants.RecipeLocai.Proxy.getRecipeCategories)
 	public Response getResponse() {
 
 		try {

@@ -21,7 +21,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.RedeemedCoupons)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.RedeemedCoupons)
 public class GetRedeemedCoupons extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetRedeemedCoupons.class);
 
@@ -32,7 +32,7 @@ public class GetRedeemedCoupons extends BaseService {
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType)
 	{
-		this.requestPath = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.RedeemedCoupons);
+		this.requestPath = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.RedeemedCoupons);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

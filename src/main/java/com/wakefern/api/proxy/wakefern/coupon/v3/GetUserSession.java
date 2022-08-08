@@ -22,7 +22,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.UserLogin)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.UserLogin)
 public class GetUserSession extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetUserSession.class);
 
@@ -37,7 +37,7 @@ public class GetUserSession extends BaseService {
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String bearerToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType)
 	{
-		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.UserLogin);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.UserLogin);
 
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);

@@ -25,7 +25,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Get coupons associated with a upc code for a user
  */
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.GetCouponByUPC)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.GetCouponByUPC)
 public class GetCouponByUPC extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetCouponByUPC.class);
 
@@ -35,12 +35,12 @@ public class GetCouponByUPC extends BaseService {
 	public Response getInfoResponse(
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
-			@PathParam(ApplicationConstants.Requests.CouponsV3.upc) String upc)
+			@PathParam(CouponUtils.Requests.Params.upc) String upc)
 			throws Exception
 	{
 		Map<String, String> params = new HashMap<>();
 		params.put("upcCode", upc);
-		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponsByUPC, params);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponsByUPC, params);
 
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);

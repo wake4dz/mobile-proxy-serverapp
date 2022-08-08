@@ -20,7 +20,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Custom endpoint that batches calls to Recipe Search to fetch all recipes for a set of shelves (via HomePageConfig.fetch)
  */
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class GetAllShelves extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(GetAllShelves.class);
@@ -28,7 +28,7 @@ public class GetAllShelves extends BaseService {
 	@POST
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.getShelves)
+	@Path(WakefernApplicationConstants.RecipeLocai.Proxy.getShelves)
 	public Response getResponse(
 			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
 			String jsonBody)

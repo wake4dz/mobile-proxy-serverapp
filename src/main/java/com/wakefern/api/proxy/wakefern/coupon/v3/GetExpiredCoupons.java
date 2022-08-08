@@ -21,7 +21,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.ExpiredCoupons)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.ExpiredCoupons)
 public class GetExpiredCoupons extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetExpiredCoupons.class);
 
@@ -32,7 +32,7 @@ public class GetExpiredCoupons extends BaseService {
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType)
 	{
-		this.requestPath = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.ExpiredCoupons);
+		this.requestPath = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.ExpiredCoupons);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

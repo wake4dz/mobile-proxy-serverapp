@@ -15,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
@@ -25,7 +24,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Get a coupon details by its id
  */
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.GetCouponsByStoreId)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.GetCouponsByStoreId)
 public class GetCouponsByStoreId extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(GetCouponsByStoreId.class);
@@ -36,12 +35,12 @@ public class GetCouponsByStoreId extends BaseService {
 	public Response getInfoResponse(
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken,
 			@HeaderParam(ApplicationConstants.Requests.Headers.contentType) String contentType,
-			@PathParam("storeId") String storeId)
+			@PathParam(CouponUtils.Requests.Params.storeId) String storeId)
 			throws Exception
 	{
 		Map<String, String> params = new HashMap<>();
-		params.put("storeId", storeId);
-		this.requestPath = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponListByStoreId, params);
+		params.put(CouponUtils.Requests.Params.storeId, storeId);
+		this.requestPath = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponListByStoreId, params);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

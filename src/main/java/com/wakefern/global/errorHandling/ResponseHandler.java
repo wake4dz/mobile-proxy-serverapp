@@ -32,7 +32,7 @@ public class ResponseHandler {
             reader = new BufferedReader(streamReader);
             
             while ((line = reader.readLine()) != null) {
-                sb.append(line + "\r");  // this '/r' will create an extra blank line in the top-level REST code in log output
+                sb.append(line).append("\r");  // this '/r' will create an extra blank line in the top-level REST code in log output
             }
             return sb.toString();
        

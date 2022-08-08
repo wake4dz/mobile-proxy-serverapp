@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
@@ -24,7 +23,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Add a coupon to a PPC card
  */
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.AddCouponToPPC)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.AddCouponToPPC)
 public class AddCouponToPPC extends BaseService {
 	private final static Logger logger = LogManager.getLogger(AddCouponToPPC.class);
 
@@ -37,7 +36,7 @@ public class AddCouponToPPC extends BaseService {
 			String jsonString)
 			throws Exception
 	{
-		final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.AddCouponToPPC);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.AddCouponToPPC);
 
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);

@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
@@ -24,7 +23,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 /**
  * Get a coupon associated with a promo code for an authenticated user
  */
-@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Requests.CouponsV3.GetCouponByPromoCode)
+@Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.GetCouponByPromoCode)
 public class GetCouponByPromoCode extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(GetCouponByPromoCode.class);
@@ -40,7 +39,7 @@ public class GetCouponByPromoCode extends BaseService {
 			Map<String, String> params = new HashMap<>();
 			params.put("promoCode", promoCode);
 
-			final String url = ApplicationUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponByPromoCode, params);
+			final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponByPromoCode, params);
 			Map<String, String> headerMap = new HashMap<>();
 
 			headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);

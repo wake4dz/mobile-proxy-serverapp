@@ -33,7 +33,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  *
  */
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.ProxyV8.path)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class HomePageConfig extends BaseService {
 
 	private final static Logger logger = LogManager.getLogger(HomePageConfig.class);
@@ -41,7 +41,7 @@ public class HomePageConfig extends BaseService {
 	@GET
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-	@Path(WakefernApplicationConstants.RecipeLocai.ProxyV8.homepageConfig)
+	@Path(WakefernApplicationConstants.RecipeLocai.Proxy.homepageConfig)
 	public Response getResponse(
 			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType) {
 

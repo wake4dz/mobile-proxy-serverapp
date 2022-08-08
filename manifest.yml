@@ -53,5 +53,7 @@ applications:
     mi9v8_service: ((MI9V8_SERVICE))
     
     reward_point_service: ((REWARD_POINT_SERVICE))
+    mute_error_log: ((MUTE_ERROR_LOG))
+    mute_http_code: ((MUTE_HTTP_CODE))
   services:
   - ((SRMOBILE_PAPERTRAIL))

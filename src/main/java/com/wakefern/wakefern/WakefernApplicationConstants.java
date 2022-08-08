@@ -89,6 +89,10 @@ public class WakefernApplicationConstants {
 		
 		public static final String REWARD_POINT_SERVICE = "reward_point_service";
 		
+		// Mute certain HTTP return code logging
+		public static final String MUTE_ERROR_LOG = "mute_error_log";
+		public static final String MUTE_HTTP_CODE = "mute_http_code";
+		
 	}
 
 	public static class Chains {

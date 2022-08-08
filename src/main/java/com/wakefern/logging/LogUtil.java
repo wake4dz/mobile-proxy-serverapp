@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.request.HTTPRequest;
-import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /*
  *  author: Danny Zheng
@@ -173,6 +172,9 @@ public class LogUtil {
 		messages.add(pad("The 'reward_point_service' system property:") + VcapProcessor.getRewardPointService());
 		messages.add(pad("The 'cors' system property:") + ApplicationUtils.getVcapValue("cors"));
 
+		messages.add(pad("The 'mute_error_log' system property:") + VcapProcessor.isMuteErrorLog());
+		messages.add(pad("The 'mute_http_code' system property:") + VcapProcessor.getMuteHttpCode());
+		
 		messages.add(pad("The 'api_high_timeout' system property:") + VcapProcessor.getApiHighTimeout());
 		messages.add(pad("The 'api_medium_timeout' system property:") + VcapProcessor.getApiMediumTimeout());
 		messages.add(pad("The 'api_low_timeout' system property:") + VcapProcessor.getApiLowTimeout());
@@ -251,6 +253,9 @@ public class LogUtil {
 
 			messages.add("<tr><td>cors</td>" + "<td>" + ApplicationUtils.getVcapValue("cors")
 					+ "</td> </tr>");
+
+			messages.add("<tr><td>mute_error_log</td><td>" + VcapProcessor.isMuteErrorLog() + "</td></tr>");
+			messages.add("<tr><td>mute_http_code</td><td>" + VcapProcessor.getMuteHttpCode() + "</td></tr>");
 
 			messages.add("<tr><td>api_high_timeout</td>" + "<td>" + VcapProcessor.getApiHighTimeout() + "</td> </tr>");
 
@@ -372,5 +377,36 @@ public class LogUtil {
 		return isAuthorized;
 	}
 	
+	/*
+	 * A logging utility to determine whether the log4j should log an error exception 
+	 * based on the system variables of MUTE_ERROR_LOG and MUTE_HTTP_CODE
+	 * 
+	 * 
+	 */
+	public static boolean isLoggable(Exception e) {
+		boolean isLoggable = true;
+		
+		if (VcapProcessor.isMuteErrorLog()) {
+			
+			for (String code: VcapProcessor.getMuteHttpCode()) {
+				if (code.trim().equalsIgnoreCase("401")) {
+					logger.info("Mute_http_code 401: " + e.getLocalizedMessage());
+					if (e.getLocalizedMessage().contains("401,Unauthorized")) {
+						isLoggable = false;
+						break;
+					}
+					
+				} else if (code.trim().equalsIgnoreCase("409")) {
+					logger.info("Mute_http_code 409: " + e.getLocalizedMessage());
+					if (e.getLocalizedMessage().contains("409,Conflict")) {
+						isLoggable = false;
+						break;
+					}
+				}
+			}
+		}
+		
+		return isLoggable;
+	}
 	
 }

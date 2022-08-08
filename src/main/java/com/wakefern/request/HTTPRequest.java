@@ -477,7 +477,6 @@ public class HTTPRequest {
 			}
 
 		} catch (Exception e) {
-			logger.error(getErrorMsg("[executeRequest]::Exception: " + e.getMessage(), requestURL));
 			throw e;
 
 		} finally {

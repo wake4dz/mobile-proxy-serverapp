@@ -1,6 +1,5 @@
 package com.wakefern.global;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -195,8 +194,8 @@ public class VcapProcessor {
 	 * @param service String
 	 * @return true if the service is a staging environment, false otherwise
 	 */
-	private static boolean isServiceStaging(@NotNull String service) {
-		return service.trim().equalsIgnoreCase(ENV_STAGING);
+	private static boolean isServiceStaging(String service) {
+		return service != null && service.trim().equalsIgnoreCase(ENV_STAGING);
 	}
 
 	public static String getTargetWalletServiceEndpoint() {

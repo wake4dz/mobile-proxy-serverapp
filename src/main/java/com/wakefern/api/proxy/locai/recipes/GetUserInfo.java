@@ -63,7 +63,10 @@ public class GetUserInfo extends BaseService {
             		"clientId", VcapProcessor.getRecipeClientId(),
             		"apiKey", VcapProcessor.getTargetRecipeLocaiApiKey(),
             		"contentType", contentType, "HttpBody", jsonBody);
-            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+            
+            if (LogUtil.isLoggable(e)) {
+            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+            }
 
             return this.createErrorResponse(errorData, e);
         }

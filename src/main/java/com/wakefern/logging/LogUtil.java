@@ -390,14 +390,14 @@ public class LogUtil {
 			
 			for (String code: VcapProcessor.getMuteHttpCode()) {
 				if (code.trim().equalsIgnoreCase("401")) {
-					logger.info("Mute_http_code 401: " + e.getLocalizedMessage());
+					logger.debug("Mute_http_code 401: " + e.getLocalizedMessage());
 					if (e.getLocalizedMessage().contains("401,Unauthorized")) {
 						isLoggable = false;
 						break;
 					}
 					
 				} else if (code.trim().equalsIgnoreCase("409")) {
-					logger.info("Mute_http_code 409: " + e.getLocalizedMessage());
+					logger.debug("Mute_http_code 409: " + e.getLocalizedMessage());
 					if (e.getLocalizedMessage().contains("409,Conflict")) {
 						isLoggable = false;
 						break;

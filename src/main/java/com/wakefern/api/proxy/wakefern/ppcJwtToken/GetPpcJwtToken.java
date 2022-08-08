@@ -73,11 +73,14 @@ public class GetPpcJwtToken extends BaseService {
 			return this.createValidResponse(jsonToken.toString());
 
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					ApplicationConstants.Requests.Headers.Accept, "*/*", ApplicationConstants.Requests.Headers.xSiteHost, xSiteHost,
-					"expiresInSeconds", expiresInSeconds,
-					ApplicationConstants.Requests.Headers.Authorization, sessionToken);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+						ApplicationConstants.Requests.Headers.Accept, "*/*", ApplicationConstants.Requests.Headers.xSiteHost, xSiteHost,
+						"expiresInSeconds", expiresInSeconds,
+						ApplicationConstants.Requests.Headers.Authorization, sessionToken);
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
 
 			return this.createErrorResponse(e);
 		}

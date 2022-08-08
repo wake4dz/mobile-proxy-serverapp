@@ -74,8 +74,11 @@ public class GetProductComplements extends BaseService {
 					"productsCount", productsCount,
 					"test", test,
 					"embeds", embeds);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-
+			
+			if (LogUtil.isLoggable(e)) {
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			return this.createErrorResponse(errorData, e);
 		}
 	}

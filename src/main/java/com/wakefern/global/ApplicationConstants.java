@@ -41,21 +41,22 @@ public final class ApplicationConstants {
 	}
 
 	public static class Log {
-		public static final String log = "/log";
+		public static final String Log = "/log";
 
-		public static final String email = log + "/email";
-		public static final String status = "/status";
-		public static final String address = "/address" + "/{addresses}";
-		public static final String updateSetting = "/updateSettings";
-		public static final String trackUserId = "/trackUserId/{userIds}";
+		public static final String Email = Log + "/email";
+		public static final String Status = "/status";
+		public static final String Address = "/address" + "/{addresses}";
+		public static final String UpdateSetting = "/updateSettings";
 
-		public static final String logger = log + "/logger";
-		public static final String changeLevel = "/level/{logLevel}";
-		public static final String getLevel = "/level";
-		public static final String appenderList = "/appender/list";
+		public static final String logger = Log + "/logger";
+		public static final String ChangeLevel = "/level/{logLevel}";
+		public static final String GetLevel = "/level";
+		public static final String AppenderList = "/appender/list";
 
-		public static final String release = log + "/release";
-		public static final String releaseLevel = "/level";
+		public static final String Release = Log + "/release";
+		public static final String ReleaseLevel = "/level";
+		
+		public static final String IsLoggable = "/loggable/{isLoggable}";
 
 	}
 

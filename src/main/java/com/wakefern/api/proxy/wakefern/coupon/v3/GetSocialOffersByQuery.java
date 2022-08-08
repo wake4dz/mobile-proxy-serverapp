@@ -49,11 +49,15 @@ public class GetSocialOffersByQuery extends BaseService {
 					VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"query", query,
-					"authorization", authToken,
-					"contentType", contentType);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+						"query", query,
+						"authorization", authToken,
+						"contentType", contentType);
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			return this.createErrorResponse(e);
 		}
 	}

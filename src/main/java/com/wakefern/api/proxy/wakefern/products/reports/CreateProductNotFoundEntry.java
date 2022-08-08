@@ -66,10 +66,13 @@ public class CreateProductNotFoundEntry extends BaseService {
 			// The response body contains the string "Created" on success. Intentionally ignore this
 			// value and return a valid response shape.
 			return this.createValidResponse("");
-		} catch (Exception exception) {
-			String errorData = LogUtil.getRequestData("CreateProductNotFoundEntry::Exception", LogUtil.getRelevantStackTrace(exception));
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(exception));
-			return this.createErrorResponse(exception);
+		} catch (Exception e) {
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("CreateProductNotFoundEntry::Exception", LogUtil.getRelevantStackTrace(e));
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
+			return this.createErrorResponse(e);
 		}
 	}
 }

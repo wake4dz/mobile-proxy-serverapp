@@ -61,10 +61,14 @@ public class GetUserSession extends BaseService {
 
 			return createValidResponse(HTTPRequest.executePost(url, jsonObject.toString(), headerMap));
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"authorization", bearerToken,
-					"contentType", contentType);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+						"authorization", bearerToken,
+						"contentType", contentType);
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			return this.createErrorResponse(e);
 		}
 	}

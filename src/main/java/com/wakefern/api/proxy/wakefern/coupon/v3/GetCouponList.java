@@ -55,11 +55,15 @@ public class GetCouponList extends BaseService {
 			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiHighTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"authorization", authToken,
-					"contentType", contentType,
-					"storeId", storeId);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+						"authorization", authToken,
+						"contentType", contentType,
+						"storeId", storeId);
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			return createErrorResponse(e);
 		}
 	}

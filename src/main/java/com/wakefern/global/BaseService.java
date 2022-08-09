@@ -72,13 +72,13 @@ public class BaseService {
             			
             			} catch (Exception exx) {
             				logger.error(errorData != null ?
-									"MWG returned an unexpected, non-JSON compliant error: " + errorData + " - " + respBody
-									: "MWG returned an unexpected, non-JSON compliant error: " + respBody);
+									"Back-end API returned an unexpected, non-JSON compliant error: " + errorData + " - " + respBody
+									: "Back-end API  returned an unexpected, non-JSON compliant error: " + respBody);
 
             				
             				// The error is in an unexpected format.
             				// Respond with a default text message.
-            				buildError = jsonErrStart + "MWG returned an unexpected, non-JSON compliant error." + jsonErrEnd;
+            				buildError = jsonErrStart + "Back-end API returned an unexpected, non-JSON compliant error." + jsonErrEnd;
             			}
         			}
             }

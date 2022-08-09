@@ -8,7 +8,7 @@ applications:
     coupon_service: ((COUPON_SERVICE))
     coupon_v3_key: ((COUPON_V3_KEY))
 
-    log_admin_key: ((LOG_ADMIN_KEY))
+    proxy_admin_key: ((PROXY_ADMIN_KEY))
 
     jwt_public_key: ((JWT_PUBLIC_KEY))
     prod_not_found_login: ((PROD_NOT_FND_LOGIN))
@@ -53,5 +53,7 @@ applications:
     mi9v8_service: ((MI9V8_SERVICE))
     
     reward_point_service: ((REWARD_POINT_SERVICE))
+    mute_error_log: ((MUTE_ERROR_LOG))
+    mute_http_code: ((MUTE_HTTP_CODE))
   services:
   - ((SRMOBILE_PAPERTRAIL))

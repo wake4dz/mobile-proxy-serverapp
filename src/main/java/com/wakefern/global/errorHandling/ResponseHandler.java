@@ -44,7 +44,7 @@ public class ResponseHandler {
         	//  But lines# 396-397 with error (originally it was INFO level) log may be redundant since line #419 would log it.
             // 	
             //  Same goes for lines #102-112, 109-119, 
-        	logger.error("[ResponseHandler]::Response::Exception: " + e.getMessage());
+        	//logger.error("[ResponseHandler]::Response::Exception: " + e.getMessage());
         	return "";
         } finally {
     		if(reader != null) {

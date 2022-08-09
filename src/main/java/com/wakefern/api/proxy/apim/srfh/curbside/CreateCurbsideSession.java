@@ -52,7 +52,11 @@ public class CreateCurbsideSession extends BaseService {
 			return createValidResponse(response);
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			Response response = createErrorResponse(errorData, e);
 			return UpstreamErrorHandler.handleResponse(response);
 		}

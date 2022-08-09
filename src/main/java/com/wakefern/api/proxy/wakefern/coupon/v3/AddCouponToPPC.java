@@ -47,11 +47,15 @@ public class AddCouponToPPC extends BaseService {
 			String response = HTTPRequest.executePostJSON(url, jsonString, headerMap, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"body", jsonString,
-					"authorization", authToken,
-					"contentType", contentType);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+						"body", jsonString,
+						"authorization", authToken,
+						"contentType", contentType);
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			return this.createErrorResponse(e);
 		}
 	}

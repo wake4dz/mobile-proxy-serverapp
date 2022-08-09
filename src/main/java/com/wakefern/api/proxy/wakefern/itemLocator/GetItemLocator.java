@@ -57,7 +57,9 @@ public class GetItemLocator extends BaseService {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");
 
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			if (LogUtil.isLoggable(e)) {
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
 
 			return this.createErrorResponse(errorData, e);
 		}
@@ -89,7 +91,9 @@ public class GetItemLocator extends BaseService {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");
 
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			if (LogUtil.isLoggable(e)) {
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
 
 			return this.createErrorResponse(errorData, e);
 		}
@@ -171,7 +175,9 @@ public class GetItemLocator extends BaseService {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");
 
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			if (LogUtil.isLoggable(e)) {
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
 
 			return this.createErrorResponse(errorData, e);
 		}

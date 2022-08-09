@@ -55,7 +55,10 @@ public class SetUserProfile extends BaseService {
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"contentType", contentType, "HttpBody", jsonBody);
-            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+            
+            if (LogUtil.isLoggable(e)) {
+            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+            }
 
             return this.createErrorResponse(errorData, e);
         }

@@ -181,7 +181,6 @@ public class HTTPRequest {
 			}
 
 		} catch (Exception ex) {
-			logger.error(getErrorMsg("[executePut]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
 
 		} finally {
@@ -295,15 +294,12 @@ public class HTTPRequest {
 			}
 
 		} catch (MalformedURLException ex) {
-			logger.error(getErrorMsg("[executePost]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
 
 		} catch (IOException ex) {
-			logger.error(getErrorMsg("[executePost]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
 
 		} catch (Exception ex) {
-			logger.error(getErrorMsg("[executePost]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
 
 		} finally {
@@ -410,7 +406,6 @@ public class HTTPRequest {
 			return sb.toString();
 
 		} catch (Exception ex) {
-			logger.error(getErrorMsg("[executePostJSON]::Exception: " + ex.getMessage(), requestURL));
 			throw ex;
 
 		} finally {
@@ -477,7 +472,6 @@ public class HTTPRequest {
 			}
 
 		} catch (Exception e) {
-			logger.error(getErrorMsg("[executeRequest]::Exception: " + e.getMessage(), requestURL));
 			throw e;
 
 		} finally {
@@ -547,15 +541,12 @@ public class HTTPRequest {
 			}
 
 		} catch (MalformedURLException ex) {
-			logger.error("[executeDelete]::MalformedURLException: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
 
 		} catch (IOException ex) {
-			logger.error("[executeDelete]::IOException: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
 
 		} catch (Exception ex) {
-			logger.error("[executeDelete]::Exception: " + ex.getMessage() + ", URL: " + requestURL);
 			throw ex;
 
 		} finally {

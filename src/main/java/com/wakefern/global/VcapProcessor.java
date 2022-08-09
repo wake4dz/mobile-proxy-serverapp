@@ -1,5 +1,9 @@
 package com.wakefern.global;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,6 +51,9 @@ public class VcapProcessor {
 	private static String mi9v8Service = null;
 	
 	private static String rewardPointService = null;
+	
+	private static boolean isMuteErrorLog = false;
+	private static List<String> muteHttpCode = null;
 
 	// this static code is not run until the class is loaded into the memory for the
 	// first time system settings are fetched once, store them in the heap memory
@@ -111,6 +118,15 @@ public class VcapProcessor {
 		mi9v8Service = getVcapValueString(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
 		
 		rewardPointService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.REWARD_POINT_SERVICE);
+		
+		if (getVcapValueString(WakefernApplicationConstants.VCAPKeys.MUTE_ERROR_LOG).trim().equalsIgnoreCase("true")) {
+			isMuteErrorLog = true;
+		}
+		
+		String codes= getVcapValueString(WakefernApplicationConstants.VCAPKeys.MUTE_HTTP_CODE).trim();
+		muteHttpCode = new ArrayList<>(Arrays.asList(codes.split(",")));
+		
+		
 	}
 
 	public static int getApiHighTimeout() {
@@ -272,5 +288,21 @@ public class VcapProcessor {
 
 	public static String getRewardPointService() {
 		return rewardPointService;
+	}
+
+	public static List<String> getMuteHttpCode() {
+		return muteHttpCode;
+	}
+
+	public static boolean isMuteErrorLog() {
+		return isMuteErrorLog;
+	}
+
+	public static void setMuteErrorLog(boolean isMuteErrorLog) {
+		VcapProcessor.isMuteErrorLog = isMuteErrorLog;
+	}
+
+	public static void setMuteHttpCode(List<String> muteHttpCode) {
+		VcapProcessor.muteHttpCode = muteHttpCode;
 	}
 }

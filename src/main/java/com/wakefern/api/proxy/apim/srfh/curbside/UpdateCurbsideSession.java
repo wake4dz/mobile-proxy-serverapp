@@ -62,7 +62,11 @@ public class UpdateCurbsideSession extends BaseService {
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"ppc", ppc, "storeNumber", storeNumber, "orderNumber", orderNumber);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			Response response = createErrorResponse(errorData, e);
 			return UpstreamErrorHandler.handleResponse(response);
 		}

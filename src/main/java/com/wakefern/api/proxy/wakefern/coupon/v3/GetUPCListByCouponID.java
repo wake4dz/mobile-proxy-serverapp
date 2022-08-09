@@ -49,11 +49,15 @@ public class GetUPCListByCouponID extends BaseService {
 			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"coupon_id", couponId,
-					"authorization", authToken,
-					"contentType", contentType);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+						"coupon_id", couponId,
+						"authorization", authToken,
+						"contentType", contentType);
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			return this.createErrorResponse(e);
 		}
 	}

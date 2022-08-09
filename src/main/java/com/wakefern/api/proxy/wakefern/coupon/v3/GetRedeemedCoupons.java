@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
+
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
@@ -41,10 +41,14 @@ public class GetRedeemedCoupons extends BaseService {
 			String response = HTTPRequest.executeGet(this.requestPath, headerMap, VcapProcessor.getApiHighTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
-		String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+			
+			if (LogUtil.isLoggable(e)) {
+				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"authorization", authToken,
 					"contentType", contentType);
-			logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+			
 			return this.createErrorResponse(e);
 		}
 	}

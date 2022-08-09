@@ -1,4 +1,4 @@
-package com.wakefern.logging;
+package com.wakefern.api.proxy.wakefern.services;
 
 import java.util.Map;
 
@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidateAdminToken;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.Level;
@@ -25,13 +26,13 @@ import org.apache.logging.log4j.core.config.Configurator;
  *  
  *  To change some of log4j settings in the real time
  */
-@Path(ApplicationConstants.Log.logger)
+@Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Log.logger)
 public class LoggerResource {
 
 	final static Logger logger = LogManager.getLogger(LoggerResource.class);
 
 	@PUT
-	@Path(ApplicationConstants.Log.changeLevel)
+	@Path(ApplicationConstants.Log.ChangeLevel)
 	@ValidateAdminToken
 	public Response updateLoggerLevel(@PathParam("logLevel") String inputLevel,
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
@@ -84,7 +85,7 @@ public class LoggerResource {
 	}
 
 	@GET
-	@Path(ApplicationConstants.Log.getLevel)
+	@Path(ApplicationConstants.Log.GetLevel)
 	@ValidateAdminToken
 	public Response getLoggerLevel(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		String output = "Log4i current log level is " + LogManager.getRootLogger().getLevel()
@@ -93,7 +94,7 @@ public class LoggerResource {
 	}
 
 	@GET
-	@Path(ApplicationConstants.Log.appenderList)
+	@Path(ApplicationConstants.Log.AppenderList)
 	@ValidateAdminToken
 	public Response listAppenders(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		StringBuilder sb = new StringBuilder();
@@ -113,4 +114,27 @@ public class LoggerResource {
 		return Response.status(200).entity(output).build();
 	}
 
+	
+	/*
+	 * Provide a way to turn on/off mute_error_log system variable, its value is either true or false
+	 * 
+	 * In a server with multiple instances with a pure round-robin load balancer, this API needs to be called
+	 * many times in order to all instances to be hit at least once
+	 */
+	@PUT
+	@Path(ApplicationConstants.Log.IsLoggable)
+	@ValidateAdminToken
+	public Response updateLoggable(@PathParam("isLoggable") String isLoggable,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
+		
+		if (isLoggable.trim().equalsIgnoreCase("true")) {
+			VcapProcessor.setMuteErrorLog(true);
+		} else if (isLoggable.trim().equalsIgnoreCase("false"))  {
+			VcapProcessor.setMuteErrorLog(false);
+		} else {
+			// do nothing, keep the original setting
+		}
+		
+		return Response.status(200).entity("PathParam(\"isLoggable\") = " + isLoggable + ", Mute_error_log = " + VcapProcessor.isMuteErrorLog()).build();
+	}
 }

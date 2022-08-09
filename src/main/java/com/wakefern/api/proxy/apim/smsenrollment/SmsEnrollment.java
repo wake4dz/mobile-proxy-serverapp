@@ -56,15 +56,18 @@ public class SmsEnrollment extends BaseService {
                     .setParameter("frequentShopperNumber", fsn).setParameter("phoneNumber", phoneNumber);
             final String requestURI = builder.build().toString();
             final String response = HTTPRequest.executeGet(requestURI, headerMap, VcapProcessor.getApiLowTimeout());
-            logger.info("Response from apim: " + response);
+            logger.debug("Response from apim: " + response);
             JSONObject responseJson = new JSONObject(response);
             JSONObject responseData = responseJson.getJSONObject("data");
 
             // Return the phone number payload
             return createValidResponse(responseData.toString());
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
-            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+        	if (LogUtil.isLoggable(e)) {
+	            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
+	            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+        	}
+        	
             return createErrorResponse(e);
         }
     }
@@ -112,8 +115,11 @@ public class SmsEnrollment extends BaseService {
             final String response = HTTPRequest.executePostJSON(requestURI, payload.toString(), headerMap, VcapProcessor.getApiLowTimeout());
             return createValidResponse(response);
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
-            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+        	if (LogUtil.isLoggable(e)) {
+	            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
+	            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+        	}
+        	
             return createErrorResponse(e);
         }
     }

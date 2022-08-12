@@ -1,5 +1,6 @@
 package com.wakefern.wakefern;
 
+import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 
 /**
@@ -92,6 +93,8 @@ public class WakefernApplicationConstants {
         public static final String MUTE_ERROR_LOG = "mute_error_log";
         public static final String MUTE_HTTP_CODE = "mute_http_code";
 
+        // Wynshop
+        public static final String WYNSHOP_AUTH_KEY = "wynshop_auth_key";
     }
 
     public static class CouponsV3 {
@@ -130,6 +133,20 @@ public class WakefernApplicationConstants {
         public static class PathInfo {
             public static final String GetPlanning = "/lists/planning/{storeId}";
 
+        }
+    }
+
+    public static class WynshopAuth {
+        public static class Proxy {
+            public static final String Path = "/token";
+        }
+
+        public static class Upstream {
+            public static final String BaseURL = "https://sts.brands.wakefern.com";
+
+            public static final String contentType = "application/x-www-form-urlencoded";
+            public static final String accept = ApplicationConstants.Requests.Headers.MIMETypes.json;
+            public static final String tokenPath = "/connect/token";
         }
     }
 

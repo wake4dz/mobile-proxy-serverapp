@@ -55,6 +55,8 @@ public class VcapProcessor {
 	private static boolean isMuteErrorLog = false;
 	private static List<String> muteHttpCode = null;
 
+	private static String wynshopAuthKey = null;
+
 	// this static code is not run until the class is loaded into the memory for the
 	// first time system settings are fetched once, store them in the heap memory
 	// for quick access
@@ -126,7 +128,7 @@ public class VcapProcessor {
 		String codes= getVcapValueString(WakefernApplicationConstants.VCAPKeys.MUTE_HTTP_CODE).trim();
 		muteHttpCode = new ArrayList<>(Arrays.asList(codes.split(",")));
 		
-		
+		wynshopAuthKey = getVcapValueString(WakefernApplicationConstants.VCAPKeys.WYNSHOP_AUTH_KEY);
 	}
 
 	public static int getApiHighTimeout() {
@@ -304,5 +306,9 @@ public class VcapProcessor {
 
 	public static void setMuteHttpCode(List<String> muteHttpCode) {
 		VcapProcessor.muteHttpCode = muteHttpCode;
+	}
+
+	public static String getWynshopAuthKey() {
+		return wynshopAuthKey;
 	}
 }

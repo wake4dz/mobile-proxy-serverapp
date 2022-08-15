@@ -2,6 +2,7 @@ package com.wakefern.api.proxy.wakefern.health.check;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -12,11 +13,11 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  *  
  *  To provide a simple health checking
  */
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.HealthCheck.Path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.HealthCheck.Path)
 public class HealthCheck {
 	
 	@GET
-	public String getHealthStatus() {
-		return "";
+	public Response getHealthStatus() {
+		return Response.ok("Proxy rocks...").build();
 	}
 }

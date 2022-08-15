@@ -12,11 +12,11 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  *  
  *  To provide a simple health checking
  */
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.HealthCheck.Path)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.HealthCheck.Path)
 public class HealthCheck {
 	
 	@GET
 	public String getHealthStatus() {
-		return "";
+		return "Proxy rocks...";
 	}
 }

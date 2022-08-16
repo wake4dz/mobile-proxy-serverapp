@@ -33,9 +33,9 @@ public class WynshopAuth extends BaseService {
     public Response getAccessToken(String body) {
         try {
             JSONObject payload = new JSONObject(body);
-            final String username = payload.optString("username");
-            final String password = payload.optString("password");
-            final String refreshToken = payload.optString("refreshToken");
+            final String username = payload.optString("username", null);
+            final String password = payload.optString("password", null);
+            final String refreshToken = payload.optString("refreshToken", null);
 
             if (username == null || password == null) {
                 if (refreshToken != null) {

@@ -55,5 +55,7 @@ applications:
     reward_point_service: ((REWARD_POINT_SERVICE))
     mute_error_log: ((MUTE_ERROR_LOG))
     mute_http_code: ((MUTE_HTTP_CODE))
+
+    wynshop_auth_key: ((WYNSHOP_AUTH_KEY))
   services:
   - ((SRMOBILE_PAPERTRAIL))

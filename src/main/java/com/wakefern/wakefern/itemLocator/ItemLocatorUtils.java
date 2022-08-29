@@ -84,6 +84,8 @@ public class ItemLocatorUtils {
 	public static JSONObject generateItemLocatorForUpc(String upc, String itemLocatorResponse) {
 		JSONArray itemsJArray = new JSONArray(itemLocatorResponse);
 
+		final long upcLong = Long.parseLong(upc);
+
 		for (int i = 0; i < itemsJArray.length(); i++) {
 			JSONObject jsonObject = (JSONObject) itemsJArray.get(i);
 
@@ -93,10 +95,11 @@ public class ItemLocatorUtils {
 					.getJSONArray(WakefernApplicationConstants.Mi9V8ItemLocator.item_locations);
 
 			for (int j = 0; j < itemLocations.length(); j++) {
-				Object itemFromDB = itemLocations.getJSONObject(j)
-						.get(WakefernApplicationConstants.Mi9V8ItemLocator.upc_13_num);
+				final long itemUpc = itemLocations.getJSONObject(j)
+						.getLong(WakefernApplicationConstants.Mi9V8ItemLocator.upc_13_num);
 
-				if (itemFromDB.toString().contentEquals(upc)) continue;
+				// Skip if the UPC does not match
+				if (itemUpc != upcLong) continue;
 
 				int areaSeqInt;
 

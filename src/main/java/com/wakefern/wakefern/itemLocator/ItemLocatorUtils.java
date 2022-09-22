@@ -217,6 +217,9 @@ public class ItemLocatorUtils {
 			final long skuLng = Long.parseLong(sku);
 
 			Object areaSeqNum = areaSeqNumData.get(skuLng);
+			if (areaSeqNum == null) {
+				continue;
+			}
 			int areaSeqInt = Integer.parseInt(areaSeqNum.toString());
 
 			Object wfSectDesc = wfSectDescData.get(skuLng);

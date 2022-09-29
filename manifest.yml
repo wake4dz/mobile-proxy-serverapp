@@ -55,5 +55,6 @@ applications:
     reward_point_service: ((REWARD_POINT_SERVICE))
     mute_error_log: ((MUTE_ERROR_LOG))
     mute_http_code: ((MUTE_HTTP_CODE))
+    item_locator_cache_enabled: ((ITEM_LOCATOR_CACHE_ENABLED))
   services:
   - ((SRMOBILE_PAPERTRAIL))

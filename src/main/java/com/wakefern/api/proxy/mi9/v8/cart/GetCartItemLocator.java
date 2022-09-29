@@ -1,23 +1,7 @@
-package com.wakefern.api.proxy.mi9.v8.lists.planning;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
+package com.wakefern.api.proxy.mi9.v8.cart;
 
 import com.wakefern.api.proxy.wakefern.itemLocator.ItemLocatorCache;
 import com.wakefern.api.proxy.wakefern.itemLocator.ItemLocatorDto;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
@@ -28,35 +12,40 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 import com.wakefern.wakefern.WakefernAuth;
 import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 import com.wakefern.wynshop.WynshopApplicationConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
- * @author Danny Zheng
- * @date 2021-09-13
- * 
- *       https://mobile-gateway.staging.brands.wakefern.com/index.html#/Lists/get_api_lists_planning__retailerstoreid_
- *       Lists: Get /api/lists/planning/{retailerstoreid} - Retrieves planning
- *       for a store curl -X 'GET' \
- *       'https://mobile-gateway.staging.brands.wakefern.com/api/lists/planning/144'
- *       \
- * 
- * 
+ * @author Matt Miller
+ * @date 2022-09-06
  */
-@Path(ApplicationConstants.Requests.Proxy + WynshopApplicationConstants.Requests.Routes.ShoppingCartItemLocator)
-public class GetPlanningListItemLocator extends BaseService {
-	private final static Logger logger = LogManager.getLogger(GetPlanningListItemLocator.class);
+@Path(Requests.Proxy + WynshopApplicationConstants.Requests.Routes.CartItemLocator)
+public class GetCartItemLocator extends BaseService {
+	private final static Logger logger = LogManager.getLogger(GetCartItemLocator.class);
 
 	@GET
-	public Response getPlanningListItemLocator(
+	public Response getCartItemLocator(
 			@HeaderParam(Requests.Headers.Accept) String accept,
 			@HeaderParam(Requests.Headers.xSiteHost) String xSiteHost,
 			@HeaderParam(Requests.Headers.Authorization) String sessionToken,
 			@PathParam(WynshopApplicationConstants.Requests.Params.Path.storeID) String storeId) {
 		try {
-
-			final String url = WynshopApplicationConstants.BaseURL + "/lists/planning/" + storeId.trim();
+			final String url = WynshopApplicationConstants.BaseURL + "/stores/" + storeId.trim() + "/cart";
 			
-			Map<String, String> headerMap = new HashMap<String, String>();
+			Map<String, String> headerMap = new HashMap<>();
 
 			//for the Cloudflare pass-thru
 			headerMap.put(Requests.Headers.userAgent,
@@ -70,7 +59,7 @@ public class GetPlanningListItemLocator extends BaseService {
 
 			// call Wakefern's ItemLocator API to get additional data
 			// return empty item locator info for each sku if ItemLocator API fails for some reason
-			response = decoratePlanningListWithItemLocations(storeId, response);
+			response = decorateCartWithItemLocations(storeId, response);
 
 			return this.createValidResponse(response);
 
@@ -102,32 +91,32 @@ public class GetPlanningListItemLocator extends BaseService {
 	 * 
 	 * 
 	 */
-	private String decoratePlanningListWithItemLocations(String storeId, String planningListResponse) throws Exception {
+	private String decorateCartWithItemLocations(String storeId, String cartResponse) throws Exception {
 		try {
-			JSONObject retvalJObj = new JSONObject();
+			JSONObject origRespJObj = new JSONObject(cartResponse);
 
-			Map<String, JSONObject> processedPartitionItems;
-			Map<String, JSONObject> itemsMap = new HashMap<>();
-			
-			JSONObject origRespJObj = new JSONObject(planningListResponse);
-
-			if (!origRespJObj.has(WakefernApplicationConstants.Mi9V8ItemLocator.Items) || storeId.length() < 1) {
+			if (!origRespJObj.has(WakefernApplicationConstants.Mi9V8ItemLocator.LineItems) || storeId.length() < 1) {
 				// The supplied response string does not contain any Items (products).
 				// Just return the original string.
-				return planningListResponse;
+				return cartResponse;
 			}
 
-			JSONArray itemsJArray = (JSONArray) origRespJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Items);
+			JSONArray itemsJArray = (JSONArray) origRespJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.LineItems);
 			final int itemsSize = itemsJArray.length();
 
 			if (itemsSize == 0) {
 				// The Items Array is empty (no products).
-				return planningListResponse;
+				return cartResponse;
 			}
+
+			JSONObject retvalJObj = new JSONObject();
+
+			Map<String, JSONObject> processedPartitionItems;
+			Map<String, JSONObject> itemsMap = new HashMap<>();
 
 			// Set up retval with all non-items data
 			for (String key : origRespJObj.keySet()) {
-				if (!key.equals(WakefernApplicationConstants.Mi9V8ItemLocator.Items)) {
+				if (!key.equals(WakefernApplicationConstants.Mi9V8ItemLocator.LineItems)) {
 					Object keyvalue = origRespJObj.get(key);
 					retvalJObj.put(key, keyvalue);
 				}
@@ -163,7 +152,9 @@ public class GetPlanningListItemLocator extends BaseService {
 					}
 				}
 
-				if (partitionItemsList.isEmpty()) continue;
+				if (partitionItemsList.isEmpty()) {
+					continue;
+				}
 		
 				final String path = WakefernApplicationConstants.ItemLocator.baseURL
 						+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + partitionItemsSB;
@@ -181,17 +172,17 @@ public class GetPlanningListItemLocator extends BaseService {
 				logger.trace("responseData: " + responseData);
 	
 				processedPartitionItems = ItemLocatorUtils.generateItemLocatorMap(partitionItemsList, responseData);
-				
+
 				for (Map.Entry<String, JSONObject> entry : processedPartitionItems.entrySet()) {
 					// build up the entire map for lookup later
 					itemsMap.put(entry.getKey(), entry.getValue());
 				}
 			}
 
-			for (int i=0; itemsSize > i; i++) {
-				JSONObject itemJObj = (JSONObject) itemsJArray.get(i);
+			for (int i=0; i < itemsSize; i++) {
+				JSONObject itemJObj = itemsJArray.getJSONObject(i);
 
-				String sku = itemJObj.get(WakefernApplicationConstants.Mi9V8ItemLocator.Sku).toString();
+				String sku = itemJObj.getString(WakefernApplicationConstants.Mi9V8ItemLocator.Sku);
 				String upc = ItemLocatorUtils.removeCheckSumDigit(sku);
 
 				if (itemsMap.get(upc) != null) {
@@ -204,7 +195,7 @@ public class GetPlanningListItemLocator extends BaseService {
 					ItemLocatorUtils.addDummyItemLocatorObj(itemJObj);
 				}
 				
-				retvalJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.Items, itemJObj);
+				retvalJObj.append(WakefernApplicationConstants.Mi9V8ItemLocator.LineItems, itemJObj);
 			}
 
 			return retvalJObj.toString();
@@ -215,7 +206,7 @@ public class GetPlanningListItemLocator extends BaseService {
 			
 			// if there is an exception, we try to return the Mi9 shopping cart info + empty item locator for each sku.
 			// if addEmptyItemLocator() also throw an exception, the caller would get a HTTP 500 with a brief error message
-			return ItemLocatorUtils.addEmptyItemLocator(planningListResponse, false);
+			return ItemLocatorUtils.addEmptyItemLocator(cartResponse, true);
 		}
 	}
 }

@@ -186,6 +186,9 @@ public class LogUtil {
 		messages.add(pad("The 'recipe_shelf_thread_pool_size' system property:")
 				+ VcapProcessor.getRecipeShelfThreadPoolSize());
 
+		messages.add(pad("The 'item_locator_cache_enabled' system property:")
+				+ VcapProcessor.isItemLocatorCacheEnabled());
+
 		messages.add("");
 
 		messages.add(pad("The server IP address:") + ipAddress);
@@ -271,6 +274,7 @@ public class LogUtil {
 					+ System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME) + "</td></tr>");
 
 			messages.add("<tr><td>recipe_shelf_thread_pool_size</td><td>" + VcapProcessor.getRecipeShelfThreadPoolSize() + "</td></tr>");
+			messages.add("<tr><td>item_locator_cache_enabled</td><td>" + VcapProcessor.isItemLocatorCacheEnabled() + "</td></tr>");
 
 			messages.add("</table> <br /> <br />");
 

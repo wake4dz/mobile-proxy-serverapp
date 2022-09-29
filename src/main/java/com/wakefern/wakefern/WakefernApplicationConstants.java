@@ -92,6 +92,7 @@ public class WakefernApplicationConstants {
         public static final String MUTE_ERROR_LOG = "mute_error_log";
         public static final String MUTE_HTTP_CODE = "mute_http_code";
 
+        public static final String ITEM_LOCATOR_CACHE_ENABLED = "item_locator_cache_enabled";
     }
 
     public static class CouponsV3 {
@@ -205,6 +206,7 @@ public class WakefernApplicationConstants {
         public static final String Aisle = "aisle";
         public static final String area_desc = "wf_area_desc";
         public static final String Items = "items";
+        public static final String LineItems = "lineItems";
         public static final String Other = "OTHER";
         public static final String Sku = "sku";
         public static final String AisleSectionDesc = "aisleSectionDesc";

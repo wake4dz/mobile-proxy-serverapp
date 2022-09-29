@@ -22,7 +22,7 @@ public class WynshopApplicationConstants {
 	public static final String BaseURL = getMi9v8ServiceEndpoint();
 	public static class Requests {
 		public static class Routes {
-
+			public static final String CartItemLocator = "/mi9/cart/{storeId}";
 			public static final String ShoppingCartItemLocator = "/mi9/v8/lists/planning/{storeId}";
 		}
 		// Request Parameters

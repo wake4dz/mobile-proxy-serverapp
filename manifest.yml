@@ -19,7 +19,6 @@ applications:
     api_medium_timeout: ((API_MEDIUM_TIMEOUT))
     api_low_timeout: ((API_LOW_TIMEOUT))
 
-    new_relic_key: ((NEW_RELIC_KEY))
     apim_nutrition_key: ((APIM_NUTRITION_KEY))
     apim_sms_enrollments_key: ((APIM_SMS_ENROLLMENTS_KEY))
     http_default_connect_timeout_ms: ((HTTP_DEFAULT_CONNECT_TIMEOUT_MS))

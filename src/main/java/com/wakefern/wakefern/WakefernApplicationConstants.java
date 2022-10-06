@@ -45,8 +45,6 @@ public class WakefernApplicationConstants {
         public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
         public static final String APIM_NUTRITION_KEY = "apim_nutrition_key";
 
-        public static final String NEW_RELIC_KEY = "new_relic_key";
-
         // subscription key to APIM SMS Enrollments API
         public static final String APIM_SMS_ENROLLMENTS_KEY = "apim_sms_enrollments_key";
 

@@ -129,7 +129,7 @@ public class GetCartItemLocator extends BaseService {
 			StringBuilder partitionItemsSB;
 
 			// Get auth token
-			final String authToken = WakefernAuth.getInfo(WakefernApplicationConstants.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
 
 			for (int i=0; i < numRequests; i++) {
 				partitionItemsList = new ArrayList<>();

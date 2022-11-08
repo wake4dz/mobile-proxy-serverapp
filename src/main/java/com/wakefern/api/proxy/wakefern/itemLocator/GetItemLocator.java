@@ -35,8 +35,7 @@ public class GetItemLocator extends BaseService {
 			String path = WakefernApplicationConstants.ItemLocator.baseURL
 					+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + upc;
 
-			final String authToken = WakefernAuth.getInfo(WakefernApplicationConstants
-					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
 
@@ -73,8 +72,7 @@ public class GetItemLocator extends BaseService {
 			String path = WakefernApplicationConstants.ItemLocator.baseURL
 					+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + upc;
 
-			final String authToken = WakefernAuth.getInfo(WakefernApplicationConstants
-					.getSystemPropertyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
 

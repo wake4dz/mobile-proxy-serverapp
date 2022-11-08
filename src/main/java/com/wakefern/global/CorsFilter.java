@@ -1,15 +1,11 @@
 package com.wakefern.global;
 
-import java.io.IOException;
-
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
 import com.wakefern.wakefern.WakefernApplicationConstants;
-import com.wakefern.global.ApplicationConstants;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,18 +18,16 @@ import org.apache.commons.lang3.StringUtils;
 @Provider
 public class CorsFilter implements ContainerResponseFilter {
 	private static final String[] ALLOWED_ORIGINS = { "http://localhost:7000", "http://localhost:7001" };
-	private static final String[] ALLOWED_HEADERS_LIST = { MWGApplicationConstants.Headers.Params.contentType,
-			MWGApplicationConstants.Headers.Params.accept, MWGApplicationConstants.Headers.Params.auth,
-			MWGApplicationConstants.Headers.Params.reservedTimeslot, ApplicationConstants.Requests.Header.appVersion };
+	private static final String[] ALLOWED_HEADERS_LIST = { ApplicationConstants.Requests.Headers.contentType,
+			ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.Authorization,
+			ApplicationConstants.Requests.Headers.reservedTimeslot, ApplicationConstants.Requests.Headers.appVersion };
 	private static final String ALLOWED_HEADERS = StringUtils.join(ALLOWED_HEADERS_LIST, ", ");
 	private static final String ALLOWED_METHODS = "GET, POST, PUT, DELETE, OPTIONS, HEAD";
 	private static final String MAX_AGE = "1209600";
 
 	@Override
-	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext response)
-			throws IOException {
-		final String shouldEnableCors = MWGApplicationConstants
-				.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.CORS);
+	public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext response) {
+		final String shouldEnableCors = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.CORS);
 		final String origin = requestContext.getHeaderString("Origin");
 
 		if (shouldEnableCors != null && shouldEnableCors.equals("true") && isAcceptedOrigin(origin)) {
@@ -52,11 +46,11 @@ public class CorsFilter implements ContainerResponseFilter {
 	 * @return if the origin is allowed to be served by the server
 	 */
 	private static Boolean isAcceptedOrigin(String origin) {
-		for (int i = 0; i < ALLOWED_ORIGINS.length; i++) {
-			if (ALLOWED_ORIGINS[i].equals(origin)) {
-				return true;
-			}
-		}
+        for (String allowedOrigin : ALLOWED_ORIGINS) {
+            if (allowedOrigin.equals(origin)) {
+                return true;
+            }
+        }
 
 		return false;
 	}

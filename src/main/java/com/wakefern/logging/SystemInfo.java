@@ -9,7 +9,7 @@ import java.text.NumberFormat;
  * the app's memory usage info to the Papertrail for the memory analysis of a particular server instance
  */
 public class SystemInfo {
-    private Runtime runtime = Runtime.getRuntime();
+    private final Runtime runtime = Runtime.getRuntime();
 
     public String getSysInfo() {
         StringBuilder sb = new StringBuilder();
@@ -58,7 +58,6 @@ public class SystemInfo {
         sb.append(format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
         sb.append(",");
         return sb.toString();
-
     }
 
     public String getOsInfo() {

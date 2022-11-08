@@ -1,7 +1,8 @@
 package com.wakefern.logging;
 
 import javax.servlet.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /* 
  *  author: Danny zheng
@@ -10,7 +11,7 @@ import org.apache.log4j.Logger;
  *  To load the logUtil class into the Heap memory when the app starts up
  */
 public class AppStartup implements ServletContextListener  {
-	private final static Logger logger = Logger.getLogger(AppStartup.class);
+	private final static Logger logger = LogManager.getLogger(AppStartup.class);
 	
 	// implement the required context init method
     public void contextInitialized(ServletContextEvent sce){

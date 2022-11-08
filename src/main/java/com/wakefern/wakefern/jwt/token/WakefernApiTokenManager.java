@@ -1,21 +1,22 @@
 package com.wakefern.wakefern.jwt.token;
 
-import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.VcapProcessor;
-import com.wakefern.logging.LogUtil;
-import com.wakefern.logging.MwgErrorType;
-import com.wakefern.mywebgrocer.MWGApplicationConstants;
-import com.wakefern.request.HTTPRequest;
-import com.wakefern.wakefern.WakefernApplicationConstants;
-import org.apache.log4j.Logger;
-import org.json.JSONObject;
-
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
+
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationUtils;
+import com.wakefern.global.VcapProcessor;
+import com.wakefern.logging.LogUtil;
+import com.wakefern.request.HTTPRequest;
+import com.wakefern.wakefern.WakefernApplicationConstants;
+
 public class WakefernApiTokenManager {
-    private final static Logger logger = Logger.getLogger(WakefernApiTokenManager.class);
+    private final static Logger logger = LogManager.getLogger(WakefernApiTokenManager.class);
 
     private static volatile String sWakefernAPIToken = null;
     private static boolean isRefreshing = false;
@@ -110,16 +111,14 @@ public class WakefernApiTokenManager {
 
             String path = WakefernApplicationConstants.JwtToken.BaseURL + WakefernApplicationConstants.JwtToken.authPath;
 
-            wkfn.put(ApplicationConstants.Requests.Header.contentType, "text/plain");
-            wkfn.put(ApplicationConstants.Requests.Header.contentAuthorization,
-                    MWGApplicationConstants.getSystemProperytyValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+            wkfn.put(ApplicationConstants.Requests.Headers.contentType, "text/plain");
+            wkfn.put(ApplicationConstants.Requests.Headers.Authorization,
+                    ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
 
             String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiLowTimeout());
             logger.debug("Response from wakefern api: " + response);
             sWakefernAPIToken = response;
         } catch (Exception e) {
-            LogUtil.addErrorMaps(e, MwgErrorType.JWT_TOKEN_GET_TOKEN);
-
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
             logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             sWakefernAPIToken = null;

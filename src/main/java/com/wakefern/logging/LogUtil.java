@@ -179,9 +179,9 @@ public class LogUtil {
 		messages.add(pad("The 'api_medium_timeout' system property:") + VcapProcessor.getApiMediumTimeout());
 		messages.add(pad("The 'api_low_timeout' system property:") + VcapProcessor.getApiLowTimeout());
 		messages.add(pad("The 'http_default_connect_timeout_ms' system property:")
-				+ System.getenv(HTTPRequest.HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME));
+				+ VcapProcessor.getHttpDefaultConnectTimeoutMs());
 		messages.add(pad("The 'http_default_read_timeout_ms' system property:")
-				+ System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME));
+				+ VcapProcessor.getHttpDefaultReadTimeoutMs());
 
 		messages.add(pad("The 'recipe_shelf_thread_pool_size' system property:")
 				+ VcapProcessor.getRecipeShelfThreadPoolSize());
@@ -268,10 +268,10 @@ public class LogUtil {
 			messages.add("<tr><td>api_low_timeout</td>" + "<td>" + VcapProcessor.getApiLowTimeout() + "</td> </tr>");
 
 			messages.add("<tr><td>http_default_connect_timeout_ms</td><td>"
-					+ System.getenv(HTTPRequest.HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME) + "</td></tr>");
+					+ VcapProcessor.getHttpDefaultConnectTimeoutMs() + "</td></tr>");
 
 			messages.add("<tr><td>http_default_read_timeout_ms</td><td>"
-					+ System.getenv(HTTPRequest.HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME) + "</td></tr>");
+					+ VcapProcessor.getHttpDefaultReadTimeoutMs() + "</td></tr>");
 
 			messages.add("<tr><td>recipe_shelf_thread_pool_size</td><td>" + VcapProcessor.getRecipeShelfThreadPoolSize() + "</td></tr>");
 			messages.add("<tr><td>item_locator_cache_enabled</td><td>" + VcapProcessor.isItemLocatorCacheEnabled() + "</td></tr>");

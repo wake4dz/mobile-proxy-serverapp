@@ -20,14 +20,6 @@ public class WakefernApplicationConstants {
         return wakefernApiProd;
     }
 
-    /**
-     * The generic way to get the system property value
-     */
-    public static String getSystemPropertyValue(String key) {
-        return java.lang.System.getenv(key.trim());
-    }
-
-    // TODO: MM not all these keys are necessary anymore. Review them and purge the ones that are not.
     public static class VCAPKeys {
         public static final String CORS = "cors";
         public static final String CHAIN = "chain";
@@ -91,6 +83,9 @@ public class WakefernApplicationConstants {
         public static final String MUTE_HTTP_CODE = "mute_http_code";
 
         public static final String ITEM_LOCATOR_CACHE_ENABLED = "item_locator_cache_enabled";
+        
+    	public static final String HTTP_DEFAULT_CONNECT_TIMEOUT = "http_default_connect_timeout_ms";
+    	public static final String HTTP_DEFAULT_READ_TIMEOUT = "http_default_read_timeout_ms";
     }
 
     public static class CouponsV3 {

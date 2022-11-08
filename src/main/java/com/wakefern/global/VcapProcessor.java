@@ -56,6 +56,12 @@ public class VcapProcessor {
 	private static List<String> muteHttpCode = null;
 
 	private static boolean isItemLocatorCacheEnabled = false;
+	
+	private static int httpDefaultConnectTimeoutMs = 0;
+	private static int httpDefaultReadTimeoutMs = 0;
+	
+	private static String jwtPublicKey = null;
+	
 
 	// this static code is not run until the class is loaded into the memory for the
 	// first time system settings are fetched once, store them in the heap memory
@@ -129,6 +135,26 @@ public class VcapProcessor {
 		muteHttpCode = new ArrayList<>(Arrays.asList(codes.split(",")));
 
 		isItemLocatorCacheEnabled = getVcapValueString(WakefernApplicationConstants.VCAPKeys.ITEM_LOCATOR_CACHE_ENABLED).trim().equalsIgnoreCase("true");
+		
+		try {
+			httpDefaultConnectTimeoutMs = getVcapValueInt(WakefernApplicationConstants.VCAPKeys.HTTP_DEFAULT_CONNECT_TIMEOUT);
+
+		} catch (Exception e) {
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
+			throw new RuntimeException("http_default_connect_timeout_ms must have an integer value in millisecond!");
+		}
+		
+		try {
+			httpDefaultReadTimeoutMs = getVcapValueInt(WakefernApplicationConstants.VCAPKeys.HTTP_DEFAULT_READ_TIMEOUT);
+
+		} catch (Exception e) {
+			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
+			throw new RuntimeException("http_default_read_timeout_ms must have an integer value in millisecond!");
+		}
+		
+		jwtPublicKey = getVcapValueString(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY);
+		
+		
 	}
 
 	public static int getApiHighTimeout() {
@@ -308,5 +334,19 @@ public class VcapProcessor {
 		VcapProcessor.muteHttpCode = muteHttpCode;
 	}
 
-	public static boolean isItemLocatorCacheEnabled() { return isItemLocatorCacheEnabled; };
+	public static boolean isItemLocatorCacheEnabled() { return isItemLocatorCacheEnabled; }
+
+	public static int getHttpDefaultConnectTimeoutMs() {
+		return httpDefaultConnectTimeoutMs;
+	}
+
+	public static int getHttpDefaultReadTimeoutMs() {
+		return httpDefaultReadTimeoutMs;
+	}
+
+	public static String getJwtPublicKey() {
+		return jwtPublicKey;
+	}
+
+	
 }

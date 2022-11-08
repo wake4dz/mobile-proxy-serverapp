@@ -15,6 +15,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.errorHandling.ResponseHandler;
 import com.wakefern.logging.LogUtil;
 
@@ -37,28 +38,20 @@ public class HTTPRequest {
 	 */
 	private static final int sConnectionTimeoutMs, sReadTimeoutMs;
 
-	/**
-	 * Environment variable names for conditional initialization.
-	 */
-	public static final String HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME = "http_default_connect_timeout_ms";
-	public static final String HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME = "http_default_read_timeout_ms";
 
-	/**
-	 * Static initialization for timeout, read from environment vars/VCAP if applicable.
-	 */
 	static {
 		logger.info("Reading default connection and read timeout values from env");
 
 		int connTimeout = 0, readTimeout = 0;
 		// Read environment values
 		try {
-			connTimeout = Integer.parseInt(System.getenv(HTTP_DEFAULT_CONN_TIMEOUT_ENV_NAME));
+			connTimeout = VcapProcessor.getHttpDefaultConnectTimeoutMs();
 		} catch (Exception e) {
 			logger.error("Error reading default connection timeout from env");
 		}
 
 		try {
-			readTimeout = Integer.parseInt(System.getenv(HTTP_DEFAULT_READ_TIMEOUT_ENV_NAME));
+			readTimeout = VcapProcessor.getHttpDefaultReadTimeoutMs();
 		} catch (Exception e) {
 			logger.error("Error reading default connection timeout from env");
 		}

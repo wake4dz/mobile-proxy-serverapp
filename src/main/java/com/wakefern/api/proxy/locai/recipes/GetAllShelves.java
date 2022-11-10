@@ -1,15 +1,13 @@
 package com.wakefern.api.proxy.locai.recipes;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
@@ -23,34 +21,45 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 @Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.RecipeLocai.Proxy.path)
 public class GetAllShelves extends BaseService {
 
-	private final static Logger logger = LogManager.getLogger(GetAllShelves.class);
+    private final static Logger logger = LogManager.getLogger(GetAllShelves.class);
 
-	@POST
-	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
-	@Path(WakefernApplicationConstants.RecipeLocai.Proxy.getShelves)
-	public Response getResponse(
-			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
-			String jsonBody)
-	{
-		try {
-			// Fetch the homepage config.
-			JSONObject homePageConfig = HomePageConfig.fetch();
+    private static final String BAD_REQUEST_ERROR_MSG = "Request body must be a json object";
 
-			// Iterate over the shelf layouts and fetch all the recipes.
-			JSONArray layouts = homePageConfig.getJSONArray("hits").getJSONObject(0).getJSONArray("layout");
+    @POST
+    @Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+    @Path(WakefernApplicationConstants.RecipeLocai.Proxy.getShelves)
+    public Response getResponse(
+            @HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
+            String jsonBody)
+    {
+        try {
+            // Check the body of the request. If not valid JSON object, throw Bad Request error
+            if (jsonBody == null) {
+                return this.createErrorResponse(Response.Status.BAD_REQUEST, BAD_REQUEST_ERROR_MSG);
+            }
+            try {
+                JSONObject validJson = new JSONObject(jsonBody);
+            } catch (JSONException e) {
+                return this.createErrorResponse(Response.Status.BAD_REQUEST, BAD_REQUEST_ERROR_MSG);
+            }
+            // Fetch the homepage config.
+            JSONObject homePageConfig = HomePageConfig.fetch();
 
-			JSONArray hydratedLayouts = RecipeUtils.fetchAllShelfRecipes(layouts, jsonBody);
-			return createValidResponse(hydratedLayouts.toString());
-		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"contentType", contentType);
+            // Iterate over the shelf layouts and fetch all the recipes.
+            JSONArray layouts = homePageConfig.getJSONArray("hits").getJSONObject(0).getJSONArray("layout");
+
+            JSONArray hydratedLayouts = RecipeUtils.fetchAllShelfRecipes(layouts, jsonBody);
+            return createValidResponse(hydratedLayouts.toString());
+        } catch (Exception e) {
+            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+                    "contentType", contentType);
 
             if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+                logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
             }
 
-			return this.createErrorResponse(errorData, e);
-		}
-	}
+            return this.createErrorResponse(errorData, e);
+        }
+    }
 }

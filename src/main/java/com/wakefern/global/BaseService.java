@@ -14,6 +14,14 @@ public class BaseService {
     protected String requestPath   = null;
 
     private final static Logger logger = LogManager.getLogger(BaseService.class);
+
+    private static final String GENERIC_ERROR_MESSAGE = "Unknown error";
+
+    protected Response createErrorResponse(Response.Status status, String message) {
+        JSONObject errorBody = new JSONObject();
+        errorBody.put("ErrorMessage", message == null ? GENERIC_ERROR_MESSAGE : message);
+        return Response.status(status).entity(errorBody.toString()).build();
+    }
         
     /**
      * Create a standardized Error Response (HTTP 5xx / 4xx) to pass back to the UI.

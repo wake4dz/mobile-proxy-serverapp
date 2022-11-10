@@ -76,9 +76,11 @@ public class GetItemLocator extends BaseService {
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
 
+			logger.trace("auth token:" + authToken);
 			logger.trace("URL path: " + path);
 
 			String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
+			logger.trace("item locator fetch resp: " + response);
 			JSONObject itemLocatorObj = ItemLocatorUtils.generateItemLocatorForUpc(upc, response);
 			ItemLocatorCache.getInstance().putItemLocation(storeId, upc, ItemLocatorDto.fromJSON(itemLocatorObj));
 			return createValidResponse(itemLocatorObj.toString());

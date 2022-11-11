@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
@@ -47,6 +48,7 @@ public class GetWakefernNutrition extends BaseService {
 
             wkfn.put(WakefernApplicationConstants.APIM.sub_key_header,
                     ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_NUTRITION_KEY));
+            wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
             return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 0));
 

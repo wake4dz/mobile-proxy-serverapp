@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
@@ -44,6 +45,8 @@ public class GetCouponByPromoCode extends BaseService {
 
 			headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 			headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);
+			headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
+			
 			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {

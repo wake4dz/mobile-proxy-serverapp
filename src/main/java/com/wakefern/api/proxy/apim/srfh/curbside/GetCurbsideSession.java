@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
@@ -50,6 +51,7 @@ public class GetCurbsideSession extends BaseService {
 			final String requestURI = uriBuilder.build().toString();
 			Map<String, String> headers = new HashMap<>();
 			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHCurbsideApiKey());
+			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			String response = HTTPRequest.executeGet(requestURI, headers, VcapProcessor.getApiMediumTimeout());
 			return createValidResponse(response);

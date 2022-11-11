@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.UserJWTV2;
@@ -43,6 +44,7 @@ public class GetUserSession extends BaseService {
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization,
 				ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.COUPON_V3_KEY));
+		headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 		JSONObject jsonObject;
 		try {

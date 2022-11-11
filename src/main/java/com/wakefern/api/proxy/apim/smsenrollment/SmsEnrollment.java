@@ -22,6 +22,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
@@ -50,6 +51,9 @@ public class SmsEnrollment extends BaseService {
                 WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersion);
         headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
                 ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
+        
+        headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
+        
         try {
             URIBuilder builder = new URIBuilder(WakefernApplicationConstants.SmsEnrollment.Upstream.BaseURL);
             builder.setPath(WakefernApplicationConstants.SmsEnrollment.Upstream.enrollmentPath)

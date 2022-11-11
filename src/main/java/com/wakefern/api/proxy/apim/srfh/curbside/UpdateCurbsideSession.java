@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
@@ -55,6 +56,7 @@ public class UpdateCurbsideSession extends BaseService {
 			Map<String, String> headers = new HashMap<>();
 			headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
 			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHCurbsideApiKey());
+			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			logger.info("request URI = " + requestURI + " body = " + body + " key = " + VcapProcessor.getTargetSRFHCurbsideApiKey());
 			String response = HTTPRequest.executePost(requestURI, body, headers, VcapProcessor.getApiMediumTimeout());

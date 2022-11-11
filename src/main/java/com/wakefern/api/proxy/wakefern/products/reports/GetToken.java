@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
@@ -53,6 +54,7 @@ public class GetToken extends BaseService {
 			Map<String, String> headerMap = new HashMap<>(1);
 			headerMap.put(ApplicationConstants.Requests.Headers.Accept, accept);
 			headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
+			headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			Map<String, String> requestBodyMap = new HashMap<>(2);
 
@@ -77,6 +79,7 @@ public class GetToken extends BaseService {
 			Map<String, String> headerMap = new HashMap<>(1);
 			headerMap.put(ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);
 			headerMap.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
+			headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 	
 			Map<String, String> requestBodyMap = new HashMap<>(2);
 

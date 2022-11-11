@@ -49,18 +49,26 @@ public class RecipeUtils {
 	 */
 	private static CompletableFuture<Map<String, String>> fetchShelf(String dishTagId,
 																	String dishQuery,
-																	String jsonBody) {
+																	String jsonBody)
+    {
 		JSONObject jsonArgs = new JSONObject(jsonBody);
 
-		String query = dishQuery != null && !dishQuery.isEmpty() ? dishQuery : dishTagId;
-		logger.debug("DishtagId: " + dishTagId + " query:" + query);
-		jsonArgs.put("query", query);
+		String tagId = dishQuery != null && !dishQuery.isEmpty() ? dishQuery : dishTagId;
+		logger.debug("DishtagId: " + tagId);
+		jsonArgs.put("query", JSONObject.NULL);
 		jsonArgs.put("rankingType", "Shelf");
-		jsonArgs.put("filterTagIds", new JSONArray());
+		// Override with null if userId is an empty string
+		if (jsonArgs.has("userId") && jsonArgs.getString("userId").isEmpty()) {
+			jsonArgs.put("userId", JSONObject.NULL);
+		}
+		ArrayList<String> filterTagIds = new ArrayList<>();
+		if (!tagId.isEmpty())
+			filterTagIds.add(tagId);
+		jsonArgs.put("filterTagIds", filterTagIds);
 
 		return CompletableFuture.supplyAsync(() -> {
 			try {
-				return doReq(query, jsonArgs.toString());
+				return doReq(tagId, jsonArgs.toString());
 			}
 			catch (Exception e) {
 				logger.error("Error on searchRecipe request " + e.getMessage());

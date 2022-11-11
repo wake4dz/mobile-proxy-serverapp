@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
@@ -68,6 +69,7 @@ public class GetPointsForPPC extends BaseService {
 			Map<String, String> headers = new HashMap<>();
 			headers.put(ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);
 			headers.put(ApplicationConstants.Requests.Headers.Authorization, requestToken);
+			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			final String response = HTTPRequest.executeGet(srvPath, headers, 0);
 			return createValidResponse(response);

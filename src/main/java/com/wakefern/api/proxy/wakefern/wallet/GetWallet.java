@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
@@ -56,6 +57,7 @@ public class GetWallet extends BaseService {
 
             headers.put("Content-Type", contentType);
             headers.put("Authorization", VcapProcessor.getTargetWalletAuthorizationKey() );
+            headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
             //note: first-time call for each user would take some time. After cache in the upstream system, calls are much faster.
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiMediumTimeout()));

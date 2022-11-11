@@ -3,6 +3,7 @@ package com.wakefern.api.proxy.wakefern.itemLocator;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -38,6 +39,7 @@ public class GetItemLocator extends BaseService {
 			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
+			wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			logger.trace("URL path: " + path);
 
@@ -75,6 +77,7 @@ public class GetItemLocator extends BaseService {
 			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
+			wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			logger.trace("auth token:" + authToken);
 			logger.trace("URL path: " + path);

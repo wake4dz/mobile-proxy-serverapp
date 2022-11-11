@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
@@ -60,6 +61,7 @@ public class CreateProductNotFoundEntry extends BaseService {
 			headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);
 			headerMap.put(ApplicationConstants.Requests.Headers.Accept, accept);
 			headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
+			headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			HTTPRequest.executePost(productUrl, requestBody, headerMap);
 

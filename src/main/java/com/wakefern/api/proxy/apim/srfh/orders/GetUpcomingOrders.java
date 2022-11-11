@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
@@ -54,6 +55,7 @@ public class GetUpcomingOrders extends BaseService {
 			headers.put("X-ShopRite-Mobile-Version", appVersion);
 			headers.put(ApplicationConstants.Requests.Headers.Accept, WakefernApplicationConstants.UpcomingOrders.Upstream.MimeType);
 			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHOrdersApiKey());
+			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			String response = HTTPRequest.executeGet(requestURI, headers, VcapProcessor.getApiMediumTimeout());
 			return createValidResponse(response);

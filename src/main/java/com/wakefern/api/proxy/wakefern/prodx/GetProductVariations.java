@@ -1,4 +1,4 @@
-package com.wakefern.api.proxy.wakefern.prodx.complements;
+package com.wakefern.api.proxy.wakefern.prodx;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -11,7 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
@@ -27,40 +26,44 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.Complements.Proxy.GetProductComplements)
-public class GetProductComplements extends BaseService {
-	private final static Logger logger = LogManager.getLogger(GetProductComplements.class);
+/* 
+ *  @author Danny zheng
+ *  @date   11/15/2022
+ *  
+ *  @description Prodx to provide a group of variations for a selected product
+ *  @see https://wakefern.atlassian.net/browse/SHOP-701
+ */
+
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.ProductsVariations.Proxy.GetProductVariations)
+public class GetProductVariations extends BaseService {
+	private final static Logger logger = LogManager.getLogger(GetProductVariations.class);
 
 	@GET
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	public Response getResponse(@PathParam("productId") String productId,
 								@QueryParam("storeId") String storeId,
-								@QueryParam("customerId") String customerId,
-								@QueryParam("availability") String availability,
-								@QueryParam("groupscount") int groupsCount,
-								@QueryParam("test") boolean test,
-								@QueryParam("productsCount") int productsCount,
-								@QueryParam("embeds") String embeds,
 								@Context UriInfo uriInfo) {
 
 		Map<String, String> headers = new HashMap<>();
 
 		try {
-			// Iterate over the query params and apply to the request if not null.
-			MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-			URIBuilder builder = new URIBuilder(constructUrl(productId));
-			for (String key: queryParams.keySet()) {
-				builder.addParameter(key, queryParams.getFirst(key));
-			}
 
-			// Add "aisleId" query param to each outgoing request
-			builder.addParameter(WakefernApplicationConstants.Prodx.Complements.AISLE_ID, VcapProcessor.getProdxAisleId());
+			URIBuilder builder = new URIBuilder(constructUrl(productId));
+
+			//Add "primaryOnly" query param to each outgoing request
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "true");
+			
+	        // note there is no staging URl, use a query parameter/value of test=true to be acting a staging
+	        // see JIRA at https://wakefern.atlassian.net/browse/SHOP-701 for Prodx product variations API
+			if (VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()) == true) {
+				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.Test, "true");
+			}
 
 			final String url = builder.build().toString();
 
 			headers.put(ApplicationConstants.Requests.Headers.Authorization,
-					VcapProcessor.getProdxApiKey());
+					VcapProcessor.getProdxVariationsApiKeyProd());
 
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
 
@@ -68,12 +71,7 @@ public class GetProductComplements extends BaseService {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"productId", productId,
 					"storeId", storeId,
-					"customerId", customerId,
-					"availability", availability,
-					"groupsCount", groupsCount,
-					"productsCount", productsCount,
-					"test", test,
-					"embeds", embeds);
+					"primaryOnly", true);
 			
 			if (LogUtil.isLoggable(e)) {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
@@ -84,9 +82,13 @@ public class GetProductComplements extends BaseService {
 	}
 
 	private static String constructUrl(final String productId) {
-		String template = VcapProcessor.getProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.Complements.Upstream.GetComplementsPath;
+        // note there is no staging URL, use a query parameter/value of test=true to be acting a staging
+        // see JIRA at https://wakefern.atlassian.net/browse/SHOP-701 for Prodx product variations API
+		String template = WakefernApplicationConstants.Prodx.Upstream.prodBaseUrl + 
+				WakefernApplicationConstants.Prodx.ProductsVariations.GetVariationsPath;
+		
 		Map<String, String> pathParams = new HashMap<>();
-		pathParams.put("productId", productId);
+		pathParams.put(WakefernApplicationConstants.Prodx.ProductsVariations.ProductId, productId);
 
 		UriBuilder builder = UriBuilder.fromPath(template);
 		URI output = builder.buildFromMap(pathParams);

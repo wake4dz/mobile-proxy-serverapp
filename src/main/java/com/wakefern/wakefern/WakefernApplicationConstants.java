@@ -74,7 +74,8 @@ public class WakefernApplicationConstants {
         public static final String PRODX_COMPLEMENTS_STG_API_KEY = "prodx_complements_stg_api_key";
         public static final String PRODX_COMPLEMENTS_PROD_API_KEY = "prodx_complements_prod_api_key";
         public static final String PRODX_AISLE_ID = "prodx_aisle_id";
-
+        public static final String PRODX_VARIATIONS_PROD_API_KEY = "prodx_variations_prod_api_key";
+        
         public static final String MI9V8_SERVICE = "mi9v8_service";
 
         public static final String REWARD_POINT_SERVICE = "reward_point_service";
@@ -358,18 +359,32 @@ public class WakefernApplicationConstants {
     }
 
     public static class Prodx {
-        public static class Complements {
+        public static class Upstream {
+            public static final String prodBaseUrl = "https://apis-main-two.prodx.com/";
+            public static final String stagingBaseUrl = "https://apis-dev.prodx.com/";
+
+        }
+
+        public static class ProductsComplements {
             public static final String AISLE_ID = "aisleId";
 
-            public static class Upstream {
-                public static final String prodBaseUrl = "https://apis-main-two.prodx.com/";
-                public static final String stagingBaseUrl = "https://apis-dev.prodx.com/";
-
-                public static final String GetComplementsPath = "complements/v1.0/catalogs/WAKEFERN/products/{productId}/complements";
-            }
+            public static final String GetComplementsPath = "complements/v1.0/catalogs/WAKEFERN/products/{productId}/complements";
 
             public static class Proxy {
                 public static final String GetProductComplements = "/products/{productId}/complements";
+            }
+        }
+        public static class ProductsVariations {
+        	public static final String ProductId = "productId";
+        	
+        	public static final String StoreId = "storeId";
+        	public static final String PrimaryOnly = "primaryOnly";
+        	public static final String Test = "test";
+        	
+        	public static final String GetVariationsPath = "variations/v1.0/catalogs/WAKEFERN/products/{productId}/variations";
+        	
+            public static class Proxy {
+                public static final String GetProductVariations = "/products/{productId}/variations";
             }
         }
     }

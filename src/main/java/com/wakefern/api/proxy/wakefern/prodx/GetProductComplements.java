@@ -55,12 +55,12 @@ public class GetProductComplements extends BaseService {
 			}
 
 			// Add "aisleId" query param to each outgoing request
-			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsComplements.AISLE_ID, VcapProcessor.getProdxAisleId());
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsComplements.AISLE_ID, VcapProcessor.getProdxComplementsAisleId());
 
 			final String url = builder.build().toString();
 
 			headers.put(ApplicationConstants.Requests.Headers.Authorization,
-					VcapProcessor.getProdxApiKey());
+					VcapProcessor.getProdxComplementsApiKey());
 
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
 

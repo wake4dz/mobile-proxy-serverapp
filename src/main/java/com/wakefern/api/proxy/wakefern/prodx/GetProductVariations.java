@@ -46,11 +46,36 @@ public class GetProductVariations extends BaseService {
 								@Context UriInfo uriInfo) {
 
 		Map<String, String> headers = new HashMap<>();
-
+		String wakefernStoreId = null;
+				
 		try {
-
+			;
 			URIBuilder builder = new URIBuilder(constructUrl(productId));
 
+			if (storeId.trim().equalsIgnoreCase("3000")) {
+				//Convert the default corporate store 3000 to 0163 before calling Prodx
+				wakefernStoreId = "0163";
+			} else {
+				switch (storeId.trim().length()) {
+					case 1 : wakefernStoreId = "000" + storeId.trim(); 
+						break;
+					case 2 : wakefernStoreId = "00" + storeId.trim();
+						break;
+					case 3 : wakefernStoreId = "0" + storeId.trim();
+						break;
+					case 4 : wakefernStoreId = storeId.trim();
+						break;
+					default: throw new RuntimeException("A Wakefern store ID has to be btw 0 and 9999");
+					
+				}
+			}
+			
+			logger.debug("wakefernStoreId: " + wakefernStoreId);
+			
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.StoreId, wakefernStoreId);
+			
+			//TODO: if this query parameter value to be hardcoded here or passed from UI side?
+			
 			//Add "primaryOnly" query param to each outgoing request
 			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "true");
 			
@@ -68,10 +93,19 @@ public class GetProductVariations extends BaseService {
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
 
 		} catch (Exception e) {
+			String testValue = null;
+			if (VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()) == true) {
+				testValue = "true";
+			} else {
+				testValue = "false";
+			}
+			
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"productId", productId,
 					"storeId", storeId,
-					"primaryOnly", true);
+					"wakefernStoreId", wakefernStoreId,
+					"primaryOnly", true,
+					"test", testValue);
 			
 			if (LogUtil.isLoggable(e)) {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

@@ -49,7 +49,6 @@ public class GetProductVariations extends BaseService {
 		String wakefernStoreId = null;
 				
 		try {
-			;
 			URIBuilder builder = new URIBuilder(constructUrl(productId));
 
 			if (storeId.trim().equalsIgnoreCase("3000")) {

@@ -43,7 +43,7 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 public class GetProductVariations extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetProductVariations.class);
 	private final static String DEFAULT_CORPORATE_STORE = "3000";
-	private final static String CONVERTED_CORPROATE_STORE = "0163";
+	private final static String CONVERTED_CORPORATE_STORE = "0163";
 	
 	@GET
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
@@ -63,17 +63,17 @@ public class GetProductVariations extends BaseService {
 			URIBuilder builder = new URIBuilder(constructUrl(productId.trim()));
 
 			if (storeId.equalsIgnoreCase(DEFAULT_CORPORATE_STORE)) {
-				//Convert the default corporate store 3000 to 0163 before calling Prodx
-				wakefernStoreId = CONVERTED_CORPROATE_STORE;
+				//Convert the default corporate store to a specific store before calling Prodx
+				wakefernStoreId = CONVERTED_CORPORATE_STORE;
 			} else {
 				switch (storeId.length()) {
-					case 1 : wakefernStoreId = "000" + storeId.trim(); 
+					case 1 : wakefernStoreId = "000" + storeId; 
 						break;
-					case 2 : wakefernStoreId = "00" + storeId.trim();
+					case 2 : wakefernStoreId = "00" + storeId;
 						break;
-					case 3 : wakefernStoreId = "0" + storeId.trim();
+					case 3 : wakefernStoreId = "0" + storeId;
 						break;
-					case 4 : wakefernStoreId = storeId.trim();
+					case 4 : wakefernStoreId = storeId;
 						break;
 					default: throw new RuntimeException("A Wakefern store ID has to be btw 0 and 9999");
 					
@@ -83,21 +83,16 @@ public class GetProductVariations extends BaseService {
 			logger.debug("wakefernStoreId: " + wakefernStoreId);
 			
 			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.StoreId, wakefernStoreId);
-			
-			//Add "primaryOnly" query param to each outgoing request
-			if (isPrimaryOnly) {
-				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "true");
-			} else {
-				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "false");
-			}
-			
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, String.valueOf(isPrimaryOnly));
+	
 			logger.debug("isPrimaryOnly: " + isPrimaryOnly);
 			
 	        // note there is no staging URl, use a query parameter/value of test=true to be acting a staging
 	        // see JIRA at https://wakefern.atlassian.net/browse/SHOP-701 for Prodx product variations API
-			if (VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()) == true) {
-				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.Test, "true");
-			}
+
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.Test, 
+					String.valueOf(VcapProcessor.isServiceStaging(VcapProcessor.getProdxService())));
+
 			
 			logger.debug("Is test/staging? : " + VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()));
 

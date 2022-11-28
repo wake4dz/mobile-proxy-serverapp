@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -32,6 +33,10 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  *  
  *  @description Prodx to provide a group of variations for a selected product
  *  @see https://wakefern.atlassian.net/browse/SHOP-701
+ *  
+ *  @QueryParam("primaryOnly") refers to the type of variation groups returned. 
+ *  Setting it to true limits the variation groupings to only groupings marked as primary on the Prodx side (i.e. Size, flavor, weight etc.)  
+ *  Secondary variation groups are more niche to the particular product we a retrieving variations for. (i.e. SPF and Form for Lip balm)
  */
 
 @Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.ProductsVariations.Proxy.GetProductVariations)
@@ -43,6 +48,7 @@ public class GetProductVariations extends BaseService {
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	public Response getResponse(@PathParam("productId") String productId,
 								@QueryParam("storeId") String storeId,
+								@DefaultValue("true") @QueryParam("primaryOnly") boolean isPrimaryOnly,
 								@Context UriInfo uriInfo) {
 
 		Map<String, String> headers = new HashMap<>();
@@ -73,16 +79,22 @@ public class GetProductVariations extends BaseService {
 			
 			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.StoreId, wakefernStoreId);
 			
-			//TODO: if this query parameter value to be hardcoded here or passed from UI side?
-			
 			//Add "primaryOnly" query param to each outgoing request
-			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "true");
+			if (isPrimaryOnly == true) {
+				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "true");
+			} else {
+				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "false");
+			}
+			
+			logger.debug("isPrimaryOnly: " + isPrimaryOnly);
 			
 	        // note there is no staging URl, use a query parameter/value of test=true to be acting a staging
 	        // see JIRA at https://wakefern.atlassian.net/browse/SHOP-701 for Prodx product variations API
 			if (VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()) == true) {
 				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.Test, "true");
 			}
+			
+			logger.debug("Is test/staging? : " + VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()));
 
 			final String url = builder.build().toString();
 
@@ -103,7 +115,7 @@ public class GetProductVariations extends BaseService {
 					"productId", productId,
 					"storeId", storeId,
 					"wakefernStoreId", wakefernStoreId,
-					"primaryOnly", true,
+					"primaryOnly", isPrimaryOnly,
 					"test", testValue);
 			
 			if (LogUtil.isLoggable(e)) {

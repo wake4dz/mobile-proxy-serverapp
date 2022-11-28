@@ -42,7 +42,9 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 @Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.ProductsVariations.Proxy.GetProductVariations)
 public class GetProductVariations extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetProductVariations.class);
-
+	private final static String DEFAULT_CORPORATE_STORE = "3000";
+	private final static String CONVERTED_CORPROATE_STORE = "0163";
+	
 	@GET
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
@@ -51,17 +53,20 @@ public class GetProductVariations extends BaseService {
 								@DefaultValue("true") @QueryParam("primaryOnly") boolean isPrimaryOnly,
 								@Context UriInfo uriInfo) {
 
+		
 		Map<String, String> headers = new HashMap<>();
 		String wakefernStoreId = null;
 				
+		storeId = storeId.trim();
+		
 		try {
-			URIBuilder builder = new URIBuilder(constructUrl(productId));
+			URIBuilder builder = new URIBuilder(constructUrl(productId.trim()));
 
-			if (storeId.trim().equalsIgnoreCase("3000")) {
+			if (storeId.equalsIgnoreCase(DEFAULT_CORPORATE_STORE)) {
 				//Convert the default corporate store 3000 to 0163 before calling Prodx
-				wakefernStoreId = "0163";
+				wakefernStoreId = CONVERTED_CORPROATE_STORE;
 			} else {
-				switch (storeId.trim().length()) {
+				switch (storeId.length()) {
 					case 1 : wakefernStoreId = "000" + storeId.trim(); 
 						break;
 					case 2 : wakefernStoreId = "00" + storeId.trim();
@@ -80,7 +85,7 @@ public class GetProductVariations extends BaseService {
 			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.StoreId, wakefernStoreId);
 			
 			//Add "primaryOnly" query param to each outgoing request
-			if (isPrimaryOnly == true) {
+			if (isPrimaryOnly) {
 				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "true");
 			} else {
 				builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.PrimaryOnly, "false");
@@ -104,19 +109,12 @@ public class GetProductVariations extends BaseService {
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
 
 		} catch (Exception e) {
-			String testValue = null;
-			if (VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()) == true) {
-				testValue = "true";
-			} else {
-				testValue = "false";
-			}
-			
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"productId", productId,
 					"storeId", storeId,
 					"wakefernStoreId", wakefernStoreId,
 					"primaryOnly", isPrimaryOnly,
-					"test", testValue);
+					"test", VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()));
 			
 			if (LogUtil.isLoggable(e)) {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

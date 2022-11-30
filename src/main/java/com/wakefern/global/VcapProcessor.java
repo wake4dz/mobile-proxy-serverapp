@@ -44,10 +44,12 @@ public class VcapProcessor {
 	private static String srfhCurbsideApiKeyProd = null;
 
 	private static String prodxService = null;
-	private static String prodxApiKeyStaging = null;
-	private static String prodxApiKeyProd = null;
-	private static String prodxAisleId = null;
+	private static String prodxComplementsApiKeyStaging = null;
+	private static String prodxComplementsApiKeyProd = null;
+	private static String prodxComplementsAisleId = null;
 
+	private static String prodxVariationsApiKeyProd = null;
+	
 	private static String mi9v8Service = null;
 	
 	private static String rewardPointService = null;
@@ -119,10 +121,13 @@ public class VcapProcessor {
 		srfhCurbsideApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_PROD_API_KEY);
 
 		prodxService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_SERVICE);
-		prodxApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
-		prodxApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_STG_API_KEY);
-		prodxAisleId = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_AISLE_ID);
+		
+		prodxComplementsApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
+		prodxComplementsApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_STG_API_KEY);
+		prodxComplementsAisleId = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_AISLE_ID);
 	
+		prodxVariationsApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_VARIATIONS_PROD_API_KEY);
+		
 		mi9v8Service = getVcapValueString(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
 		
 		rewardPointService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.REWARD_POINT_SERVICE);
@@ -238,7 +243,7 @@ public class VcapProcessor {
 	 * @param service String
 	 * @return true if the service is a staging environment, false otherwise
 	 */
-	private static boolean isServiceStaging(String service) {
+	public static boolean isServiceStaging(String service) {
 		return service != null && service.trim().equalsIgnoreCase(ENV_STAGING);
 	}
 
@@ -300,19 +305,19 @@ public class VcapProcessor {
 
 	public static String getProdxServiceEndpoint() {
 		return isServiceStaging(prodxService) ?
-				WakefernApplicationConstants.Prodx.Complements.Upstream.stagingBaseUrl
-				: WakefernApplicationConstants.Prodx.Complements.Upstream.prodBaseUrl;
+				WakefernApplicationConstants.Prodx.Upstream.stagingBaseUrl
+				: WakefernApplicationConstants.Prodx.Upstream.prodBaseUrl;
 	}
 
-	public static String getProdxApiKey() {
-		return isServiceStaging(prodxService) ? prodxApiKeyStaging : prodxApiKeyProd;
+	public static String getProdxComplementsApiKey() {
+		return isServiceStaging(prodxService) ? prodxComplementsApiKeyStaging : prodxComplementsApiKeyProd;
 	}
 
 	public static String getMi9v8Service() {
 		return mi9v8Service;
 	}
 
-	public static String getProdxAisleId() { return prodxAisleId; }
+	public static String getProdxComplementsAisleId() { return prodxComplementsAisleId; }
 
 	public static String getRewardPointService() {
 		return rewardPointService;
@@ -346,6 +351,10 @@ public class VcapProcessor {
 
 	public static String getJwtPublicKey() {
 		return jwtPublicKey;
+	}
+
+	public static String getProdxVariationsApiKeyProd() {
+		return prodxVariationsApiKeyProd;
 	}
 
 	

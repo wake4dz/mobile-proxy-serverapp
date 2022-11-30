@@ -1,4 +1,4 @@
-package com.wakefern.api.proxy.wakefern.prodx.complements;
+package com.wakefern.api.proxy.wakefern.prodx;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
-@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.Complements.Proxy.GetProductComplements)
+@Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Prodx.ProductsComplements.Proxy.GetProductComplements)
 public class GetProductComplements extends BaseService {
 	private final static Logger logger = LogManager.getLogger(GetProductComplements.class);
 
@@ -55,12 +55,12 @@ public class GetProductComplements extends BaseService {
 			}
 
 			// Add "aisleId" query param to each outgoing request
-			builder.addParameter(WakefernApplicationConstants.Prodx.Complements.AISLE_ID, VcapProcessor.getProdxAisleId());
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsComplements.AISLE_ID, VcapProcessor.getProdxComplementsAisleId());
 
 			final String url = builder.build().toString();
 
 			headers.put(ApplicationConstants.Requests.Headers.Authorization,
-					VcapProcessor.getProdxApiKey());
+					VcapProcessor.getProdxComplementsApiKey());
 
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
 
@@ -84,7 +84,7 @@ public class GetProductComplements extends BaseService {
 	}
 
 	private static String constructUrl(final String productId) {
-		String template = VcapProcessor.getProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.Complements.Upstream.GetComplementsPath;
+		String template = VcapProcessor.getProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.ProductsComplements.GetComplementsPath;
 		Map<String, String> pathParams = new HashMap<>();
 		pathParams.put("productId", productId);
 

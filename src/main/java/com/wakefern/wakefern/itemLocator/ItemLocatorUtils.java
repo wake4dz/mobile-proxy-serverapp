@@ -47,7 +47,7 @@ public class ItemLocatorUtils {
      * @param itemLocatorData
      * @return
      */
-    private static JSONObject createItemLocatorObj(int areaSeqInt, Object wfSectDescData, Object itemLocatorData) {
+    private static JSONObject createItemLocatorObj(int areaSeqInt, Object wfSectDescData, Object storeAreaDesc,  Object itemLocatorData) {
         JSONObject newItemLocator = new JSONObject();
 
         // aisle and aisleAreaSeqNum
@@ -71,6 +71,14 @@ public class ItemLocatorUtils {
                     wfSectDescData);
         }
 
+        // for storeAreaDesc
+        if (storeAreaDesc == null) {
+            newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleStore, JSONObject.NULL);
+        } else {
+            newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleStore,
+            		storeAreaDesc);
+        }
+        
         return newItemLocator;
     }
 
@@ -86,14 +94,14 @@ public class ItemLocatorUtils {
         for (int i = 0; i < itemsJArray.length(); i++) {
             JSONObject jsonObject = (JSONObject) itemsJArray.get(i);
 
-            Object areaSeqNum = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.area_seq_num);
-            Object areaDesc = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.area_desc);
+            Object areaSeqNum = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.AreaSeqNum);
+            Object areaDesc = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.AreaDesc);
             JSONArray itemLocations = jsonObject
-                    .getJSONArray(WakefernApplicationConstants.Mi9V8ItemLocator.item_locations);
+                    .getJSONArray(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocations);
 
             for (int j = 0; j < itemLocations.length(); j++) {
                 final long itemUpc = itemLocations.getJSONObject(j)
-                        .getLong(WakefernApplicationConstants.Mi9V8ItemLocator.upc_13_num);
+                        .getLong(WakefernApplicationConstants.Mi9V8ItemLocator.Upc13Num);
 
                 // Skip if the UPC does not match
                 if (itemUpc != upcLong) continue;
@@ -102,7 +110,7 @@ public class ItemLocatorUtils {
 
                 try { // if wf_area_code is found from item locator response
                     String wfAreaCode = itemLocations.getJSONObject(j)
-                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.wf_area_code);
+                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.WfAreaCode);
 
                     areaSeqInt = Integer.parseInt(
                             (wfAreaCode != null && wfAreaCode.trim().equals("0") ? "0" : areaSeqNum.toString()));
@@ -114,7 +122,7 @@ public class ItemLocatorUtils {
                 Object wfSectDesc = JSONObject.NULL;
                 try {
                     String wfSectDescStr = itemLocations.getJSONObject(j)
-                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.wf_sect_desc);
+                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.WfSectDesc);
                     wfSectDesc =
                             wfSectDescStr != null && wfSectDescStr.trim().equals("") ? JSONObject.NULL : wfSectDescStr;
                 } catch (Exception e) {
@@ -122,11 +130,22 @@ public class ItemLocatorUtils {
                     // Locator's API call (namely, not found)
                 }
 
+                Object storeAreaDesc = JSONObject.NULL;
+                try {
+                    String storeAreaDescStr = itemLocations.getJSONObject(j)
+                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.StoreAreaDesc);
+                    storeAreaDesc =
+                    		storeAreaDescStr != null && storeAreaDescStr.trim().equals("") ? JSONObject.NULL : storeAreaDescStr;
+                } catch (Exception e) {
+                    // ignore if input item doesn't have "area_desc" data from Wakefern Item
+                    // Locator's API call (namely, not found)
+                }
+                
                 Object itemLocator =
                         areaDesc != null && !areaDesc.toString().equals("null") ? areaDesc
                                 : WakefernApplicationConstants.Mi9V8ItemLocator.Other;
 
-                return createItemLocatorObj(areaSeqInt, wfSectDesc, itemLocator);
+                return createItemLocatorObj(areaSeqInt, wfSectDesc, storeAreaDesc, itemLocator);
             }
         }
 
@@ -146,25 +165,26 @@ public class ItemLocatorUtils {
         Map<Long, Object> itemLocatorData = new HashMap<>();
         Map<Long, Object> areaSeqNumData = new HashMap<>();
         Map<Long, Object> wfSectDescData = new HashMap<>();
+        Map<Long, Object> storeAreaDescData = new HashMap<>();
 
         JSONArray itemsJArray = new JSONArray(itemslocatorResponse);
 
         for (int i = 0; i < itemsJArray.length(); i++) {
             JSONObject jsonObject = (JSONObject) itemsJArray.get(i);
-            Object areaSeqNum = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.area_seq_num);
-            Object areaDesc = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.area_desc);
+            Object areaSeqNum = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.AreaSeqNum);
+            Object areaDesc = jsonObject.get(WakefernApplicationConstants.Mi9V8ItemLocator.AreaDesc);
             JSONArray itemLocations = jsonObject
-                    .getJSONArray(WakefernApplicationConstants.Mi9V8ItemLocator.item_locations);
+                    .getJSONArray(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocations);
 
             for (int j = 0; j < itemLocations.length(); j++) {
                 Object itemFromDB = itemLocations.getJSONObject(j)
-                        .get(WakefernApplicationConstants.Mi9V8ItemLocator.upc_13_num);
+                        .get(WakefernApplicationConstants.Mi9V8ItemLocator.Upc13Num);
 
                 final Long upc13 = Long.parseLong(itemFromDB.toString());
 
                 try { // if wf_area_code is found from item locator response
                     String wfAreaCode = itemLocations.getJSONObject(j)
-                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.wf_area_code);
+                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.WfAreaCode);
 
                     areaSeqNumData.put(upc13,
                             (wfAreaCode != null && wfAreaCode.trim().equals("0") ? "0" : areaSeqNum));
@@ -175,7 +195,7 @@ public class ItemLocatorUtils {
 
                 try {
                     String wfSectDesc = itemLocations.getJSONObject(j)
-                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.wf_sect_desc);
+                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.WfSectDesc);
                     wfSectDescData.put(upc13,
                             (wfSectDesc != null && wfSectDesc.trim().equals("") ? JSONObject.NULL : wfSectDesc));
                 } catch (Exception e) {
@@ -183,6 +203,17 @@ public class ItemLocatorUtils {
                     // Locator's API call (namely, not found)
                 }
 
+
+                try {
+                    String storeAreaDesc = itemLocations.getJSONObject(j)
+                            .getString(WakefernApplicationConstants.Mi9V8ItemLocator.StoreAreaDesc);
+                    storeAreaDescData.put(upc13,
+                            (storeAreaDesc != null && storeAreaDesc.trim().equals("") ? JSONObject.NULL : storeAreaDesc));
+                } catch (Exception e) {
+                    // ignore input item doesn't have "wf_sect_desc" data from Wakefern Item
+                    // Locator's API call (namely, not found)
+                }
+                
                 itemLocatorData.put(upc13,
                         (areaDesc != null && !areaDesc.toString().equals("null")) ? areaDesc
                                 : WakefernApplicationConstants.Mi9V8ItemLocator.Other);
@@ -208,6 +239,12 @@ public class ItemLocatorUtils {
                 Object value = wfSectDescData.get(key);
                 logger.trace("key: " + key + "; value: " + value);
             }
+            
+            logger.trace("storeAreaDescData:");
+            for (Object key : storeAreaDescData.keySet()) {
+                Object value = storeAreaDescData.get(key);
+                logger.trace("key: " + key + "; value: " + value);
+            }
         }
 
         for (String item : skuList) {
@@ -222,8 +259,10 @@ public class ItemLocatorUtils {
 
             Object wfSectDesc = wfSectDescData.get(skuLng);
             Object itemLocator = itemLocatorData.get(skuLng);
+            Object storeAreaDesc = storeAreaDescData.get(skuLng);
+         
 
-            itemsMap.put(item, createItemLocatorObj(areaSeqInt, wfSectDesc, itemLocator));
+            itemsMap.put(item, createItemLocatorObj(areaSeqInt, wfSectDesc, storeAreaDesc, itemLocator));
         }
         return itemsMap;
     }

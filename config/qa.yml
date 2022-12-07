@@ -1,5 +1,4 @@
 ---
-SRMOBILE_CORS: true
 SRMOBILE_CHAIN: ShopRiteProd
 COUPON_SERVICE: Production
 SRMOBILE_PAPERTRAIL: srmobilelog-dev

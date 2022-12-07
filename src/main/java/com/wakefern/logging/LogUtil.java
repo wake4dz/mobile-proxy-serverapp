@@ -170,7 +170,6 @@ public class LogUtil {
 		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
 		messages.add(pad("The 'prodx_service' system property:") + VcapProcessor.getProdxService());
 		messages.add(pad("The 'reward_point_service' system property:") + VcapProcessor.getRewardPointService());
-		messages.add(pad("The 'cors' system property:") + ApplicationUtils.getVcapValue("cors"));
 
 		messages.add(pad("The 'mute_error_log' system property:") + VcapProcessor.isMuteErrorLog());
 		messages.add(pad("The 'mute_http_code' system property:") + VcapProcessor.getMuteHttpCode());
@@ -253,9 +252,6 @@ public class LogUtil {
 			messages.add("<tr><td>prodx_service</td><td>" + VcapProcessor.getProdxService() + "</td></tr>");
 
 			messages.add("<tr><td>reward_point_service</td><td>" + VcapProcessor.getRewardPointService() + "</td></tr>");
-
-			messages.add("<tr><td>cors</td>" + "<td>" + ApplicationUtils.getVcapValue("cors")
-					+ "</td> </tr>");
 
 			messages.add("<tr><td>mute_error_log</td><td>" + VcapProcessor.isMuteErrorLog() + "</td></tr>");
 			messages.add("<tr><td>mute_http_code</td><td>" + VcapProcessor.getMuteHttpCode() + "</td></tr>");

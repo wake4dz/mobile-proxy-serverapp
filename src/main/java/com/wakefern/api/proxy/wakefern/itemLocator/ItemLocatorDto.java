@@ -14,7 +14,10 @@ public class ItemLocatorDto {
     private int sectionShelfNum;
     private int shelfPositionNum;
 
-    private ItemLocatorDto(int areaSeqNum, String sectionDesc, String aisle, String aisleStore, int sectionShelfNum, int shelfPositionNum) {
+    public ItemLocatorDto() {
+    }
+    
+    public ItemLocatorDto(int areaSeqNum, String sectionDesc, String aisle, String aisleStore, int sectionShelfNum, int shelfPositionNum) {
         this.aisle = aisle;
         this.sectionDesc = sectionDesc;
         this.areaSeqNum = areaSeqNum;

@@ -205,6 +205,8 @@ public class WakefernApplicationConstants {
         public static final String Sku = "sku";
         public static final String AisleSectionDesc = "aisleSectionDesc";
         public static final String AisleAreaSeqNum = "aisleAreaSeqNum";
+        public static final String AisleSectionShelfNum = "aisleSectionShelfNum";
+        public static final String AisleShelfPositionNum = "aisleShelfPositionNum";
         public static final String ItemLocator = "itemLocator";
         public static final String Upc13Num = "upc_13_num";
         public static final String ItemLocations = "item_locations";

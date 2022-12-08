@@ -55,7 +55,7 @@ public class GetItemLocator extends BaseService {
 			return this.createErrorResponse(errorData, e);
 		}
 	}
-
+	
 	@GET
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)

@@ -197,19 +197,26 @@ public class WakefernApplicationConstants {
         public static final int ITEM_PARTITION_SIZE = 100;
 
         public static final String Aisle = "aisle";
-        public static final String area_desc = "wf_area_desc";
+        public static final String AisleStore = "aisleStore";
+        public static final String AreaDesc = "wf_area_desc";
         public static final String Items = "items";
         public static final String LineItems = "lineItems";
         public static final String Other = "OTHER";
         public static final String Sku = "sku";
         public static final String AisleSectionDesc = "aisleSectionDesc";
         public static final String AisleAreaSeqNum = "aisleAreaSeqNum";
+        public static final String AisleSectionShelfNum = "aisleSectionShelfNum";
+        public static final String AisleShelfPositionNum = "aisleShelfPositionNum";
         public static final String ItemLocator = "itemLocator";
-        public static final String upc_13_num = "upc_13_num";
-        public static final String item_locations = "item_locations";
-        public static final String area_seq_num = "area_seq_num";
-        public static final String wf_area_code = "wf_area_code";
-        public static final String wf_sect_desc = "wf_sect_desc";
+        public static final String Upc13Num = "upc_13_num";
+        public static final String ItemLocations = "item_locations";
+        public static final String AreaSeqNum = "area_seq_num";
+        public static final String WfAreaCode = "wf_area_code";
+        public static final String WfSectDesc = "wf_sect_desc";
+        public static final String StoreAreaDesc = "area_desc";
+        public static final String SectionShelfNum = "sect_shlf_num";
+        public static final String ShelfPositionNum = "shlf_pstn_num";
+
 
         public static final String baseURL = "https://api.wakefern.com";
         public static final String locationPath = "/itemlocator/item/location";

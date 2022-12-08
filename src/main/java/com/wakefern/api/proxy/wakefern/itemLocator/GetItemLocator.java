@@ -26,6 +26,39 @@ public class GetItemLocator extends BaseService {
 	@GET
 	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Deprecated
+	@Path("/item/location/{storeId}/{upc}")
+	public Response getItem(@PathParam("storeId") String storeId, 
+			@PathParam("upc") String upc) { // note: upc's last digit of checksum of an UPC is already removed by caller
+		Map<String, String> wkfn = new HashMap<>();
+
+		try {
+			String path = WakefernApplicationConstants.ItemLocator.baseURL
+					+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + upc;
+
+			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
+			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
+			wkfn.put("Authentication", authToken);
+			wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
+
+			logger.trace("URL path: " + path);
+
+			return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout()));
+		} catch (Exception e) {
+			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+					"contentType", "application/json");
+
+			if (LogUtil.isLoggable(e)) {
+				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+			}
+
+			return this.createErrorResponse(errorData, e);
+		}
+	}
+	
+	@GET
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path("/item/location/v2/{storeId}/{upc}")
 	public Response getItemV2(@PathParam("storeId") String storeId,
 							@PathParam("upc") String upc) {

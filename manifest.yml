@@ -56,6 +56,8 @@ applications:
     mute_error_log: ((MUTE_ERROR_LOG))
     mute_http_code: ((MUTE_HTTP_CODE))
     item_locator_cache_enabled: ((ITEM_LOCATOR_CACHE_ENABLED))
+    
+    srmobilepassthru_prd_api_key: ((SRMOBILE_PASSTHRU_PRD_API_KEY))
 
     JAVA_OPTS: '-Dappdynamics.jvm.shutdown.mark.node.as.historical=true -Dappdynamics.agent.reuse.nodeName.prefix=mobileproxyapp -Dappdynamics.agent.reuse.nodeName=true'
   services:

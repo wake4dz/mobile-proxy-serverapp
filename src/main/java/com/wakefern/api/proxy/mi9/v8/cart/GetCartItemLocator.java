@@ -162,6 +162,8 @@ public class GetCartItemLocator extends BaseService {
 				Map<String, String> wkfn = new HashMap<>();
 				wkfn.put(Requests.Headers.contentType, Requests.Headers.MIMETypes.json);
 				wkfn.put("Authentication", authToken);
+				// Call APIM Gateway to avoid any foreign IP addresses
+				wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
 	
 				String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 	
@@ -201,7 +203,7 @@ public class GetCartItemLocator extends BaseService {
 			return retvalJObj.toString();
 
 		} catch (Exception e) {	
-			logger.error("[updateCartItems::Exception processing item locator. The error message: "
+			logger.error("decorateCartWithItemLocations::Exception processing item locator. The error message: "
 					+ LogUtil.getExceptionMessage(e) + ", exception location: " + LogUtil.getRelevantStackTrace(e));
 			
 			// if there is an exception, we try to return the Mi9 shopping cart info + empty item locator for each sku.

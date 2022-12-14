@@ -1,6 +1,7 @@
 package com.wakefern.wakefern;
 
 import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.request.HTTPRequest;
 
 import java.util.HashMap;
@@ -15,6 +16,9 @@ public class WakefernAuth {
 
         wkfn.put(ApplicationConstants.Requests.Headers.contentType, "text/plain");
         wkfn.put(ApplicationConstants.Requests.Headers.Authorization, authToken);
+        
+		// Call APIM Gateway to avoid any foreign IP addresses
+		wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
 
         return HTTPRequest.executeGet(path, wkfn, 10000);
     }

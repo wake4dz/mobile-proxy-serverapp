@@ -67,6 +67,9 @@ public class WakefernApplicationConstants {
         public static final String SRFH_CURBSIDE_STG_API_KEY = "srfh_curbside_stg_api_key";
         public static final String SRFH_CURBSIDE_PROD_API_KEY = "srfh_curbside_prd_api_key";
         public static final String SRFH_CURBSIDE_SERVICE = "srfh_curbside_service";
+        
+        // For APIM Gateway APIs
+        public static final String APIM_SRMOBILE_PASSTHRU_PROD_API_KEY = "srmobilepassthru_prd_api_key";
 
         // Prodx
         public static final String PRODX_SERVICE = "prodx_service";
@@ -173,7 +176,7 @@ public class WakefernApplicationConstants {
         public static final String Sale = "Sale";
         public static final String LimitText = "LimitText";
 
-        public static final String baseURL = "https://api.wakefern.com";
+        public static final String baseURL = "https://apimprod.wakefern.com/srmobilepassthru";
         public static final String locationPath = "/itemlocator/item/location";
         public static final String authPath = "/wfctoken/auth/gentoken";
 
@@ -218,7 +221,7 @@ public class WakefernApplicationConstants {
         public static final String ShelfPositionNum = "shlf_pstn_num";
 
 
-        public static final String baseURL = "https://api.wakefern.com";
+        public static final String baseURL = "https://apimprod.wakefern.com/srmobilepassthru";
         public static final String locationPath = "/itemlocator/item/location";
         public static final String authPath = "/wfctoken/auth/gentoken";
 
@@ -282,7 +285,7 @@ public class WakefernApplicationConstants {
         public static final String JwtToken = "/jwtToken";
         public static final String TokenGen = "/generation";
 
-        public static final String BaseURL = "https://api.wakefern.com";
+        public static final String BaseURL = "https://apimprod.wakefern.com/srmobilepassthru";
 
         public static final String authPath = "/wfctoken/auth/gentoken";
     }

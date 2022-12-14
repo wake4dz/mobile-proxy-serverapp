@@ -114,6 +114,9 @@ public class WakefernApiTokenManager {
             wkfn.put(ApplicationConstants.Requests.Headers.contentType, "text/plain");
             wkfn.put(ApplicationConstants.Requests.Headers.Authorization,
                     ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+            
+			// Call APIM Gateway to avoid any foreign IP addresses
+			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
 
             String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiLowTimeout());
             logger.debug("Response from wakefern api: " + response);

@@ -444,6 +444,8 @@ public class HTTPRequest {
 			logger.trace("[executeRequest]::Total process time for " + requestMethod + ": " + (endTime - startTime) + " ms, URL: " + requestURL);
 
 			String response = ResponseHandler.getResponse(connection);
+			
+			logger.debug("responseCode: " + responseCode + ", response data: " + response);
 
 			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
 				return response;

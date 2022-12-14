@@ -42,6 +42,8 @@ public class VcapProcessor {
 	private static String srfhOrdersApiKeyProd = null;
 	private static String srfhCurbsideApiKeyStaging = null;
 	private static String srfhCurbsideApiKeyProd = null;
+	
+	private static String srMobilePassThruApiKeyProd = null;
 
 	private static String prodxService = null;
 	private static String prodxComplementsApiKeyStaging = null;
@@ -120,6 +122,8 @@ public class VcapProcessor {
 		srfhCurbsideApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_STG_API_KEY);
 		srfhCurbsideApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.SRFH_CURBSIDE_PROD_API_KEY);
 
+		srMobilePassThruApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.APIM_SRMOBILE_PASSTHRU_PROD_API_KEY);
+		
 		prodxService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_SERVICE);
 		
 		prodxComplementsApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
@@ -357,5 +361,8 @@ public class VcapProcessor {
 		return prodxVariationsApiKeyProd;
 	}
 
+	public static String getSrMobilePassThruApiKeyProd() {
+		return srMobilePassThruApiKeyProd;
+	}
 	
 }

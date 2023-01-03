@@ -40,7 +40,7 @@ public class GetCouponByUPC extends BaseService {
 	{
 		Map<String, String> params = new HashMap<>();
 		params.put("upcCode", upc);
-		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponsByUPC, params);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponsByUPC, params, null);
 
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);

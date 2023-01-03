@@ -40,7 +40,7 @@ public class GetUPCListByCouponID extends BaseService {
 	{
 		Map<String, String> params = new HashMap<>();
 		params.put(CouponUtils.Requests.Params.couponId, couponId);
-		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetUPCListByCouponId, params);
+		final String url = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetUPCListByCouponId, params, null);
 
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);

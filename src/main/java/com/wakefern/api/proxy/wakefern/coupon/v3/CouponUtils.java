@@ -33,7 +33,7 @@ public class CouponUtils {
      * @return
      */
     public static String constructCouponV3Url(String path) {
-        return constructCouponV3Url(path, null);
+        return constructCouponV3Url(path, null, null);
     }
 
     /**
@@ -42,16 +42,21 @@ public class CouponUtils {
      * @param params
      * @return
      */
-    public static String constructCouponV3Url(String path, Map<String, String> params) {
-        if (params == null) {
-            params = new HashMap<>();
+    public static String constructCouponV3Url(String path, Map<String, String> pathParams, Map<String, String> queryParams) {
+        if (pathParams == null) {
+           pathParams = new HashMap<>();
         }
-        // Always append banner information
-        params.put(WakefernApplicationConstants.CouponsV3.PathInfo.banner,
+        // Always append banner information as a path param
+        pathParams.put(WakefernApplicationConstants.CouponsV3.PathInfo.banner,
                 Requests.Params.banner);
         String url = BaseCouponURL + path;
         UriBuilder builder = UriBuilder.fromPath(url);
-        URI output = builder.buildFromMap(params);
+        if (queryParams != null) {
+            for (Map.Entry<String, String> entry : queryParams.entrySet()) {
+                builder.queryParam(entry.getKey(), entry.getValue());
+            }
+        }
+        URI output = builder.buildFromMap(pathParams);
         return output.toASCIIString();
     }
 

@@ -41,7 +41,7 @@ public class GetCouponsByStoreId extends BaseService {
 	{
 		Map<String, String> params = new HashMap<>();
 		params.put(CouponUtils.Requests.Params.storeId, storeId);
-		this.requestPath = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponListByStoreId, params);
+		this.requestPath = CouponUtils.constructCouponV3Url(WakefernApplicationConstants.CouponsV3.PathInfo.GetCouponListByStoreId, params, null);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, authToken);

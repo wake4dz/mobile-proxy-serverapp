@@ -1,14 +1,20 @@
 package com.wakefern.wakefern.itemLocator;
 
+import com.wakefern.api.proxy.wakefern.itemLocator.ItemLocatorCache;
 import com.wakefern.api.proxy.wakefern.itemLocator.ItemLocatorDto;
+import com.wakefern.global.ApplicationConstants;
+import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
+import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
+import com.wakefern.wakefern.WakefernAuth;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.NotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +34,7 @@ public class ItemLocatorUtils {
      * @param itemsSize
      * @return
      */
-    public static int getNumRequests(final int itemsSize) {
+    private static int getNumRequests(final int itemsSize) {
         int numRequests = itemsSize / WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE;
         if (itemsSize % WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE > 0) {
             numRequests++;
@@ -44,7 +50,7 @@ public class ItemLocatorUtils {
      *
      * @return
      */
-    public static JSONObject generateItemLocatorForUpc(String upc, String itemLocatorResponse) {
+    public static ItemLocatorDto generateItemLocatorForUpc(String upc, String itemLocatorResponse) {
         JSONArray itemsJArray = new JSONArray(itemLocatorResponse);
         final long upcLong = Long.parseLong(upc);
 
@@ -138,7 +144,7 @@ public class ItemLocatorUtils {
                 itemLocatorDto.setSectionShelfNum(sectionShelfNum);
                 itemLocatorDto.setShelfPositionNum(shelfPositonfNum);
                 
-                return ItemLocatorDto.createItemLocatorObj(itemLocatorDto);
+                return itemLocatorDto;
             }
         }
 
@@ -153,12 +159,12 @@ public class ItemLocatorUtils {
      * @param itemslocatorResponse
      * @return
      */
-    public static Map<String, JSONObject> generateItemLocatorMap(List<String> skuList, String itemslocatorResponse) {
+    public static Map<String, JSONObject> generateItemLocatorMap(List<String> skuList, String itemLocatorResponse) {
         Map<String, JSONObject> itemsMap = new HashMap<>();
        
         Map<Long, ItemLocatorDto> itemLocatorMap = new HashMap<>();
 
-        JSONArray itemsJArray = new JSONArray(itemslocatorResponse);
+        JSONArray itemsJArray = new JSONArray(itemLocatorResponse);
 
         for (int i = 0; i < itemsJArray.length(); i++) {
             JSONObject jsonObject = (JSONObject) itemsJArray.get(i);
@@ -246,10 +252,8 @@ public class ItemLocatorUtils {
                 } catch (Exception e) {
                 	itemLocatorDto.setShelfPositionNum(0);
                 }
-                
-                
-                itemLocatorMap.put(upc13, itemLocatorDto);
 
+                itemLocatorMap.put(upc13, itemLocatorDto);
             }
         }
 
@@ -266,18 +270,18 @@ public class ItemLocatorUtils {
             final String sku = item.trim();
             final long skuLng = Long.parseLong(sku);
             
-            itemsMap.put(item, ItemLocatorDto.createItemLocatorObj(itemLocatorMap.get(skuLng)));
+            itemsMap.put(item, itemLocatorMap.get(skuLng).toJSON());
         }
         
         return itemsMap;
     }
 
     /**
-     * Create a "dummy" ItemLocator object
+     * Create a "Not Found" ItemLocator object
      *
      * @param itemJObj the JSONObject to add the object to.
      */
-    public static void addDummyItemLocatorObj(JSONObject itemJObj) {
+    private static void addDummyItemLocatorObj(JSONObject itemJObj) {
         JSONObject dummyObj = new JSONObject();
 
         dummyObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle, WakefernApplicationConstants.Mi9V8ItemLocator.Other);
@@ -298,19 +302,23 @@ public class ItemLocatorUtils {
      * @param sku
      * @return
      */
-    public static String removeCheckSumDigit(String sku) {
+    private static String removeCheckSumDigit(String sku) {
         return sku.substring(0, sku.length() - 1);
     }
 
 
-    /*
-     * add empty item locator for each sku if something goes wrong
+    /**
+     * add Not Found item locator for each sku if something goes wrong
+     * @param mi9ResponseData
+     * @param isCart
+     * @return
+     * @throws Exception
      */
-    public static String addEmptyItemLocator(String mi9ResponseData, boolean isCart) throws Exception {
+    private static String addEmptyItemLocator(String mi9ResponseData, ResponseType responseType) throws Exception {
         try {
             JSONObject origRespJObj = new JSONObject(mi9ResponseData);
 
-            final String itemProp = isCart ? WakefernApplicationConstants.Mi9V8ItemLocator.LineItems
+            final String itemProp = responseType == ResponseType.CART ? WakefernApplicationConstants.Mi9V8ItemLocator.LineItems
                     : WakefernApplicationConstants.Mi9V8ItemLocator.Items;
             JSONArray itemsJArray = (JSONArray) origRespJObj.get(itemProp);
 
@@ -337,6 +345,147 @@ public class ItemLocatorUtils {
 
             throw new Exception(LogUtil.getExceptionMessage(e));
         }
+    }
+
+    public enum ResponseType {
+        CART,
+        PLANNING_LIST
+    }
+
+    /**
+     * Decorate a collection of products with item locator information (based on ResponseType)
+     * @param storeId
+     * @param response
+     * @param responseType
+     * @return
+     * @throws Exception
+     */
+    public static String decorateCollectionWithItemLocations(String storeId, String response, ResponseType responseType) throws Exception {
+        try {
+            final String itemsKey = responseType == ResponseType.CART ?
+                    WakefernApplicationConstants.Mi9V8ItemLocator.LineItems
+                    : WakefernApplicationConstants.Mi9V8ItemLocator.Items;
+
+            JSONObject origRespJObj = new JSONObject(response);
+            JSONArray itemsJArray = (JSONArray) origRespJObj.get(itemsKey);
+            final int itemsSize = itemsJArray.length();
+
+            if (!origRespJObj.has(itemsKey) || storeId.length() < 1 || itemsSize == 0) {
+                // The supplied response string does not contain any Items (products).
+                // OR The Items Array is empty (no products).
+                // Just return the original string.
+                return response;
+            }
+
+            JSONObject retvalJObj = new JSONObject();
+
+            // Set up retval with all non-items data
+            for (String key : origRespJObj.keySet()) {
+                if (!key.equals(itemsKey)) {
+                    Object keyvalue = origRespJObj.get(key);
+                    retvalJObj.put(key, keyvalue);
+                }
+            }
+
+            Map<String, JSONObject> processedPartitionItems;
+            Map<String, JSONObject> itemsMap = new HashMap<>();
+
+            int currentListPosition = 0;
+
+            final int numRequests = getNumRequests(itemsSize);
+            List<String> partitionItemsList;
+            StringBuilder partitionItemsSB;
+
+            // Get auth token
+            final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
+
+            for (int i=0; i < numRequests; i++) {
+                partitionItemsList = new ArrayList<>();
+                partitionItemsSB = new StringBuilder();
+
+                // build each partition data to be used for a Wakefern's Item Locator API call
+                while ((WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE * (i + 1) > currentListPosition) && (itemsSize > currentListPosition)) {
+                    JSONObject itemJObj = itemsJArray.getJSONObject(currentListPosition);
+
+                    final String upc = getUpcFromSkuObject(itemJObj);
+
+                    currentListPosition++;
+                    ItemLocatorDto cached = ItemLocatorCache.getInstance().get(storeId, upc);
+                    if (cached != null) {
+                        itemsMap.put(upc, cached.toJSON());
+                    } else {
+                        partitionItemsSB.append(upc).append(",");
+                        partitionItemsList.add(upc);
+                    }
+                }
+
+                if (partitionItemsList.isEmpty()) {
+                    continue;
+                }
+
+                final String path = WakefernApplicationConstants.ItemLocator.baseURL
+                        + WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + partitionItemsSB;
+
+                Map<String, String> wkfn = new HashMap<>();
+                wkfn.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
+                wkfn.put("Authentication", authToken);
+                // Call APIM Gateway to avoid any foreign IP addresses
+                wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
+
+                String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
+
+                logger.trace("partitionNumber: " + (i + 1));
+                logger.trace("URL path: " + path);
+                logger.trace("PartitionItemsSB: " + partitionItemsSB);
+                logger.trace("PartitionItemsList: " + partitionItemsList);
+                logger.trace("responseData: " + responseData);
+
+                processedPartitionItems = ItemLocatorUtils.generateItemLocatorMap(partitionItemsList, responseData);
+
+                for (Map.Entry<String, JSONObject> entry : processedPartitionItems.entrySet()) {
+                    // build up the entire map for lookup later
+                    itemsMap.put(entry.getKey(), entry.getValue());
+                }
+            }
+
+            for (int i=0; i < itemsSize; i++) {
+                JSONObject itemJObj = itemsJArray.getJSONObject(i);
+
+                final String upc = getUpcFromSkuObject(itemJObj);
+
+                if (itemsMap.get(upc) != null) {
+                    JSONObject itemLocator = itemsMap.get(upc);
+                    itemJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, itemLocator);
+
+                    // add to cache
+                    ItemLocatorCache.getInstance().add(storeId, upc, ItemLocatorDto.fromJSON(itemLocator));
+                } else { //defense code to add dummy data
+                    ItemLocatorUtils.addDummyItemLocatorObj(itemJObj);
+                }
+
+                retvalJObj.append(itemsKey, itemJObj);
+            }
+
+            return retvalJObj.toString();
+
+        } catch (Exception e) {
+            logger.error("decorateCollectionWithItemLocations::Exception processing item locator. The error message: "
+                    + LogUtil.getExceptionMessage(e) + ", exception location: " + LogUtil.getRelevantStackTrace(e));
+
+            // if there is an exception, we try to return the Mi9 shopping cart info + empty item locator for each sku.
+            // if addEmptyItemLocator() also throw an exception, the caller would get a HTTP 500 with a brief error message
+            return addEmptyItemLocator(response, responseType);
+        }
+    }
+
+    /**
+     * Utility method to get the upc from an item locator sku
+     * @param skuObject
+     * @return
+     */
+    private static String getUpcFromSkuObject(JSONObject skuObject) {
+       final String sku = skuObject.getString(WakefernApplicationConstants.Mi9V8ItemLocator.Sku);
+       return removeCheckSumDigit(sku);
     }
 }
 

@@ -56,7 +56,7 @@ public class ItemLocatorCache {
      * @param sku
      * @return
      */
-    public ItemLocatorDto getItemLocation(String storeId, String upc) {
+    public ItemLocatorDto get(String storeId, String upc) {
         if (!mEnabled) return null;
         return mCache.get(createKey(storeId, upc));
     }
@@ -67,7 +67,7 @@ public class ItemLocatorCache {
      * @param upc
      * @param itemLocator
      */
-    public void putItemLocation(String storeId, String upc, ItemLocatorDto itemLocator) {
+    public void add(String storeId, String upc, ItemLocatorDto itemLocator) {
         if (!mEnabled) return;
         mCache.put(createKey(storeId, upc), itemLocator);
     }

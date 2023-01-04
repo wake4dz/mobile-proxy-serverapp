@@ -100,8 +100,8 @@ public class ItemLocatorDto {
         String sectionDesc = jsonObject.optString(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc);
         int areaSeqNum = jsonObject.optInt(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum);
         String aisleStore = jsonObject.optString(WakefernApplicationConstants.Mi9V8ItemLocator.AisleStore);
-        int sectionShelfNum  = jsonObject.optInt(WakefernApplicationConstants.Mi9V8ItemLocator.SectionShelfNum);
-        int shelfPositionNum  = jsonObject.optInt(WakefernApplicationConstants.Mi9V8ItemLocator.ShelfPositionNum);
+        int sectionShelfNum  = jsonObject.optInt(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionShelfNum);
+        int shelfPositionNum  = jsonObject.optInt(WakefernApplicationConstants.Mi9V8ItemLocator.AisleShelfPositionNum);
         return new ItemLocatorDto(areaSeqNum, sectionDesc, aisle, aisleStore, sectionShelfNum, shelfPositionNum);
     }
 
@@ -122,8 +122,8 @@ public class ItemLocatorDto {
         } else {
         	newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleStore, aisleStore);
         }
-        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.SectionShelfNum, sectionShelfNum);
-        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.ShelfPositionNum, shelfPositionNum);
+        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionShelfNum, sectionShelfNum);
+        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleShelfPositionNum, shelfPositionNum);
         
         return newItemLocator;
     }
@@ -131,17 +131,16 @@ public class ItemLocatorDto {
     /**
      * Create API response data with Item Locator data
      *
-     * @param itemLocatorDto
      * @return
      */
-    public static JSONObject createItemLocatorObj(ItemLocatorDto itemLocatorDto ) {
+    public String toApiResponse() {
     	JSONObject newItemLocator = new JSONObject();
 
         // aisle and aisleAreaSeqNum
-        if ( itemLocatorDto.getAreaSeqNum() > 0) {
+        if (getAreaSeqNum() > 0) {
             newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
-            		itemLocatorDto.getAisle());
-            newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, itemLocatorDto.getAreaSeqNum());
+            		getAisle());
+            newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleAreaSeqNum, getAreaSeqNum());
 
         } else { // area_seq_num = 0, -1, or -999 - INVALID
             newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle,
@@ -151,25 +150,25 @@ public class ItemLocatorDto {
         }
 
         // for store with its specific aisle info
-        if (itemLocatorDto.getAisleStore() == null) {
+        if (getAisleStore() == null) {
             newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleStore, JSONObject.NULL);
         } else {
             newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleStore,
-            		itemLocatorDto.getAisleStore());
+            		getAisleStore());
         }
         
         
         // for aisleSectionDesc
-        if (itemLocatorDto.getSectionDesc() == null) {
+        if (getSectionDesc() == null) {
             newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc, JSONObject.NULL);
         } else {
             newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionDesc,
-            		itemLocatorDto.getSectionDesc());
+            		getSectionDesc());
         }
 
-        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionShelfNum, itemLocatorDto.getSectionShelfNum());
-        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleShelfPositionNum, itemLocatorDto.getShelfPositionNum());
+        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionShelfNum, getSectionShelfNum());
+        newItemLocator.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleShelfPositionNum, getShelfPositionNum());
 
-        return newItemLocator;
+        return newItemLocator.toString();
     }
 }

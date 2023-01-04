@@ -65,11 +65,11 @@ public class GetItemLocator extends BaseService {
 	public Response getItemV2(@PathParam("storeId") String storeId,
 							@PathParam("upc") String upc) {
 		Map<String, String> wkfn = new HashMap<>();
-		ItemLocatorDto cached = ItemLocatorCache.getInstance().getItemLocation(storeId, upc);
+		ItemLocatorDto cached = ItemLocatorCache.getInstance().get(storeId, upc);
 
 		if (cached != null) {
 			logger.debug("Return cached item locator for {storeId, upc}: " + storeId + ", " + upc);
-			return createValidResponse(cached.toJSON().toString());
+			return createValidResponse(cached.toApiResponse());
 		}
 
 		try {
@@ -88,12 +88,12 @@ public class GetItemLocator extends BaseService {
 
 			String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
 			logger.trace("item locator fetch resp: " + response);
-			JSONObject itemLocatorObj = ItemLocatorUtils.generateItemLocatorForUpc(upc, response);
-			ItemLocatorCache.getInstance().putItemLocation(storeId, upc, ItemLocatorDto.fromJSON(itemLocatorObj));
-			return createValidResponse(itemLocatorObj.toString());
+			ItemLocatorDto itemLocator = ItemLocatorUtils.generateItemLocatorForUpc(upc, response);
+			ItemLocatorCache.getInstance().add(storeId, upc, itemLocator);
+			return createValidResponse(itemLocator.toApiResponse());
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"contentType", "application/json", WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd() );
+					"contentType", "application/json", WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
 
 			if (LogUtil.isLoggable(e)) {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

@@ -33,6 +33,9 @@ public class RecipeUtils {
 	private static Map<String, String> doReq(String id, String jsonBody) throws Exception {
 		AtomicReference<Map<String,String>> response = new AtomicReference<>();
 		logger.debug("Sending search request on thread " + Thread.currentThread().getName());
+
+		logger.debug("Recipe Search request body: " + jsonBody);
+
 		String res = SearchRecipes.searchRecipes(jsonBody);
 		Map<String, String> mapping = new HashMap<>();
 		mapping.put(id, res);

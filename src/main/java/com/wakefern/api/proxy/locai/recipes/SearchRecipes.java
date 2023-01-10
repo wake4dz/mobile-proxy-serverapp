@@ -76,6 +76,8 @@ public class SearchRecipes extends BaseService {
 
         headers.put("Content-Type", "application/json");
 
+        logger.debug("recipe search url: " + path);
+
         String response = HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout());
         JSONObject resObj = new JSONObject(response);
         return resObj.getJSONArray("hits").toString();

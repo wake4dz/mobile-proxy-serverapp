@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -415,6 +416,8 @@ public class HTTPRequest {
 		}
 	}
 
+
+
 	/**
 	 * Execute HTTP Request
 	 *
@@ -455,6 +458,83 @@ public class HTTPRequest {
 
 				if (response.length() > 0) {
 					msg = responseCode + "," + LogUtil.transformHtmlResponse(response);
+					if (responseCode == 403) { // could be blocked by Cloudflare
+						logCloudflareId(requestURL, connection);
+					}
+				} else {
+					msg = responseCode + "," + connection.getResponseMessage();
+				}
+
+
+				throw new Exception(msg);
+			}
+
+		} catch (Exception e) {
+			throw e;
+
+		} finally {
+			if (connection != null) {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+					logger.error(getErrorMsg("[executeRequest]::Exception: " + ex.getMessage(), requestURL));
+					throw ex;
+				}
+			}
+		}
+	}
+
+
+
+	/**
+	 * Execute HTTP Request
+	 *
+	 * @param requestURL
+	 * @param requestHeaders
+	 * @param requestParameters
+	 * @param requestMethod
+	 * @param timeOut
+	 * @return Response
+	 * @throws Exception
+	 */
+	public static ResponseObj getResponse(String requestURL,
+										  Map<String, String> requestHeaders,
+										  Map<String, String> requestParameters,
+										  String requestMethod,
+										  int readTimeoutMs) throws Exception {
+		HttpURLConnection connection = null;
+
+		try {
+			long startTime, endTime;
+
+			startTime = System.currentTimeMillis();
+			connection = createConnection(requestURL, requestHeaders, requestParameters, requestMethod, readTimeoutMs);
+			int responseCode = connection.getResponseCode();
+			endTime = System.currentTimeMillis();
+
+			logger.trace("[executeRequest]::Total process time for " + requestMethod + ": " + (endTime - startTime) + " ms, URL: " + requestURL);
+
+			ResponseObj response = ResponseObj.fromConnection(connection);
+
+			for (Map.Entry<String, List<String>> entries : response.getResponseHeaders().entrySet()) {
+				String values = "";
+				for (String value : entries.getValue()) {
+					values += value + ",";
+				}
+				logger.debug("Response header", entries.getKey() + " - " +  values );
+			}
+
+			logger.debug("responseCode: " + responseCode + ", response data: " + response.getResponseBody());
+
+			if (responseCode == 200 || responseCode == 201 || responseCode == 204 || responseCode == 205 || responseCode == 206) {
+				return response;
+
+			} else {
+				String msg;
+
+				String responseBody = response.getResponseBody();;
+				if (responseBody.length() > 0) {
+					msg = responseCode + "," + LogUtil.transformHtmlResponse(responseBody);
 					if (responseCode == 403) { // could be blocked by Cloudflare
 						logCloudflareId(requestURL, connection);
 					}

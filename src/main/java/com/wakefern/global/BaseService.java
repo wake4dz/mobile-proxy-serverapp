@@ -10,6 +10,9 @@ import org.json.JSONObject;
 
 import com.wakefern.global.errorHandling.ExceptionHandler;
 
+import java.util.List;
+import java.util.Map;
+
 public class BaseService {
     protected String requestPath   = null;
 
@@ -106,6 +109,16 @@ public class BaseService {
      */
     protected Response createValidResponse(String jsonResponse) {
     	return Response.status(200).entity(jsonResponse).build();
+    }
+
+    protected Response createValidResponseWithHeaders(String jsonResponse, Map<String, List<String>> headers) {
+       Response.ResponseBuilder builder =  Response.status(200).entity(jsonResponse);
+       if (headers != null) {
+           for (Map.Entry<String, List<String>> entry :headers.entrySet()) {
+               builder.header(entry.getKey(), entry.getValue());
+           }
+       }
+       return builder.build();
     }
         
     /**

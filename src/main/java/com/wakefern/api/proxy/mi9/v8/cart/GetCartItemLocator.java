@@ -6,6 +6,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.VcapProcessor;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
+import com.wakefern.request.ResponseObj;
 import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 import com.wakefern.wynshop.WynshopApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -47,13 +48,16 @@ public class GetCartItemLocator extends BaseService {
 			headerMap.put(Requests.Headers.Accept, accept);
 			headerMap.put(Requests.Headers.xSiteHost, xSiteHost);
 
-			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiMediumTimeout());
+			// MM: Need to capture headers from upstream mobile-gateway cart GET request.
+			// Need to pass upstream headers back to application for checkout to work successfully.
+			// Important header: ETag
+			ResponseObj response = HTTPRequest.getResponse(url, headerMap, null, "GET", VcapProcessor.getApiMediumTimeout());
 
 			// call Wakefern's ItemLocator API to get additional data
 			// return empty item locator info for each sku if ItemLocator API fails for some reason
-			response = ItemLocatorUtils.decorateCollectionWithItemLocations(storeId, response, ItemLocatorUtils.ResponseType.CART);
+			String responseBody = ItemLocatorUtils.decorateCollectionWithItemLocations(storeId, response.getResponseBody(), ItemLocatorUtils.ResponseType.CART);
 
-			return createValidResponse(response);
+			return createValidResponseWithHeaders(responseBody, response.getResponseHeaders());
 
 		} catch (Exception e) {
 			

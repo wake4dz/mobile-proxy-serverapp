@@ -2,6 +2,7 @@ package com.wakefern.global;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.wakefern.global.errorHandling.ExceptionHandler;
+
+import java.util.List;
+import java.util.Map;
 
 public class BaseService {
     protected String requestPath   = null;
@@ -106,6 +110,16 @@ public class BaseService {
      */
     protected Response createValidResponse(String jsonResponse) {
     	return Response.status(200).entity(jsonResponse).build();
+    }
+
+    protected Response createValidResponseWithHeaders(String jsonResponse, Map<String, List<String>> headers) {
+       Response.ResponseBuilder builder =  Response.status(200).entity(jsonResponse);
+       if (headers != null) {
+           for (Map.Entry<String, List<String>> entry :headers.entrySet()) {
+               builder.header(entry.getKey(), StringUtils.join(entry.getValue(), " "));
+           }
+       }
+       return builder.build();
     }
         
     /**

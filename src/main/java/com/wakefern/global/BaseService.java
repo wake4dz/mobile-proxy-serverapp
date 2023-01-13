@@ -2,6 +2,7 @@ package com.wakefern.global;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -115,7 +116,7 @@ public class BaseService {
        Response.ResponseBuilder builder =  Response.status(200).entity(jsonResponse);
        if (headers != null) {
            for (Map.Entry<String, List<String>> entry :headers.entrySet()) {
-               builder.header(entry.getKey(), entry.getValue());
+               builder.header(entry.getKey(), StringUtils.join(entry.getValue(), " "));
            }
        }
        return builder.build();

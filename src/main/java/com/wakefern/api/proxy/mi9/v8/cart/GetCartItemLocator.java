@@ -48,6 +48,9 @@ public class GetCartItemLocator extends BaseService {
 			headerMap.put(Requests.Headers.Accept, accept);
 			headerMap.put(Requests.Headers.xSiteHost, xSiteHost);
 
+			// MM: Need to capture headers from upstream mobile-gateway cart GET request.
+			// Need to pass upstream headers back to application for checkout to work successfully.
+			// Important header: ETag
 			ResponseObj response = HTTPRequest.getResponse(url, headerMap, null, "GET", VcapProcessor.getApiMediumTimeout());
 
 			// call Wakefern's ItemLocator API to get additional data

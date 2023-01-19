@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -115,7 +116,8 @@ public class GetProductVariations extends BaseService {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
 			}
 			
-			return this.createErrorResponse(errorData, e);
+			Response response = this.createErrorResponse(errorData, e);
+			return UpstreamErrorHandler.handleResponse(response);
 		}
 	}
 

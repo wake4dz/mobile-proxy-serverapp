@@ -195,7 +195,7 @@ public class ItemLocatorUtils {
                 
                 // aisle
                 itemLocatorDto.setAisle(
-                        (areaDesc != null && !areaDesc.toString().equals("null")) ? areaDesc.toString()
+                        (areaDesc != null && !areaDesc.toString().equals("null") && !areaDesc.toString().equalsIgnoreCase("not found")) ? areaDesc.toString()
                                 : WakefernApplicationConstants.Mi9V8ItemLocator.Other);
                 
                 // aisleStore

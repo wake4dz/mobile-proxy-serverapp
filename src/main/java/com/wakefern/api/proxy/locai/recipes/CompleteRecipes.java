@@ -39,18 +39,8 @@ public class CompleteRecipes extends BaseService {
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {
-
-        Map<String, String> headers = new HashMap<>();
-
         try {
-        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint() 
-        			+ "/recipes/completion/batch?clientId=" + VcapProcessor.getRecipeClientId() 
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
-        			
-            headers.put("Content-Type", contentType);
-
-            return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
-
+            return this.createValidResponse(makeCompleteRecipesRequest(jsonBody, contentType));
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"contentType", contentType, "httpBody", jsonBody);
@@ -61,5 +51,23 @@ public class CompleteRecipes extends BaseService {
 
             return this.createErrorResponse(errorData, e);
         }
+    }
+
+    /**
+     * Make POST request to the upstream locai completeRecipes endpoint.
+     * @param jsonBody
+     * @param contentType
+     * @return
+     * @throws Exception
+     */
+    public static String makeCompleteRecipesRequest(String jsonBody, String contentType) throws Exception {
+        Map<String, String> headers = new HashMap<>();
+        final String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()
+                    + "/recipes/completion/batch?clientId=" + VcapProcessor.getRecipeClientId()
+                    + "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+
+        headers.put("Content-Type", contentType);
+
+        return HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout());
     }
 }

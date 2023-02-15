@@ -38,18 +38,8 @@ public class ProductDetails extends BaseService {
     public Response getResponse(
     		@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
     		String jsonBody) {
-
-        Map<String, String> headers = new HashMap<>();
-
         try {
-        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
-        			+ "/products/by-variant-id/batch?clientId=" + VcapProcessor.getRecipeClientId()
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
-        			
-        	headers.put("Content-Type", contentType);
-
-            return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
-
+            return this.createValidResponse(makeProductDetailRequest(jsonBody, contentType));
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"contentType", contentType, "HttpBody", jsonBody);
@@ -60,5 +50,24 @@ public class ProductDetails extends BaseService {
 
             return this.createErrorResponse(errorData, e);
         }
+    }
+
+    /**
+     * Make request to upstream Locai product details API.
+     * @param jsonBody
+     * @param contentType
+     * @return
+     * @throws Exception
+     */
+    public static String makeProductDetailRequest(String jsonBody, String contentType) throws Exception {
+        Map<String, String> headers = new HashMap<>();
+
+        final String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()
+                + "/products/by-variant-id/batch?clientId=" + VcapProcessor.getRecipeClientId()
+                + "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+
+        headers.put("Content-Type", contentType);
+
+        return HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout());
     }
 }

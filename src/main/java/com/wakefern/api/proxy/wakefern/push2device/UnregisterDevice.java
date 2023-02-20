@@ -1,4 +1,4 @@
-package com.wakefern.api.proxy.push2device;
+package com.wakefern.api.proxy.wakefern.push2device;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;

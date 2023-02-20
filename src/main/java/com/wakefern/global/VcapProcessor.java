@@ -382,5 +382,9 @@ public class VcapProcessor {
 				? WakefernApplicationConstants.Push2Device.Upstream.stagingBaseUrl
 				: WakefernApplicationConstants.Push2Device.Upstream.prodBaseUrl;
 	}
+
+	public static String getPush2DeviceService() {
+		return push2deviceService;
+	}
 	
 }

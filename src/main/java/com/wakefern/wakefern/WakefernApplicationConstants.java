@@ -89,6 +89,11 @@ public class WakefernApplicationConstants {
         
     	public static final String HTTP_DEFAULT_CONNECT_TIMEOUT = "http_default_connect_timeout_ms";
     	public static final String HTTP_DEFAULT_READ_TIMEOUT = "http_default_read_timeout_ms";
+
+        // Push2Device
+        public static final String PUSH2DEVICE_SERVICE = "push2device_service";
+        public static final String PUSH2DEVICE_STG_API_KEY = "push2device_stg_api_key";
+        public static final String PUSH2DEVICE_PROD_API_KEY = "push2device_prod_api_key";
     }
 
     public static class CouponsV3 {
@@ -400,11 +405,6 @@ public class WakefernApplicationConstants {
 
     public static class Push2Device {
         public static class Proxy {
-            public static final String registerPath = "users/{userId}/{ppc}/devices";
-            public static final String unregisterPath = "devices";
-        }
-
-        public static class ProxyV8 {
             public static final String registerPath = "users/{ppc}/devices";
             public static final String unregisterPath = "devices";
         }

@@ -57,7 +57,7 @@ public class UnregisterDevice extends BaseService {
 
             JSONObject args = parseBodyIntoArgs(jsonData);
 
-            String path = VcapProcessor.getPush2DeviceEndpoint()
+            String path = VcapProcessor.getPush2DeviceUrl()
                     + WakefernApplicationConstants.Push2Device.Upstream.devicesPath;
             String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, VcapProcessor.getApiLowTimeout());
             logger.debug("[Push2Device::UnregisterDevice] upstream response: " + jsonResponse);

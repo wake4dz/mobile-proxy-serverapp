@@ -23,7 +23,7 @@ import java.util.Map;
  * Desc:   Register a Price Plus Card members' device with Push2Device service (an internally managed Wakefern API
  * that maps PPCs to unique push/device tokens/identifiers.
  */
-@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.Push2Device.ProxyV8.registerPath)
+@Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.Push2Device.Proxy.registerPath)
 public class RegisterDevice extends BaseService {
     private final static Logger logger = LogManager.getLogger(RegisterDevice.class);
 
@@ -58,7 +58,7 @@ public class RegisterDevice extends BaseService {
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " jsonData: " + jsonData);
             Map<String, String> headers = new HashMap<>();
 
-            final String path = VcapProcessor.getPush2DeviceEndpoint()
+            final String path = VcapProcessor.getPush2DeviceUrl()
                     + WakefernApplicationConstants.Push2Device.Upstream.devicesPath;
 
             final String apiKey = VcapProcessor.getPush2DeviceApiKey();

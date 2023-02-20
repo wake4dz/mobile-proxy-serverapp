@@ -51,6 +51,10 @@ public class VcapProcessor {
 	private static String prodxComplementsAisleId = null;
 
 	private static String prodxVariationsApiKeyProd = null;
+
+	private static String push2deviceApiKeyStaging = null;
+	private static String push2deviceApiKeyProd = null;
+	private static String push2deviceService = null;
 	
 	private static String mi9v8Service = null;
 	
@@ -131,6 +135,10 @@ public class VcapProcessor {
 		prodxComplementsAisleId = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_AISLE_ID);
 	
 		prodxVariationsApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PRODX_VARIATIONS_PROD_API_KEY);
+
+		push2deviceService = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_SERVICE);
+		push2deviceApiKeyProd = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_PROD_API_KEY);
+		push2deviceApiKeyStaging = getVcapValueString(WakefernApplicationConstants.VCAPKeys.PUSH2DEVICE_STG_API_KEY);
 		
 		mi9v8Service = getVcapValueString(WakefernApplicationConstants.VCAPKeys.MI9V8_SERVICE);
 		
@@ -363,6 +371,16 @@ public class VcapProcessor {
 
 	public static String getSrMobilePassThruApiKeyProd() {
 		return srMobilePassThruApiKeyProd;
+	}
+
+	public static String getPush2DeviceApiKey() {
+		return isServiceStaging(push2deviceService) ? push2deviceApiKeyStaging : push2deviceApiKeyProd;
+	}
+
+	public static String getPush2DeviceUrl() {
+		return isServiceStaging(push2deviceService)
+				? WakefernApplicationConstants.Push2Device.Upstream.stagingBaseUrl
+				: WakefernApplicationConstants.Push2Device.Upstream.prodBaseUrl;
 	}
 	
 }

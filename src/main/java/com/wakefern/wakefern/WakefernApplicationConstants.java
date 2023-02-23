@@ -89,6 +89,11 @@ public class WakefernApplicationConstants {
         
     	public static final String HTTP_DEFAULT_CONNECT_TIMEOUT = "http_default_connect_timeout_ms";
     	public static final String HTTP_DEFAULT_READ_TIMEOUT = "http_default_read_timeout_ms";
+
+        // Push2Device
+        public static final String PUSH2DEVICE_SERVICE = "push2device_service";
+        public static final String PUSH2DEVICE_STG_API_KEY = "push2device_stg_api_key";
+        public static final String PUSH2DEVICE_PROD_API_KEY = "push2device_prod_api_key";
     }
 
     public static class CouponsV3 {
@@ -398,6 +403,20 @@ public class WakefernApplicationConstants {
         }
     }
 
+    public static class Push2Device {
+        public static class Proxy {
+            public static final String registerPath = "users/{ppc}/devices";
+            public static final String unregisterPath = "devices";
+        }
+
+        public static class Upstream {
+            public static final String devicesPath = "/api/v1/devices";
+
+            public static final String stagingBaseUrl = "https://srpushservice.azurewebsites.net";
+            public static final String prodBaseUrl = "https://srprodpushservice.azurewebsites.net";
+        }
+    }
+
     public static class RewardPoint {
         public static class Proxy {
             public static final String rewardPath = "/rewards/points";
@@ -442,3 +461,4 @@ public class WakefernApplicationConstants {
     }
 
 }
+

@@ -30,16 +30,15 @@ public class RegisterDevice extends BaseService {
     /**
      * Helper method to parse request payload into Push2Device json args.
      * @param jsonPayload encoded json string
-     * @param appVersion - Version of the app that made the request.
      * @return the JSONObject of the Push2Device request arguments
      */
-    private static JSONObject parseBodyIntoArgs(String jsonPayload, String appVersion) {
+    private static JSONObject parseBodyIntoArgs(String jsonPayload) {
         JSONObject body = new JSONObject(jsonPayload);
         JSONObject args = new JSONObject();
         args.put("contact", body.getJSONObject("contact"));
         args.put("platform", body.getString("platform"));
         args.put("token", body.getString("token"));
-        args.put("app", appVersion);
+        args.put("app", body.getString("app"));
         args.put("acceptsNotifications", body.optBoolean("acceptsNotifications", true));
         return args;
     }
@@ -50,7 +49,6 @@ public class RegisterDevice extends BaseService {
     @Path("/")
     @ValidatePPCWithJWTV2
     public Response registerDevice(
-            @HeaderParam(ApplicationConstants.Requests.Headers.appVersion) String appVersion,
             @PathParam("ppc") String ppc,
             String jsonData)
     {
@@ -66,7 +64,7 @@ public class RegisterDevice extends BaseService {
             headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
             headers.put(ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey);
 
-            JSONObject args = parseBodyIntoArgs(jsonData, appVersion);
+            JSONObject args = parseBodyIntoArgs(jsonData);
             String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, VcapProcessor.getApiLowTimeout());
 
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " upstream response: " + jsonResponse);

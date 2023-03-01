@@ -59,6 +59,10 @@ applications:
     
     srmobilepassthru_prd_api_key: ((SRMOBILE_PASSTHRU_PRD_API_KEY))
 
+    push2device_prod_api_key: ((PUSH2DEVICE_PROD_API_KEY))
+    push2device_stg_api_key: ((PUSH2DEVICE_STG_API_KEY))
+    push2device_service: ((PUSH2DEVICE_SERVICE))
+
     JAVA_OPTS: '-Dappdynamics.jvm.shutdown.mark.node.as.historical=true -Dappdynamics.agent.reuse.nodeName.prefix=mobileproxyapp -Dappdynamics.agent.reuse.nodeName=true'
   services:
   - ((SRMOBILE_PAPERTRAIL))

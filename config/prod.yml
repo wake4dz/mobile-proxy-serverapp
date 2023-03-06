@@ -18,6 +18,8 @@ SRFH_CURBSIDE_SERVICE: Production
 PRODX_SERVICE: Production
 MI9V8_SERVICE: Production
 PUSH2DEVICE_SERVICE: Production
+PUSH2DEVICE_STG_URL: https://srpushservicedev.azurewebsites.net
+PUSH2DEVICE_PROD_URL: https://srprodpushservice.azurewebsites.net
 
 REWARD_POINT_SERVICE: Production
 

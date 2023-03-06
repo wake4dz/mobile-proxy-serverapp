@@ -62,6 +62,8 @@ applications:
     push2device_prod_api_key: ((PUSH2DEVICE_PROD_API_KEY))
     push2device_stg_api_key: ((PUSH2DEVICE_STG_API_KEY))
     push2device_service: ((PUSH2DEVICE_SERVICE))
+    push2device_stg_url: ((PUSH2DEVICE_STG_URL))
+    push2device_prod_url: ((PUSH2DEVICE_PROD_URL))
 
     JAVA_OPTS: '-Dappdynamics.jvm.shutdown.mark.node.as.historical=true -Dappdynamics.agent.reuse.nodeName.prefix=mobileproxyapp -Dappdynamics.agent.reuse.nodeName=true'
   services:

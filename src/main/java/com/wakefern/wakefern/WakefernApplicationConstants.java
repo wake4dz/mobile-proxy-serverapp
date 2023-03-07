@@ -94,6 +94,8 @@ public class WakefernApplicationConstants {
         public static final String PUSH2DEVICE_SERVICE = "push2device_service";
         public static final String PUSH2DEVICE_STG_API_KEY = "push2device_stg_api_key";
         public static final String PUSH2DEVICE_PROD_API_KEY = "push2device_prod_api_key";
+        public static final String PUSH2DEVICE_STG_URL = "push2device_stg_url";
+        public static final String PUSH2DEVICE_PROD_URL = "push2device_prod_url";
     }
 
     public static class CouponsV3 {
@@ -411,9 +413,6 @@ public class WakefernApplicationConstants {
 
         public static class Upstream {
             public static final String devicesPath = "/api/v1/devices";
-
-            public static final String stagingBaseUrl = "https://srpushservice.azurewebsites.net";
-            public static final String prodBaseUrl = "https://srprodpushservice.azurewebsites.net";
         }
     }
 

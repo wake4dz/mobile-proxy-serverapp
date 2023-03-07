@@ -17,6 +17,8 @@ SRFH_CURBSIDE_SERVICE: Staging
 PRODX_SERVICE: Staging
 MI9V8_SERVICE: Staging
 PUSH2DEVICE_SERVICE: Staging
+PUSH2DEVICE_STG_URL: https://srpushservicedev.azurewebsites.net
+PUSH2DEVICE_PROD_URL: https://srprodpushservice.azurewebsites.net
 
 REWARD_POINT_SERVICE: Staging
 

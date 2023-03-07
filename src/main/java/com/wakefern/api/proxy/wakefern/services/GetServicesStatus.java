@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
-import com.wakefern.api.proxy.wakefern.products.reports.GetToken;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.request.HTTPRequest;
@@ -30,8 +29,7 @@ import java.util.Map;
  * 1) Coupon
  * 2) Item Locator
  * 3) Product Recommendation
- * 4) Business Intelligent (for login to report product not found sku)
- * 5) Push2Device
+ *
  *
  * @author sfl1c
  */
@@ -84,10 +82,6 @@ public class GetServicesStatus extends BaseService {
 		sb.append(printServiceName("ITEM LOCATOR / DIGITAL RECEIPT", getItemLocatorStatus()));
 		sb.append(",");
 
-		//verify product not found service..
-		sb.append(printServiceName("BI LOGS PRODUCT NOT FOUND", getBIProdNotFoundStatus()));
-		sb.append(",");
-
 		// verify product recommendation service..
 		sb.append(printServiceName("PRODUCT RECOMMENDATION", getProdRecommendationStatus(externalStoreId, ppc)));
 		sb.append("]");
@@ -114,18 +108,6 @@ public class GetServicesStatus extends BaseService {
 			serviceStatus = "inactive";
 		}
 		return serviceStatus;
-	}
-
-	/**
-	 * verify product not found service..
-	 *
-	 * @return
-	 */
-	private String getBIProdNotFoundStatus() {
-		GetToken gt = new GetToken();
-		String prodNotFoundResp = gt.getProdNotFoundLogin();
-
-		return !prodNotFoundResp.contains("error") ? "active" : "inactive";
 	}
 
 	/**

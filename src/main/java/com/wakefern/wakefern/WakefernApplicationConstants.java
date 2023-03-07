@@ -429,22 +429,6 @@ public class WakefernApplicationConstants {
         }
     }
 
-
-    public static class Reports {
-
-        public static class Upstream {
-            public static final String contextPath = "/notfound/api/v1";
-            public static final String authenticate = contextPath + "/authenticate/user";
-            public static final String product = contextPath + "/product";
-        }
-
-        public static class Proxy {
-            public static final String NotFoundTokenURL = "/reports/notFound/token";
-            public static final String NotFoundProductURL = "/reports/notFound/product";
-        }
-    }
-
-
     /*
         2022-08-02
         TODO: Once Sherry's Recommendation API with Mi9 V8 integration is ready, we would retest this Proxy API.

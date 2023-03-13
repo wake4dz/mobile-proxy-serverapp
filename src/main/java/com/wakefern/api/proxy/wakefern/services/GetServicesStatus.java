@@ -23,8 +23,8 @@ import java.util.Map;
 
 /**
  * This api will make request to several services currently being used by ShopRite app.
- * The purpose of this api is to verify the integrity of the token in VCAP against the services.
- * This new api is created to accommodate the migration of hardcoded token to VCAP environment variable key/value pair.
+ * The purpose of this api is to verify the integrity of the token in environment variable(s) against the services.
+ * This new api is created to accommodate the migration of hardcoded token to environment variable key/value pair.
  * The impact services will be
  * 1) Coupon
  * 2) Item Locator
@@ -75,8 +75,8 @@ public class GetServicesStatus extends BaseService {
 		// TODO: replace this with JSONArray/some kind of DAO
 		sb.append("[");
 
-		//check VCAP names not empty or null
-		sb.append(checkVCAPNames());
+		//check certain env vars
+		sb.append(validateEnvironment());
 
 		// verify Item Locator service..
 		sb.append(printServiceName("ITEM LOCATOR / DIGITAL RECEIPT", getItemLocatorStatus()));
@@ -101,7 +101,7 @@ public class GetServicesStatus extends BaseService {
 	private String getItemLocatorStatus() {
 		String serviceStatus;
 		try {
-			WakefernAuth.getInfo(ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY));
+			WakefernAuth.getAuthToken(ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.JWT_PUBLIC_KEY));
 			serviceStatus = "active";
 		} catch (Exception e) {
 			logger.error("[GetServicesStatus]:: Item Locator exception resp: " + e.getMessage());
@@ -120,7 +120,7 @@ public class GetServicesStatus extends BaseService {
 	private String getProdRecommendationStatus(String externalStoreId, String ppc) {
 		String serviceStatus;
 		try {
-			final String authToken = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
+			final String authToken = ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
 			final String path = WakefernApplicationConstants.Recommendations.BaseRecommendationsURL
 					+ WakefernApplicationConstants.Recommendations.ProductRecommendationsv2 + "/" + externalStoreId + "/email//fsn/" + ppc;
@@ -140,30 +140,25 @@ public class GetServicesStatus extends BaseService {
 		return serviceStatus;
 	}
 
-	/**
-	 * Checking VCAP names not empty or null
-	 *
-	 * @return
-	 */
-	private static String checkVCAPNames() {
+	private static String validateEnvironment() {
 		StringBuilder sb = new StringBuilder();
-		verifyVCAP(WakefernApplicationConstants.VCAPKeys.COUPON_V3_KEY, sb);
-		verifyVCAP(WakefernApplicationConstants.VCAPKeys.JWT_PUBLIC_KEY, sb);
-		verifyVCAP(WakefernApplicationConstants.VCAPKeys.PROD_NOT_FOUND_LOGIN, sb);
-		verifyVCAP(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY, sb);
+		verifyEnv(WakefernApplicationConstants.EnvVarsKeys.COUPON_V3_KEY, sb);
+		verifyEnv(WakefernApplicationConstants.EnvVarsKeys.JWT_PUBLIC_KEY, sb);
+		verifyEnv(WakefernApplicationConstants.EnvVarsKeys.PROD_NOT_FOUND_LOGIN, sb);
+		verifyEnv(WakefernApplicationConstants.EnvVarsKeys.SR_PRODUCT_RECOMMENDATION_KEY, sb);
 		return !sb.toString().isEmpty()
-				? "{\"VCAP names\":\"" + sb + "\",\"description\":\"ATTENTION!!! Please check Bluemix VCAP, the listed VCAP name(s) are empty or null.\"},"
+				? "{\"Environment variable names\":\"" + sb + "\",\"description\":\"ATTENTION!!! Please check environment vars, the listed env vars are empty or null.\"},"
 				: "";
 	}
 
-	private static void verifyVCAP(String vcapName, StringBuilder sb) {
-		if (isNullEmptyString(ApplicationUtils.getVcapValue(vcapName))) {
-			sb.append(vcapName);
+	private static void verifyEnv(String key, StringBuilder sb) {
+		if (isNullEmptyString(ApplicationUtils.getEnvValue(key))) {
+			sb.append(key);
 			sb.append(" / ");
 		}
 	}
 
-	private static boolean isNullEmptyString(String vcapName) {
-		return vcapName == null || vcapName.isEmpty();
+	private static boolean isNullEmptyString(String value) {
+		return value == null || value.isEmpty();
 	}
 }

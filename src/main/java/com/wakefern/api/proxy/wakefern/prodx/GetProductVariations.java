@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -92,17 +92,17 @@ public class GetProductVariations extends BaseService {
 	        // see JIRA at https://wakefern.atlassian.net/browse/SHOP-701 for Prodx product variations API
 
 			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsVariations.Test, 
-					String.valueOf(VcapProcessor.isServiceStaging(VcapProcessor.getProdxService())));
+					String.valueOf(EnvManager.isServiceStaging(EnvManager.getProdxService())));
 
 			
-			logger.debug("Is test/staging? : " + VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()));
+			logger.debug("Is test/staging? : " + EnvManager.isServiceStaging(EnvManager.getProdxService()));
 
 			final String url = builder.build().toString();
 
 			headers.put(ApplicationConstants.Requests.Headers.Authorization,
-					VcapProcessor.getProdxVariationsApiKeyProd());
+					EnvManager.getProdxVariationsApiKeyProd());
 
-			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
+			return this.createValidResponse(HTTPRequest.executeGet(url, headers, EnvManager.getApiMediumTimeout()));
 
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
@@ -110,7 +110,7 @@ public class GetProductVariations extends BaseService {
 					"storeId", storeId,
 					"wakefernStoreId", wakefernStoreId,
 					"primaryOnly", isPrimaryOnly,
-					"test", VcapProcessor.isServiceStaging(VcapProcessor.getProdxService()));
+					"test", EnvManager.isServiceStaging(EnvManager.getProdxService()));
 			
 			if (LogUtil.isLoggable(e)) {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

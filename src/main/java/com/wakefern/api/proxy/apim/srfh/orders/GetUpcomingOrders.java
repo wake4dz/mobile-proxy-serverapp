@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
@@ -43,7 +43,7 @@ public class GetUpcomingOrders extends BaseService {
 							@HeaderParam(ApplicationConstants.Requests.Headers.appVersion) String appVersion) {
 		logger.debug("Fetching upcoming orders for ppc " + ppc + " for fulfillmentDate: " + fulfillmentDate);
 		try {
-			URIBuilder uriBuilder = new URIBuilder(VcapProcessor.getTargetSRFHOrdersBaseUrl()
+			URIBuilder uriBuilder = new URIBuilder(EnvManager.getTargetSRFHOrdersBaseUrl()
 					+ WakefernApplicationConstants.UpcomingOrders.Upstream.upcomingOrdersPath);
 			uriBuilder.addParameter(WakefernApplicationConstants.UpcomingOrders.RequestParamsQuery.frequentShopperNumber, ppc);
 			if (fulfillmentDate != null) {
@@ -54,10 +54,10 @@ public class GetUpcomingOrders extends BaseService {
 			Map<String, String> headers = new HashMap<>();
 			headers.put("X-ShopRite-Mobile-Version", appVersion);
 			headers.put(ApplicationConstants.Requests.Headers.Accept, WakefernApplicationConstants.UpcomingOrders.Upstream.MimeType);
-			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHOrdersApiKey());
+			headers.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getTargetSRFHOrdersApiKey());
 			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
-			String response = HTTPRequest.executeGet(requestURI, headers, VcapProcessor.getApiMediumTimeout());
+			String response = HTTPRequest.executeGet(requestURI, headers, EnvManager.getApiMediumTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc, "fulfillmentDate", fulfillmentDate);

@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.logging.LogUtil;
@@ -50,7 +50,7 @@ public class SmsEnrollment extends BaseService {
         headerMap.put(WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersionHeaderKey,
                 WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersion);
         headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
-                ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
+                ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.APIM_SMS_ENROLLMENTS_KEY));
         
         headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
         
@@ -59,7 +59,7 @@ public class SmsEnrollment extends BaseService {
             builder.setPath(WakefernApplicationConstants.SmsEnrollment.Upstream.enrollmentPath)
                     .setParameter("frequentShopperNumber", fsn).setParameter("phoneNumber", phoneNumber);
             final String requestURI = builder.build().toString();
-            final String response = HTTPRequest.executeGet(requestURI, headerMap, VcapProcessor.getApiLowTimeout());
+            final String response = HTTPRequest.executeGet(requestURI, headerMap, EnvManager.getApiLowTimeout());
             logger.debug("Response from apim: " + response);
             JSONObject responseJson = new JSONObject(response);
             JSONObject responseData = responseJson.getJSONObject("data");
@@ -104,7 +104,7 @@ public class SmsEnrollment extends BaseService {
             headerMap.put(ApplicationConstants.Requests.Headers.Accept,
                     WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType);
             headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
-                    ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_SMS_ENROLLMENTS_KEY));
+                    ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.APIM_SMS_ENROLLMENTS_KEY));
 
             JSONObject payload = new JSONObject();
 
@@ -116,7 +116,7 @@ public class SmsEnrollment extends BaseService {
             URIBuilder builder = new URIBuilder(WakefernApplicationConstants.SmsEnrollment.Upstream.BaseURL);
             builder.setPath(WakefernApplicationConstants.SmsEnrollment.Upstream.orderSubscriptionPath);
             final String requestURI = builder.build().toString();
-            final String response = HTTPRequest.executePostJSON(requestURI, payload.toString(), headerMap, VcapProcessor.getApiLowTimeout());
+            final String response = HTTPRequest.executePostJSON(requestURI, payload.toString(), headerMap, EnvManager.getApiLowTimeout());
             return createValidResponse(response);
         } catch (Exception e) {
         	if (LogUtil.isLoggable(e)) {

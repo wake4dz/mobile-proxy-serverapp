@@ -43,7 +43,7 @@ public class GetUserSession extends BaseService {
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
 		headerMap.put(ApplicationConstants.Requests.Headers.Authorization,
-				ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.COUPON_V3_KEY));
+				ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.COUPON_V3_KEY));
 		headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 		JSONObject jsonObject;

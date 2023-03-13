@@ -12,7 +12,7 @@ public class WakefernApplicationConstants {
     private static final String wakefernApiProd = "https://wfcapi.shoprite.com";
 
     public static String getBaseWakefernApiUrl() {
-        String targetAPI = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.CHAIN);
+        String targetAPI = ApplicationUtils.getEnvValue(EnvVarsKeys.CHAIN);
         if (targetAPI.equalsIgnoreCase("ShopRiteStage")) {
             return wakefernApiStage;
         }
@@ -20,7 +20,7 @@ public class WakefernApplicationConstants {
         return wakefernApiProd;
     }
 
-    public static class VCAPKeys {
+    public static class EnvVarsKeys {
         public static final String CHAIN = "chain";
         public static final String URL = "url";
         public static final String COUPON_SERVICE = "coupon_service";

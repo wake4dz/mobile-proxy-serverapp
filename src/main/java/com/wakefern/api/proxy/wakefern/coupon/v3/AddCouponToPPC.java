@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -46,7 +46,7 @@ public class AddCouponToPPC extends BaseService {
 
 		try {
 			// Execute POST
-			String response = HTTPRequest.executePostJSON(url, jsonString, headerMap, VcapProcessor.getApiLowTimeout());
+			String response = HTTPRequest.executePostJSON(url, jsonString, headerMap, EnvManager.getApiLowTimeout());
 			return this.createValidResponse(response);
 		} catch (Exception e) {
 			

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 
 /*
  *  author:     Danny Zheng
@@ -27,7 +27,7 @@ public class CategoryJsonFileCache {
 			String jsonFileName = null;
 			
 			//select which file to be sent based on recipe_service VCAP setting
-			if (VcapProcessor.getRecipeService().trim().equalsIgnoreCase("Staging")) {
+			if (EnvManager.getRecipeService().trim().equalsIgnoreCase("Staging")) {
 				jsonFileName = "recipe_qa.json";
 			} else {
 				jsonFileName = "recipe_prod.json";

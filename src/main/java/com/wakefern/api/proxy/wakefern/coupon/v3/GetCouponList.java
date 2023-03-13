@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -53,7 +53,7 @@ public class GetCouponList extends BaseService {
 		headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 		try {
-			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiHighTimeout());
+			String response = HTTPRequest.executeGet(url, headerMap, EnvManager.getApiHighTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
 			

@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -50,17 +50,17 @@ public class GetWallet extends BaseService {
         Map<String, String> headers = new HashMap<>();
         
         try {
-        	String path =  VcapProcessor.getTargetWalletServiceEndpoint() 
+        	String path =  EnvManager.getTargetWalletServiceEndpoint()
         			+ "/" + device 
         			+ "/" + customerId
         			+ "/" + sessionToken;
 
             headers.put("Content-Type", contentType);
-            headers.put("Authorization", VcapProcessor.getTargetWalletAuthorizationKey() );
+            headers.put("Authorization", EnvManager.getTargetWalletAuthorizationKey() );
             headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
             //note: first-time call for each user would take some time. After cache in the upstream system, calls are much faster.
-            return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiMediumTimeout()));
+            return this.createValidResponse(HTTPRequest.executeGet(path, headers, EnvManager.getApiMediumTimeout()));
 
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),

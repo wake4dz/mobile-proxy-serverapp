@@ -13,8 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationUtils;
-import com.wakefern.global.VcapProcessor;
-import com.wakefern.request.HTTPRequest;
+import com.wakefern.global.EnvManager;
 
 /*
  *  author: Danny Zheng
@@ -159,35 +158,35 @@ public class LogUtil {
 
 		messages.add("");
 
-		messages.add(pad("The 'chain' system property:") + ApplicationUtils.getVcapValue("chain"));
+		messages.add(pad("The 'chain' system property:") + ApplicationUtils.getEnvValue("chain"));
 		messages.add(pad("The 'mi9v8_service' system property:")
-				+ ApplicationUtils.getVcapValue("mi9v8_service"));
+				+ ApplicationUtils.getEnvValue("mi9v8_service"));
 		messages.add(pad("The 'coupon_service' system property:")
-				+ ApplicationUtils.getVcapValue("coupon_service"));
-		messages.add(pad("The 'recipe_service' system property:") + VcapProcessor.getRecipeService());
-		messages.add(pad("The 'wallet_service' system property:") + VcapProcessor.getWalletService());
-		messages.add(pad("The 'srfh_orders_service' system property:") + VcapProcessor.getSrfhOrdersService());
-		messages.add(pad("The 'srfh_curbside_service' system property:") + VcapProcessor.getSrfhCurbsideService());
-		messages.add(pad("The 'prodx_service' system property:") + VcapProcessor.getProdxService());
-		messages.add(pad("The 'reward_point_service' system property:") + VcapProcessor.getRewardPointService());
-		messages.add(pad("The 'push2device_service' system property:") + VcapProcessor.getPush2DeviceService());
+				+ ApplicationUtils.getEnvValue("coupon_service"));
+		messages.add(pad("The 'recipe_service' system property:") + EnvManager.getRecipeService());
+		messages.add(pad("The 'wallet_service' system property:") + EnvManager.getWalletService());
+		messages.add(pad("The 'srfh_orders_service' system property:") + EnvManager.getSrfhOrdersService());
+		messages.add(pad("The 'srfh_curbside_service' system property:") + EnvManager.getSrfhCurbsideService());
+		messages.add(pad("The 'prodx_service' system property:") + EnvManager.getProdxService());
+		messages.add(pad("The 'reward_point_service' system property:") + EnvManager.getRewardPointService());
+		messages.add(pad("The 'push2device_service' system property:") + EnvManager.getPush2DeviceService());
 
-		messages.add(pad("The 'mute_error_log' system property:") + VcapProcessor.isMuteErrorLog());
-		messages.add(pad("The 'mute_http_code' system property:") + VcapProcessor.getMuteHttpCode());
+		messages.add(pad("The 'mute_error_log' system property:") + EnvManager.isMuteErrorLog());
+		messages.add(pad("The 'mute_http_code' system property:") + EnvManager.getMuteHttpCode());
 		
-		messages.add(pad("The 'api_high_timeout' system property:") + VcapProcessor.getApiHighTimeout());
-		messages.add(pad("The 'api_medium_timeout' system property:") + VcapProcessor.getApiMediumTimeout());
-		messages.add(pad("The 'api_low_timeout' system property:") + VcapProcessor.getApiLowTimeout());
+		messages.add(pad("The 'api_high_timeout' system property:") + EnvManager.getApiHighTimeout());
+		messages.add(pad("The 'api_medium_timeout' system property:") + EnvManager.getApiMediumTimeout());
+		messages.add(pad("The 'api_low_timeout' system property:") + EnvManager.getApiLowTimeout());
 		messages.add(pad("The 'http_default_connect_timeout_ms' system property:")
-				+ VcapProcessor.getHttpDefaultConnectTimeoutMs());
+				+ EnvManager.getHttpDefaultConnectTimeoutMs());
 		messages.add(pad("The 'http_default_read_timeout_ms' system property:")
-				+ VcapProcessor.getHttpDefaultReadTimeoutMs());
+				+ EnvManager.getHttpDefaultReadTimeoutMs());
 
 		messages.add(pad("The 'recipe_shelf_thread_pool_size' system property:")
-				+ VcapProcessor.getRecipeShelfThreadPoolSize());
+				+ EnvManager.getRecipeShelfThreadPoolSize());
 
 		messages.add(pad("The 'item_locator_cache_enabled' system property:")
-				+ VcapProcessor.isItemLocatorCacheEnabled());
+				+ EnvManager.isItemLocatorCacheEnabled());
 
 		messages.add("");
 
@@ -233,47 +232,47 @@ public class LogUtil {
 			messages.add("<table id=\"envVariable\">");
 			messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
 
-			messages.add("<tr><td>chain</td>" + "<td>" + ApplicationUtils.getVcapValue("chain")
+			messages.add("<tr><td>chain</td>" + "<td>" + ApplicationUtils.getEnvValue("chain")
 					+ "</td> </tr>");
 
 			messages.add("<tr><td>mi9v8_service</td>" + "<td>"
-					+ ApplicationUtils.getVcapValue("mi9v8_service") + "</td> </tr>");
+					+ ApplicationUtils.getEnvValue("mi9v8_service") + "</td> </tr>");
 			
 			messages.add("<tr><td>coupon_service</td>" + "<td>"
-					+ ApplicationUtils.getVcapValue("coupon_service") + "</td> </tr>");
+					+ ApplicationUtils.getEnvValue("coupon_service") + "</td> </tr>");
 
-			messages.add("<tr><td>wallet_service</td>" + "<td>" + VcapProcessor.getWalletService() + "</td> </tr>");
+			messages.add("<tr><td>wallet_service</td>" + "<td>" + EnvManager.getWalletService() + "</td> </tr>");
 
-			messages.add("<tr><td>recipe_service</td>" + "<td>" + VcapProcessor.getRecipeService() + "</td> </tr>");
+			messages.add("<tr><td>recipe_service</td>" + "<td>" + EnvManager.getRecipeService() + "</td> </tr>");
 
-			messages.add("<tr><td>srfh_orders_service</td><td>" + VcapProcessor.getSrfhOrdersService() + "</td></tr>");
+			messages.add("<tr><td>srfh_orders_service</td><td>" + EnvManager.getSrfhOrdersService() + "</td></tr>");
 
-			messages.add("<tr><td>srfh_curbside_service</td><td>" + VcapProcessor.getSrfhCurbsideService() + "</td></tr>");
+			messages.add("<tr><td>srfh_curbside_service</td><td>" + EnvManager.getSrfhCurbsideService() + "</td></tr>");
 
-			messages.add("<tr><td>prodx_service</td><td>" + VcapProcessor.getProdxService() + "</td></tr>");
+			messages.add("<tr><td>prodx_service</td><td>" + EnvManager.getProdxService() + "</td></tr>");
 
-			messages.add("<tr><td>reward_point_service</td><td>" + VcapProcessor.getRewardPointService() + "</td></tr>");
+			messages.add("<tr><td>reward_point_service</td><td>" + EnvManager.getRewardPointService() + "</td></tr>");
 
-			messages.add("<tr><td>push2device_service</td><td>" + VcapProcessor.getPush2DeviceService() + "</td></tr>");
+			messages.add("<tr><td>push2device_service</td><td>" + EnvManager.getPush2DeviceService() + "</td></tr>");
 
-			messages.add("<tr><td>mute_error_log</td><td>" + VcapProcessor.isMuteErrorLog() + "</td></tr>");
-			messages.add("<tr><td>mute_http_code</td><td>" + VcapProcessor.getMuteHttpCode() + "</td></tr>");
+			messages.add("<tr><td>mute_error_log</td><td>" + EnvManager.isMuteErrorLog() + "</td></tr>");
+			messages.add("<tr><td>mute_http_code</td><td>" + EnvManager.getMuteHttpCode() + "</td></tr>");
 
-			messages.add("<tr><td>api_high_timeout</td>" + "<td>" + VcapProcessor.getApiHighTimeout() + "</td> </tr>");
+			messages.add("<tr><td>api_high_timeout</td>" + "<td>" + EnvManager.getApiHighTimeout() + "</td> </tr>");
 
 			messages.add(
-					"<tr><td>api_medium_timeout</td>" + "<td>" + VcapProcessor.getApiMediumTimeout() + "</td> </tr>");
+					"<tr><td>api_medium_timeout</td>" + "<td>" + EnvManager.getApiMediumTimeout() + "</td> </tr>");
 
-			messages.add("<tr><td>api_low_timeout</td>" + "<td>" + VcapProcessor.getApiLowTimeout() + "</td> </tr>");
+			messages.add("<tr><td>api_low_timeout</td>" + "<td>" + EnvManager.getApiLowTimeout() + "</td> </tr>");
 
 			messages.add("<tr><td>http_default_connect_timeout_ms</td><td>"
-					+ VcapProcessor.getHttpDefaultConnectTimeoutMs() + "</td></tr>");
+					+ EnvManager.getHttpDefaultConnectTimeoutMs() + "</td></tr>");
 
 			messages.add("<tr><td>http_default_read_timeout_ms</td><td>"
-					+ VcapProcessor.getHttpDefaultReadTimeoutMs() + "</td></tr>");
+					+ EnvManager.getHttpDefaultReadTimeoutMs() + "</td></tr>");
 
-			messages.add("<tr><td>recipe_shelf_thread_pool_size</td><td>" + VcapProcessor.getRecipeShelfThreadPoolSize() + "</td></tr>");
-			messages.add("<tr><td>item_locator_cache_enabled</td><td>" + VcapProcessor.isItemLocatorCacheEnabled() + "</td></tr>");
+			messages.add("<tr><td>recipe_shelf_thread_pool_size</td><td>" + EnvManager.getRecipeShelfThreadPoolSize() + "</td></tr>");
+			messages.add("<tr><td>item_locator_cache_enabled</td><td>" + EnvManager.isItemLocatorCacheEnabled() + "</td></tr>");
 
 			messages.add("</table> <br /> <br />");
 
@@ -389,9 +388,9 @@ public class LogUtil {
 	public static boolean isLoggable(Exception e) {
 		boolean isLoggable = true;
 		
-		if (VcapProcessor.isMuteErrorLog()) {
+		if (EnvManager.isMuteErrorLog()) {
 			
-			for (String code: VcapProcessor.getMuteHttpCode()) {
+			for (String code: EnvManager.getMuteHttpCode()) {
 				if (code.trim().equalsIgnoreCase("401")) {
 					logger.debug("Mute_http_code 401: " + e.getLocalizedMessage());
 					if (e.getLocalizedMessage().contains("401,Unauthorized")) {

@@ -44,6 +44,6 @@ public class ValidateAdminTokenFilter implements ContainerRequestFilter {
 	private static boolean isInvalidAdminToken(final String token) {
 		if (token == null) return true;
 		return !token.trim().equalsIgnoreCase(ApplicationUtils
-				.getVcapValue(WakefernApplicationConstants.VCAPKeys.PROXY_ADMIN_KEY));
+				.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.PROXY_ADMIN_KEY));
 	}
 }

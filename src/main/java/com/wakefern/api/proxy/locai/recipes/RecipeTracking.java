@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -44,13 +44,13 @@ public class RecipeTracking extends BaseService {
         Map<String, String> headers = new HashMap<>();
 
         try {
-        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
-        			+ "/recipes/add-to-cart?clientId=" + VcapProcessor.getRecipeClientId()
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+        	String path =  EnvManager.getTargetRecipeLocaiServiceEndpoint()
+        			+ "/recipes/add-to-cart?clientId=" + EnvManager.getRecipeClientId()
+        			+ "&apiKey=" + EnvManager.getTargetRecipeLocaiApiKey();
         			
         	headers.put("Content-Type", contentType);
 
-            return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
+            return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, EnvManager.getApiMediumTimeout()));
 
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),

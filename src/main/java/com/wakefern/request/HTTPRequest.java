@@ -16,7 +16,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.errorHandling.ResponseHandler;
 import com.wakefern.logging.LogUtil;
 
@@ -46,13 +46,13 @@ public class HTTPRequest {
 		int connTimeout = 0, readTimeout = 0;
 		// Read environment values
 		try {
-			connTimeout = VcapProcessor.getHttpDefaultConnectTimeoutMs();
+			connTimeout = EnvManager.getHttpDefaultConnectTimeoutMs();
 		} catch (Exception e) {
 			logger.error("Error reading default connection timeout from env");
 		}
 
 		try {
-			readTimeout = VcapProcessor.getHttpDefaultReadTimeoutMs();
+			readTimeout = EnvManager.getHttpDefaultReadTimeoutMs();
 		} catch (Exception e) {
 			logger.error("Error reading default connection timeout from env");
 		}

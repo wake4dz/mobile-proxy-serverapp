@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -47,16 +47,16 @@ public class SaveDishFavorite extends BaseService {
         Map<String, String> headers = new HashMap<>();
 
         try {
-        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
+        	String path =  EnvManager.getTargetRecipeLocaiServiceEndpoint()
         			+ "/users/" + userId
         			+ "/dishes/" + dishId
-        			+ "/favorite/set?clientId=" + VcapProcessor.getRecipeClientId()
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+        			+ "/favorite/set?clientId=" + EnvManager.getRecipeClientId()
+        			+ "&apiKey=" + EnvManager.getTargetRecipeLocaiApiKey();
         			
         	headers.put("Content-Type", contentType);
             headers.put("Authorization", jwtToken);
             
-            return this.createValidResponse(HTTPRequest.executePut(path, jsonBody, headers, VcapProcessor.getApiMediumTimeout()));
+            return this.createValidResponse(HTTPRequest.executePut(path, jsonBody, headers, EnvManager.getApiMediumTimeout()));
 
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),

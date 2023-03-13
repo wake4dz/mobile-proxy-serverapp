@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.UserJWTV2;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 
@@ -52,7 +52,7 @@ public class GetPpcJwtToken extends BaseService {
 			headerMap.put(ApplicationConstants.Requests.Headers.Accept, "*/*");
 			headerMap.put(ApplicationConstants.Requests.Headers.xSiteHost, xSiteHost);
 
-			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiMediumTimeout());
+			String response = HTTPRequest.executeGet(url, headerMap, EnvManager.getApiMediumTimeout());
 
 			JSONObject jsonResponse = new JSONObject(response);
 			

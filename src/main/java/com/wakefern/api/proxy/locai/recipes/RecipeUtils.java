@@ -1,7 +1,7 @@
 package com.wakefern.api.proxy.locai.recipes;
 
 import com.wakefern.global.Futures;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 
 public class RecipeUtils {
-	private static final int MAX_THREAD_POOL_SIZE = VcapProcessor.getRecipeShelfThreadPoolSize();
+	private static final int MAX_THREAD_POOL_SIZE = EnvManager.getRecipeShelfThreadPoolSize();
 
 	/**
 	 * Creates a cached thread pool with a limit of MAX_THREAD_POOL_SIZE threads.
@@ -93,7 +93,7 @@ public class RecipeUtils {
 			completableFutures.add(completableFuture);
 		}
 
-		List<Map<String,String>> r = Futures.getAllCompleted(completableFutures, VcapProcessor.getApiMediumTimeout());
+		List<Map<String,String>> r = Futures.getAllCompleted(completableFutures, EnvManager.getApiMediumTimeout());
 
 		Instant end = Instant.now();
 		logger.debug("Took: " + DurationFormatUtils.formatDurationHMS(Duration.between(start, end).toMillis()));

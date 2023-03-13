@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
@@ -43,17 +43,17 @@ public class GetCurbsideSession extends BaseService {
 	{
 		logger.debug("GET curbside session for " + ppc + " storeNumber: " + storeNumber + " orderNumber: " + orderNumber);
 		try {
-			URIBuilder uriBuilder = new URIBuilder(VcapProcessor.getTargetSRFHCurbsideBaseUrl()
+			URIBuilder uriBuilder = new URIBuilder(EnvManager.getTargetSRFHCurbsideBaseUrl()
 					+ WakefernApplicationConstants.CurbsideSession.Upstream.Path);
 			uriBuilder.addParameter(WakefernApplicationConstants.CurbsideSession.RequestParamsQuery.orderNumber, orderNumber);
 			uriBuilder.addParameter(WakefernApplicationConstants.CurbsideSession.RequestParamsQuery.storeNumber, storeNumber);
 			uriBuilder.addParameter(WakefernApplicationConstants.CurbsideSession.RequestParamsQuery.frequentShopperNumber, ppc);
 			final String requestURI = uriBuilder.build().toString();
 			Map<String, String> headers = new HashMap<>();
-			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHCurbsideApiKey());
+			headers.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getTargetSRFHCurbsideApiKey());
 			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
-			String response = HTTPRequest.executeGet(requestURI, headers, VcapProcessor.getApiMediumTimeout());
+			String response = HTTPRequest.executeGet(requestURI, headers, EnvManager.getApiMediumTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);

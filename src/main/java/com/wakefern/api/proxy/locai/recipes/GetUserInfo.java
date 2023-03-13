@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -45,23 +45,23 @@ public class GetUserInfo extends BaseService {
         Map<String, String> headers = new HashMap<>();
 
         try {
-        	String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()  
+        	String path =  EnvManager.getTargetRecipeLocaiServiceEndpoint()
         			+ "/wakefern/mi9/getUserInfo"
         			+ "?accessToken=" + accessToken
         			+ "&accountId=" + accountId
-        			+ "&clientId=" + VcapProcessor.getRecipeClientId()
-        			+ "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey()
+        			+ "&clientId=" + EnvManager.getRecipeClientId()
+        			+ "&apiKey=" + EnvManager.getTargetRecipeLocaiApiKey()
         			+ "&wakefernTokenType=mobile"; // mobile for the Mi9 V8 mobile-gateway server
         			
         	headers.put("Content-Type", contentType);
 
-            return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiHighTimeout()));
+            return this.createValidResponse(HTTPRequest.executeGet(path, headers, EnvManager.getApiHighTimeout()));
 
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
             		"sessionToken", accessToken, "accountId", accountId, 
-            		"clientId", VcapProcessor.getRecipeClientId(),
-            		"apiKey", VcapProcessor.getTargetRecipeLocaiApiKey(),
+            		"clientId", EnvManager.getRecipeClientId(),
+            		"apiKey", EnvManager.getTargetRecipeLocaiApiKey(),
             		"contentType", contentType, "HttpBody", jsonBody);
             
             if (LogUtil.isLoggable(e)) {

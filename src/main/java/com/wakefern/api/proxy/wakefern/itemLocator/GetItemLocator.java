@@ -2,7 +2,7 @@ package com.wakefern.api.proxy.wakefern.itemLocator;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
@@ -11,7 +11,6 @@ import com.wakefern.wakefern.WakefernAuth;
 import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -36,16 +35,16 @@ public class GetItemLocator extends BaseService {
 			String path = WakefernApplicationConstants.ItemLocator.baseURL
 					+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + upc;
 
-			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
+			final String authToken = WakefernAuth.getAuthToken(EnvManager.getJwtPublicKey());
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
 			wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 			// Call APIM Gateway to avoid any foreign IP addresses
-			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
+			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
 
 			logger.trace("URL path: " + path);
 
-			return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout()));
+			return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, EnvManager.getApiMediumTimeout()));
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
 					"contentType", "application/json");
@@ -76,24 +75,24 @@ public class GetItemLocator extends BaseService {
 			String path = WakefernApplicationConstants.ItemLocator.baseURL
 					+ WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + upc;
 
-			final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
+			final String authToken = WakefernAuth.getAuthToken(EnvManager.getJwtPublicKey());
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
 			// Call APIM Gateway to avoid any foreign IP addresses
-			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
+			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
 			wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			logger.trace("auth token:" + authToken);
 			logger.trace("URL path: " + path);
 
-			String response = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
+			String response = HTTPRequest.executeGet(path, wkfn, EnvManager.getApiMediumTimeout());
 			logger.trace("item locator fetch resp: " + response);
 			ItemLocatorDto itemLocator = ItemLocatorUtils.generateItemLocatorForUpc(upc, response);
 			ItemLocatorCache.getInstance().add(storeId, upc, itemLocator);
 			return createValidResponse(itemLocator.toApiResponse());
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"contentType", "application/json", WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
+					"contentType", "application/json", WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
 
 			if (LogUtil.isLoggable(e)) {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

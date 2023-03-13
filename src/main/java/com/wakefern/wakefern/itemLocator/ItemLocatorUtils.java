@@ -3,7 +3,7 @@ package com.wakefern.wakefern.itemLocator;
 import com.wakefern.api.proxy.wakefern.itemLocator.ItemLocatorCache;
 import com.wakefern.api.proxy.wakefern.itemLocator.ItemLocatorDto;
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -397,7 +397,7 @@ public class ItemLocatorUtils {
             StringBuilder partitionItemsSB;
 
             // Get auth token
-            final String authToken = WakefernAuth.getInfo(VcapProcessor.getJwtPublicKey());
+            final String authToken = WakefernAuth.getAuthToken(EnvManager.getJwtPublicKey());
 
             for (int i=0; i < numRequests; i++) {
                 partitionItemsList = new ArrayList<>();
@@ -430,9 +430,9 @@ public class ItemLocatorUtils {
                 wkfn.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
                 wkfn.put("Authentication", authToken);
                 // Call APIM Gateway to avoid any foreign IP addresses
-                wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getSrMobilePassThruApiKeyProd());
+                wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
 
-                String responseData = HTTPRequest.executeGet(path, wkfn, VcapProcessor.getApiMediumTimeout());
+                String responseData = HTTPRequest.executeGet(path, wkfn, EnvManager.getApiMediumTimeout());
 
                 logger.trace("partitionNumber: " + (i + 1));
                 logger.trace("URL path: " + path);

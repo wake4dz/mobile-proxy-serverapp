@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -48,12 +48,12 @@ public class HomePageConfig extends BaseService {
 		Map<String, String> headers = new HashMap<>();
 
 		try {
-			String path = VcapProcessor.getTargetRecipeLocaiServiceEndpoint() + "/content/wakefern?" + "&apiKey="
-					+ VcapProcessor.getTargetRecipeLocaiApiKey();
+			String path = EnvManager.getTargetRecipeLocaiServiceEndpoint() + "/content/wakefern?" + "&apiKey="
+					+ EnvManager.getTargetRecipeLocaiApiKey();
 
 			headers.put("Content-Type", contentType);
 
-			String response = HTTPRequest.executeGet(path, headers, VcapProcessor.getApiHighTimeout());
+			String response = HTTPRequest.executeGet(path, headers, EnvManager.getApiHighTimeout());
 			logger.debug("Locai's response data: " + response);
 			return createValidResponse(filterLayoutsFromResponse(response));
 
@@ -76,12 +76,12 @@ public class HomePageConfig extends BaseService {
 	 */
 	public static JSONObject fetch() throws Exception {
 		Map<String, String> headers = new HashMap<>();
-		String path = VcapProcessor.getTargetRecipeLocaiServiceEndpoint() + "/content/wakefern?" + "&apiKey="
-				+ VcapProcessor.getTargetRecipeLocaiApiKey();
+		String path = EnvManager.getTargetRecipeLocaiServiceEndpoint() + "/content/wakefern?" + "&apiKey="
+				+ EnvManager.getTargetRecipeLocaiApiKey();
 
 		headers.put("Content-Type", "application/json");
 
-		String response = HTTPRequest.executeGet(path, headers, VcapProcessor.getApiHighTimeout());
+		String response = HTTPRequest.executeGet(path, headers, EnvManager.getApiHighTimeout());
 		logger.debug("Locai's response data: " + response);
 		return new JSONObject(filterLayoutsFromResponse(response));
 	}

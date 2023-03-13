@@ -2,7 +2,7 @@ package com.wakefern.api.proxy.wakefern.push2device;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
@@ -49,7 +49,7 @@ public class UnregisterDevice extends BaseService {
         try {
             logger.info("[Push2Device::UnregisterDevice] jsonData: " + jsonData);
 
-            final String apiKey = VcapProcessor.getPush2DeviceApiKey();
+            final String apiKey = EnvManager.getPush2DeviceApiKey();
 
             Map<String, String> headers = new HashMap<>();
             headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
@@ -57,9 +57,9 @@ public class UnregisterDevice extends BaseService {
 
             JSONObject args = parseBodyIntoArgs(jsonData);
 
-            String path = VcapProcessor.getPush2DeviceUrl()
+            String path = EnvManager.getPush2DeviceUrl()
                     + WakefernApplicationConstants.Push2Device.Upstream.devicesPath;
-            String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, VcapProcessor.getApiLowTimeout());
+            String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, EnvManager.getApiLowTimeout());
             logger.debug("[Push2Device::UnregisterDevice] upstream response: " + jsonResponse);
             // Return empty response
             return this.createResponse(Response.Status.NO_CONTENT);

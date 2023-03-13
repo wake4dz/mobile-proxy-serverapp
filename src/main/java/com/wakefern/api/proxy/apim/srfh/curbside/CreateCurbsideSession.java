@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
@@ -41,16 +41,16 @@ public class CreateCurbsideSession extends BaseService {
 		logger.debug("Create curbside session for " + ppc
 					+ " body: " + body);
 		try {
-			URIBuilder uriBuilder = new URIBuilder(VcapProcessor.getTargetSRFHCurbsideBaseUrl()
+			URIBuilder uriBuilder = new URIBuilder(EnvManager.getTargetSRFHCurbsideBaseUrl()
 					+ WakefernApplicationConstants.CurbsideSession.Upstream.Path);
 
 			final String requestURI = uriBuilder.build().toString();
 			Map<String, String> headers = new HashMap<>();
-			headers.put(WakefernApplicationConstants.APIM.sub_key_header, VcapProcessor.getTargetSRFHCurbsideApiKey());
+			headers.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getTargetSRFHCurbsideApiKey());
 			headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
 			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
-			String response = HTTPRequest.executePut(requestURI, body, headers, VcapProcessor.getApiMediumTimeout());
+			String response = HTTPRequest.executePut(requestURI, body, headers, EnvManager.getApiMediumTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);

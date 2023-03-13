@@ -3,7 +3,7 @@ package com.wakefern.api.proxy.mi9.v8.lists.planning;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
@@ -56,7 +56,7 @@ public class GetPlanningListItemLocator extends BaseService {
 			headerMap.put(Requests.Headers.Accept, accept);
 			headerMap.put(Requests.Headers.xSiteHost, xSiteHost);
 
-			String response = HTTPRequest.executeGet(url, headerMap, VcapProcessor.getApiMediumTimeout());
+			String response = HTTPRequest.executeGet(url, headerMap, EnvManager.getApiMediumTimeout());
 
 			// call Wakefern's ItemLocator API to get additional data
 			// return empty item locator info for each sku if ItemLocator API fails for some reason

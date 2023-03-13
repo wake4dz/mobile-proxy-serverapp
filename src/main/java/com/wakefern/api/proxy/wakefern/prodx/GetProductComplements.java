@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -55,14 +55,14 @@ public class GetProductComplements extends BaseService {
 			}
 
 			// Add "aisleId" query param to each outgoing request
-			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsComplements.AISLE_ID, VcapProcessor.getProdxComplementsAisleId());
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsComplements.AISLE_ID, EnvManager.getProdxComplementsAisleId());
 
 			final String url = builder.build().toString();
 
 			headers.put(ApplicationConstants.Requests.Headers.Authorization,
-					VcapProcessor.getProdxComplementsApiKey());
+					EnvManager.getProdxComplementsApiKey());
 
-			return this.createValidResponse(HTTPRequest.executeGet(url, headers, VcapProcessor.getApiMediumTimeout()));
+			return this.createValidResponse(HTTPRequest.executeGet(url, headers, EnvManager.getApiMediumTimeout()));
 
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
@@ -84,7 +84,7 @@ public class GetProductComplements extends BaseService {
 	}
 
 	private static String constructUrl(final String productId) {
-		String template = VcapProcessor.getProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.ProductsComplements.GetComplementsPath;
+		String template = EnvManager.getProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.ProductsComplements.GetComplementsPath;
 		Map<String, String> pathParams = new HashMap<>();
 		pathParams.put("productId", productId);
 

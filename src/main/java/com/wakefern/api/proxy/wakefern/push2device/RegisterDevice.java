@@ -2,7 +2,7 @@ package com.wakefern.api.proxy.wakefern.push2device;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import com.wakefern.logging.LogUtil;
@@ -56,16 +56,16 @@ public class RegisterDevice extends BaseService {
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " jsonData: " + jsonData);
             Map<String, String> headers = new HashMap<>();
 
-            final String path = VcapProcessor.getPush2DeviceUrl()
+            final String path = EnvManager.getPush2DeviceUrl()
                     + WakefernApplicationConstants.Push2Device.Upstream.devicesPath;
 
-            final String apiKey = VcapProcessor.getPush2DeviceApiKey();
+            final String apiKey = EnvManager.getPush2DeviceApiKey();
 
             headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
             headers.put(ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey);
 
             JSONObject args = parseBodyIntoArgs(jsonData);
-            String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, VcapProcessor.getApiLowTimeout());
+            String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, EnvManager.getApiLowTimeout());
 
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " upstream response: " + jsonResponse);
             return this.createResponse(Response.Status.ACCEPTED);

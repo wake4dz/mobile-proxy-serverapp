@@ -10,7 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidateAdminToken;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.Level;
@@ -128,13 +128,13 @@ public class LoggerResource {
 			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
 		
 		if (isLoggable.trim().equalsIgnoreCase("true")) {
-			VcapProcessor.setMuteErrorLog(true);
+			EnvManager.setMuteErrorLog(true);
 		} else if (isLoggable.trim().equalsIgnoreCase("false"))  {
-			VcapProcessor.setMuteErrorLog(false);
+			EnvManager.setMuteErrorLog(false);
 		} else {
 			// do nothing, keep the original setting
 		}
 		
-		return Response.status(200).entity("PathParam(\"isLoggable\") = " + isLoggable + ", Mute_error_log = " + VcapProcessor.isMuteErrorLog()).build();
+		return Response.status(200).entity("PathParam(\"isLoggable\") = " + isLoggable + ", Mute_error_log = " + EnvManager.isMuteErrorLog()).build();
 	}
 }

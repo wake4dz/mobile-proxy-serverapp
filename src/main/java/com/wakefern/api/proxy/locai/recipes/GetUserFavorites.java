@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -68,12 +68,12 @@ public class GetUserFavorites extends BaseService {
         headers.put("Content-Type", contentType);
         headers.put("Authorization", jwtToken);
 
-        final String path =  VcapProcessor.getTargetRecipeLocaiServiceEndpoint()
+        final String path =  EnvManager.getTargetRecipeLocaiServiceEndpoint()
               + "/users/" + userId
-              + "/dishes/favorite?clientId=" + VcapProcessor.getRecipeClientId()
-              + "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+              + "/dishes/favorite?clientId=" + EnvManager.getRecipeClientId()
+              + "&apiKey=" + EnvManager.getTargetRecipeLocaiApiKey();
 
-        return HTTPRequest.executeGet(path, headers, VcapProcessor.getApiMediumTimeout());
+        return HTTPRequest.executeGet(path, headers, EnvManager.getApiMediumTimeout());
     }
 }
 

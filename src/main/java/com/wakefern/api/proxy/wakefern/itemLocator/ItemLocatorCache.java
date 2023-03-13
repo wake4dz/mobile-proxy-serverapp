@@ -1,6 +1,6 @@
 package com.wakefern.api.proxy.wakefern.itemLocator;
 
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import org.cache2k.Cache;
 import org.cache2k.Cache2kBuilder;
 
@@ -30,7 +30,7 @@ public class ItemLocatorCache {
     }
 
     private ItemLocatorCache() {
-        mEnabled = VcapProcessor.isItemLocatorCacheEnabled();
+        mEnabled = EnvManager.isItemLocatorCacheEnabled();
         if (mEnabled) {
             mCache = Cache2kBuilder.of(String.class, ItemLocatorDto.class)
                     .name("itemLocations")

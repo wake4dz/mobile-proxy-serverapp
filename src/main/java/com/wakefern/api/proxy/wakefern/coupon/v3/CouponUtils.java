@@ -17,7 +17,7 @@ public class CouponUtils {
      * @return
      */
     private static String getCouponV3ServiceEndpoint() {
-        String couponService = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.COUPON_SERVICE);
+        String couponService = ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.COUPON_SERVICE);
         String couponDomain = couponService.equalsIgnoreCase(WakefernApplicationConstants.CouponsV3.coupon_staging) ?
                 WakefernApplicationConstants.CouponsV3.baseURL_staging : WakefernApplicationConstants.CouponsV3.baseURL;
         logger.info("getCouponV3ServiceEndpoint::couponDomain " + couponDomain);

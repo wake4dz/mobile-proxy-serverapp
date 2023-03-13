@@ -17,7 +17,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
@@ -54,11 +54,11 @@ public class GetPointsForPPC extends BaseService {
 			
 			// The Reward Point API key is the same key as the Product Recommendation API
 			// of sr_product_recommendation_key defined manifest.yml
-			final String requestToken = ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.SR_PRODUCT_RECOMMENDATION_KEY);
+			final String requestToken = ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.SR_PRODUCT_RECOMMENDATION_KEY);
 
 			String baseUrl;
 
-			if ((VcapProcessor.getRewardPointService() != null) && (VcapProcessor.getRewardPointService().trim().equalsIgnoreCase("Staging"))) {
+			if ((EnvManager.getRewardPointService() != null) && (EnvManager.getRewardPointService().trim().equalsIgnoreCase("Staging"))) {
 				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseStagingURL;
 			} else { // anything else is for Production
 				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseURL;

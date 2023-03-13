@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.global.VcapProcessor;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -42,13 +42,13 @@ public class RecipeTags extends BaseService {
     	
         try {
             
-            String path = VcapProcessor.getTargetRecipeLocaiServiceEndpoint() + 
-                "/recipes/tags?clientId=" + VcapProcessor.getRecipeClientId()
-                + "&apiKey=" + VcapProcessor.getTargetRecipeLocaiApiKey();
+            String path = EnvManager.getTargetRecipeLocaiServiceEndpoint() +
+                "/recipes/tags?clientId=" + EnvManager.getRecipeClientId()
+                + "&apiKey=" + EnvManager.getTargetRecipeLocaiApiKey();
 
             headers.put("Content-Type", contentType);
         	
-            return this.createValidResponse(HTTPRequest.executeGet(path, headers, VcapProcessor.getApiMediumTimeout()));
+            return this.createValidResponse(HTTPRequest.executeGet(path, headers, EnvManager.getApiMediumTimeout()));
 
         } catch (Exception e) {
             String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),

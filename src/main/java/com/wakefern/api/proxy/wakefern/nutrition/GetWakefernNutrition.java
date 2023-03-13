@@ -47,7 +47,7 @@ public class GetWakefernNutrition extends BaseService {
             String path = WakefernApplicationConstants.APIM.apimBaseURL + WakefernApplicationConstants.APIM.nutritionBySkuStoreId + "/" + skuStoreId;
 
             wkfn.put(WakefernApplicationConstants.APIM.sub_key_header,
-                    ApplicationUtils.getVcapValue(WakefernApplicationConstants.VCAPKeys.APIM_NUTRITION_KEY));
+                    ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.APIM_NUTRITION_KEY));
             wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
             return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 0));

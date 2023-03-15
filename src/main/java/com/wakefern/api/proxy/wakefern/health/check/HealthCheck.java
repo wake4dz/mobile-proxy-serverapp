@@ -22,8 +22,8 @@ public class HealthCheck {
 	
 	@GET
 	public Response getHealthStatus() {
-		logger.info("Proxy rocks...");
+		logger.info("Proxy rocks...f");
 		
-		return Response.ok("Proxy rocks...").build();
+		return Response.ok("Proxy rocks...f").build();
 	}
 }

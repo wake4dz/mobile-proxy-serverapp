@@ -19,7 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
+
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.ApplicationConstants.Requests;
@@ -49,8 +49,7 @@ public class SmsEnrollment extends BaseService {
                 WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType);
         headerMap.put(WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersionHeaderKey,
                 WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersion);
-        headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
-                ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.APIM_SMS_ENROLLMENTS_KEY));
+        headerMap.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getApimSmsEnrollmentKey());
         
         headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
         
@@ -103,8 +102,7 @@ public class SmsEnrollment extends BaseService {
             headerMap.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
             headerMap.put(ApplicationConstants.Requests.Headers.Accept,
                     WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType);
-            headerMap.put(WakefernApplicationConstants.APIM.sub_key_header,
-                    ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.APIM_SMS_ENROLLMENTS_KEY));
+            headerMap.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getApimSmsEnrollmentKey());
 
             JSONObject payload = new JSONObject();
 

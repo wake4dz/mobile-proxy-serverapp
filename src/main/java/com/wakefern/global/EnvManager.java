@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wakefern.logging.LogUtil;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /*
@@ -31,8 +30,8 @@ public class EnvManager {
 	private static int recipeShelfThreadPoolSize = 0;
 
 	private static String walletService = null;
-	private static String srWalletKeyProd = null;
-	private static String srWalletKeyStaging = null;
+	private static String walletKeyProd = null;
+	private static String walletKeyStaging = null;
 
 	private static String userJwtSecret = null;
 
@@ -43,7 +42,7 @@ public class EnvManager {
 	private static String srfhCurbsideApiKeyStaging = null;
 	private static String srfhCurbsideApiKeyProd = null;
 	
-	private static String srMobilePassThruApiKeyProd = null;
+	private static String mobilePassThruApiKeyProd = null;
 
 	private static String prodxService = null;
 	private static String prodxComplementsApiKeyStaging = null;
@@ -72,42 +71,96 @@ public class EnvManager {
 	
 	private static String jwtPublicKey = null;
 	
+	private static String banner = null;
+	
+	private static String rewardPointKey = null;
+	private static String apimNutritionKey = null;
+	
+	private static String apimSmsEnrollmentKey = null;
+	
+	private static String proxyAdminKey = null;
+	
+	private static String couponService = null;
+	private static String couponV3Key = null;
 
+	/**
+	 * Get an environment variable value
+	 * @param key
+	 * @return
+	 * @throws RuntimeException
+	 */
+    private static String getEnvValue(String key) throws RuntimeException {
+        String value = null;
+        try {
+        	value = java.lang.System.getenv(key.trim()).trim();
+        } catch (Exception e) {
+            logger.error("[EnvManager]::getEnvValue::Failed! Exception for key: " + key
+                    + " message: " + e.getMessage());
+            throw new RuntimeException("Exception for key: " + key  + " message: " + e.getMessage());
+        }
+        return value;
+    }
+    
+	/**
+	 * Get env value as an integer. 
+	 *
+	 * @param key the key of the environment variable
+	 * @return the value, if found, for the environment variable
+	 */
+	public static int getEnvValueInt(String key) throws RuntimeException {
+		String intObj = getEnvValue(key);
+		
+		if ((intObj == null) || (intObj.trim().length() == 0) || (Integer.parseInt(intObj.trim()) <= 0)) {
+			throw new RuntimeException(key + " must have a positive integer");
+		}
+		
+		return Integer.parseInt(intObj.trim());
+	}
+
+	/**
+	 * Get env value as a string if it exists. Throws a RuntimeException otherwise.
+	 * 
+	 * @param key the key of the environment variable
+	 * @return the value, if found, for the environment variable
+	 * @throws RuntimeException
+	 */
+	public static String getEnvValueString(String key) throws RuntimeException {
+		final String value = getEnvValue(key);
+
+		if ((value == null) || (value.trim().length() == 0)) {
+			throw new RuntimeException(key + " must have a non-empty value");
+		}
+
+		return value;
+	}
+
+	
 	// this static code is not run until the class is loaded into the memory for the
 	// first time system settings are fetched once, store them in the heap memory
 	// for quick access
 	static {
-		try {
-			apiHighTimeout = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.API_HIGH_TIMEOUT);
+	
+		apiHighTimeout = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.API_HIGH_TIMEOUT);
+		apiMediumTimeout = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.API_MEDIUM_TIMEOUT);
+		apiLowTimeout = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.API_LOW_TIMEOUT);
 
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
-			throw new RuntimeException("api_high_timeout must have an integer value in millisecond!");
+		recipeShelfThreadPoolSize = getEnvValueInt(
+				WakefernApplicationConstants.EnvVarsKeys.RECIPE_SHELF_THREAD_POOL_SIZE);
+
+		httpDefaultConnectTimeoutMs = getEnvValueInt(
+				WakefernApplicationConstants.EnvVarsKeys.HTTP_DEFAULT_CONNECT_TIMEOUT);
+		httpDefaultReadTimeoutMs = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.HTTP_DEFAULT_READ_TIMEOUT);
+
+		if (getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.MUTE_ERROR_LOG).trim()
+				.equalsIgnoreCase("true")) {
+			isMuteErrorLog = true;
 		}
 
-		try {
-			apiMediumTimeout = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.API_MEDIUM_TIMEOUT);
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
-			throw new RuntimeException("api_medium_timeout must have an integer value in millisecond!");
-		}
+		String codes = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.MUTE_HTTP_CODE).trim();
+		muteHttpCode = new ArrayList<>(Arrays.asList(codes.split(",")));
 
-		try {
-			apiLowTimeout = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.API_LOW_TIMEOUT);
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
-			throw new RuntimeException("api_low_timeout must have an integer value in milliseconds");
-		}
-
-		try {
-			recipeShelfThreadPoolSize = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.RECIPE_SHELF_THREAD_POOL_SIZE);
-			if (recipeShelfThreadPoolSize <= 0) {
-				throw new IllegalArgumentException(WakefernApplicationConstants.EnvVarsKeys.RECIPE_SHELF_THREAD_POOL_SIZE + " needs to be a positive integer");
-			}
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
-			throw new RuntimeException("recipe_shelf_thread_pool_size must have a positive integer value");
-		}
+		isItemLocatorCacheEnabled = getEnvValueString(
+				WakefernApplicationConstants.EnvVarsKeys.ITEM_LOCATOR_CACHE_ENABLED).trim().equalsIgnoreCase("true");
 
 		recipeService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.RECIPE_SERVICE);
 		recipeClientId = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.RECIPE_CLIENT_ID_KEY);
@@ -115,8 +168,8 @@ public class EnvManager {
 		recipeApiKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.RECIPE_API_PROD_KEY);
 
 		walletService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.WALLET_SERVICE);
-		srWalletKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.SR_WALLET_PROD_KEY);
-		srWalletKeyStaging = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.SR_WALLET_STAGE_KEY);
+		walletKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.WALLET_PROD_KEY);
+		walletKeyStaging = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.WALLET_STAGE_KEY);
 
 		userJwtSecret = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.USER_JWT_SECRET);
 
@@ -125,57 +178,50 @@ public class EnvManager {
 		srfhOrdersApiKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.SRFH_ORDERS_PROD_API_KEY);
 
 		srfhCurbsideService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.SRFH_CURBSIDE_SERVICE);
-		srfhCurbsideApiKeyStaging = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.SRFH_CURBSIDE_STG_API_KEY);
+		srfhCurbsideApiKeyStaging = getEnvValueString(
+				WakefernApplicationConstants.EnvVarsKeys.SRFH_CURBSIDE_STG_API_KEY);
 		srfhCurbsideApiKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.SRFH_CURBSIDE_PROD_API_KEY);
 
-		srMobilePassThruApiKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.APIM_SRMOBILE_PASSTHRU_PROD_API_KEY);
-		
+		mobilePassThruApiKeyProd = getEnvValueString(
+				WakefernApplicationConstants.EnvVarsKeys.APIM_SRMOBILE_PASSTHRU_PROD_API_KEY);
+
 		prodxService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PRODX_SERVICE);
-		
-		prodxComplementsApiKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
-		prodxComplementsApiKeyStaging = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PRODX_COMPLEMENTS_STG_API_KEY);
+
+		prodxComplementsApiKeyProd = getEnvValueString(
+				WakefernApplicationConstants.EnvVarsKeys.PRODX_COMPLEMENTS_PROD_API_KEY);
+		prodxComplementsApiKeyStaging = getEnvValueString(
+				WakefernApplicationConstants.EnvVarsKeys.PRODX_COMPLEMENTS_STG_API_KEY);
 		prodxComplementsAisleId = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PRODX_AISLE_ID);
-	
-		prodxVariationsApiKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PRODX_VARIATIONS_PROD_API_KEY);
+
+		prodxVariationsApiKeyProd = getEnvValueString(
+				WakefernApplicationConstants.EnvVarsKeys.PRODX_VARIATIONS_PROD_API_KEY);
 
 		push2deviceService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PUSH2DEVICE_SERVICE);
 		push2deviceApiKeyProd = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PUSH2DEVICE_PROD_API_KEY);
 		push2deviceApiKeyStaging = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PUSH2DEVICE_STG_API_KEY);
 		push2deviceProdUrl = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PUSH2DEVICE_PROD_URL);
 		push2deviceStagingUrl = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PUSH2DEVICE_STG_URL);
-		
+
 		mi9v8Service = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.MI9V8_SERVICE);
-		
+
 		rewardPointService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.REWARD_POINT_SERVICE);
-		
-		if (getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.MUTE_ERROR_LOG).trim().equalsIgnoreCase("true")) {
-			isMuteErrorLog = true;
-		}
-		
-		String codes= getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.MUTE_HTTP_CODE).trim();
-		muteHttpCode = new ArrayList<>(Arrays.asList(codes.split(",")));
 
-		isItemLocatorCacheEnabled = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.ITEM_LOCATOR_CACHE_ENABLED).trim().equalsIgnoreCase("true");
-		
-		try {
-			httpDefaultConnectTimeoutMs = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.HTTP_DEFAULT_CONNECT_TIMEOUT);
-
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
-			throw new RuntimeException("http_default_connect_timeout_ms must have an integer value in millisecond!");
-		}
-		
-		try {
-			httpDefaultReadTimeoutMs = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.HTTP_DEFAULT_READ_TIMEOUT);
-
-		} catch (Exception e) {
-			logger.error(LogUtil.getRelevantStackTrace(e) + ", the error message: " + LogUtil.getExceptionMessage(e));
-			throw new RuntimeException("http_default_read_timeout_ms must have an integer value in millisecond!");
-		}
-		
 		jwtPublicKey = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.JWT_PUBLIC_KEY);
-		
-		
+
+		banner = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.BANNER);
+
+		rewardPointKey = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.REWARD_POINT_KEY);
+
+		apimNutritionKey = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.APIM_NUTRITION_KEY);
+
+		apimSmsEnrollmentKey = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.APIM_SMS_ENROLLMENTS_KEY);
+
+		proxyAdminKey = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.PROXY_ADMIN_KEY);
+
+		couponService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.COUPON_SERVICE);
+
+		couponV3Key = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.COUPON_V3_KEY);
+			
 	}
 
 	public static int getApiHighTimeout() {
@@ -214,44 +260,16 @@ public class EnvManager {
 		return recipeShelfThreadPoolSize;
 	}
 
-	/**
-	 * Get vcap value as an integer. Returns 0 if no vcap value is found.
-	 *
-	 * @param key the key of the environment variable
-	 * @return the value, if found, for the environment variable
-	 */
-	private static int getEnvValueInt(String key) {
-		String highTimeObj = ApplicationUtils.getEnvValue(key);
-		return highTimeObj != null && !highTimeObj.trim().isEmpty() ? Integer.parseInt(highTimeObj.trim()) : 0;
-	}
-
-	/**
-	 * Get vcap value as a string if it exists. Throws a RuntimeException otherwise.
-	 * 
-	 * @param key the key of the environment variable
-	 * @return the value, if found, for the environment variable
-	 * @throws RuntimeException
-	 */
-	private static String getEnvValueString(String key) throws RuntimeException {
-		final String value = ApplicationUtils.getEnvValue(key);
-
-		if ((value == null) || (value.trim().length() == 0)) {
-			throw new RuntimeException(key + " must have a non-empty value");
-		}
-
-		return value;
-	}
-
 	public static String getWalletService() {
 		return walletService;
 	}
 
-	public static String getSrWalletKeyProd() {
-		return srWalletKeyProd;
+	public static String getWalletKeyProd() {
+		return walletKeyProd;
 	}
 
-	public static String getSrWalletKeyStaging() {
-		return srWalletKeyStaging;
+	public static String getWalletKeyStaging() {
+		return walletKeyStaging;
 	}
 
 	/**
@@ -270,13 +288,24 @@ public class EnvManager {
 	}
 
 	public static String getTargetWalletAuthorizationKey() {
-		return isServiceStaging(walletService) ? srWalletKeyStaging : srWalletKeyProd;
+		return isServiceStaging(walletService) ? walletKeyStaging : walletKeyProd;
 	}
 
 	public static String getUserJwtSecret() {
 		return userJwtSecret;
 	}
 
+    /**
+     * returns either coupon production or staging url endpoint
+     * @return
+     */
+    public static String getTargetCouponV3ServiceEndpoint() {
+        return isServiceStaging(couponService) ?
+                WakefernApplicationConstants.CouponsV3.baseURL_staging 
+                : WakefernApplicationConstants.CouponsV3.baseURL;
+
+    }
+    
 	public static String getTargetRecipeLocaiServiceEndpoint() {
 		return isServiceStaging(recipeService) ?
 				WakefernApplicationConstants.RecipeLocai.Upstream.stagingBaseURL
@@ -354,7 +383,7 @@ public class EnvManager {
 	public static void setMuteHttpCode(List<String> muteHttpCode) {
 		EnvManager.muteHttpCode = muteHttpCode;
 	}
-
+	
 	public static boolean isItemLocatorCacheEnabled() { return isItemLocatorCacheEnabled; }
 
 	public static int getHttpDefaultConnectTimeoutMs() {
@@ -373,8 +402,8 @@ public class EnvManager {
 		return prodxVariationsApiKeyProd;
 	}
 
-	public static String getSrMobilePassThruApiKeyProd() {
-		return srMobilePassThruApiKeyProd;
+	public static String getMobilePassThruApiKeyProd() {
+		return mobilePassThruApiKeyProd;
 	}
 
 	public static String getPush2DeviceApiKey() {
@@ -390,5 +419,33 @@ public class EnvManager {
 	public static String getPush2DeviceService() {
 		return push2deviceService;
 	}
-	
+
+	public static String getBanner() {
+		return banner;
+	}
+
+	public static String getRewardPointKey() {
+		return rewardPointKey;
+	}
+
+	public static String getApimNutritionKey() {
+		return apimNutritionKey;
+	}
+
+	public static String getApimSmsEnrollmentKey() {
+		return apimSmsEnrollmentKey;
+	}
+
+	public static String getProxyAdminKey() {
+		return proxyAdminKey;
+	}
+
+	public static String getCouponService() {
+		return couponService;
+	}
+
+	public static String getCouponV3Key() {
+		return couponV3Key;
+	}
+
 }

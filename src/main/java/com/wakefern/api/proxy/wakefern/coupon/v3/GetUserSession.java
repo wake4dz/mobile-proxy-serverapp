@@ -16,8 +16,9 @@ import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
-import com.wakefern.global.ApplicationUtils;
+
 import com.wakefern.global.BaseService;
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.UserJWTV2;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
@@ -42,8 +43,7 @@ public class GetUserSession extends BaseService {
 
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put(ApplicationConstants.Requests.Headers.contentType, contentType);
-		headerMap.put(ApplicationConstants.Requests.Headers.Authorization,
-				ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.COUPON_V3_KEY));
+		headerMap.put(ApplicationConstants.Requests.Headers.Authorization, EnvManager.getCouponV3Key());
 		headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 		JSONObject jsonObject;

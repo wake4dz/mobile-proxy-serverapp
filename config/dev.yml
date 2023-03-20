@@ -1,5 +1,4 @@
 ---
-SRMOBILE_CHAIN: ShopRiteStage
 COUPON_SERVICE: Staging
 SRMOBILE_PAPERTRAIL: srmobilelog-dev
 

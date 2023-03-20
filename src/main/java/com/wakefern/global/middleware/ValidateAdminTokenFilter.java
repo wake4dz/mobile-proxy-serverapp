@@ -1,9 +1,10 @@
 package com.wakefern.global.middleware;
 
 import com.wakefern.global.ApplicationConstants;
-import com.wakefern.global.ApplicationUtils;
+
+import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidateAdminToken;
-import com.wakefern.wakefern.WakefernApplicationConstants;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,7 +44,6 @@ public class ValidateAdminTokenFilter implements ContainerRequestFilter {
 	 */
 	private static boolean isInvalidAdminToken(final String token) {
 		if (token == null) return true;
-		return !token.trim().equalsIgnoreCase(ApplicationUtils
-				.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.PROXY_ADMIN_KEY));
+		return !token.trim().equalsIgnoreCase(EnvManager.getProxyAdminKey());
 	}
 }

@@ -57,6 +57,9 @@ public final class ApplicationConstants {
 		public static final String ReleaseLevel = "/level";
 		
 		public static final String IsLoggable = "/loggable/{isLoggable}";
-
+	}
+	
+	public static class Env {
+		public static final String Envs = "/envs";
 	}
 }

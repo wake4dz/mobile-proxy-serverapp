@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.wakefern</groupId>
-	<artifactId>ShopriteMobileApplication</artifactId>
+	<artifactId>WakefernMobileProxy</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>ShopRite Mobile App REST APIs</name>
+	<name>Wakefern Mobile Proxy REST APIs</name>
 
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -124,7 +124,7 @@
 					<version>3.3.2</version>
 					<configuration>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
-						<warName>shopritemobileapplication</warName>
+						<warName>wakefernmobileproxy</warName>
 					</configuration>
 				</plugin>
 				<plugin>

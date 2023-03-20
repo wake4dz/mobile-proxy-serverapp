@@ -1,6 +1,6 @@
 package com.wakefern.wynshop;
 
-import com.wakefern.global.ApplicationUtils;
+import com.wakefern.global.EnvManager;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 import java.util.logging.Logger;
@@ -12,7 +12,7 @@ public class WynshopApplicationConstants {
 	 * @return
 	 */
 	private static String getMi9v8ServiceEndpoint() {
-		String mi9v8Service = ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.MI9V8_SERVICE);
+		String mi9v8Service = EnvManager.getMi9v8Service();
 		String mi9v8Domain = mi9v8Service.equalsIgnoreCase(WakefernApplicationConstants.Mi9V8.mi9v8Staging) ?
 				WakefernApplicationConstants.Mi9V8.baseURLStaging : WakefernApplicationConstants.Mi9V8.baseURL;
 		logger.info("getMi9V8ServiceEndpoint::mi9v8Domain " + mi9v8Domain);

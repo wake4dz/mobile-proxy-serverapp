@@ -362,6 +362,12 @@ public class EnvManager {
 		return mi9v8Service;
 	}
 
+	public static String getTargetMi9v8ServiceEndpoint() {
+		return isServiceStaging(mi9v8Service) ?
+				WakefernApplicationConstants.Mi9V8.baseURLStaging
+				: WakefernApplicationConstants.Mi9V8.baseURL;
+	}
+
 	public static String getProdxComplementsAisleId() { return prodxComplementsAisleId; }
 
 	public static String getRewardPointService() {

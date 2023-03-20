@@ -54,7 +54,8 @@ public class GetEnvInfo {
 		sb.append(getEnv("jwt_public_key", hideKeyValue(EnvManager.getJwtPublicKey())));
 		sb.append(getEnv("user_jwt_secret", hideKeyValue(EnvManager.getUserJwtSecret())) +"\n");
 		
-		sb.append(getEnv("mi9v8_service", EnvManager.getMi9v8Service()) + "\n");
+		sb.append(getEnv("mi9v8_service", EnvManager.getMi9v8Service()));
+		sb.append(getEnv("target mi9v8 service endpoint", EnvManager.getTargetMi9v8ServiceEndpoint()) +"\n");
 		
 		sb.append(getEnv("coupon_service", EnvManager.getCouponService()));
 		sb.append(getEnv("coupon_v3_key", hideKeyValue(EnvManager.getCouponV3Key())));
@@ -122,8 +123,8 @@ public class GetEnvInfo {
 	}
 	
 	private static String hideKeyValue(String value) {
-		if ((value != null) && value.trim().length() > 10) {
-			return StringUtils.left(value.trim(), 4) + "..." + StringUtils.right(value.trim(), 4);
+		if ((value != null) && value.trim().length() > 20) {
+			return StringUtils.left(value.trim(), 8) + "..." + StringUtils.right(value.trim(), 4);
 		} else {
 			return "key value is too short"; 
 		}

@@ -13,7 +13,14 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidateAdminToken;
-
+/**
+ * 
+ * @author Danny Zheng
+ * @date   2023-03-20
+ * 
+ * Provide a safe way to see all the Envs key/value + its associated target info if any
+ *
+ */
 @Path(ApplicationConstants.Requests.Proxy + ApplicationConstants.Env.Envs)
 public class GetEnvInfo {
 	final static Logger logger = LogManager.getLogger(GetEnvInfo.class);

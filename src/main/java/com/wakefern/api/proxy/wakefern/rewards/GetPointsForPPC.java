@@ -57,12 +57,8 @@ public class GetPointsForPPC extends BaseService {
 
 			String baseUrl;
 
-			if ((EnvManager.getRewardPointService() != null) && (EnvManager.getRewardPointService().trim().equalsIgnoreCase("Staging"))) {
-				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseStagingURL;
-			} else { // anything else is for Production
-				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseURL;
-			}
-
+			baseUrl = EnvManager.getTargetRewardServiceEndpoint();
+	
 			final String srvPath = baseUrl + WakefernApplicationConstants.RewardPoint.Upstream.Points + "/" + ppc;
 
 			Map<String, String> headers = new HashMap<>();

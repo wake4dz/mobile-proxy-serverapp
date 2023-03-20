@@ -348,13 +348,13 @@ public class EnvManager {
 		return prodxService;
 	}
 
-	public static String getProdxServiceEndpoint() {
+	public static String getTargetProdxServiceEndpoint() {
 		return isServiceStaging(prodxService) ?
 				WakefernApplicationConstants.Prodx.Upstream.stagingBaseUrl
 				: WakefernApplicationConstants.Prodx.Upstream.prodBaseUrl;
 	}
 
-	public static String getProdxComplementsApiKey() {
+	public static String getTargetProdxComplementsApiKey() {
 		return isServiceStaging(prodxService) ? prodxComplementsApiKeyStaging : prodxComplementsApiKeyProd;
 	}
 
@@ -366,6 +366,12 @@ public class EnvManager {
 
 	public static String getRewardPointService() {
 		return rewardPointService;
+	}
+	
+	public static String getTargetRewardServiceEndpoint() {
+		return isServiceStaging(rewardPointService) ?
+			   WakefernApplicationConstants.RewardPoint.Upstream.baseStagingURL
+				: WakefernApplicationConstants.RewardPoint.Upstream.baseURL;
 	}
 
 	public static List<String> getMuteHttpCode() {
@@ -406,18 +412,35 @@ public class EnvManager {
 		return mobilePassThruApiKeyProd;
 	}
 
-	public static String getPush2DeviceApiKey() {
+	public static String getTargetPush2DeviceApiKey() {
 		return isServiceStaging(push2deviceService) ? push2deviceApiKeyStaging : push2deviceApiKeyProd;
 	}
 
-	public static String getPush2DeviceUrl() {
+	public static String getTargetPush2DeviceUrl() {
 		return isServiceStaging(push2deviceService)
 				? push2deviceStagingUrl
 				: push2deviceProdUrl;
 	}
 
+	public static String getPush2deviceApiKeyStaging() {
+		return push2deviceApiKeyStaging;
+	}
+
+	public static String getPush2deviceApiKeyProd() {
+		return push2deviceApiKeyProd;
+	}
+
 	public static String getPush2DeviceService() {
 		return push2deviceService;
+	}
+
+	
+	public static String getPush2deviceStagingUrl() {
+		return push2deviceStagingUrl;
+	}
+
+	public static String getPush2deviceProdUrl() {
+		return push2deviceProdUrl;
 	}
 
 	public static String getBanner() {
@@ -446,6 +469,30 @@ public class EnvManager {
 
 	public static String getCouponV3Key() {
 		return couponV3Key;
+	}
+
+	public static String getProdxComplementsApiKeyStaging() {
+		return prodxComplementsApiKeyStaging;
+	}
+
+	public static String getProdxComplementsApiKeyProd() {
+		return prodxComplementsApiKeyProd;
+	}
+
+	public static String getSrfhOrdersApiKeyStaging() {
+		return srfhOrdersApiKeyStaging;
+	}
+
+	public static String getSrfhOrdersApiKeyProd() {
+		return srfhOrdersApiKeyProd;
+	}
+
+	public static String getSrfhCurbsideApiKeyStaging() {
+		return srfhCurbsideApiKeyStaging;
+	}
+
+	public static String getSrfhCurbsideApiKeyProd() {
+		return srfhCurbsideApiKeyProd;
 	}
 
 }

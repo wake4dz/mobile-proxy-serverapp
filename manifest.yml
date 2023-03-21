@@ -56,7 +56,7 @@ applications:
     mute_http_code: ((MUTE_HTTP_CODE))
     item_locator_cache_enabled: ((ITEM_LOCATOR_CACHE_ENABLED))
     
-    srmobilepassthru_prd_api_key: ((MOBILE_PASSTHRU_PRD_API_KEY))
+    mobilepassthru_prd_api_key: ((MOBILE_PASSTHRU_PRD_API_KEY))
 
     push2device_prod_api_key: ((PUSH2DEVICE_PROD_API_KEY))
     push2device_stg_api_key: ((PUSH2DEVICE_STG_API_KEY))

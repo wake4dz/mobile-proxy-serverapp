@@ -50,6 +50,8 @@ applications:
     mi9v8_service: ((MI9V8_SERVICE))
 
     reward_point_service: ((REWARD_POINT_SERVICE))
+    reward_point_key: ((REWARD_POINT_KEY))
+
     mute_error_log: ((MUTE_ERROR_LOG))
     mute_http_code: ((MUTE_HTTP_CODE))
     item_locator_cache_enabled: ((ITEM_LOCATOR_CACHE_ENABLED))

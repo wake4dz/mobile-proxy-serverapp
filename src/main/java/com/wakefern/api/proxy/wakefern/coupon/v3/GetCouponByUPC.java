@@ -24,6 +24,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Get coupons associated with a upc code for a user
+ * 
+ * not used as of 2023-03-21
  */
 @Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.GetCouponByUPC)
 public class GetCouponByUPC extends BaseService {

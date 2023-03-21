@@ -27,6 +27,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
  * redeemed or available to be clipped.
  * If an unauthenticated token is passed,
  * the returned list cannot be clipped/unclipped.
+ * 
+ * not used as of 2023-03-21
  */
 @Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.CouponList)
 public class GetCouponList extends BaseService {

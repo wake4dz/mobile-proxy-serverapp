@@ -24,6 +24,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Get a coupon details by its id
+ * 
+ * not used as of 2023-03-21
  */
 @Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.GetCouponsByStoreId)
 public class GetCouponsByStoreId extends BaseService {

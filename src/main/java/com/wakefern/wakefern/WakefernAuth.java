@@ -20,7 +20,7 @@ public class WakefernAuth {
         headers.put(ApplicationConstants.Requests.Headers.Authorization, authToken);
         
 		// Call APIM Gateway to avoid any foreign IP addresses
-		headers.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
+		headers.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
 
         return HTTPRequest.executeGet(PATH, headers, READ_TIMEOUT_MS);
     }

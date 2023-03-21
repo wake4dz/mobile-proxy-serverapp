@@ -40,7 +40,7 @@ public class GetItemLocator extends BaseService {
 			wkfn.put("Authentication", authToken);
 			wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 			// Call APIM Gateway to avoid any foreign IP addresses
-			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
+			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
 
 			logger.trace("URL path: " + path);
 
@@ -79,7 +79,7 @@ public class GetItemLocator extends BaseService {
 			wkfn.put(ApplicationConstants.Requests.Headers.contentType, "application/json");
 			wkfn.put("Authentication", authToken);
 			// Call APIM Gateway to avoid any foreign IP addresses
-			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
+			wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
 			wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 			logger.trace("auth token:" + authToken);
@@ -92,7 +92,7 @@ public class GetItemLocator extends BaseService {
 			return createValidResponse(itemLocator.toApiResponse());
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"contentType", "application/json", WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
+					"contentType", "application/json", WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
 
 			if (LogUtil.isLoggable(e)) {
 				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));

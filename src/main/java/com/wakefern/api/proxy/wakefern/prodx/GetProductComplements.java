@@ -60,7 +60,7 @@ public class GetProductComplements extends BaseService {
 			final String url = builder.build().toString();
 
 			headers.put(ApplicationConstants.Requests.Headers.Authorization,
-					EnvManager.getProdxComplementsApiKey());
+					EnvManager.getTargetProdxComplementsApiKey());
 
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, EnvManager.getApiMediumTimeout()));
 
@@ -84,7 +84,7 @@ public class GetProductComplements extends BaseService {
 	}
 
 	private static String constructUrl(final String productId) {
-		String template = EnvManager.getProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.ProductsComplements.GetComplementsPath;
+		String template = EnvManager.getTargetProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.ProductsComplements.GetComplementsPath;
 		Map<String, String> pathParams = new HashMap<>();
 		pathParams.put("productId", productId);
 

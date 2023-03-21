@@ -24,6 +24,8 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
  * Get a list of upc code for a given coupon Id
+ * 
+ * not used as of 2023-03-21
  */
 @Path(ApplicationConstants.Requests.Proxy + CouponUtils.Requests.Routes.GetUPCsByCouponId)
 public class GetUPCListByCouponID extends BaseService {

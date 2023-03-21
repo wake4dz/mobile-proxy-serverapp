@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wakefern.global.ApplicationUtils;
 import com.wakefern.global.EnvManager;
 
 /*
@@ -158,34 +157,32 @@ public class LogUtil {
 
 		messages.add("");
 
-		messages.add(pad("The 'chain' system property:") + ApplicationUtils.getEnvValue("chain"));
-		messages.add(pad("The 'mi9v8_service' system property:")
-				+ ApplicationUtils.getEnvValue("mi9v8_service"));
-		messages.add(pad("The 'coupon_service' system property:")
-				+ ApplicationUtils.getEnvValue("coupon_service"));
-		messages.add(pad("The 'recipe_service' system property:") + EnvManager.getRecipeService());
-		messages.add(pad("The 'wallet_service' system property:") + EnvManager.getWalletService());
-		messages.add(pad("The 'srfh_orders_service' system property:") + EnvManager.getSrfhOrdersService());
-		messages.add(pad("The 'srfh_curbside_service' system property:") + EnvManager.getSrfhCurbsideService());
-		messages.add(pad("The 'prodx_service' system property:") + EnvManager.getProdxService());
-		messages.add(pad("The 'reward_point_service' system property:") + EnvManager.getRewardPointService());
-		messages.add(pad("The 'push2device_service' system property:") + EnvManager.getPush2DeviceService());
+		messages.add(pad("The 'banner' env variable:") + EnvManager.getBanner());
+		messages.add(pad("The 'mi9v8_service' env variable:") + EnvManager.getMi9v8Service());
+		messages.add(pad("The 'coupon_service' env variable:") + EnvManager.getCouponService());
+		messages.add(pad("The 'recipe_service' env variable:") + EnvManager.getRecipeService());
+		messages.add(pad("The 'wallet_service' env variable:") + EnvManager.getWalletService());
+		messages.add(pad("The 'srfh_orders_service' env variable:") + EnvManager.getSrfhOrdersService());
+		messages.add(pad("The 'srfh_curbside_service' env variable:") + EnvManager.getSrfhCurbsideService());
+		messages.add(pad("The 'prodx_service' env variable:") + EnvManager.getProdxService());
+		messages.add(pad("The 'reward_point_service' env variable:") + EnvManager.getRewardPointService());
+		messages.add(pad("The 'push2device_service' env variable:") + EnvManager.getPush2DeviceService());
 
-		messages.add(pad("The 'mute_error_log' system property:") + EnvManager.isMuteErrorLog());
-		messages.add(pad("The 'mute_http_code' system property:") + EnvManager.getMuteHttpCode());
+		messages.add(pad("The 'mute_error_log' env variable:") + EnvManager.isMuteErrorLog());
+		messages.add(pad("The 'mute_http_code' env variable:") + EnvManager.getMuteHttpCode());
 		
-		messages.add(pad("The 'api_high_timeout' system property:") + EnvManager.getApiHighTimeout());
-		messages.add(pad("The 'api_medium_timeout' system property:") + EnvManager.getApiMediumTimeout());
-		messages.add(pad("The 'api_low_timeout' system property:") + EnvManager.getApiLowTimeout());
-		messages.add(pad("The 'http_default_connect_timeout_ms' system property:")
+		messages.add(pad("The 'api_high_timeout' env variable:") + EnvManager.getApiHighTimeout());
+		messages.add(pad("The 'api_medium_timeout' env variable:") + EnvManager.getApiMediumTimeout());
+		messages.add(pad("The 'api_low_timeout' env variable:") + EnvManager.getApiLowTimeout());
+		messages.add(pad("The 'http_default_connect_timeout_ms' env variable:")
 				+ EnvManager.getHttpDefaultConnectTimeoutMs());
-		messages.add(pad("The 'http_default_read_timeout_ms' system property:")
+		messages.add(pad("The 'http_default_read_timeout_ms' env variable:")
 				+ EnvManager.getHttpDefaultReadTimeoutMs());
 
-		messages.add(pad("The 'recipe_shelf_thread_pool_size' system property:")
+		messages.add(pad("The 'recipe_shelf_thread_pool_size' env variable:")
 				+ EnvManager.getRecipeShelfThreadPoolSize());
 
-		messages.add(pad("The 'item_locator_cache_enabled' system property:")
+		messages.add(pad("The 'item_locator_cache_enabled' env variable:")
 				+ EnvManager.isItemLocatorCacheEnabled());
 
 		messages.add("");
@@ -230,16 +227,13 @@ public class LogUtil {
 			messages.add("</table> <br /> <br />");
 
 			messages.add("<table id=\"envVariable\">");
-			messages.add("<tr> <th>System Property (VCAP) Name</th> <th>System Property (VCAP) Value</th></tr>");
+			messages.add("<tr> <th>Environment Variable Name</th> <th>Environment Variable Value</th></tr>");
 
-			messages.add("<tr><td>chain</td>" + "<td>" + ApplicationUtils.getEnvValue("chain")
-					+ "</td> </tr>");
+			messages.add("<tr><td>banner</td>" + "<td>" + EnvManager.getBanner() + "</td> </tr>");
 
-			messages.add("<tr><td>mi9v8_service</td>" + "<td>"
-					+ ApplicationUtils.getEnvValue("mi9v8_service") + "</td> </tr>");
+			messages.add("<tr><td>mi9v8_service</td>" + "<td>" + EnvManager.getMi9v8Service() + "</td> </tr>");
 			
-			messages.add("<tr><td>coupon_service</td>" + "<td>"
-					+ ApplicationUtils.getEnvValue("coupon_service") + "</td> </tr>");
+			messages.add("<tr><td>coupon_service</td>" + "<td>" + EnvManager.getCouponService() + "</td> </tr>");
 
 			messages.add("<tr><td>wallet_service</td>" + "<td>" + EnvManager.getWalletService() + "</td> </tr>");
 

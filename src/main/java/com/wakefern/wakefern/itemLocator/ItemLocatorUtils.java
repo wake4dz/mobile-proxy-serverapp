@@ -430,7 +430,7 @@ public class ItemLocatorUtils {
                 wkfn.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
                 wkfn.put("Authentication", authToken);
                 // Call APIM Gateway to avoid any foreign IP addresses
-                wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getSrMobilePassThruApiKeyProd());
+                wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
 
                 String responseData = HTTPRequest.executeGet(path, wkfn, EnvManager.getApiMediumTimeout());
 

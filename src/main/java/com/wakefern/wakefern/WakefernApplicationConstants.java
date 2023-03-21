@@ -1,27 +1,12 @@
 package com.wakefern.wakefern;
 
-import com.wakefern.global.ApplicationUtils;
-
 /**
  * Created by brandyn.brosemer on 9/13/16.
  */
 public class WakefernApplicationConstants {
 
-    // Wakefern APIs
-    private static final String wakefernApiStage = "https://wfcapi.staging.shoprite.com";
-    private static final String wakefernApiProd = "https://wfcapi.shoprite.com";
-
-    public static String getBaseWakefernApiUrl() {
-        String targetAPI = ApplicationUtils.getEnvValue(EnvVarsKeys.CHAIN);
-        if (targetAPI.equalsIgnoreCase("ShopRiteStage")) {
-            return wakefernApiStage;
-        }
-
-        return wakefernApiProd;
-    }
-
     public static class EnvVarsKeys {
-        public static final String CHAIN = "chain";
+        public static final String BANNER = "banner";
         public static final String URL = "url";
         public static final String COUPON_SERVICE = "coupon_service";
         public static final String COUPON_V3_KEY = "coupon_v3_key";
@@ -29,11 +14,11 @@ public class WakefernApplicationConstants {
         public static final String PROXY_ADMIN_KEY = "proxy_admin_key";
 
         public static final String JWT_PUBLIC_KEY = "jwt_public_key"; // use for digital receipt & item locator
-        public static final String PROD_NOT_FOUND_LOGIN = "prod_not_found_login";
-        public static final String SR_PRODUCT_RECOMMENDATION_KEY = "sr_product_recommendation_key";
+
+        public static final String REWARD_POINT_KEY = "reward_point_key";
 
 
-        public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
+        // public static final String APIM_PPC_EMAIL_KEY = "apim_ppc_email_key";
         public static final String APIM_NUTRITION_KEY = "apim_nutrition_key";
 
         // subscription key to APIM SMS Enrollments API
@@ -52,8 +37,8 @@ public class WakefernApplicationConstants {
 
         // Wakefern's internal Wallet API
         public static final String WALLET_SERVICE = "wallet_service";
-        public static final String SR_WALLET_PROD_KEY = "sr_wallet_prod_key";
-        public static final String SR_WALLET_STAGE_KEY = "sr_wallet_stage_key";
+        public static final String WALLET_PROD_KEY = "wallet_prod_key";
+        public static final String WALLET_STAGE_KEY = "wallet_stage_key";
 
         // Secret for signing JWT used to secure PPC endpoints
         public static final String USER_JWT_SECRET = "user_jwt_secret";
@@ -69,7 +54,7 @@ public class WakefernApplicationConstants {
         public static final String SRFH_CURBSIDE_SERVICE = "srfh_curbside_service";
         
         // For APIM Gateway APIs
-        public static final String APIM_SRMOBILE_PASSTHRU_PROD_API_KEY = "srmobilepassthru_prd_api_key";
+        public static final String APIM_SRMOBILE_PASSTHRU_PROD_API_KEY = "mobilepassthru_prd_api_key";
 
         // Prodx
         public static final String PRODX_SERVICE = "prodx_service";

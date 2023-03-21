@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
-import com.wakefern.global.ApplicationUtils;
+
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
@@ -53,17 +53,12 @@ public class GetPointsForPPC extends BaseService {
 			// So it requires a different Authorization Header Token than the one provided by the UI's Bearer token.
 			
 			// The Reward Point API key is the same key as the Product Recommendation API
-			// of sr_product_recommendation_key defined manifest.yml
-			final String requestToken = ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.SR_PRODUCT_RECOMMENDATION_KEY);
+			final String requestToken = EnvManager.getRewardPointKey();
 
 			String baseUrl;
 
-			if ((EnvManager.getRewardPointService() != null) && (EnvManager.getRewardPointService().trim().equalsIgnoreCase("Staging"))) {
-				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseStagingURL;
-			} else { // anything else is for Production
-				baseUrl = WakefernApplicationConstants.RewardPoint.Upstream.baseURL;
-			}
-
+			baseUrl = EnvManager.getTargetRewardServiceEndpoint();
+	
 			final String srvPath = baseUrl + WakefernApplicationConstants.RewardPoint.Upstream.Points + "/" + ppc;
 
 			Map<String, String> headers = new HashMap<>();

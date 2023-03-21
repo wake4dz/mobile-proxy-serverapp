@@ -2,7 +2,7 @@
 applications:
 - name: srmobilecors
   env:
-    chain: ((SRMOBILE_CHAIN))
+    banner: ShopRite
 
     coupon_service: ((COUPON_SERVICE))
     coupon_v3_key: ((COUPON_V3_KEY))
@@ -10,19 +10,17 @@ applications:
     proxy_admin_key: ((PROXY_ADMIN_KEY))
 
     jwt_public_key: ((JWT_PUBLIC_KEY))
-    prod_not_found_login: ((PROD_NOT_FND_LOGIN))
-    sr_product_recommendation_key: ((SR_PROD_REC_KEY))
+    user_jwt_secret: ((USER_JWT_SECRET))
 
-    apim_ppc_email_key: ((APIM_PPC_EMAIL_KEY))
     api_high_timeout: ((API_HIGH_TIMEOUT))
     api_medium_timeout: ((API_MEDIUM_TIMEOUT))
     api_low_timeout: ((API_LOW_TIMEOUT))
 
     apim_nutrition_key: ((APIM_NUTRITION_KEY))
     apim_sms_enrollments_key: ((APIM_SMS_ENROLLMENTS_KEY))
+    
     http_default_connect_timeout_ms: ((HTTP_DEFAULT_CONNECT_TIMEOUT_MS))
     http_default_read_timeout_ms: ((HTTP_DEFAULT_READ_TIMEOUT_MS))
-    timeout: 180 # ibmcloud health check timeout
 
     recipe_service: ((RECIPE_SERVICE))
     recipe_client_id_key: ((RECIPE_CLIENT_ID_KEY))
@@ -31,9 +29,8 @@ applications:
     recipe_shelf_thread_pool_size: ((RECIPE_SHELF_THREAD_POOL_SIZE))
 
     wallet_service: ((WALLET_SERVICE))
-    sr_wallet_prod_key: ((SR_WALLET_PRD_KEY))
-    sr_wallet_stage_key: ((SR_WALLET_STG_KEY))
-    user_jwt_secret: ((USER_JWT_SECRET))
+    wallet_prod_key: ((SR_WALLET_PRD_KEY))
+    wallet_stage_key: ((SR_WALLET_STG_KEY))
 
     srfh_orders_service: ((SRFH_ORDERS_SERVICE))
     srfh_orders_prd_api_key: ((SRFH_ORDERS_PRD_API_KEY))

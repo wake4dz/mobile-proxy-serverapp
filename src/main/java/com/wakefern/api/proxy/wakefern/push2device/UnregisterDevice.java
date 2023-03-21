@@ -49,7 +49,7 @@ public class UnregisterDevice extends BaseService {
         try {
             logger.info("[Push2Device::UnregisterDevice] jsonData: " + jsonData);
 
-            final String apiKey = EnvManager.getPush2DeviceApiKey();
+            final String apiKey = EnvManager.getTargetPush2DeviceApiKey();
 
             Map<String, String> headers = new HashMap<>();
             headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
@@ -57,7 +57,7 @@ public class UnregisterDevice extends BaseService {
 
             JSONObject args = parseBodyIntoArgs(jsonData);
 
-            String path = EnvManager.getPush2DeviceUrl()
+            String path = EnvManager.getTargetPush2DeviceUrl()
                     + WakefernApplicationConstants.Push2Device.Upstream.devicesPath;
             String jsonResponse = HTTPRequest.executePostJSON(path, args.toString(), headers, EnvManager.getApiLowTimeout());
             logger.debug("[Push2Device::UnregisterDevice] upstream response: " + jsonResponse);

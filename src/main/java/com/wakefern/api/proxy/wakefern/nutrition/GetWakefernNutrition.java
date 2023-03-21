@@ -15,8 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
-import com.wakefern.global.ApplicationUtils;
+
 import com.wakefern.global.BaseService;
+import com.wakefern.global.EnvManager;
 import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
@@ -46,8 +47,7 @@ public class GetWakefernNutrition extends BaseService {
         try {
             String path = WakefernApplicationConstants.APIM.apimBaseURL + WakefernApplicationConstants.APIM.nutritionBySkuStoreId + "/" + skuStoreId;
 
-            wkfn.put(WakefernApplicationConstants.APIM.sub_key_header,
-                    ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.APIM_NUTRITION_KEY));
+            wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getApimNutritionKey());
             wkfn.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
             return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 0));

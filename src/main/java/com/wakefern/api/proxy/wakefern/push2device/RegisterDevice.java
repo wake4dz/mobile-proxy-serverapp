@@ -56,10 +56,10 @@ public class RegisterDevice extends BaseService {
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " jsonData: " + jsonData);
             Map<String, String> headers = new HashMap<>();
 
-            final String path = EnvManager.getPush2DeviceUrl()
+            final String path = EnvManager.getTargetPush2DeviceUrl()
                     + WakefernApplicationConstants.Push2Device.Upstream.devicesPath;
 
-            final String apiKey = EnvManager.getPush2DeviceApiKey();
+            final String apiKey = EnvManager.getTargetPush2DeviceApiKey();
 
             headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
             headers.put(ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey);

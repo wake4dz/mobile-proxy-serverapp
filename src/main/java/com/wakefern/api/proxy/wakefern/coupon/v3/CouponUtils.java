@@ -1,31 +1,17 @@
 package com.wakefern.api.proxy.wakefern.coupon.v3;
 
-import com.wakefern.global.ApplicationUtils;
+import com.wakefern.global.EnvManager;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class CouponUtils {
 
-    private static final Logger logger = Logger.getLogger(CouponUtils.class.getName());
-    /**
-     * returns either coupon production or staging url endpoint
-     * @return
-     */
-    private static String getCouponV3ServiceEndpoint() {
-        String couponService = ApplicationUtils.getEnvValue(WakefernApplicationConstants.EnvVarsKeys.COUPON_SERVICE);
-        String couponDomain = couponService.equalsIgnoreCase(WakefernApplicationConstants.CouponsV3.coupon_staging) ?
-                WakefernApplicationConstants.CouponsV3.baseURL_staging : WakefernApplicationConstants.CouponsV3.baseURL;
-        logger.info("getCouponV3ServiceEndpoint::couponDomain " + couponDomain);
-        return couponDomain;
-    }
-
     // Base Coupon URL
-    public static final String BaseCouponURL = getCouponV3ServiceEndpoint();
+    public static final String BaseCouponURL = EnvManager.getTargetCouponV3ServiceEndpoint();
 
     /**
      * Construct an upstream coupons url given path and parameters

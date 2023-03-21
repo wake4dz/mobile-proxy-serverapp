@@ -29,8 +29,8 @@ applications:
     recipe_shelf_thread_pool_size: ((RECIPE_SHELF_THREAD_POOL_SIZE))
 
     wallet_service: ((WALLET_SERVICE))
-    wallet_prod_key: ((SR_WALLET_PRD_KEY))
-    wallet_stage_key: ((SR_WALLET_STG_KEY))
+    wallet_prod_key: ((WALLET_PRD_KEY))
+    wallet_stage_key: ((WALLET_STG_KEY))
 
     srfh_orders_service: ((SRFH_ORDERS_SERVICE))
     srfh_orders_prd_api_key: ((SRFH_ORDERS_PRD_API_KEY))
@@ -54,7 +54,7 @@ applications:
     mute_http_code: ((MUTE_HTTP_CODE))
     item_locator_cache_enabled: ((ITEM_LOCATOR_CACHE_ENABLED))
     
-    srmobilepassthru_prd_api_key: ((SRMOBILE_PASSTHRU_PRD_API_KEY))
+    srmobilepassthru_prd_api_key: ((MOBILE_PASSTHRU_PRD_API_KEY))
 
     push2device_prod_api_key: ((PUSH2DEVICE_PROD_API_KEY))
     push2device_stg_api_key: ((PUSH2DEVICE_STG_API_KEY))

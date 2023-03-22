@@ -1,0 +1,16 @@
+<server description="wakefern mobile proxy server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>webProfile-8.0</feature>
+    </featureManager>
+
+	<keyStore id="defaultKeyStore" password="WakefernProxy$1" />
+	<ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustDefaultCerts="true"/>
+	
+    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>      
+         
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+     
+</server>

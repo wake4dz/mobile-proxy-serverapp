@@ -327,7 +327,9 @@ public class LogUtil {
 			}
 		}
 
-		if (clientIp.equalsIgnoreCase("127.0.0.1")) {
+		// 127.0.0.1 for eclipse 
+		// 172.17.0.1 for local Docker
+		if (clientIp.equalsIgnoreCase("127.0.0.1") || clientIp.equalsIgnoreCase("172.17.0.1")) {
 			isAuthorized = true;
 		} else if (dotCount == 3) { // ipv4 format
 			String[] ipRanges = clientIp.split("\\.");

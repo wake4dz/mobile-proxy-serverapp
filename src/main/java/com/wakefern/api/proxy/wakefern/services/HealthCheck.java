@@ -30,8 +30,8 @@ public class HealthCheck {
 		    Thread.currentThread().interrupt();
 		}
 		
-		logger.info("Proxy rocks...after " + delaySec + " seconds");
+		logger.info("Proxy rocks..b..after " + delaySec + " seconds");
 		
-		return Response.ok("Proxy rocks...").build();
+		return Response.ok("Proxy rocks..b..").build();
 	}
 }

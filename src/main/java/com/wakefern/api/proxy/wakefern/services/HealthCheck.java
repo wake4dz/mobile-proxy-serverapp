@@ -2,6 +2,7 @@ package com.wakefern.api.proxy.wakefern.services;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,8 +22,15 @@ public class HealthCheck {
 	private final static Logger logger = LogManager.getLogger(HealthCheck.class);
 	
 	@GET
-	public Response getHealthStatus() {
-		logger.info("Proxy rocks...");
+	public Response getHealthStatus(@QueryParam("delay") int delaySec) {
+		
+		try {
+		    Thread.sleep(delaySec * 1000);
+		} catch (InterruptedException ie) {
+		    Thread.currentThread().interrupt();
+		}
+		
+		logger.info("Proxy rocks...after " + delaySec + " seconds");
 		
 		return Response.ok("Proxy rocks...").build();
 	}

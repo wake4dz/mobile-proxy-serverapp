@@ -7,7 +7,7 @@ RUN mvn -f /app/pom.xml clean install
 # Pull base image from https://hub.docker.com/_/websphere-liberty
 FROM websphere-liberty:23.0.0.2-kernel-java11-openj9
 
-# Add my app and config
+# Add app and config
 COPY --chown=1001:0  --from=build /app/target/wakefernmobileproxy.war /config/dropins/
 COPY --chown=1001:0 server.xml /config/
 
@@ -15,4 +15,5 @@ COPY --chown=1001:0 server.xml /config/
 ARG VERBOSE=false
 
 # This script will add the requested XML snippets, grow image to be fit-for-purpose
+# https://github.com/WASdev/ci.docker#building-an-application-image
 RUN configure.sh

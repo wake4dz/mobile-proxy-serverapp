@@ -16,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,8 @@ public class GetCartItemLocator extends BaseService {
 			@HeaderParam(Requests.Headers.Accept) String accept,
 			@HeaderParam(Requests.Headers.xSiteHost) String xSiteHost,
 			@HeaderParam(Requests.Headers.Authorization) String sessionToken,
-			@PathParam(WynshopApplicationConstants.Requests.Params.Path.storeID) String storeId) {
+			@PathParam(WynshopApplicationConstants.Requests.Params.Path.storeID) String storeId,
+			@QueryParam("delay") int delaySec) {
 		try {
 			final String url = WynshopApplicationConstants.BaseURL + "/stores/" + storeId.trim() + "/cart";
 			
@@ -57,6 +59,14 @@ public class GetCartItemLocator extends BaseService {
 			// return empty item locator info for each sku if ItemLocator API fails for some reason
 			String responseBody = ItemLocatorUtils.decorateCollectionWithItemLocations(storeId, response.getResponseBody(), ItemLocatorUtils.ResponseType.CART);
 
+			try {
+			    Thread.sleep(delaySec * 1000);
+			} catch (InterruptedException ie) {
+			    Thread.currentThread().interrupt();
+			}
+			
+			logger.info("GetCartItemLocator sleeps for " + delaySec + " seconds");
+			
 			return createValidResponseWithHeaders(responseBody, response.getResponseHeaders());
 
 		} catch (Exception e) {

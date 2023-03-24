@@ -32,6 +32,6 @@ public class HealthCheck {
 		
 		logger.info("Proxy rocks..c..after " + delaySec + " seconds");
 		
-		return Response.ok("Proxy rocks..c..").build();
+		return Response.ok("Proxy rocks..d..").build();
 	}
 }

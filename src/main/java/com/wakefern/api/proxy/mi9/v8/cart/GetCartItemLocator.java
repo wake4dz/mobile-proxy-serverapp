@@ -65,7 +65,7 @@ public class GetCartItemLocator extends BaseService {
 			    Thread.currentThread().interrupt();
 			}
 			
-			logger.info("GetCartItemLocator sleeps for " + delaySec + " seconds");
+			logger.info("GetCartItemLocator sleeps for " + delaySec + " seconds with v5.0.0e");
 			
 			return createValidResponseWithHeaders(responseBody, response.getResponseHeaders());
 

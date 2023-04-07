@@ -22,16 +22,14 @@ public class HealthCheck {
 	private final static Logger logger = LogManager.getLogger(HealthCheck.class);
 	
 	@GET
-	public Response getHealthStatus(@QueryParam("delay") int delaySec) {
+	public Response getHealthStatus(@QueryParam("delay") int delayMillSec) {
 		
 		try {
-		    Thread.sleep(delaySec * 1000);
+		    Thread.sleep(delayMillSec);
 		} catch (InterruptedException ie) {
-		    Thread.currentThread().interrupt();
+		    
 		}
-		
-		logger.info("Proxy rocks..e..after " + delaySec + " seconds");
-		
-		return Response.ok("Proxy rocks..e..").build();
+				
+		return Response.ok("Proxy rocks..g..").build();
 	}
 }

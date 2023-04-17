@@ -185,6 +185,9 @@ public class LogUtil {
 		messages.add(pad("The 'item_locator_cache_enabled' env variable:")
 				+ EnvManager.isItemLocatorCacheEnabled());
 
+		messages.add(pad("The 'item_locator_partition_size' env variable:")
+				+ EnvManager.getItemLocatorPartitionSize());
+
 		messages.add("");
 
 		messages.add(pad("The server IP address:") + ipAddress);
@@ -267,6 +270,7 @@ public class LogUtil {
 
 			messages.add("<tr><td>recipe_shelf_thread_pool_size</td><td>" + EnvManager.getRecipeShelfThreadPoolSize() + "</td></tr>");
 			messages.add("<tr><td>item_locator_cache_enabled</td><td>" + EnvManager.isItemLocatorCacheEnabled() + "</td></tr>");
+			messages.add("<tr><td>item_locator_partition_size</td><td>" + EnvManager.getItemLocatorPartitionSize() + "</td></tr>");
 
 			messages.add("</table> <br /> <br />");
 

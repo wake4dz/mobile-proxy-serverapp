@@ -71,6 +71,7 @@ public class WakefernApplicationConstants {
         public static final String MUTE_HTTP_CODE = "mute_http_code";
 
         public static final String ITEM_LOCATOR_CACHE_ENABLED = "item_locator_cache_enabled";
+        public static final String ITEM_LOCATOR_PARTITION_SIZE = "item_locator_partition_size";
         
     	public static final String HTTP_DEFAULT_CONNECT_TIMEOUT = "http_default_connect_timeout_ms";
     	public static final String HTTP_DEFAULT_READ_TIMEOUT = "http_default_read_timeout_ms";
@@ -186,11 +187,6 @@ public class WakefernApplicationConstants {
 
 
     public static class Mi9V8ItemLocator {
-        //Wakefern's ItemLocator API can only take a certain number of UPC at a time
-        //test the partition algorithm by using a small ITEM_PARTITION_SIZE + set log4j level to TRACE
-        //the default ITEM_PARTITION_SIZE is 100
-        public static final int ITEM_PARTITION_SIZE = 100;
-
         public static final String Aisle = "aisle";
         public static final String AisleStore = "aisleStore";
         public static final String AreaDesc = "wf_area_desc";

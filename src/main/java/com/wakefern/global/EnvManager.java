@@ -65,6 +65,7 @@ public class EnvManager {
 	private static List<String> muteHttpCode = null;
 
 	private static boolean isItemLocatorCacheEnabled = false;
+	private static int itemLocatorPartitionSize = 0;
 	
 	private static int httpDefaultConnectTimeoutMs = 0;
 	private static int httpDefaultReadTimeoutMs = 0;
@@ -134,7 +135,6 @@ public class EnvManager {
 		return value;
 	}
 
-	
 	// this static code is not run until the class is loaded into the memory for the
 	// first time system settings are fetched once, store them in the heap memory
 	// for quick access
@@ -161,6 +161,7 @@ public class EnvManager {
 
 		isItemLocatorCacheEnabled = getEnvValueString(
 				WakefernApplicationConstants.EnvVarsKeys.ITEM_LOCATOR_CACHE_ENABLED).trim().equalsIgnoreCase("true");
+		itemLocatorPartitionSize = getEnvValueInt(WakefernApplicationConstants.EnvVarsKeys.ITEM_LOCATOR_PARTITION_SIZE);
 
 		recipeService = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.RECIPE_SERVICE);
 		recipeClientId = getEnvValueString(WakefernApplicationConstants.EnvVarsKeys.RECIPE_CLIENT_ID_KEY);
@@ -501,4 +502,7 @@ public class EnvManager {
 		return srfhCurbsideApiKeyProd;
 	}
 
+	public static int getItemLocatorPartitionSize() {
+		return itemLocatorPartitionSize;
+	}
 }

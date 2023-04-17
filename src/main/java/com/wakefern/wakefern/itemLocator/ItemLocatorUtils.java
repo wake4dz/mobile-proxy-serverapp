@@ -35,12 +35,13 @@ public class ItemLocatorUtils {
      * @return
      */
     private static int getNumRequests(final int itemsSize) {
-        int numRequests = itemsSize / WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE;
-        if (itemsSize % WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE > 0) {
+        final int partitionSize = EnvManager.getItemLocatorPartitionSize();
+        int numRequests = itemsSize / partitionSize;
+        if (itemsSize % partitionSize > 0) {
             numRequests++;
         }
 
-        logger.trace("ITEM_PARTITION_SIZE: " + WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE);
+        logger.trace("ITEM_PARTITION_SIZE: " + partitionSize);
 
         return numRequests;
     }
@@ -404,7 +405,7 @@ public class ItemLocatorUtils {
                 partitionItemsSB = new StringBuilder();
 
                 // build each partition data to be used for a Wakefern's Item Locator API call
-                while ((WakefernApplicationConstants.Mi9V8ItemLocator.ITEM_PARTITION_SIZE * (i + 1) > currentListPosition) && (itemsSize > currentListPosition)) {
+                while ((EnvManager.getItemLocatorPartitionSize() * (i + 1) > currentListPosition) && (itemsSize > currentListPosition)) {
                     JSONObject itemJObj = itemsJArray.getJSONObject(currentListPosition);
 
                     final String upc = getUpcFromSkuObject(itemJObj);

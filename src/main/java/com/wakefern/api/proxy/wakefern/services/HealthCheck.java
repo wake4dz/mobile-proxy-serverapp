@@ -19,11 +19,11 @@ import com.wakefern.wakefern.WakefernApplicationConstants;
 @Path(ApplicationConstants.Requests.Proxy + "/" + WakefernApplicationConstants.HealthCheck.Path)
 public class HealthCheck {
 	private final static Logger logger = LogManager.getLogger(HealthCheck.class);
-	
+
 	@GET
 	public Response getHealthStatus() {
 		logger.info("Proxy rocks...");
-		
+
 		return Response.ok("Proxy rocks...").build();
 	}
 }

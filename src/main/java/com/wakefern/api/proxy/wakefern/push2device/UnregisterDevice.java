@@ -47,7 +47,7 @@ public class UnregisterDevice extends BaseService {
     @Path("/")
     public Response unregisterDevice(String jsonData) {
         try {
-            logger.info("[Push2Device::UnregisterDevice] jsonData: " + jsonData);
+            logger.debug("[Push2Device::UnregisterDevice] jsonData: " + jsonData);
 
             final String apiKey = EnvManager.getTargetPush2DeviceApiKey();
 

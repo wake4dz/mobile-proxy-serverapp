@@ -130,7 +130,7 @@ public class HomePageConfig extends BaseService {
 	}
 
 	/*
-	 * only if the client_brand is "shoprite"
+	 * only if the client_brand is a Wakefern banner
 	 */
 	private static boolean isWakefernBrand(JSONObject layout, String banner) {
 		JSONArray clientBrandDisplay = layout.getJSONArray("client_brand_display");
@@ -141,8 +141,15 @@ public class HomePageConfig extends BaseService {
 			banner = "shoprite";
 		}
 		
-		//@TODO
-		// need to find out what brand value for each Wakefern banner, so the UI app can pass in a right banner value
+		/*
+		 * shoprite
+	       thefreshgrocer
+	       fairwaymarket
+	       dearbornmarket
+	       gourmetgarage
+	       pricerite
+		 */
+		if (clientBrandDisplay == null ||  clientBrandDisplay.length() == 0) return false;
 		
 		final int len = clientBrandDisplay.length();
 		for (int i = 0; i < len; i++) {

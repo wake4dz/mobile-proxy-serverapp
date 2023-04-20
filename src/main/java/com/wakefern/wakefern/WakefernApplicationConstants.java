@@ -9,7 +9,7 @@ public class WakefernApplicationConstants {
 		public static final String SHOPRITE = "shoprite";
 		public static final String THE_FRESH_GROCER = "thefreshgrocer";
 		public static final String FAIRWAY_MARKET = "fairwaymarket";
-		public static final String DEARBOR_NMARKET = "dearbornmarket";
+		public static final String DEARBORN_MARKET = "dearbornmarket";
 		public static final String GOURMET_GARAGE = "gourmetgarage";
 		public static final String PRICERITE = "pricerite";
 	}

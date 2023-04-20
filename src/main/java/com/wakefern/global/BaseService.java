@@ -1,7 +1,10 @@
 package com.wakefern.global;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import com.wakefern.logging.LogUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +23,32 @@ public class BaseService {
     private final static Logger logger = LogManager.getLogger(BaseService.class);
 
     private static final String GENERIC_ERROR_MESSAGE = "Unknown error";
+
+    @Context
+    private HttpServletRequest request;
+
+    protected String parseAndLogException(Logger serviceLogger, Exception e) {
+        String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+                ApplicationConstants.Requests.Headers.userAgent, request.getHeader(ApplicationConstants.Requests.Headers.userAgent),
+                "Client-Ip", request.getRemoteAddr(),
+                ApplicationConstants.Requests.Headers.wakefernMobileVersion, request.getHeader(ApplicationConstants.Requests.Headers.wakefernMobileVersion));
+        if (LogUtil.isLoggable(e)) {
+            serviceLogger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+        }
+        return errorData;
+    }
+
+    protected String parseAndLogException(Logger serviceLogger, Exception e, Object... extras) {
+        String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+                ApplicationConstants.Requests.Headers.userAgent, request.getHeader(ApplicationConstants.Requests.Headers.userAgent),
+                "Client-Ip", request.getRemoteAddr(),
+                ApplicationConstants.Requests.Headers.wakefernMobileVersion, request.getHeader(ApplicationConstants.Requests.Headers.wakefernMobileVersion),
+                extras);
+        if (LogUtil.isLoggable(e)) {
+            serviceLogger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+        }
+        return errorData;
+    }
 
     protected Response createErrorResponse(Response.Status status, String message) {
         JSONObject errorBody = new JSONObject();

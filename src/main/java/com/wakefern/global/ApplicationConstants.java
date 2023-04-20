@@ -23,6 +23,8 @@ public final class ApplicationConstants {
 			public static final String reservedTimeslot = "X-Reserved-Timeslot";
 			public static final String xForwardedFor = "X-Forwarded-For";
 
+			public static final String wakefernMobileVersion = "X-Wakefern-Mobile-Version";
+
 			public static class MIMETypes {
 				public static final String generic = "application/*";
 				public static final String json = "application/json";

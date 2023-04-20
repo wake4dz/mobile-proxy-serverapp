@@ -142,6 +142,7 @@ public class HomePageConfig extends BaseService {
 		}
 		
 		/*
+		 * banner is one of values below
 		 * shoprite
 	       thefreshgrocer
 	       fairwaymarket
@@ -149,7 +150,8 @@ public class HomePageConfig extends BaseService {
 	       gourmetgarage
 	       pricerite
 		 */
-		if (clientBrandDisplay == null ||  clientBrandDisplay.length() == 0) return false;
+		
+		logger.debug("banner: " + banner);
 		
 		final int len = clientBrandDisplay.length();
 		for (int i = 0; i < len; i++) {

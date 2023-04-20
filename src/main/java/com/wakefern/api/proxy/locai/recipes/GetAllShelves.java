@@ -49,8 +49,9 @@ public class GetAllShelves extends BaseService {
 
             // Iterate over the shelf layouts and fetch all the recipes.
             JSONArray layouts = homePageConfig.getJSONArray("hits").getJSONObject(0).getJSONArray("layout");
-
-            logger.info(layouts);
+  
+            logger.debug("banner: " + banner);
+            logger.debug("layouts: " + layouts);
             
             JSONArray hydratedLayouts = RecipeUtils.fetchAllShelfRecipes(layouts, jsonBody);
             return createValidResponse(hydratedLayouts.toString());

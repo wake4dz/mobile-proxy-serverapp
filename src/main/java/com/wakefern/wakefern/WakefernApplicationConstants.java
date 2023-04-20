@@ -137,8 +137,6 @@ public class WakefernApplicationConstants {
         public static final String resultSet_output = "ResultSet 1 Output";
         public static final String ppc_acct_id = "PPC_ACCT_ID";
 
-        public static final String notFoundStatus = "PPC number not found. Please contact our Customer Care Center at 1-800-ShopRite (1-800-746-7748).";
-        //				+ "Customer Care Associates are available to assist you Monday through Friday from 8 AM to 6 PM, and Saturday and Sunday from 9 AM to 5 PM.";
         public static final String foundStatus = "An email has been sent to you with your Price Plus card number. Please allow a few moments for the email to arrive.";
 
         public static final String mi9_fsn_key = "Fsn";
@@ -306,6 +304,7 @@ public class WakefernApplicationConstants {
             public static final String sessionToken = "sessionToken";
             public static final String accountId = "accountId";
             public static final String clientBrand = "clientBrand";
+            public static final String banner = "banner";
         }
 
         public static class HeadersParams {

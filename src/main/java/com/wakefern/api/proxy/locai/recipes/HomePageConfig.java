@@ -138,7 +138,7 @@ public class HomePageConfig extends BaseService {
 		//this temp check is for the backward compatibility before proxy's multi-banner feature
 		//we will check this banner <> null, an banner is not empty after these 3 lines of line in the future.
 		if (banner == null ) {
-			banner = "shoprite";
+			banner = WakefernApplicationConstants.WakefernBanners.SHOPRITE;
 		}
 		
 		/*

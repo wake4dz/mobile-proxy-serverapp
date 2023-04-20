@@ -5,6 +5,15 @@ package com.wakefern.wakefern;
  */
 public class WakefernApplicationConstants {
 
+	public static class WakefernBanners {
+		public static final String SHOPRITE = "shoprite";
+		public static final String THE_FRESH_GROCER = "thefreshgrocer";
+		public static final String FAIRWAY_MARKET = "fairwaymarket";
+		public static final String DEARBOR_NMARKET = "dearbornmarket";
+		public static final String GOURMET_GARAGE = "gourmetgarage";
+		public static final String PRICERITE = "pricerite";
+	}
+	
     public static class EnvVarsKeys {
         public static final String BANNER = "banner";
         public static final String URL = "url";

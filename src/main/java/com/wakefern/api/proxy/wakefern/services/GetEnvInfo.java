@@ -45,7 +45,8 @@ public class GetEnvInfo {
 		sb.append(getEnv("mute_error_log", String.valueOf(EnvManager.isMuteErrorLog())));
 		sb.append(getEnv("mute_http_code", StringUtils.join(EnvManager.getMuteHttpCode(), ",")) + "\n");
 
-		sb.append(getEnv("item_locator_cache_enabled", String.valueOf(EnvManager.isItemLocatorCacheEnabled())) + "\n");
+		sb.append(getEnv("item_locator_cache_enabled", String.valueOf(EnvManager.isItemLocatorCacheEnabled())));
+		sb.append(getEnv("item_locator_partition_size", String.valueOf(EnvManager.getItemLocatorPartitionSize())) + "\n");
 		
 		sb.append(getEnv("mobilepassthru_prd_api_key", hideKeyValue(EnvManager.getMobilePassThruApiKeyProd())) +"\n");
 		

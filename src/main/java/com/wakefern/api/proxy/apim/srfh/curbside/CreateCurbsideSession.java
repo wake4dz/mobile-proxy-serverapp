@@ -20,7 +20,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -53,11 +53,10 @@ public class CreateCurbsideSession extends BaseService {
 			String response = HTTPRequest.executePut(requestURI, body, headers, EnvManager.getApiMediumTimeout());
 			return createValidResponse(response);
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);
-			
-			if (LogUtil.isLoggable(e)) {
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
+			String errorData = parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json,
+					"ppc", ppc,
+					WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getTargetSRFHCurbsideApiKey());
 			
 			Response response = createErrorResponse(errorData, e);
 			return UpstreamErrorHandler.handleResponse(response);

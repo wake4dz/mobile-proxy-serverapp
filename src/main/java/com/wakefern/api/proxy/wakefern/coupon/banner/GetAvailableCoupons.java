@@ -19,7 +19,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -53,13 +53,11 @@ public class GetAvailableCoupons extends BaseService {
 			return createValidResponse(response);
 		} catch (Exception e) {
 			
-			if (LogUtil.isLoggable(e)) {
-				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-						"authorization", authToken,
-						"contentType", contentType,
-						"storeId", storeId);
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
+			parseAndLogException(logger, e, 
+					CouponUtils.Requests.Params.banner, banner,
+					ApplicationConstants.Requests.Headers.Authorization, authToken,
+					ApplicationConstants.Requests.Headers.contentType, contentType,
+					"storeId", storeId);
 			
 			return createErrorResponse(e);
 		}

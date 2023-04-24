@@ -58,16 +58,15 @@ public class GetUserInfo extends BaseService {
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, EnvManager.getApiHighTimeout()));
 
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"sessionToken", accessToken, "accountId", accountId, 
-            		"clientId", EnvManager.getRecipeClientId(),
-            		"apiKey", EnvManager.getTargetRecipeLocaiApiKey(),
-            		"contentType", contentType, "HttpBody", jsonBody);
-            
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
 
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType, contentType,
+					"accessToken", accessToken,
+					"accountId", accountId,
+					"clientId", EnvManager.getRecipeClientId(),
+					"apiKey", EnvManager.getTargetRecipeLocaiApiKey(),
+					"wakefernTokenType", "mobile");
+			
             return this.createErrorResponse(errorData, e);
         }
     }

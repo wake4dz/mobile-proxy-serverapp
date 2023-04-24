@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
@@ -51,13 +51,13 @@ public class ProductDetails extends BaseService {
             return this.createValidResponse(HTTPRequest.executePost(path, jsonBody, headers, EnvManager.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"contentType", contentType, "HttpBody", jsonBody);
-            
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
 
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType, contentType,
+					"HttpBody", jsonBody,
+					"clientId", EnvManager.getRecipeClientId(),
+					"apiKey", EnvManager.getTargetRecipeLocaiApiKey());
+			
             return this.createErrorResponse(errorData, e);
         }
     }

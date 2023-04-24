@@ -51,12 +51,10 @@ public class RecipeTags extends BaseService {
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, EnvManager.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"contentType", contentType);
-            
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType, contentType,
+					"clientId", EnvManager.getRecipeClientId(),
+					"apiKey", EnvManager.getTargetRecipeLocaiApiKey());
 
             return this.createErrorResponse(errorData, e);
         }

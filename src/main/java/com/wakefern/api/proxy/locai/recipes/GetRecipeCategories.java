@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
@@ -40,12 +40,9 @@ public class GetRecipeCategories extends BaseService {
 			return this.createValidResponse(jsonObject.toString());
 
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
-
+			String errorData = parseAndLogException(logger, e);
+			
 			return this.createErrorResponse(errorData, e);
 		} 
 	}

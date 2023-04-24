@@ -60,13 +60,12 @@ public class HomePageConfig extends BaseService {
 			return createValidResponse(filterLayoutsFromResponse(response, banner));
 
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-					"contentType", contentType);
-			
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
 
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType, contentType,
+					WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.banner, banner,
+					"apiKey", EnvManager.getTargetRecipeLocaiApiKey());
+			
 			return this.createErrorResponse(errorData, e);
 		}
 	}

@@ -18,7 +18,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -53,14 +53,12 @@ public class GetCouponByUPC extends BaseService {
 			String response = HTTPRequest.executeGet(url, headerMap, EnvManager.getApiLowTimeout());//No match coupon found for the UPC
 			return this.createValidResponse(response);
 		} catch (Exception e) {
+
+			parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.Authorization, authToken,
+					ApplicationConstants.Requests.Headers.contentType, contentType,
+					CouponUtils.Requests.Params.upc, upc);
 			
-			if (LogUtil.isLoggable(e)) {
-				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-						"upc", upc,
-						"authorization", authToken,
-						"contentType", contentType);
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
 			
 			return this.createErrorResponse(e);
 		}

@@ -73,6 +73,46 @@ public class LogUtil {
 		return sb.toString();
 	}
 
+	
+	/**
+	 * Concatenate all relevant URL request data
+	 * 
+	 * @param arguments
+	 * @return
+	 */
+	public static String getRequestDataWithCommon(String commonData, Object... arguments) {
+
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("[");
+		sb.append(commonData);
+		
+		for (int i = 0; i < arguments.length; i = i + 2) {
+
+			if (arguments[i] != null) {
+				sb.append(arguments[i].toString());
+			} else {
+				sb.append("null");
+			}
+
+			sb.append(":");
+
+			if (arguments[i + 1] != null) {
+				sb.append(arguments[i + 1].toString());
+			} else {
+				sb.append("null");
+			}
+
+			if (i + 2 < arguments.length) {
+				sb.append(", ");
+			}
+		}
+		sb.append("]");
+
+		return sb.toString();
+	}
+	
+	
 	/*
 	 * only display com.wakefern related stack trace info
 	 */

@@ -24,7 +24,6 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
-import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -66,10 +65,12 @@ public class SmsEnrollment extends BaseService {
             // Return the phone number payload
             return createValidResponse(responseData.toString());
         } catch (Exception e) {
-        	if (LogUtil.isLoggable(e)) {
-	            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
-	            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-        	}
+
+			parseAndLogException(logger, e, 
+					Requests.Headers.Accept, WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType,
+					ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json,
+					WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersionHeaderKey, WakefernApplicationConstants.SmsEnrollment.Upstream.ApiVersion,
+					WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getApimSmsEnrollmentKey());
         	
             return createErrorResponse(e);
         }
@@ -84,8 +85,9 @@ public class SmsEnrollment extends BaseService {
     @Path("/")
     @ValidatePPCWithJWTV2
     public Response registerOrderWithEnrollment(@PathParam("ppc") String fsn, String jsonBody) {
-        try {
-            String phoneNumber, orderNumber, storeNumber;
+    	String phoneNumber=null, orderNumber=null, storeNumber=null;
+    	
+    	try {    
             try {
                 JSONObject body = new JSONObject(jsonBody);
                 phoneNumber = body.getString("phoneNumber");
@@ -117,11 +119,16 @@ public class SmsEnrollment extends BaseService {
             final String response = HTTPRequest.executePostJSON(requestURI, payload.toString(), headerMap, EnvManager.getApiLowTimeout());
             return createValidResponse(response);
         } catch (Exception e) {
-        	if (LogUtil.isLoggable(e)) {
-	            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
-	            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-        	}
         	
+			parseAndLogException(logger, e, 
+					Requests.Headers.Accept, WakefernApplicationConstants.SmsEnrollment.Upstream.MimeType,
+					ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json,
+					"fsn", fsn,
+					"storeNumber", storeNumber,
+					"orderNumber", orderNumber,
+					"phoneNumber", phoneNumber,
+					WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getApimSmsEnrollmentKey());
+			
             return createErrorResponse(e);
         }
     }

@@ -39,12 +39,16 @@ public class BaseService {
     }
 
     protected String parseAndLogException(Logger serviceLogger, Exception e, Object... extras) {
-        String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-                ApplicationConstants.Requests.Headers.userAgent, request.getHeader(ApplicationConstants.Requests.Headers.userAgent),
-                "Client-Ip", request.getRemoteAddr(),
-                ApplicationConstants.Requests.Headers.wakefernMobileVersion, request.getHeader(ApplicationConstants.Requests.Headers.wakefernMobileVersion),
-                extras);
-        if (LogUtil.isLoggable(e)) {
+    	
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("exceptionLocation:" + LogUtil.getRelevantStackTrace(e) + ", ");
+    	sb.append("ApplicationConstants.Requests.Headers.userAgent:" + request.getHeader(ApplicationConstants.Requests.Headers.userAgent) + ", ");
+    	sb.append("Client-Ip:" + request.getRemoteAddr() + ", ");
+    	sb.append("ApplicationConstants.Requests.Headers.wakefernMobileVersion:" + request.getHeader(ApplicationConstants.Requests.Headers.wakefernMobileVersion) + ", ");
+    	
+        String errorData = LogUtil.getRequestDataWithCommon(sb.toString(), extras);
+        
+        if (LogUtil.isLoggable(e)) {  
             serviceLogger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
         }
         return errorData;

@@ -11,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
@@ -43,11 +44,12 @@ public class HomePageConfig extends BaseService {
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path(WakefernApplicationConstants.RecipeLocai.Proxy.homepageConfig)
 	public Response getResponse(
-			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType) {
+			@HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType, 
+			@QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.banner) String banner) {
 
 		Map<String, String> headers = new HashMap<>();
 
-		try {
+		try {            
 			String path = EnvManager.getTargetRecipeLocaiServiceEndpoint() + "/content/wakefern?" + "&apiKey="
 					+ EnvManager.getTargetRecipeLocaiApiKey();
 
@@ -55,7 +57,7 @@ public class HomePageConfig extends BaseService {
 
 			String response = HTTPRequest.executeGet(path, headers, EnvManager.getApiHighTimeout());
 			logger.debug("Locai's response data: " + response);
-			return createValidResponse(filterLayoutsFromResponse(response));
+			return createValidResponse(filterLayoutsFromResponse(response, banner));
 
 		} catch (Exception e) {
 			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
@@ -74,7 +76,7 @@ public class HomePageConfig extends BaseService {
 	 * @return HomepageConfig
 	 * @throws Exception
 	 */
-	public static JSONObject fetch() throws Exception {
+	public static JSONObject fetch(String banner) throws Exception {
 		Map<String, String> headers = new HashMap<>();
 		String path = EnvManager.getTargetRecipeLocaiServiceEndpoint() + "/content/wakefern?" + "&apiKey="
 				+ EnvManager.getTargetRecipeLocaiApiKey();
@@ -83,7 +85,7 @@ public class HomePageConfig extends BaseService {
 
 		String response = HTTPRequest.executeGet(path, headers, EnvManager.getApiHighTimeout());
 		logger.debug("Locai's response data: " + response);
-		return new JSONObject(filterLayoutsFromResponse(response));
+		return new JSONObject(filterLayoutsFromResponse(response, banner));
 	}
 
 	/**
@@ -92,7 +94,7 @@ public class HomePageConfig extends BaseService {
 	 * @param response String
 	 * @return String
 	 */
-	private static String filterLayoutsFromResponse(String response) {
+	private static String filterLayoutsFromResponse(String response, String banner) {
 
 		JSONObject responseObj = new JSONObject(response);
 		JSONArray hits = responseObj.optJSONArray("hits");
@@ -113,7 +115,7 @@ public class HomePageConfig extends BaseService {
 			JSONObject layout = layouts.getJSONObject(i);
 
 			// filter out some invalid layouts/shelves
-			if ((isShopRiteBrand(layout)) && (isValidDateRange(layout))) {
+			if ((isWakefernBrand(layout, banner)) && (isValidDateRange(layout))) {
 				filteredLayouts.put(layout);
 			}
 		}
@@ -128,14 +130,32 @@ public class HomePageConfig extends BaseService {
 	}
 
 	/*
-	 * only if the client_brand is "shoprite"
+	 * only if the client_brand is a Wakefern banner
 	 */
-	private static boolean isShopRiteBrand(JSONObject layout) {
+	private static boolean isWakefernBrand(JSONObject layout, String banner) {
 		JSONArray clientBrandDisplay = layout.getJSONArray("client_brand_display");
 
+		//this temp check is for the backward compatibility before proxy's multi-banner feature
+		//we will check this banner <> null, an banner is not empty after these 3 lines of line in the future.
+		if (banner == null ) {
+			banner = WakefernApplicationConstants.WakefernBanners.SHOPRITE;
+		}
+		
+		/*
+		 * banner is one of values below
+		 * shoprite
+	       thefreshgrocer
+	       fairwaymarket
+	       dearbornmarket
+	       gourmetgarage
+	       pricerite
+		 */
+		
+		logger.debug("banner: " + banner);
+		
 		final int len = clientBrandDisplay.length();
 		for (int i = 0; i < len; i++) {
-			if (clientBrandDisplay.getString(i).equalsIgnoreCase("shoprite")) {
+			if (clientBrandDisplay.getString(i).equalsIgnoreCase(banner.trim())) {
 				return true;
 			}
 		}

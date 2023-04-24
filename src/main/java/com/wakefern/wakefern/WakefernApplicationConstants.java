@@ -5,6 +5,15 @@ package com.wakefern.wakefern;
  */
 public class WakefernApplicationConstants {
 
+	public static class WakefernBanners {
+		public static final String SHOPRITE = "shoprite";
+		public static final String THE_FRESH_GROCER = "thefreshgrocer";
+		public static final String FAIRWAY_MARKET = "fairwaymarket";
+		public static final String DEARBORN_MARKET = "dearbornmarket";
+		public static final String GOURMET_GARAGE = "gourmetgarage";
+		public static final String PRICERITE = "pricerite";
+	}
+	
     public static class EnvVarsKeys {
         public static final String BANNER = "banner";
         public static final String URL = "url";
@@ -137,8 +146,6 @@ public class WakefernApplicationConstants {
         public static final String resultSet_output = "ResultSet 1 Output";
         public static final String ppc_acct_id = "PPC_ACCT_ID";
 
-        public static final String notFoundStatus = "PPC number not found. Please contact our Customer Care Center at 1-800-ShopRite (1-800-746-7748).";
-        //				+ "Customer Care Associates are available to assist you Monday through Friday from 8 AM to 6 PM, and Saturday and Sunday from 9 AM to 5 PM.";
         public static final String foundStatus = "An email has been sent to you with your Price Plus card number. Please allow a few moments for the email to arrive.";
 
         public static final String mi9_fsn_key = "Fsn";
@@ -306,6 +313,7 @@ public class WakefernApplicationConstants {
             public static final String sessionToken = "sessionToken";
             public static final String accountId = "accountId";
             public static final String clientBrand = "clientBrand";
+            public static final String banner = "banner";
         }
 
         public static class HeadersParams {

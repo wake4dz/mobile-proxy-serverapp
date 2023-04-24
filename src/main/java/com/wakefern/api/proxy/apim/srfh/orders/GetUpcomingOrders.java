@@ -52,7 +52,7 @@ public class GetUpcomingOrders extends BaseService {
 
 			final String requestURI = uriBuilder.build().toString();
 			Map<String, String> headers = new HashMap<>();
-			headers.put("X-ShopRite-Mobile-Version", appVersion);
+
 			headers.put(ApplicationConstants.Requests.Headers.Accept, WakefernApplicationConstants.UpcomingOrders.Upstream.MimeType);
 			headers.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getTargetSRFHOrdersApiKey());
 			headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);

@@ -2,7 +2,7 @@
 applications:
 - name: srmobilecors
   env:
-    banner: ShopRite
+    banner: shoprite
 
     coupon_service: ((COUPON_SERVICE))
     coupon_v3_key: ((COUPON_V3_KEY))

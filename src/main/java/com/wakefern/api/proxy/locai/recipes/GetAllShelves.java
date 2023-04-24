@@ -3,7 +3,6 @@ package com.wakefern.api.proxy.locai.recipes;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -31,6 +30,7 @@ public class GetAllShelves extends BaseService {
     @Path(WakefernApplicationConstants.RecipeLocai.Proxy.getShelves)
     public Response getResponse(
             @HeaderParam(WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType) String contentType,
+            @QueryParam(WakefernApplicationConstants.RecipeLocai.RequestParamsQuery.banner) String banner,
             String jsonBody)
     {
         try {
@@ -39,16 +39,20 @@ public class GetAllShelves extends BaseService {
                 return this.createErrorResponse(Response.Status.BAD_REQUEST, BAD_REQUEST_ERROR_MSG);
             }
             try {
-                JSONObject validJson = new JSONObject(jsonBody);
+                new JSONObject(jsonBody);
             } catch (JSONException e) {
                 return this.createErrorResponse(Response.Status.BAD_REQUEST, BAD_REQUEST_ERROR_MSG);
             }
+
             // Fetch the homepage config.
-            JSONObject homePageConfig = HomePageConfig.fetch();
+            JSONObject homePageConfig = HomePageConfig.fetch(banner);
 
             // Iterate over the shelf layouts and fetch all the recipes.
             JSONArray layouts = homePageConfig.getJSONArray("hits").getJSONObject(0).getJSONArray("layout");
-
+  
+            logger.debug("banner: " + banner);
+            logger.debug("layouts: " + layouts);
+            
             JSONArray hydratedLayouts = RecipeUtils.fetchAllShelfRecipes(layouts, jsonBody);
             return createValidResponse(hydratedLayouts.toString());
         } catch (Exception e) {

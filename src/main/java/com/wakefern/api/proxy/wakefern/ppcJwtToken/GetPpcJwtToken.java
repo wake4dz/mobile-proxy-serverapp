@@ -18,8 +18,8 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.UserJWTV2;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
+
 
 /**
  * 
@@ -73,14 +73,11 @@ public class GetPpcJwtToken extends BaseService {
 
 		} catch (Exception e) {
 			
-			if (LogUtil.isLoggable(e)) {
-				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-						ApplicationConstants.Requests.Headers.Accept, "*/*", ApplicationConstants.Requests.Headers.xSiteHost, xSiteHost,
-						"expiresInSeconds", expiresInSeconds,
-						ApplicationConstants.Requests.Headers.Authorization, sessionToken);
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
-
+			parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.Accept, "*/*",
+					"expiresInSeconds", expiresInSeconds,
+					ApplicationConstants.Requests.Headers.Authorization, sessionToken);
+			
 			return this.createErrorResponse(e);
 		}
 	}

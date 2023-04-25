@@ -18,7 +18,7 @@ import com.wakefern.global.ApplicationConstants.Requests;
 
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -53,12 +53,12 @@ public class GetWakefernNutrition extends BaseService {
             return this.createValidResponse(HTTPRequest.executeGet(path, wkfn, 0));
 
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
-            
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
 
+			String errorData = parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.contentType, "application/json",
+					"skuStoreId", skuStoreId,
+					WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getApimNutritionKey());
+			
             return this.createErrorResponse(errorData, e);
         }
     }

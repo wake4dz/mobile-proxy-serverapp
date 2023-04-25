@@ -20,7 +20,7 @@ import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.UserJWTV2;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -47,6 +47,8 @@ public class GetUserSession extends BaseService {
 		headerMap.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
 		JSONObject jsonObject;
+		String ppc = null;
+		
 		try {
 			if (bearerToken == null) {
 				/**
@@ -56,20 +58,18 @@ public class GetUserSession extends BaseService {
 				return createValidResponse(HTTPRequest.executePost(url, (new JSONObject()).toString(), headerMap));
 			}
 
-			final String ppc = validateJWTAndParsePPC(bearerToken);
+			ppc = validateJWTAndParsePPC(bearerToken);
 			logger.debug("PPC parsed from JWT: " + ppc);
 			jsonObject = new JSONObject();
 			jsonObject.put(fsnKey, ppc);
 
 			return createValidResponse(HTTPRequest.executePost(url, jsonObject.toString(), headerMap));
 		} catch (Exception e) {
-			
-			if (LogUtil.isLoggable(e)) {
-				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-						"authorization", bearerToken,
-						"contentType", contentType);
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
+
+			parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.Authorization, EnvManager.getCouponV3Key(),
+					ApplicationConstants.Requests.Headers.contentType, contentType,
+					"ppc", ppc);
 			
 			return this.createErrorResponse(e);
 		}

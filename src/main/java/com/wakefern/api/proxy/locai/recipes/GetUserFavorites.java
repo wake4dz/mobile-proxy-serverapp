@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -44,12 +44,11 @@ public class GetUserFavorites extends BaseService {
         try {
             return createValidResponse(getFavoriteRecipes(userId, contentType, jwtToken));
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"userId", userId, "contentType", contentType);
 
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType, contentType,
+					"userId", userId,
+					WakefernApplicationConstants.RecipeLocai.HeadersParams.auth, jwtToken);
 
             return this.createErrorResponse(errorData, e);
         }

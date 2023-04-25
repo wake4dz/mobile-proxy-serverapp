@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
 /**
@@ -56,12 +56,11 @@ public class GetAllShelves extends BaseService {
             JSONArray hydratedLayouts = RecipeUtils.fetchAllShelfRecipes(layouts, jsonBody);
             return createValidResponse(hydratedLayouts.toString());
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-                    "contentType", contentType);
 
-            if (LogUtil.isLoggable(e)) {
-                logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.RecipeLocai.HeadersParams.contentType, contentType,
+					"banner", banner,
+					"httpBody", jsonBody);
 
             return this.createErrorResponse(errorData, e);
         }

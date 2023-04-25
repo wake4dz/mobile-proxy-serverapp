@@ -4,7 +4,6 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.request.ResponseObj;
 import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
@@ -59,15 +58,13 @@ public class GetCartItemLocator extends BaseService {
 
 			return createValidResponseWithHeaders(responseBody, response.getResponseHeaders());
 
-		} catch (Exception e) {
-			
-			if (LogUtil.isLoggable(e)) {
-				String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-						Requests.Headers.Accept, accept, Requests.Headers.xSiteHost, xSiteHost,
-						Requests.Headers.Authorization, sessionToken, WynshopApplicationConstants.Requests.Params.Path.storeID, storeId);
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
-			
+		} catch (Exception e) {			
+			parseAndLogException(logger, e, 
+					Requests.Headers.Accept, accept, 
+					Requests.Headers.xSiteHost, xSiteHost,
+					Requests.Headers.Authorization, sessionToken,
+					WynshopApplicationConstants.Requests.Params.Path.storeID, storeId);
+
 			return createErrorResponse(e);
 		}
 	}

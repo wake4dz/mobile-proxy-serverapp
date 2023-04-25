@@ -19,7 +19,6 @@ import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
-import com.wakefern.logging.LogUtil;
 import com.wakefern.request.HTTPRequest;
 /*
  * The reward point program is maintained by the Wakefern, the program is not always available.
@@ -48,12 +47,13 @@ public class GetPointsForPPC extends BaseService {
 	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
 	@Path("/{ppc}")
 	public Response getInfoResponse(@PathParam("ppc") String ppc) {
+		String requestToken = null;
 		try {
 			// This is a service provided and maintained by Wakefern.
 			// So it requires a different Authorization Header Token than the one provided by the UI's Bearer token.
 			
 			// The Reward Point API key is the same key as the Product Recommendation API
-			final String requestToken = EnvManager.getRewardPointKey();
+			requestToken = EnvManager.getRewardPointKey();
 
 			String baseUrl;
 
@@ -69,11 +69,11 @@ public class GetPointsForPPC extends BaseService {
 			final String response = HTTPRequest.executeGet(srvPath, headers, 0);
 			return createValidResponse(response);
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e));
 
-			if (LogUtil.isLoggable(e)) {
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
+			String errorData = parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.Authorization, requestToken,
+					"ppc", ppc,
+					ApplicationConstants.Requests.Headers.Accept, ApplicationConstants.Requests.Headers.MIMETypes.json);
 			
 			return createErrorResponse(errorData, e);
 		}

@@ -5,7 +5,7 @@ import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.annotations.ValidatePPCWithJWTV2;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -52,6 +52,8 @@ public class RegisterDevice extends BaseService {
             @PathParam("ppc") String ppc,
             String jsonData)
     {
+    	String apiKey = null;
+    	
         try {
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " jsonData: " + jsonData);
             Map<String, String> headers = new HashMap<>();
@@ -59,7 +61,7 @@ public class RegisterDevice extends BaseService {
             final String path = EnvManager.getTargetPush2DeviceUrl()
                     + WakefernApplicationConstants.Push2Device.Upstream.devicesPath;
 
-            final String apiKey = EnvManager.getTargetPush2DeviceApiKey();
+            apiKey = EnvManager.getTargetPush2DeviceApiKey();
 
             headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
             headers.put(ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey);
@@ -70,8 +72,13 @@ public class RegisterDevice extends BaseService {
             logger.debug("[Push2Device::RegisterDevice] ppc: " + ppc + " upstream response: " + jsonResponse);
             return this.createResponse(Response.Status.ACCEPTED);
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e), "ppc", ppc);
-            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+
+			String errorData = parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey,
+					"ppc", ppc,
+					ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json,
+					"HttpBody", jsonData);
+			
             Response response = createErrorResponse(errorData, e);
             return UpstreamErrorHandler.handleResponse(response);
         }

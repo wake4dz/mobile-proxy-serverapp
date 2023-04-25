@@ -4,7 +4,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
 import com.wakefern.global.errorHandling.UpstreamErrorHandler;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 import org.apache.logging.log4j.LogManager;
@@ -46,10 +46,12 @@ public class UnregisterDevice extends BaseService {
     @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path("/")
     public Response unregisterDevice(String jsonData) {
+    	String apiKey = null;
+    	
         try {
             logger.debug("[Push2Device::UnregisterDevice] jsonData: " + jsonData);
 
-            final String apiKey = EnvManager.getTargetPush2DeviceApiKey();
+            apiKey = EnvManager.getTargetPush2DeviceApiKey();
 
             Map<String, String> headers = new HashMap<>();
             headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
@@ -65,9 +67,12 @@ public class UnregisterDevice extends BaseService {
             return this.createResponse(Response.Status.NO_CONTENT);
 
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation",
-                    LogUtil.getRelevantStackTrace(e));
-            logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
+
+			String errorData = parseAndLogException(logger, e, 
+					ApplicationConstants.Requests.Headers.Authorization, "basic " + apiKey,
+					ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json,
+					"HttpBody", jsonData);
+			
             Response response = createErrorResponse(errorData, e);
             return UpstreamErrorHandler.handleResponse(response);
         }

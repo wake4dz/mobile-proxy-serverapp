@@ -18,7 +18,7 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
@@ -63,13 +63,14 @@ public class GetWallet extends BaseService {
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, EnvManager.getApiMediumTimeout()));
 
         } catch (Exception e) {
-            String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
-            		"contentType", contentType, "device", device, "customerId", customerId, "sessionToken", sessionToken);
-            
-            if (LogUtil.isLoggable(e)) {
-            	logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-            }
 
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.Wallet.HeadersParams.ContentType, contentType,
+					WakefernApplicationConstants.Wallet.RequestParamsPath.SessionToken, sessionToken,
+					WakefernApplicationConstants.Wallet.RequestParamsPath.Device, device,
+					WakefernApplicationConstants.Wallet.RequestParamsPath.CustomerId, customerId,
+					"Authorization", EnvManager.getTargetWalletAuthorizationKey());
+			
             return this.createErrorResponse(errorData, e);
         }
     }

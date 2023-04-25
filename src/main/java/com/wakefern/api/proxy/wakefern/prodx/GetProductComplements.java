@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-import com.wakefern.logging.LogUtil;
+
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 
@@ -65,7 +65,10 @@ public class GetProductComplements extends BaseService {
 			return this.createValidResponse(HTTPRequest.executeGet(url, headers, EnvManager.getApiMediumTimeout()));
 
 		} catch (Exception e) {
-			String errorData = LogUtil.getRequestData("exceptionLocation", LogUtil.getRelevantStackTrace(e),
+        	
+			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.Prodx.ProductsComplements.AISLE_ID, EnvManager.getProdxComplementsAisleId(),
+					ApplicationConstants.Requests.Headers.Authorization, EnvManager.getTargetProdxComplementsApiKey(),
 					"productId", productId,
 					"storeId", storeId,
 					"customerId", customerId,
@@ -74,10 +77,6 @@ public class GetProductComplements extends BaseService {
 					"productsCount", productsCount,
 					"test", test,
 					"embeds", embeds);
-			
-			if (LogUtil.isLoggable(e)) {
-				logger.error(errorData + " - " + LogUtil.getExceptionMessage(e));
-			}
 			
 			return this.createErrorResponse(errorData, e);
 		}

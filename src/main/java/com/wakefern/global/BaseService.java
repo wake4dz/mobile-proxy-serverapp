@@ -42,9 +42,9 @@ public class BaseService {
     	
     	StringBuffer sb = new StringBuffer();
     	sb.append("exceptionLocation:" + LogUtil.getRelevantStackTrace(e) + ", ");
-    	sb.append("ApplicationConstants.Requests.Headers.userAgent:" + request.getHeader(ApplicationConstants.Requests.Headers.userAgent) + ", ");
+    	sb.append(ApplicationConstants.Requests.Headers.userAgent + ":" + request.getHeader(ApplicationConstants.Requests.Headers.userAgent) + ", ");
     	sb.append("Client-Ip:" + request.getRemoteAddr() + ", ");
-    	sb.append("ApplicationConstants.Requests.Headers.wakefernMobileVersion:" + request.getHeader(ApplicationConstants.Requests.Headers.wakefernMobileVersion) + ", ");
+    	sb.append(ApplicationConstants.Requests.Headers.wakefernMobileVersion + ":" + request.getHeader(ApplicationConstants.Requests.Headers.wakefernMobileVersion) + ", ");
     	
         String errorData = LogUtil.getRequestDataWithCommon(sb.toString(), extras);
         

@@ -488,6 +488,117 @@ public class ItemLocatorUtils {
        final String sku = skuObject.getString(WakefernApplicationConstants.Mi9V8ItemLocator.Sku);
        return removeCheckSumDigit(sku);
     }
+
+
+    /**
+     * Decorate a collection of products with item locator information (based on ResponseType)
+     * @param storeId
+     * @param upcs
+     * @return
+     * @throws Exception
+     */
+    public static String batchRequest(String storeId, JSONArray upcs) throws Exception {
+        try {
+            if (upcs == null || storeId.length() < 1) {
+                throw new Exception("No upcs in payload");
+            }
+
+            final int numUpcs = upcs.length();
+
+            if (numUpcs == 0) {
+                throw new Exception("No upcs in payload");
+            }
+
+            // Our final response object
+            JSONObject response = new JSONObject();
+
+            Map<String, JSONObject> processedPartitionItems;
+            Map<String, JSONObject> itemsMap = new HashMap<>();
+
+            int currentListPosition = 0;
+
+            final int numRequests = getNumRequests(numUpcs);
+            List<String> partitionItemsList;
+            StringBuilder partitionItemsSB;
+
+            // Get auth token
+            final String authToken = WakefernAuth.getAuthToken(EnvManager.getJwtPublicKey());
+
+            for (int i=0; i < numRequests; i++) {
+                partitionItemsList = new ArrayList<>();
+                partitionItemsSB = new StringBuilder();
+
+                // build each partition data to be used for a Wakefern's Item Locator API call
+                while ((EnvManager.getItemLocatorPartitionSize() * (i + 1) > currentListPosition) && (numUpcs > currentListPosition)) {
+                    final String upc = removeCheckSumDigit(upcs.getString(currentListPosition));
+
+                    currentListPosition++;
+                    ItemLocatorDto cached = ItemLocatorCache.getInstance().get(storeId, upc);
+                    if (cached != null) {
+                        itemsMap.put(upc, cached.toJSON());
+                    } else {
+                        partitionItemsSB.append(upc).append(",");
+                        partitionItemsList.add(upc);
+                    }
+                }
+
+                if (partitionItemsList.isEmpty()) {
+                    continue;
+                }
+
+                final String path = WakefernApplicationConstants.ItemLocator.baseURL
+                        + WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + partitionItemsSB;
+
+                Map<String, String> wkfn = new HashMap<>();
+                wkfn.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
+                wkfn.put("Authentication", authToken);
+                // Call APIM Gateway to avoid any foreign IP addresses
+                wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
+
+                String responseData = HTTPRequest.executeGet(path, wkfn, EnvManager.getApiMediumTimeout());
+
+                logger.trace("partitionNumber: " + (i + 1));
+                logger.trace("URL path: " + path);
+                logger.trace("PartitionItemsSB: " + partitionItemsSB);
+                logger.trace("PartitionItemsList: " + partitionItemsList);
+                logger.trace("responseData: " + responseData);
+
+                processedPartitionItems = ItemLocatorUtils.generateItemLocatorMap(partitionItemsList, responseData);
+
+                for (Map.Entry<String, JSONObject> entry : processedPartitionItems.entrySet()) {
+                    // build up the entire map for lookup later
+                    itemsMap.put(entry.getKey(), entry.getValue());
+                    // add the value to the cache
+                    ItemLocatorCache.getInstance().add(storeId, entry.getKey(), ItemLocatorDto.fromJSON(entry.getValue()));
+                }
+            }
+
+            for (int i=0; i < numSkus; i++) {
+
+
+                final String sku = skus.getString(i);
+                final String upc = removeCheckSumDigit(sku);
+
+                JSONObject itemLocator = itemsMap.get(upc);
+
+                if (itemsMap.get(removeCheckSumDigit(upc)) == null) {
+                    // consider adding the dummy data.
+                }
+
+                response.put(upc, itemLocator == null ? );
+            }
+
+            return response.toString();
+
+        } catch (Exception e) {
+            logger.error("decorateCollectionWithItemLocations::Exception processing item locator. The error message: "
+                    + LogUtil.getExceptionMessage(e) + ", exception location: " + LogUtil.getRelevantStackTrace(e));
+
+            // if there is an exception, we try to return the Mi9 shopping cart info + empty item locator for each sku.
+            // if addEmptyItemLocator() also throw an exception, the caller would get a HTTP 500 with a brief error message
+            throw e;
+        }
+    }
 }
 
 

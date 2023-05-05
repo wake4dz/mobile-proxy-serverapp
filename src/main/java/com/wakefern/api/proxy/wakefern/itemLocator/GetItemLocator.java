@@ -11,6 +11,7 @@ import com.wakefern.wakefern.WakefernAuth;
 import com.wakefern.wakefern.itemLocator.ItemLocatorUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -100,6 +101,27 @@ public class GetItemLocator extends BaseService {
 					"storeId", storeId,
 					"upc", upc,
 					"Authentication", authToken,
+					WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
+
+			return createErrorResponse(errorData, e);
+		}
+	}
+
+	@POST
+	@Produces(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
+	@Path("/item/location/v2/{storeId}/_batch")
+	public Response getBatchItemLocators(@PathParam("storeId") String storeId,
+							  String jsonBody) {
+		JSONObject body = null;
+		try {
+			body = new JSONObject(jsonBody);
+			return createValidResponse(ItemLocatorUtils.batchRequest(storeId, body.getJSONArray("upcs")));
+		} catch (Exception e) {
+			String errorData = parseAndLogException(logger, e,
+					ApplicationConstants.Requests.Headers.contentType, "application/json",
+					"storeId", storeId,
+					"body", jsonBody,
 					WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
 
 			return createErrorResponse(errorData, e);

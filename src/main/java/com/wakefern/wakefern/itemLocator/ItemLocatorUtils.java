@@ -157,7 +157,7 @@ public class ItemLocatorUtils {
      * Get Item Location data for each SKU in a cart by using a partition of certain SKUs
      *
      * @param skuList
-     * @param itemslocatorResponse
+     * @param itemLocatorResponse
      * @return
      */
     public static Map<String, JSONObject> generateItemLocatorMap(List<String> skuList, String itemLocatorResponse) {
@@ -283,6 +283,10 @@ public class ItemLocatorUtils {
      * @param itemJObj the JSONObject to add the object to.
      */
     private static void addDummyItemLocatorObj(JSONObject itemJObj) {
+        itemJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, generateEmptyItemLocator());
+    }
+
+    private static JSONObject generateEmptyItemLocator() {
         JSONObject dummyObj = new JSONObject();
 
         dummyObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.Aisle, WakefernApplicationConstants.Mi9V8ItemLocator.Other);
@@ -292,8 +296,7 @@ public class ItemLocatorUtils {
         dummyObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleStore, WakefernApplicationConstants.Mi9V8ItemLocator.Other);
         dummyObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleSectionShelfNum, 0);
         dummyObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.AisleShelfPositionNum, 0);
-        
-        itemJObj.put(WakefernApplicationConstants.Mi9V8ItemLocator.ItemLocator, dummyObj);
+        return dummyObj;
     }
 
     /**
@@ -311,10 +314,11 @@ public class ItemLocatorUtils {
     /**
      * add Not Found item locator for each sku if something goes wrong
      * @param mi9ResponseData
-     * @param isCart
+     * @param responseType
      * @return
      * @throws Exception
      */
+    @Deprecated
     private static String addEmptyItemLocator(String mi9ResponseData, ResponseType responseType) throws Exception {
         try {
             JSONObject origRespJObj = new JSONObject(mi9ResponseData);
@@ -348,6 +352,7 @@ public class ItemLocatorUtils {
         }
     }
 
+    @Deprecated
     public enum ResponseType {
         CART,
         PLANNING_LIST
@@ -361,6 +366,7 @@ public class ItemLocatorUtils {
      * @return
      * @throws Exception
      */
+    @Deprecated
     public static String decorateCollectionWithItemLocations(String storeId, String response, ResponseType responseType) throws Exception {
         try {
             final String itemsKey = responseType == ResponseType.CART ?
@@ -493,19 +499,19 @@ public class ItemLocatorUtils {
     /**
      * Decorate a collection of products with item locator information (based on ResponseType)
      * @param storeId
-     * @param upcs
+     * @param skus
      * @return
      * @throws Exception
      */
-    public static String batchRequest(String storeId, JSONArray upcs) throws Exception {
+    public static String batchRequest(String storeId, JSONArray skus) throws Exception {
         try {
-            if (upcs == null || storeId.length() < 1) {
+            if (skus == null || storeId.length() < 1) {
                 throw new Exception("No upcs in payload");
             }
 
-            final int numUpcs = upcs.length();
+            final int numSkus = skus.length();
 
-            if (numUpcs == 0) {
+            if (numSkus == 0) {
                 throw new Exception("No upcs in payload");
             }
 
@@ -517,7 +523,7 @@ public class ItemLocatorUtils {
 
             int currentListPosition = 0;
 
-            final int numRequests = getNumRequests(numUpcs);
+            final int numRequests = getNumRequests(numSkus);
             List<String> partitionItemsList;
             StringBuilder partitionItemsSB;
 
@@ -529,8 +535,8 @@ public class ItemLocatorUtils {
                 partitionItemsSB = new StringBuilder();
 
                 // build each partition data to be used for a Wakefern's Item Locator API call
-                while ((EnvManager.getItemLocatorPartitionSize() * (i + 1) > currentListPosition) && (numUpcs > currentListPosition)) {
-                    final String upc = removeCheckSumDigit(upcs.getString(currentListPosition));
+                while ((EnvManager.getItemLocatorPartitionSize() * (i + 1) > currentListPosition) && (numSkus > currentListPosition)) {
+                    final String upc = removeCheckSumDigit(skus.getString(currentListPosition));
 
                     currentListPosition++;
                     ItemLocatorDto cached = ItemLocatorCache.getInstance().get(storeId, upc);
@@ -549,13 +555,13 @@ public class ItemLocatorUtils {
                 final String path = WakefernApplicationConstants.ItemLocator.baseURL
                         + WakefernApplicationConstants.ItemLocator.locationPath + "/" + storeId + "/" + partitionItemsSB;
 
-                Map<String, String> wkfn = new HashMap<>();
-                wkfn.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
-                wkfn.put("Authentication", authToken);
+                Map<String, String> headers = new HashMap<>();
+                headers.put(ApplicationConstants.Requests.Headers.contentType, ApplicationConstants.Requests.Headers.MIMETypes.json);
+                headers.put("Authentication", authToken);
                 // Call APIM Gateway to avoid any foreign IP addresses
-                wkfn.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
+                headers.put(WakefernApplicationConstants.APIM.sub_key_header, EnvManager.getMobilePassThruApiKeyProd());
 
-                String responseData = HTTPRequest.executeGet(path, wkfn, EnvManager.getApiMediumTimeout());
+                String responseData = HTTPRequest.executeGet(path, headers, EnvManager.getApiMediumTimeout());
 
                 logger.trace("partitionNumber: " + (i + 1));
                 logger.trace("URL path: " + path);
@@ -574,18 +580,11 @@ public class ItemLocatorUtils {
             }
 
             for (int i=0; i < numSkus; i++) {
-
-
                 final String sku = skus.getString(i);
                 final String upc = removeCheckSumDigit(sku);
 
                 JSONObject itemLocator = itemsMap.get(upc);
-
-                if (itemsMap.get(removeCheckSumDigit(upc)) == null) {
-                    // consider adding the dummy data.
-                }
-
-                response.put(upc, itemLocator == null ? );
+                response.put(upc, itemLocator == null ? generateEmptyItemLocator() : itemLocator);
             }
 
             return response.toString();

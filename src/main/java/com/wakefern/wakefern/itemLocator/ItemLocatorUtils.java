@@ -584,7 +584,7 @@ public class ItemLocatorUtils {
                 final String upc = removeCheckSumDigit(sku);
 
                 JSONObject itemLocator = itemsMap.get(upc);
-                response.put(upc, itemLocator == null ? generateEmptyItemLocator() : itemLocator);
+                response.put(sku, itemLocator == null ? generateEmptyItemLocator() : itemLocator);
             }
 
             return response.toString();

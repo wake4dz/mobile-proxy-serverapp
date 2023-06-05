@@ -146,14 +146,25 @@ public class BaseService {
     }
 
     protected Response createValidResponseWithHeaders(String jsonResponse, Map<String, List<String>> headers) {
-       Response.ResponseBuilder builder =  Response.status(200).entity(jsonResponse);
-       if (headers != null) {
-           for (Map.Entry<String, List<String>> entry :headers.entrySet()) {
-               builder.header(entry.getKey(), StringUtils.join(entry.getValue(), " "));
-           }
-       }
-       return builder.build();
-    }
+        Response.ResponseBuilder builder =  Response.status(200).entity(jsonResponse);
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> entry :headers.entrySet()) {
+         	   logger.trace(entry.getKey() + ": " + StringUtils.join(entry.getValue(), " "));
+         	   
+         	   if ((entry.getKey() != null) &&   
+         			   // these headers/values are needed for passing to Mi9 again
+         			   ((entry.getKey().trim().equalsIgnoreCase("x-correlation-id")) ||
+         			   (entry.getKey().trim().equalsIgnoreCase("etag")) ||
+         			   (entry.getKey().trim().equalsIgnoreCase("x-customer-session-id")) ||
+         			   (entry.getKey().trim().equalsIgnoreCase("CF-RAY")) ) ) {
+         		   
+         		   logger.debug("Use this header - " + entry.getKey() + ": " + StringUtils.join(entry.getValue(), " "));
+         		   builder.header(entry.getKey(), StringUtils.join(entry.getValue(), " "));
+               }
+            }
+        }
+        return builder.build();
+     }
         
     /**
      * Create a generic Response Object, using whatever status is supplied.

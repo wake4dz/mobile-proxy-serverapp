@@ -116,7 +116,10 @@ public class BaseService {
             				buildError = respBody;
             			
             			} catch (Exception exx) {
-            				logger.error(errorData != null ?
+            				// 2023-05-31 Danny Zheng: to reduce the amount of error, change LEVEL from error() to debug()
+            				// this non-JSON compliant error is mostly for 404, 409 which is omitted by default in Prod server.
+            				// Also, the standard non-JSON error is returned to the called as the HTTP return message.
+            				logger.debug(errorData != null ?
 									"Back-end API returned an unexpected, non-JSON compliant error: " + errorData + " - " + respBody
 									: "Back-end API  returned an unexpected, non-JSON compliant error: " + respBody);
 

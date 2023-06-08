@@ -22,16 +22,12 @@ import com.wakefern.global.EnvManager;
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
-* A proxy API to access a home-grown Wallet API
+* A proxy API to access a home-grown Wallet API by Sherry Shi
 *   
 * @author  Danny Zheng
 *
 */ 
 
-/*
- * 2022-08-01
- * TODO: re-test after Sherry's back-end is ready
- */
 @Path(ApplicationConstants.Requests.Proxy + WakefernApplicationConstants.Wallet.Proxy.Path)
 public class GetWallet extends BaseService {
 
@@ -42,18 +38,18 @@ public class GetWallet extends BaseService {
     @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.Wallet.Proxy.GetWallet)
     public Response getResponse(
-    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Device) String device, // android or iOs
-    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.CustomerId) String customerId,
-    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.SessionToken) String sessionToken,
+    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Banner) String banner,
+    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Device) String device, // value would be 'andr' or 'ios'
+    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.AccountId) String accountId,
     		@HeaderParam(WakefernApplicationConstants.Wallet.HeadersParams.ContentType) String contentType) {
 
         Map<String, String> headers = new HashMap<>();
         
         try {
         	String path =  EnvManager.getTargetWalletServiceEndpoint()
+        			+ "/" + banner 
         			+ "/" + device 
-        			+ "/" + customerId
-        			+ "/" + sessionToken;
+        			+ "/" + accountId;
 
             headers.put("Content-Type", contentType);
             headers.put("Authorization", EnvManager.getTargetWalletAuthorizationKey() );
@@ -65,10 +61,10 @@ public class GetWallet extends BaseService {
         } catch (Exception e) {
 
 			String errorData = parseAndLogException(logger, e, 
+					WakefernApplicationConstants.Wallet.RequestParamsPath.Banner, banner,
 					WakefernApplicationConstants.Wallet.HeadersParams.ContentType, contentType,
-					WakefernApplicationConstants.Wallet.RequestParamsPath.SessionToken, sessionToken,
 					WakefernApplicationConstants.Wallet.RequestParamsPath.Device, device,
-					WakefernApplicationConstants.Wallet.RequestParamsPath.CustomerId, customerId,
+					WakefernApplicationConstants.Wallet.RequestParamsPath.AccountId, accountId,
 					"Authorization", EnvManager.getTargetWalletAuthorizationKey());
 			
             return this.createErrorResponse(errorData, e);

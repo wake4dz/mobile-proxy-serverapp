@@ -327,21 +327,6 @@ public class LogUtil {
 	}
 
 	/*
-	 * to determine if we need to log any errors from MWG's backend services with
-	 * the HTTP codes of 401 - not authorized 404 - not found
-	 * 
-	 * 
-	 * These are some common 4xx: 400 - bad request 403 - Forbidden 405 - method not
-	 * allowed 408 - request timeout
-	 */
-	public static boolean is4xxError(String exceptionMsg) {
-		return exceptionMsg.contains("401") || (exceptionMsg.contains("404"));
-	}
-
-
-
-
-	/*
 	 * If MWG returns an error HTML content for any REST API call, it would be
 	 * transformed into a generic JSON error message
 	 */
@@ -426,25 +411,61 @@ public class LogUtil {
 	 * 
 	 */
 	public static boolean isLoggable(Exception e) {
+		
 		boolean isLoggable = true;
+		
+		String errorMessage = e.getLocalizedMessage();
 		
 		if (EnvManager.isMuteErrorLog()) {
 			
 			for (String code: EnvManager.getMuteHttpCode()) {
-				if (code.trim().equalsIgnoreCase("401")) {
-					logger.debug("Mute_http_code 401: " + e.getLocalizedMessage());
-					if (e.getLocalizedMessage().contains("401,Unauthorized")) {
+
+				switch (code.trim()) {
+				case "400":
+					logger.debug("Mute_http_code 400: " + errorMessage);
+					if ( (errorMessage.contains("400,\"Price information not available")) 
+						  // eg GetPlanningListItemLocator() for a planning list or cart list has ALL items out of stock.
+						  // eg. create 3-item planning list in ShopRite first, make sure ALL these 3 items are out of stock in PriceRite
+						  //     a 400 error will be triggered in GetPlanningListItemLocator() for a PriceRite store
+			           	) {
 						isLoggable = false;
-						break;
 					}
 					
-				} else if (code.trim().equalsIgnoreCase("409")) {
-					logger.debug("Mute_http_code 409: " + e.getLocalizedMessage());
-					if (e.getLocalizedMessage().contains("409,Conflict")) {
+					break;
+				case "401":
+					logger.debug("Mute_http_code 401: " + errorMessage);
+					if ( (errorMessage.contains("401,Unauthorized")) || // eg Coupon: GetUserSession()
+						 (errorMessage.contains("401,{\"statusCode\":401,")) ||	// eg Coupon: GetAvailableCoupon()
+						 (errorMessage.contains("401,{\"error\":true,")) 	// eg Recipe: Recipe: GetUserInfo()
+			           	) {
 						isLoggable = false;
-						break;
 					}
+					
+					break;
+
+				case "404":
+					logger.debug("Mute_http_code 404: " + errorMessage);
+					if ( (errorMessage.contains("404,{\"type\":\"https://tools.ietf.org/html")) || 
+						 // eg GetPlanningListItemLocator() after the planning list is deleted or not existed beforehand.
+						 (errorMessage.contains("404,\"message\":\"No curbside session found")) 	// eg GetCurbsideSession()
+			           	) {
+						isLoggable = false;
+					}
+
+					break;
+
+				case "409":
+					logger.debug("Mute_http_code 409: " + errorMessage);
+					if (errorMessage.contains("409,Conflict")) {
+						isLoggable = false;
+					}
+					
+					break;
+
+				default:
+					logger.debug("Mute_http_code " + code.trim() + ": " +  errorMessage);
 				}
+
 			}
 		}
 		

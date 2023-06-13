@@ -1,5 +1,7 @@
 package com.wakefern.api.proxy.wakefern.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -135,6 +137,40 @@ public class LoggerResource {
 			// do nothing, keep the original setting
 		}
 		
-		return Response.status(200).entity("PathParam(\"isLoggable\") = " + isLoggable + ", Mute_error_log = " + EnvManager.isMuteErrorLog()).build();
+		return Response.status(200).entity("PathParam(\"isLoggable\"): " + isLoggable + ", "
+				+ "mute_error_log: " + EnvManager.isMuteErrorLog()).build();
+	}
+	
+	/*
+	 * Provide a way to update expected 4XXs error codes
+	 * 
+	 * In a server with multiple instances with a pure round-robin load balancer, this API needs to be called
+	 * many times in order to all instances to be hit at least once
+	 */
+	@PUT
+	@Path(ApplicationConstants.Log.LoggableCodes)
+	@ValidateAdminToken
+	public Response updateLoggableCodes(@PathParam("codes") String codes,
+			@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
+		
+		if ((codes != null) && (codes.trim().length() > 2)) {
+			EnvManager.setMuteHttpCode(new ArrayList<>(Arrays.asList(codes.split(","))));
+		}
+		
+		return Response.status(200).entity("Mute_error_log: " + EnvManager.isMuteErrorLog() + ", "
+				+ "mute_http_code: " + EnvManager.getMuteHttpCode()).build();
+	}
+	
+	/*
+	 * Get mute_error info for a server instance 
+	 */
+	@GET
+	@Path(ApplicationConstants.Log.LoggableList)
+	@ValidateAdminToken
+	public Response listMuteCodes(@HeaderParam(ApplicationConstants.Requests.Headers.Authorization) String authToken) {
+
+		String output = "mute_error_log: " + EnvManager.isMuteErrorLog() + ", mute_http_code: " + EnvManager.getMuteHttpCode();
+		
+		return Response.status(200).entity(output).build();
 	}
 }

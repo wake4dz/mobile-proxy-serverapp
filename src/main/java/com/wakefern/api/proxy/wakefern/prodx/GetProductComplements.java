@@ -4,18 +4,14 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import com.wakefern.global.errorHandling.UpstreamErrorHandler;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,13 +34,15 @@ public class GetProductComplements extends BaseService {
 								@QueryParam("storeId") String storeId,
 								@QueryParam("customerId") String customerId,
 								@QueryParam("availability") String availability,
-								@QueryParam("groupscount") int groupsCount,
-								@QueryParam("test") boolean test,
+								@QueryParam("groupsCount") int groupsCount,
 								@QueryParam("productsCount") int productsCount,
 								@QueryParam("embeds") String embeds,
 								@Context UriInfo uriInfo) {
 
 		Map<String, String> headers = new HashMap<>();
+		String wakefernStoreId = null;
+
+		storeId = storeId.trim();
 
 		try {
 			// Iterate over the query params and apply to the request if not null.
@@ -54,8 +52,20 @@ public class GetProductComplements extends BaseService {
 				builder.addParameter(key, queryParams.getFirst(key));
 			}
 
-			// Add "aisleId" query param to each outgoing request
+			wakefernStoreId = ProdxUtils.storeIdConvertor(storeId);
+
+			// Update the Store ID param with the wakefernStoreId
+			logger.debug("wakefernStoreId: " + wakefernStoreId);
+			builder.setParameter(WakefernApplicationConstants.Prodx.ProductsComplements.StoreId, wakefernStoreId);
+
+			// Add "aisleId" query param to each outgoing request (Aisle ID is optional prop...)
 			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsComplements.AISLE_ID, EnvManager.getProdxComplementsAisleId());
+
+			// note there is no staging URl, use a query parameter/value of test=true to be acting a staging
+			builder.addParameter(WakefernApplicationConstants.Prodx.ProductsComplements.Test,
+					String.valueOf(EnvManager.isServiceStaging(EnvManager.getProdxService())));
+
+			logger.debug("Is test/staging? : " + EnvManager.isServiceStaging(EnvManager.getProdxService()));
 
 			final String url = builder.build().toString();
 
@@ -71,21 +81,25 @@ public class GetProductComplements extends BaseService {
 					ApplicationConstants.Requests.Headers.Authorization, EnvManager.getTargetProdxComplementsApiKey(),
 					"productId", productId,
 					"storeId", storeId,
+					"wakefernStoreId", wakefernStoreId,
 					"customerId", customerId,
 					"availability", availability,
 					"groupsCount", groupsCount,
 					"productsCount", productsCount,
-					"test", test,
+					"test", EnvManager.isServiceStaging(EnvManager.getProdxService()),
 					"embeds", embeds);
-			
-			return this.createErrorResponse(errorData, e);
+
+			Response response = this.createErrorResponse(errorData, e);
+			return UpstreamErrorHandler.handleResponse(response);
 		}
 	}
 
 	private static String constructUrl(final String productId) {
-		String template = EnvManager.getTargetProdxServiceEndpoint() + WakefernApplicationConstants.Prodx.ProductsComplements.GetComplementsPath;
+		String template = WakefernApplicationConstants.Prodx.Upstream.prodBaseUrl +
+				WakefernApplicationConstants.Prodx.ProductsComplements.GetComplementsPath;
+
 		Map<String, String> pathParams = new HashMap<>();
-		pathParams.put("productId", productId);
+		pathParams.put(WakefernApplicationConstants.Prodx.ProductsComplements.ProductId, productId);
 
 		UriBuilder builder = UriBuilder.fromPath(template);
 		URI output = builder.buildFromMap(pathParams);

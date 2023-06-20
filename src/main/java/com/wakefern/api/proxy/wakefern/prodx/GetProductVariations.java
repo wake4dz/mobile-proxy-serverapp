@@ -62,24 +62,7 @@ public class GetProductVariations extends BaseService {
 		
 		try {
 			URIBuilder builder = new URIBuilder(constructUrl(productId.trim()));
-
-			if (storeId.equalsIgnoreCase(DEFAULT_CORPORATE_STORE)) {
-				//Convert the default corporate store to a specific store before calling Prodx
-				wakefernStoreId = CONVERTED_CORPORATE_STORE;
-			} else {
-				switch (storeId.length()) {
-					case 1 : wakefernStoreId = "000" + storeId; 
-						break;
-					case 2 : wakefernStoreId = "00" + storeId;
-						break;
-					case 3 : wakefernStoreId = "0" + storeId;
-						break;
-					case 4 : wakefernStoreId = storeId;
-						break;
-					default: throw new RuntimeException("A Wakefern store ID has to be btw 0 and 9999");
-					
-				}
-			}
+			wakefernStoreId = ProdxUtils.storeIdConvertor(storeId);
 			
 			logger.debug("wakefernStoreId: " + wakefernStoreId);
 			

@@ -371,7 +371,11 @@ public class WakefernApplicationConstants {
         }
 
         public static class ProductsComplements {
+
+            public static final String ProductId = "productId";
             public static final String AISLE_ID = "aisleId";
+            public static final String StoreId = "storeId";
+            public static final String Test = "test";
 
             public static final String GetComplementsPath = "complements/v1.0/catalogs/WAKEFERN/products/{productId}/complements";
 

@@ -18,7 +18,6 @@ import com.wakefern.global.ApplicationConstants;
 import com.wakefern.global.ApplicationConstants.Requests;
 import com.wakefern.global.BaseService;
 import com.wakefern.global.EnvManager;
-
 import com.wakefern.request.HTTPRequest;
 import com.wakefern.wakefern.WakefernApplicationConstants;
 /**  
@@ -38,22 +37,24 @@ public class GetWallet extends BaseService {
     @Consumes(ApplicationConstants.Requests.Headers.MIMETypes.generic)
     @Path(WakefernApplicationConstants.Wallet.Proxy.GetWallet)
     public Response getResponse(
+    		// Only apply for ShopRite and TheFreshGrocer banners as of 7/2023
     		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Banner) String banner,
-    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Device) String device, // value would be 'andr' or 'ios'
-    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.AccountId) String accountId,
+    		// device value would be 'andr' or 'ios'
+    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.Device) String device, 
+    		@PathParam(WakefernApplicationConstants.Wallet.RequestParamsPath.CustomerId) String customerId,
     		@HeaderParam(WakefernApplicationConstants.Wallet.HeadersParams.ContentType) String contentType) {
 
         Map<String, String> headers = new HashMap<>();
-        
-        try {
-        	String path =  EnvManager.getTargetWalletServiceEndpoint()
-        			+ "/" + banner 
+       
+        try {     	
+        	String path =  EnvManager.getTargetWalletServiceEndpoint() 
+        			+ "/" + banner
         			+ "/" + device 
-        			+ "/" + accountId;
-
-            headers.put("Content-Type", contentType);
-            headers.put("Authorization", EnvManager.getTargetWalletAuthorizationKey() );
-            headers.put(Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
+        			+ "/" + customerId;
+        	
+            headers.put(ApplicationConstants.Requests.Headers.contentType, contentType);
+            headers.put(ApplicationConstants.Requests.Headers.xApiKey, EnvManager.getTargetWalletAuthorizationKey() );
+            headers.put(ApplicationConstants.Requests.Headers.userAgent, ApplicationConstants.StringConstants.wakefernApplication);
 
             //note: first-time call for each user would take some time. After cache in the upstream system, calls are much faster.
             return this.createValidResponse(HTTPRequest.executeGet(path, headers, EnvManager.getApiMediumTimeout()));
@@ -64,8 +65,8 @@ public class GetWallet extends BaseService {
 					WakefernApplicationConstants.Wallet.RequestParamsPath.Banner, banner,
 					WakefernApplicationConstants.Wallet.HeadersParams.ContentType, contentType,
 					WakefernApplicationConstants.Wallet.RequestParamsPath.Device, device,
-					WakefernApplicationConstants.Wallet.RequestParamsPath.AccountId, accountId,
-					"Authorization", EnvManager.getTargetWalletAuthorizationKey());
+					WakefernApplicationConstants.Wallet.RequestParamsPath.CustomerId, customerId,
+					ApplicationConstants.Requests.Headers.xApiKey, EnvManager.getTargetWalletAuthorizationKey());
 			
             return this.createErrorResponse(errorData, e);
         }

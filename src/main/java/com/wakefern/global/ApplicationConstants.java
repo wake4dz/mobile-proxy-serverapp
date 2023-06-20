@@ -24,6 +24,7 @@ public final class ApplicationConstants {
 			public static final String xForwardedFor = "X-Forwarded-For";
 
 			public static final String wakefernMobileVersion = "X-Wakefern-Mobile-Version";
+			public static final String xApiKey = "X-Api-Key";
 
 			public static class MIMETypes {
 				public static final String generic = "application/*";
